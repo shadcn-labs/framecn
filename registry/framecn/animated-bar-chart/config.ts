@@ -1,31 +1,4 @@
-type ControlConfig =
-  | {
-      default: string;
-      label: string;
-      type: "color";
-    }
-  | {
-      default: number;
-      label: string;
-      max?: number;
-      min?: number;
-      step?: number;
-      type: "number";
-    };
-
-export interface ComponentConfig {
-  componentName: string;
-  compositionHeight: number;
-  compositionWidth: number;
-  controls: Record<string, ControlConfig>;
-  durationInFrames: number;
-  fps: number;
-  importPath: string;
-}
-
-export const FPS = 30;
-export const W = 1000;
-export const H = 500;
+import { ComponentConfig, H, W, FPS } from "@/lib/customizer-config";
 
 export const animatedBarChartConfig: ComponentConfig = {
   componentName: "AnimatedBarChart",
