@@ -42,17 +42,20 @@ const DefaultChild = () => (
 
 export const SpringPopIn = ({
   children,
-  _damping = 12,
-  _mass = 1,
-  _stiffness = 100,
+  damping = 12,
+  mass = 1,
+  stiffness = 100,
   delayInFrames = 0,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 45,
   className,
 }: SpringPopInProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const delayMs = (delayInFrames / fps) * 1000;
+  const springTension = Math.min(0.85, 0.34 + damping / 120 + mass * 0.04);
+  const springOvershoot = Math.min(0.72, 0.56 + stiffness / 800);
 
   const containerStyle = {
     alignItems: "center",
@@ -93,7 +96,7 @@ export const SpringPopIn = ({
         `}</style>
         <div
           style={{
-            animation: `framecn-spring-pop ${durationMs - delayMs}ms cubic-bezier(0.34, 1.56, 0.64, 1) ${delayMs}ms forwards`,
+            animation: `framecn-spring-pop ${durationMs - delayMs}ms cubic-bezier(${springTension}, ${springOvershoot}, 0.64, 1) ${delayMs}ms forwards`,
             transformOrigin: "center",
           }}
         >

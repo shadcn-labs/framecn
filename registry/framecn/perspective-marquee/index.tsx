@@ -53,8 +53,7 @@ export const PerspectiveMarquee = ({
   className,
 }: PerspectiveMarqueeProps) => {
   const safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   const approxItemWidth = items.join("  ").length * fontSize * 0.6;
   const scrollMs =

@@ -5,8 +5,6 @@ import type { CSSProperties } from "react";
 
 const FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
-const _MONO_FAMILY =
-  "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
 
 interface Tier {
   name: string;

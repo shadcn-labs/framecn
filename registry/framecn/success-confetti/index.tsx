@@ -59,13 +59,14 @@ export const SuccessConfetti = ({
   textColor = "#171717",
   background = "#fafafa",
   seed = "remocn",
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 90,
   className,
 }: SuccessConfettiProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
+  const frameMs = 1000 / fps;
   const width = 1280;
   const height = 720;
   const cx = width * originX;
@@ -77,7 +78,7 @@ export const SuccessConfetti = ({
 
   const particles = Array.from({ length: count }, (_, i) => {
     const angle = random() * Math.PI * 2;
-    const speed = velocity * (0.6 + random() * 0.8);
+    const launchSpeed = velocity * (0.6 + random() * 0.8);
     const colorIndex = Math.floor(random() * colors.length);
     const color = colors[colorIndex] ?? colors[0];
     const size = 6 + random() * 8;
@@ -88,13 +89,13 @@ export const SuccessConfetti = ({
 
     const totalFrames = durationInFrames - lifeOffset;
     const fTotal = totalFrames;
-    const deltaX = Math.cos(angle) * speed * fTotal;
+    const deltaX = Math.cos(angle) * launchSpeed * fTotal;
     const deltaY =
-      Math.sin(angle) * speed * fTotal + 0.5 * gravity * fTotal * fTotal;
+      Math.sin(angle) * launchSpeed * fTotal + 0.5 * gravity * fTotal * fTotal;
     const totalRotation = initialRotation + rotationSpeed * fTotal;
 
-    const animStartMs = lifeOffset * frameMs;
-    const animDurationMs = totalFrames * frameMs;
+    const animStartMs = (lifeOffset * frameMs) / safeSpeed;
+    const animDurationMs = (totalFrames * frameMs) / safeSpeed;
 
     return {
       animDurationMs,

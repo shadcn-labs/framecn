@@ -107,12 +107,13 @@ export const VisualDocsSnippet = ({
   buttonLabel = "Generate",
   accent = "#FFB38E",
   background = "#141318",
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 300,
   className,
 }: VisualDocsSnippetProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const frameMs = 1000 / fps;
 
   const cursorStartFrame = 30;

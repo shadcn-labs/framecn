@@ -85,21 +85,19 @@ export interface PipelineJourneyProps {
 export const PipelineJourney = ({
   cardLabel = "Build pipeline",
   accentColor = "#22c55e",
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 200,
   width = 1280,
   height = 720,
   className,
 }: PipelineJourneyProps) => {
-  const safeSpeed = Math.max(0.01, _speed);
+  const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
 
   // Phases
   const flight1StartMs = ((30 / fps) * 1000) / safeSpeed;
   const flight1EndMs = ((70 / fps) * 1000) / safeSpeed;
-  const _waitEndMs = ((110 / fps) * 1000) / safeSpeed;
   const flight2StartMs = ((110 / fps) * 1000) / safeSpeed;
   const flight2EndMs = ((150 / fps) * 1000) / safeSpeed;
   const confettiStartMs = ((150 / fps) * 1000) / safeSpeed;
@@ -146,6 +144,10 @@ export const PipelineJourney = ({
           @keyframes framecn-pipe-confetti {
             0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
             100% { transform: translate(${Math.random() * 200 - 100}px, ${300 + Math.random() * 200}px) rotate(${Math.random() * 720}deg); opacity: 0; }
+          }
+          @keyframes framecn-pipe-timer-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0.45; }
           }
         `}</style>
 
@@ -306,13 +308,13 @@ export const PipelineJourney = ({
           >
             <div
               style={{
+                animation: "framecn-pipe-timer-blink 1.2s steps(1) infinite",
                 color: accentColor,
                 fontFamily: MONO_FAMILY,
                 fontSize: 12,
-                opacity: (frame / fps) % 2 === 0 ? 1 : 0,
               }}
             >
-              00:{String(Math.floor((frame / fps) % 60)).padStart(2, "0")}
+              00:00
             </div>
             <div
               style={{
@@ -327,8 +329,6 @@ export const PipelineJourney = ({
 
         {/* Confetti */}
         {Array.from({ length: 36 }).map((_, i) => {
-          const _angle = (i / 36) * Math.PI * 2;
-          const _dist = 60 + ((i * 13) % 220);
           const size = 6 + ((i * 7) % 8);
           let color = "#60a5fa";
           if (i % 3 === 0) {

@@ -17,9 +17,6 @@ const FONT_FAMILY =
 const MONO_FAMILY =
   "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
 
-const fps = 30;
-const durationInFrames = 210;
-
 const MacDots = ({ size = 12 }: { size?: number }) => (
   <div style={{ alignItems: "center", display: "flex", gap: 8 }}>
     {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
@@ -67,12 +64,13 @@ const TerminalHeader = () => (
 export const TerminalToBrowserDeploy = ({
   siteUrl = "https://app.example.com",
   accentColor = "#22c55e",
-  _speed = 1,
-  fps: _fps = fps,
-  durationInFrames: _durationInFrames = durationInFrames,
+  speed = 1,
+  fps = 30,
+  durationInFrames = 210,
   className,
 }: TerminalToBrowserDeployProps) => {
-  const durationMs = (_durationInFrames / _fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   return (
     <Timegroup

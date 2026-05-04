@@ -20,18 +20,19 @@ export const PulsingIndicator = ({
   color = "#22c55e",
   size = 16,
   period = 8,
-  _speed = 1,
+  speed = 1,
   background = "white",
   fps = 30,
   durationInFrames = 90,
   className,
 }: PulsingIndicatorProps) => {
+  const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
 
   // Calculate animation duration based on period
   // Full sine wave cycle = period * 2 * PI frames
   const cycleFrames = period * 2 * Math.PI;
-  const cycleMs = (cycleFrames / fps) * 1000;
+  const cycleMs = ((cycleFrames / fps) * 1000) / safeSpeed;
   const ringCycleMs = cycleMs;
 
   const style = {

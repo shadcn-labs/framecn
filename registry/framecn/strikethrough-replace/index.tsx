@@ -26,12 +26,13 @@ export const StrikethroughReplace = ({
   fontSize = 48,
   color = "#171717",
   fontWeight = 600,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 90,
   className,
 }: StrikethroughReplaceProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const strikeDurationMs = 0.4 * durationMs;
   const fadeDurationMs = 0.2 * durationMs;
   const fadeDelayMs = 0.4 * durationMs;

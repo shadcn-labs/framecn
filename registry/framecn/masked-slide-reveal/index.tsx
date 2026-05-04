@@ -32,7 +32,6 @@ export const MaskedSlideReveal = ({
 }: MaskedSlideRevealProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
   const staggerMs = ((staggerDelay / fps) * 1000) / safeSpeed;
 
   const words = text.split(" ");

@@ -38,7 +38,6 @@ export const InfiniteMarquee = ({
 }: InfiniteMarqueeProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
 
   const approxWidth = text.length * fontSize * 0.55;
   const scrollDurationMs =

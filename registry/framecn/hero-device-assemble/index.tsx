@@ -191,7 +191,7 @@ export interface HeroDeviceAssembleProps {
 }
 
 export const HeroDeviceAssemble = ({
-  _assembleStart = 0,
+  assembleStart = 0,
   device = "laptop",
   accentColor = "#22c55e",
   speed = 1,
@@ -203,7 +203,8 @@ export const HeroDeviceAssemble = ({
 }: HeroDeviceAssembleProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
+  const frameMs = 1000 / fps;
+  const assembleDelayMs = assembleStart * frameMs;
   const assembleMs = ((60 / fps) * 1000) / safeSpeed;
   const settleMs = ((45 / fps) * 1000) / safeSpeed;
   const shimmerMs = ((30 / fps) * 1000) / safeSpeed;
@@ -259,7 +260,7 @@ export const HeroDeviceAssemble = ({
         `}</style>
         <div
           style={{
-            animation: `framecn-hero-assemble-lid ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) backwards`,
+            animation: `framecn-hero-assemble-lid ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) ${assembleDelayMs}ms backwards`,
             height: deviceH,
             position: "relative",
             transformStyle: "preserve-3d",
@@ -269,7 +270,7 @@ export const HeroDeviceAssemble = ({
           {/* Back lid */}
           <div
             style={{
-              animation: `framecn-hero-assemble-lid ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) backwards`,
+              animation: `framecn-hero-assemble-lid ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) ${assembleDelayMs}ms backwards`,
               background: "linear-gradient(180deg, #1f2128 0%, #0e1014 100%)",
               border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: bezelRadius + 4,
@@ -284,7 +285,7 @@ export const HeroDeviceAssemble = ({
           {!isPhone && (
             <div
               style={{
-                animation: `framecn-hero-assemble-base ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) backwards`,
+                animation: `framecn-hero-assemble-base ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) ${assembleDelayMs}ms backwards`,
                 background: "linear-gradient(180deg, #2a2d36 0%, #14161c 100%)",
                 border: "1px solid rgba(255,255,255,0.06)",
                 borderRadius: "0 0 12px 12px",
@@ -301,7 +302,7 @@ export const HeroDeviceAssemble = ({
           {/* Bezel frame */}
           <div
             style={{
-              animation: `framecn-hero-assemble-bezel ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) backwards`,
+              animation: `framecn-hero-assemble-bezel ${assembleMs}ms cubic-bezier(0.16, 1, 0.3, 1) ${assembleDelayMs}ms backwards`,
               background: "#0a0a0d",
               border: "1px solid rgba(255,255,255,0.12)",
               borderRadius: bezelRadius,
@@ -314,7 +315,7 @@ export const HeroDeviceAssemble = ({
           {/* UI screen */}
           <div
             style={{
-              animation: `framecn-hero-assemble-screen ${assembleMs * 0.8}ms cubic-bezier(0.16, 1, 0.3, 1) ${assembleMs * 0.2}ms backwards`,
+              animation: `framecn-hero-assemble-screen ${assembleMs * 0.8}ms cubic-bezier(0.16, 1, 0.3, 1) ${assembleDelayMs + assembleMs * 0.2}ms backwards`,
               background: "black",
               borderRadius: bezelRadius - 6,
               inset: screenInset,
@@ -325,7 +326,7 @@ export const HeroDeviceAssemble = ({
             {/* Black panel during flight */}
             <div
               style={{
-                animation: `framecn-hero-assemble-screen ${settleMs}ms ease-out ${assembleMs}ms forwards`,
+                animation: `framecn-hero-assemble-screen ${settleMs}ms ease-out ${assembleDelayMs + assembleMs}ms forwards`,
                 inset: 0,
                 position: "absolute",
               }}
@@ -333,7 +334,7 @@ export const HeroDeviceAssemble = ({
             {/* UI fades in */}
             <div
               style={{
-                animation: `framecn-hero-assemble-screen ${shimmerMs}ms ease-out ${assembleMs + settleMs}ms backwards`,
+                animation: `framecn-hero-assemble-screen ${shimmerMs}ms ease-out ${assembleDelayMs + assembleMs + settleMs}ms backwards`,
                 inset: 0,
                 position: "absolute",
               }}
@@ -343,7 +344,7 @@ export const HeroDeviceAssemble = ({
             {/* Shimmer sweep */}
             <div
               style={{
-                animation: `framecn-hero-shimmer ${shimmerMs}ms ease-in-out ${assembleMs + settleMs + 100}ms backwards`,
+                animation: `framecn-hero-shimmer ${shimmerMs}ms ease-in-out ${assembleDelayMs + assembleMs + settleMs + 100}ms backwards`,
                 background:
                   "linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)",
                 inset: 0,

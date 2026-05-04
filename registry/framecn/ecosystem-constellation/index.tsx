@@ -130,8 +130,8 @@ export const EcosystemConstellation = ({
   height = 720,
   className,
 }: EcosystemConstellationProps) => {
-  const _safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const frameMs = 1000 / fps;
 
   const count = Math.max(

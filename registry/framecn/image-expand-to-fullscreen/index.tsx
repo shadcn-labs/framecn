@@ -75,19 +75,6 @@ export const ImageExpandToFullscreen = ({
   const frameMs = 1000 / fps;
   const morphMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
-  // Morph animation
-  const { left: _left } = from;
-  const { top: _top } = from;
-  const _imgWidth =
-    from.width +
-    (to.width - from.width) *
-      Math.min(1, (morphMs - morphAt * frameMs) / morphMs);
-  const _imgHeight =
-    from.height +
-    (to.height - from.height) *
-      Math.min(1, (morphMs - morphAt * frameMs) / morphMs);
-  const _radius = borderRadiusFrom + (borderRadiusTo - borderRadiusFrom);
-
   const containerStyle: CSSProperties = {
     fontFamily: FONT_FAMILY,
     height,

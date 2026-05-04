@@ -417,7 +417,7 @@ export interface InfiniteBentoPanProps {
 }
 
 export const InfiniteBentoPan = ({
-  _panSpeed = 1,
+  panSpeed = 1,
   accentColor = "#7c3aed",
   speed = 1,
   fps = 30,
@@ -427,8 +427,8 @@ export const InfiniteBentoPan = ({
   className,
 }: InfiniteBentoPanProps) => {
   const safeSpeed = Math.max(0.01, speed);
+  const panRate = Math.max(0.01, panSpeed);
   const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
 
   const maxX = SUPER_W - width;
   const maxY = SUPER_H - height;
@@ -458,7 +458,7 @@ export const InfiniteBentoPan = ({
         `}</style>
         <div
           style={{
-            animation: `framecn-bento-pan ${durationMs / safeSpeed}ms linear backwards`,
+            animation: `framecn-bento-pan ${durationMs / safeSpeed / panRate}ms linear backwards`,
             height: SUPER_H,
             left: 0,
             position: "absolute",

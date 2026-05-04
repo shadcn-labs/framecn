@@ -170,12 +170,13 @@ export const AIGenerationCanvas = ({
   prompt = "Generate a dashboard",
   accentColor = "#7c3aed",
   cardCount = 4,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 180,
   className,
 }: AIGenerationCanvasProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   // Phase boundaries (as percentages)
   const P1_END = (40 / durationInFrames) * 100;

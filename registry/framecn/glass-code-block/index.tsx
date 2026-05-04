@@ -155,14 +155,13 @@ export const GlassCodeBlock = ({
   glassColor = "rgba(10, 10, 10, 0.6)",
   staggerFrames = 4,
   showTrafficLights = true,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 180,
   className,
 }: GlassCodeBlockProps) => {
-  const safeSpeed = Math.max(0.01, _speed);
+  const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
   const staggerMs = ((staggerFrames / fps) * 1000) / safeSpeed;
 
   const lines = code.split("\n");

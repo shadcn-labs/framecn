@@ -24,12 +24,13 @@ export const TextFadeReplace = ({
   fontSize = 48,
   color = "#171717",
   fontWeight = 600,
-  _speed = 1,
+  speed = 1,
   fps = FPS,
   durationInFrames = DURATION_IN_FRAMES,
   className,
 }: TextFadeReplaceProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   const baseSpanStyle: CSSProperties = {
     color,

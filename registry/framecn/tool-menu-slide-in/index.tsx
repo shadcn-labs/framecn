@@ -34,18 +34,18 @@ export const ToolMenuSlideIn = ({
   panelColor = "rgba(18, 18, 22, 0.72)",
   background = "#070708",
   iconBg = "rgba(255,255,255,0.06)",
-  _speed = 1,
+  speed = 1,
   fps = FPS,
   durationInFrames = DURATION_IN_FRAMES,
   className,
 }: ToolMenuSlideInProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const safeIconCount = Math.max(1, Math.min(8, Math.floor(iconCount)));
 
   const panelStartPercent = (panelStartFrame / durationInFrames) * 100;
   const panelSlideEndPercent =
     ((panelStartFrame + PANEL_SLIDE_DURATION) / durationInFrames) * 100;
-  const _staggerMs = (iconStagger / fps) * 1000;
 
   const ICON_SIZE = 64;
   const ICON_GAP = 14;

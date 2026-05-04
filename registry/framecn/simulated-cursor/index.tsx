@@ -92,18 +92,12 @@ const buildKeyframeStops = (
 };
 
 const buildClickAnimations = (
-  segments: ReturnType<typeof buildCursorSegments>,
-  totalFrames: number
+  segments: ReturnType<typeof buildCursorSegments>
 ) => {
   const clickAnimations: string[] = [];
 
   for (const seg of segments) {
     if (seg.to.click) {
-      const clickStartPct = endPct;
-      const _clickEndPct = Math.min(
-        holdEndPct,
-        clickStartPct + (24 / totalFrames) * 100
-      );
       const clickKeyframes = `
     @keyframes framecn-cursor-click-${seg.end} {
       0%, 100% { transform: scale(1); }
@@ -125,12 +119,12 @@ export const SimulatedCursor = ({
   color = "#ffffff",
   size = 32,
   background = "#0a0a0a",
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 150,
   className,
 }: SimulatedCursorProps) => {
-  const _frameMs = 1000 / fps;
+  const safeSpeed = Math.max(0.01, speed);
   const travelPerLeg = 24;
 
   const segments = buildCursorSegments(points, travelPerLeg);
@@ -140,10 +134,10 @@ export const SimulatedCursor = ({
     durationInFrames,
     segments.at(-1)?.holdEnd ?? 0 + lastHold
   );
-  const durationMs = (totalFrames / fps) * 1000;
+  const durationMs = ((totalFrames / fps) * 1000) / safeSpeed;
 
   const keyframeStops = buildKeyframeStops(segments, points, totalFrames);
-  const clickAnimations = buildClickAnimations(segments, totalFrames);
+  const clickAnimations = buildClickAnimations(segments);
 
   const containerStyle = {
     background,

@@ -21,12 +21,13 @@ export const ShimmerSweep = ({
   shineColor = "#fafafa",
   fontSize = 96,
   fontWeight = 700,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 90,
   className,
 }: ShimmerSweepProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   const style = {
     height: "100%",

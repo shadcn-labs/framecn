@@ -87,12 +87,13 @@ export const ToastNotification = ({
   cardColor = "white",
   textColor = "#171717",
   mutedColor = "#71717a",
-  _speed = 1,
+  speed = 1,
   fps = FPS,
   durationInFrames = DURATION_IN_FRAMES,
   className,
 }: ToastNotificationProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const accent = VARIANT_COLORS[variant];
 
   return (

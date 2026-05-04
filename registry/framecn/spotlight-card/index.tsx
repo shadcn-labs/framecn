@@ -47,13 +47,14 @@ export const SpotlightCard = ({
   cardColor = "#0a0a0a",
   textColor = "#fafafa",
   mutedColor = "#71717a",
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 150,
   className,
   children,
 }: SpotlightCardProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   // Pre-compute glow position keyframes at 20 intervals
   const keyframeIntervals = 20;

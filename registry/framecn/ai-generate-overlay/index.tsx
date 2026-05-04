@@ -58,12 +58,13 @@ export const AIGenerateOverlay = ({
   dotColor = "#ffffff",
   dotSize = 1.2,
   dotSpacing = 20,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 150,
   className,
 }: AIGenerateOverlayProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   const blurStartPercent = (blurStartFrame / durationInFrames) * 100;
   const blurPeakPercent = (blurPeakFrame / durationInFrames) * 100;

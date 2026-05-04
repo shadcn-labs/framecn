@@ -39,26 +39,6 @@ const DefaultPanel = ({ label, color }: { label: string; color: string }) => (
   </div>
 );
 
-const _getTransform = (progress: number, dir: string): string => {
-  switch (dir) {
-    case "up": {
-      return `translateY(${(1 - progress) * 100}%)`;
-    }
-    case "down": {
-      return `translateY(${(progress - 1) * 100}%)`;
-    }
-    case "left": {
-      return `translateX(${(1 - progress) * 100}%)`;
-    }
-    case "right": {
-      return `translateX(${(progress - 1) * 100}%)`;
-    }
-    default: {
-      return `translateY(${(1 - progress) * 100}%)`;
-    }
-  }
-};
-
 const getShadow = (dir: string): string => {
   switch (dir) {
     case "up": {
@@ -85,12 +65,13 @@ export const SpatialPush = ({
   direction = "up",
   transitionStart,
   transitionDuration = 30,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 90,
   className,
 }: SpatialPushProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const start =
     typeof transitionStart === "number"
       ? transitionStart

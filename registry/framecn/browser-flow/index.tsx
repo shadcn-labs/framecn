@@ -37,7 +37,7 @@ const MacDots = ({ size = 12 }: { size?: number }) => (
 
 export const BrowserFlow = ({
   url = "remocn.dev",
-  _speed = 1,
+  speed = 1,
   className,
   fps = 30,
   durationInFrames = 270,

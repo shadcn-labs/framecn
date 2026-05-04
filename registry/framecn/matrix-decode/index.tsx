@@ -37,16 +37,16 @@ export const MatrixDecode = ({
   color = "#22c55e",
   fontWeight = 600,
   revealDuration = 60,
-  _speed = 1,
+  speed = 1,
   fps = 30,
   durationInFrames = 90,
   width = 1280,
   height = 720,
   className,
 }: MatrixDecodeProps) => {
-  const safeSpeed = Math.max(0.01, _speed);
+  const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-  const _frameMs = 1000 / fps;
+  const frameMs = 1000 / fps;
   const revealMs = (revealDuration * frameMs) / safeSpeed;
 
   const containerStyle: CSSProperties = {

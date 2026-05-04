@@ -121,8 +121,8 @@ export const LiveCodeCompilation = ({
   height = 900,
   className,
 }: LiveCodeCompilationProps) => {
-  const _safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const frameMs = 1000 / fps;
 
   const timeline = buildTimeline();

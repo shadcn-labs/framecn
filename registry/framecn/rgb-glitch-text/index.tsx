@@ -26,13 +26,14 @@ export const RGBGlitchText = ({
   glitchAt = 20,
   glitchDuration = 8,
   intensity = 6,
-  _seed = "glitch",
-  _speed = 1,
+  seed = "glitch",
+  speed = 1,
   fps = 30,
   durationInFrames = 60,
   className,
 }: RGBGlitchTextProps) => {
-  const durationMs = (durationInFrames / fps) * 1000;
+  const safeSpeed = Math.max(0.01, speed);
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
 
   const glitchStartPercent = (glitchAt / durationInFrames) * 100;
   const glitchEndPercent =
@@ -60,6 +61,7 @@ export const RGBGlitchText = ({
   return (
     <Timegroup
       className={className}
+      data-seed={seed}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={style}

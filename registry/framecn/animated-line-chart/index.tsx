@@ -33,8 +33,7 @@ export const AnimatedLineChart = ({
   className,
 }: AnimatedLineChartProps) => {
   const safeSpeed = Math.max(0.01, speed);
-  const _frameMs = 1000 / fps;
-  const durationMs = (durationInFrames / fps) * 1000;
+  const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const lineDurationMs = (((durationInFrames * 0.85) / fps) * 1000) / safeSpeed;
 
   const padding = 60;
