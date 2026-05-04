@@ -132,7 +132,7 @@ export const TerminalSimulator = ({
     for (const p of points) {
       kf += `  ${p.percent.toFixed(2)}% { transform: translateY(${p.y}px); }\n`;
     }
-    kf += `  100% { transform: translateY(${points.at(-1).y}px); }\n}`;
+    kf += `  100% { transform: translateY(${points.at(-1)?.y ?? 0}px); }\n}`;
     return kf;
   })();
 
