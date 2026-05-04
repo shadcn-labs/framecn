@@ -14,6 +14,7 @@
     "prepare": "lefthook install"
   },
   "dependencies": {
+    "@editframe/react": "^0.49.7",
     "@tailwindcss/postcss": "^4.2.4",
     "@vercel/analytics": "^2.0.1",
     "@web-kits/audio": "^0.1.0",
