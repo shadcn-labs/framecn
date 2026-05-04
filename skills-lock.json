@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-panel": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/agent-panel/SKILL.md",
+      "computedHash": "f426180bb59c71d09d5a77186a7b0ee3b3f08534a7b5fbc57136f37f09bc7546"
+    },
+    "agentic-harness-design": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/agentic-harness-design/SKILL.md",
+      "computedHash": "151f8be4b36af0792a81a4dd2646c8c9cd058dc5adfe05fc4a465877d5a51f75"
+    },
+    "css-animations": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/css-animations/SKILL.md",
+      "computedHash": "5f8ce9d6195e8d701112e9bac943d86d42e201c5af2cfaf867fda03eca1cec57"
+    },
+    "debug-production-renders": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/debug-production-renders/SKILL.md",
+      "computedHash": "43aba50f78aade7cad3e779cb4f2c3f052a31d1594a9b0f3dc6a030220595869"
+    },
+    "deployments": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/deployments/SKILL.md",
+      "computedHash": "42dbe665f45ded68001877a0814aa4ccea043567887ce0f4cac540938b41ab13"
+    },
+    "diagnostic-logs": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/diagnostic-logs/SKILL.md",
+      "computedHash": "e7be4cab92f9e1b3890dcf2017987233c4c2d9e3f22a6303066a21005adbd224"
+    },
+    "editor-gui": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/editor-gui/SKILL.md",
+      "computedHash": "8ef36484476274c09cfbe307651dbd93752f5b68c5b9cb9abf700e60ef993b8e"
+    },
+    "ef-agent-panel": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ef-agent-panel/SKILL.md",
+      "computedHash": "4e3c07e5322574794e9206f72db1449a8e8a4bf83a9cbc2753b222865708ba6d"
+    },
+    "elements-new-package": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/elements-new-package/SKILL.md",
+      "computedHash": "0bb124c17f45cbf2e3c4d79624b00e404f48a3dd92eecc96c65ee902c578f394"
+    },
+    "hero-demo": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/hero-demo/SKILL.md",
+      "computedHash": "8704e68e1f942e8f6adc095ff32060b4bfb1a6dc9fe9e965d049ff35627d5c6d"
+    },
+    "linear-cli": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/linear-cli/SKILL.md",
+      "computedHash": "fea5a0200517f4a1c836a696f486c0ef8ed65f4aca01792900b9414abd3b9af4"
+    },
+    "monorepo-setup-git": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/monorepo-setup-git/SKILL.md",
+      "computedHash": "0ca1302fc687d763d0ce3b54d9f2ba4ea2577457f9dd325045800883a2c221a6"
+    },
+    "monorepo-setup-worktrees": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/monorepo-setup-worktrees/SKILL.md",
+      "computedHash": "3d333bfce2d098b709ce0021a6b944571335fa59d99f4200b650cd596dbdd093"
+    },
+    "otel-relay-query": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/otel-relay-query/SKILL.md",
+      "computedHash": "07e3e8512fcb524c75b8536f770f345a1e322c050a8d303d4048e21fa5bed53c"
+    },
+    "performance-regression-testing": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/performance-regression-testing/SKILL.md",
+      "computedHash": "4db85a6e073b7384648d77781becf284beeb012f11bc12de1eda1e997491f229"
+    },
+    "poly-pizza-api": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/poly-pizza-api/SKILL.md",
+      "computedHash": "56b6c5334eb4ffbb2a31c7ee8850745ef6e92ac134b13845b751d8b031063a93"
+    },
+    "profile-tests": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/profile-tests/SKILL.md",
+      "computedHash": "0428f60d9321cafba7ff3c95897fb7c5eac08fb7b6be990c4f869fc15314a8d2"
+    },
+    "shadow-dom-overlay-insertion": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/shadow-dom-overlay-insertion/SKILL.md",
+      "computedHash": "86b8f66c4c4790e317496692966dc892f11a7f1e9506df43484c1f7f99f08055"
+    },
+    "skills-creation": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/skills-creation/SKILL.md",
+      "computedHash": "9bf5f12ce12b268f09ab76a400dc2977242efcc8d3f6115ad401e524cdab26ff"
+    },
+    "skills-docs": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/skills-docs/SKILL.md",
+      "computedHash": "0c41995a6b03b978a602c86220deb8d3e2fd050324dfee7db22796e91fb579dd"
+    },
+    "swiss-bauhaus-design": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/swiss-bauhaus-design/SKILL.md",
+      "computedHash": "0157f5c72efc00095f5ff7c70b4b73f6e70b2b166f2dd5b95c10b1659012a50f"
+    },
+    "threejs-compositions": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/threejs-compositions/SKILL.md",
+      "computedHash": "588d5faf37b19c906a4d3f1fcf7363648037485dd0cc963f22326aed5142645b"
+    },
+    "update-skills-docs": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/update-skills-docs/SKILL.md",
+      "computedHash": "509e073409fd737dbfa5e809a88744387a13998df2542448e8290f29d7c77fab"
+    },
+    "video-analysis": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/video-analysis/SKILL.md",
+      "computedHash": "6ae637d2279709f2519a2d3c275dfcbd18fd2772300b13b3aad8e73420b56bbc"
+    },
+    "visual-regression-testing": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/visual-regression-testing/SKILL.md",
+      "computedHash": "b588c5fca052ee0833c67f0a23c633c91b93e3c47e3fd0642e02d7d3bc274bf3"
+    },
+    "visual-thinking": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/visual-thinking/SKILL.md",
+      "computedHash": "767ab8d738945e55678448901d751885ec41aa2e1619e15e16f14c84f42f4336"
+    }
+  }
+}
