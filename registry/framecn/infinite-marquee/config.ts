@@ -36,6 +36,7 @@ export const infiniteMarqueeConfig: ComponentConfig = {
       max: 3,
       min: 0.25,
       step: 0.25,
+      type: "number",
     },
     stroke: { default: false, label: "Stroke", type: "boolean" },
     strokeColor: { default: "#171717", label: "Stroke color", type: "color" },

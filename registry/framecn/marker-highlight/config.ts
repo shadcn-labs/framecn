@@ -36,6 +36,7 @@ export const markerHighlightConfig: ComponentConfig = {
       max: 3,
       min: 0.25,
       step: 0.25,
+      type: "number",
     },
   },
   durationInFrames: 90,

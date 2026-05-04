@@ -1,5 +1,5 @@
 import type { ComponentConfig } from "@/lib/customizer-config";
-import { FPS, H, W } from "@/lib/customizer-config";
+import { FONT_WEIGHT_OPTIONS, FPS, H, W } from "@/lib/customizer-config";
 
 export const perspectiveMarqueeConfig: ComponentConfig = {
   componentName: "PerspectiveMarquee",
@@ -61,6 +61,7 @@ export const perspectiveMarqueeConfig: ComponentConfig = {
       max: 3,
       min: 0.25,
       step: 0.25,
+      type: "number",
     },
   },
   durationInFrames: 300,

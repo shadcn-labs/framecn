@@ -28,6 +28,7 @@ export const dynamicGridConfig: ComponentConfig = {
       max: 4,
       min: 0,
       step: 0.1,
+      type: "number",
     },
   },
   durationInFrames: 150,

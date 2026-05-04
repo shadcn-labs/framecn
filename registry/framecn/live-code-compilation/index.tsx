@@ -126,7 +126,8 @@ export const LiveCodeCompilation = ({
   const frameMs = 1000 / fps;
 
   const timeline = buildTimeline();
-  const lastEntry = timeline.at(-1);
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  const lastEntry = timeline.at(-1)!;
   const buttonLabel = lastEntry.ui.label ?? "Button";
 
   const containerStyle: CSSProperties = {
@@ -311,7 +312,7 @@ export const LiveCodeCompilation = ({
           <button
             type="button"
             style={{
-              animation: `framecn-live-code-fade ${frameMs * 10}ms ease-out ${timeline.at(-1).start * frameMs}ms backwards`,
+              animation: `framecn-live-code-fade ${frameMs * 10}ms ease-out ${(timeline.at(-1)?.start ?? 0) * frameMs}ms backwards`,
               background: "#3b82f6",
               border: "none",
               borderRadius: "999px",

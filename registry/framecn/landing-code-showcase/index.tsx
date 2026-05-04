@@ -176,6 +176,7 @@ const CodeEditor = ({
   const allTyped = dynamicChunks.join("");
   const lastStep = STEPS.at(-1);
   const showFooter =
+    lastStep !== undefined &&
     elapsedMs > lastStep.startMs + lastStep.code.length / CHARS_PER_MS + 133;
   const visibleCode = HEADER + allTyped + (showFooter ? FOOTER : "");
   const lines = visibleCode.split("\n");

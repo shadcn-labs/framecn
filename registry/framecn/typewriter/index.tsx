@@ -63,17 +63,15 @@ export const Typewriter = ({
     whiteSpace: "pre",
   };
 
-  const cursorStyle: CSSProperties = cursor
-    ? {
-        animation: `framecn-typewriter-cursor 1000ms ease-in-out infinite`,
-        background: cursorColor,
-        display: "inline-block",
-        height: "1em",
-        marginLeft: "0.04em",
-        verticalAlign: "text-bottom",
-        width: "0.08em",
-      }
-    : undefined;
+  const cursorSpanStyle: CSSProperties = {
+    animation: `framecn-typewriter-cursor 1000ms ease-in-out infinite`,
+    background: cursorColor,
+    display: "inline-block",
+    height: "1em",
+    marginLeft: "0.04em",
+    verticalAlign: "text-bottom",
+    width: "0.08em",
+  };
 
   return (
     <Timegroup
@@ -105,7 +103,7 @@ export const Typewriter = ({
         `}</style>
         <span style={textStyle}>
           {text}
-          {cursor && <span style={cursorStyle} />}
+          {cursor ? <span style={cursorSpanStyle} /> : null}
         </span>
       </>
     </Timegroup>

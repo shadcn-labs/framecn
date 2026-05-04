@@ -13,6 +13,7 @@ export const meshGradientBgConfig: ComponentConfig = {
       max: 200,
       min: 20,
       step: 4,
+      type: "number",
     },
     speed: {
       default: 1,
@@ -20,6 +21,7 @@ export const meshGradientBgConfig: ComponentConfig = {
       max: 4,
       min: 0,
       step: 0.1,
+      type: "number",
     },
   },
   durationInFrames: 150,

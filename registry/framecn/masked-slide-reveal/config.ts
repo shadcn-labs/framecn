@@ -27,6 +27,7 @@ export const maskedSlideRevealConfig: ComponentConfig = {
       max: 3,
       min: 0.25,
       step: 0.25,
+      type: "number",
     },
     staggerDelay: {
       default: 3,

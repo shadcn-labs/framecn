@@ -38,7 +38,7 @@ const mulberry32 = (seed: number) => {
 const hashSeed = (seed: string): number => {
   let hash = 0;
   for (let i = 0; i < seed.length; i += 1) {
-    const char = seed.codePointAt(i);
+    const char = seed.codePointAt(i) ?? 0;
     hash = (hash << 5) - hash + char; // eslint-disable-line no-bitwise
     hash &= hash; // eslint-disable-line no-bitwise
   }

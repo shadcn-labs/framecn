@@ -1,7 +1,7 @@
 "use client";
 
 import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactElement } from "react";
 
 const FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
@@ -167,7 +167,7 @@ export const GridPixelateWipe = ({
   };
 
   // Build grid cells
-  const cells: JSX.Element[] = [];
+  const cells: ReactElement[] = [];
   for (let y = 0; y < rows; y += 1) {
     for (let x = 0; x < cols; x += 1) {
       const delayMs = (delays[y][x] * frameMs) / safeSpeed;

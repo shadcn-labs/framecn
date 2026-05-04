@@ -31,12 +31,7 @@ export const toastNotificationConfig: ComponentConfig = {
     variant: {
       default: "success",
       label: "Variant",
-      options: [
-        { label: "Success", value: "success" },
-        { label: "Error", value: "error" },
-        { label: "Info", value: "info" },
-        { label: "Warning", value: "warning" },
-      ],
+      options: ["success", "error", "info", "warning"],
       type: "select",
     },
   },
