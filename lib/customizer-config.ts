@@ -43,19 +43,21 @@ export const FONT_WEIGHT_OPTIONS = ["400", "500", "600", "700"];
  */
 export const SHARED_CONTROLS: ControlConfig = {
   speed: {
-    type: "number",
     default: 1,
-    min: 0.25,
-    max: 4,
-    step: 0.25,
     label: "Speed",
+    max: 4,
+    min: 0.25,
+    step: 0.25,
+    type: "number",
   },
 };
 
-export function getDefaults(controls: ControlConfig): Record<string, unknown> {
+export const getDefaults = (
+  controls: ControlConfig
+): Record<string, unknown> => {
   const out: Record<string, unknown> = {};
   for (const [key, ctrl] of Object.entries(controls)) {
     out[key] = ctrl.default;
   }
   return out;
-}
+};
