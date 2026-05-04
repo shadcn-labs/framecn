@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dynamic-grid",
+  "title": "Dynamic Grid",
+  "description": "Subtle moving grid background with configurable cell size and direction.",
+  "dependencies": [
+    "remotion"
+  ],
+  "files": [
+    {
+      "path": "registry/framecn/dynamic-grid/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nexport interface DynamicGridProps {\n  cellSize?: number;\n  lineColor?: string;\n  background?: string;\n  speed?: number;\n  direction?: \"diagonal\" | \"horizontal\" | \"vertical\";\n  fps?: number;\n  durationInFrames?: number;\n  width?: number;\n  height?: number;\n  className?: string;\n}\n\nconst getGridAnimation = (dir: string, offset: number): string => {\n  if (dir === \"diagonal\") {\n    return `framecn-grid-scroll ${offset}ms linear infinite`;\n  }\n  if (dir === \"horizontal\") {\n    return `framecn-grid-scroll-x ${offset}ms linear infinite`;\n  }\n  return `framecn-grid-scroll-y ${offset}ms linear infinite`;\n};\n\nexport const DynamicGrid = ({\n  cellSize = 40,\n  lineColor = \"#27272a\",\n  background = \"#0a0a0a\",\n  speed = 0.5,\n  direction = \"diagonal\",\n  fps = 30,\n  durationInFrames = 150,\n  width = 1280,\n  height = 720,\n  className,\n}: DynamicGridProps) => {\n  const safeSpeed = Math.max(0.01, speed);\n  const durationMs = (durationInFrames / fps) * 1000;\n  const offsetMs = ((cellSize / fps) * 1000) / safeSpeed;\n\n  const containerStyle: CSSProperties = {\n    background,\n    height,\n    overflow: \"hidden\",\n    position: \"relative\",\n    width,\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={containerStyle}\n    >\n      <>\n        <style>{`\n          @keyframes framecn-grid-scroll {\n            from { transform: translate(0, 0); }\n            to { transform: translate(${cellSize}px, ${cellSize}px); }\n          }\n          @keyframes framecn-grid-scroll-x {\n            from { transform: translate(0, 0); }\n            to { transform: translate(${cellSize}px, 0); }\n          }\n          @keyframes framecn-grid-scroll-y {\n            from { transform: translate(0, 0); }\n            to { transform: translate(0, ${cellSize}px); }\n          }\n        `}</style>\n        <div\n          style={{\n            animation: getGridAnimation(direction, offsetMs),\n            backgroundImage: `\n              linear-gradient(to right, ${lineColor} 1px, transparent 1px),\n              linear-gradient(to bottom, ${lineColor} 1px, transparent 1px)\n            `,\n            backgroundSize: `${cellSize}px ${cellSize}px`,\n            inset: `-${cellSize}px`,\n            position: \"absolute\",\n            willChange: \"transform\",\n          }}\n        />\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/dynamic-grid.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

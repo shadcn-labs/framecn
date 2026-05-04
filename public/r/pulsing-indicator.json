@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pulsing-indicator",
+  "title": "Pulsing Indicator",
+  "description": "Continuous pulsing dot with ping ring for loading or live states.",
+  "dependencies": [
+    "remotion"
+  ],
+  "files": [
+    {
+      "path": "registry/framecn/pulsing-indicator/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nexport interface PulsingIndicatorProps {\n  color?: string;\n  size?: number;\n  /** Wavelength of the base pulse, in frames. Higher = longer one cycle. */\n  period?: number;\n  /** Playback speed multiplier (1 = normal, 2 = twice as fast). */\n  speed?: number;\n  background?: string;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const PulsingIndicator = ({\n  color = \"#22c55e\",\n  size = 16,\n  period = 8,\n  _speed = 1,\n  background = \"white\",\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: PulsingIndicatorProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n\n  // Calculate animation duration based on period\n  // Full sine wave cycle = period * 2 * PI frames\n  const cycleFrames = period * 2 * Math.PI;\n  const cycleMs = (cycleFrames / fps) * 1000;\n  const ringCycleMs = cycleMs;\n\n  const style = {\n    background,\n    height: \"100%\",\n    position: \"relative\",\n    width: \"100%\",\n  } as CSSProperties;\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={style}\n    >\n      <>\n        <style>{`\n          @keyframes framecn-pulse-dot {\n            0%, 100% {\n              opacity: 0.6;\n              transform: scale(0.9);\n            }\n            50% {\n              opacity: 1;\n              transform: scale(1.1);\n            }\n          }\n\n          @keyframes framecn-pulse-ring {\n            from {\n              opacity: 0.7;\n              transform: scale(1);\n            }\n            to {\n              opacity: 0;\n              transform: scale(2.6);\n            }\n          }\n        `}</style>\n\n        <div\n          style={{\n            alignItems: \"center\",\n            display: \"flex\",\n            inset: 0,\n            justifyContent: \"center\",\n            position: \"absolute\",\n          }}\n        >\n          <div\n            style={{\n              height: size,\n              position: \"relative\",\n              width: size,\n            }}\n          >\n            {/* Ping ring */}\n            <div\n              style={{\n                animation: `framecn-pulse-ring ${ringCycleMs}ms linear infinite`,\n                background: color,\n                borderRadius: \"50%\",\n                inset: 0,\n                position: \"absolute\",\n                transformOrigin: \"center\",\n              }}\n            />\n            {/* Solid dot */}\n            <div\n              style={{\n                animation: `framecn-pulse-dot ${cycleMs}ms ease-in-out infinite`,\n                background: color,\n                borderRadius: \"50%\",\n                inset: 0,\n                position: \"absolute\",\n                transformOrigin: \"center\",\n              }}\n            />\n          </div>\n        </div>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/pulsing-indicator.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

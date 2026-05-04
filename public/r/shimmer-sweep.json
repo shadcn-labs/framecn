@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shimmer-sweep",
+  "title": "Shimmer Sweep",
+  "description": "Light shine sweeps across muted text via background-clip:text.",
+  "dependencies": [
+    "remotion"
+  ],
+  "files": [
+    {
+      "path": "registry/framecn/shimmer-sweep/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nexport interface ShimmerSweepProps {\n  text: string;\n  baseColor?: string;\n  shineColor?: string;\n  fontSize?: number;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const ShimmerSweep = ({\n  text,\n  baseColor = \"#3f3f46\",\n  shineColor = \"#fafafa\",\n  fontSize = 96,\n  fontWeight = 700,\n  _speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: ShimmerSweepProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n\n  const style = {\n    height: \"100%\",\n    position: \"relative\",\n    width: \"100%\",\n  } as CSSProperties;\n\n  const textStyle: CSSProperties = {\n    fontFamily:\n      \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\",\n    fontSize,\n    fontWeight,\n    letterSpacing: \"-0.03em\",\n    lineHeight: 1,\n    margin: 0,\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={style}\n    >\n      <>\n        <style>{`\n          @keyframes framecn-shimmer-sweep {\n            from {\n              background-position: 200% 50%;\n            }\n            80% {\n              background-position: -100% 50%;\n            }\n            100% {\n              background-position: -100% 50%;\n            }\n          }\n        `}</style>\n\n        <div\n          style={{\n            alignItems: \"center\",\n            background: \"white\",\n            display: \"flex\",\n            inset: 0,\n            justifyContent: \"center\",\n            position: \"absolute\",\n          }}\n        >\n          <div style={{ display: \"inline-block\", position: \"relative\" }}>\n            <span style={{ ...textStyle, color: baseColor }}>{text}</span>\n            <span\n              style={{\n                ...textStyle,\n                WebkitBackgroundClip: \"text\",\n                animation: `framecn-shimmer-sweep ${durationMs}ms linear forwards`,\n                backgroundClip: \"text\",\n                backgroundImage: `linear-gradient(110deg, transparent 30%, ${shineColor} 50%, transparent 70%)`,\n                backgroundSize: \"200% 100%\",\n                color: \"transparent\",\n                inset: 0,\n                position: \"absolute\",\n              }}\n            >\n              {text}\n            </span>\n          </div>\n        </div>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/shimmer-sweep.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

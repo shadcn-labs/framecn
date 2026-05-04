@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "infinite-marquee",
+  "title": "Infinite Marquee",
+  "description": "Seamlessly looping horizontal text strip with optional stroke style.",
+  "dependencies": [
+    "remotion"
+  ],
+  "files": [
+    {
+      "path": "registry/framecn/infinite-marquee/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nexport interface InfiniteMarqueeProps {\n  text?: string;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  pixelsPerFrame?: number;\n  stroke?: boolean;\n  strokeColor?: string;\n  background?: string;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  width?: number;\n  height?: number;\n  className?: string;\n}\n\nexport const InfiniteMarquee = ({\n  text = \"ship · build · animate · \",\n  fontSize = 120,\n  color = \"#171717\",\n  fontWeight = 900,\n  pixelsPerFrame = 4,\n  stroke = false,\n  strokeColor = \"#171717\",\n  background = \"#fafafa\",\n  speed = 1,\n  fps = 30,\n  durationInFrames = 300,\n  width = 1280,\n  height = 720,\n  className,\n}: InfiniteMarqueeProps) => {\n  const safeSpeed = Math.max(0.01, speed);\n  const durationMs = (durationInFrames / fps) * 1000;\n  const _frameMs = 1000 / fps;\n\n  const approxWidth = text.length * fontSize * 0.55;\n  const scrollDurationMs =\n    ((approxWidth / pixelsPerFrame / fps) * 1000) / safeSpeed;\n\n  const containerStyle: CSSProperties = {\n    alignItems: \"center\",\n    background,\n    display: \"flex\",\n    height,\n    justifyContent: \"center\",\n    overflow: \"hidden\",\n    position: \"relative\",\n    width,\n  };\n\n  const spanStyle: CSSProperties = {\n    WebkitTextStroke: stroke ? `2px ${strokeColor}` : undefined,\n    color: stroke ? \"transparent\" : color,\n    fontFamily:\n      \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\",\n    fontSize,\n    fontWeight,\n    letterSpacing: \"-0.03em\",\n    paddingRight: \"0.4em\",\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={containerStyle}\n    >\n      <>\n        <style>{`\n          @keyframes framecn-marquee {\n            from { transform: translateX(0); }\n            to { transform: translateX(-${approxWidth}px); }\n          }\n        `}</style>\n        <div\n          style={{\n            animation: `framecn-marquee ${scrollDurationMs}ms linear infinite`,\n            display: \"flex\",\n            whiteSpace: \"nowrap\",\n          }}\n        >\n          <span style={spanStyle}>{text}</span>\n          <span style={spanStyle}>{text}</span>\n          <span style={spanStyle}>{text}</span>\n        </div>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/infinite-marquee.tsx"
+    }
+  ],
+  "type": "registry:component"
+}
