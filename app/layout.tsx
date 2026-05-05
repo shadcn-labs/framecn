@@ -1,5 +1,6 @@
 import { SoundProvider } from "@web-kits/audio/react";
 import type { Metadata } from "next";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { Analytics } from "@/components/analytics";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -41,13 +42,15 @@ const RootLayout = ({
         fontVariables
       )}
     >
-      <SoundProvider>
-        <ThemeProvider>
-          {children}
-          <Toaster position="top-center" />
-          <Analytics />
-        </ThemeProvider>
-      </SoundProvider>
+      <NuqsAdapter>
+        <SoundProvider>
+          <ThemeProvider>
+            {children}
+            <Toaster position="top-center" />
+            <Analytics />
+          </ThemeProvider>
+        </SoundProvider>
+      </NuqsAdapter>
     </body>
   </html>
 );

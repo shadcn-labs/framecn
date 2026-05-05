@@ -36,12 +36,12 @@ const MyButton = forwardRef<HTMLButtonElement, MyButtonProps>(
           "rounded-md px-4 py-2 font-medium",
           variant === "default" && "bg-primary text-primary-foreground",
           variant === "outline" && "border border-input",
-          className,
+          className
         )}
         {...props}
       />
     );
-  },
+  }
 );
 
 MyButton.displayName = "MyButton";
