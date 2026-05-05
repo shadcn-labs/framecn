@@ -21,7 +21,7 @@ export const ComponentCustomizer = ({
   values,
   onChange,
 }: ComponentCustomizerProps) => (
-  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <div className="grid gap-4 sm:grid-cols-2">
     {Object.entries(controls).map(([key, ctrl]) => {
       const id = `ctrl-${key}`;
       return (
@@ -36,11 +36,6 @@ export const ComponentCustomizer = ({
             {ctrl.type === "number" && (
               <span className="font-mono text-xs tabular-nums text-fd-muted-foreground">
                 {values[key] as number}
-              </span>
-            )}
-            {ctrl.type === "color" && (
-              <span className="font-mono text-xs uppercase text-fd-muted-foreground">
-                {values[key] as string}
               </span>
             )}
           </div>

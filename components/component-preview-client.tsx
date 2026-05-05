@@ -10,14 +10,24 @@ import {
   useQueryStates,
 } from "nuqs";
 import type { GenericParserBuilder } from "nuqs";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { ComponentCustomizer } from "@/components/component-customizer";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { useFeedback } from "@/hooks/use-feedback";
 import { getDefaults } from "@/lib/customizer-config";
 import type { ComponentConfig, ControlConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
-import { cn } from "@/lib/utils";
+
+import { Kbd } from "./ui/kbd";
 
 type ParsersMap = Record<string, GenericParserBuilder<unknown>>;
 type UrlKeysMap = Record<string, string>;
@@ -67,6 +77,55 @@ const buildParsers = (
   return { parsers, urlKeys };
 };
 
+const CopyLinkButton = ({
+  isCopied,
+  ...props
+}: React.ComponentProps<typeof Button> & { isCopied: boolean }) => (
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="text-muted-foreground size-7 rounded-md"
+        aria-label="Copy URL"
+        title="Copy URL"
+        {...props}
+      >
+        {isCopied ? <CheckIcon className="text-green-500" /> : <LinkIcon />}
+      </Button>
+    </TooltipTrigger>
+    <TooltipContent className="pr-2 pl-3">
+      <div className="flex items-center gap-3">
+        {isCopied ? "Copied" : "Copy URL"}
+        <Kbd>C</Kbd>
+      </div>
+    </TooltipContent>
+  </Tooltip>
+);
+
+const ResetButton = ({ ...props }: React.ComponentProps<typeof Button>) => (
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="text-muted-foreground size-7 rounded-md"
+        aria-label="Reset to defaults"
+        title="Reset to defaults"
+        {...props}
+      >
+        <RotateCcwIcon />
+      </Button>
+    </TooltipTrigger>
+    <TooltipContent className="pr-2 pl-3">
+      <div className="flex items-center gap-3">
+        Reset to defaults
+        <Kbd>R</Kbd>
+      </div>
+    </TooltipContent>
+  </Tooltip>
+);
+
 export const ComponentPreviewClient = ({
   name,
   config,
@@ -81,10 +140,24 @@ export const ComponentPreviewClient = ({
   source: React.ReactNode;
   hideCode?: boolean;
 }) => {
+  const playCopy = useFeedback({ sound: "copy" });
+  const playUndo = useFeedback({ sound: "undo" });
+  const { copyToClipboard, isCopied } = useCopyToClipboard({
+    onCopy: () => {
+      playCopy();
+      trackEvent({
+        name: "customized_link_shared",
+        properties: { component: name },
+      });
+    },
+    timeout: 1500,
+  });
+
   const { parsers, urlKeys } = useMemo(
     () => buildParsers(name, config.controls),
     [name, config.controls]
   );
+
   const defaults = useMemo(
     () => getDefaults(config.controls),
     [config.controls]
@@ -130,21 +203,17 @@ export const ComponentPreviewClient = ({
     return W;
   }, [Component, componentProps, config.componentName]);
 
-  const [copied, setCopied] = useState(false);
   const handleCopyLink = () => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    trackEvent({
-      name: "customized_link_shared",
-      properties: { component: name },
-    });
-    setTimeout(() => setCopied(false), 1500);
+    copyToClipboard(window.location.href);
   };
 
+  useHotkeys("c", () => handleCopyLink(), {
+    enabled: !isCopied,
+    preventDefault: true,
+  });
+
   const handleReset = () => {
+    playUndo();
     setValues(null);
     trackEvent({
       name: "customizer_reset",
@@ -152,9 +221,15 @@ export const ComponentPreviewClient = ({
     });
   };
 
+  useHotkeys("r", () => handleReset(), {
+    enabled: !isDefault,
+    preventDefault: true,
+  });
+
   const customizeTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(
     new Map()
   );
+
   useEffect(() => {
     const timers = customizeTimers.current;
     return () => {
@@ -164,6 +239,7 @@ export const ComponentPreviewClient = ({
       timers.clear();
     };
   }, []);
+
   const handleCustomizeChange = (key: string, value: unknown) => {
     setValues({ [key]: value } as Partial<Record<string, unknown>>);
     const existing = customizeTimers.current.get(key);
@@ -213,45 +289,17 @@ export const ComponentPreviewClient = ({
         </Tabs>
       )}
 
-      <div className="overflow-hidden rounded-xl bg-muted">
-        <div className="flex items-center justify-between px-5 pt-4 pb-2">
-          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+      <div className="rounded-lg bg-code px-1 pb-1">
+        <div className="flex items-center justify-between px-3 py-1.5">
+          <span className="text-sm font-medium text-muted-foreground">
             Customize
           </span>
           <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={handleCopyLink}
-              aria-label="Copy share link"
-              title="Copy share link"
-              className={cn(
-                "inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors",
-                "hover:bg-background hover:text-foreground"
-              )}
-            >
-              {copied ? (
-                <CheckIcon className="size-3.5" />
-              ) : (
-                <LinkIcon className="size-3.5" />
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              disabled={isDefault}
-              aria-label="Reset to defaults"
-              title="Reset to defaults"
-              className={cn(
-                "inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors",
-                "hover:bg-background hover:text-foreground",
-                "disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-muted-foreground"
-              )}
-            >
-              <RotateCcwIcon className="size-3.5" />
-            </button>
+            <CopyLinkButton isCopied={isCopied} onClick={handleCopyLink} />
+            <ResetButton disabled={isDefault} onClick={handleReset} />
           </div>
         </div>
-        <div className="px-5 pb-5">
+        <div className="rounded-md p-4 bg-background">
           <ComponentCustomizer
             controls={config.controls}
             values={values as Record<string, unknown>}
