@@ -15,13 +15,15 @@ import {
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
 import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
-import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import type { source } from "@/lib/source";
 
 const TOP_LEVEL_SECTIONS = [
   { href: ROUTES.DOCS, name: "Introduction" },
   { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
   { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
+  { href: ROUTES.DOCS_MCP, name: "MCP" },
+  { href: ROUTES.DOCS_REGISTRY, name: "Registry" },
   { href: ROUTES.LLMS, name: "llms.txt" },
 ];
 
@@ -76,7 +78,7 @@ export const DocsSidebar = ({
 
   return (
     <Sidebar
-      className="text-sidebar-foreground sticky top-[calc(var(--header-height)+0.6rem)] z-30 hidden h-[calc(100svh-10rem)] flex-col overscroll-none bg-transparent [--sidebar-menu-width:--spacing(48)] lg:flex"
+      className="text-sidebar-foreground sticky top-[calc(var(--header-height)+0.6rem)] z-30 hidden h-[calc(100svh-10rem)] flex-col overscroll-none bg-transparent [--sidebar-menu-width:--spacing(56)] lg:flex"
       collapsible="none"
       {...props}
     >
@@ -119,17 +121,22 @@ export const DocsSidebar = ({
             return null;
           }
 
-          const pages = isComponentsFolder(item)
-            ? getAllPagesFromFolder(item).filter(
-                (page) => page.url !== ROUTES.DOCS_COMPONENTS
-              )
-            : getPagesFromFolder(item);
+          if (isComponentsFolder(item)) {
+            return getFoldersFromFolder(item).map((category) => (
+              <SidebarPageGroup
+                key={category.$id}
+                label={category.name}
+                pages={getPagesFromFolder(category, false)}
+                pathname={pathname}
+              />
+            ));
+          }
 
           return (
             <SidebarPageGroup
               key={item.$id}
               label={item.name}
-              pages={pages}
+              pages={getPagesFromFolder(item)}
               pathname={pathname}
             />
           );

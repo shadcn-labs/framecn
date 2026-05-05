@@ -3,7 +3,11 @@ import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { isComponentsFolder } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
-import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import {
+  getAllPagesFromFolder,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import { source } from "@/lib/source";
 
 const getFolder = (name: string): PageTreeFolder | undefined => {
@@ -31,8 +35,10 @@ const ComponentGrid = ({ pages }: { pages: PageTreePage[] }) => (
 
 export const ComponentsList = ({
   folderName = "Components",
+  category,
 }: {
   folderName?: string;
+  category?: string;
 }) => {
   const folder = getFolder(folderName);
   if (!folder) {
@@ -40,11 +46,27 @@ export const ComponentsList = ({
   }
 
   if (!isComponentsFolder(folder)) {
-    const pages = getPagesFromFolder(folder);
+    const pages = getPagesFromFolder(folder, false);
     if (pages.length === 0) {
       return null;
     }
     return <ComponentGrid pages={pages} />;
+  }
+
+  const categoryFolders = getFoldersFromFolder(folder);
+
+  if (category) {
+    const match = categoryFolders.find(
+      (cat) =>
+        cat.$id === category ||
+        String(cat.$id ?? "").endsWith(`/${category}`) ||
+        (typeof cat.name === "string" &&
+          cat.name.toLowerCase() === category.toLowerCase())
+    );
+    if (!match) {
+      return null;
+    }
+    return <ComponentGrid pages={getPagesFromFolder(match, false)} />;
   }
 
   const pages = getAllPagesFromFolder(folder).filter(

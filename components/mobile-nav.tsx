@@ -15,7 +15,7 @@ import {
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
 import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
-import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 
 const MobileLink = ({
@@ -154,17 +154,22 @@ export const MobileNav = ({
               return null;
             }
 
-            const pages = isComponentsFolder(item)
-              ? getAllPagesFromFolder(item).filter(
-                  (page) => page.url !== ROUTES.DOCS_COMPONENTS
-                )
-              : getPagesFromFolder(item);
+            if (isComponentsFolder(item)) {
+              return getFoldersFromFolder(item).map((category) => (
+                <MobileNavGroup
+                  key={category.$id}
+                  label={category.name}
+                  pages={getPagesFromFolder(category, false)}
+                  setOpen={setOpen}
+                />
+              ));
+            }
 
             return (
               <MobileNavGroup
                 key={item.$id}
                 label={item.name}
-                pages={pages}
+                pages={getPagesFromFolder(item)}
                 setOpen={setOpen}
               />
             );

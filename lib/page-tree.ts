@@ -3,10 +3,25 @@ import type { Node as PageTreeNode } from "fumadocs-core/page-tree";
 export type PageTreeFolder = Extract<PageTreeNode, { type: "folder" }>;
 export type PageTreePage = Extract<PageTreeNode, { type: "page" }>;
 
-export const getPagesFromFolder = (folder: PageTreeFolder): PageTreePage[] =>
+export const getFoldersFromFolder = (
+  folder: PageTreeFolder
+): PageTreeFolder[] =>
   folder.children.filter(
+    (child): child is PageTreeFolder => child.type === "folder"
+  );
+
+export const getPagesFromFolder = (
+  folder: PageTreeFolder,
+  includeRoot = true
+): PageTreePage[] => {
+  const pages = folder.children.filter(
     (child): child is PageTreePage => child.type === "page"
   );
+  if (includeRoot) {
+    return pages;
+  }
+  return pages.filter((page) => page.$id !== `${folder.$id}/index.mdx`);
+};
 
 export const getAllPagesFromFolder = (
   folder: PageTreeFolder
