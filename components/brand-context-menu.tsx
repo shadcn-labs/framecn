@@ -45,16 +45,16 @@ export const BrandContextMenu = ({
   }, [logoMarkSvgString]);
 
   return (
-    <ContextMenu>
+    <ContextMenu sounds>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
 
       <ContextMenuContent>
-        <ContextMenuItem onClick={handleCopy}>
+        <ContextMenuItem sound="copy" onClick={handleCopy}>
           <LogoMark />
           Copy as SVG
         </ContextMenuItem>
 
-        <ContextMenuItem onClick={handleDownload}>
+        <ContextMenuItem sound="click" onClick={handleDownload}>
           <DownloadIcon /> Download as SVG
         </ContextMenuItem>
       </ContextMenuContent>

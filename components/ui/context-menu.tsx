@@ -2,15 +2,45 @@
 
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
 import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
-import * as React from "react";
+import { useCallback } from "react";
 
+import { dropdownClose, dropdownOpen } from "@/audio/core";
+import type { FeedbackType } from "@/hooks/use-feedback";
+import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
 const ContextMenu = ({
+  onOpenChange,
+  sounds = false,
   ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Root>) => (
-  <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />
-);
+}: React.ComponentProps<typeof ContextMenuPrimitive.Root> & {
+  sounds?: boolean;
+}) => {
+  const playOpen = useFeedback({ soundDef: dropdownOpen });
+  const playClose = useFeedback({ soundDef: dropdownClose });
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (sounds) {
+        if (open) {
+          playOpen();
+        } else {
+          playClose();
+        }
+      }
+      onOpenChange?.(open);
+    },
+    [onOpenChange, playOpen, playClose, sounds]
+  );
+
+  return (
+    <ContextMenuPrimitive.Root
+      data-slot="context-menu"
+      onOpenChange={handleOpenChange}
+      {...props}
+    />
+  );
+};
 
 const ContextMenuTrigger = ({
   ...props
@@ -101,22 +131,37 @@ const ContextMenuItem = ({
   className,
   inset,
   variant = "default",
+  onClick,
+  sound,
+  haptic,
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Item> & {
   inset?: boolean;
   variant?: "default" | "destructive";
-}) => (
-  <ContextMenuPrimitive.Item
-    data-slot="context-menu-item"
-    data-inset={inset}
-    data-variant={variant}
-    className={cn(
-      "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground data-[variant=destructive]:*:[svg]:text-destructive!",
-      className
-    )}
-    {...props}
-  />
-);
+  sound?: FeedbackType;
+  haptic?: boolean;
+}) => {
+  const play = useFeedback({ haptic, sound });
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    play();
+    onClick?.(e);
+  };
+
+  return (
+    <ContextMenuPrimitive.Item
+      data-slot="context-menu-item"
+      data-inset={inset}
+      data-variant={variant}
+      onClick={handleClick}
+      className={cn(
+        "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground data-[variant=destructive]:*:[svg]:text-destructive!",
+        className
+      )}
+      {...props}
+    />
+  );
+};
 
 const ContextMenuCheckboxItem = ({
   className,
