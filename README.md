@@ -1,7 +1,7 @@
 <h1 align="center">framecn</h1>
 
 <p align="center">
-  Free & open-source, ready-to-use, customizable terminal UI components for React.<br/>
+  Free & open-source, ready-to-use, customizable video components for React.<br/>
   Zero config. One command setup. Built on <a href="https://editframe.com">Editframe</a>, works seamlessly with <a href="https://ui.shadcn.com/">shadcn/ui</a>.
 </p>
 
@@ -21,7 +21,6 @@
 
 - 🎬 **Editframe integration** — Build video compositions with HTML, React, and CSS
 - 📹 **Cloud rendering** — Export to MP4 via Editframe's render infrastructure
-- 🎨 **Theme-aware** — Supports custom styling and animations
 - 📦 **shadcn/ui compatible** — Uses the same registry format and CLI
 - 🧩 **Composable** — Build complex videos with simple, declarative components
 - ⏱️ **Timeline control** — Precise timing and sequencing of video elements

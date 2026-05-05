@@ -1,10 +1,9 @@
 import { CodeCollapsibleWrapper } from "@/components/code-collapsible-wrapper";
+import { CopyButton } from "@/components/copy-button";
+import { getIconForLanguageExtension } from "@/components/icons";
 import { highlightCode } from "@/lib/highlight-code";
 import { readFileFromRoot } from "@/lib/read-file";
 import { cn } from "@/lib/utils";
-
-import { CopyButton } from "./copy-button";
-import { getIconForLanguageExtension } from "./icons";
 
 const ComponentCode = ({
   code,
@@ -53,11 +52,7 @@ export const ComponentSource = async ({
   if (src) {
     code = await readFileFromRoot(src);
   } else if (name) {
-    const guessedPaths = [
-      `registry/new-york/${name}.tsx`,
-      `components/${name}.tsx`,
-      `components/ui/${name}.tsx`,
-    ];
+    const guessedPaths = [`registry/framecn/${name}/index.tsx`];
 
     for (const guessedPath of guessedPaths) {
       try {
