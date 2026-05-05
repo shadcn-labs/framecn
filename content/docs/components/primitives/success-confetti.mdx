@@ -59,3 +59,15 @@ import { SuccessConfetti } from "@/components/framecn/success-confetti";
 | `particleCount` | `number`                   | `50`                                |
 | `origin`        | `{ x: number, y: number }` | `{ x: 0.5, y: 0.5 }`                |
 | `colors`        | `string[]`                 | `["#ff0000", "#00ff00", "#0000ff"]` |
+
+## Notes
+
+<Callout title="Deterministic particle physics">
+  The confetti uses deterministic physics with seeded random values. Same inputs
+  always produce the same particle patterns.
+</Callout>
+
+<Callout title="Performance scales with particle count" variant="warning">
+  Higher particle counts may impact performance. Keep particleCount under 100
+  for smooth animations.
+</Callout>

@@ -57,3 +57,16 @@ import { Typewriter } from "@/components/framecn/typewriter";
 | `speed`    | `number`  | `0.08`  |
 | `cursor`   | `boolean` | `true`  |
 | `fontSize` | `number`  | `48`    |
+
+## Notes
+
+<Callout title="Cursor blinks on every frame">
+  The cursor uses a deterministic blink pattern that toggles visibility every
+  frame. For a faster blink rate, decrease FPS or use a custom cursor
+  implementation.
+</Callout>
+
+<Callout title="Text must be a string" variant="destructive">
+  The typewriter requires the `text` prop to be a string. If you need to type
+  JSX elements, consider using a separate typewriter component for each element.
+</Callout>

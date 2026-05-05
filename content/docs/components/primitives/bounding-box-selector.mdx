@@ -59,3 +59,11 @@ import { BoundingBoxSelector } from "@/components/framecn/bounding-box-selector"
 | `targetRef` | `React.RefObject` | `-`         |
 | `duration`  | `number`          | `0.5`       |
 | `color`     | `string`          | `"#3b82f6"` |
+
+## Notes
+
+<Callout title="Sizing from wrapped child">
+  The component reads its size from the wrapped child via `display:
+  inline-block`. Pass children with explicit `width`/`height` for pixel-perfect
+  placement.
+</Callout>

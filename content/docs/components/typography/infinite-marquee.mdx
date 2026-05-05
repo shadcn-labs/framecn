@@ -54,8 +54,20 @@ import { InfiniteMarquee } from "@/components/framecn/infinite-marquee";
 
 ### InfiniteMarquee
 
-| Prop        | Type       | Default   |
-| ----------- | ---------- | --------- |
-| `text`      | `string`   | `-`       |
-| `speed`     | `number`   | `50`      |
-| `direction` | `"left" \` | `"right"` |
+| Prop        | Type      | Default   |
+| ----------- | --------- | --------- |
+| `text`      | `string`  | `-`       |
+| `speed`     | `number`  | `50`      |
+| `direction` | `"left" ` | `"right"` |
+
+## Notes
+
+<Callout title="Uses CSS transform for performance">
+  The marquee uses CSS transforms for smooth scrolling. The text is duplicated
+  to create the infinite loop effect.
+</Callout>
+
+<Callout title="May cause layout shift on resize" variant="destructive">
+  The marquee calculates width based on initial render. If the container
+  resizes, you may need to force a re-render.
+</Callout>

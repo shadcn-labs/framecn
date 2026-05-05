@@ -58,3 +58,10 @@ import { BlurReveal } from "@/components/framecn/blur-reveal";
 | `fontSize`   | `number` | `48`        |
 | `fontWeight` | `number` | `600`       |
 | `color`      | `string` | `"#171717"` |
+
+## Notes
+
+<Callout title="Blur uses backdrop-filter">
+  The blur effect uses CSS backdrop-filter which may not be supported in all
+  browsers. Consider providing a fallback for older browsers.
+</Callout>

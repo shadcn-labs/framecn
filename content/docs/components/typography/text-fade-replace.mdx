@@ -59,3 +59,15 @@ import { TextFadeReplace } from "@/components/framecn/text-fade-replace";
 | `fromText` | `string` | `-`     |
 | `toText`   | `string` | `-`     |
 | `duration` | `number` | `0.5`   |
+
+## Notes
+
+<Callout title="Includes strikethrough variant">
+  The component supports a strikethrough animation variant. Check the demo to
+  see the strikethrough effect in action.
+</Callout>
+
+<Callout title="Both texts must have equal length" variant="destructive">
+  For the best cross-fade effect, ensure `fromText` and `toText` are
+  approximately the same length to avoid layout shift.
+</Callout>

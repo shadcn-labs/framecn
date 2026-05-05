@@ -59,3 +59,15 @@ import { MarkerHighlight } from "@/components/framecn/marker-highlight";
 | `text`        | `string`  | `-`         |
 | `markerColor` | `string`  | `"#fbbf24"` |
 | `invertText`  | `boolean` | `false`     |
+
+## Notes
+
+<Callout title="Marker uses absolute positioning">
+  The marker bar is positioned absolutely behind the text. Ensure the parent has
+  `position: relative` for correct placement.
+</Callout>
+
+<Callout title="Text inversion requires contrast" variant="destructive">
+  When `invertText` is true, the text color inverts. Ensure your marker color
+  has sufficient contrast with the background.
+</Callout>

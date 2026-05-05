@@ -59,3 +59,15 @@ import { ToastNotification } from "@/components/framecn/toast-notification";
 | `message`  | `string`      | `-`         |
 | `type`     | `"success" \` | `"error" \` |
 | `duration` | `number`      | `3`         |
+
+## Notes
+
+<Callout title="Three-phase animation">
+  The toast animates through three phases: spring-based enter, a hold period,
+  and interpolate-based exit. The duration prop controls the hold time.
+</Callout>
+
+<Callout title="Anchored absolutely" variant="destructive">
+  The toast is positioned absolutely at the bottom-right of the frame. Ensure
+  the parent has a defined size for correct placement.
+</Callout>
