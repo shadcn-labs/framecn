@@ -1,0 +1,61 @@
+---
+title: "Perspective Marquee"
+description: "Marquee tilted into 3D space with depth fade."
+---
+
+<ComponentPreview name="perspective-marquee-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/perspective-marquee
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="perspective-marquee"
+  title="components/ui/perspective-marquee.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PerspectiveMarquee } from "@/components/ui/perspective-marquee";
+```
+
+```tsx
+<PerspectiveMarquee text="text" perspective={0} speed={0} />
+```
+
+## API Reference
+
+### PerspectiveMarquee
+
+| Prop          | Type     | Default |
+| ------------- | -------- | ------- |
+| `text`        | `string` | `-`     |
+| `perspective` | `number` | `500`   |
+| `speed`       | `number` | `50`    |

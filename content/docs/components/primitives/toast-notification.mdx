@@ -1,0 +1,61 @@
+---
+title: "Toast Notification"
+description: "System toast that springs in, holds, and slides away."
+---
+
+<ComponentPreview name="toast-notification-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/toast-notification
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="toast-notification"
+  title="components/ui/toast-notification.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ToastNotification } from "@/components/ui/toast-notification";
+```
+
+```tsx
+<ToastNotification message="message" type="value" duration={0} />
+```
+
+## API Reference
+
+### ToastNotification
+
+| Prop       | Type          | Default     |
+| ---------- | ------------- | ----------- |
+| `message`  | `string`      | `-`         |
+| `type`     | `"success" \` | `"error" \` |
+| `duration` | `number`      | `3`         |

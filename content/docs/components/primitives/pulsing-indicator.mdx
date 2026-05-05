@@ -1,0 +1,61 @@
+---
+title: "Pulsing Indicator"
+description: "Continuous sine-driven pulse for loading or activity states."
+---
+
+<ComponentPreview name="pulsing-indicator-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/pulsing-indicator
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="pulsing-indicator"
+  title="components/ui/pulsing-indicator.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PulsingIndicator } from "@/components/ui/pulsing-indicator";
+```
+
+```tsx
+<PulsingIndicator size={0} color="color" duration={0} />
+```
+
+## API Reference
+
+### PulsingIndicator
+
+| Prop       | Type     | Default     |
+| ---------- | -------- | ----------- |
+| `size`     | `number` | `20`        |
+| `color`    | `string` | `"#3b82f6"` |
+| `duration` | `number` | `1.5`       |

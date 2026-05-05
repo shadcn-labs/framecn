@@ -1,0 +1,61 @@
+---
+title: "Glass Code Block"
+description: "Premium frosted-glass code window with rim light and traffic-light controls."
+---
+
+<ComponentPreview name="glass-code-block-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/glass-code-block
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="glass-code-block"
+  title="components/ui/glass-code-block.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { GlassCodeBlock } from "@/components/ui/glass-code-block";
+```
+
+```tsx
+<GlassCodeBlock code="code" language="language" showControls={true} />
+```
+
+## API Reference
+
+### GlassCodeBlock
+
+| Prop           | Type      | Default        |
+| -------------- | --------- | -------------- |
+| `code`         | `string`  | `-`            |
+| `language`     | `string`  | `"typescript"` |
+| `showControls` | `boolean` | `true`         |

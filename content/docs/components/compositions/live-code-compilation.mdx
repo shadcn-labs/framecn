@@ -1,0 +1,59 @@
+---
+title: "Live Code Compilation"
+description: "Split-screen where typed code on the left snaps a live UI preview on the right."
+---
+
+<ComponentPreview name="live-code-compilation-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/live-code-compilation
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="live-code-compilation"
+  title="components/ui/live-code-compilation.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { LiveCodeCompilation } from "@/components/ui/live-code-compilation";
+```
+
+```tsx
+<LiveCodeCompilation code="code" />
+```
+
+## API Reference
+
+### LiveCodeCompilation
+
+| Prop   | Type     | Default |
+| ------ | -------- | ------- |
+| `code` | `string` | `-`     |

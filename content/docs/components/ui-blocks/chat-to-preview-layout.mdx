@@ -1,0 +1,60 @@
+---
+title: "Chat To Preview Layout"
+description: "Chat input transforms into a preview layout."
+---
+
+<ComponentPreview name="chat-to-preview-layout-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/chat-to-preview-layout
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="chat-to-preview-layout"
+  title="components/ui/chat-to-preview-layout.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ChatToPreviewLayout } from "@/components/ui/chat-to-preview-layout";
+```
+
+```tsx
+<ChatToPreviewLayout message="message" previewContent={"Sample content"} />
+```
+
+## API Reference
+
+### ChatToPreviewLayout
+
+| Prop             | Type              | Default |
+| ---------------- | ----------------- | ------- |
+| `message`        | `string`          | `-`     |
+| `previewContent` | `React.ReactNode` | `-`     |

@@ -1,0 +1,60 @@
+---
+title: "Product Launch Trailer"
+description: "Cinematic product reveal trailer animation."
+---
+
+<ComponentPreview name="product-launch-trailer-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/product-launch-trailer
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="product-launch-trailer"
+  title="components/ui/product-launch-trailer.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ProductLaunchTrailer } from "@/components/ui/product-launch-trailer";
+```
+
+```tsx
+<ProductLaunchTrailer productName="productName" tagline="tagline" />
+```
+
+## API Reference
+
+### ProductLaunchTrailer
+
+| Prop          | Type     | Default |
+| ------------- | -------- | ------- |
+| `productName` | `string` | `-`     |
+| `tagline`     | `string` | `-`     |

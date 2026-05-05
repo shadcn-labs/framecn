@@ -1,0 +1,60 @@
+---
+title: "Grid Pixelate Wipe"
+description: "Dissolve from one scene to the next through a deterministic grid of mask cells."
+---
+
+<ComponentPreview name="grid-pixelate-wipe-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/grid-pixelate-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="grid-pixelate-wipe"
+  title="components/ui/grid-pixelate-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { GridPixelateWipe } from "@/components/ui/grid-pixelate-wipe";
+```
+
+```tsx
+<GridPixelateWipe gridSize={0} duration={0} />
+```
+
+## API Reference
+
+### GridPixelateWipe
+
+| Prop       | Type     | Default |
+| ---------- | -------- | ------- |
+| `gridSize` | `number` | `10`    |
+| `duration` | `number` | `1`     |

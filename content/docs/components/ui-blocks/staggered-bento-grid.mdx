@@ -1,0 +1,61 @@
+---
+title: "Staggered Bento Grid"
+description: "Bento grid where cards cascade in with per-cell sequences."
+---
+
+<ComponentPreview name="staggered-bento-grid-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/staggered-bento-grid
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="staggered-bento-grid"
+  title="components/ui/staggered-bento-grid.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { StaggeredBentoGrid } from "@/components/ui/staggered-bento-grid";
+```
+
+```tsx
+<StaggeredBentoGrid columns={0} gap={0} staggerDelay={0} />
+```
+
+## API Reference
+
+### StaggeredBentoGrid
+
+| Prop           | Type     | Default |
+| -------------- | -------- | ------- |
+| `columns`      | `number` | `3`     |
+| `gap`          | `number` | `16`    |
+| `staggerDelay` | `number` | `0.1`   |

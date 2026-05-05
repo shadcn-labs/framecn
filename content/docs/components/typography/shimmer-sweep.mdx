@@ -1,0 +1,58 @@
+---
+title: "Shimmer Sweep"
+description: "Bright gradient sweeps across dim text, lighting it up."
+---
+
+<ComponentPreview name="shimmer-sweep-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shimmer-sweep
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="shimmer-sweep" title="components/ui/shimmer-sweep.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShimmerSweep } from "@/components/ui/shimmer-sweep";
+```
+
+```tsx
+<ShimmerSweep text="text" shimmerColor="shimmerColor" baseColor="baseColor" />
+```
+
+## API Reference
+
+### ShimmerSweep
+
+| Prop           | Type     | Default     |
+| -------------- | -------- | ----------- |
+| `text`         | `string` | `-`         |
+| `shimmerColor` | `string` | `"#ffffff"` |
+| `baseColor`    | `string` | `"#666666"` |

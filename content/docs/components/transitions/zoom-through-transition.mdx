@@ -1,0 +1,60 @@
+---
+title: "Zoom Through Transition"
+description: "Aggressive scale-in through an element to the next scene."
+---
+
+<ComponentPreview name="zoom-through-transition-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/zoom-through-transition
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="zoom-through-transition"
+  title="components/ui/zoom-through-transition.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ZoomThroughTransition } from "@/components/ui/zoom-through-transition";
+```
+
+```tsx
+<ZoomThroughTransition scale={0} duration={0} />
+```
+
+## API Reference
+
+### ZoomThroughTransition
+
+| Prop       | Type     | Default |
+| ---------- | -------- | ------- |
+| `scale`    | `number` | `3`     |
+| `duration` | `number` | `0.6`   |

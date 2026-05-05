@@ -1,0 +1,61 @@
+---
+title: "Terminal Simulator"
+description: "CLI build simulation with chunked log output and step-function scrolling."
+---
+
+<ComponentPreview name="terminal-simulator-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/terminal-simulator
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="terminal-simulator"
+  title="components/ui/terminal-simulator.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { TerminalSimulator } from "@/components/ui/terminal-simulator";
+```
+
+```tsx
+<TerminalSimulator commands="commands" typingSpeed={0} showPrompt={true} />
+```
+
+## API Reference
+
+### TerminalSimulator
+
+| Prop          | Type       | Default |
+| ------------- | ---------- | ------- |
+| `commands`    | `string[]` | `-`     |
+| `typingSpeed` | `number`   | `0.05`  |
+| `showPrompt`  | `boolean`  | `true`  |

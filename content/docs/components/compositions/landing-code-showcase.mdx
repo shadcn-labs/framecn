@@ -1,0 +1,60 @@
+---
+title: "Landing Code Showcase"
+description: "Code snippet showcase for landing pages."
+---
+
+<ComponentPreview name="landing-code-showcase-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/landing-code-showcase
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="landing-code-showcase"
+  title="components/ui/landing-code-showcase.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { LandingCodeShowcase } from "@/components/ui/landing-code-showcase";
+```
+
+```tsx
+<LandingCodeShowcase code="code" language="language" />
+```
+
+## API Reference
+
+### LandingCodeShowcase
+
+| Prop       | Type     | Default  |
+| ---------- | -------- | -------- |
+| `code`     | `string` | `-`      |
+| `language` | `string` | `"bash"` |

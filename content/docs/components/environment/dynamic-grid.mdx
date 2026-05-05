@@ -1,0 +1,59 @@
+---
+title: "Dynamic Grid"
+description: "Subtle moving grid or dot pattern background."
+---
+
+<ComponentPreview name="dynamic-grid-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/dynamic-grid
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="dynamic-grid" title="components/ui/dynamic-grid.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DynamicGrid } from "@/components/ui/dynamic-grid";
+```
+
+```tsx
+<DynamicGrid pattern="value" spacing={0} color="color" animate={true} />
+```
+
+## API Reference
+
+### DynamicGrid
+
+| Prop      | Type       | Default     |
+| --------- | ---------- | ----------- |
+| `pattern` | `"grid" \` | `"dots"`    |
+| `spacing` | `number`   | `40`        |
+| `color`   | `string`   | `"#e5e7eb"` |
+| `animate` | `boolean`  | `true`      |

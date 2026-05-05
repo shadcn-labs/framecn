@@ -1,0 +1,61 @@
+---
+title: "Infinite Marquee"
+description: "Endlessly scrolling horizontal text band."
+---
+
+<ComponentPreview name="infinite-marquee-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/infinite-marquee
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="infinite-marquee"
+  title="components/ui/infinite-marquee.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { InfiniteMarquee } from "@/components/ui/infinite-marquee";
+```
+
+```tsx
+<InfiniteMarquee text="text" speed={0} direction="value" />
+```
+
+## API Reference
+
+### InfiniteMarquee
+
+| Prop        | Type       | Default   |
+| ----------- | ---------- | --------- |
+| `text`      | `string`   | `-`       |
+| `speed`     | `number`   | `50`      |
+| `direction` | `"left" \` | `"right"` |

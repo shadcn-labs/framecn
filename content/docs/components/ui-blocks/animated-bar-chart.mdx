@@ -1,0 +1,62 @@
+---
+title: "Animated Bar Chart"
+description: "Bars spring up from the baseline with deterministic stagger."
+---
+
+<ComponentPreview name="animated-bar-chart-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/animated-bar-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="animated-bar-chart"
+  title="components/ui/animated-bar-chart.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AnimatedBarChart } from "@/components/ui/animated-bar-chart";
+```
+
+```tsx
+<AnimatedBarChart data={0} width={0} height={0} color="color" />
+```
+
+## API Reference
+
+### AnimatedBarChart
+
+| Prop     | Type                                      | Default     |
+| -------- | ----------------------------------------- | ----------- |
+| `data`   | `Array<{ label: string, value: number }>` | `-`         |
+| `width`  | `number`                                  | `400`       |
+| `height` | `number`                                  | `200`       |
+| `color`  | `string`                                  | `"#3b82f6"` |

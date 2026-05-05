@@ -1,0 +1,61 @@
+---
+title: "Slot Machine Roll"
+description: "Numbers and characters roll into place like a casino reel."
+---
+
+<ComponentPreview name="slot-machine-roll-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/slot-machine-roll
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="slot-machine-roll"
+  title="components/ui/slot-machine-roll.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SlotMachineRoll } from "@/components/ui/slot-machine-roll";
+```
+
+```tsx
+<SlotMachineRoll text="text" duration={0} fontSize={0} />
+```
+
+## API Reference
+
+### SlotMachineRoll
+
+| Prop       | Type     | Default |
+| ---------- | -------- | ------- |
+| `text`     | `string` | `-`     |
+| `duration` | `number` | `1.5`   |
+| `fontSize` | `number` | `48`    |

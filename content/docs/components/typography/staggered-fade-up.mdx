@@ -1,0 +1,61 @@
+---
+title: "Staggered Fade Up"
+description: "Words rise from below with a soft cascading delay."
+---
+
+<ComponentPreview name="staggered-fade-up-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/staggered-fade-up
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="staggered-fade-up"
+  title="components/ui/staggered-fade-up.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { StaggeredFadeUp } from "@/components/ui/staggered-fade-up";
+```
+
+```tsx
+<StaggeredFadeUp text="text" staggerDelay={0} fontSize={0} />
+```
+
+## API Reference
+
+### StaggeredFadeUp
+
+| Prop           | Type     | Default |
+| -------------- | -------- | ------- |
+| `text`         | `string` | `-`     |
+| `staggerDelay` | `number` | `0.05`  |
+| `fontSize`     | `number` | `48`    |

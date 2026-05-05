@@ -1,0 +1,61 @@
+---
+title: "Marker Highlight"
+description: "Marker bar sweeps in behind a phrase, optionally inverting the text color."
+---
+
+<ComponentPreview name="marker-highlight-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/marker-highlight
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="marker-highlight"
+  title="components/ui/marker-highlight.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MarkerHighlight } from "@/components/ui/marker-highlight";
+```
+
+```tsx
+<MarkerHighlight text="text" markerColor="markerColor" invertText={false} />
+```
+
+## API Reference
+
+### MarkerHighlight
+
+| Prop          | Type      | Default     |
+| ------------- | --------- | ----------- |
+| `text`        | `string`  | `-`         |
+| `markerColor` | `string`  | `"#fbbf24"` |
+| `invertText`  | `boolean` | `false`     |

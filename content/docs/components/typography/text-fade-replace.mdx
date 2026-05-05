@@ -1,0 +1,61 @@
+---
+title: "Text Fade Replace"
+description: "Cross-fades between two strings on the same line. Includes a Strikethrough variant."
+---
+
+<ComponentPreview name="text-fade-replace-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/text-fade-replace
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="text-fade-replace"
+  title="components/ui/text-fade-replace.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { TextFadeReplace } from "@/components/ui/text-fade-replace";
+```
+
+```tsx
+<TextFadeReplace fromText="fromText" toText="toText" duration={0} />
+```
+
+## API Reference
+
+### TextFadeReplace
+
+| Prop       | Type     | Default |
+| ---------- | -------- | ------- |
+| `fromText` | `string` | `-`     |
+| `toText`   | `string` | `-`     |
+| `duration` | `number` | `0.5`   |

@@ -1,0 +1,59 @@
+---
+title: "Dashboard Populate"
+description: "Empty dashboard cascades to life with KPI count-ups, bar bounces, line traces, and a donut fill."
+---
+
+<ComponentPreview name="dashboard-populate-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/dashboard-populate
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="dashboard-populate"
+  title="components/ui/dashboard-populate.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DashboardPopulate } from "@/components/ui/dashboard-populate";
+```
+
+```tsx
+<DashboardPopulate metrics="metrics" />
+```
+
+## API Reference
+
+### DashboardPopulate
+
+| Prop      | Type       | Default |
+| --------- | ---------- | ------- |
+| `metrics` | `string[]` | `-`     |

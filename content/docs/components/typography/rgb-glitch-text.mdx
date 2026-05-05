@@ -1,0 +1,61 @@
+---
+title: "RGB Glitch Text"
+description: "Three-channel RGB split with a brief horizontal jitter."
+---
+
+<ComponentPreview name="rgb-glitch-text-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/rgb-glitch-text
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="rgb-glitch-text"
+  title="components/ui/rgb-glitch-text.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { RGBGlitchText } from "@/components/ui/rgb-glitch-text";
+```
+
+```tsx
+<RGBGlitchText text="text" intensity={0} fontSize={0} />
+```
+
+## API Reference
+
+### RGBGlitchText
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `text`      | `string` | `-`     |
+| `intensity` | `number` | `5`     |
+| `fontSize`  | `number` | `48`    |

@@ -1,0 +1,60 @@
+---
+title: "Kinetic Type Mask"
+description: "Use giant typography as a window into the next scene."
+---
+
+<ComponentPreview name="kinetic-type-mask-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/kinetic-type-mask
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="kinetic-type-mask"
+  title="components/ui/kinetic-type-mask.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { KineticTypeMask } from "@/components/ui/kinetic-type-mask";
+```
+
+```tsx
+<KineticTypeMask text="text" fontSize={0} />
+```
+
+## API Reference
+
+### KineticTypeMask
+
+| Prop       | Type     | Default |
+| ---------- | -------- | ------- |
+| `text`     | `string` | `-`     |
+| `fontSize` | `number` | `120`   |

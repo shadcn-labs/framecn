@@ -1,0 +1,60 @@
+---
+title: "Device Mockup Zoom"
+description: "Pull back from a UI to reveal it inside a phone or laptop frame."
+---
+
+<ComponentPreview name="device-mockup-zoom-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/device-mockup-zoom
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="device-mockup-zoom"
+  title="components/ui/device-mockup-zoom.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DeviceMockupZoom } from "@/components/ui/device-mockup-zoom";
+```
+
+```tsx
+<DeviceMockupZoom device="value" content={"Sample content"} />
+```
+
+## API Reference
+
+### DeviceMockupZoom
+
+| Prop      | Type              | Default    |
+| --------- | ----------------- | ---------- |
+| `device`  | `"phone" \`       | `"laptop"` |
+| `content` | `React.ReactNode` | `-`        |

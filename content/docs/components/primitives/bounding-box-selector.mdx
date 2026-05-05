@@ -1,0 +1,61 @@
+---
+title: "Bounding Box Selector"
+description: "Figma-style selection rectangle that snaps around a target."
+---
+
+<ComponentPreview name="bounding-box-selector-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/bounding-box-selector
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="bounding-box-selector"
+  title="components/ui/bounding-box-selector.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BoundingBoxSelector } from "@/components/ui/bounding-box-selector";
+```
+
+```tsx
+<BoundingBoxSelector targetRef="value" duration={0} color="color" />
+```
+
+## API Reference
+
+### BoundingBoxSelector
+
+| Prop        | Type              | Default     |
+| ----------- | ----------------- | ----------- |
+| `targetRef` | `React.RefObject` | `-`         |
+| `duration`  | `number`          | `0.5`       |
+| `color`     | `string`          | `"#3b82f6"` |

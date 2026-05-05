@@ -1,0 +1,60 @@
+---
+title: "Changelog Bite"
+description: "Short changelog entry animation for product updates."
+---
+
+<ComponentPreview name="changelog-bite-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/changelog-bite
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="changelog-bite"
+  title="components/ui/changelog-bite.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ChangelogBite } from "@/components/ui/changelog-bite";
+```
+
+```tsx
+<ChangelogBite version="version" changes="changes" />
+```
+
+## API Reference
+
+### ChangelogBite
+
+| Prop      | Type       | Default |
+| --------- | ---------- | ------- |
+| `version` | `string`   | `-`     |
+| `changes` | `string[]` | `-`     |

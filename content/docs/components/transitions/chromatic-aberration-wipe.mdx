@@ -1,0 +1,61 @@
+---
+title: "Chromatic Aberration Wipe"
+description: "An ultra-fast slide transition with an RGB glitch on the peak frames."
+---
+
+<ComponentPreview name="chromatic-aberration-wipe-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/chromatic-aberration-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="chromatic-aberration-wipe"
+  title="components/ui/chromatic-aberration-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ChromaticAberrationWipe } from "@/components/ui/chromatic-aberration-wipe";
+```
+
+```tsx
+<ChromaticAberrationWipe direction="value" intensity={0} duration={0} />
+```
+
+## API Reference
+
+### ChromaticAberrationWipe
+
+| Prop        | Type       | Default   |
+| ----------- | ---------- | --------- |
+| `direction` | `"left" \` | `"right"` |
+| `intensity` | `number`   | `5`       |
+| `duration`  | `number`   | `0.4`     |

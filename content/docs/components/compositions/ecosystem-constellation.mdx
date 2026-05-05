@@ -1,0 +1,60 @@
+---
+title: "Ecosystem Constellation"
+description: "Central logo orbited by integration satellites with pulsing data lines."
+---
+
+<ComponentPreview name="ecosystem-constellation-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/ecosystem-constellation
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="ecosystem-constellation"
+  title="components/ui/ecosystem-constellation.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { EcosystemConstellation } from "@/components/ui/ecosystem-constellation";
+```
+
+```tsx
+<EcosystemConstellation satellites="satellites" orbitRadius={0} />
+```
+
+## API Reference
+
+### EcosystemConstellation
+
+| Prop          | Type       | Default |
+| ------------- | ---------- | ------- |
+| `satellites`  | `string[]` | `-`     |
+| `orbitRadius` | `number`   | `100`   |

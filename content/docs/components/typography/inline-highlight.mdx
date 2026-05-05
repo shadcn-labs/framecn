@@ -1,0 +1,67 @@
+---
+title: "Inline Highlight"
+description: "Animates one word inside a sentence from a base color to a brand color."
+---
+
+<ComponentPreview name="inline-highlight-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/inline-highlight
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="inline-highlight"
+  title="components/ui/inline-highlight.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { InlineHighlight } from "@/components/ui/inline-highlight";
+```
+
+```tsx
+<InlineHighlight
+  text="text"
+  highlightWords={0}
+  fromColor="fromColor"
+  toColor="toColor"
+/>
+```
+
+## API Reference
+
+### InlineHighlight
+
+| Prop             | Type       | Default     |
+| ---------------- | ---------- | ----------- |
+| `text`           | `string`   | `-`         |
+| `highlightWords` | `number[]` | `-`         |
+| `fromColor`      | `string`   | `"#666666"` |
+| `toColor`        | `string`   | `"#3b82f6"` |

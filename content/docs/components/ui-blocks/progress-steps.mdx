@@ -1,0 +1,61 @@
+---
+title: "Progress Steps"
+description: "Multi-step pipeline visualization with line fill and pulsing dots."
+---
+
+<ComponentPreview name="progress-steps-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/progress-steps
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="progress-steps"
+  title="components/ui/progress-steps.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ProgressSteps } from "@/components/ui/progress-steps";
+```
+
+```tsx
+<ProgressSteps steps="steps" currentStep={0} color="color" />
+```
+
+## API Reference
+
+### ProgressSteps
+
+| Prop          | Type       | Default     |
+| ------------- | ---------- | ----------- |
+| `steps`       | `string[]` | `-`         |
+| `currentStep` | `number`   | `0`         |
+| `color`       | `string`   | `"#3b82f6"` |

@@ -1,0 +1,58 @@
+---
+title: "Spring Pop In"
+description: "Elastic scale pop with configurable overshoot."
+---
+
+<ComponentPreview name="spring-pop-in-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/spring-pop-in
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="spring-pop-in" title="components/ui/spring-pop-in.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SpringPopIn } from "@/components/ui/spring-pop-in";
+```
+
+```tsx
+<SpringPopIn scale={0} duration={0} bounce={true} />
+```
+
+## API Reference
+
+### SpringPopIn
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `scale`    | `number`  | `1.5`   |
+| `duration` | `number`  | `0.6`   |
+| `bounce`   | `boolean` | `true`  |

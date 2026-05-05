@@ -1,0 +1,61 @@
+---
+title: "Code Accordion"
+description: "Long code blocks collapse mid-section, hiding noise behind a count badge."
+---
+
+<ComponentPreview name="code-accordion-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/code-accordion
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="code-accordion"
+  title="components/ui/code-accordion.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CodeAccordion } from "@/components/ui/code-accordion";
+```
+
+```tsx
+<CodeAccordion code="code" threshold={0} language="language" />
+```
+
+## API Reference
+
+### CodeAccordion
+
+| Prop        | Type     | Default        |
+| ----------- | -------- | -------------- |
+| `code`      | `string` | `-`            |
+| `threshold` | `number` | `10`           |
+| `language`  | `string` | `"typescript"` |

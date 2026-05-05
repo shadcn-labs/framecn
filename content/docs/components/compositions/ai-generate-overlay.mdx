@@ -1,0 +1,60 @@
+---
+title: "AI Generate Overlay"
+description: "Overlay UI for AI content generation with prompt input and result display."
+---
+
+<ComponentPreview name="ai-generate-overlay-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/ai-generate-overlay
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="ai-generate-overlay"
+  title="components/ui/ai-generate-overlay.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AIGenerateOverlay } from "@/components/ui/ai-generate-overlay";
+```
+
+```tsx
+<AIGenerateOverlay prompt="prompt" isGenerating={true} />
+```
+
+## API Reference
+
+### AIGenerateOverlay
+
+| Prop           | Type      | Default |
+| -------------- | --------- | ------- |
+| `prompt`       | `string`  | `-`     |
+| `isGenerating` | `boolean` | `true`  |

@@ -1,0 +1,60 @@
+---
+title: "Swipe Transition Wipe"
+description: "Quick swipe transition between scenes."
+---
+
+<ComponentPreview name="swipe-transition-wipe-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/swipe-transition-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="swipe-transition-wipe"
+  title="components/ui/swipe-transition-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SwipeTransitionWipe } from "@/components/ui/swipe-transition-wipe";
+```
+
+```tsx
+<SwipeTransitionWipe direction="value" duration={0} />
+```
+
+## API Reference
+
+### SwipeTransitionWipe
+
+| Prop        | Type       | Default   |
+| ----------- | ---------- | --------- |
+| `direction` | `"left" \` | `"right"` |
+| `duration`  | `number`   | `0.3`     |

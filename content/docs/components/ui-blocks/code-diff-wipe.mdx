@@ -1,0 +1,61 @@
+---
+title: "Code Diff Wipe"
+description: "Before/after comparison with a clip-path slider revealing the new code."
+---
+
+<ComponentPreview name="code-diff-wipe-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/code-diff-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="code-diff-wipe"
+  title="components/ui/code-diff-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CodeDiffWipe } from "@/components/ui/code-diff-wipe";
+```
+
+```tsx
+<CodeDiffWipe oldCode="oldCode" newCode="newCode" language="language" />
+```
+
+## API Reference
+
+### CodeDiffWipe
+
+| Prop       | Type     | Default        |
+| ---------- | -------- | -------------- |
+| `oldCode`  | `string` | `-`            |
+| `newCode`  | `string` | `-`            |
+| `language` | `string` | `"typescript"` |

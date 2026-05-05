@@ -1,0 +1,60 @@
+---
+title: "Drag And Drop Flow"
+description: "Cursor drags a file into a drop zone that lights up and starts a progress bar."
+---
+
+<ComponentPreview name="drag-and-drop-flow-demo" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/drag-and-drop-flow
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="drag-and-drop-flow"
+  title="components/ui/drag-and-drop-flow.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DragAndDropFlow } from "@/components/ui/drag-and-drop-flow";
+```
+
+```tsx
+<DragAndDropFlow fileName="fileName" progress={0} />
+```
+
+## API Reference
+
+### DragAndDropFlow
+
+| Prop       | Type     | Default |
+| ---------- | -------- | ------- |
+| `fileName` | `string` | `-`     |
+| `progress` | `number` | `100`   |

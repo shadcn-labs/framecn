@@ -1,0 +1,21 @@
+{
+  "title": "Typography",
+  "pages": [
+    "index",
+    "blur-reveal",
+    "staggered-fade-up",
+    "masked-slide-reveal",
+    "tracking-in",
+    "inline-highlight",
+    "marker-highlight",
+    "shimmer-sweep",
+    "typewriter",
+    "text-fade-replace",
+    "slot-machine-roll",
+    "infinite-marquee",
+    "perspective-marquee",
+    "matrix-decode",
+    "rgb-glitch-text",
+    "strikethrough-replace"
+  ]
+}
