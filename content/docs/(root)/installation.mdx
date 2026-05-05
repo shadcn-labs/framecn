@@ -36,12 +36,12 @@ const MyButton = forwardRef<HTMLButtonElement, MyButtonProps>(
           "rounded-md px-4 py-2 font-medium",
           variant === "default" && "bg-primary text-primary-foreground",
           variant === "outline" && "border border-input",
-          className
+          className,
         )}
         {...props}
       />
     );
-  }
+  },
 );
 
 MyButton.displayName = "MyButton";
@@ -95,7 +95,7 @@ npx shadcn@latest add https://example.com/r/my-button.json
 Then use it:
 
 ```tsx
-import { MyButton } from "@/components/ui/my-button";
+import { MyButton } from "@/components/framecn/my-button";
 
 export function Demo() {
   return <MyButton variant="outline">Click me</MyButton>;
