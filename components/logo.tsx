@@ -6,27 +6,33 @@ export const LogoMark = ({
 }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
     viewBox="0 0 24 24"
     fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
     className={cn("size-4", className)}
     {...props}
   >
-    <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
-    <path d="M12 22V12" />
-    <polyline points="3.29 7 12 12 20.71 7" />
-    <path d="m7.5 4.27 9 5.15" />
+    <path
+      d="M4 2v2m18 16h-2m-3.5 0H10c-2.828 0-4.243 0-5.121-.879C4 18.243 4 16.828 4 14V7.5M20 22V12c0-3.771 0-5.657-1.172-6.828S15.771 4 12 4H2"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.8 12 12 16.8m3.84-10.08-9.12 9.12"
+      strokeWidth={1.92}
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 export const getLogoMarkSVG = (color: string) => `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/>
-    <path d="M12 22V12"/>
-    <polyline points="3.29 7 12 12 20.71 7"/>
-    <path d="m7.5 4.27 9 5.15"/>
+  <svg xmlns="http://www.w3.org/2000/svg" stroke="${color}" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 2v2m18 16h-2m-3.5 0H10c-2.828 0-4.243 0-5.121-.879C4 18.243 4 16.828 4 14V7.5M20 22V12c0-3.771 0-5.657-1.172-6.828S15.771 4 12 4H2" stroke-width="1.5"/>
+    <path d="M16.8 12 12 16.8m3.84-10.08-9.12 9.12" stroke-width="1.92"/>
   </svg>
 `;
