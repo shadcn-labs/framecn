@@ -1,0 +1,34 @@
+---
+title: Registry
+description: Learn how to use the framecn registry with the shadcn CLI.
+---
+
+The **framecn** registry ships Editframe-based video components and themes in the [shadcn registry format](https://ui.shadcn.com/docs/registry). Register the namespace once in `components.json`, then pull items by name with the CLI.
+
+## Setup
+
+Add a **registries** entry for this site. See the [shadcn registry documentation](https://ui.shadcn.com/docs/registry) for all `components.json` fields and behaviors.
+
+```json
+{
+  "registries": {
+    "@framecn": "https://framecn.dev/r/{name}.json"
+  }
+}
+```
+
+You can replace `@framecn` with another namespace; it only needs to match what you pass to `shadcn add`.
+
+## Usage
+
+Install a UI component using the namespace and the item `name` (same as the JSON file under `/r/` without `.json`):
+
+```bash
+npx dlx shadcn@latest add @framecn/cursor-flow
+```
+
+Without a registry alias, use the full URL (as on each docs page):
+
+```bash
+npx dlx shadcn@latest add https://framecn.dev/r/badge.json
+```

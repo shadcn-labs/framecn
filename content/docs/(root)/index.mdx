@@ -1,80 +1,77 @@
 ---
-title: Introduction
-description: Video components built with Editframe for Next.js applications.
+title: "Introduction"
+description: "Copy-paste video components for React. Built on Editframe, works with the shadcn CLI."
 ---
 
-**Video components built with Editframe** for Next.js applications. Create, edit, and render videos programmatically.
+**framecn** provides beautifully crafted, production-ready video components for React. Built on [Editframe](https://editframe.com/) and designed to work seamlessly with the [shadcn CLI](https://ui.shadcn.com).
 
-## What You Get
+## Philosophy
 
-- 🎬 **Editframe integration** - Build video compositions with HTML, React components
-- 📹 **Video rendering** - Export to MP4 via cloud rendering
-- 📚 **Documentation site** - Powered by Fumadocs
-- 🤖 **[Agent ready](https://www.mintlify.com/score/framecn)** - Ships with `llms.txt`, `llms-full.txt`, API catalog routes, and agent skill discovery endpoints
-- 🔊 **[Web audio feedback](https://audio.raphaelsalaja.com/)** - Built-in interaction sounds powered by `@web-kits/audio`
-- 📳 **[Web haptics](https://haptics.lochie.me/)** - Optional haptic feedback for supported devices via `web-haptics`
-- ✨ **[Motion animations](https://motion.dev/)** - Uses `motion` for animated UI states and transitions
-- 🎯 **[Animated icons](https://lucide-animated.com/)** - Includes reusable animated icons for buttons, sharing, and navigation
-- 🔄 **[View transitions](https://nextjs.org/docs/app/api-reference/config/next-config-js/viewTransition)** - Uses Next.js view transitions for smoother page changes
-- 🚀 **Deploy ready** - Deploy anywhere
+framecn follows the shadcn model — but for video. Components are yours to copy, own, and customize. No runtime lock-in, no black-box abstractions. Just composable Editframe scenes that drop into your stack.
 
-## Tech Stack
+Video in product work is often an afterthought — stitched together from stock clips or half-finished motion presets. framecn takes a different approach. Every component is a self-contained, time-based composition: animated in code, renderable to MP4, and built to match the precision of your UI design system.
 
-- `Next.js 16` + App Router
-- `React 19`
-- `Tailwind CSS 4`
-- `Fumadocs`
-- `Editframe` - Video composition and rendering
-- `motion`
-- `shiki` + `rehype-pretty-code`
+The goal is simple: make video feel like the rest of your stack — composable, themeable, and easy to customize.
 
-## How It Works
+## Why framecn?
 
-1. Install the `@editframe/elements` package
-2. Import video components into your Next.js app
-3. Create compositions with videos, images, text, and effects
+Most video tooling forces you to choose between full creative control and developer ergonomics. framecn is built for teams that want both:
 
-That's it. Deploy your app and start building video experiences:
+- **Own Your Code:** Copy components into your project and customize everything — timing, easing, colors, copy.
+- **Start Fast:** Run one command and render your first video scene with production-ready defaults.
+- **Scale Safely:** Compose primitives into full sequences, or drop to raw Editframe APIs when you need more control.
 
-```bash
-npm install @editframe/elements
-```
+## What's Included
 
-## FAQ
+framecn ships components across six categories:
 
-<Accordion type="multiple">
+- **Primitives** — Time-based atoms: cursors, confetti, spring animations, bounding boxes, and indicators.
+- **Compositions** — Full scenes ready to render: deploy flows, dashboard populates, AI generation beats, hero reveals.
+- **Transitions** — Scene-to-scene motion: wipes, zooms, kinetic masks, chromatic aberrations, and spatial pushes.
+- **Typography** — Animated text: typewriters, marquees, glitch decodes, shimmer sweeps, and staggered reveals.
+- **UI Blocks** — Animated product UI: charts, code diffs, drag-and-drop flows, terminal simulators, bento grids.
+- **Environment & Lighting** — Atmospheric backgrounds: mesh gradients, dynamic grids, spotlight cards.
 
-<AccordionItem value="faq-1">
-<AccordionTrigger>
-What is Editframe?
-</AccordionTrigger>
-<AccordionContent>
+## Features
 
-Editframe is a video composition platform that lets you build videos using HTML, React components, and CSS. Videos are rendered in the cloud and exported as MP4 files.
+<div className="not-prose grid gap-4 sm:grid-cols-2 mt-4">
+  <FeatureCard
+    icon={ZapIcon}
+    title="Zero config"
+    description="Works out of the box with sensible defaults. No boilerplate needed."
+  />
+  <FeatureCard
+    icon={ClipboardCopyIcon}
+    title="Copy & Paste"
+    description="Own your code. No runtime dependencies, just install into your project."
+  />
+  <FeatureCard
+    icon={LayoutGridIcon}
+    title="Composable"
+    description="Build full video sequences by stacking primitives, compositions, and transitions."
+  />
+  <FeatureCard
+    icon={Code2Icon}
+    title="TypeScript"
+    description="Full type safety with comprehensive TypeScript support."
+  />
+  <FeatureCard
+    icon={BlocksIcon}
+    title="shadcn Compatible"
+    description="Uses the same registry format — add components with npx shadcn add."
+  />
+  <FeatureCard
+    icon={SparklesIcon}
+    title="MCP Ready"
+    description="Register the shadcn MCP server and ask your IDE to assemble video scenes directly."
+  />
+</div>
 
-</AccordionContent>
-</AccordionItem>
-
-<AccordionItem value="faq-2">
-<AccordionTrigger>
-Which frameworks are supported?
-</AccordionTrigger>
-<AccordionContent>
-
-Any React framework: Next.js, Remix, Astro, Gatsby, Vite, etc.
-
-</AccordionContent>
-</AccordionItem>
-
-<AccordionItem value="faq-3">
-<AccordionTrigger>
-Can I use custom fonts and assets?
-</AccordionTrigger>
-<AccordionContent>
-
-Yes! You can load custom fonts via CSS, use images from any URL, and include audio files for your video compositions.
-
-</AccordionContent>
-</AccordionItem>
-
-</Accordion>
+import {
+  ZapIcon,
+  ClipboardCopyIcon,
+  LayoutGridIcon,
+  Code2Icon,
+  BlocksIcon,
+  SparklesIcon,
+} from "lucide-react";

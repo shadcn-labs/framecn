@@ -25,7 +25,7 @@ export const ComponentCustomizer = ({
     {Object.entries(controls).map(([key, ctrl]) => {
       const id = `ctrl-${key}`;
       return (
-        <div key={key} className="flex flex-col gap-2">
+        <div key={key} className="flex flex-col gap-2 justify-center">
           <div className="flex items-center justify-between gap-2">
             <Label
               htmlFor={id}

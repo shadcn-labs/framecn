@@ -1,103 +1,28 @@
 ---
-title: Installation
-description: How to use this template to build your own shadcn component.
+title: "Installation"
+description: "Install video components from the registry."
 ---
 
-## Building Your Component
+## Prerequisites
 
-### 1. Fork the Template
+A project with [Editframe](https://editframe.com/) set up.
 
-Click "Use this template" on [GitHub](https://github.com/mehmetpekcan/shadcn-registry-kit).
+## Installation
 
-### 2. Install Dependencies
+Run the following command to add any component:
 
 ```bash
-pnpm install
+npx shadcn@latest add @framecn/cursor-flow
 ```
 
-### 3. Create Your Component
+## Usage
 
-Replace the placeholder at `registry/new-york/your-component.tsx`:
+Import and use the component:
 
 ```tsx
-import { forwardRef, HTMLAttributes } from "react";
-import { cn } from "@/lib/utils";
+import { CursorFlow } from "@/components/framecn/cursor-flow";
 
-export interface MyButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline";
-}
-
-const MyButton = forwardRef<HTMLButtonElement, MyButtonProps>(
-  ({ className, variant = "default", ...props }, ref) => {
-    return (
-      <button
-        ref={ref}
-        className={cn(
-          "rounded-md px-4 py-2 font-medium",
-          variant === "default" && "bg-primary text-primary-foreground",
-          variant === "outline" && "border border-input",
-          className
-        )}
-        {...props}
-      />
-    );
-  }
-);
-
-MyButton.displayName = "MyButton";
-
-export { MyButton };
-```
-
-### 4. Update registry.json
-
-```json
-{
-  "name": "your-name/your-registry",
-  "homepage": "https://your-site.com",
-  "items": [
-    {
-      "name": "my-button",
-      "type": "registry:ui",
-      "title": "My Button",
-      "description": "A custom button component.",
-      "files": [
-        {
-          "path": "registry/new-york/my-button.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/my-button.tsx"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### 5. Build & Deploy
-
-```bash
-pnpm registry:build
-pnpm build
-```
-
-Deploy your app and your component is live!
-
----
-
-## Installing Components
-
-To install a component from any registry built with this template:
-
-```bash
-npx shadcn@latest add https://example.com/r/my-button.json
-```
-
-Then use it:
-
-```tsx
-import { MyButton } from "@/components/framecn/my-button";
-
-export function Demo() {
-  return <MyButton variant="outline">Click me</MyButton>;
+export function DemoVideo() {
+  return <CursorFlow />;
 }
 ```
