@@ -15,13 +15,14 @@ export default function IndexPage() {
         <section className="relative overflow-hidden">
           <div className="container-wrapper relative">
             <div className="container flex flex-col items-center gap-4 py-16 text-center md:py-20 lg:py-24">
-              <h1 className="max-w-7xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl/tight from-foreground via-foreground to-foreground/65 bg-linear-to-b bg-clip-text text-transparent">
-                startercn
+              <h1 className="max-w-7xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl from-foreground via-foreground to-foreground/65 bg-linear-to-b bg-clip-text text-transparent">
+                Beautiful videos, made simple
               </h1>
 
               <p className="max-w-2xl text-lg text-muted-foreground sm:text-xl">
-                A starter kit for building and publishing your own shadcn
-                registry components. Fork, customize, and deploy.
+                Ready to use, customizable video components for React.
+                <br className="hidden sm:block" />
+                Built on Editframe. Distributed via shadcn.
               </p>
 
               <CommandBox className="mt-4 w-full max-w-xl" />

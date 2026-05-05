@@ -61,7 +61,7 @@ export const WebMcpTools = () => {
 
     register({
       description:
-        "Navigate this tab to a startercn documentation path (e.g. /docs/installation).",
+        "Navigate this tab to a framecn documentation path (e.g. /docs/installation).",
       execute: (input) => {
         const path = getPath(input, ROUTES.DOCS);
         window.location.assign(path);
@@ -77,7 +77,7 @@ export const WebMcpTools = () => {
         },
         type: "object",
       },
-      name: "startercn_open_docs",
+      name: "framecn_open_docs",
     });
 
     register({
@@ -94,7 +94,7 @@ export const WebMcpTools = () => {
         return res.json();
       },
       inputSchema: { properties: {}, type: "object" },
-      name: "startercn_fetch_registry",
+      name: "framecn_fetch_registry",
     });
 
     register({
@@ -105,7 +105,7 @@ export const WebMcpTools = () => {
         return Promise.resolve({ ok: true, path: ROUTES.LLMS });
       },
       inputSchema: { properties: {}, type: "object" },
-      name: "startercn_open_llms_index",
+      name: "framecn_open_llms_index",
     });
 
     return () => {

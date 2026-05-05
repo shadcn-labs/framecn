@@ -1,4 +1,4 @@
-export const FALLBACK_SITE_ORIGIN = "https://startercn.vercel.app" as const;
+export const FALLBACK_SITE_ORIGIN = "https://framecn.dev" as const;
 
 const getBaseUrl = () => {
   if (process.env.NODE_ENV !== "production") {
@@ -20,10 +20,16 @@ export const SITE = {
     TWITTER: "@alaymanguy",
   },
   DESCRIPTION: {
-    LONG: "A starter kit for building and publishing your own shadcn registry components.",
-    SHORT: "Build your own shadcn registry",
+    LONG: "A collection of beautifully designed, and customizable video components. Built on Editframe. Works with shadcn/ui.",
+    SHORT: "Beautiful videos, made simple",
   },
   KEYWORDS: [
+    "video",
+    "video components",
+    "editframe",
+    "video editing",
+    "mp4",
+    "rendering",
     "shadcn",
     "shadcn registry",
     "component registry",
@@ -32,9 +38,9 @@ export const SITE = {
     "tailwindcss",
     "npx shadcn add",
   ] as const,
-  NAME: "startercn",
+  NAME: "framecn",
   OG_IMAGE: `${baseUrl}/og`,
-  REGISTRY: baseUrl,
+  REGISTRY: "@framecn",
   URL: baseUrl,
 };
 

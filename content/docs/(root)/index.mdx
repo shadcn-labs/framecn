@@ -1,16 +1,16 @@
 ---
 title: Introduction
-description: A template for building and publishing your own shadcn registry components.
+description: Video components built with Editframe for Next.js applications.
 ---
 
-A **ready-to-use template** for creating and publishing custom components to the [shadcn registry](https://ui.shadcn.com/docs/registry).
+**Video components built with Editframe** for Next.js applications. Create, edit, and render videos programmatically.
 
 ## What You Get
 
-- 📦 **Simple structure** - One component file + one config file
+- 🎬 **Editframe integration** - Build video compositions with HTML, React components
+- 📹 **Video rendering** - Export to MP4 via cloud rendering
 - 📚 **Documentation site** - Powered by Fumadocs
-- 🎨 **Registry compatible** - Works with `npx shadcn add`
-- 🤖 **[Agent ready](https://www.mintlify.com/score/startercn)** - Ships with `llms.txt`, `llms-full.txt`, API catalog routes, and agent skill discovery endpoints
+- 🤖 **[Agent ready](https://www.mintlify.com/score/framecn)** - Ships with `llms.txt`, `llms-full.txt`, API catalog routes, and agent skill discovery endpoints
 - 🔊 **[Web audio feedback](https://audio.raphaelsalaja.com/)** - Built-in interaction sounds powered by `@web-kits/audio`
 - 📳 **[Web haptics](https://haptics.lochie.me/)** - Optional haptic feedback for supported devices via `web-haptics`
 - ✨ **[Motion animations](https://motion.dev/)** - Uses `motion` for animated UI states and transitions
@@ -24,21 +24,20 @@ A **ready-to-use template** for creating and publishing custom components to the
 - `React 19`
 - `Tailwind CSS 4`
 - `Fumadocs`
+- `Editframe` - Video composition and rendering
 - `motion`
-- `@web-kits/audio`
-- `web-haptics`
 - `shiki` + `rehype-pretty-code`
 
 ## How It Works
 
-1. Edit your component at `registry/new-york/your-component.tsx`
-2. Update `registry.json` with your component name and details
-3. Run `pnpm registry:build`
+1. Install the `@editframe/elements` package
+2. Import video components into your Next.js app
+3. Create compositions with videos, images, text, and effects
 
-That's it. Deploy your app and users can install your component:
+That's it. Deploy your app and start building video experiences:
 
 ```bash
-npx shadcn@latest add https://your-site.com/r/your-component.json
+npm install @editframe/elements
 ```
 
 ## FAQ
@@ -47,11 +46,11 @@ npx shadcn@latest add https://your-site.com/r/your-component.json
 
 <AccordionItem value="faq-1">
 <AccordionTrigger>
-Why copy/paste instead of npm packages?
+What is Editframe?
 </AccordionTrigger>
 <AccordionContent>
 
-The shadcn philosophy gives you **ownership** of the code. You can customize components to your exact needs without fighting library constraints.
+Editframe is a video composition platform that lets you build videos using HTML, React components, and CSS. Videos are rendered in the cloud and exported as MP4 files.
 
 </AccordionContent>
 </AccordionItem>
@@ -69,11 +68,11 @@ Any React framework: Next.js, Remix, Astro, Gatsby, Vite, etc.
 
 <AccordionItem value="faq-3">
 <AccordionTrigger>
-Can I publish multiple components?
+Can I use custom fonts and assets?
 </AccordionTrigger>
 <AccordionContent>
 
-Yes! Add more files to `registry/new-york/` and list them in `registry.json`.
+Yes! You can load custom fonts via CSS, use images from any URL, and include audio files for your video compositions.
 
 </AccordionContent>
 </AccordionItem>

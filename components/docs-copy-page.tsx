@@ -33,7 +33,7 @@ import { CopyButton } from "./copy-button";
 
 const getPromptUrl = (baseURL: string, url: string, param = "q") =>
   `${baseURL}?${param}=${encodeURIComponent(
-    `I'm looking at this startercn documentation: ${url}.
+    `I'm looking at this framecn documentation: ${url}.
 Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.
 `
   )}`;

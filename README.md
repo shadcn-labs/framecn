@@ -1,91 +1,53 @@
-<h1 align="center">startercn</h1>
+<h1 align="center">framecn</h1>
 
 <p align="center">
-A template for building and publishing your own custom shadcn registry components. Includes documentation, landing page, and everything you need to deploy your component registry.
+  Free & open-source, ready-to-use, customizable terminal UI components for React.<br/>
+  Zero config. One command setup. Built on <a href="https://editframe.com">Editframe</a>, works seamlessly with <a href="https://ui.shadcn.com/">shadcn/ui</a>.
 </p>
 
 <p align="center">
-  <img src="https://startercn.vercel.app/og" alt="startercn banner" />
+  <a href="https://framecn.com/docs">Get Started</a> ·
+  <a href="https://framecn.com/docs/installation">Installation</a> ·
+  <a href="https://framecn.com/docs/components">Components</a>
+</p>
+
+<br />
+
+<p align="center">
+  <img src="public/og.png" alt="framecn banner" />
 </p>
 
 ## Features
 
-- 📦 **Ready-to-use template** - Fork and start building immediately
-- 📚 **Documentation site** - Beautiful docs powered by Fumadocs
-- 🎨 **Shadcn registry compatible** - Works with `npx shadcn add`
-- 🤖 **[Agent ready](https://www.mintlify.com/score/startercn)** - Includes `llms.txt`, `llms-full.txt`, agent skills discovery routes, and API catalog endpoints
-- 🔊 **[Web audio feedback](https://audio.raphaelsalaja.com/)** - Built-in sound effects powered by `@web-kits/audio`
-- 📳 **[Web haptics](https://haptics.lochie.me/)** - Optional haptic feedback hooks for supported devices via `web-haptics`
-- ✨ **[Motion animations](https://motion.dev/)** - `motion`-powered UI polish for copy states, text transitions, and interactive elements
-- 🎯 **[Animated icons](https://lucide-animated.com/)** - Reusable animated icons for navigation, sharing, sponsorship, and CTAs
-- 🔄 **[View transitions](https://nextjs.org/docs/app/api-reference/config/next-config-js/viewTransition)** - Next.js view transitions enabled for smoother navigation between pages
-- 🚀 **Deploy ready** - Deploy anywhere
+- 🎬 **Editframe integration** — Build video compositions with HTML, React, and CSS
+- 📹 **Cloud rendering** — Export to MP4 via Editframe's render infrastructure
+- 🎨 **Theme-aware** — Supports custom styling and animations
+- 📦 **shadcn/ui compatible** — Uses the same registry format and CLI
+- 🧩 **Composable** — Build complex videos with simple, declarative components
+- ⏱️ **Timeline control** — Precise timing and sequencing of video elements
+- 🎬 **Multi-layer composition** — Stack videos, images, text, and effects
+- 🤖 **AI-ready** — Perfect for generating videos programmatically
 
-## Built In
+## Contributing
 
-- `Next.js 16` with the App Router
-- `React 19` and `TypeScript`
-- `Tailwind CSS 4`
-- `Fumadocs` for documentation
-- `shiki` + `rehype-pretty-code` for code blocks
-- `sonner` for toasts
-- `radix-ui` + `vaul` for accessible primitives
-- `@vercel/analytics` for analytics
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Quick Start
-
-1. **Use this template** - Click "Use this template" on GitHub
-
-2. **Install dependencies**:
-
-```bash
-pnpm install
-```
-
-3. **Replace the placeholder component** at `registry/new-york/your-component.tsx`
-
-4. **Update `registry.json`** with your component details
-
-5. **Build the registry**:
-
-```bash
-pnpm registry:build
-```
-
-6. **Start development**:
-
-```bash
-pnpm dev
-```
-
-7. **Deploy** and share your component!
-
-## Usage
-
-Once deployed, users can install your component with:
-
-```bash
-npx shadcn@latest add https://your-domain.com/r/your-component.json
-```
-
-## Project Structure
-
-```
-├── registry/
-│   └── new-york/           # Your components go here
-│       └── your-component.tsx
-├── registry.json           # Component registry manifest
-├── content/docs/           # Documentation (MDX)
-├── app/                    # Next.js app
-└── public/r/               # Built registry files (auto-generated)
-```
-
-## Scripts
-
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm registry:build` - Rebuild the component registry
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=shadcn-labs%2Fframecn&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/framecn&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/framecn&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=shadcn-labs/framecn&type=date&legend=top-left" />
+ </picture>
+</a>
