@@ -10,9 +10,13 @@ const resolveRegistryName = (name: string) =>
 export const ComponentPreview = ({
   name,
   hideCode = false,
+  hideCustomizer = false,
+  className,
 }: {
   name: string;
   hideCode?: boolean;
+  hideCustomizer?: boolean;
+  className?: string;
 }) => {
   const registryName = resolveRegistryName(name);
   const entry = registry[registryName];
@@ -31,6 +35,8 @@ export const ComponentPreview = ({
       config={entry.config}
       Component={entry.Component}
       hideCode={hideCode}
+      hideCustomizer={hideCustomizer}
+      className={className}
       source={
         hideCode ? null : (
           <Suspense

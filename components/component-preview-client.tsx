@@ -26,6 +26,7 @@ import { useFeedback } from "@/hooks/use-feedback";
 import { getDefaults } from "@/lib/customizer-config";
 import type { ComponentConfig, ControlConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
+import { cn } from "@/lib/utils";
 
 import { Kbd } from "./ui/kbd";
 
@@ -132,6 +133,8 @@ export const ComponentPreviewClient = ({
   Component,
   source,
   hideCode = false,
+  hideCustomizer = false,
+  className,
 }: {
   name: string;
   config: ComponentConfig;
@@ -139,6 +142,8 @@ export const ComponentPreviewClient = ({
   Component: React.ComponentType<any>;
   source: React.ReactNode;
   hideCode?: boolean;
+  hideCustomizer?: boolean;
+  className?: string;
 }) => {
   const playCopy = useFeedback({ sound: "copy" });
   const playUndo = useFeedback({ sound: "undo" });
@@ -259,7 +264,7 @@ export const ComponentPreviewClient = ({
   };
 
   const previewSurface = (
-    <div className="aspect-video w-full overflow-hidden rounded-xl bg-muted">
+    <div className="aspect-video w-full h-full overflow-hidden rounded-lg border">
       <TimelineRoot
         component={WrappedComponent}
         id={`preview-${name}`}
@@ -269,7 +274,7 @@ export const ComponentPreviewClient = ({
   );
 
   return (
-    <div className="not-prose mb-6 flex w-full flex-col gap-4">
+    <div className={cn("not-prose flex flex-col gap-4", className)}>
       {hideCode ? (
         previewSurface
       ) : (
@@ -289,24 +294,26 @@ export const ComponentPreviewClient = ({
         </Tabs>
       )}
 
-      <div className="rounded-lg bg-code px-1 pb-1">
-        <div className="flex items-center justify-between px-3 py-1.5">
-          <span className="text-sm font-medium text-muted-foreground">
-            Customize
-          </span>
-          <div className="flex items-center gap-1">
-            <CopyLinkButton isCopied={isCopied} onClick={handleCopyLink} />
-            <ResetButton disabled={isDefault} onClick={handleReset} />
+      {!hideCustomizer && (
+        <div className="mt-6 rounded-lg bg-code px-1 pb-1">
+          <div className="flex items-center justify-between px-3 py-1.5">
+            <span className="text-sm font-medium text-muted-foreground">
+              Customize
+            </span>
+            <div className="flex items-center gap-1">
+              <CopyLinkButton isCopied={isCopied} onClick={handleCopyLink} />
+              <ResetButton disabled={isDefault} onClick={handleReset} />
+            </div>
+          </div>
+          <div className="rounded-md p-4 bg-background">
+            <ComponentCustomizer
+              controls={config.controls}
+              values={values as Record<string, unknown>}
+              onChange={handleCustomizeChange}
+            />
           </div>
         </div>
-        <div className="rounded-md p-4 bg-background">
-          <ComponentCustomizer
-            controls={config.controls}
-            values={values as Record<string, unknown>}
-            onChange={handleCustomizeChange}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 };

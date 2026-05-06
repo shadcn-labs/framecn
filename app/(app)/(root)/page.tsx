@@ -1,4 +1,5 @@
 import { CommandBox } from "@/components/command-box";
+import { ComponentPreview } from "@/components/component-preview";
 import { HomeCtas } from "@/components/home-ctas";
 import { PageTransition } from "@/components/page-transition";
 import { ROUTES } from "@/constants/routes";
@@ -6,6 +7,34 @@ import { BreadcrumbJsonLd } from "@/seo/json-ld";
 
 export const dynamic = "force-static";
 export const revalidate = false;
+
+const showcaseItems = [
+  {
+    className: "md:col-span-4 md:row-span-2",
+    name: "pipeline-journey",
+    title: "Pipeline Journey",
+  },
+  {
+    className: "md:col-span-2",
+    name: "pricing-tier-focus",
+    title: "Pricing Tier Focus",
+  },
+  {
+    className: "md:col-span-2",
+    name: "landing-code-showcase",
+    title: "Landing Code Showcase",
+  },
+  {
+    className: "md:col-span-3",
+    name: "code-diff-wipe",
+    title: "Code Diff Wipe",
+  },
+  {
+    className: "md:col-span-3",
+    name: "chat-to-preview-layout",
+    title: "Chat To Preview Layout",
+  },
+];
 
 export default function IndexPage() {
   return (
@@ -33,8 +62,18 @@ export default function IndexPage() {
         </section>
 
         <section className="container-wrapper pb-8 lg:pb-12">
-          <div className="container flex flex-col items-center gap-6">
-            {/* <YourComponent className="w-full max-w-md" /> */}
+          <div className="container">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+              {showcaseItems.map((item) => (
+                <ComponentPreview
+                  key={item.name}
+                  className={item.className}
+                  name={item.name}
+                  hideCode
+                  hideCustomizer
+                />
+              ))}
+            </div>
           </div>
         </section>
       </PageTransition>
