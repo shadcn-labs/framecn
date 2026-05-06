@@ -39,7 +39,7 @@ export const SITE = {
     "npx shadcn add",
   ] as const,
   NAME: "framecn",
-  OG_IMAGE: `${baseUrl}/og`,
+  OG_IMAGE: `${baseUrl}/og.png`,
   REGISTRY: "@framecn",
   URL: baseUrl,
 };
