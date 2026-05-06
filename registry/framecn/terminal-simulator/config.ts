@@ -41,9 +41,9 @@ export const terminalSimulatorConfig: ComponentConfig = {
       step: 0.25,
       type: "number",
     },
-    title: { default: "~/projects/remocn", label: "Title", type: "text" },
+    title: { default: "~/projects/framecn", label: "Title", type: "text" },
   },
   durationInFrames: 240,
   fps: FPS,
-  importPath: "@/components/remocn/terminal-simulator",
+  importPath: "@/components/framecn/terminal-simulator",
 };

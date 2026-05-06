@@ -9,7 +9,7 @@ export const toastNotificationConfig: ComponentConfig = {
     background: { default: "#fafafa", label: "Background", type: "color" },
     cardColor: { default: "white", label: "Card color", type: "color" },
     message: {
-      default: "Your changes are live at remocn.dev",
+      default: "Your changes are live at framecn.dev",
       label: "Message",
       type: "text",
     },

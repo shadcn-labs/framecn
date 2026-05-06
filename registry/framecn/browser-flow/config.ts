@@ -15,7 +15,7 @@ export const browserFlowConfig: ComponentConfig = {
       type: "number",
     },
     url: {
-      default: "remocn.dev",
+      default: "framecn.dev",
       label: "URL",
       type: "text",
     },

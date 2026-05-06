@@ -81,7 +81,7 @@ const DURATION_IN_FRAMES = 90;
 
 export const ToastNotification = ({
   title = "Deployment successful",
-  message = "Your changes are live at remocn.dev",
+  message = "Your changes are live at framecn.dev",
   variant = "success",
   background = "#fafafa",
   cardColor = "white",

@@ -20,14 +20,7 @@ export interface ComponentConfig {
   fps: number;
   compositionWidth: number;
   compositionHeight: number;
-  /**
-   * Import statement shown in the generated code snippet.
-   * Example: `import { BlurReveal } from "@/components/remocn/blur-reveal";`
-   */
   importPath: string;
-  /**
-   * Pascal-case component name used in the generated JSX snippet.
-   */
   componentName: string;
 }
 
@@ -36,11 +29,6 @@ export const W = 1280;
 export const H = 720;
 export const FONT_WEIGHT_OPTIONS = ["400", "500", "600", "700"];
 
-/**
- * Controls present on every animation. Merged into each component's controls
- * inside the registry index so every animation in the customizer exposes the
- * same baseline knobs.
- */
 export const SHARED_CONTROLS: ControlConfig = {
   speed: {
     default: 1,

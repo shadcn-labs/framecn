@@ -34,7 +34,7 @@ const T = {
 
 export const ProductLaunchTrailer = ({
   logoLabel = "R",
-  productName = "Remocn",
+  productName = "Framecn",
   versionLabel = "v1.0 is live",
   accentPeach = "#FFB38E",
   accentLavender = "#D4B3FF",
@@ -239,7 +239,7 @@ export const ProductLaunchTrailer = ({
               }}
             >
               {[
-                { c: "#c4b5fd", t: "import { Trailer } from 'remocn'" },
+                { c: "#c4b5fd", t: "import { Trailer } from 'framecn'" },
                 { c: "", t: "" },
                 { c: "#e4e4e7", t: "export const Scene = () => (" },
                 { c: "#e4e4e7", t: "  <Trailer" },

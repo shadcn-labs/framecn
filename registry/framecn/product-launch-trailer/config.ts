@@ -15,7 +15,7 @@ export const productLaunchTrailerConfig: ComponentConfig = {
     accentPeach: { default: "#FFB38E", label: "Accent peach", type: "color" },
     background: { default: "#141318", label: "Background", type: "color" },
     logoLabel: { default: "R", label: "Logo label", type: "text" },
-    productName: { default: "Remocn", label: "Product name", type: "text" },
+    productName: { default: "Framecn", label: "Product name", type: "text" },
     versionLabel: {
       default: "v1.0 is live",
       label: "Version label",
@@ -24,5 +24,5 @@ export const productLaunchTrailerConfig: ComponentConfig = {
   },
   durationInFrames: 240,
   fps: FPS,
-  importPath: "@/components/remocn/product-launch-trailer",
+  importPath: "@/components/framecn/product-launch-trailer",
 };

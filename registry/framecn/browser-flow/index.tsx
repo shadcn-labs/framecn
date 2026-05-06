@@ -36,7 +36,7 @@ const MacDots = ({ size = 12 }: { size?: number }) => (
 );
 
 export const BrowserFlow = ({
-  url = "remocn.dev",
+  url = "framecn.dev",
   speed = 1,
   className,
   fps = 30,
@@ -276,7 +276,7 @@ export const BrowserFlow = ({
                       letterSpacing: "-0.02em",
                     }}
                   >
-                    remocn
+                    framecn
                   </div>
                   <div
                     style={{
@@ -311,7 +311,7 @@ export const BrowserFlow = ({
                       letterSpacing: "0.02em",
                     }}
                   >
-                    shadcn registry for Remotion
+                    shadcn registry for Editframe
                   </div>
                   <div
                     style={{
@@ -334,7 +334,7 @@ export const BrowserFlow = ({
                     }}
                   >
                     Drop-in animations, transitions, and backgrounds for
-                    Remotion. Own your code.
+                    Editframe. Own your code.
                   </div>
 
                   {/* CTA */}

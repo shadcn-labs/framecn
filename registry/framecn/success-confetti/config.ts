@@ -23,7 +23,7 @@ export const successConfettiConfig: ComponentConfig = {
       step: 0.1,
       type: "number",
     },
-    seed: { default: "remocn", label: "Random seed", type: "text" },
+    seed: { default: "framecn", label: "Random seed", type: "text" },
     speed: {
       default: 1,
       label: "Speed",

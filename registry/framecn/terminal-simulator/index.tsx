@@ -30,7 +30,7 @@ export interface TerminalSimulatorProps {
 const DEFAULT_LINES: TerminalLine[] = [
   { delay: 0, text: "npm run build", type: "command" },
   { delay: 6, text: "Resolving dependencies...", type: "log" },
-  { delay: 4, text: "> remocn@1.0.0 build", type: "log" },
+  { delay: 4, text: "> framecn@1.0.0 build", type: "log" },
   { delay: 4, text: "> next build", type: "log" },
   { delay: 12, text: "Compiling...", type: "log" },
   { delay: 14, text: "Compiled successfully in 4.2s", type: "success" },
@@ -70,7 +70,7 @@ const Light = ({ color }: { color: string }) => (
 export const TerminalSimulator = ({
   lines = DEFAULT_LINES,
   prompt = "$",
-  title = "~/projects/remocn",
+  title = "~/projects/framecn",
   background = "#0a0a0a",
   chromeColor = "#1a1a1a",
   fontSize = 18,

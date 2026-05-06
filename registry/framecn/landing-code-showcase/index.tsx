@@ -46,7 +46,7 @@ interface CodeStep {
 }
 
 const HEADER = `import { BlurReveal, DashboardPopulate, MaskedSlideReveal,
-  TerminalToBrowserDeploy, Transition } from "@/components/remocn";
+  TerminalToBrowserDeploy, Transition } from "@/components/framecn";
 
 export default function Scene() {
   return (

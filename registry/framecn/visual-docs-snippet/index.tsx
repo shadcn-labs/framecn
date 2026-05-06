@@ -66,7 +66,7 @@ const BrowserChrome = ({ chromeHeight }: { chromeHeight: number }) => (
         paddingLeft: 14,
       }}
     >
-      ⌕ remocn.dev/runs/new
+      ⌕ framecn.dev/runs/new
     </div>
   </div>
 );

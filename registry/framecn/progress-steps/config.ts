@@ -31,5 +31,5 @@ export const progressStepsConfig: ComponentConfig = {
   },
   durationInFrames: 150,
   fps: FPS,
-  importPath: "@/components/remocn/progress-steps",
+  importPath: "@/components/framecn/progress-steps",
 };

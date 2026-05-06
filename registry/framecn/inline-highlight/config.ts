@@ -23,7 +23,7 @@ export const inlineHighlightConfig: ComponentConfig = {
       options: FONT_WEIGHT_OPTIONS,
       type: "select",
     },
-    highlight: { default: "remocn", label: "Highlight", type: "text" },
+    highlight: { default: "framecn", label: "Highlight", type: "text" },
     highlightColor: {
       default: "#ff5e3a",
       label: "Highlight color",
@@ -32,5 +32,5 @@ export const inlineHighlightConfig: ComponentConfig = {
   },
   durationInFrames: 90,
   fps: FPS,
-  importPath: "@/components/remocn/inline-highlight",
+  importPath: "@/components/framecn/inline-highlight",
 };

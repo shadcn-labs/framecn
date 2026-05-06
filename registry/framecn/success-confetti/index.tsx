@@ -30,8 +30,8 @@ const mulberry32 = (seed: number) => {
     let t = Math.imul(a ^ (a >>> 15), 1 | a);
     // eslint-disable-next-line no-bitwise
     t ^= Math.imul(t ^ (t >>> 7), 61 | t);
-    // eslint-disable-next-line no-bitwise
-    return Math.trunc(t & 0xFF_FF_FF) / 4_294_967_296;
+    // eslint-disable-next-line no-bitwise unicorn/number-literal-case
+    return Math.trunc(t & 0xff_ff_ff) / 4_294_967_296;
   };
 };
 
@@ -58,7 +58,7 @@ export const SuccessConfetti = ({
   text = "Merged!",
   textColor = "#171717",
   background = "#fafafa",
-  seed = "remocn",
+  seed = "framecn",
   speed = 1,
   fps = 30,
   durationInFrames = 90,
