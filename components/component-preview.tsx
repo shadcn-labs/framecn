@@ -1,5 +1,3 @@
-"use client";
-
 import { Suspense } from "react";
 
 import { ComponentPreviewClient } from "@/components/component-preview-client";

@@ -15,6 +15,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { ComponentCustomizer } from "@/components/component-customizer";
 import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
@@ -27,8 +28,6 @@ import { getDefaults } from "@/lib/customizer-config";
 import type { ComponentConfig, ControlConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
 import { cn } from "@/lib/utils";
-
-import { Kbd } from "./ui/kbd";
 
 type ParsersMap = Record<string, GenericParserBuilder<unknown>>;
 type UrlKeysMap = Record<string, string>;
@@ -295,7 +294,7 @@ export const ComponentPreviewClient = ({
       )}
 
       {!hideCustomizer && (
-        <div className="mt-6 rounded-lg bg-code px-1 pb-1">
+        <div className="rounded-lg bg-code px-1 pb-1">
           <div className="flex items-center justify-between px-3 py-1.5">
             <span className="text-sm font-medium text-muted-foreground">
               Customize

@@ -26,8 +26,8 @@ const seededRandom = (seed: string, index: number): number => {
     const code = str.codePointAt(i) ?? 0;
     hash = Math.trunc(hash * 32 - hash + code);
   }
-  // eslint-disable-next-line no-bitwise
-  return (hash & 0x7F_FF_FF) / 0x7F_FF_FF;
+  // eslint-disable-next-line no-bitwise unicorn/number-literal-case
+  return (hash & 0x7f_ff_ff) / 0x7f_ff_ff;
 };
 
 export const MatrixDecode = ({
