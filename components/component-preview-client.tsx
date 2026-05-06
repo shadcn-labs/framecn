@@ -2,14 +2,7 @@
 
 import { FitScale, TimelineRoot } from "@editframe/react";
 import { CheckIcon, LinkIcon, RotateCcwIcon } from "lucide-react";
-import {
-  parseAsBoolean,
-  parseAsFloat,
-  parseAsString,
-  parseAsStringLiteral,
-  useQueryStates,
-} from "nuqs";
-import type { GenericParserBuilder } from "nuqs";
+import { useQueryStates } from "nuqs";
 import { useEffect, useMemo, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -25,57 +18,10 @@ import {
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useFeedback } from "@/hooks/use-feedback";
 import { getDefaults } from "@/lib/customizer-config";
-import type { ComponentConfig, ControlConfig } from "@/lib/customizer-config";
+import type { ComponentConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
+import { buildParsers } from "@/lib/url";
 import { cn } from "@/lib/utils";
-
-type ParsersMap = Record<string, GenericParserBuilder<unknown>>;
-type UrlKeysMap = Record<string, string>;
-
-const buildParsers = (
-  name: string,
-  controls: ControlConfig
-): { parsers: ParsersMap; urlKeys: UrlKeysMap } => {
-  const parsers: ParsersMap = {};
-  const urlKeys: UrlKeysMap = {};
-
-  for (const [key, ctrl] of Object.entries(controls)) {
-    urlKeys[key] = `${name}-${key}`;
-
-    switch (ctrl.type) {
-      case "text":
-      case "color": {
-        parsers[key] = parseAsString.withDefault(
-          ctrl.default
-        ) as GenericParserBuilder<unknown>;
-        break;
-      }
-      case "number": {
-        parsers[key] = parseAsFloat.withDefault(
-          ctrl.default
-        ) as GenericParserBuilder<unknown>;
-        break;
-      }
-      case "select": {
-        parsers[key] = parseAsStringLiteral(ctrl.options).withDefault(
-          ctrl.default
-        ) as GenericParserBuilder<unknown>;
-        break;
-      }
-      case "boolean": {
-        parsers[key] = parseAsBoolean.withDefault(
-          ctrl.default
-        ) as GenericParserBuilder<unknown>;
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  return { parsers, urlKeys };
-};
 
 const CopyLinkButton = ({
   isCopied,
