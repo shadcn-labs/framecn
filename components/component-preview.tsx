@@ -135,10 +135,7 @@ const ComponentPreviewInner = ({
 
   const WrappedComponent = useMemo(() => {
     const W: React.ComponentType<Record<string, unknown>> = (props) => (
-      <Timegroup
-        mode="fixed"
-        className="w-[1920px] h-[1080px] overflow-hidden rounded-lg border"
-      >
+      <Timegroup mode="fixed" className="w-[1920px] h-[1080px]">
         <Component {...props} {...componentProps} />
       </Timegroup>
     );
@@ -202,7 +199,7 @@ const ComponentPreviewInner = ({
   };
 
   const previewSurface = (
-    <div className="aspect-video w-full h-full overflow-hidden rounded-lg border">
+    <div className="aspect-video overflow-hidden rounded-xl border">
       <TimelineRoot component={WrappedComponent} id={`preview-${name}`} />
     </div>
   );
