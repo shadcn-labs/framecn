@@ -124,10 +124,6 @@ export const ComponentPreviewClient = ({
     [defaults, values]
   );
 
-  // Compose the props passed to the underlying composition component:
-  // the customizer-controlled values plus the static composition dimensions
-  // and timing from config (so components that accept `width`/`height`/`fps`/
-  // `durationInFrames` size themselves to the declared composition).
   const componentProps = useMemo(
     () => ({
       ...values,
@@ -139,10 +135,6 @@ export const ComponentPreviewClient = ({
     [values, config]
   );
 
-  // Wrap the registry component so TimelineRoot mounts a tree that includes
-  // FitScale (so the explicit pixel-sized composition fits the preview box)
-  // and the latest customizer props. The wrapped component is recreated when
-  // props change so prop updates flow through to the timeline.
   const WrappedComponent = useMemo(() => {
     const W: React.ComponentType<{ id?: string }> = () => (
       <FitScale className="block size-full">
@@ -207,6 +199,12 @@ export const ComponentPreviewClient = ({
       }, 500)
     );
   };
+
+  // const previewSurface = (
+  //   <Configuration signingURL="/api/sign-token">
+  //     <TimelineRoot component={WrappedComponent} id={`preview-${name}`} />
+  //   </Configuration>
+  // );
 
   const previewSurface = (
     <div className="aspect-video w-full h-full overflow-hidden rounded-lg border">
