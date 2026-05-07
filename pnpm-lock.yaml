@@ -11,9 +11,12 @@ importers:
       '@editframe/api':
         specifier: ^0.50.0
         version: 0.50.0(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(typescript@6.0.3)(yaml@2.8.3)
+      '@editframe/elements':
+        specifier: ^0.50.1
+        version: 0.50.1
       '@editframe/react':
-        specifier: ^0.49.7
-        version: 0.49.7(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        specifier: ^0.50.1
+        version: 0.50.1(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@tailwindcss/postcss':
         specifier: ^4.2.4
         version: 4.2.4
@@ -300,17 +303,17 @@ packages:
   '@editframe/api@0.50.0':
     resolution: {integrity: sha512-+MPMceTebzFHwShP+cgUxKKcvIOZQcDhx0cNzErX2pU66EkF0dNmkyaf/5QA75I/0tv7gKHAx5lwQkSUky9Nyw==}
 
-  '@editframe/assets@0.49.7':
-    resolution: {integrity: sha512-qVy6bnU+D5u/Nm4pzCxaX/oFcuz9b4iRvHY7U74iCTlPkT6hNQ0hu3j/IWBOllOFNuNnH4MdlyZ23+4CiXNO2Q==}
-
   '@editframe/assets@0.50.0':
     resolution: {integrity: sha512-JgSepOfOAtf3IpPXhm79NW/kSfdhSm8me9//GJamNsKC6Ilvlpu8qGh7KV5cl3mzTu1yrgE14rjpeUWGrLQ9xg==}
 
-  '@editframe/elements@0.49.7':
-    resolution: {integrity: sha512-LMGl15SsEp9Q3t5pIkjpJKEPzYmVPpKdDybzVFKkLnfQJcjdDZohFoM5t6WFc28l4epEsCsynBZsGllCZRKHhA==}
+  '@editframe/assets@0.50.1':
+    resolution: {integrity: sha512-+pUUu1tEJLZSN1hu7bqH42MED4cEEdi/kA8V4GlgPB8MENPY0WEb1x7W0rO9fRVOj245GYD4J/T1vJS5uU3mfQ==}
 
-  '@editframe/react@0.49.7':
-    resolution: {integrity: sha512-pyJuxoMs5A21dSqFdwdx6qxDw90HmugbsimNOVDFUsO5ijVJjF+tA26w2Iib732yuHdkK4nJfZVXwT/G4EDysw==}
+  '@editframe/elements@0.50.1':
+    resolution: {integrity: sha512-Sm7MhQaHKQqWXdIsc5shwNCCJARSRc524e0Sa7bLIA+9DSwGa9aM2HZV6B4p660fqdHRsZnSf5XBpyOB5AXP3g==}
+
+  '@editframe/react@0.50.1':
+    resolution: {integrity: sha512-+jGaYhC2BUTmJk0Tg7QJMQ+DPtvL3wNs8TFICq0GsCgMhGoKFsoEKCSBhJlxuWE9t5Dp5oZJW+fOfo71k4siVQ==}
     peerDependencies:
       '@react-three/fiber': '>=8.0.0'
       '@react-three/offscreen': '>=0.0.8'
@@ -4769,14 +4772,6 @@ snapshots:
       - typescript
       - yaml
 
-  '@editframe/assets@0.49.7':
-    dependencies:
-      debug: 4.4.3
-      ora: 8.2.0
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - supports-color
-
   '@editframe/assets@0.50.0':
     dependencies:
       debug: 4.4.3
@@ -4785,11 +4780,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@editframe/elements@0.49.7':
+  '@editframe/assets@0.50.1':
+    dependencies:
+      debug: 4.4.3
+      ora: 8.2.0
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - supports-color
+
+  '@editframe/elements@0.50.1':
     dependencies:
       '@bramus/style-observer': 1.3.0
-      '@editframe/assets': 0.49.7
+      '@editframe/assets': 0.50.1
       '@lit/context': 1.1.6
+      '@lit/reactive-element': 2.1.2
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/context-zone': 1.30.1(@opentelemetry/api@1.9.1)
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.1)
@@ -4804,9 +4808,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@editframe/react@0.49.7(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@editframe/react@0.50.1(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
-      '@editframe/elements': 0.49.7
+      '@editframe/elements': 0.50.1
       lit: 3.3.2
       mitt: 3.0.1
       react: 19.2.5
