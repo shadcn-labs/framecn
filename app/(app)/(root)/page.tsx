@@ -54,23 +54,14 @@ export default function IndexPage() {
 
               <div className="relative flex w-full mt-4 max-w-xl flex-col items-center justify-center pl-4 after:absolute after:left-0 after:h-full after:w-[4px] after:bg-foreground/10">
                 <blockquote className="text-sm text-left before:content-[open-quote] after:content-[close-quote]">
-                  This project was inspired by{" "}
+                  This project was heavily inspired from the work of{" "}
                   <a
                     href={LINK.REMOCN}
                     target="_blank"
                     rel="noreferrer"
                     className="font-medium underline underline-offset-4"
                   >
-                    remocn
-                  </a>{" "}
-                  by{" "}
-                  <a
-                    href={LINK.KAPISH_DIMA}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-medium underline underline-offset-4"
-                  >
-                    Kapish Dima
+                    remocn by kapish
                   </a>{" "}
                   and I wanted to create a something similar for{" "}
                   <a

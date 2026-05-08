@@ -10,7 +10,6 @@ export const LINK = {
   DISCORD: "https://discord.gg/N6G36KhYK4",
   EDITFRAME: "https://editframe.com",
   GITHUB: githubUrl,
-  KAPISH_DIMA: "https://github.com/kapishdima",
   LICENSE: `${githubUrl}/blob/${GITHUB.branch}/LICENSE`,
   PORTFOLIO: "https://aniketpawar.com",
   REMOCN: "https://github.com/kapishdima/remocn",
