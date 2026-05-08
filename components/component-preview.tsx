@@ -1,9 +1,24 @@
 "use client";
 
-import { Timegroup, TimelineRoot } from "@editframe/react";
-import { CheckIcon, LinkIcon, RotateCcwIcon } from "lucide-react";
-import { useQueryStates } from "nuqs";
-import { useEffect, useMemo, useRef } from "react";
+import {
+  Controls,
+  FitScale,
+  Preview,
+  Scrubber,
+  TimeDisplay,
+  ToggleLoop,
+  TogglePlay,
+} from "@editframe/react";
+import {
+  CheckIcon,
+  LinkIcon,
+  PauseIcon,
+  PlayIcon,
+  Repeat1Icon,
+  RepeatIcon,
+  RotateCcwIcon,
+} from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { ComponentCustomizer } from "@/components/component-customizer";
@@ -16,11 +31,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { useCustomizer } from "@/hooks/use-customizer";
+import { useCustomizerTracking } from "@/hooks/use-customizer-tracking";
 import { useFeedback } from "@/hooks/use-feedback";
-import { getDefaults } from "@/lib/customizer-config";
+import { usePreviewId } from "@/hooks/use-preview-id";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
-import { buildParsers } from "@/lib/url";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
 
@@ -73,6 +89,124 @@ const ResetButton = ({ ...props }: React.ComponentProps<typeof Button>) => (
   </Tooltip>
 );
 
+type RegistryComponent = React.ComponentType<Record<string, unknown>>;
+
+const PreviewSurface = ({
+  previewId,
+  Component,
+  componentProps,
+}: {
+  previewId: string;
+  Component: RegistryComponent;
+  componentProps: Record<string, unknown>;
+}) => (
+  <Preview id={previewId}>
+    <FitScale className="aspect-video rounded-md">
+      <Component {...componentProps} />
+    </FitScale>
+  </Preview>
+);
+
+const PreviewControls = ({ previewId }: { previewId: string }) => {
+  const controlsRef = useRef<React.ComponentRef<typeof Controls>>(null);
+  const [isLooping, setIsLooping] = useState(false);
+
+  const readLoopFromControls = useCallback(() => {
+    const el = controlsRef.current;
+    setIsLooping(Boolean(el?.loop));
+  }, []);
+
+  /** Runs after EFControls / Lit propagate `loop` (slot click ordering vs React). */
+  const reconcileLoopFromControls = useCallback(() => {
+    window.setTimeout(() => {
+      readLoopFromControls();
+    }, 0);
+  }, [readLoopFromControls]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        if (!cancelled) {
+          readLoopFromControls();
+        }
+      });
+    });
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(id);
+    };
+  }, [previewId, readLoopFromControls]);
+
+  return (
+    <Controls
+      ref={controlsRef}
+      target={previewId}
+      className="flex items-center gap-2 px-2 py-1.5 text-muted-foreground"
+    >
+      <TogglePlay className="inline-flex">
+        <Button
+          type="button"
+          slot="play"
+          variant="ghost"
+          size="icon-sm"
+          aria-label="Play preview"
+          title="Play preview"
+        >
+          <PlayIcon />
+        </Button>
+        <Button
+          type="button"
+          slot="pause"
+          variant="ghost"
+          size="icon-sm"
+          aria-label="Pause preview"
+          title="Pause preview"
+        >
+          <PauseIcon />
+        </Button>
+      </TogglePlay>
+
+      <Scrubber className="min-w-0 flex-1 [--ef-scrubber-background:var(--border)] [--ef-scrubber-progress-color:var(--foreground)]" />
+
+      <TimeDisplay className="min-w-22 justify-end font-mono text-xs tabular-nums text-foreground" />
+
+      <ToggleLoop className="inline-flex">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          aria-label={isLooping ? "Disable loop" : "Enable loop"}
+          aria-pressed={isLooping}
+          title={isLooping ? "Loop is on" : "Loop is off"}
+          onClick={reconcileLoopFromControls}
+        >
+          {isLooping ? <Repeat1Icon /> : <RepeatIcon />}
+        </Button>
+      </ToggleLoop>
+    </Controls>
+  );
+};
+
+const PreviewChrome = ({
+  previewId,
+  Component,
+  componentProps,
+}: {
+  previewId: string;
+  Component: RegistryComponent;
+  componentProps: Record<string, unknown>;
+}) => (
+  <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
+    <PreviewSurface
+      previewId={previewId}
+      Component={Component}
+      componentProps={componentProps}
+    />
+    <PreviewControls previewId={previewId} />
+  </div>
+);
+
 const ComponentPreviewInner = ({
   name,
   config,
@@ -83,13 +217,22 @@ const ComponentPreviewInner = ({
 }: {
   name: string;
   config: ComponentConfig;
-  Component: React.ComponentType<Record<string, unknown>>;
+  Component: RegistryComponent;
   hideCode?: boolean;
   hideCustomizer?: boolean;
   className?: string;
 }) => {
   const playCopy = useFeedback({ sound: "copy" });
   const playUndo = useFeedback({ sound: "undo" });
+  const previewId = usePreviewId(name);
+
+  const { componentProps, isDefault, setValues, values } = useCustomizer(
+    name,
+    config
+  );
+
+  const handleCustomizeChange = useCustomizerTracking(name, setValues);
+
   const { copyToClipboard, isCopied } = useCopyToClipboard({
     onCopy: () => {
       playCopy();
@@ -100,48 +243,6 @@ const ComponentPreviewInner = ({
     },
     timeout: 1500,
   });
-
-  const { parsers, urlKeys } = useMemo(
-    () => buildParsers(name, config.controls),
-    [name, config.controls]
-  );
-
-  const defaults = useMemo(
-    () => getDefaults(config.controls),
-    [config.controls]
-  );
-
-  const [values, setValues] = useQueryStates(parsers, {
-    clearOnDefault: true,
-    shallow: true,
-    urlKeys,
-  });
-
-  const isDefault = useMemo(
-    () => Object.entries(defaults).every(([k, v]) => values[k] === v),
-    [defaults, values]
-  );
-
-  const componentProps = useMemo(
-    () => ({
-      ...values,
-      durationInFrames: config.durationInFrames,
-      fps: config.fps,
-      height: config.compositionHeight,
-      width: config.compositionWidth,
-    }),
-    [values, config]
-  );
-
-  const WrappedComponent = useMemo(() => {
-    const W: React.ComponentType<Record<string, unknown>> = (props) => (
-      <Timegroup mode="fixed" className="w-[1920px] h-[1080px]">
-        <Component {...props} {...componentProps} />
-      </Timegroup>
-    );
-    W.displayName = `Preview(${config.componentName})`;
-    return W;
-  }, [Component, componentProps, config.componentName]);
 
   const handleCopyLink = () => {
     copyToClipboard(window.location.href);
@@ -166,48 +267,18 @@ const ComponentPreviewInner = ({
     preventDefault: true,
   });
 
-  const customizeTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(
-    new Map()
-  );
-
-  useEffect(() => {
-    const timers = customizeTimers.current;
-    return () => {
-      for (const timer of timers.values()) {
-        clearTimeout(timer);
-      }
-      timers.clear();
-    };
-  }, []);
-
-  const handleCustomizeChange = (key: string, value: unknown) => {
-    setValues({ [key]: value } as Partial<Record<string, unknown>>);
-    const existing = customizeTimers.current.get(key);
-    if (existing) {
-      clearTimeout(existing);
-    }
-    customizeTimers.current.set(
-      key,
-      setTimeout(() => {
-        trackEvent({
-          name: "component_customized",
-          properties: { component: name, prop: key },
-        });
-        customizeTimers.current.delete(key);
-      }, 500)
-    );
-  };
-
-  const previewSurface = (
-    <div className="aspect-video overflow-hidden rounded-xl border">
-      <TimelineRoot component={WrappedComponent} id={`preview-${name}`} />
-    </div>
+  const previewChrome = (
+    <PreviewChrome
+      previewId={previewId}
+      Component={Component}
+      componentProps={componentProps}
+    />
   );
 
   return (
     <div className={cn("not-prose flex flex-col gap-4", className)}>
       {hideCode ? (
-        previewSurface
+        previewChrome
       ) : (
         <Tabs defaultValue="preview" className="gap-3">
           <TabsList>
@@ -216,7 +287,7 @@ const ComponentPreviewInner = ({
           </TabsList>
 
           <TabsContent value="preview" className="mt-0">
-            {previewSurface}
+            {previewChrome}
           </TabsContent>
 
           <TabsContent value="code" className="mt-0">
@@ -227,7 +298,7 @@ const ComponentPreviewInner = ({
 
       {!hideCustomizer && (
         <div className="rounded-lg bg-code px-1 pb-1">
-          <div className="flex items-center justify-between px-3 py-1.5">
+          <div className="flex items-center justify-between px-2 py-1.5">
             <span className="text-sm font-medium text-muted-foreground">
               Customize
             </span>
