@@ -47,18 +47,29 @@ import { InfiniteMarquee } from "@/components/framecn/infinite-marquee";
 ```
 
 ```tsx
-<InfiniteMarquee text="text" speed={0} direction="value" />
+<InfiniteMarquee />
 ```
 
 ## API Reference
 
 ### InfiniteMarquee
 
-| Prop        | Type      | Default   |
-| ----------- | --------- | --------- |
-| `text`      | `string`  | `-`       |
-| `speed`     | `number`  | `50`      |
-| `direction` | `"left" ` | `"right"` |
+| Prop               | Type      | Default                       |
+| ------------------ | --------- | ----------------------------- |
+| `text`             | `string`  | `"ship · build · animate · "` |
+| `fontSize`         | `number`  | `120`                         |
+| `color`            | `string`  | `"#171717"`                   |
+| `fontWeight`       | `number`  | `900`                         |
+| `pixelsPerFrame`   | `number`  | `4`                           |
+| `stroke`           | `boolean` | `false`                       |
+| `strokeColor`      | `string`  | `"#171717"`                   |
+| `background`       | `string`  | `"#fafafa"`                   |
+| `speed`            | `number`  | `1`                           |
+| `fps`              | `number`  | `30`                          |
+| `durationInFrames` | `number`  | `300`                         |
+| `width`            | `number`  | `1280`                        |
+| `height`           | `number`  | `720`                         |
+| `className`        | `string`  | `-`                           |
 
 ## Notes
 

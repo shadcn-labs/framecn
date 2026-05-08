@@ -47,17 +47,24 @@ import { HeroDeviceAssemble } from "@/components/framecn/hero-device-assemble";
 ```
 
 ```tsx
-<HeroDeviceAssemble device="value" showShimmer={true} />
+<HeroDeviceAssemble />
 ```
 
 ## API Reference
 
 ### HeroDeviceAssemble
 
-| Prop          | Type         | Default   |
-| ------------- | ------------ | --------- |
-| `device`      | `"laptop" \` | `"phone"` |
-| `showShimmer` | `boolean`    | `true`    |
+| Prop               | Type                  | Default     |
+| ------------------ | --------------------- | ----------- |
+| `assembleStart`    | `number`              | `0`         |
+| `device`           | `"laptop" \| "phone"` | `"laptop"`  |
+| `accentColor`      | `string`              | `"#22c55e"` |
+| `speed`            | `number`              | `1`         |
+| `fps`              | `number`              | `30`        |
+| `durationInFrames` | `number`              | `150`       |
+| `width`            | `number`              | `1280`      |
+| `height`           | `number`              | `720`       |
+| `className`        | `string`              | `-`         |
 
 ## Notes
 

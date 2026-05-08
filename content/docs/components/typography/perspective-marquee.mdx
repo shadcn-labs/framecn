@@ -47,18 +47,31 @@ import { PerspectiveMarquee } from "@/components/framecn/perspective-marquee";
 ```
 
 ```tsx
-<PerspectiveMarquee text="text" perspective={0} speed={0} />
+<PerspectiveMarquee />
 ```
 
 ## API Reference
 
 ### PerspectiveMarquee
 
-| Prop          | Type     | Default |
-| ------------- | -------- | ------- |
-| `text`        | `string` | `-`     |
-| `perspective` | `number` | `500`   |
-| `speed`       | `number` | `50`    |
+| Prop               | Type       | Default         |
+| ------------------ | ---------- | --------------- |
+| `items`            | `string[]` | `DEFAULT_ITEMS` |
+| `fontSize`         | `number`   | `84`            |
+| `color`            | `string`   | `"#fafafa"`     |
+| `fontWeight`       | `number`   | `700`           |
+| `pixelsPerFrame`   | `number`   | `2`             |
+| `rotateY`          | `number`   | `-28`           |
+| `rotateX`          | `number`   | `8`             |
+| `perspective`      | `number`   | `1200`          |
+| `fadeColor`        | `string`   | `"#050505"`     |
+| `background`       | `string`   | `"#050505"`     |
+| `speed`            | `number`   | `1`             |
+| `fps`              | `number`   | `30`            |
+| `durationInFrames` | `number`   | `300`           |
+| `width`            | `number`   | `1280`          |
+| `height`           | `number`   | `720`           |
+| `className`        | `string`   | `-`             |
 
 ## Notes
 

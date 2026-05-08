@@ -47,18 +47,28 @@ import { GlassCodeBlock } from "@/components/framecn/glass-code-block";
 ```
 
 ```tsx
-<GlassCodeBlock code="code" language="language" showControls={true} />
+<GlassCodeBlock />
 ```
 
 ## API Reference
 
 ### GlassCodeBlock
 
-| Prop           | Type      | Default        |
-| -------------- | --------- | -------------- |
-| `code`         | `string`  | `-`            |
-| `language`     | `string`  | `"typescript"` |
-| `showControls` | `boolean` | `true`         |
+| Prop                | Type      | Default                   |
+| ------------------- | --------- | ------------------------- |
+| `code`              | `string`  | `DEFAULT_CODE`            |
+| `title`             | `string`  | `"hero.tsx"`              |
+| `width`             | `number`  | `760`                     |
+| `height`            | `number`  | `460`                     |
+| `fontSize`          | `number`  | `16`                      |
+| `background`        | `string`  | `"#0a0a0a"`               |
+| `glassColor`        | `string`  | `"rgba(10, 10, 10, 0.6)"` |
+| `staggerFrames`     | `number`  | `4`                       |
+| `showTrafficLights` | `boolean` | `true`                    |
+| `speed`             | `number`  | `1`                       |
+| `fps`               | `number`  | `30`                      |
+| `durationInFrames`  | `number`  | `180`                     |
+| `className`         | `string`  | `-`                       |
 
 ## Notes
 

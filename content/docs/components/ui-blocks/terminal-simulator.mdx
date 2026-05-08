@@ -47,18 +47,27 @@ import { TerminalSimulator } from "@/components/framecn/terminal-simulator";
 ```
 
 ```tsx
-<TerminalSimulator commands="commands" typingSpeed={0} showPrompt={true} />
+<TerminalSimulator />
 ```
 
 ## API Reference
 
 ### TerminalSimulator
 
-| Prop          | Type       | Default |
-| ------------- | ---------- | ------- |
-| `commands`    | `string[]` | `-`     |
-| `typingSpeed` | `number`   | `0.05`  |
-| `showPrompt`  | `boolean`  | `true`  |
+| Prop               | Type             | Default                |
+| ------------------ | ---------------- | ---------------------- |
+| `lines`            | `TerminalLine[]` | `DEFAULT_LINES`        |
+| `prompt`           | `string`         | `"$"`                  |
+| `title`            | `string`         | `"~/projects/framecn"` |
+| `background`       | `string`         | `"#0a0a0a"`            |
+| `chromeColor`      | `string`         | `"#1a1a1a"`            |
+| `fontSize`         | `number`         | `18`                   |
+| `charsPerFrame`    | `number`         | `1`                    |
+| `chunkSize`        | `number`         | `1`                    |
+| `speed`            | `number`         | `1`                    |
+| `fps`              | `number`         | `30`                   |
+| `durationInFrames` | `number`         | `200`                  |
+| `className`        | `string`         | `-`                    |
 
 ## Notes
 

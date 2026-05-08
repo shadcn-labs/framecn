@@ -47,18 +47,29 @@ import { CodeDiffWipe } from "@/components/framecn/code-diff-wipe";
 ```
 
 ```tsx
-<CodeDiffWipe oldCode="oldCode" newCode="newCode" language="language" />
+<CodeDiffWipe />
 ```
 
 ## API Reference
 
 ### CodeDiffWipe
 
-| Prop       | Type     | Default        |
-| ---------- | -------- | -------------- |
-| `oldCode`  | `string` | `-`            |
-| `newCode`  | `string` | `-`            |
-| `language` | `string` | `"typescript"` |
+| Prop                 | Type      | Default          |
+| -------------------- | --------- | ---------------- |
+| `before`             | `string`  | `DEFAULT_BEFORE` |
+| `after`              | `string`  | `DEFAULT_AFTER`  |
+| `language`           | `string`  | `"tsx"`          |
+| `background`         | `string`  | `"#0a0a0a"`      |
+| `accent`             | `string`  | `"#0ea5e9"`      |
+| `transitionStart`    | `number`  | `20`             |
+| `transitionDuration` | `number`  | `60`             |
+| `showHandle`         | `boolean` | `true`           |
+| `speed`              | `number`  | `1`              |
+| `fps`                | `number`  | `30`             |
+| `durationInFrames`   | `number`  | `120`            |
+| `width`              | `number`  | `1280`           |
+| `height`             | `number`  | `720`            |
+| `className`          | `string`  | `-`              |
 
 ## Notes
 

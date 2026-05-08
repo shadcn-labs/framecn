@@ -47,17 +47,27 @@ import { FrostedGlassWipe } from "@/components/framecn/frosted-glass-wipe";
 ```
 
 ```tsx
-<FrostedGlassWipe direction="value" blur={0} />
+<FrostedGlassWipe />
 ```
 
 ## API Reference
 
 ### FrostedGlassWipe
 
-| Prop        | Type       | Default   |
-| ----------- | ---------- | --------- |
-| `direction` | `"left" \` | `"right"` |
-| `blur`      | `number`   | `10`      |
+| Prop                 | Type        | Default   |
+| -------------------- | ----------- | --------- |
+| `from`               | `ReactNode` | `-`       |
+| `to`                 | `ReactNode` | `-`       |
+| `transitionStart`    | `number`    | `36`      |
+| `transitionDuration` | `number`    | `30`      |
+| `glassBlur`          | `number`    | `24`      |
+| `speed`              | `number`    | `1`       |
+| `fps`                | `number`    | `30`      |
+| `durationInFrames`   | `number`    | `90`      |
+| `width`              | `number`    | `1280`    |
+| `height`             | `number`    | `720`     |
+| `background`         | `string`    | `"black"` |
+| `className`          | `string`    | `-`       |
 
 ## Notes
 

@@ -47,18 +47,23 @@ import { SimulatedCursor } from "@/components/framecn/simulated-cursor";
 ```
 
 ```tsx
-<SimulatedCursor x={0} y={0} showPointer={true} />
+<SimulatedCursor />
 ```
 
 ## API Reference
 
 ### SimulatedCursor
 
-| Prop          | Type      | Default |
-| ------------- | --------- | ------- |
-| `x`           | `number`  | `0`     |
-| `y`           | `number`  | `0`     |
-| `showPointer` | `boolean` | `true`  |
+| Prop               | Type            | Default          |
+| ------------------ | --------------- | ---------------- |
+| `points`           | `CursorPoint[]` | `DEFAULT_POINTS` |
+| `color`            | `string`        | `"#ffffff"`      |
+| `size`             | `number`        | `32`             |
+| `background`       | `string`        | `"#0a0a0a"`      |
+| `speed`            | `number`        | `1`              |
+| `fps`              | `number`        | `30`             |
+| `durationInFrames` | `number`        | `150`            |
+| `className`        | `string`        | `-`              |
 
 ## Notes
 

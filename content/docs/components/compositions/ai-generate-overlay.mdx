@@ -47,17 +47,31 @@ import { AIGenerateOverlay } from "@/components/framecn/ai-generate-overlay";
 ```
 
 ```tsx
-<AIGenerateOverlay prompt="prompt" isGenerating={true} />
+<AIGenerateOverlay />
 ```
 
 ## API Reference
 
 ### AIGenerateOverlay
 
-| Prop           | Type      | Default |
-| -------------- | --------- | ------- |
-| `prompt`       | `string`  | `-`     |
-| `isGenerating` | `boolean` | `true`  |
+| Prop               | Type     | Default                |
+| ------------------ | -------- | ---------------------- |
+| `maxBlur`          | `number` | `20`                   |
+| `blurStartFrame`   | `number` | `20`                   |
+| `blurPeakFrame`    | `number` | `40`                   |
+| `revealStartFrame` | `number` | `110`                  |
+| `pillText`         | `string` | `"Generating…"`        |
+| `accent`           | `string` | `"#a78bfa"`            |
+| `background`       | `string` | `"#050505"`            |
+| `sourceImageBg`    | `string` | `DEFAULT_SOURCE_BG`    |
+| `generatedImageBg` | `string` | `DEFAULT_GENERATED_BG` |
+| `dotColor`         | `string` | `"#ffffff"`            |
+| `dotSize`          | `number` | `1.2`                  |
+| `dotSpacing`       | `number` | `20`                   |
+| `speed`            | `number` | `1`                    |
+| `fps`              | `number` | `30`                   |
+| `durationInFrames` | `number` | `150`                  |
+| `className`        | `string` | `-`                    |
 
 ## Notes
 

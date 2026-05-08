@@ -47,17 +47,27 @@ import { DirectionalWipe } from "@/components/framecn/directional-wipe";
 ```
 
 ```tsx
-<DirectionalWipe direction="value" duration={0} />
+<DirectionalWipe />
 ```
 
 ## API Reference
 
 ### DirectionalWipe
 
-| Prop        | Type       | Default     |
-| ----------- | ---------- | ----------- |
-| `direction` | `"left" \` | `"right" \` |
-| `duration`  | `number`   | `0.5`       |
+| Prop                 | Type                                  | Default   |
+| -------------------- | ------------------------------------- | --------- |
+| `from`               | `ReactNode`                           | `-`       |
+| `to`                 | `ReactNode`                           | `-`       |
+| `direction`          | `"left" \| "right" \| "up" \| "down"` | `"left"`  |
+| `transitionStart`    | `number`                              | `36`      |
+| `transitionDuration` | `number`                              | `20`      |
+| `speed`              | `number`                              | `1`       |
+| `fps`                | `number`                              | `30`      |
+| `durationInFrames`   | `number`                              | `90`      |
+| `width`              | `number`                              | `1280`    |
+| `height`             | `number`                              | `720`     |
+| `background`         | `string`                              | `"black"` |
+| `className`          | `string`                              | `-`       |
 
 ## Notes
 

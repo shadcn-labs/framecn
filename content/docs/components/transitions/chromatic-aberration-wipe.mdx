@@ -47,18 +47,28 @@ import { ChromaticAberrationWipe } from "@/components/framecn/chromatic-aberrati
 ```
 
 ```tsx
-<ChromaticAberrationWipe direction="value" intensity={0} duration={0} />
+<ChromaticAberrationWipe />
 ```
 
 ## API Reference
 
 ### ChromaticAberrationWipe
 
-| Prop        | Type       | Default   |
-| ----------- | ---------- | --------- |
-| `direction` | `"left" \` | `"right"` |
-| `intensity` | `number`   | `5`       |
-| `duration`  | `number`   | `0.4`     |
+| Prop                 | Type                | Default   |
+| -------------------- | ------------------- | --------- |
+| `from`               | `ReactNode`         | `-`       |
+| `to`                 | `ReactNode`         | `-`       |
+| `direction`          | `"left" \| "right"` | `"left"`  |
+| `transitionStart`    | `number`            | `36`      |
+| `transitionDuration` | `number`            | `7`       |
+| `aberrationOffset`   | `number`            | `8`       |
+| `speed`              | `number`            | `1`       |
+| `fps`                | `number`            | `30`      |
+| `durationInFrames`   | `number`            | `90`      |
+| `width`              | `number`            | `1280`    |
+| `height`             | `number`            | `720`     |
+| `background`         | `string`            | `"black"` |
+| `className`          | `string`            | `-`       |
 
 ## Notes
 

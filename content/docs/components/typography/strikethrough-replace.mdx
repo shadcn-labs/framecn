@@ -47,18 +47,25 @@ import { StrikethroughReplace } from "@/components/framecn/strikethrough-replace
 ```
 
 ```tsx
-<StrikethroughReplace fromText="fromText" toText="toText" duration={0} />
+<StrikethroughReplace from="value" to="value" />
 ```
 
 ## API Reference
 
 ### StrikethroughReplace
 
-| Prop       | Type     | Default |
-| ---------- | -------- | ------- |
-| `fromText` | `string` | `-`     |
-| `toText`   | `string` | `-`     |
-| `duration` | `number` | `0.5`   |
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `from`             | `string` | `-`         |
+| `to`               | `string` | `-`         |
+| `lineColor`        | `string` | `"#ff5e3a"` |
+| `fontSize`         | `number` | `48`        |
+| `color`            | `string` | `"#171717"` |
+| `fontWeight`       | `number` | `600`       |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `90`        |
+| `className`        | `string` | `-`         |
 
 ## Notes
 

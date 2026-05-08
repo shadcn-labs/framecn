@@ -47,18 +47,29 @@ import { SuccessConfetti } from "@/components/framecn/success-confetti";
 ```
 
 ```tsx
-<SuccessConfetti particleCount={0} origin={0} colors="colors" />
+<SuccessConfetti />
 ```
 
 ## API Reference
 
 ### SuccessConfetti
 
-| Prop            | Type                       | Default                             |
-| --------------- | -------------------------- | ----------------------------------- |
-| `particleCount` | `number`                   | `50`                                |
-| `origin`        | `{ x: number, y: number }` | `{ x: 0.5, y: 0.5 }`                |
-| `colors`        | `string[]`                 | `["#ff0000", "#00ff00", "#0000ff"]` |
+| Prop               | Type       | Default                                                   |
+| ------------------ | ---------- | --------------------------------------------------------- |
+| `count`            | `number`   | `60`                                                      |
+| `colors`           | `string[]` | `["#ff5e3a", "#22c55e", "#0ea5e9", "#facc15", "#a855f7"]` |
+| `originX`          | `number`   | `0.5`                                                     |
+| `originY`          | `number`   | `0.5`                                                     |
+| `gravity`          | `number`   | `0.4`                                                     |
+| `velocity`         | `number`   | `12`                                                      |
+| `text`             | `string`   | `"Merged!"`                                               |
+| `textColor`        | `string`   | `"#171717"`                                               |
+| `background`       | `string`   | `"#fafafa"`                                               |
+| `seed`             | `string`   | `"framecn"`                                               |
+| `speed`            | `number`   | `1`                                                       |
+| `fps`              | `number`   | `30`                                                      |
+| `durationInFrames` | `number`   | `90`                                                      |
+| `className`        | `string`   | `-`                                                       |
 
 ## Notes
 

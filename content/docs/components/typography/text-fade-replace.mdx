@@ -47,18 +47,24 @@ import { TextFadeReplace } from "@/components/framecn/text-fade-replace";
 ```
 
 ```tsx
-<TextFadeReplace fromText="fromText" toText="toText" duration={0} />
+<TextFadeReplace from="value" to="value" />
 ```
 
 ## API Reference
 
 ### TextFadeReplace
 
-| Prop       | Type     | Default |
-| ---------- | -------- | ------- |
-| `fromText` | `string` | `-`     |
-| `toText`   | `string` | `-`     |
-| `duration` | `number` | `0.5`   |
+| Prop               | Type     | Default              |
+| ------------------ | -------- | -------------------- |
+| `from`             | `string` | `-`                  |
+| `to`               | `string` | `-`                  |
+| `fontSize`         | `number` | `48`                 |
+| `color`            | `string` | `"#171717"`          |
+| `fontWeight`       | `number` | `600`                |
+| `speed`            | `number` | `1`                  |
+| `fps`              | `number` | `FPS`                |
+| `durationInFrames` | `number` | `DURATION_IN_FRAMES` |
+| `className`        | `string` | `-`                  |
 
 ## Notes
 

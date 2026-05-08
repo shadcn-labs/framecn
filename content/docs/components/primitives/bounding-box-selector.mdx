@@ -47,18 +47,27 @@ import { BoundingBoxSelector } from "@/components/framecn/bounding-box-selector"
 ```
 
 ```tsx
-<BoundingBoxSelector targetRef="value" duration={0} color="color" />
+<BoundingBoxSelector />
 ```
 
 ## API Reference
 
 ### BoundingBoxSelector
 
-| Prop        | Type              | Default     |
-| ----------- | ----------------- | ----------- |
-| `targetRef` | `React.RefObject` | `-`         |
-| `duration`  | `number`          | `0.5`       |
-| `color`     | `string`          | `"#3b82f6"` |
+| Prop               | Type        | Default     |
+| ------------------ | ----------- | ----------- |
+| `children`         | `ReactNode` | `-`         |
+| `borderColor`      | `string`    | `"#0ea5e9"` |
+| `handleColor`      | `string`    | `"#0ea5e9"` |
+| `borderWidth`      | `number`    | `2`         |
+| `appearAt`         | `number`    | `15`        |
+| `background`       | `string`    | `"#fafafa"` |
+| `speed`            | `number`    | `1`         |
+| `className`        | `string`    | `-`         |
+| `fps`              | `number`    | `30`        |
+| `durationInFrames` | `number`    | `90`        |
+| `width`            | `number`    | `1000`      |
+| `height`           | `number`    | `500`       |
 
 ## Notes
 

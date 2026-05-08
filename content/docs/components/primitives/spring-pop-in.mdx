@@ -44,22 +44,29 @@ import { SpringPopIn } from "@/components/framecn/spring-pop-in";
 ```
 
 ```tsx
-<SpringPopIn scale={0} duration={0} bounce={true} />
+<SpringPopIn />
 ```
 
 ## API Reference
 
 ### SpringPopIn
 
-| Prop       | Type      | Default |
-| ---------- | --------- | ------- |
-| `scale`    | `number`  | `1.5`   |
-| `duration` | `number`  | `0.6`   |
-| `bounce`   | `boolean` | `true`  |
+| Prop               | Type        | Default |
+| ------------------ | ----------- | ------- |
+| `children`         | `ReactNode` | `-`     |
+| `damping`          | `number`    | `12`    |
+| `mass`             | `number`    | `1`     |
+| `stiffness`        | `number`    | `100`   |
+| `delayInFrames`    | `number`    | `0`     |
+| `speed`            | `number`    | `1`     |
+| `fps`              | `number`    | `30`    |
+| `durationInFrames` | `number`    | `45`    |
+| `className`        | `string`    | `-`     |
 
 ## Notes
 
 <Callout title="Spring-based overshoot">
-  The animation uses a spring function with configurable overshoot. The scale
-  prop controls the peak scale before settling back to 1.
+  The animation uses a spring function with configurable overshoot. Tune
+  `stiffness`, `damping`, and `mass` to shape how far it overshoots before
+  settling.
 </Callout>

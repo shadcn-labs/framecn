@@ -44,18 +44,27 @@ import { CursorFlow } from "@/components/framecn/cursor-flow";
 ```
 
 ```tsx
-<CursorFlow path={0} duration={0} showClick={true} />
+<CursorFlow />
 ```
 
 ## API Reference
 
 ### CursorFlow
 
-| Prop        | Type                              | Default |
-| ----------- | --------------------------------- | ------- |
-| `path`      | `Array<{ x: number, y: number }>` | `-`     |
-| `duration`  | `number`                          | `2`     |
-| `showClick` | `boolean`                         | `true`  |
+| Prop               | Type               | Default             |
+| ------------------ | ------------------ | ------------------- |
+| `waypoints`        | `CursorWaypoint[]` | `DEFAULT_WAYPOINTS` |
+| `cursorColor`      | `string`           | `"#fafafa"`         |
+| `cursorSize`       | `number`           | `28`                |
+| `segmentDuration`  | `number`           | `36`                |
+| `background`       | `string`           | `"#0a0a0a"`         |
+| `showTargets`      | `boolean`          | `true`              |
+| `speed`            | `number`           | `1`                 |
+| `fps`              | `number`           | `30`                |
+| `durationInFrames` | `number`           | `180`               |
+| `width`            | `number`           | `1280`              |
+| `height`           | `number`           | `720`               |
+| `className`        | `string`           | `-`                 |
 
 ## Notes
 

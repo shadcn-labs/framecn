@@ -47,18 +47,30 @@ import { DataFlowPipes } from "@/components/framecn/data-flow-pipes";
 ```
 
 ```tsx
-<DataFlowPipes pipes="pipes" color="color" speed={0} />
+<DataFlowPipes />
 ```
 
 ## API Reference
 
 ### DataFlowPipes
 
-| Prop    | Type                                  | Default     |
-| ------- | ------------------------------------- | ----------- |
-| `pipes` | `Array<{ from: string, to: string }>` | `-`         |
-| `color` | `string`                              | `"#3b82f6"` |
-| `speed` | `number`                              | `1`         |
+| Prop               | Type             | Default         |
+| ------------------ | ---------------- | --------------- |
+| `nodes`            | `DataFlowNode[]` | `DEFAULT_NODES` |
+| `edges`            | `DataFlowEdge[]` | `DEFAULT_EDGES` |
+| `pipeColor`        | `string`         | `"#1f1f23"`     |
+| `pulseColor`       | `string`         | `"#22d3ee"`     |
+| `pulseLength`      | `number`         | `60`            |
+| `pulseDuration`    | `number`         | `36`            |
+| `background`       | `string`         | `"#050505"`     |
+| `nodeColor`        | `string`         | `"#0a0a0a"`     |
+| `textColor`        | `string`         | `"#fafafa"`     |
+| `speed`            | `number`         | `1`             |
+| `fps`              | `number`         | `30`            |
+| `durationInFrames` | `number`         | `180`           |
+| `width`            | `number`         | `1280`          |
+| `height`           | `number`         | `720`           |
+| `className`        | `string`         | `-`             |
 
 ## Notes
 

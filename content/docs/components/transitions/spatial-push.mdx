@@ -44,21 +44,29 @@ import { SpatialPush } from "@/components/framecn/spatial-push";
 ```
 
 ```tsx
-<SpatialPush direction="value" depth={0} />
+<SpatialPush />
 ```
 
 ## API Reference
 
 ### SpatialPush
 
-| Prop        | Type       | Default   |
-| ----------- | ---------- | --------- |
-| `direction` | `"left" \` | `"right"` |
-| `depth`     | `number`   | `200`     |
+| Prop                 | Type                                  | Default |
+| -------------------- | ------------------------------------- | ------- |
+| `from`               | `ReactNode`                           | `-`     |
+| `to`                 | `ReactNode`                           | `-`     |
+| `direction`          | `"up" \| "down" \| "left" \| "right"` | `"up"`  |
+| `transitionStart`    | `number`                              | `-`     |
+| `transitionDuration` | `number`                              | `30`    |
+| `speed`              | `number`                              | `1`     |
+| `fps`                | `number`                              | `30`    |
+| `durationInFrames`   | `number`                              | `90`    |
+| `className`          | `string`                              | `-`     |
 
 ## Notes
 
 <Callout title="3D perspective push">
-  The old scene is pushed back in 3D space using transform3D. The depth prop
-  controls how far back it gets pushed.
+  The old scene is pushed back in 3D space while the next scene slides in from
+  the chosen `direction`. Use `transitionDuration` to control how long the push
+  phase takes.
 </Callout>

@@ -47,14 +47,23 @@ import { ChatToPreviewLayout } from "@/components/framecn/chat-to-preview-layout
 ```
 
 ```tsx
-<ChatToPreviewLayout message="message" previewContent={"Sample content"} />
+<ChatToPreviewLayout />
 ```
 
 ## API Reference
 
 ### ChatToPreviewLayout
 
-| Prop             | Type              | Default |
-| ---------------- | ----------------- | ------- |
-| `message`        | `string`          | `-`     |
-| `previewContent` | `React.ReactNode` | `-`     |
+| Prop               | Type        | Default     |
+| ------------------ | ----------- | ----------- |
+| `chat`             | `ReactNode` | `-`         |
+| `preview`          | `ReactNode` | `-`         |
+| `startChatRatio`   | `number`    | `0.5`       |
+| `endChatRatio`     | `number`    | `0.25`      |
+| `background`       | `string`    | `"#0a0a0a"` |
+| `speed`            | `number`    | `1`         |
+| `fps`              | `number`    | `30`        |
+| `durationInFrames` | `number`    | `150`       |
+| `width`            | `number`    | `1280`      |
+| `height`           | `number`    | `720`       |
+| `className`        | `string`    | `-`         |

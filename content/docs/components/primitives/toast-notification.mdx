@@ -47,24 +47,33 @@ import { ToastNotification } from "@/components/framecn/toast-notification";
 ```
 
 ```tsx
-<ToastNotification message="message" type="value" duration={0} />
+<ToastNotification />
 ```
 
 ## API Reference
 
 ### ToastNotification
 
-| Prop       | Type          | Default     |
-| ---------- | ------------- | ----------- |
-| `message`  | `string`      | `-`         |
-| `type`     | `"success" \` | `"error" \` |
-| `duration` | `number`      | `3`         |
+| Prop               | Type           | Default                                  |
+| ------------------ | -------------- | ---------------------------------------- |
+| `title`            | `string`       | `"Deployment successful"`                |
+| `message`          | `string`       | `"Your changes are live at framecn.dev"` |
+| `variant`          | `ToastVariant` | `"success"`                              |
+| `background`       | `string`       | `"#fafafa"`                              |
+| `cardColor`        | `string`       | `"white"`                                |
+| `textColor`        | `string`       | `"#171717"`                              |
+| `mutedColor`       | `string`       | `"#71717a"`                              |
+| `speed`            | `number`       | `1`                                      |
+| `fps`              | `number`       | `FPS`                                    |
+| `durationInFrames` | `number`       | `DURATION_IN_FRAMES`                     |
+| `className`        | `string`       | `-`                                      |
 
 ## Notes
 
 <Callout title="Three-phase animation">
   The toast animates through three phases: spring-based enter, a hold period,
-  and interpolate-based exit. The duration prop controls the hold time.
+  and interpolate-based exit. Use `durationInFrames` to control the overall
+  timing.
 </Callout>
 
 <Callout title="Anchored absolutely" variant="destructive">

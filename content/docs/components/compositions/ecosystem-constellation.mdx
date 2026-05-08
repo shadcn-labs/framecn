@@ -47,17 +47,24 @@ import { EcosystemConstellation } from "@/components/framecn/ecosystem-constella
 ```
 
 ```tsx
-<EcosystemConstellation satellites="satellites" orbitRadius={0} />
+<EcosystemConstellation />
 ```
 
 ## API Reference
 
 ### EcosystemConstellation
 
-| Prop          | Type       | Default |
-| ------------- | ---------- | ------- |
-| `satellites`  | `string[]` | `-`     |
-| `orbitRadius` | `number`   | `100`   |
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `satelliteCount`   | `number` | `6`         |
+| `centerLabel`      | `string` | `"V"`       |
+| `accentColor`      | `string` | `"#a855f7"` |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `240`       |
+| `width`            | `number` | `1280`      |
+| `height`           | `number` | `720`       |
+| `className`        | `string` | `-`         |
 
 ## Notes
 

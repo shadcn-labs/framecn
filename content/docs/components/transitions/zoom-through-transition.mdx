@@ -47,17 +47,23 @@ import { ZoomThroughTransition } from "@/components/framecn/zoom-through-transit
 ```
 
 ```tsx
-<ZoomThroughTransition scale={0} duration={0} />
+<ZoomThroughTransition />
 ```
 
 ## API Reference
 
 ### ZoomThroughTransition
 
-| Prop       | Type     | Default |
-| ---------- | -------- | ------- |
-| `scale`    | `number` | `3`     |
-| `duration` | `number` | `0.6`   |
+| Prop               | Type        | Default           |
+| ------------------ | ----------- | ----------------- |
+| `children`         | `ReactNode` | `-`               |
+| `targetScale`      | `number`    | `20`              |
+| `transformOrigin`  | `string`    | `"center center"` |
+| `background`       | `string`    | `"white"`         |
+| `speed`            | `number`    | `1`               |
+| `fps`              | `number`    | `30`              |
+| `durationInFrames` | `number`    | `90`              |
+| `className`        | `string`    | `-`               |
 
 ## Notes
 

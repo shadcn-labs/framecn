@@ -47,17 +47,29 @@ import { ChangelogBite } from "@/components/framecn/changelog-bite";
 ```
 
 ```tsx
-<ChangelogBite version="version" changes="changes" />
+<ChangelogBite />
 ```
 
 ## API Reference
 
 ### ChangelogBite
 
-| Prop      | Type       | Default |
-| --------- | ---------- | ------- |
-| `version` | `string`   | `-`     |
-| `changes` | `string[]` | `-`     |
+| Prop               | Type                     | Default                    |
+| ------------------ | ------------------------ | -------------------------- |
+| `label`            | `string`                 | `"New"`                    |
+| `title`            | `string`                 | `"Inline diff view"`       |
+| `oldContent`       | `ReactNode`              | `-`                        |
+| `newContent`       | `ReactNode`              | `-`                        |
+| `format`           | `"square" \| "portrait"` | `"square"`                 |
+| `background`       | `string`                 | `"#141318"`                |
+| `cardBackground`   | `string`                 | `"rgba(20, 19, 24, 0.92)"` |
+| `accent`           | `string`                 | `"#FFB38E"`                |
+| `speed`            | `number`                 | `1`                        |
+| `fps`              | `number`                 | `30`                       |
+| `durationInFrames` | `number`                 | `150`                      |
+| `width`            | `number`                 | `1080`                     |
+| `height`           | `number`                 | `1080`                     |
+| `className`        | `string`                 | `-`                        |
 
 ## Notes
 

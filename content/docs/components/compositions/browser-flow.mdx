@@ -44,18 +44,22 @@ import { BrowserFlow } from "@/components/framecn/browser-flow";
 ```
 
 ```tsx
-<BrowserFlow url="url" showScroll={false} showClick={false} />
+<BrowserFlow />
 ```
 
 ## API Reference
 
 ### BrowserFlow
 
-| Prop         | Type      | Default |
-| ------------ | --------- | ------- |
-| `url`        | `string`  | `-`     |
-| `showScroll` | `boolean` | `false` |
-| `showClick`  | `boolean` | `false` |
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `url`              | `string` | `"framecn.dev"` |
+| `speed`            | `number` | `1`             |
+| `className`        | `string` | `-`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `270`           |
+| `width`            | `number` | `1280`          |
+| `height`           | `number` | `720`           |
 
 ## Notes
 

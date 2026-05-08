@@ -47,18 +47,23 @@ import { PipelineJourney } from "@/components/framecn/pipeline-journey";
 ```
 
 ```tsx
-<PipelineJourney columns="columns" startColumn={0} endColumn={0} />
+<PipelineJourney />
 ```
 
 ## API Reference
 
 ### PipelineJourney
 
-| Prop          | Type       | Default |
-| ------------- | ---------- | ------- |
-| `columns`     | `string[]` | `-`     |
-| `startColumn` | `number`   | `0`     |
-| `endColumn`   | `number`   | `2`     |
+| Prop               | Type     | Default            |
+| ------------------ | -------- | ------------------ |
+| `cardLabel`        | `string` | `"Build pipeline"` |
+| `accentColor`      | `string` | `"#22c55e"`        |
+| `speed`            | `number` | `1`                |
+| `fps`              | `number` | `30`               |
+| `durationInFrames` | `number` | `200`              |
+| `width`            | `number` | `1280`             |
+| `height`           | `number` | `720`              |
+| `className`        | `string` | `-`                |
 
 ## Notes
 

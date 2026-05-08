@@ -47,17 +47,21 @@ import { TerminalToBrowserDeploy } from "@/components/framecn/terminal-to-browse
 ```
 
 ```tsx
-<TerminalToBrowserDeploy url="url" deployTime={0} />
+<TerminalToBrowserDeploy />
 ```
 
 ## API Reference
 
 ### TerminalToBrowserDeploy
 
-| Prop         | Type     | Default |
-| ------------ | -------- | ------- |
-| `url`        | `string` | `-`     |
-| `deployTime` | `number` | `2000`  |
+| Prop               | Type     | Default                     |
+| ------------------ | -------- | --------------------------- |
+| `siteUrl`          | `string` | `"https://app.example.com"` |
+| `accentColor`      | `string` | `"#22c55e"`                 |
+| `speed`            | `number` | `1`                         |
+| `fps`              | `number` | `30`                        |
+| `durationInFrames` | `number` | `210`                       |
+| `className`        | `string` | `-`                         |
 
 ## Notes
 

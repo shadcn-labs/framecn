@@ -47,16 +47,22 @@ import { AIGenerationCanvas } from "@/components/framecn/ai-generation-canvas";
 ```
 
 ```tsx
-<AIGenerationCanvas prompt="prompt" />
+<AIGenerationCanvas />
 ```
 
 ## API Reference
 
 ### AIGenerationCanvas
 
-| Prop     | Type     | Default |
-| -------- | -------- | ------- |
-| `prompt` | `string` | `-`     |
+| Prop               | Type     | Default                  |
+| ------------------ | -------- | ------------------------ |
+| `prompt`           | `string` | `"Generate a dashboard"` |
+| `accentColor`      | `string` | `"#7c3aed"`              |
+| `cardCount`        | `number` | `4`                      |
+| `speed`            | `number` | `1`                      |
+| `fps`              | `number` | `30`                     |
+| `durationInFrames` | `number` | `180`                    |
+| `className`        | `string` | `-`                      |
 
 ## Notes
 

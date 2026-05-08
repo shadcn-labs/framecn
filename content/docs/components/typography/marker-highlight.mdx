@@ -47,18 +47,29 @@ import { MarkerHighlight } from "@/components/framecn/marker-highlight";
 ```
 
 ```tsx
-<MarkerHighlight text="text" markerColor="markerColor" invertText={false} />
+<MarkerHighlight />
 ```
 
 ## API Reference
 
 ### MarkerHighlight
 
-| Prop          | Type      | Default     |
-| ------------- | --------- | ----------- |
-| `text`        | `string`  | `-`         |
-| `markerColor` | `string`  | `"#fbbf24"` |
-| `invertText`  | `boolean` | `false`     |
+| Prop                   | Type     | Default      |
+| ---------------------- | -------- | ------------ |
+| `before`               | `string` | `""`         |
+| `highlight`            | `string` | `"builders"` |
+| `after`                | `string` | `"."`        |
+| `markerColor`          | `string` | `"#facc15"`  |
+| `baseColor`            | `string` | `"#171717"`  |
+| `highlightedTextColor` | `string` | `"#171717"`  |
+| `fontSize`             | `number` | `72`         |
+| `fontWeight`           | `number` | `600`        |
+| `speed`                | `number` | `1`          |
+| `fps`                  | `number` | `30`         |
+| `durationInFrames`     | `number` | `90`         |
+| `width`                | `number` | `1280`       |
+| `height`               | `number` | `720`        |
+| `className`            | `string` | `-`          |
 
 ## Notes
 

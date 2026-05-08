@@ -47,24 +47,26 @@ import { InlineHighlight } from "@/components/framecn/inline-highlight";
 ```
 
 ```tsx
-<InlineHighlight
-  text="text"
-  highlightWords={0}
-  fromColor="fromColor"
-  toColor="toColor"
-/>
+<InlineHighlight before="value" highlight="value" />
 ```
 
 ## API Reference
 
 ### InlineHighlight
 
-| Prop             | Type       | Default     |
-| ---------------- | ---------- | ----------- |
-| `text`           | `string`   | `-`         |
-| `highlightWords` | `number[]` | `-`         |
-| `fromColor`      | `string`   | `"#666666"` |
-| `toColor`        | `string`   | `"#3b82f6"` |
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `before`           | `string` | `-`         |
+| `highlight`        | `string` | `-`         |
+| `after`            | `string` | `""`        |
+| `baseColor`        | `string` | `"#171717"` |
+| `highlightColor`   | `string` | `"#ff5e3a"` |
+| `fontSize`         | `number` | `48`        |
+| `fontWeight`       | `number` | `600`       |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `90`        |
+| `className`        | `string` | `-`         |
 
 ## Notes
 

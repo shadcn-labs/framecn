@@ -47,17 +47,28 @@ import { KineticTypeMask } from "@/components/framecn/kinetic-type-mask";
 ```
 
 ```tsx
-<KineticTypeMask text="text" fontSize={0} />
+<KineticTypeMask />
 ```
 
 ## API Reference
 
 ### KineticTypeMask
 
-| Prop       | Type     | Default |
-| ---------- | -------- | ------- |
-| `text`     | `string` | `-`     |
-| `fontSize` | `number` | `120`   |
+| Prop                 | Type        | Default  |
+| -------------------- | ----------- | -------- |
+| `from`               | `ReactNode` | `-`      |
+| `to`                 | `ReactNode` | `-`      |
+| `text`               | `string`    | `"NEXT"` |
+| `transitionStart`    | `number`    | `-`      |
+| `holdFrames`         | `number`    | `12`     |
+| `transitionDuration` | `number`    | `24`     |
+| `maxScale`           | `number`    | `120`    |
+| `speed`              | `number`    | `1`      |
+| `fps`                | `number`    | `30`     |
+| `durationInFrames`   | `number`    | `90`     |
+| `width`              | `number`    | `1280`   |
+| `height`             | `number`    | `720`    |
+| `className`          | `string`    | `-`      |
 
 ## Notes
 

@@ -47,16 +47,32 @@ import { MorphingModal } from "@/components/framecn/morphing-modal";
 ```
 
 ```tsx
-<MorphingModal isOpen={true} />
+<MorphingModal />
 ```
 
 ## API Reference
 
 ### MorphingModal
 
-| Prop     | Type      | Default |
-| -------- | --------- | ------- |
-| `isOpen` | `boolean` | `true`  |
+| Prop               | Type                | Default        |
+| ------------------ | ------------------- | -------------- |
+| `from`             | `MorphingModalRect` | `DEFAULT_FROM` |
+| `to`               | `MorphingModalRect` | `DEFAULT_TO`   |
+| `borderRadiusFrom` | `number`            | `24`           |
+| `borderRadiusTo`   | `number`            | `0`            |
+| `morphAt`          | `number`            | `30`           |
+| `background`       | `string`            | `"#050505"`    |
+| `cardColor`        | `string`            | `"#0a0a0a"`    |
+| `textColor`        | `string`            | `"#fafafa"`    |
+| `mutedColor`       | `string`            | `"#71717a"`    |
+| `source`           | `ReactNode`         | `-`            |
+| `modal`            | `ReactNode`         | `-`            |
+| `speed`            | `number`            | `1`            |
+| `fps`              | `number`            | `30`           |
+| `durationInFrames` | `number`            | `180`          |
+| `width`            | `number`            | `1280`         |
+| `height`           | `number`            | `720`          |
+| `className`        | `string`            | `-`            |
 
 ## Notes
 

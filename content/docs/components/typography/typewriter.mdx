@@ -44,19 +44,29 @@ import { Typewriter } from "@/components/framecn/typewriter";
 ```
 
 ```tsx
-<Typewriter text="text" speed={0} cursor={true} fontSize={0} />
+<Typewriter />
 ```
 
 ## API Reference
 
 ### Typewriter
 
-| Prop       | Type      | Default |
-| ---------- | --------- | ------- |
-| `text`     | `string`  | `-`     |
-| `speed`    | `number`  | `0.08`  |
-| `cursor`   | `boolean` | `true`  |
-| `fontSize` | `number`  | `48`    |
+| Prop               | Type      | Default                         |
+| ------------------ | --------- | ------------------------------- |
+| `text`             | `string`  | `"console.log('hello, world')"` |
+| `cursor`           | `boolean` | `true`                          |
+| `charsPerSecond`   | `number`  | `20`                            |
+| `speed`            | `number`  | `1`                             |
+| `fontSize`         | `number`  | `48`                            |
+| `color`            | `string`  | `"#171717"`                     |
+| `cursorColor`      | `string`  | `"#171717"`                     |
+| `fontWeight`       | `number`  | `600`                           |
+| `className`        | `string`  | `-`                             |
+| `fps`              | `number`  | `30`                            |
+| `durationInFrames` | `number`  | `120`                           |
+| `width`            | `number`  | `1000`                          |
+| `height`           | `number`  | `500`                           |
+| `background`       | `string`  | `"white"`                       |
 
 ## Notes
 

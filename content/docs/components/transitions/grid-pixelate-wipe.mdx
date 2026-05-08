@@ -47,17 +47,30 @@ import { GridPixelateWipe } from "@/components/framecn/grid-pixelate-wipe";
 ```
 
 ```tsx
-<GridPixelateWipe gridSize={0} duration={0} />
+<GridPixelateWipe />
 ```
 
 ## API Reference
 
 ### GridPixelateWipe
 
-| Prop       | Type     | Default |
-| ---------- | -------- | ------- |
-| `gridSize` | `number` | `10`    |
-| `duration` | `number` | `1`     |
+| Prop                 | Type                               | Default   |
+| -------------------- | ---------------------------------- | --------- |
+| `from`               | `React.ReactNode`                  | `-`       |
+| `to`                 | `React.ReactNode`                  | `-`       |
+| `cols`               | `number`                           | `12`      |
+| `rows`               | `number`                           | `7`       |
+| `pattern`            | `"wave" \| "diagonal" \| "spiral"` | `"wave"`  |
+| `transitionStart`    | `number`                           | `36`      |
+| `transitionDuration` | `number`                           | `30`      |
+| `cellFadeFrames`     | `number`                           | `4`       |
+| `speed`              | `number`                           | `1`       |
+| `fps`                | `number`                           | `30`      |
+| `durationInFrames`   | `number`                           | `90`      |
+| `width`              | `number`                           | `1280`    |
+| `height`             | `number`                           | `720`     |
+| `background`         | `string`                           | `"black"` |
+| `className`          | `string`                           | `-`       |
 
 ## Notes
 

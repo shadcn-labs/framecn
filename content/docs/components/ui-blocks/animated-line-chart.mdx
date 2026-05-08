@@ -47,19 +47,27 @@ import { AnimatedLineChart } from "@/components/framecn/animated-line-chart";
 ```
 
 ```tsx
-<AnimatedLineChart data={0} width={0} height={0} color="color" />
+<AnimatedLineChart />
 ```
 
 ## API Reference
 
 ### AnimatedLineChart
 
-| Prop     | Type                              | Default     |
-| -------- | --------------------------------- | ----------- |
-| `data`   | `Array<{ x: number, y: number }>` | `-`         |
-| `width`  | `number`                          | `400`       |
-| `height` | `number`                          | `200`       |
-| `color`  | `string`                          | `"#3b82f6"` |
+| Prop               | Type       | Default                               |
+| ------------------ | ---------- | ------------------------------------- |
+| `data`             | `number[]` | `[12, 19, 8, 15, 22, 18, 28, 25, 32]` |
+| `width`            | `number`   | `1000`                                |
+| `height`           | `number`   | `500`                                 |
+| `strokeColor`      | `string`   | `"#22c55e"`                           |
+| `strokeWidth`      | `number`   | `4`                                   |
+| `background`       | `string`   | `"#0a0a0a"`                           |
+| `gridColor`        | `string`   | `"#27272a"`                           |
+| `showDot`          | `boolean`  | `true`                                |
+| `speed`            | `number`   | `1`                                   |
+| `fps`              | `number`   | `30`                                  |
+| `durationInFrames` | `number`   | `90`                                  |
+| `className`        | `string`   | `-`                                   |
 
 ## Notes
 

@@ -44,19 +44,25 @@ import { DynamicGrid } from "@/components/framecn/dynamic-grid";
 ```
 
 ```tsx
-<DynamicGrid pattern="value" spacing={0} color="color" animate={true} />
+<DynamicGrid />
 ```
 
 ## API Reference
 
 ### DynamicGrid
 
-| Prop      | Type       | Default     |
-| --------- | ---------- | ----------- |
-| `pattern` | `"grid" \` | `"dots"`    |
-| `spacing` | `number`   | `40`        |
-| `color`   | `string`   | `"#e5e7eb"` |
-| `animate` | `boolean`  | `true`      |
+| Prop               | Type                                       | Default      |
+| ------------------ | ------------------------------------------ | ------------ |
+| `cellSize`         | `number`                                   | `40`         |
+| `lineColor`        | `string`                                   | `"#27272a"`  |
+| `background`       | `string`                                   | `"#0a0a0a"`  |
+| `speed`            | `number`                                   | `0.5`        |
+| `direction`        | `"diagonal" \| "horizontal" \| "vertical"` | `"diagonal"` |
+| `fps`              | `number`                                   | `30`         |
+| `durationInFrames` | `number`                                   | `150`        |
+| `width`            | `number`                                   | `1280`       |
+| `height`           | `number`                                   | `720`        |
+| `className`        | `string`                                   | `-`          |
 
 ## Notes
 

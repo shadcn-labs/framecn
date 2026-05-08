@@ -47,14 +47,31 @@ import { ImageExpandToFullscreen } from "@/components/framecn/image-expand-to-fu
 ```
 
 ```tsx
-<ImageExpandToFullscreen src="src" expand={true} />
+<ImageExpandToFullscreen />
 ```
 
 ## API Reference
 
 ### ImageExpandToFullscreen
 
-| Prop     | Type      | Default |
-| -------- | --------- | ------- |
-| `src`    | `string`  | `-`     |
-| `expand` | `boolean` | `true`  |
+| Prop               | Type              | Default                                                               |
+| ------------------ | ----------------- | --------------------------------------------------------------------- |
+| `from`             | `ImageExpandRect` | `DEFAULT_FROM`                                                        |
+| `to`               | `ImageExpandRect` | `DEFAULT_TO`                                                          |
+| `borderRadiusFrom` | `number`          | `12`                                                                  |
+| `borderRadiusTo`   | `number`          | `16`                                                                  |
+| `morphAt`          | `number`          | `30`                                                                  |
+| `imageColorA`      | `string`          | `"#ff6b6b"`                                                           |
+| `imageColorB`      | `string`          | `"#845ec2"`                                                           |
+| `imageColorC`      | `string`          | `"#4d8dff"`                                                           |
+| `feedBackground`   | `string`          | `"#f4f4f5"`                                                           |
+| `editorBackground` | `string`          | `"#0a0a0a"`                                                           |
+| `accent`           | `string`          | `"#fafafa"`                                                           |
+| `postAuthor`       | `string`          | `"Maya Larsson"`                                                      |
+| `postBody`         | `string`          | `"Sunset over the old harbor — color graded straight out of camera."` |
+| `speed`            | `number`          | `1`                                                                   |
+| `fps`              | `number`          | `30`                                                                  |
+| `durationInFrames` | `number`          | `150`                                                                 |
+| `width`            | `number`          | `1280`                                                                |
+| `height`           | `number`          | `720`                                                                 |
+| `className`        | `string`          | `-`                                                                   |

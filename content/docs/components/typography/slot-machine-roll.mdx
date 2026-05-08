@@ -47,18 +47,24 @@ import { SlotMachineRoll } from "@/components/framecn/slot-machine-roll";
 ```
 
 ```tsx
-<SlotMachineRoll text="text" duration={0} fontSize={0} />
+<SlotMachineRoll />
 ```
 
 ## API Reference
 
 ### SlotMachineRoll
 
-| Prop       | Type     | Default |
-| ---------- | -------- | ------- |
-| `text`     | `string` | `-`     |
-| `duration` | `number` | `1.5`   |
-| `fontSize` | `number` | `48`    |
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `from`             | `string` | `"$99"`     |
+| `to`               | `string` | `"$199"`    |
+| `fontSize`         | `number` | `120`       |
+| `color`            | `string` | `"#171717"` |
+| `fontWeight`       | `number` | `700`       |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `45`        |
+| `className`        | `string` | `-`         |
 
 ## Notes
 

@@ -47,18 +47,30 @@ import { CodeAccordion } from "@/components/framecn/code-accordion";
 ```
 
 ```tsx
-<CodeAccordion code="code" threshold={0} language="language" />
+<CodeAccordion />
 ```
 
 ## API Reference
 
 ### CodeAccordion
 
-| Prop        | Type     | Default        |
-| ----------- | -------- | -------------- |
-| `code`      | `string` | `-`            |
-| `threshold` | `number` | `10`           |
-| `language`  | `string` | `"typescript"` |
+| Prop               | Type               | Default               |
+| ------------------ | ------------------ | --------------------- |
+| `lines`            | `string[]`         | `DEFAULT_LINES`       |
+| `collapseRange`    | `[number, number]` | `[3, 14]`             |
+| `collapseAt`       | `number`           | `30`                  |
+| `title`            | `string`           | `"process-orders.ts"` |
+| `fontSize`         | `number`           | `16`                  |
+| `width`            | `number`           | `720`                 |
+| `background`       | `string`           | `"#050505"`           |
+| `cardColor`        | `string`           | `"#0a0a0a"`           |
+| `textColor`        | `string`           | `"#e4e4e7"`           |
+| `mutedColor`       | `string`           | `"#52525b"`           |
+| `speed`            | `number`           | `1`                   |
+| `fps`              | `number`           | `30`                  |
+| `durationInFrames` | `number`           | `150`                 |
+| `height`           | `number`           | `720`                 |
+| `className`        | `string`           | `-`                   |
 
 ## Notes
 

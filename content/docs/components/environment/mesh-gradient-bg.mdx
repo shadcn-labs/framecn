@@ -47,18 +47,24 @@ import { MeshGradientBackground } from "@/components/framecn/mesh-gradient-bg";
 ```
 
 ```tsx
-<MeshGradientBackground colors="colors" blend={0} speed={0} />
+<MeshGradientBg />
 ```
 
 ## API Reference
 
-### MeshGradientBackground
+### MeshGradientBg
 
-| Prop     | Type       | Default                             |
-| -------- | ---------- | ----------------------------------- |
-| `colors` | `string[]` | `["#6366f1", "#8b5cf6", "#ec4899"]` |
-| `blend`  | `number`   | `20`                                |
-| `speed`  | `number`   | `0.5`                               |
+| Prop               | Type       | Default                                        |
+| ------------------ | ---------- | ---------------------------------------------- |
+| `colors`           | `string[]` | `["#ff0080", "#7928ca", "#00d4ff", "#ffb800"]` |
+| `speed`            | `number`   | `1`                                            |
+| `blur`             | `number`   | `80`                                           |
+| `background`       | `string`   | `"#0a0a0a"`                                    |
+| `className`        | `string`   | `-`                                            |
+| `fps`              | `number`   | `30`                                           |
+| `durationInFrames` | `number`   | `150`                                          |
+| `width`            | `number`   | `1280`                                         |
+| `height`           | `number`   | `720`                                          |
 
 ## Notes
 

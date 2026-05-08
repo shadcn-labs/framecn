@@ -47,18 +47,25 @@ import { StaggeredBentoGrid } from "@/components/framecn/staggered-bento-grid";
 ```
 
 ```tsx
-<StaggeredBentoGrid columns={0} gap={0} staggerDelay={0} />
+<StaggeredBentoGrid />
 ```
 
 ## API Reference
 
 ### StaggeredBentoGrid
 
-| Prop           | Type     | Default |
-| -------------- | -------- | ------- |
-| `columns`      | `number` | `3`     |
-| `gap`          | `number` | `16`    |
-| `staggerDelay` | `number` | `0.1`   |
+| Prop               | Type          | Default         |
+| ------------------ | ------------- | --------------- |
+| `items`            | `BentoItem[]` | `DEFAULT_ITEMS` |
+| `staggerDelay`     | `number`      | `8`             |
+| `columns`          | `number`      | `3`             |
+| `background`       | `string`      | `"#0a0a0a"`     |
+| `cardColor`        | `string`      | `"#1a1a1a"`     |
+| `textColor`        | `string`      | `"white"`       |
+| `speed`            | `number`      | `1`             |
+| `fps`              | `number`      | `30`            |
+| `durationInFrames` | `number`      | `90`            |
+| `className`        | `string`      | `-`             |
 
 ## Notes
 

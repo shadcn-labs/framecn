@@ -47,18 +47,28 @@ import { ProgressSteps } from "@/components/framecn/progress-steps";
 ```
 
 ```tsx
-<ProgressSteps steps="steps" currentStep={0} color="color" />
+<ProgressSteps />
 ```
 
 ## API Reference
 
 ### ProgressSteps
 
-| Prop          | Type       | Default     |
-| ------------- | ---------- | ----------- |
-| `steps`       | `string[]` | `-`         |
-| `currentStep` | `number`   | `0`         |
-| `color`       | `string`   | `"#3b82f6"` |
+| Prop               | Type                         | Default                                                             |
+| ------------------ | ---------------------------- | ------------------------------------------------------------------- |
+| `steps`            | `{ label: string }[]`        | `[{ label: "Connect" }, { label: "Process" }, { label: "Deploy" }]` |
+| `orientation`      | `"horizontal" \| "vertical"` | `"horizontal"`                                                      |
+| `activeColor`      | `string`                     | `"#22c55e"`                                                         |
+| `inactiveColor`    | `string`                     | `"#27272a"`                                                         |
+| `background`       | `string`                     | `"#0a0a0a"`                                                         |
+| `textColor`        | `string`                     | `"white"`                                                           |
+| `stepDuration`     | `number`                     | `30`                                                                |
+| `speed`            | `number`                     | `1`                                                                 |
+| `fps`              | `number`                     | `30`                                                                |
+| `durationInFrames` | `number`                     | `150`                                                               |
+| `width`            | `number`                     | `1000`                                                              |
+| `height`           | `number`                     | `500`                                                               |
+| `className`        | `string`                     | `-`                                                                 |
 
 ## Notes
 
