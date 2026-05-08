@@ -3,6 +3,7 @@ import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { DocsAdPlacement } from "@/components/docs-ad-placement";
 // import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
 import { DocsCopyPage } from "@/components/docs-copy-page";
 import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
@@ -176,6 +177,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                   </div>
                 ) : null}
               </div>
+              <DocsAdPlacement type="card" showOnMobile showOnDesktop={false} />
               <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
                 {/* {params.slug &&
                 params.slug[0] === "components" &&
@@ -219,6 +221,11 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                 <DocsTableOfContents toc={doc.toc} docId={page.path} />
               </div>
             ) : null}
+            <DocsAdPlacement
+              type="card"
+              showOnDesktop
+              className="hidden flex-col gap-6 px-6 xl:flex"
+            />
           </div>
         </div>
       </PageTransition>
