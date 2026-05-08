@@ -91,22 +91,6 @@ const ResetButton = ({ ...props }: React.ComponentProps<typeof Button>) => (
 
 type RegistryComponent = React.ComponentType<Record<string, unknown>>;
 
-const PreviewSurface = ({
-  previewId,
-  Component,
-  componentProps,
-}: {
-  previewId: string;
-  Component: RegistryComponent;
-  componentProps: Record<string, unknown>;
-}) => (
-  <Preview id={previewId}>
-    <FitScale className="aspect-video rounded-md">
-      <Component {...componentProps} />
-    </FitScale>
-  </Preview>
-);
-
 const PreviewControls = ({ previewId }: { previewId: string }) => {
   const controlsRef = useRef<React.ComponentRef<typeof Controls>>(null);
   const [isLooping, setIsLooping] = useState(false);
@@ -198,11 +182,11 @@ const PreviewChrome = ({
   componentProps: Record<string, unknown>;
 }) => (
   <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
-    <PreviewSurface
-      previewId={previewId}
-      Component={Component}
-      componentProps={componentProps}
-    />
+    <Preview id={previewId} className="aspect-video">
+      <FitScale className="rounded-md">
+        <Component {...componentProps} />
+      </FitScale>
+    </Preview>
     <PreviewControls previewId={previewId} />
   </div>
 );
