@@ -5,7 +5,7 @@ import { getDefaults } from "@/lib/customizer-config";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { buildParsers } from "@/lib/url";
 
-type QueryStatesSetter = (
+export type QueryStatesSetter = (
   value: Partial<Record<string, unknown>> | null
 ) => unknown;
 

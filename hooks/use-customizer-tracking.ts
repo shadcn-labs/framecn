@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 
-import type { QueryStatesSetter } from "@/components/component-preview/hooks";
+import type { QueryStatesSetter } from "@/hooks/use-customizer";
 import { trackEvent } from "@/lib/events";
 
 export const useCustomizerTracking = (
