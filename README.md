@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <a href="https://framecn.com/docs">Get Started</a> ·
-  <a href="https://framecn.com/docs/installation">Installation</a> ·
-  <a href="https://framecn.com/docs/components">Components</a>
+  <a href="https://framecn.dev/docs">Get Started</a> ·
+  <a href="https://framecn.dev/docs/installation">Installation</a> ·
+  <a href="https://framecn.dev/docs/components">Components</a>
 </p>
 
 <br />
