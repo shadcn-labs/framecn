@@ -1,0 +1,12 @@
+{
+  "title": "Editframe",
+  "pages": [
+    "index",
+    "primitives",
+    "compositions",
+    "transitions",
+    "typography",
+    "ui-blocks",
+    "environment"
+  ]
+}
