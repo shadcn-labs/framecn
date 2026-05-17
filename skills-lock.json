@@ -13,6 +13,12 @@
       "skillPath": ".claude/skills/agentic-harness-design/SKILL.md",
       "computedHash": "151f8be4b36af0792a81a4dd2646c8c9cd058dc5adfe05fc4a465877d5a51f75"
     },
+    "composition": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": "composition/SKILL.md",
+      "computedHash": "64b5fba41c8f1fad945a2b4850a8aa87fea1574438e6b5d2d12ffaa62cedf54f"
+    },
     "css-animations": {
       "source": "editframe/skills",
       "sourceType": "github",
@@ -37,11 +43,29 @@
       "skillPath": ".claude/skills/diagnostic-logs/SKILL.md",
       "computedHash": "e7be4cab92f9e1b3890dcf2017987233c4c2d9e3f22a6303066a21005adbd224"
     },
+    "editframe-api": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": "editframe-api/SKILL.md",
+      "computedHash": "8682bc892e394224c6cac93e78f6846bd35ab76efa18ce571f9253f3a8e36c02"
+    },
+    "editframe-cli": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": "editframe-cli/SKILL.md",
+      "computedHash": "8e8a337eb2fc00169fbaa8c7341e56a7aa1f691ed3ceb7823745a3ce65f0575e"
+    },
+    "editframe-create": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": "editframe-create/SKILL.md",
+      "computedHash": "f9e6068b8110240da99117fbea3db789fd02fd86658ee10c76c65378fd8958d8"
+    },
     "editor-gui": {
       "source": "editframe/skills",
       "sourceType": "github",
-      "skillPath": ".claude/skills/editor-gui/SKILL.md",
-      "computedHash": "8ef36484476274c09cfbe307651dbd93752f5b68c5b9cb9abf700e60ef993b8e"
+      "skillPath": "editor-gui/SKILL.md",
+      "computedHash": "66ad856a719c50542a59236d0255adbd4fa25547d41599f390e537ab1fb503f7"
     },
     "ef-agent-panel": {
       "source": "editframe/skills",
@@ -60,6 +84,12 @@
       "sourceType": "github",
       "skillPath": ".claude/skills/hero-demo/SKILL.md",
       "computedHash": "8704e68e1f942e8f6adc095ff32060b4bfb1a6dc9fe9e965d049ff35627d5c6d"
+    },
+    "hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes/SKILL.md",
+      "computedHash": "f726a7478c7a3133e763c9af5f8ade12bc65dbdf32f09a854696ebabc68433a5"
     },
     "linear-cli": {
       "source": "editframe/skills",
@@ -156,6 +186,18 @@
       "sourceType": "github",
       "skillPath": ".claude/skills/visual-thinking/SKILL.md",
       "computedHash": "767ab8d738945e55678448901d751885ec41aa2e1619e15e16f14c84f42f4336"
+    },
+    "vite-plugin": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": "vite-plugin/SKILL.md",
+      "computedHash": "fa71a22e87aa0a581ec10d07c88a3dec933b0a2a31a5b13ac562cff29c7d0b5a"
+    },
+    "webhooks": {
+      "source": "editframe/skills",
+      "sourceType": "github",
+      "skillPath": "webhooks/SKILL.md",
+      "computedHash": "cfbf5dcd0034c49aedde2cba70c6d858a3d69fa4db31e2c46c8ab63edb952b4c"
     }
   }
 }
