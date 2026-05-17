@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terminal Simulator</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .terminal {
+        background: #14141f;
+        border-radius: 16px;
+        border: 1px solid #27272a;
+        overflow: hidden;
+        max-width: 1000px;
+      }
+      .terminal-header {
+        background: #1e1e2e;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .terminal-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+      .terminal-dot.red {
+        background: #ef4444;
+      }
+      .terminal-dot.yellow {
+        background: #fbbf24;
+      }
+      .terminal-dot.green {
+        background: #22c55e;
+      }
+      .terminal-body {
+        padding: 24px;
+        font-size: 18px;
+        line-height: 1.8;
+      }
+      .terminal-line {
+        opacity: 0;
+      }
+      .terminal-prompt {
+        color: #22c55e;
+      }
+      .terminal-cmd {
+        color: #e2e2e8;
+      }
+      .terminal-output {
+        color: #71717a;
+      }
+      .terminal-cursor {
+        display: inline-block;
+        width: 10px;
+        height: 20px;
+        background: #22c55e;
+        opacity: 0;
+        vertical-align: text-bottom;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #22c55e;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #22c55e;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="terminal-simulator"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="10"
+    >
+      <div class="scene-content">
+        <div class="tag">Terminal</div>
+        <div class="line"></div>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line" id="t-1">
+              <span class="terminal-prompt">$ </span
+              ><span class="terminal-cmd">npm run build</span>
+            </div>
+            <div class="terminal-line" id="t-2">
+              <span class="terminal-output"
+                >✓ Compiled successfully in 2.4s</span
+              >
+            </div>
+            <div class="terminal-line" id="t-3">
+              <span class="terminal-prompt">$ </span
+              ><span class="terminal-cmd">npm run deploy</span>
+            </div>
+            <div class="terminal-line" id="t-4">
+              <span class="terminal-output">🚀 Deployed to production</span>
+            </div>
+            <div class="terminal-line" id="t-5">
+              <span class="terminal-prompt">$ </span
+              ><span class="terminal-cursor" id="t-cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var lines = ["#t-1", "#t-2", "#t-3", "#t-4", "#t-5"];
+      for (var i = 0; i < lines.length; i++) {
+        tl.to(lines[i], { opacity: 1, duration: 0.3 }, 0.5 + i * 0.8);
+      }
+      tl.to(
+        "#t-cursor",
+        { opacity: 1, duration: 0.5, repeat: 5, yoyo: true, ease: "steps(1)" },
+        4.5
+      );
+
+      window.__timelines["terminal-simulator"] = tl;
+    </script>
+  </body>
+</html>

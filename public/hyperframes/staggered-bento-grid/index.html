@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staggered Bento Grid</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fafafa;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        box-sizing: border-box;
+      }
+      .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 200px);
+        gap: 16px;
+      }
+      .bento-item {
+        background: white;
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        opacity: 0;
+        transform: translateY(40px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      .bento-item:nth-child(1) {
+        grid-column: span 2;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      }
+      .bento-item:nth-child(1) .bento-title {
+        color: white;
+      }
+      .bento-item:nth-child(1) .bento-desc {
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .bento-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #171717;
+        margin-bottom: 8px;
+      }
+      .bento-desc {
+        font-size: 16px;
+        color: #71717a;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #6366f1;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #6366f1;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="staggered-bento-grid"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Bento Grid</div>
+        <div class="line"></div>
+        <div class="bento-grid">
+          <div class="bento-item" id="bento-1">
+            <div class="bento-title">Featured</div>
+            <div class="bento-desc">Wide card with gradient background</div>
+          </div>
+          <div class="bento-item" id="bento-2">
+            <div class="bento-title">Analytics</div>
+            <div class="bento-desc">Real-time metrics</div>
+          </div>
+          <div class="bento-item" id="bento-3">
+            <div class="bento-title">Settings</div>
+            <div class="bento-desc">Configure your workspace</div>
+          </div>
+          <div class="bento-item" id="bento-4">
+            <div class="bento-title">Team</div>
+            <div class="bento-desc">Manage members</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var items = ["#bento-1", "#bento-2", "#bento-3", "#bento-4"];
+      for (var i = 0; i < items.length; i++) {
+        tl.to(
+          items[i],
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.3 + i * 0.15
+        );
+      }
+
+      window.__timelines["staggered-bento-grid"] = tl;
+    </script>
+  </body>
+</html>

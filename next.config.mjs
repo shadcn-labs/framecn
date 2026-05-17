@@ -50,6 +50,11 @@ const nextConfig = {
         permanent: true,
         source: `${ROUTES.DOCS}/:path*.mdx`,
       },
+      {
+        destination: `${ROUTES.DOCS_COMPONENTS}/editframe/:category/:component`,
+        permanent: true,
+        source: `${ROUTES.DOCS_COMPONENTS}/:category((?!editframe|hyperframes)[^/]+)/:component`,
+      },
     ];
   },
 };

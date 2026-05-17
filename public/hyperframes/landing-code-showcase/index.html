@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Code Showcase</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+      .showcase-card {
+        background: #14141f;
+        border-radius: 16px;
+        border: 1px solid #27272a;
+        padding: 28px;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .showcase-lang {
+        font-size: 12px;
+        font-weight: 700;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 12px;
+      }
+      .showcase-code {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 15px;
+        line-height: 1.7;
+        color: #a1a1aa;
+      }
+      .kw {
+        color: #c084fc;
+      }
+      .str {
+        color: #34d399;
+      }
+      .fn {
+        color: #60a5fa;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="landing-code-showcase"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Code Showcase</div>
+        <div class="showcase-grid">
+          <div class="showcase-card" id="sc-1">
+            <div class="showcase-lang">React</div>
+            <div class="showcase-code">
+              <span class="kw">const</span> App = () => {<br />&nbsp;&nbsp;<span
+                class="kw"
+                >return</span
+              >
+              &lt;<span class="fn">Layout</span> /&gt;;<br />};
+            </div>
+          </div>
+          <div class="showcase-card" id="sc-2">
+            <div class="showcase-lang">Vue</div>
+            <div class="showcase-code">
+              &lt;<span class="fn">template</span
+              >&gt;<br />&nbsp;&nbsp;&lt;<span class="fn">Layout</span>
+              /&gt;<br />&lt;/<span class="fn">template</span>&gt;
+            </div>
+          </div>
+          <div class="showcase-card" id="sc-3">
+            <div class="showcase-lang">Svelte</div>
+            <div class="showcase-code">
+              &lt;<span class="fn">script</span>&gt;<br />&nbsp;&nbsp;<span
+                class="kw"
+                >import</span
+              >
+              Layout <span class="kw">from</span>
+              <span class="str">'./Layout'</span>;<br />&lt;/<span class="fn"
+                >script</span
+              >&gt;
+            </div>
+          </div>
+          <div class="showcase-card" id="sc-4">
+            <div class="showcase-lang">Angular</div>
+            <div class="showcase-code">
+              <span class="kw">@Component</span>({<br />&nbsp;&nbsp;selector:
+              <span class="str">'app-root'</span>,<br />&nbsp;&nbsp;template:
+              <span class="str">'&lt;layout/&gt;'</span><br />})
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var cards = ["#sc-1", "#sc-2", "#sc-3", "#sc-4"];
+      for (var i = 0; i < cards.length; i++) {
+        tl.to(
+          cards[i],
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.3 + i * 0.15
+        );
+      }
+
+      window.__timelines["landing-code-showcase"] = tl;
+    </script>
+  </body>
+</html>

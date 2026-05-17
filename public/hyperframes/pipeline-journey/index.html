@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pipeline Journey</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .pipeline {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        justify-content: center;
+      }
+      .pipe-stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .pipe-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 16px;
+        background: #14141f;
+        border: 2px solid #27272a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      .pipe-icon.active {
+        border-color: #6366f1;
+        background: rgba(99, 102, 241, 0.1);
+      }
+      .pipe-icon.done {
+        border-color: #22c55e;
+        background: rgba(34, 197, 94, 0.1);
+      }
+      .pipe-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #71717a;
+        opacity: 0;
+      }
+      .pipe-connector {
+        width: 80px;
+        height: 3px;
+        background: #27272a;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+      }
+      .pipe-connector-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(to right, #6366f1, #22c55e);
+        border-radius: 2px;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .pipeline-status {
+        font-size: 24px;
+        color: #71717a;
+        text-align: center;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="pipeline-journey"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="10"
+    >
+      <div class="scene-content">
+        <div class="tag">CI/CD Pipeline</div>
+        <div class="pipeline">
+          <div class="pipe-stage">
+            <div class="pipe-icon" id="ps-1">📥</div>
+            <div class="pipe-label" id="pl-1">Source</div>
+          </div>
+          <div class="pipe-connector">
+            <div class="pipe-connector-fill" id="pc-1"></div>
+          </div>
+          <div class="pipe-stage">
+            <div class="pipe-icon" id="ps-2">🔍</div>
+            <div class="pipe-label" id="pl-2">Lint</div>
+          </div>
+          <div class="pipe-connector">
+            <div class="pipe-connector-fill" id="pc-2"></div>
+          </div>
+          <div class="pipe-stage">
+            <div class="pipe-icon" id="ps-3">🧪</div>
+            <div class="pipe-label" id="pl-3">Test</div>
+          </div>
+          <div class="pipe-connector">
+            <div class="pipe-connector-fill" id="pc-3"></div>
+          </div>
+          <div class="pipe-stage">
+            <div class="pipe-icon" id="ps-4">📦</div>
+            <div class="pipe-label" id="pl-4">Build</div>
+          </div>
+          <div class="pipe-connector">
+            <div class="pipe-connector-fill" id="pc-4"></div>
+          </div>
+          <div class="pipe-stage">
+            <div class="pipe-icon" id="ps-5">🚀</div>
+            <div class="pipe-label" id="pl-5">Deploy</div>
+          </div>
+        </div>
+        <div class="pipeline-status" id="pipe-status">Pipeline running...</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var stages = ["#ps-1", "#ps-2", "#ps-3", "#ps-4", "#ps-5"];
+      var labels = ["#pl-1", "#pl-2", "#pl-3", "#pl-4", "#pl-5"];
+      var conns = ["#pc-1", "#pc-2", "#pc-3", "#pc-4"];
+
+      tl.to("#pipe-status", { opacity: 1, duration: 0.3 }, 0.3);
+
+      for (var i = 0; i < stages.length; i++) {
+        tl.to(
+          stages[i],
+          { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+          0.5 + i * 0.8
+        );
+        tl.to(labels[i], { opacity: 1, duration: 0.3 }, 0.7 + i * 0.8);
+        if (i < conns.length) {
+          tl.to(
+            conns[i],
+            { width: "100%", duration: 0.5, ease: "power2.out" },
+            0.9 + i * 0.8
+          );
+        }
+      }
+
+      tl.call(
+        function () {
+          document.getElementById("pipe-status").textContent =
+            "✓ Pipeline complete";
+          document.getElementById("pipe-status").style.color = "#22c55e";
+        },
+        null,
+        4.5
+      );
+
+      window.__timelines["pipeline-journey"] = tl;
+    </script>
+  </body>
+</html>

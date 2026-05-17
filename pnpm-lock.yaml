@@ -17,6 +17,9 @@ importers:
       '@editframe/react':
         specifier: ^0.50.1
         version: 0.50.1(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@hyperframes/player':
+        specifier: ^0.6.16
+        version: 0.6.16
       '@tailwindcss/postcss':
         specifier: ^4.2.4
         version: 4.2.4
@@ -513,6 +516,9 @@ packages:
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
+
+  '@hyperframes/player@0.6.16':
+    resolution: {integrity: sha512-Y/cf3kxnXnzux93otiqAj7sH7X0IecikxkqK0+VXjk+A+wXoELGNMQ5rkIcQTq6nUwyMCQ2oVZVVsk4lSf8Uiw==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -4932,6 +4938,8 @@ snapshots:
   '@hono/node-server@1.19.14(hono@4.12.15)':
     dependencies:
       hono: 4.12.15
+
+  '@hyperframes/player@0.6.16': {}
 
   '@img/colour@1.1.0':
     optional: true

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cursor Flow</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .trail-dot {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #6366f1;
+        opacity: 0;
+      }
+      .cursor-head {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #818cf8;
+        opacity: 0;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        position: relative;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="cursor-flow"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Cursor Trail</div>
+        <div class="cursor-head" id="cursor-head"></div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var container = document.querySelector(".scene-content");
+      for (var i = 0; i < 15; i++) {
+        var dot = document.createElement("div");
+        dot.className = "trail-dot";
+        dot.id = "trail-" + i;
+        container.appendChild(dot);
+      }
+
+      var points = [
+        { x: 400, y: 300 },
+        { x: 600, y: 400 },
+        { x: 800, y: 350 },
+        { x: 1000, y: 500 },
+        { x: 900, y: 600 },
+        { x: 700, y: 550 },
+        { x: 500, y: 450 },
+        { x: 600, y: 300 },
+      ];
+
+      tl.to("#cursor-head", { opacity: 1, duration: 0.2 }, 0.3);
+      tl.to(
+        "#cursor-head",
+        { left: points[0].x, top: points[0].y, duration: 0.01 },
+        0.3
+      );
+
+      for (var i = 0; i < points.length; i++) {
+        tl.to(
+          "#cursor-head",
+          {
+            left: points[i].x,
+            top: points[i].y,
+            duration: 0.6,
+            ease: "power2.inOut",
+          },
+          0.5 + i * 0.6
+        );
+      }
+
+      for (var j = 0; j < 15; j++) {
+        var delay = 0.5 + j * 0.08;
+        tl.to("#trail-" + j, { opacity: 0.4, duration: 0.1 }, delay);
+        tl.to("#trail-" + j, { opacity: 0, duration: 0.3 }, delay + 1.5);
+      }
+
+      window.__timelines["cursor-flow"] = tl;
+    </script>
+  </body>
+</html>

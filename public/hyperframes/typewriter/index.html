@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typewriter Effect</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fafafa;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 200px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .typewriter-container {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .typewriter-text {
+        font-size: 80px;
+        font-weight: 600;
+        color: #171717;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 4px solid #171717;
+        width: 0;
+      }
+      .cursor-blink {
+        display: inline-block;
+        width: 4px;
+        height: 80px;
+        background: #171717;
+        opacity: 0;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #71717a;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #171717;
+        border-radius: 2px;
+      }
+      .glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 0, 0, 0.03) 0%,
+          transparent 70%
+        );
+        top: -100px;
+        right: -100px;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="typewriter"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="glow"></div>
+      <div class="scene-content">
+        <div class="tag">Typewriter</div>
+        <div class="line"></div>
+        <div class="typewriter-container">
+          <div class="typewriter-text" id="typewriter-text">Hello, world!</div>
+          <div class="cursor-blink" id="cursor"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var text = "Hello, world!";
+      var charsPerSecond = 12;
+      var typingDuration = text.length / charsPerSecond;
+      var holdDuration = 2;
+
+      tl.to(
+        "#typewriter-text",
+        {
+          width: text.length + "ch",
+          duration: typingDuration,
+          ease: "none",
+        },
+        0.3
+      );
+
+      tl.to("#cursor", { opacity: 1, duration: 0.01 }, 0.3);
+
+      tl.to(
+        "#cursor",
+        {
+          opacity: 0,
+          duration: 0.5,
+          repeat: Math.ceil(typingDuration / 1) * 2 - 1,
+          yoyo: true,
+          ease: "steps(1)",
+        },
+        0.3
+      );
+
+      tl.to(
+        "#cursor",
+        {
+          opacity: 0,
+          duration: 0.5,
+          repeat: 3,
+          yoyo: true,
+          ease: "steps(1)",
+        },
+        0.3 + typingDuration + 0.5
+      );
+
+      window.__timelines["typewriter"] = tl;
+    </script>
+  </body>
+</html>
