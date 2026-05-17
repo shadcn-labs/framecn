@@ -14,7 +14,11 @@ import {
 } from "@/components/ui/popover";
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
-import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
+import {
+  EXCLUDED_SECTIONS,
+  isEditframeFolder,
+  isHyperframesFolder,
+} from "@/lib/docs";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 
@@ -154,7 +158,7 @@ export const MobileNav = ({
               return null;
             }
 
-            if (isComponentsFolder(item)) {
+            if (isEditframeFolder(item) || isHyperframesFolder(item)) {
               return getFoldersFromFolder(item).map((category) => (
                 <MobileNavGroup
                   key={category.$id}

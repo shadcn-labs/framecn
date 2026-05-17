@@ -14,14 +14,19 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
-import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
+import {
+  EXCLUDED_SECTIONS,
+  isEditframeFolder,
+  isHyperframesFolder,
+} from "@/lib/docs";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import type { source } from "@/lib/source";
 
 const TOP_LEVEL_SECTIONS = [
   { href: ROUTES.DOCS, name: "Introduction" },
   { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
-  { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
+  { href: ROUTES.DOCS_COMPONENTS_EDITFRAME, name: "Editframe" },
+  { href: ROUTES.DOCS_COMPONENTS_HYPERFRAMES, name: "HyperFrames" },
   { href: ROUTES.DOCS_MCP, name: "MCP" },
   { href: ROUTES.DOCS_REGISTRY, name: "Registry" },
   { href: ROUTES.LLMS, name: "llms.txt" },
@@ -121,7 +126,7 @@ export const DocsSidebar = ({
             return null;
           }
 
-          if (isComponentsFolder(item)) {
+          if (isEditframeFolder(item) || isHyperframesFolder(item)) {
             return getFoldersFromFolder(item).map((category) => (
               <SidebarPageGroup
                 key={category.$id}

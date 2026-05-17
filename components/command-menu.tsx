@@ -35,7 +35,11 @@ import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { useMutationObserver } from "@/hooks/use-mutation-observer";
 import { usePackageManager } from "@/hooks/use-package-manager";
-import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
+import {
+  EXCLUDED_SECTIONS,
+  isEditframeFolder,
+  isHyperframesFolder,
+} from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
@@ -181,7 +185,7 @@ export const CommandMenu = ({
         continue;
       }
 
-      if (isComponentsFolder(item)) {
+      if (isEditframeFolder(item) || isHyperframesFolder(item)) {
         for (const category of getFoldersFromFolder(item)) {
           const pages = getPagesFromFolder(category, false).map((p) => ({
             name: typeof p.name === "string" ? p.name : String(p.name),

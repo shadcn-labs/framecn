@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { isComponentsFolder } from "@/lib/docs";
+import { isEditframeFolder, isHyperframesFolder } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { source } from "@/lib/source";
@@ -80,7 +80,7 @@ export const ComponentsList = ({
     return null;
   }
 
-  if (!isComponentsFolder(folder)) {
+  if (!isEditframeFolder(folder) && !isHyperframesFolder(folder)) {
     const pages = getPagesFromFolder(folder, false);
     if (pages.length === 0) {
       return null;
