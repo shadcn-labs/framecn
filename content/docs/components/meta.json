@@ -1,4 +1,4 @@
 {
   "title": "Components",
-  "pages": ["..."]
+  "pages": ["index", "editframe", "hyperframes"]
 }
