@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marker Highlight</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fafafa;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 200px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .marker-wrap {
+        position: relative;
+        display: inline-block;
+      }
+      .marker-text {
+        font-size: 100px;
+        font-weight: 800;
+        color: #171717;
+        position: relative;
+        z-index: 1;
+      }
+      .marker-svg {
+        position: absolute;
+        bottom: -12px;
+        left: -10px;
+        width: calc(100% + 20px);
+        height: 30px;
+        z-index: 0;
+      }
+      .marker-path {
+        fill: none;
+        stroke: #fbbf24;
+        stroke-width: 16;
+        stroke-linecap: round;
+        stroke-dasharray: 600;
+        stroke-dashoffset: 600;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #d97706;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #fbbf24;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="marker-highlight"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="6"
+    >
+      <div class="scene-content">
+        <div class="tag">Marker Highlight</div>
+        <div class="line"></div>
+        <div class="marker-wrap">
+          <svg
+            class="marker-svg"
+            viewBox="0 0 600 30"
+            preserveAspectRatio="none"
+          >
+            <path
+              class="marker-path"
+              id="marker-path"
+              d="M5,15 Q80,3 150,15 Q220,27 300,15 Q380,3 450,15 Q520,27 595,15"
+            />
+          </svg>
+          <span class="marker-text">Important</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        "#marker-path",
+        {
+          strokeDashoffset: 0,
+          duration: 0.8,
+          ease: "power1.inOut",
+        },
+        0.5
+      );
+
+      window.__timelines["marker-highlight"] = tl;
+    </script>
+  </body>
+</html>

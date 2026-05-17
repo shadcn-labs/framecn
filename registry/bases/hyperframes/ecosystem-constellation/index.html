@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ecosystem Constellation</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .constellation {
+        position: relative;
+        width: 800px;
+        height: 600px;
+      }
+      .const-node {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #14141f;
+        border: 2px solid #27272a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        opacity: 0;
+        transform: scale(0);
+      }
+      .const-node.center {
+        width: 100px;
+        height: 100px;
+        border-color: #6366f1;
+        background: rgba(99, 102, 241, 0.15);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+      }
+      .const-line {
+        position: absolute;
+        height: 2px;
+        background: #27272a;
+        transform-origin: left center;
+        opacity: 0;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="ecosystem-constellation"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Ecosystem</div>
+        <div class="constellation" id="constellation">
+          <div class="const-node center" id="cn-center">🌐</div>
+          <div class="const-node" id="cn-1" style="top: 10%; left: 20%">⚡</div>
+          <div class="const-node" id="cn-2" style="top: 5%; right: 25%">🔒</div>
+          <div class="const-node" id="cn-3" style="bottom: 15%; left: 15%">
+            📊
+          </div>
+          <div class="const-node" id="cn-4" style="bottom: 10%; right: 20%">
+            🚀
+          </div>
+          <div class="const-node" id="cn-5" style="top: 40%; left: 5%">🎨</div>
+          <div class="const-node" id="cn-6" style="top: 35%; right: 10%">
+            💾
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        "#cn-center",
+        { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+        0.3
+      );
+
+      var nodes = ["#cn-1", "#cn-2", "#cn-3", "#cn-4", "#cn-5", "#cn-6"];
+      for (var i = 0; i < nodes.length; i++) {
+        tl.to(
+          nodes[i],
+          { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+          0.6 + i * 0.15
+        );
+      }
+
+      tl.to(
+        "#cn-center",
+        {
+          scale: 1.1,
+          duration: 2,
+          ease: "sine.inOut",
+          repeat: 1,
+          yoyo: true,
+        },
+        1.5
+      );
+
+      window.__timelines["ecosystem-constellation"] = tl;
+    </script>
+  </body>
+</html>

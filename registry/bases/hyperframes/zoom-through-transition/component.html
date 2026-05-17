@@ -1,0 +1,70 @@
+<template id="zoom-through-transition-template">
+  <div
+    data-composition-id="zoom-through-transition"
+    data-width="1920"
+    data-height="1080"
+  >
+    <style>
+      [data-composition-id="zoom-through-transition"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="zoom-through-transition"] .zt-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="zoom-through-transition"] .zt-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="zoom-through-transition"] .zt-scene-in {
+        z-index: 2;
+        opacity: 0;
+        transform: scale(3);
+      }
+    </style>
+    <div class="zt-scene zt-scene-out" id="zt-out"></div>
+    <div class="zt-scene zt-scene-in" id="zt-in"></div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var duration = vars.transitionDuration || 0.6;
+        var zoomScale = vars.zoomScale || 3;
+        var T = 0;
+
+        tl.to(
+          "#zt-out",
+          {
+            scale: zoomScale,
+            opacity: 0,
+            duration: duration,
+            ease: "power3.in",
+          },
+          T
+        );
+
+        tl.to("#zt-in", { opacity: 1, duration: 0.01 }, T + duration * 0.5);
+        tl.to(
+          "#zt-in",
+          {
+            scale: 1,
+            duration: duration * 0.5,
+            ease: "power3.out",
+          },
+          T + duration * 0.5
+        );
+
+        window.__timelines["zoom-through-transition"] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -1,0 +1,130 @@
+<template id="chromatic-aberration-wipe-template">
+  <div
+    data-composition-id="chromatic-aberration-wipe"
+    data-width="1920"
+    data-height="1080"
+  >
+    <style>
+      [data-composition-id="chromatic-aberration-wipe"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-scene-in {
+        z-index: 2;
+        opacity: 0;
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-aberration {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-channel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        mix-blend-mode: screen;
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-channel-red {
+        background: rgba(255, 0, 0, 0.35);
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-channel-green {
+        background: rgba(0, 255, 0, 0.35);
+      }
+      [data-composition-id="chromatic-aberration-wipe"] .ca-channel-blue {
+        background: rgba(0, 0, 255, 0.35);
+      }
+    </style>
+    <div class="ca-scene ca-scene-out" id="ca-out"></div>
+    <div class="ca-scene ca-scene-in" id="ca-in"></div>
+    <div class="ca-aberration" id="ca-aberration">
+      <div class="ca-channel ca-channel-red" id="ca-ch-red"></div>
+      <div class="ca-channel ca-channel-green" id="ca-ch-green"></div>
+      <div class="ca-channel ca-channel-blue" id="ca-ch-blue"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var T = 0;
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var transitionDuration = vars.transitionDuration || 0.5;
+        var intensity = vars.intensity || 15;
+
+        tl.to("#ca-in", { opacity: 1, duration: 0.01 }, T);
+        tl.to("#ca-aberration", { opacity: 1, duration: 0.01 }, T);
+        tl.to(
+          "#ca-ch-red",
+          {
+            x: -intensity,
+            duration: transitionDuration * 0.3,
+            ease: "power4.in",
+          },
+          T
+        );
+        tl.to(
+          "#ca-ch-green",
+          { x: 0, duration: transitionDuration * 0.3, ease: "power4.in" },
+          T
+        );
+        tl.to(
+          "#ca-ch-blue",
+          {
+            x: intensity,
+            duration: transitionDuration * 0.3,
+            ease: "power4.in",
+          },
+          T
+        );
+        tl.to(
+          "#ca-ch-red",
+          { x: 0, duration: transitionDuration * 0.4, ease: "power3.out" },
+          T + transitionDuration * 0.4
+        );
+        tl.to(
+          "#ca-ch-green",
+          { x: 0, duration: transitionDuration * 0.4, ease: "power3.out" },
+          T + transitionDuration * 0.4
+        );
+        tl.to(
+          "#ca-ch-blue",
+          { x: 0, duration: transitionDuration * 0.4, ease: "power3.out" },
+          T + transitionDuration * 0.4
+        );
+        tl.to(
+          "#ca-aberration",
+          { opacity: 0, duration: transitionDuration * 0.2 },
+          T + transitionDuration * 0.8
+        );
+        tl.to(
+          "#ca-out",
+          { opacity: 0, duration: 0.01 },
+          T + transitionDuration * 0.9
+        );
+
+        window.__timelines["chromatic-aberration-wipe"] = tl;
+      })();
+    </script>
+  </div>
+</template>

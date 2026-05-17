@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and Drop Flow</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fafafa;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .drop-zones {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+      }
+      .drop-zone {
+        width: 200px;
+        height: 200px;
+        border-radius: 16px;
+        border: 3px dashed #d4d4d8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #a1a1aa;
+        font-weight: 500;
+      }
+      .drag-item {
+        width: 160px;
+        height: 80px;
+        background: #6366f1;
+        color: white;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        position: absolute;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #6366f1;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #6366f1;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="drag-and-drop-flow"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Drag & Drop</div>
+        <div class="line"></div>
+        <div class="drop-zones">
+          <div class="drop-zone" id="zone-1">Zone A</div>
+          <div class="drop-zone" id="zone-2">Zone B</div>
+          <div class="drop-zone" id="zone-3">Zone C</div>
+        </div>
+        <div class="drag-item" id="drag-1">Item 1</div>
+        <div class="drag-item" id="drag-2" style="background: #8b5cf6">
+          Item 2
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to("#drag-1", { left: 700, top: 400, duration: 0.01 }, 0.3);
+      tl.to("#drag-2", { left: 1000, top: 400, duration: 0.01 }, 0.3);
+
+      tl.to("#drag-1", { scale: 1.1, duration: 0.2, ease: "power2.out" }, 0.8);
+      tl.to(
+        "#drag-1",
+        { left: 560, top: 500, scale: 1, duration: 0.8, ease: "power3.inOut" },
+        1
+      );
+      tl.to("#zone-1", { borderColor: "#6366f1", duration: 0.3 }, 1.5);
+
+      tl.to("#drag-2", { scale: 1.1, duration: 0.2, ease: "power2.out" }, 2);
+      tl.to(
+        "#drag-2",
+        { left: 960, top: 500, scale: 1, duration: 0.8, ease: "power3.inOut" },
+        2.2
+      );
+      tl.to("#zone-2", { borderColor: "#8b5cf6", duration: 0.3 }, 2.7);
+
+      window.__timelines["drag-and-drop-flow"] = tl;
+    </script>
+  </body>
+</html>

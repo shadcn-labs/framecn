@@ -1,0 +1,97 @@
+<template id="directional-wipe-template">
+  <div
+    data-composition-id="directional-wipe"
+    data-width="1920"
+    data-height="1080"
+  >
+    <style>
+      [data-composition-id="directional-wipe"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="directional-wipe"] .dw-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="directional-wipe"] .dw-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="directional-wipe"] .dw-scene-in {
+        z-index: 2;
+        opacity: 0;
+      }
+      [data-composition-id="directional-wipe"] .dw-wipe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 50;
+        background: var(--dw-bg, #0f1a0f);
+      }
+      [data-composition-id="directional-wipe"] .dw-wipe[data-direction="left"] {
+        clip-path: inset(0 100% 0 0);
+      }
+      [data-composition-id="directional-wipe"]
+        .dw-wipe[data-direction="right"] {
+        clip-path: inset(0 0 0 100%);
+      }
+      [data-composition-id="directional-wipe"] .dw-wipe[data-direction="top"] {
+        clip-path: inset(0 0 100% 0);
+      }
+      [data-composition-id="directional-wipe"]
+        .dw-wipe[data-direction="bottom"] {
+        clip-path: inset(100% 0 0 0);
+      }
+    </style>
+    <div class="dw-scene dw-scene-out" id="dw-out"></div>
+    <div class="dw-scene dw-scene-in" id="dw-in"></div>
+    <div class="dw-wipe" id="dw-wipe" data-direction="left"></div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var direction = vars.direction || "left";
+        var duration = vars.transitionDuration || 0.6;
+        var wipe = document.getElementById("dw-wipe");
+        wipe.setAttribute("data-direction", direction);
+
+        var T = 0;
+        var endClip, startClip;
+        if (direction === "left") {
+          startClip = "inset(0 100% 0 0)";
+          endClip = "inset(0 0% 0 0)";
+        } else if (direction === "right") {
+          startClip = "inset(0 0 0 100%)";
+          endClip = "inset(0 0 0 0%)";
+        } else if (direction === "top") {
+          startClip = "inset(0 0 100% 0)";
+          endClip = "inset(0 0 0% 0)";
+        } else {
+          startClip = "inset(100% 0 0 0)";
+          endClip = "inset(0% 0 0 0)";
+        }
+
+        tl.to(
+          "#dw-wipe",
+          { clipPath: endClip, duration: duration, ease: "power3.inOut" },
+          T
+        );
+        tl.to("#dw-in", { opacity: 1, duration: 0.01 }, T);
+        tl.to("#dw-out", { opacity: 0, duration: 0.01 }, T + duration);
+        tl.to("#dw-wipe", { opacity: 0, duration: 0.01 }, T + duration);
+
+        window.__timelines["directional-wipe"] = tl;
+      })();
+    </script>
+  </div>
+</template>

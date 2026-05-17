@@ -1,0 +1,87 @@
+<template id="image-expand-to-fullscreen-template">
+  <div
+    data-composition-id="image-expand-to-fullscreen"
+    data-width="1920"
+    data-height="1080"
+  >
+    <style>
+      [data-composition-id="image-expand-to-fullscreen"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="image-expand-to-fullscreen"] .ie-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="image-expand-to-fullscreen"] .ie-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="image-expand-to-fullscreen"] .ie-scene-in {
+        z-index: 2;
+        opacity: 0;
+      }
+      [data-composition-id="image-expand-to-fullscreen"] .ie-thumbnail {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: var(--ie-thumb-w, 480px);
+        height: var(--ie-thumb-h, 320px);
+        border-radius: var(--ie-thumb-radius, 16px);
+        overflow: hidden;
+        background: var(
+          --ie-thumb-bg,
+          linear-gradient(135deg, #6366f1, #8b5cf6)
+        );
+      }
+    </style>
+    <div class="ie-scene ie-scene-out" id="ie-out"></div>
+    <div class="ie-scene ie-scene-in" id="ie-in"></div>
+    <div class="ie-thumbnail" id="ie-thumb"></div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var duration = vars.transitionDuration || 0.8;
+        var thumbW = vars.thumbnailWidth || 480;
+        var thumbH = vars.thumbnailHeight || 320;
+        var thumbRadius = vars.thumbnailRadius || 16;
+        var thumbBg =
+          vars.thumbnailBg || "linear-gradient(135deg, #6366f1, #8b5cf6)";
+
+        var thumb = document.getElementById("ie-thumb");
+        thumb.style.width = thumbW + "px";
+        thumb.style.height = thumbH + "px";
+        thumb.style.borderRadius = thumbRadius + "px";
+        thumb.style.background = thumbBg;
+
+        var T = 0;
+        tl.to(
+          "#ie-thumb",
+          {
+            width: 1920,
+            height: 1080,
+            borderRadius: 0,
+            duration: duration,
+            ease: "power3.inOut",
+          },
+          T
+        );
+        tl.to("#ie-in", { opacity: 1, duration: 0.01 }, T + duration * 0.8);
+        tl.to("#ie-out", { opacity: 0, duration: 0.01 }, T + duration);
+        tl.to("#ie-thumb", { opacity: 0, duration: 0.01 }, T + duration);
+
+        window.__timelines["image-expand-to-fullscreen"] = tl;
+      })();
+    </script>
+  </div>
+</template>

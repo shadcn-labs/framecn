@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrix Decode Effect</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #050a05;
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 200px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .matrix-text {
+        font-size: 72px;
+        font-weight: 700;
+        color: #22c55e;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .matrix-text .char {
+        display: inline-block;
+        opacity: 0;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #16a34a;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 80px;
+        height: 3px;
+        background: #22c55e;
+        border-radius: 2px;
+      }
+      .glow {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.08;
+        background: #22c55e;
+        top: -100px;
+        right: -100px;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="matrix-decode"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="glow"></div>
+      <div class="scene-content">
+        <div class="tag">Matrix Decode</div>
+        <div class="line"></div>
+        <div class="matrix-text" id="matrix-text"></div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var targetText = "SYSTEM ONLINE";
+      var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+      var container = document.getElementById("matrix-text");
+
+      var chars = [];
+      for (var i = 0; i < targetText.length; i++) {
+        var span = document.createElement("span");
+        span.className = "char";
+        span.textContent = charset[Math.floor(Math.random() * charset.length)];
+        container.appendChild(span);
+        chars.push(span);
+      }
+
+      var seed = 42;
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      var rng = mulberry32(seed);
+
+      var decodeDuration = 2;
+      var cyclesPerChar = 8;
+      var cycleTime = decodeDuration / cyclesPerChar;
+
+      for (var c = 0; c < cyclesPerChar; c++) {
+        var t = 0.3 + c * cycleTime;
+        var charSpans = [];
+        for (var i = 0; i < chars.length; i++) {
+          if (targetText[i] === " ") continue;
+          if (i >= c * 3) {
+            charSpans.push(chars[i]);
+          }
+        }
+        if (charSpans.length > 0) {
+          tl.call(
+            function () {
+              for (var j = 0; j < charSpans.length; j++) {
+                charSpans[j].textContent =
+                  charset[Math.floor(rng() * charset.length)];
+                charSpans[j].style.opacity = "1";
+              }
+            },
+            null,
+            t
+          );
+        }
+      }
+
+      tl.call(
+        function () {
+          for (var i = 0; i < chars.length; i++) {
+            chars[i].textContent =
+              targetText[i] === " " ? "\u00A0" : targetText[i];
+            chars[i].style.opacity = "1";
+          }
+        },
+        null,
+        0.3 + decodeDuration
+      );
+
+      window.__timelines["matrix-decode"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Volumetric Rays</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 200px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .rays-container {
+        position: absolute;
+        top: -200px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 800px;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .ray {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(251, 191, 36, 0.3),
+          transparent
+        );
+        transform-origin: top center;
+        opacity: 0;
+      }
+      .title {
+        font-size: 80px;
+        font-weight: 800;
+        color: #fbbf24;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+      .subtitle {
+        font-size: 28px;
+        color: #b0a890;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+      .glow {
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(251, 191, 36, 0.2) 0%,
+          transparent 70%
+        );
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="volumetric-rays"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="glow" id="glow"></div>
+      <div class="rays-container" id="rays">
+        <div class="ray" id="ray-1" style="transform: rotate(-30deg)"></div>
+        <div class="ray" id="ray-2" style="transform: rotate(-20deg)"></div>
+        <div class="ray" id="ray-3" style="transform: rotate(-10deg)"></div>
+        <div class="ray" id="ray-4" style="transform: rotate(0deg)"></div>
+        <div class="ray" id="ray-5" style="transform: rotate(10deg)"></div>
+        <div class="ray" id="ray-6" style="transform: rotate(20deg)"></div>
+        <div class="ray" id="ray-7" style="transform: rotate(30deg)"></div>
+      </div>
+      <div class="scene-content">
+        <div class="title">God Rays</div>
+        <div class="subtitle">Volumetric light effect</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var rays = [
+        "#ray-1",
+        "#ray-2",
+        "#ray-3",
+        "#ray-4",
+        "#ray-5",
+        "#ray-6",
+        "#ray-7",
+      ];
+      for (var i = 0; i < rays.length; i++) {
+        tl.to(
+          rays[i],
+          {
+            opacity: 0.6,
+            duration: 1,
+            ease: "power2.out",
+            repeat: 3,
+            yoyo: true,
+          },
+          0.3 + i * 0.15
+        );
+      }
+
+      tl.to(
+        "#glow",
+        {
+          scale: 1.2,
+          opacity: 0.8,
+          duration: 3,
+          ease: "sine.inOut",
+          repeat: 1,
+          yoyo: true,
+        },
+        0
+      );
+
+      window.__timelines["volumetric-rays"] = tl;
+    </script>
+  </body>
+</html>

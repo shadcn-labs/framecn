@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chromatic Aberration Wipe</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #scene1 {
+        z-index: 1;
+        background: #0a0a0f;
+      }
+      #scene2 {
+        z-index: 2;
+        background: #0f0f1a;
+        opacity: 0;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+        box-sizing: border-box;
+      }
+      .s1-title {
+        font-size: 120px;
+        font-weight: 800;
+        color: #e2e2e8;
+        letter-spacing: -0.03em;
+      }
+      .s1-subtitle {
+        font-size: 42px;
+        font-weight: 400;
+        color: #8a8a9a;
+      }
+      .s2-heading {
+        font-size: 100px;
+        font-weight: 800;
+        color: #c8a2ff;
+        letter-spacing: -0.02em;
+      }
+      .s2-text {
+        font-size: 36px;
+        font-weight: 300;
+        color: #9a9ab0;
+      }
+      .s2-tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #7c5cbf;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .glow {
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.15;
+        pointer-events: none;
+      }
+      .glow-purple {
+        background: #7c5cbf;
+        top: -200px;
+        right: -200px;
+      }
+      .glow-blue {
+        background: #4a6cf7;
+        bottom: -300px;
+        left: -200px;
+      }
+      .line {
+        width: 80px;
+        height: 3px;
+        background: #7c5cbf;
+        border-radius: 2px;
+      }
+      .aberration-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+      }
+      .aberration-layer .channel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        mix-blend-mode: screen;
+      }
+      .aberration-layer .channel-red {
+        background: rgba(255, 0, 0, 0.35);
+      }
+      .aberration-layer .channel-green {
+        background: rgba(0, 255, 0, 0.35);
+      }
+      .aberration-layer .channel-blue {
+        background: rgba(0, 0, 255, 0.35);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="chromatic-aberration-wipe"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div id="scene1" class="scene">
+        <div class="scene-content">
+          <div class="s1-title">Before</div>
+          <div class="s1-subtitle">Scene one content</div>
+        </div>
+      </div>
+      <div id="scene2" class="scene">
+        <div class="glow glow-purple"></div>
+        <div class="glow glow-blue"></div>
+        <div class="scene-content">
+          <div class="s2-tag">Transition</div>
+          <div class="line"></div>
+          <div class="s2-heading">After</div>
+          <div class="s2-text">Scene two with chromatic aberration</div>
+        </div>
+      </div>
+      <div class="aberration-layer" id="aberration">
+        <div class="channel channel-red" id="ch-red"></div>
+        <div class="channel channel-green" id="ch-green"></div>
+        <div class="channel channel-blue" id="ch-blue"></div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var T = 3.5;
+      var duration = 0.5;
+
+      tl.to("#scene2", { opacity: 1, duration: 0.01 }, T);
+      tl.fromTo(
+        "#s2-tag",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        T + 0.05
+      );
+      tl.fromTo(
+        ".line",
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.4, ease: "power2.out" },
+        T + 0.15
+      );
+      tl.fromTo(
+        "#s2-heading",
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: "expo.out" },
+        T + 0.2
+      );
+      tl.fromTo(
+        "#s2-text",
+        { y: 25, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
+        T + 0.35
+      );
+
+      tl.to("#aberration", { opacity: 1, duration: 0.01 }, T);
+      tl.to("#ch-red", { x: -15, duration: 0.15, ease: "power4.in" }, T);
+      tl.to("#ch-green", { x: 0, duration: 0.15, ease: "power4.in" }, T);
+      tl.to("#ch-blue", { x: 15, duration: 0.15, ease: "power4.in" }, T);
+      tl.to("#ch-red", { x: 0, duration: 0.2, ease: "power3.out" }, T + 0.2);
+      tl.to("#ch-green", { x: 0, duration: 0.2, ease: "power3.out" }, T + 0.2);
+      tl.to("#ch-blue", { x: 0, duration: 0.2, ease: "power3.out" }, T + 0.2);
+      tl.to("#aberration", { opacity: 0, duration: 0.1 }, T + 0.4);
+
+      tl.to("#scene1", { opacity: 0, duration: 0.01 }, T + 0.45);
+
+      window.__timelines["chromatic-aberration-wipe"] = tl;
+    </script>
+  </body>
+</html>

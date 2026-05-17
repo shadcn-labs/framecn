@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tool Menu Slide In</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .tool-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 320px;
+        height: 100%;
+        background: #14141f;
+        border-right: 1px solid #27272a;
+        padding: 40px 24px;
+        transform: translateX(-100%);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tool-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      .tool-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .tool-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(99, 102, 241, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #818cf8;
+        font-size: 16px;
+      }
+      .tool-name {
+        font-size: 16px;
+        font-weight: 500;
+        color: #e2e2e8;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #818cf8;
+        border-radius: 2px;
+      }
+      .main-content {
+        margin-left: 320px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="tool-menu-slide-in"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="main-content">
+          <div class="tag">Tool Menu</div>
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="tool-menu" id="tool-menu">
+        <div class="tool-item" id="tool-1">
+          <div class="tool-icon">⚡</div>
+          <div class="tool-name">Generate</div>
+        </div>
+        <div class="tool-item" id="tool-2">
+          <div class="tool-icon">✏️</div>
+          <div class="tool-name">Edit</div>
+        </div>
+        <div class="tool-item" id="tool-3">
+          <div class="tool-icon">🎨</div>
+          <div class="tool-name">Stylize</div>
+        </div>
+        <div class="tool-item" id="tool-4">
+          <div class="tool-icon">📐</div>
+          <div class="tool-name">Transform</div>
+        </div>
+        <div class="tool-item" id="tool-5">
+          <div class="tool-icon">💾</div>
+          <div class="tool-name">Export</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        "#tool-menu",
+        {
+          x: 0,
+          duration: 0.5,
+          ease: "power3.out",
+        },
+        0.5
+      );
+
+      var tools = ["#tool-1", "#tool-2", "#tool-3", "#tool-4", "#tool-5"];
+      for (var i = 0; i < tools.length; i++) {
+        tl.to(
+          tools[i],
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          0.7 + i * 0.1
+        );
+      }
+
+      window.__timelines["tool-menu-slide-in"] = tl;
+    </script>
+  </body>
+</html>

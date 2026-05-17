@@ -1,0 +1,71 @@
+<template id="spatial-push-template">
+  <div data-composition-id="spatial-push" data-width="1920" data-height="1080">
+    <style>
+      [data-composition-id="spatial-push"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        perspective: 2000px;
+      }
+      [data-composition-id="spatial-push"] .sp-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        transform-style: preserve-3d;
+      }
+      [data-composition-id="spatial-push"] .sp-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="spatial-push"] .sp-scene-in {
+        z-index: 2;
+        opacity: 0;
+        transform: translateZ(-800px) scale(0.7);
+      }
+    </style>
+    <div class="sp-scene sp-scene-out" id="sp-out"></div>
+    <div class="sp-scene sp-scene-in" id="sp-in"></div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var duration = vars.transitionDuration || 0.7;
+        var depth = vars.depth || 800;
+        var T = 0;
+
+        tl.to(
+          "#sp-out",
+          {
+            z: -depth,
+            scale: 0.7,
+            opacity: 0,
+            duration: duration,
+            ease: "power3.in",
+          },
+          T
+        );
+
+        tl.to("#sp-in", { opacity: 1, duration: 0.01 }, T + duration * 0.3);
+        tl.to(
+          "#sp-in",
+          {
+            z: 0,
+            scale: 1,
+            duration: duration * 0.7,
+            ease: "power3.out",
+          },
+          T + duration * 0.3
+        );
+
+        window.__timelines["spatial-push"] = tl;
+      })();
+    </script>
+  </div>
+</template>
