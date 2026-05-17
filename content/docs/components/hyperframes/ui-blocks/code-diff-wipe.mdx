@@ -1,0 +1,79 @@
+---
+title: "Code Diff Wipe"
+description: "Before/after comparison with a clip-path slider revealing the new code."
+---
+
+<ComponentPreview name="code-diff-wipe" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/code-diff-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="code-diff-wipe"
+  title="components/ui/code-diff-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CodeDiffWipe } from "@/components/framecn/code-diff-wipe";
+```
+
+```tsx
+<CodeDiffWipe />
+```
+
+## API Reference
+
+### CodeDiffWipe
+
+| Prop                 | Type      | Default          |
+| -------------------- | --------- | ---------------- |
+| `before`             | `string`  | `DEFAULT_BEFORE` |
+| `after`              | `string`  | `DEFAULT_AFTER`  |
+| `language`           | `string`  | `"tsx"`          |
+| `background`         | `string`  | `"#0a0a0a"`      |
+| `accent`             | `string`  | `"#0ea5e9"`      |
+| `transitionStart`    | `number`  | `20`             |
+| `transitionDuration` | `number`  | `60`             |
+| `showHandle`         | `boolean` | `true`           |
+| `speed`              | `number`  | `1`              |
+| `fps`                | `number`  | `30`             |
+| `durationInFrames`   | `number`  | `120`            |
+| `width`              | `number`  | `1280`           |
+| `height`             | `number`  | `720`            |
+| `className`          | `string`  | `-`              |
+
+## Notes
+
+<Callout title="Before/after code comparison">
+  A clip-path slider reveals new code over old code. Great for showing code
+  changes or refactoring diffs.
+</Callout>

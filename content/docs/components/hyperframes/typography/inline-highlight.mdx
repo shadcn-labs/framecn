@@ -1,0 +1,76 @@
+---
+title: "Inline Highlight"
+description: "Animates one word inside a sentence from a base color to a brand color."
+---
+
+<ComponentPreview name="inline-highlight" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/inline-highlight
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="inline-highlight"
+  title="components/ui/inline-highlight.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { InlineHighlight } from "@/components/framecn/inline-highlight";
+```
+
+```tsx
+<InlineHighlight before="value" highlight="value" />
+```
+
+## API Reference
+
+### InlineHighlight
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `before`           | `string` | `-`         |
+| `highlight`        | `string` | `-`         |
+| `after`            | `string` | `""`        |
+| `baseColor`        | `string` | `"#171717"` |
+| `highlightColor`   | `string` | `"#ff5e3a"` |
+| `fontSize`         | `number` | `48`        |
+| `fontWeight`       | `number` | `600`       |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `90`        |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Word selection is array-based">
+  Pass an array of word indices to `highlightWords` to animate multiple words.
+  The animation sequences through each word in the array.
+</Callout>

@@ -1,0 +1,13 @@
+{
+  "title": "Core Primitives",
+  "pages": [
+    "index",
+    "spring-pop-in",
+    "pulsing-indicator",
+    "success-confetti",
+    "cursor-flow",
+    "simulated-cursor",
+    "bounding-box-selector",
+    "toast-notification"
+  ]
+}

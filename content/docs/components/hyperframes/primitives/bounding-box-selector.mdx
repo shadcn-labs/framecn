@@ -1,0 +1,78 @@
+---
+title: "Bounding Box Selector"
+description: "Figma-style selection rectangle that snaps around a target."
+---
+
+<ComponentPreview name="bounding-box-selector" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/bounding-box-selector
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="bounding-box-selector"
+  title="components/ui/bounding-box-selector.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BoundingBoxSelector } from "@/components/framecn/bounding-box-selector";
+```
+
+```tsx
+<BoundingBoxSelector />
+```
+
+## API Reference
+
+### BoundingBoxSelector
+
+| Prop               | Type        | Default     |
+| ------------------ | ----------- | ----------- |
+| `children`         | `ReactNode` | `-`         |
+| `borderColor`      | `string`    | `"#0ea5e9"` |
+| `handleColor`      | `string`    | `"#0ea5e9"` |
+| `borderWidth`      | `number`    | `2`         |
+| `appearAt`         | `number`    | `15`        |
+| `background`       | `string`    | `"#fafafa"` |
+| `speed`            | `number`    | `1`         |
+| `className`        | `string`    | `-`         |
+| `fps`              | `number`    | `30`        |
+| `durationInFrames` | `number`    | `90`        |
+| `width`            | `number`    | `1000`      |
+| `height`           | `number`    | `500`       |
+
+## Notes
+
+<Callout title="Sizing from wrapped child">
+  The component reads its size from the wrapped child via `display:
+  inline-block`. Pass children with explicit `width`/`height` for pixel-perfect
+  placement.
+</Callout>

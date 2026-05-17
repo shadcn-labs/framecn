@@ -1,0 +1,73 @@
+---
+title: "Pulsing Indicator"
+description: "Continuous sine-driven pulse for loading or activity states."
+---
+
+<ComponentPreview name="pulsing-indicator" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/pulsing-indicator
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="pulsing-indicator"
+  title="components/ui/pulsing-indicator.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PulsingIndicator } from "@/components/framecn/pulsing-indicator";
+```
+
+```tsx
+<PulsingIndicator />
+```
+
+## API Reference
+
+### PulsingIndicator
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `color`            | `string` | `"#22c55e"` |
+| `size`             | `number` | `16`        |
+| `period`           | `number` | `8`         |
+| `speed`            | `number` | `1`         |
+| `background`       | `string` | `"white"`   |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `90`        |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Continuous sine wave pulse">
+  The indicator uses a continuous sine wave for smooth pulsing. The duration
+  controls the period of one pulse cycle.
+</Callout>

@@ -1,0 +1,72 @@
+---
+title: "Dynamic Grid"
+description: "Subtle moving grid or dot pattern background."
+---
+
+<ComponentPreview name="dynamic-grid" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/dynamic-grid
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="dynamic-grid" title="components/ui/dynamic-grid.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DynamicGrid } from "@/components/framecn/dynamic-grid";
+```
+
+```tsx
+<DynamicGrid />
+```
+
+## API Reference
+
+### DynamicGrid
+
+| Prop               | Type                                       | Default      |
+| ------------------ | ------------------------------------------ | ------------ |
+| `cellSize`         | `number`                                   | `40`         |
+| `lineColor`        | `string`                                   | `"#27272a"`  |
+| `background`       | `string`                                   | `"#0a0a0a"`  |
+| `speed`            | `number`                                   | `0.5`        |
+| `direction`        | `"diagonal" \| "horizontal" \| "vertical"` | `"diagonal"` |
+| `fps`              | `number`                                   | `30`         |
+| `durationInFrames` | `number`                                   | `150`        |
+| `width`            | `number`                                   | `1280`       |
+| `height`           | `number`                                   | `720`        |
+| `className`        | `string`                                   | `-`          |
+
+## Notes
+
+<Callout title="Subtle animated background">
+  A subtle grid or dot pattern that can animate for depth. Great for tech or
+  developer-focused backgrounds.
+</Callout>

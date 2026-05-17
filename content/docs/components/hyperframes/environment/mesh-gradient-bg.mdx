@@ -1,0 +1,74 @@
+---
+title: "Mesh Gradient Background"
+description: "Living gradient where soft color blobs drift on noise-driven coordinates."
+---
+
+<ComponentPreview name="mesh-gradient-bg" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/mesh-gradient-bg
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="mesh-gradient-bg"
+  title="components/ui/mesh-gradient-bg.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MeshGradientBackground } from "@/components/framecn/mesh-gradient-bg";
+```
+
+```tsx
+<MeshGradientBg />
+```
+
+## API Reference
+
+### MeshGradientBg
+
+| Prop               | Type       | Default                                        |
+| ------------------ | ---------- | ---------------------------------------------- |
+| `colors`           | `string[]` | `["#ff0080", "#7928ca", "#00d4ff", "#ffb800"]` |
+| `speed`            | `number`   | `1`                                            |
+| `blur`             | `number`   | `80`                                           |
+| `background`       | `string`   | `"#0a0a0a"`                                    |
+| `className`        | `string`   | `-`                                            |
+| `fps`              | `number`   | `30`                                           |
+| `durationInFrames` | `number`   | `150`                                          |
+| `width`            | `number`   | `1280`                                         |
+| `height`           | `number`   | `720`                                          |
+
+## Notes
+
+<Callout title="Noise-driven gradient movement">
+  Color blobs drift on noise-driven coordinates creating a living, organic
+  gradient effect. Great for backgrounds.
+</Callout>

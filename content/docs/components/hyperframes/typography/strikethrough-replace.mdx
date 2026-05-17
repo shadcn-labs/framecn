@@ -1,0 +1,75 @@
+---
+title: "Strikethrough Replace"
+description: "Text gets crossed out and replaced with new text in a single motion."
+---
+
+<ComponentPreview name="strikethrough-replace" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/strikethrough-replace
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="strikethrough-replace"
+  title="components/ui/strikethrough-replace.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { StrikethroughReplace } from "@/components/framecn/strikethrough-replace";
+```
+
+```tsx
+<StrikethroughReplace from="value" to="value" />
+```
+
+## API Reference
+
+### StrikethroughReplace
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `from`             | `string` | `-`         |
+| `to`               | `string` | `-`         |
+| `lineColor`        | `string` | `"#ff5e3a"` |
+| `fontSize`         | `number` | `48`        |
+| `color`            | `string` | `"#171717"` |
+| `fontWeight`       | `number` | `600`       |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `90`        |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Diagonal line cuts through text">
+  The strikethrough line cuts diagonally from top-left to bottom-right. The
+  animation syncs the old text removal with the new text reveal.
+</Callout>

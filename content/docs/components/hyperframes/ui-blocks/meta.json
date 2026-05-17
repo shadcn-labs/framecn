@@ -1,0 +1,17 @@
+{
+  "title": "UI Blocks",
+  "pages": [
+    "index",
+    "glass-code-block",
+    "terminal-simulator",
+    "code-accordion",
+    "code-diff-wipe",
+    "staggered-bento-grid",
+    "chat-to-preview-layout",
+    "animated-line-chart",
+    "animated-bar-chart",
+    "data-flow-pipes",
+    "progress-steps",
+    "drag-and-drop-flow"
+  ]
+}

@@ -1,0 +1,77 @@
+---
+title: "Animated Bar Chart"
+description: "Bars spring up from the baseline with deterministic stagger."
+---
+
+<ComponentPreview name="animated-bar-chart" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/animated-bar-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="animated-bar-chart"
+  title="components/ui/animated-bar-chart.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AnimatedBarChart } from "@/components/framecn/animated-bar-chart";
+```
+
+```tsx
+<AnimatedBarChart />
+```
+
+## API Reference
+
+### AnimatedBarChart
+
+| Prop               | Type       | Default                            |
+| ------------------ | ---------- | ---------------------------------- |
+| `data`             | `number[]` | `[35, 60, 45, 80, 55, 70, 90, 65]` |
+| `labels`           | `string[]` | `-`                                |
+| `width`            | `number`   | `1000`                             |
+| `height`           | `number`   | `500`                              |
+| `barColor`         | `string`   | `"#0ea5e9"`                        |
+| `background`       | `string`   | `"#0a0a0a"`                        |
+| `gap`              | `number`   | `16`                               |
+| `staggerFrames`    | `number`   | `6`                                |
+| `speed`            | `number`   | `1`                                |
+| `fps`              | `number`   | `30`                               |
+| `durationInFrames` | `number`   | `90`                               |
+| `className`        | `string`   | `-`                                |
+
+## Notes
+
+<Callout title="Spring-based bar animation">
+  Bars spring up from the baseline with deterministic stagger. Great for
+  dashboard or analytics visualizations.
+</Callout>

@@ -1,0 +1,84 @@
+---
+title: "Infinite Marquee"
+description: "Endlessly scrolling horizontal text band."
+---
+
+<ComponentPreview name="infinite-marquee" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/infinite-marquee
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="infinite-marquee"
+  title="components/ui/infinite-marquee.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { InfiniteMarquee } from "@/components/framecn/infinite-marquee";
+```
+
+```tsx
+<InfiniteMarquee />
+```
+
+## API Reference
+
+### InfiniteMarquee
+
+| Prop               | Type      | Default                       |
+| ------------------ | --------- | ----------------------------- |
+| `text`             | `string`  | `"ship · build · animate · "` |
+| `fontSize`         | `number`  | `120`                         |
+| `color`            | `string`  | `"#171717"`                   |
+| `fontWeight`       | `number`  | `900`                         |
+| `pixelsPerFrame`   | `number`  | `4`                           |
+| `stroke`           | `boolean` | `false`                       |
+| `strokeColor`      | `string`  | `"#171717"`                   |
+| `background`       | `string`  | `"#fafafa"`                   |
+| `speed`            | `number`  | `1`                           |
+| `fps`              | `number`  | `30`                          |
+| `durationInFrames` | `number`  | `300`                         |
+| `width`            | `number`  | `1280`                        |
+| `height`           | `number`  | `720`                         |
+| `className`        | `string`  | `-`                           |
+
+## Notes
+
+<Callout title="Uses CSS transform for performance">
+  The marquee uses CSS transforms for smooth scrolling. The text is duplicated
+  to create the infinite loop effect.
+</Callout>
+
+<Callout title="May cause layout shift on resize" variant="destructive">
+  The marquee calculates width based on initial render. If the container
+  resizes, you may need to force a re-render.
+</Callout>

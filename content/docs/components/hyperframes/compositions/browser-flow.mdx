@@ -1,0 +1,69 @@
+---
+title: "Browser Flow"
+description: "Full Safari/Chrome simulation: URL typing, loading bar, scroll, and click."
+---
+
+<ComponentPreview name="browser-flow" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/browser-flow
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="browser-flow" title="components/ui/browser-flow.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BrowserFlow } from "@/components/framecn/browser-flow";
+```
+
+```tsx
+<BrowserFlow />
+```
+
+## API Reference
+
+### BrowserFlow
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `url`              | `string` | `"framecn.dev"` |
+| `speed`            | `number` | `1`             |
+| `className`        | `string` | `-`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `270`           |
+| `width`            | `number` | `1280`          |
+| `height`           | `number` | `720`           |
+
+## Notes
+
+<Callout title="Multi-stage animation">
+  The browser flow combines multiple animations: URL typing, loading bar,
+  scroll, and click. Each stage can be toggled independently.
+</Callout>

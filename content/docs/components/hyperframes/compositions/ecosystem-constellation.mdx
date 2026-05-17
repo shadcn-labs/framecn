@@ -1,0 +1,74 @@
+---
+title: "Ecosystem Constellation"
+description: "Central logo orbited by integration satellites with pulsing data lines."
+---
+
+<ComponentPreview name="ecosystem-constellation" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/ecosystem-constellation
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="ecosystem-constellation"
+  title="components/ui/ecosystem-constellation.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { EcosystemConstellation } from "@/components/framecn/ecosystem-constellation";
+```
+
+```tsx
+<EcosystemConstellation />
+```
+
+## API Reference
+
+### EcosystemConstellation
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `satelliteCount`   | `number` | `6`         |
+| `centerLabel`      | `string` | `"V"`       |
+| `accentColor`      | `string` | `"#a855f7"` |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `240`       |
+| `width`            | `number` | `1280`      |
+| `height`           | `number` | `720`       |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Orbiting satellites with data lines">
+  A central logo is orbited by integration icons with pulsing connection lines.
+  Great for showcasing integrations or partner ecosystems.
+</Callout>

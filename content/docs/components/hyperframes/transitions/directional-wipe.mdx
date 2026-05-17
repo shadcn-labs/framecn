@@ -1,0 +1,77 @@
+---
+title: "Directional Wipe"
+description: "Slide one scene in while pushing the other out."
+---
+
+<ComponentPreview name="directional-wipe" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/directional-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="directional-wipe"
+  title="components/ui/directional-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DirectionalWipe } from "@/components/framecn/directional-wipe";
+```
+
+```tsx
+<DirectionalWipe />
+```
+
+## API Reference
+
+### DirectionalWipe
+
+| Prop                 | Type                                  | Default   |
+| -------------------- | ------------------------------------- | --------- |
+| `from`               | `ReactNode`                           | `-`       |
+| `to`                 | `ReactNode`                           | `-`       |
+| `direction`          | `"left" \| "right" \| "up" \| "down"` | `"left"`  |
+| `transitionStart`    | `number`                              | `36`      |
+| `transitionDuration` | `number`                              | `20`      |
+| `speed`              | `number`                              | `1`       |
+| `fps`                | `number`                              | `30`      |
+| `durationInFrames`   | `number`                              | `90`      |
+| `width`              | `number`                              | `1280`    |
+| `height`             | `number`                              | `720`     |
+| `background`         | `string`                              | `"black"` |
+| `className`          | `string`                              | `-`       |
+
+## Notes
+
+<Callout title="Push-style transition">
+  One scene slides in while pushing the other out in the specified direction.
+  The duration controls the transition speed.
+</Callout>

@@ -1,0 +1,73 @@
+---
+title: "Pricing Tier Focus"
+description: "Three pricing cards where the focused tier rises and brightens while siblings dim and blur."
+---
+
+<ComponentPreview name="pricing-tier-focus" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/pricing-tier-focus
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="pricing-tier-focus"
+  title="components/ui/pricing-tier-focus.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PricingTierFocus } from "@/components/framecn/pricing-tier-focus";
+```
+
+```tsx
+<PricingTierFocus />
+```
+
+## API Reference
+
+### PricingTierFocus
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `focusedTier`      | `number` | `1`         |
+| `accentColor`      | `string` | `"#22c55e"` |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `180`       |
+| `width`            | `number` | `1280`      |
+| `height`           | `number` | `720`       |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Focus with dimmed siblings">
+  The focused tier rises and brightens while other tiers dim and blur. Great for
+  pricing page highlights.
+</Callout>

@@ -1,0 +1,77 @@
+---
+title: "Terminal Simulator"
+description: "CLI build simulation with chunked log output and step-function scrolling."
+---
+
+<ComponentPreview name="terminal-simulator" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/terminal-simulator
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="terminal-simulator"
+  title="components/ui/terminal-simulator.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { TerminalSimulator } from "@/components/framecn/terminal-simulator";
+```
+
+```tsx
+<TerminalSimulator />
+```
+
+## API Reference
+
+### TerminalSimulator
+
+| Prop               | Type             | Default                |
+| ------------------ | ---------------- | ---------------------- |
+| `lines`            | `TerminalLine[]` | `DEFAULT_LINES`        |
+| `prompt`           | `string`         | `"$"`                  |
+| `title`            | `string`         | `"~/projects/framecn"` |
+| `background`       | `string`         | `"#0a0a0a"`            |
+| `chromeColor`      | `string`         | `"#1a1a1a"`            |
+| `fontSize`         | `number`         | `18`                   |
+| `charsPerFrame`    | `number`         | `1`                    |
+| `chunkSize`        | `number`         | `1`                    |
+| `speed`            | `number`         | `1`                    |
+| `fps`              | `number`         | `30`                   |
+| `durationInFrames` | `number`         | `200`                  |
+| `className`        | `string`         | `-`                    |
+
+## Notes
+
+<Callout title="CLI typing simulation">
+  Commands type out character-by-character with chunked log output. The terminal
+  auto-scrolls as new content appears.
+</Callout>

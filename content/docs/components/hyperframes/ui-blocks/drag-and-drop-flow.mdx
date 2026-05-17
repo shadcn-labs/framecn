@@ -1,0 +1,75 @@
+---
+title: "Drag And Drop Flow"
+description: "Cursor drags a file into a drop zone that lights up and starts a progress bar."
+---
+
+<ComponentPreview name="drag-and-drop-flow" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/drag-and-drop-flow
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="drag-and-drop-flow"
+  title="components/ui/drag-and-drop-flow.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DragAndDropFlow } from "@/components/framecn/drag-and-drop-flow";
+```
+
+```tsx
+<DragAndDropFlow />
+```
+
+## API Reference
+
+### DragAndDropFlow
+
+| Prop               | Type     | Default                 |
+| ------------------ | -------- | ----------------------- |
+| `accent`           | `string` | `"#0ea5e9"`             |
+| `dropzoneLabel`    | `string` | `"Drop file to upload"` |
+| `fileName`         | `string` | `"design.fig"`          |
+| `background`       | `string` | `"#fafafa"`             |
+| `speed`            | `number` | `1`                     |
+| `fps`              | `number` | `30`                    |
+| `durationInFrames` | `number` | `150`                   |
+| `width`            | `number` | `1280`                  |
+| `height`           | `number` | `720`                   |
+| `className`        | `string` | `-`                     |
+
+## Notes
+
+<Callout title="File upload workflow">
+  A cursor drags a file into a drop zone that lights up and shows a progress
+  bar. Great for file upload UI demos.
+</Callout>

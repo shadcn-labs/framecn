@@ -1,0 +1,82 @@
+---
+title: "Toast Notification"
+description: "System toast that springs in, holds, and slides away."
+---
+
+<ComponentPreview name="toast-notification" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/toast-notification
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="toast-notification"
+  title="components/ui/toast-notification.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ToastNotification } from "@/components/framecn/toast-notification";
+```
+
+```tsx
+<ToastNotification />
+```
+
+## API Reference
+
+### ToastNotification
+
+| Prop               | Type           | Default                                  |
+| ------------------ | -------------- | ---------------------------------------- |
+| `title`            | `string`       | `"Deployment successful"`                |
+| `message`          | `string`       | `"Your changes are live at framecn.dev"` |
+| `variant`          | `ToastVariant` | `"success"`                              |
+| `background`       | `string`       | `"#fafafa"`                              |
+| `cardColor`        | `string`       | `"white"`                                |
+| `textColor`        | `string`       | `"#171717"`                              |
+| `mutedColor`       | `string`       | `"#71717a"`                              |
+| `speed`            | `number`       | `1`                                      |
+| `fps`              | `number`       | `FPS`                                    |
+| `durationInFrames` | `number`       | `DURATION_IN_FRAMES`                     |
+| `className`        | `string`       | `-`                                      |
+
+## Notes
+
+<Callout title="Three-phase animation">
+  The toast animates through three phases: spring-based enter, a hold period,
+  and interpolate-based exit. Use `durationInFrames` to control the overall
+  timing.
+</Callout>
+
+<Callout title="Anchored absolutely" variant="destructive">
+  The toast is positioned absolutely at the bottom-right of the frame. Ensure
+  the parent has a defined size for correct placement.
+</Callout>

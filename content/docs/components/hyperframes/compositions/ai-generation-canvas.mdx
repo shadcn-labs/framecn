@@ -1,0 +1,72 @@
+---
+title: "AI Generation Canvas"
+description: "Prompt input morphs into a header, then a skeleton dashboard flips into populated cards."
+---
+
+<ComponentPreview name="ai-generation-canvas" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/ai-generation-canvas
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="ai-generation-canvas"
+  title="components/ui/ai-generation-canvas.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AIGenerationCanvas } from "@/components/framecn/ai-generation-canvas";
+```
+
+```tsx
+<AIGenerationCanvas />
+```
+
+## API Reference
+
+### AIGenerationCanvas
+
+| Prop               | Type     | Default                  |
+| ------------------ | -------- | ------------------------ |
+| `prompt`           | `string` | `"Generate a dashboard"` |
+| `accentColor`      | `string` | `"#7c3aed"`              |
+| `cardCount`        | `number` | `4`                      |
+| `speed`            | `number` | `1`                      |
+| `fps`              | `number` | `30`                     |
+| `durationInFrames` | `number` | `180`                    |
+| `className`        | `string` | `-`                      |
+
+## Notes
+
+<Callout title="Three-stage AI workflow">
+  The composition shows: prompt input, header morph, then skeleton-to-populated
+  dashboard flip. Great for AI product demos.
+</Callout>

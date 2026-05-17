@@ -1,0 +1,81 @@
+---
+title: "Perspective Marquee"
+description: "Marquee tilted into 3D space with depth fade."
+---
+
+<ComponentPreview name="perspective-marquee" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/perspective-marquee
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="perspective-marquee"
+  title="components/ui/perspective-marquee.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PerspectiveMarquee } from "@/components/framecn/perspective-marquee";
+```
+
+```tsx
+<PerspectiveMarquee />
+```
+
+## API Reference
+
+### PerspectiveMarquee
+
+| Prop               | Type       | Default         |
+| ------------------ | ---------- | --------------- |
+| `items`            | `string[]` | `DEFAULT_ITEMS` |
+| `fontSize`         | `number`   | `84`            |
+| `color`            | `string`   | `"#fafafa"`     |
+| `fontWeight`       | `number`   | `700`           |
+| `pixelsPerFrame`   | `number`   | `2`             |
+| `rotateY`          | `number`   | `-28`           |
+| `rotateX`          | `number`   | `8`             |
+| `perspective`      | `number`   | `1200`          |
+| `fadeColor`        | `string`   | `"#050505"`     |
+| `background`       | `string`   | `"#050505"`     |
+| `speed`            | `number`   | `1`             |
+| `fps`              | `number`   | `30`            |
+| `durationInFrames` | `number`   | `300`           |
+| `width`            | `number`   | `1280`          |
+| `height`           | `number`   | `720`           |
+| `className`        | `string`   | `-`             |
+
+## Notes
+
+<Callout title="3D perspective creates depth">
+  The marquee uses CSS perspective and transform3D for the 3D effect. Text fades
+  in opacity as it moves deeper into the scene.
+</Callout>

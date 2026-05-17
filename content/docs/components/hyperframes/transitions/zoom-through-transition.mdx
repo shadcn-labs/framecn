@@ -1,0 +1,73 @@
+---
+title: "Zoom Through Transition"
+description: "Aggressive scale-in through an element to the next scene."
+---
+
+<ComponentPreview name="zoom-through-transition" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/zoom-through-transition
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="zoom-through-transition"
+  title="components/ui/zoom-through-transition.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ZoomThroughTransition } from "@/components/framecn/zoom-through-transition";
+```
+
+```tsx
+<ZoomThroughTransition />
+```
+
+## API Reference
+
+### ZoomThroughTransition
+
+| Prop               | Type        | Default           |
+| ------------------ | ----------- | ----------------- |
+| `children`         | `ReactNode` | `-`               |
+| `targetScale`      | `number`    | `20`              |
+| `transformOrigin`  | `string`    | `"center center"` |
+| `background`       | `string`    | `"white"`         |
+| `speed`            | `number`    | `1`               |
+| `fps`              | `number`    | `30`              |
+| `durationInFrames` | `number`    | `90`              |
+| `className`        | `string`    | `-`               |
+
+## Notes
+
+<Callout title="Scale-through effect">
+  The transition scales through a given element to create an aggressive zoom
+  effect. Higher scale values create more dramatic transitions.
+</Callout>

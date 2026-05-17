@@ -1,0 +1,73 @@
+---
+title: "Infinite Bento Pan"
+description: "Camera diagonally drifts across an oversized bento grid behind a soft vignette."
+---
+
+<ComponentPreview name="infinite-bento-pan" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/infinite-bento-pan
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="infinite-bento-pan"
+  title="components/ui/infinite-bento-pan.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { InfiniteBentoPan } from "@/components/framecn/infinite-bento-pan";
+```
+
+```tsx
+<InfiniteBentoPan />
+```
+
+## API Reference
+
+### InfiniteBentoPan
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `panSpeed`         | `number` | `1`         |
+| `accentColor`      | `string` | `"#7c3aed"` |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `300`       |
+| `width`            | `number` | `1280`      |
+| `height`           | `number` | `720`       |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Camera pan across bento grid">
+  The camera drifts diagonally across an oversized bento grid layout. A soft
+  vignette frames the edges for depth.
+</Callout>

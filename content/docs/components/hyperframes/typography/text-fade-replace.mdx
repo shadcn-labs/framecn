@@ -1,0 +1,79 @@
+---
+title: "Text Fade Replace"
+description: "Cross-fades between two strings on the same line. Includes a Strikethrough variant."
+---
+
+<ComponentPreview name="text-fade-replace" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/text-fade-replace
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="text-fade-replace"
+  title="components/ui/text-fade-replace.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { TextFadeReplace } from "@/components/framecn/text-fade-replace";
+```
+
+```tsx
+<TextFadeReplace from="value" to="value" />
+```
+
+## API Reference
+
+### TextFadeReplace
+
+| Prop               | Type     | Default              |
+| ------------------ | -------- | -------------------- |
+| `from`             | `string` | `-`                  |
+| `to`               | `string` | `-`                  |
+| `fontSize`         | `number` | `48`                 |
+| `color`            | `string` | `"#171717"`          |
+| `fontWeight`       | `number` | `600`                |
+| `speed`            | `number` | `1`                  |
+| `fps`              | `number` | `FPS`                |
+| `durationInFrames` | `number` | `DURATION_IN_FRAMES` |
+| `className`        | `string` | `-`                  |
+
+## Notes
+
+<Callout title="Includes strikethrough variant">
+  The component supports a strikethrough animation variant. Check the demo to
+  see the strikethrough effect in action.
+</Callout>
+
+<Callout title="Both texts must have equal length" variant="destructive">
+  For the best cross-fade effect, ensure `fromText` and `toText` are
+  approximately the same length to avoid layout shift.
+</Callout>

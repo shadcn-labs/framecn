@@ -1,0 +1,80 @@
+---
+title: "Grid Pixelate Wipe"
+description: "Dissolve from one scene to the next through a deterministic grid of mask cells."
+---
+
+<ComponentPreview name="grid-pixelate-wipe" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/grid-pixelate-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="grid-pixelate-wipe"
+  title="components/ui/grid-pixelate-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { GridPixelateWipe } from "@/components/framecn/grid-pixelate-wipe";
+```
+
+```tsx
+<GridPixelateWipe />
+```
+
+## API Reference
+
+### GridPixelateWipe
+
+| Prop                 | Type                               | Default   |
+| -------------------- | ---------------------------------- | --------- |
+| `from`               | `React.ReactNode`                  | `-`       |
+| `to`                 | `React.ReactNode`                  | `-`       |
+| `cols`               | `number`                           | `12`      |
+| `rows`               | `number`                           | `7`       |
+| `pattern`            | `"wave" \| "diagonal" \| "spiral"` | `"wave"`  |
+| `transitionStart`    | `number`                           | `36`      |
+| `transitionDuration` | `number`                           | `30`      |
+| `cellFadeFrames`     | `number`                           | `4`       |
+| `speed`              | `number`                           | `1`       |
+| `fps`                | `number`                           | `30`      |
+| `durationInFrames`   | `number`                           | `90`      |
+| `width`              | `number`                           | `1280`    |
+| `height`             | `number`                           | `720`     |
+| `background`         | `string`                           | `"black"` |
+| `className`          | `string`                           | `-`       |
+
+## Notes
+
+<Callout title="Deterministic cell reveal">
+  Grid cells reveal in a deterministic pattern. Cell timing is based on distance
+  from center for a natural dissolve effect.
+</Callout>

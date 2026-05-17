@@ -1,0 +1,84 @@
+---
+title: "Marker Highlight"
+description: "Marker bar sweeps in behind a phrase, optionally inverting the text color."
+---
+
+<ComponentPreview name="marker-highlight" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/marker-highlight
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="marker-highlight"
+  title="components/ui/marker-highlight.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MarkerHighlight } from "@/components/framecn/marker-highlight";
+```
+
+```tsx
+<MarkerHighlight />
+```
+
+## API Reference
+
+### MarkerHighlight
+
+| Prop                   | Type     | Default      |
+| ---------------------- | -------- | ------------ |
+| `before`               | `string` | `""`         |
+| `highlight`            | `string` | `"builders"` |
+| `after`                | `string` | `"."`        |
+| `markerColor`          | `string` | `"#facc15"`  |
+| `baseColor`            | `string` | `"#171717"`  |
+| `highlightedTextColor` | `string` | `"#171717"`  |
+| `fontSize`             | `number` | `72`         |
+| `fontWeight`           | `number` | `600`        |
+| `speed`                | `number` | `1`          |
+| `fps`                  | `number` | `30`         |
+| `durationInFrames`     | `number` | `90`         |
+| `width`                | `number` | `1280`       |
+| `height`               | `number` | `720`        |
+| `className`            | `string` | `-`          |
+
+## Notes
+
+<Callout title="Marker uses absolute positioning">
+  The marker bar is positioned absolutely behind the text. Ensure the parent has
+  `position: relative` for correct placement.
+</Callout>
+
+<Callout title="Text inversion requires contrast" variant="destructive">
+  When `invertText` is true, the text color inverts. Ensure your marker color
+  has sufficient contrast with the background.
+</Callout>

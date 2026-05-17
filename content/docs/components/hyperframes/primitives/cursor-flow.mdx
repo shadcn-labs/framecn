@@ -1,0 +1,79 @@
+---
+title: "Cursor Flow"
+description: "Realistic mouse that arcs along Bezier paths and clicks targets."
+---
+
+<ComponentPreview name="cursor-flow" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/cursor-flow
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="cursor-flow" title="components/ui/cursor-flow.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CursorFlow } from "@/components/framecn/cursor-flow";
+```
+
+```tsx
+<CursorFlow />
+```
+
+## API Reference
+
+### CursorFlow
+
+| Prop               | Type               | Default             |
+| ------------------ | ------------------ | ------------------- |
+| `waypoints`        | `CursorWaypoint[]` | `DEFAULT_WAYPOINTS` |
+| `cursorColor`      | `string`           | `"#fafafa"`         |
+| `cursorSize`       | `number`           | `28`                |
+| `segmentDuration`  | `number`           | `36`                |
+| `background`       | `string`           | `"#0a0a0a"`         |
+| `showTargets`      | `boolean`          | `true`              |
+| `speed`            | `number`           | `1`                 |
+| `fps`              | `number`           | `30`                |
+| `durationInFrames` | `number`           | `180`               |
+| `width`            | `number`           | `1280`              |
+| `height`           | `number`           | `720`               |
+| `className`        | `string`           | `-`                 |
+
+## Notes
+
+<Callout title="Bezier arcs between waypoints">
+  The cursor follows per-segment cubic Bezier curves with perpendicular control
+  points. The arc creates natural, realistic movement.
+</Callout>
+
+<Callout title="No d3-shape dependency" variant="warning">
+  Curves are computed inline to avoid pulling in external dependencies. Path
+  math is handled internally.
+</Callout>

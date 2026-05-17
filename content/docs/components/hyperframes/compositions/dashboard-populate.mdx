@@ -1,0 +1,73 @@
+---
+title: "Dashboard Populate"
+description: "Empty dashboard cascades to life with KPI count-ups, bar bounces, line traces, and a donut fill."
+---
+
+<ComponentPreview name="dashboard-populate" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/dashboard-populate
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="dashboard-populate"
+  title="components/ui/dashboard-populate.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DashboardPopulate } from "@/components/framecn/dashboard-populate";
+```
+
+```tsx
+<DashboardPopulate />
+```
+
+## API Reference
+
+### DashboardPopulate
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `accentColor`      | `string` | `"#22c55e"` |
+| `kpiTarget`        | `number` | `128_400`   |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `180`       |
+| `width`            | `number` | `1280`      |
+| `height`           | `number` | `720`       |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Multi-element dashboard animation">
+  Combines count-ups, bar bounces, line traces, and donut fills. Great for SaaS
+  product demos showing data visualization.
+</Callout>

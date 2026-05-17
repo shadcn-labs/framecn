@@ -1,0 +1,75 @@
+---
+title: "Matrix Decode"
+description: "Random characters scramble and resolve into the target string."
+---
+
+<ComponentPreview name="matrix-decode" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/matrix-decode
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="matrix-decode" title="components/ui/matrix-decode.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MatrixDecode } from "@/components/framecn/matrix-decode";
+```
+
+```tsx
+<MatrixDecode />
+```
+
+## API Reference
+
+### MatrixDecode
+
+| Prop               | Type     | Default                  |
+| ------------------ | -------- | ------------------------ | --- |
+| `text`             | `string` | `"DECRYPTED"`            |
+| `charset`          | `string` | `"!@#$%^&\*()\_+-=<>?/\\ | "`  |
+| `fontSize`         | `number` | `72`                     |
+| `color`            | `string` | `"#22c55e"`              |
+| `fontWeight`       | `number` | `600`                    |
+| `revealDuration`   | `number` | `60`                     |
+| `speed`            | `number` | `1`                      |
+| `fps`              | `number` | `30`                     |
+| `durationInFrames` | `number` | `90`                     |
+| `width`            | `number` | `1280`                   |
+| `height`           | `number` | `720`                    |
+| `className`        | `string` | `-`                      |
+
+## Notes
+
+<Callout title="Random characters resolve to target">
+  The decode effect uses random characters from a Matrix-style character set
+  that gradually resolve to the target text. Longer texts take more time to
+  fully resolve.
+</Callout>

@@ -1,0 +1,72 @@
+---
+title: "Tracking In"
+description: "Letter-spacing collapses from wide to normal with a spring snap."
+---
+
+<ComponentPreview name="tracking-in" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/tracking-in
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="tracking-in" title="components/ui/tracking-in.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { TrackingIn } from "@/components/framecn/tracking-in";
+```
+
+```tsx
+<TrackingIn />
+```
+
+## API Reference
+
+### TrackingIn
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `text`             | `string` | `"Tracking In"` |
+| `startTracking`    | `number` | `0.5`           |
+| `startBlur`        | `number` | `12`            |
+| `fontSize`         | `number` | `96`            |
+| `color`            | `string` | `"#171717"`     |
+| `fontWeight`       | `number` | `700`           |
+| `speed`            | `number` | `1`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `90`            |
+| `className`        | `string` | `-`             |
+
+## Notes
+
+<Callout title="Spring-based collapse">
+  The letter-spacing uses a spring animation for a natural snap effect. The
+  duration controls the spring configuration.
+</Callout>

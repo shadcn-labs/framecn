@@ -1,0 +1,77 @@
+---
+title: "Animated Line Chart"
+description: "SVG line chart drawn left-to-right via stroke-dashoffset."
+---
+
+<ComponentPreview name="animated-line-chart" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/animated-line-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="animated-line-chart"
+  title="components/ui/animated-line-chart.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AnimatedLineChart } from "@/components/framecn/animated-line-chart";
+```
+
+```tsx
+<AnimatedLineChart />
+```
+
+## API Reference
+
+### AnimatedLineChart
+
+| Prop               | Type       | Default                               |
+| ------------------ | ---------- | ------------------------------------- |
+| `data`             | `number[]` | `[12, 19, 8, 15, 22, 18, 28, 25, 32]` |
+| `width`            | `number`   | `1000`                                |
+| `height`           | `number`   | `500`                                 |
+| `strokeColor`      | `string`   | `"#22c55e"`                           |
+| `strokeWidth`      | `number`   | `4`                                   |
+| `background`       | `string`   | `"#0a0a0a"`                           |
+| `gridColor`        | `string`   | `"#27272a"`                           |
+| `showDot`          | `boolean`  | `true`                                |
+| `speed`            | `number`   | `1`                                   |
+| `fps`              | `number`   | `30`                                  |
+| `durationInFrames` | `number`   | `90`                                  |
+| `className`        | `string`   | `-`                                   |
+
+## Notes
+
+<Callout title="SVG stroke-dashoffset animation">
+  The chart line is drawn using stroke-dashoffset animation for a smooth
+  left-to-right reveal effect.
+</Callout>

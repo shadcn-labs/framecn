@@ -1,0 +1,73 @@
+---
+title: "Pipeline Journey"
+description: "Kanban ticket flies between columns, triggering events on landing."
+---
+
+<ComponentPreview name="pipeline-journey" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/pipeline-journey
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="pipeline-journey"
+  title="components/ui/pipeline-journey.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PipelineJourney } from "@/components/framecn/pipeline-journey";
+```
+
+```tsx
+<PipelineJourney />
+```
+
+## API Reference
+
+### PipelineJourney
+
+| Prop               | Type     | Default            |
+| ------------------ | -------- | ------------------ |
+| `cardLabel`        | `string` | `"Build pipeline"` |
+| `accentColor`      | `string` | `"#22c55e"`        |
+| `speed`            | `number` | `1`                |
+| `fps`              | `number` | `30`               |
+| `durationInFrames` | `number` | `200`              |
+| `width`            | `number` | `1280`             |
+| `height`           | `number` | `720`              |
+| `className`        | `string` | `-`                |
+
+## Notes
+
+<Callout title="Kanban ticket animation">
+  A ticket flies between configured columns with spring physics. Triggers
+  landing events when the ticket reaches the destination.
+</Callout>

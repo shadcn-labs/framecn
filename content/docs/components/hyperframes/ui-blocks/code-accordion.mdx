@@ -1,0 +1,80 @@
+---
+title: "Code Accordion"
+description: "Long code blocks collapse mid-section, hiding noise behind a count badge."
+---
+
+<ComponentPreview name="code-accordion" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/code-accordion
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="code-accordion"
+  title="components/ui/code-accordion.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CodeAccordion } from "@/components/framecn/code-accordion";
+```
+
+```tsx
+<CodeAccordion />
+```
+
+## API Reference
+
+### CodeAccordion
+
+| Prop               | Type               | Default               |
+| ------------------ | ------------------ | --------------------- |
+| `lines`            | `string[]`         | `DEFAULT_LINES`       |
+| `collapseRange`    | `[number, number]` | `[3, 14]`             |
+| `collapseAt`       | `number`           | `30`                  |
+| `title`            | `string`           | `"process-orders.ts"` |
+| `fontSize`         | `number`           | `16`                  |
+| `width`            | `number`           | `720`                 |
+| `background`       | `string`           | `"#050505"`           |
+| `cardColor`        | `string`           | `"#0a0a0a"`           |
+| `textColor`        | `string`           | `"#e4e4e7"`           |
+| `mutedColor`       | `string`           | `"#52525b"`           |
+| `speed`            | `number`           | `1`                   |
+| `fps`              | `number`           | `30`                  |
+| `durationInFrames` | `number`           | `150`                 |
+| `height`           | `number`           | `720`                 |
+| `className`        | `string`           | `-`                   |
+
+## Notes
+
+<Callout title="Collapsible code region">
+  Long code blocks collapse in the middle with a line count badge. Click to
+  expand and see the full code.
+</Callout>

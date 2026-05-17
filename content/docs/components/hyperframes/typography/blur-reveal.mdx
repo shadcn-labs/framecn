@@ -1,0 +1,74 @@
+---
+title: "Blur Reveal"
+description: "Text fades in from a heavy blur into sharp focus."
+---
+
+<ComponentPreview name="blur-reveal" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/blur-reveal
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="blur-reveal" title="components/ui/blur-reveal.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BlurReveal } from "@/components/framecn/blur-reveal";
+```
+
+```tsx
+<BlurReveal />
+```
+
+## API Reference
+
+### BlurReveal
+
+| Prop               | Type     | Default        |
+| ------------------ | -------- | -------------- |
+| `text`             | `string` | `"BlurReveal"` |
+| `className`        | `string` | `-`            |
+| `blur`             | `number` | `10`           |
+| `fontSize`         | `number` | `48`           |
+| `color`            | `string` | `"#171717"`    |
+| `fontWeight`       | `number` | `600`          |
+| `speed`            | `number` | `1`            |
+| `fps`              | `number` | `30`           |
+| `durationInFrames` | `number` | `90`           |
+| `width`            | `number` | `1000`         |
+| `height`           | `number` | `500`          |
+| `background`       | `string` | `"white"`      |
+
+## Notes
+
+<Callout title="Blur uses backdrop-filter">
+  The blur effect uses CSS backdrop-filter which may not be supported in all
+  browsers. Consider providing a fallback for older browsers.
+</Callout>

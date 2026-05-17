@@ -1,0 +1,73 @@
+---
+title: "Simulated Cursor"
+description: "A simulated cursor with click animations and movement."
+---
+
+<ComponentPreview name="simulated-cursor" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/simulated-cursor
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="simulated-cursor"
+  title="components/ui/simulated-cursor.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SimulatedCursor } from "@/components/framecn/simulated-cursor";
+```
+
+```tsx
+<SimulatedCursor />
+```
+
+## API Reference
+
+### SimulatedCursor
+
+| Prop               | Type            | Default          |
+| ------------------ | --------------- | ---------------- |
+| `points`           | `CursorPoint[]` | `DEFAULT_POINTS` |
+| `color`            | `string`        | `"#ffffff"`      |
+| `size`             | `number`        | `32`             |
+| `background`       | `string`        | `"#0a0a0a"`      |
+| `speed`            | `number`        | `1`              |
+| `fps`              | `number`        | `30`             |
+| `durationInFrames` | `number`        | `150`            |
+| `className`        | `string`        | `-`              |
+
+## Notes
+
+<Callout title="Inline SVG cursor">
+  The cursor is drawn as inline SVG, so you don't need to copy anything into
+  `public/`. Drop the component into any composition and it just works.
+</Callout>

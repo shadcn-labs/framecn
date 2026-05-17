@@ -1,0 +1,77 @@
+---
+title: "Frosted Glass Wipe"
+description: "Elegant scene transition through a sliding pane of frosted glass."
+---
+
+<ComponentPreview name="frosted-glass-wipe" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/frosted-glass-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="frosted-glass-wipe"
+  title="components/ui/frosted-glass-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { FrostedGlassWipe } from "@/components/framecn/frosted-glass-wipe";
+```
+
+```tsx
+<FrostedGlassWipe />
+```
+
+## API Reference
+
+### FrostedGlassWipe
+
+| Prop                 | Type        | Default   |
+| -------------------- | ----------- | --------- |
+| `from`               | `ReactNode` | `-`       |
+| `to`                 | `ReactNode` | `-`       |
+| `transitionStart`    | `number`    | `36`      |
+| `transitionDuration` | `number`    | `30`      |
+| `glassBlur`          | `number`    | `24`      |
+| `speed`              | `number`    | `1`       |
+| `fps`                | `number`    | `30`      |
+| `durationInFrames`   | `number`    | `90`      |
+| `width`              | `number`    | `1280`    |
+| `height`             | `number`    | `720`     |
+| `background`         | `string`    | `"black"` |
+| `className`          | `string`    | `-`       |
+
+## Notes
+
+<Callout title="Uses backdrop-filter">
+  The frosted glass effect uses CSS backdrop-filter for the blur. Browser
+  support is good but not universal.
+</Callout>

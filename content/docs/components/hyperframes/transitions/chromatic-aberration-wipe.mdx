@@ -1,0 +1,78 @@
+---
+title: "Chromatic Aberration Wipe"
+description: "An ultra-fast slide transition with an RGB glitch on the peak frames."
+---
+
+<ComponentPreview name="chromatic-aberration-wipe" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/chromatic-aberration-wipe
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="chromatic-aberration-wipe"
+  title="components/ui/chromatic-aberration-wipe.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ChromaticAberrationWipe } from "@/components/framecn/chromatic-aberration-wipe";
+```
+
+```tsx
+<ChromaticAberrationWipe />
+```
+
+## API Reference
+
+### ChromaticAberrationWipe
+
+| Prop                 | Type                | Default   |
+| -------------------- | ------------------- | --------- |
+| `from`               | `ReactNode`         | `-`       |
+| `to`                 | `ReactNode`         | `-`       |
+| `direction`          | `"left" \| "right"` | `"left"`  |
+| `transitionStart`    | `number`            | `36`      |
+| `transitionDuration` | `number`            | `7`       |
+| `aberrationOffset`   | `number`            | `8`       |
+| `speed`              | `number`            | `1`       |
+| `fps`                | `number`            | `30`      |
+| `durationInFrames`   | `number`            | `90`      |
+| `width`              | `number`            | `1280`    |
+| `height`             | `number`            | `720`     |
+| `background`         | `string`            | `"black"` |
+| `className`          | `string`            | `-`       |
+
+## Notes
+
+<Callout title="RGB offset on peak frames">
+  The RGB channels split and offset during the peak of the transition, creating
+  a glitch effect. The intensity controls the offset amount.
+</Callout>

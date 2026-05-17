@@ -1,0 +1,80 @@
+---
+title: "Spotlight Card"
+description: "Cursor-tracked radial light that rims a card and lifts it from the dark."
+---
+
+<ComponentPreview name="spotlight-card" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/spotlight-card
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="spotlight-card"
+  title="components/ui/spotlight-card.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SpotlightCard } from "@/components/framecn/spotlight-card";
+```
+
+```tsx
+<SpotlightCard />
+```
+
+## API Reference
+
+### SpotlightCard
+
+| Prop               | Type        | Default                                                                |
+| ------------------ | ----------- | ---------------------------------------------------------------------- |
+| `title`            | `string`    | `"Spotlight Card"`                                                     |
+| `body`             | `string`    | `"Soft radial light follows the cursor, picking out the microborder."` |
+| `cardWidth`        | `number`    | `520`                                                                  |
+| `cardHeight`       | `number`    | `320`                                                                  |
+| `glowSize`         | `number`    | `600`                                                                  |
+| `glowOpacity`      | `number`    | `0.08`                                                                 |
+| `background`       | `string`    | `"#050505"`                                                            |
+| `cardColor`        | `string`    | `"#0a0a0a"`                                                            |
+| `textColor`        | `string`    | `"#fafafa"`                                                            |
+| `mutedColor`       | `string`    | `"#71717a"`                                                            |
+| `speed`            | `number`    | `1`                                                                    |
+| `fps`              | `number`    | `30`                                                                   |
+| `durationInFrames` | `number`    | `150`                                                                  |
+| `className`        | `string`    | `-`                                                                    |
+| `children`         | `ReactNode` | `-`                                                                    |
+
+## Notes
+
+<Callout title="Cursor-tracked rim light">
+  A radial spotlight follows the cursor and rims the card edges. Creates a
+  dramatic lifting effect from a dark background.
+</Callout>

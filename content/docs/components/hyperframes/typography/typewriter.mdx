@@ -1,0 +1,82 @@
+---
+title: "Typewriter"
+description: "Character-by-character text reveal with a deterministic blinking cursor."
+---
+
+<ComponentPreview name="typewriter" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/typewriter
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="typewriter" title="components/ui/typewriter.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Typewriter } from "@/components/framecn/typewriter";
+```
+
+```tsx
+<Typewriter />
+```
+
+## API Reference
+
+### Typewriter
+
+| Prop               | Type      | Default                         |
+| ------------------ | --------- | ------------------------------- |
+| `text`             | `string`  | `"console.log('hello, world')"` |
+| `cursor`           | `boolean` | `true`                          |
+| `charsPerSecond`   | `number`  | `20`                            |
+| `speed`            | `number`  | `1`                             |
+| `fontSize`         | `number`  | `48`                            |
+| `color`            | `string`  | `"#171717"`                     |
+| `cursorColor`      | `string`  | `"#171717"`                     |
+| `fontWeight`       | `number`  | `600`                           |
+| `className`        | `string`  | `-`                             |
+| `fps`              | `number`  | `30`                            |
+| `durationInFrames` | `number`  | `120`                           |
+| `width`            | `number`  | `1000`                          |
+| `height`           | `number`  | `500`                           |
+| `background`       | `string`  | `"white"`                       |
+
+## Notes
+
+<Callout title="Cursor blinks on every frame">
+  The cursor uses a deterministic blink pattern that toggles visibility every
+  frame. For a faster blink rate, decrease FPS or use a custom cursor
+  implementation.
+</Callout>
+
+<Callout title="Text must be a string" variant="destructive">
+  The typewriter requires the `text` prop to be a string. If you need to type
+  JSX elements, consider using a separate typewriter component for each element.
+</Callout>

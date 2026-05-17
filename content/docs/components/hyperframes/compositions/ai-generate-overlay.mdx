@@ -1,0 +1,81 @@
+---
+title: "AI Generate Overlay"
+description: "Overlay UI for AI content generation with prompt input and result display."
+---
+
+<ComponentPreview name="ai-generate-overlay" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/ai-generate-overlay
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="ai-generate-overlay"
+  title="components/ui/ai-generate-overlay.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AIGenerateOverlay } from "@/components/framecn/ai-generate-overlay";
+```
+
+```tsx
+<AIGenerateOverlay />
+```
+
+## API Reference
+
+### AIGenerateOverlay
+
+| Prop               | Type     | Default                |
+| ------------------ | -------- | ---------------------- |
+| `maxBlur`          | `number` | `20`                   |
+| `blurStartFrame`   | `number` | `20`                   |
+| `blurPeakFrame`    | `number` | `40`                   |
+| `revealStartFrame` | `number` | `110`                  |
+| `pillText`         | `string` | `"Generating…"`        |
+| `accent`           | `string` | `"#a78bfa"`            |
+| `background`       | `string` | `"#050505"`            |
+| `sourceImageBg`    | `string` | `DEFAULT_SOURCE_BG`    |
+| `generatedImageBg` | `string` | `DEFAULT_GENERATED_BG` |
+| `dotColor`         | `string` | `"#ffffff"`            |
+| `dotSize`          | `number` | `1.2`                  |
+| `dotSpacing`       | `number` | `20`                   |
+| `speed`            | `number` | `1`                    |
+| `fps`              | `number` | `30`                   |
+| `durationInFrames` | `number` | `150`                  |
+| `className`        | `string` | `-`                    |
+
+## Notes
+
+<Callout title="State-driven generation UI">
+  The overlay shows prompt input with generating state. Great for AI product
+  demos showing the generation workflow.
+</Callout>

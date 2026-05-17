@@ -1,0 +1,77 @@
+---
+title: "RGB Glitch Text"
+description: "Three-channel RGB split with a brief horizontal jitter."
+---
+
+<ComponentPreview name="rgb-glitch-text" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/rgb-glitch-text
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="rgb-glitch-text"
+  title="components/ui/rgb-glitch-text.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { RGBGlitchText } from "@/components/framecn/rgb-glitch-text";
+```
+
+```tsx
+<RGBGlitchText text="value" />
+```
+
+## API Reference
+
+### RGBGlitchText
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `text`             | `string` | `-`         |
+| `fontSize`         | `number` | `96`        |
+| `color`            | `string` | `"#171717"` |
+| `fontWeight`       | `number` | `700`       |
+| `glitchAt`         | `number` | `20`        |
+| `glitchDuration`   | `number` | `8`         |
+| `intensity`        | `number` | `6`         |
+| `seed`             | `string` | `"glitch"`  |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `60`        |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="RGB channels offset with jitter">
+  The text renders three offset channels (red, green, blue) with randomized
+  horizontal jitter. The intensity controls the offset amount.
+</Callout>

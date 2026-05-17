@@ -1,0 +1,84 @@
+---
+title: "Success Confetti"
+description: "Deterministic particle burst from a chosen origin point."
+---
+
+<ComponentPreview name="success-confetti" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/success-confetti
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="success-confetti"
+  title="components/ui/success-confetti.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SuccessConfetti } from "@/components/framecn/success-confetti";
+```
+
+```tsx
+<SuccessConfetti />
+```
+
+## API Reference
+
+### SuccessConfetti
+
+| Prop               | Type       | Default                                                   |
+| ------------------ | ---------- | --------------------------------------------------------- |
+| `count`            | `number`   | `60`                                                      |
+| `colors`           | `string[]` | `["#ff5e3a", "#22c55e", "#0ea5e9", "#facc15", "#a855f7"]` |
+| `originX`          | `number`   | `0.5`                                                     |
+| `originY`          | `number`   | `0.5`                                                     |
+| `gravity`          | `number`   | `0.4`                                                     |
+| `velocity`         | `number`   | `12`                                                      |
+| `text`             | `string`   | `"Merged!"`                                               |
+| `textColor`        | `string`   | `"#171717"`                                               |
+| `background`       | `string`   | `"#fafafa"`                                               |
+| `seed`             | `string`   | `"framecn"`                                               |
+| `speed`            | `number`   | `1`                                                       |
+| `fps`              | `number`   | `30`                                                      |
+| `durationInFrames` | `number`   | `90`                                                      |
+| `className`        | `string`   | `-`                                                       |
+
+## Notes
+
+<Callout title="Deterministic particle physics">
+  The confetti uses deterministic physics with seeded random values. Same inputs
+  always produce the same particle patterns.
+</Callout>
+
+<Callout title="Performance scales with particle count" variant="warning">
+  Higher particle counts may impact performance. Keep particleCount under 100
+  for smooth animations.
+</Callout>

@@ -1,0 +1,74 @@
+---
+title: "Hero Device Assemble"
+description: "Floating device layers spring into a laptop or phone, then the screen wakes with a shimmer."
+---
+
+<ComponentPreview name="hero-device-assemble" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/hero-device-assemble
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="hero-device-assemble"
+  title="components/ui/hero-device-assemble.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { HeroDeviceAssemble } from "@/components/framecn/hero-device-assemble";
+```
+
+```tsx
+<HeroDeviceAssemble />
+```
+
+## API Reference
+
+### HeroDeviceAssemble
+
+| Prop               | Type                  | Default     |
+| ------------------ | --------------------- | ----------- |
+| `assembleStart`    | `number`              | `0`         |
+| `device`           | `"laptop" \| "phone"` | `"laptop"`  |
+| `accentColor`      | `string`              | `"#22c55e"` |
+| `speed`            | `number`              | `1`         |
+| `fps`              | `number`              | `30`        |
+| `durationInFrames` | `number`              | `150`       |
+| `width`            | `number`              | `1280`      |
+| `height`           | `number`              | `720`       |
+| `className`        | `string`              | `-`         |
+
+## Notes
+
+<Callout title="Two-phase device assembly">
+  Devices spring into place from floating layers, then the screen wakes with a
+  shimmer effect. The device prop selects laptop or phone.
+</Callout>

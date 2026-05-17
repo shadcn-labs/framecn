@@ -1,0 +1,72 @@
+---
+title: "Spring Pop In"
+description: "Elastic scale pop with configurable overshoot."
+---
+
+<ComponentPreview name="spring-pop-in" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/spring-pop-in
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="spring-pop-in" title="components/ui/spring-pop-in.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SpringPopIn } from "@/components/framecn/spring-pop-in";
+```
+
+```tsx
+<SpringPopIn />
+```
+
+## API Reference
+
+### SpringPopIn
+
+| Prop               | Type        | Default |
+| ------------------ | ----------- | ------- |
+| `children`         | `ReactNode` | `-`     |
+| `damping`          | `number`    | `12`    |
+| `mass`             | `number`    | `1`     |
+| `stiffness`        | `number`    | `100`   |
+| `delayInFrames`    | `number`    | `0`     |
+| `speed`            | `number`    | `1`     |
+| `fps`              | `number`    | `30`    |
+| `durationInFrames` | `number`    | `45`    |
+| `className`        | `string`    | `-`     |
+
+## Notes
+
+<Callout title="Spring-based overshoot">
+  The animation uses a spring function with configurable overshoot. Tune
+  `stiffness`, `damping`, and `mass` to shape how far it overshoots before
+  settling.
+</Callout>

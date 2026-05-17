@@ -1,0 +1,78 @@
+---
+title: "Progress Steps"
+description: "Multi-step pipeline visualization with line fill and pulsing dots."
+---
+
+<ComponentPreview name="progress-steps" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/progress-steps
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="progress-steps"
+  title="components/ui/progress-steps.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ProgressSteps } from "@/components/framecn/progress-steps";
+```
+
+```tsx
+<ProgressSteps />
+```
+
+## API Reference
+
+### ProgressSteps
+
+| Prop               | Type                         | Default                                                             |
+| ------------------ | ---------------------------- | ------------------------------------------------------------------- |
+| `steps`            | `{ label: string }[]`        | `[{ label: "Connect" }, { label: "Process" }, { label: "Deploy" }]` |
+| `orientation`      | `"horizontal" \| "vertical"` | `"horizontal"`                                                      |
+| `activeColor`      | `string`                     | `"#22c55e"`                                                         |
+| `inactiveColor`    | `string`                     | `"#27272a"`                                                         |
+| `background`       | `string`                     | `"#0a0a0a"`                                                         |
+| `textColor`        | `string`                     | `"white"`                                                           |
+| `stepDuration`     | `number`                     | `30`                                                                |
+| `speed`            | `number`                     | `1`                                                                 |
+| `fps`              | `number`                     | `30`                                                                |
+| `durationInFrames` | `number`                     | `150`                                                               |
+| `width`            | `number`                     | `1000`                                                              |
+| `height`           | `number`                     | `500`                                                               |
+| `className`        | `string`                     | `-`                                                                 |
+
+## Notes
+
+<Callout title="Multi-step pipeline visualization">
+  Steps show as connected dots with a line fill to the current step. Great for
+  wizard or pipeline UI.
+</Callout>
