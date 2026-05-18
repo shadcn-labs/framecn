@@ -7,14 +7,6 @@ export const zoomThroughTransitionConfig: ComponentConfig = {
   compositionWidth: W,
   controls: {
     background: { default: "white", label: "Background", type: "color" },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     targetScale: {
       default: 20,
       label: "Target scale",

@@ -24,14 +24,6 @@ export const shimmerSweepConfig: ComponentConfig = {
       type: "number",
     },
     shineColor: { default: "#fafafa", label: "Shine color", type: "color" },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     text: {
       default: "SHIMMER",
       label: "Text",

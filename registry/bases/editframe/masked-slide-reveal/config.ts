@@ -21,14 +21,6 @@ export const maskedSlideRevealConfig: ComponentConfig = {
       options: FONT_WEIGHT_OPTIONS,
       type: "select",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     staggerDelay: {
       default: 3,
       label: "Stagger delay",

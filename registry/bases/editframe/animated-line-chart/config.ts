@@ -9,14 +9,6 @@ export const animatedLineChartConfig: ComponentConfig = {
     background: { default: "#0a0a0a", label: "Background", type: "color" },
     gridColor: { default: "#27272a", label: "Grid color", type: "color" },
     showDot: { default: true, label: "Show leading dot", type: "boolean" },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     strokeColor: { default: "#22c55e", label: "Stroke color", type: "color" },
     strokeWidth: {
       default: 4,

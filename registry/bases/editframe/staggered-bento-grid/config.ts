@@ -16,14 +16,6 @@ export const staggeredBentoGridConfig: ComponentConfig = {
       step: 1,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     staggerDelay: {
       default: 8,
       label: "Stagger delay (frames)",

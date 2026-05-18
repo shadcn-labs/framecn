@@ -31,14 +31,6 @@ export const staggeredFadeUpConfig: ComponentConfig = {
       step: 100,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     staggerDelay: {
       default: 4,
       label: "Stagger delay (frames)",

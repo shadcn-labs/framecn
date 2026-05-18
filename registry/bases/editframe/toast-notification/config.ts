@@ -14,14 +14,6 @@ export const toastNotificationConfig: ComponentConfig = {
       type: "text",
     },
     mutedColor: { default: "#71717a", label: "Muted text", type: "color" },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     textColor: { default: "#171717", label: "Text color", type: "color" },
     title: {
       default: "Deployment successful",

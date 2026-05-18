@@ -12,14 +12,6 @@ export const directionalWipeConfig: ComponentConfig = {
       options: ["left", "right", "up", "down"],
       type: "select",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     transitionDuration: {
       default: 20,
       label: "Transition duration",
