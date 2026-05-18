@@ -3,7 +3,7 @@
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
 import type { LinkProps } from "next/link";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -14,12 +14,12 @@ import {
 } from "@/components/ui/popover";
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
+import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
 import {
-  EXCLUDED_SECTIONS,
-  isEditframeFolder,
-  isHyperframesFolder,
-} from "@/lib/docs";
-import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+  getCurrentBase,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 
 const MobileLink = ({
@@ -90,6 +90,8 @@ export const MobileNav = ({
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const currentBase = getCurrentBase(pathname);
 
   return (
     <Popover sounds open={open} onOpenChange={setOpen}>
@@ -158,8 +160,8 @@ export const MobileNav = ({
               return null;
             }
 
-            if (isEditframeFolder(item) || isHyperframesFolder(item)) {
-              return getFoldersFromFolder(item).map((category) => (
+            if (isComponentsFolder(item)) {
+              return getFoldersFromFolder(item, currentBase).map((category) => (
                 <MobileNavGroup
                   key={category.$id}
                   label={category.name}

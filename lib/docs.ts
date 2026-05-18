@@ -7,11 +7,8 @@ export const DOCS_DIR = `content${ROUTES.DOCS}`;
 
 export const EXCLUDED_SECTIONS = new Set(["installation", "(root)"]);
 
-export const isEditframeFolder = (folder: PageTreeFolder) =>
-  folder.$id === "editframe" || folder.name === "Editframe";
-
-export const isHyperframesFolder = (folder: PageTreeFolder) =>
-  folder.$id === "hyperframes" || folder.name === "HyperFrames";
+export const isComponentsFolder = (folder: PageTreeFolder) =>
+  folder.$id === "components" || folder.name === "Components";
 
 const TITLE_OVERRIDES: Record<string, string> = {
   json: "JSON",

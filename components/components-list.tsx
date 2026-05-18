@@ -1,10 +1,12 @@
 import Link from "next/link";
 
-import { isEditframeFolder, isHyperframesFolder } from "@/lib/docs";
+import { isComponentsFolder } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { source } from "@/lib/source";
 import { cn } from "@/lib/utils";
+import type { BaseName } from "@/registry/bases";
+import { DEFAULT_BASE_NAME } from "@/registry/bases";
 
 const getFolder = (name: string): PageTreeFolder | undefined => {
   for (const node of source.pageTree.children) {
@@ -67,10 +69,12 @@ const CategoryGrid = ({
 );
 
 export const ComponentsList = ({
+  base = DEFAULT_BASE_NAME,
   folderName = "Components",
   category,
   className,
 }: {
+  base?: BaseName;
   folderName?: string;
   category?: string;
   className?: string;
@@ -80,7 +84,7 @@ export const ComponentsList = ({
     return null;
   }
 
-  if (!isEditframeFolder(folder) && !isHyperframesFolder(folder)) {
+  if (!isComponentsFolder(folder)) {
     const pages = getPagesFromFolder(folder, false);
     if (pages.length === 0) {
       return null;
@@ -88,7 +92,7 @@ export const ComponentsList = ({
     return <ComponentGrid className={className} pages={pages} />;
   }
 
-  const categoryFolders = getFoldersFromFolder(folder);
+  const categoryFolders = getFoldersFromFolder(folder, base);
 
   if (category) {
     const match = categoryFolders.find(

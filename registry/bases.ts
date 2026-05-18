@@ -31,3 +31,5 @@ export const BASE_NAMES = BASES.map((base) => base.name) as [
 
 export const getBase = (name: BaseName) =>
   BASES.find((base) => base.name === name);
+
+export const DEFAULT_BASE_NAME = "editframe";

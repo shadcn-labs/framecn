@@ -7,7 +7,7 @@ import {
   CircleDashedIcon,
   SquareDashedIcon,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -35,13 +35,13 @@ import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { useMutationObserver } from "@/hooks/use-mutation-observer";
 import { usePackageManager } from "@/hooks/use-package-manager";
-import {
-  EXCLUDED_SECTIONS,
-  isEditframeFolder,
-  isHyperframesFolder,
-} from "@/lib/docs";
+import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
-import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import {
+  getCurrentBase,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 
 type DocUrlKind =
@@ -156,11 +156,13 @@ export const CommandMenu = ({
   tree: PageTreeRoot;
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const isMac = useIsMac();
   const [packageManager] = usePackageManager();
   const [open, setOpen] = useState(false);
   const [showGoToPage, setShowGoToPage] = useState(false);
   const [copyPayload, setCopyPayload] = useState("");
+  const currentBase = getCurrentBase(pathname);
   const copyFeedback = useFeedback({ sound: "copy" });
 
   const { copyToClipboard } = useCopyToClipboard({
@@ -185,8 +187,8 @@ export const CommandMenu = ({
         continue;
       }
 
-      if (isEditframeFolder(item) || isHyperframesFolder(item)) {
-        for (const category of getFoldersFromFolder(item)) {
+      if (isComponentsFolder(item)) {
+        for (const category of getFoldersFromFolder(item, currentBase)) {
           const pages = getPagesFromFolder(category, false).map((p) => ({
             name: typeof p.name === "string" ? p.name : String(p.name),
             url: p.url,
@@ -216,7 +218,7 @@ export const CommandMenu = ({
       }
     }
     return groups;
-  }, [tree]);
+  }, [tree, currentBase]);
 
   const handleDocPageHighlight = useCallback(
     (item: { url: string; name?: string }) => {
