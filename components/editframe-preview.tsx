@@ -314,7 +314,7 @@ export const EditframePreview = ({
   hideCustomizer?: boolean;
   className?: string;
 }) => {
-  const entry = registry[name];
+  const entry = registry.editframe[name];
 
   if (!entry) {
     return (
