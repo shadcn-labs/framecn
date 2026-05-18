@@ -3,68 +3,54 @@ title: "Cursor Flow"
 description: "Realistic mouse that arcs along Bezier paths and clicks targets."
 ---
 
-<ComponentPreview name="cursor-flow" hideCode />
+<ComponentPreview base="hyperframes" name="cursor-flow" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/cursor-flow
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/cursor-flow.html`.
+</Step>
 
-<ComponentSource name="cursor-flow" title="components/ui/cursor-flow.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="cursor-flow"
+  title="compositions/components/cursor-flow.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { CursorFlow } from "@/components/framecn/cursor-flow";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="cursor-flow"
+  data-composition-src="compositions/components/cursor-flow.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<CursorFlow />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### CursorFlow
+## Files
 
-| Prop               | Type               | Default             |
-| ------------------ | ------------------ | ------------------- |
-| `waypoints`        | `CursorWaypoint[]` | `DEFAULT_WAYPOINTS` |
-| `cursorColor`      | `string`           | `"#fafafa"`         |
-| `cursorSize`       | `number`           | `28`                |
-| `segmentDuration`  | `number`           | `36`                |
-| `background`       | `string`           | `"#0a0a0a"`         |
-| `showTargets`      | `boolean`          | `true`              |
-| `speed`            | `number`           | `1`                 |
-| `fps`              | `number`           | `30`                |
-| `durationInFrames` | `number`           | `180`               |
-| `width`            | `number`           | `1280`              |
-| `height`           | `number`           | `720`               |
-| `className`        | `string`           | `-`                 |
+| File               | Target                                     |
+| ------------------ | ------------------------------------------ |
+| `cursor-flow.html` | `compositions/components/cursor-flow.html` |
 
 ## Notes
 

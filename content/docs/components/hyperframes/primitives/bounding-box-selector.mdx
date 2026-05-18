@@ -3,76 +3,59 @@ title: "Bounding Box Selector"
 description: "Figma-style selection rectangle that snaps around a target."
 ---
 
-<ComponentPreview name="bounding-box-selector" hideCode />
+<ComponentPreview base="hyperframes" name="bounding-box-selector" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/bounding-box-selector
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at
+  `compositions/components/bounding-box-selector.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="bounding-box-selector"
-  title="components/ui/bounding-box-selector.tsx"
+  title="compositions/components/bounding-box-selector.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { BoundingBoxSelector } from "@/components/framecn/bounding-box-selector";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="bounding-box-selector"
+  data-composition-src="compositions/components/bounding-box-selector.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<BoundingBoxSelector />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### BoundingBoxSelector
+## Files
 
-| Prop               | Type        | Default     |
-| ------------------ | ----------- | ----------- |
-| `children`         | `ReactNode` | `-`         |
-| `borderColor`      | `string`    | `"#0ea5e9"` |
-| `handleColor`      | `string`    | `"#0ea5e9"` |
-| `borderWidth`      | `number`    | `2`         |
-| `appearAt`         | `number`    | `15`        |
-| `background`       | `string`    | `"#fafafa"` |
-| `speed`            | `number`    | `1`         |
-| `className`        | `string`    | `-`         |
-| `fps`              | `number`    | `30`        |
-| `durationInFrames` | `number`    | `90`        |
-| `width`            | `number`    | `1000`      |
-| `height`           | `number`    | `500`       |
+| File                         | Target                                               |
+| ---------------------------- | ---------------------------------------------------- |
+| `bounding-box-selector.html` | `compositions/components/bounding-box-selector.html` |
 
 ## Notes
 
 <Callout title="Sizing from wrapped child">
-  The component reads its size from the wrapped child via `display:
-  inline-block`. Pass children with explicit `width`/`height` for pixel-perfect
-  placement.
+  The bounding boxes are positioned absolutely within the content area. Adjust
+  the `top`, `left`, `width`, and `height` values to match your layout.
 </Callout>

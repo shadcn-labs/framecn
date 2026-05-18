@@ -3,72 +3,54 @@ title: "Kinetic Type Mask"
 description: "Use giant typography as a window into the next scene."
 ---
 
-<ComponentPreview name="kinetic-type-mask" hideCode />
+<ComponentPreview base="hyperframes" name="kinetic-type-mask" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/kinetic-type-mask
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/kinetic-type-mask.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="kinetic-type-mask"
-  title="components/ui/kinetic-type-mask.tsx"
+  title="compositions/components/kinetic-type-mask.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { KineticTypeMask } from "@/components/framecn/kinetic-type-mask";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="kinetic-type-mask"
+  data-composition-src="compositions/components/kinetic-type-mask.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<KineticTypeMask />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### KineticTypeMask
+## Files
 
-| Prop                 | Type        | Default  |
-| -------------------- | ----------- | -------- |
-| `from`               | `ReactNode` | `-`      |
-| `to`                 | `ReactNode` | `-`      |
-| `text`               | `string`    | `"NEXT"` |
-| `transitionStart`    | `number`    | `-`      |
-| `holdFrames`         | `number`    | `12`     |
-| `transitionDuration` | `number`    | `24`     |
-| `maxScale`           | `number`    | `120`    |
-| `speed`              | `number`    | `1`      |
-| `fps`                | `number`    | `30`     |
-| `durationInFrames`   | `number`    | `90`     |
-| `width`              | `number`    | `1280`   |
-| `height`             | `number`    | `720`    |
-| `className`          | `string`    | `-`      |
+| File                     | Target                                           |
+| ------------------------ | ------------------------------------------------ |
+| `kinetic-type-mask.html` | `compositions/components/kinetic-type-mask.html` |
 
 ## Notes
 

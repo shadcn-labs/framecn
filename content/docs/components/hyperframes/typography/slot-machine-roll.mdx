@@ -3,68 +3,54 @@ title: "Slot Machine Roll"
 description: "Numbers and characters roll into place like a casino reel."
 ---
 
-<ComponentPreview name="slot-machine-roll" hideCode />
+<ComponentPreview base="hyperframes" name="slot-machine-roll" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/slot-machine-roll
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/slot-machine-roll.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="slot-machine-roll"
-  title="components/ui/slot-machine-roll.tsx"
+  title="compositions/components/slot-machine-roll.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { SlotMachineRoll } from "@/components/framecn/slot-machine-roll";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="slot-machine-roll"
+  data-composition-src="compositions/components/slot-machine-roll.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<SlotMachineRoll />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### SlotMachineRoll
+## Files
 
-| Prop               | Type     | Default     |
-| ------------------ | -------- | ----------- |
-| `from`             | `string` | `"$99"`     |
-| `to`               | `string` | `"$199"`    |
-| `fontSize`         | `number` | `120`       |
-| `color`            | `string` | `"#171717"` |
-| `fontWeight`       | `number` | `700`       |
-| `speed`            | `number` | `1`         |
-| `fps`              | `number` | `30`        |
-| `durationInFrames` | `number` | `45`        |
-| `className`        | `string` | `-`         |
+| File                     | Target                                           |
+| ------------------------ | ------------------------------------------------ |
+| `slot-machine-roll.html` | `compositions/components/slot-machine-roll.html` |
 
 ## Notes
 

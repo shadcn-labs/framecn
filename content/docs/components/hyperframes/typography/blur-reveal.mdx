@@ -3,68 +3,54 @@ title: "Blur Reveal"
 description: "Text fades in from a heavy blur into sharp focus."
 ---
 
-<ComponentPreview name="blur-reveal" hideCode />
+<ComponentPreview base="hyperframes" name="blur-reveal" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/blur-reveal
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/blur-reveal.html`.
+</Step>
 
-<ComponentSource name="blur-reveal" title="components/ui/blur-reveal.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="blur-reveal"
+  title="compositions/components/blur-reveal.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { BlurReveal } from "@/components/framecn/blur-reveal";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="blur-reveal"
+  data-composition-src="compositions/components/blur-reveal.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<BlurReveal />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### BlurReveal
+## Files
 
-| Prop               | Type     | Default        |
-| ------------------ | -------- | -------------- |
-| `text`             | `string` | `"BlurReveal"` |
-| `className`        | `string` | `-`            |
-| `blur`             | `number` | `10`           |
-| `fontSize`         | `number` | `48`           |
-| `color`            | `string` | `"#171717"`    |
-| `fontWeight`       | `number` | `600`          |
-| `speed`            | `number` | `1`            |
-| `fps`              | `number` | `30`           |
-| `durationInFrames` | `number` | `90`           |
-| `width`            | `number` | `1000`         |
-| `height`           | `number` | `500`          |
-| `background`       | `string` | `"white"`      |
+| File               | Target                                     |
+| ------------------ | ------------------------------------------ |
+| `blur-reveal.html` | `compositions/components/blur-reveal.html` |
 
 ## Notes
 

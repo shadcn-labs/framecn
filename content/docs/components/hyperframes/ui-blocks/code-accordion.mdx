@@ -3,74 +3,52 @@ title: "Code Accordion"
 description: "Long code blocks collapse mid-section, hiding noise behind a count badge."
 ---
 
-<ComponentPreview name="code-accordion" hideCode />
+<ComponentPreview base="hyperframes" name="code-accordion" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/code-accordion
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/code-accordion.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="code-accordion"
-  title="components/ui/code-accordion.tsx"
+  title="compositions/code-accordion.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { CodeAccordion } from "@/components/framecn/code-accordion";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="code-accordion"
+  data-composition-src="compositions/code-accordion.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<CodeAccordion />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### CodeAccordion
+## Files
 
-| Prop               | Type               | Default               |
-| ------------------ | ------------------ | --------------------- |
-| `lines`            | `string[]`         | `DEFAULT_LINES`       |
-| `collapseRange`    | `[number, number]` | `[3, 14]`             |
-| `collapseAt`       | `number`           | `30`                  |
-| `title`            | `string`           | `"process-orders.ts"` |
-| `fontSize`         | `number`           | `16`                  |
-| `width`            | `number`           | `720`                 |
-| `background`       | `string`           | `"#050505"`           |
-| `cardColor`        | `string`           | `"#0a0a0a"`           |
-| `textColor`        | `string`           | `"#e4e4e7"`           |
-| `mutedColor`       | `string`           | `"#52525b"`           |
-| `speed`            | `number`           | `1`                   |
-| `fps`              | `number`           | `30`                  |
-| `durationInFrames` | `number`           | `150`                 |
-| `height`           | `number`           | `720`                 |
-| `className`        | `string`           | `-`                   |
+| File                  | Target                             |
+| --------------------- | ---------------------------------- |
+| `code-accordion.html` | `compositions/code-accordion.html` |
 
 ## Notes
 

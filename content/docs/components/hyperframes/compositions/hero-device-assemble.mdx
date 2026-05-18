@@ -3,68 +3,52 @@ title: "Hero Device Assemble"
 description: "Floating device layers spring into a laptop or phone, then the screen wakes with a shimmer."
 ---
 
-<ComponentPreview name="hero-device-assemble" hideCode />
+<ComponentPreview base="hyperframes" name="hero-device-assemble" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/hero-device-assemble
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/hero-device-assemble.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="hero-device-assemble"
-  title="components/ui/hero-device-assemble.tsx"
+  title="compositions/hero-device-assemble.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { HeroDeviceAssemble } from "@/components/framecn/hero-device-assemble";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="hero-device-assemble"
+  data-composition-src="compositions/hero-device-assemble.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<HeroDeviceAssemble />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### HeroDeviceAssemble
+## Files
 
-| Prop               | Type                  | Default     |
-| ------------------ | --------------------- | ----------- |
-| `assembleStart`    | `number`              | `0`         |
-| `device`           | `"laptop" \| "phone"` | `"laptop"`  |
-| `accentColor`      | `string`              | `"#22c55e"` |
-| `speed`            | `number`              | `1`         |
-| `fps`              | `number`              | `30`        |
-| `durationInFrames` | `number`              | `150`       |
-| `width`            | `number`              | `1280`      |
-| `height`           | `number`              | `720`       |
-| `className`        | `string`              | `-`         |
+| File                        | Target                                   |
+| --------------------------- | ---------------------------------------- |
+| `hero-device-assemble.html` | `compositions/hero-device-assemble.html` |
 
 ## Notes
 

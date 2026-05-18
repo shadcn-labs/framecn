@@ -3,77 +3,60 @@ title: "Toast Notification"
 description: "System toast that springs in, holds, and slides away."
 ---
 
-<ComponentPreview name="toast-notification" hideCode />
+<ComponentPreview base="hyperframes" name="toast-notification" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/toast-notification
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/toast-notification.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="toast-notification"
-  title="components/ui/toast-notification.tsx"
+  title="compositions/components/toast-notification.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { ToastNotification } from "@/components/framecn/toast-notification";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="toast-notification"
+  data-composition-src="compositions/components/toast-notification.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<ToastNotification />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### ToastNotification
+## Files
 
-| Prop               | Type           | Default                                  |
-| ------------------ | -------------- | ---------------------------------------- |
-| `title`            | `string`       | `"Deployment successful"`                |
-| `message`          | `string`       | `"Your changes are live at framecn.dev"` |
-| `variant`          | `ToastVariant` | `"success"`                              |
-| `background`       | `string`       | `"#fafafa"`                              |
-| `cardColor`        | `string`       | `"white"`                                |
-| `textColor`        | `string`       | `"#171717"`                              |
-| `mutedColor`       | `string`       | `"#71717a"`                              |
-| `speed`            | `number`       | `1`                                      |
-| `fps`              | `number`       | `FPS`                                    |
-| `durationInFrames` | `number`       | `DURATION_IN_FRAMES`                     |
-| `className`        | `string`       | `-`                                      |
+| File                      | Target                                            |
+| ------------------------- | ------------------------------------------------- |
+| `toast-notification.html` | `compositions/components/toast-notification.html` |
 
 ## Notes
 
 <Callout title="Three-phase animation">
   The toast animates through three phases: spring-based enter, a hold period,
-  and interpolate-based exit. Use `durationInFrames` to control the overall
-  timing.
+  and interpolate-based exit. Use `data-duration` to control the overall timing.
 </Callout>
 
 <Callout title="Anchored absolutely" variant="destructive">

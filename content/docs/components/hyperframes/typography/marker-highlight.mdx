@@ -3,73 +3,54 @@ title: "Marker Highlight"
 description: "Marker bar sweeps in behind a phrase, optionally inverting the text color."
 ---
 
-<ComponentPreview name="marker-highlight" hideCode />
+<ComponentPreview base="hyperframes" name="marker-highlight" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/marker-highlight
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/marker-highlight.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="marker-highlight"
-  title="components/ui/marker-highlight.tsx"
+  title="compositions/components/marker-highlight.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { MarkerHighlight } from "@/components/framecn/marker-highlight";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="marker-highlight"
+  data-composition-src="compositions/components/marker-highlight.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<MarkerHighlight />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### MarkerHighlight
+## Files
 
-| Prop                   | Type     | Default      |
-| ---------------------- | -------- | ------------ |
-| `before`               | `string` | `""`         |
-| `highlight`            | `string` | `"builders"` |
-| `after`                | `string` | `"."`        |
-| `markerColor`          | `string` | `"#facc15"`  |
-| `baseColor`            | `string` | `"#171717"`  |
-| `highlightedTextColor` | `string` | `"#171717"`  |
-| `fontSize`             | `number` | `72`         |
-| `fontWeight`           | `number` | `600`        |
-| `speed`                | `number` | `1`          |
-| `fps`                  | `number` | `30`         |
-| `durationInFrames`     | `number` | `90`         |
-| `width`                | `number` | `1280`       |
-| `height`               | `number` | `720`        |
-| `className`            | `string` | `-`          |
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `marker-highlight.html` | `compositions/components/marker-highlight.html` |
 
 ## Notes
 

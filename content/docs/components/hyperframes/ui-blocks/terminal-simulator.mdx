@@ -3,71 +3,52 @@ title: "Terminal Simulator"
 description: "CLI build simulation with chunked log output and step-function scrolling."
 ---
 
-<ComponentPreview name="terminal-simulator" hideCode />
+<ComponentPreview base="hyperframes" name="terminal-simulator" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/terminal-simulator
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/terminal-simulator.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="terminal-simulator"
-  title="components/ui/terminal-simulator.tsx"
+  title="compositions/terminal-simulator.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { TerminalSimulator } from "@/components/framecn/terminal-simulator";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="terminal-simulator"
+  data-composition-src="compositions/terminal-simulator.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<TerminalSimulator />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### TerminalSimulator
+## Files
 
-| Prop               | Type             | Default                |
-| ------------------ | ---------------- | ---------------------- |
-| `lines`            | `TerminalLine[]` | `DEFAULT_LINES`        |
-| `prompt`           | `string`         | `"$"`                  |
-| `title`            | `string`         | `"~/projects/framecn"` |
-| `background`       | `string`         | `"#0a0a0a"`            |
-| `chromeColor`      | `string`         | `"#1a1a1a"`            |
-| `fontSize`         | `number`         | `18`                   |
-| `charsPerFrame`    | `number`         | `1`                    |
-| `chunkSize`        | `number`         | `1`                    |
-| `speed`            | `number`         | `1`                    |
-| `fps`              | `number`         | `30`                   |
-| `durationInFrames` | `number`         | `200`                  |
-| `className`        | `string`         | `-`                    |
+| File                      | Target                                 |
+| ------------------------- | -------------------------------------- |
+| `terminal-simulator.html` | `compositions/terminal-simulator.html` |
 
 ## Notes
 

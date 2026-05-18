@@ -3,71 +3,52 @@ title: "Animated Bar Chart"
 description: "Bars spring up from the baseline with deterministic stagger."
 ---
 
-<ComponentPreview name="animated-bar-chart" hideCode />
+<ComponentPreview base="hyperframes" name="animated-bar-chart" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/animated-bar-chart
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/animated-bar-chart.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="animated-bar-chart"
-  title="components/ui/animated-bar-chart.tsx"
+  title="compositions/animated-bar-chart.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { AnimatedBarChart } from "@/components/framecn/animated-bar-chart";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="animated-bar-chart"
+  data-composition-src="compositions/animated-bar-chart.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<AnimatedBarChart />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### AnimatedBarChart
+## Files
 
-| Prop               | Type       | Default                            |
-| ------------------ | ---------- | ---------------------------------- |
-| `data`             | `number[]` | `[35, 60, 45, 80, 55, 70, 90, 65]` |
-| `labels`           | `string[]` | `-`                                |
-| `width`            | `number`   | `1000`                             |
-| `height`           | `number`   | `500`                              |
-| `barColor`         | `string`   | `"#0ea5e9"`                        |
-| `background`       | `string`   | `"#0a0a0a"`                        |
-| `gap`              | `number`   | `16`                               |
-| `staggerFrames`    | `number`   | `6`                                |
-| `speed`            | `number`   | `1`                                |
-| `fps`              | `number`   | `30`                               |
-| `durationInFrames` | `number`   | `90`                               |
-| `className`        | `string`   | `-`                                |
+| File                      | Target                                 |
+| ------------------------- | -------------------------------------- |
+| `animated-bar-chart.html` | `compositions/animated-bar-chart.html` |
 
 ## Notes
 

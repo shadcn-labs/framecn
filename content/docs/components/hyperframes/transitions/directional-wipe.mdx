@@ -3,71 +3,54 @@ title: "Directional Wipe"
 description: "Slide one scene in while pushing the other out."
 ---
 
-<ComponentPreview name="directional-wipe" hideCode />
+<ComponentPreview base="hyperframes" name="directional-wipe" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/directional-wipe
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/directional-wipe.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="directional-wipe"
-  title="components/ui/directional-wipe.tsx"
+  title="compositions/components/directional-wipe.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { DirectionalWipe } from "@/components/framecn/directional-wipe";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="directional-wipe"
+  data-composition-src="compositions/components/directional-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<DirectionalWipe />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### DirectionalWipe
+## Files
 
-| Prop                 | Type                                  | Default   |
-| -------------------- | ------------------------------------- | --------- |
-| `from`               | `ReactNode`                           | `-`       |
-| `to`                 | `ReactNode`                           | `-`       |
-| `direction`          | `"left" \| "right" \| "up" \| "down"` | `"left"`  |
-| `transitionStart`    | `number`                              | `36`      |
-| `transitionDuration` | `number`                              | `20`      |
-| `speed`              | `number`                              | `1`       |
-| `fps`                | `number`                              | `30`      |
-| `durationInFrames`   | `number`                              | `90`      |
-| `width`              | `number`                              | `1280`    |
-| `height`             | `number`                              | `720`     |
-| `background`         | `string`                              | `"black"` |
-| `className`          | `string`                              | `-`       |
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `directional-wipe.html` | `compositions/components/directional-wipe.html` |
 
 ## Notes
 

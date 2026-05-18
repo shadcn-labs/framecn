@@ -3,68 +3,54 @@ title: "Matrix Decode"
 description: "Random characters scramble and resolve into the target string."
 ---
 
-<ComponentPreview name="matrix-decode" hideCode />
+<ComponentPreview base="hyperframes" name="matrix-decode" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/matrix-decode
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/matrix-decode.html`.
+</Step>
 
-<ComponentSource name="matrix-decode" title="components/ui/matrix-decode.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="matrix-decode"
+  title="compositions/components/matrix-decode.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { MatrixDecode } from "@/components/framecn/matrix-decode";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="matrix-decode"
+  data-composition-src="compositions/components/matrix-decode.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<MatrixDecode />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### MatrixDecode
+## Files
 
-| Prop               | Type     | Default                  |
-| ------------------ | -------- | ------------------------ | --- |
-| `text`             | `string` | `"DECRYPTED"`            |
-| `charset`          | `string` | `"!@#$%^&\*()\_+-=<>?/\\ | "`  |
-| `fontSize`         | `number` | `72`                     |
-| `color`            | `string` | `"#22c55e"`              |
-| `fontWeight`       | `number` | `600`                    |
-| `revealDuration`   | `number` | `60`                     |
-| `speed`            | `number` | `1`                      |
-| `fps`              | `number` | `30`                     |
-| `durationInFrames` | `number` | `90`                     |
-| `width`            | `number` | `1280`                   |
-| `height`           | `number` | `720`                    |
-| `className`        | `string` | `-`                      |
+| File                 | Target                                       |
+| -------------------- | -------------------------------------------- |
+| `matrix-decode.html` | `compositions/components/matrix-decode.html` |
 
 ## Notes
 

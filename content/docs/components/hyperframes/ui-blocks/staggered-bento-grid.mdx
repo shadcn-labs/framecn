@@ -3,69 +3,52 @@ title: "Staggered Bento Grid"
 description: "Bento grid where cards cascade in with per-cell sequences."
 ---
 
-<ComponentPreview name="staggered-bento-grid" hideCode />
+<ComponentPreview base="hyperframes" name="staggered-bento-grid" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/staggered-bento-grid
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/staggered-bento-grid.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="staggered-bento-grid"
-  title="components/ui/staggered-bento-grid.tsx"
+  title="compositions/staggered-bento-grid.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { StaggeredBentoGrid } from "@/components/framecn/staggered-bento-grid";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="staggered-bento-grid"
+  data-composition-src="compositions/staggered-bento-grid.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<StaggeredBentoGrid />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### StaggeredBentoGrid
+## Files
 
-| Prop               | Type          | Default         |
-| ------------------ | ------------- | --------------- |
-| `items`            | `BentoItem[]` | `DEFAULT_ITEMS` |
-| `staggerDelay`     | `number`      | `8`             |
-| `columns`          | `number`      | `3`             |
-| `background`       | `string`      | `"#0a0a0a"`     |
-| `cardColor`        | `string`      | `"#1a1a1a"`     |
-| `textColor`        | `string`      | `"white"`       |
-| `speed`            | `number`      | `1`             |
-| `fps`              | `number`      | `30`            |
-| `durationInFrames` | `number`      | `90`            |
-| `className`        | `string`      | `-`             |
+| File                        | Target                                   |
+| --------------------------- | ---------------------------------------- |
+| `staggered-bento-grid.html` | `compositions/staggered-bento-grid.html` |
 
 ## Notes
 

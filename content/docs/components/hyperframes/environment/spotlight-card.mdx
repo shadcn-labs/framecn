@@ -3,74 +3,54 @@ title: "Spotlight Card"
 description: "Cursor-tracked radial light that rims a card and lifts it from the dark."
 ---
 
-<ComponentPreview name="spotlight-card" hideCode />
+<ComponentPreview base="hyperframes" name="spotlight-card" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/spotlight-card
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/spotlight-card.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="spotlight-card"
-  title="components/ui/spotlight-card.tsx"
+  title="compositions/components/spotlight-card.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { SpotlightCard } from "@/components/framecn/spotlight-card";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="spotlight-card"
+  data-composition-src="compositions/components/spotlight-card.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<SpotlightCard />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### SpotlightCard
+## Files
 
-| Prop               | Type        | Default                                                                |
-| ------------------ | ----------- | ---------------------------------------------------------------------- |
-| `title`            | `string`    | `"Spotlight Card"`                                                     |
-| `body`             | `string`    | `"Soft radial light follows the cursor, picking out the microborder."` |
-| `cardWidth`        | `number`    | `520`                                                                  |
-| `cardHeight`       | `number`    | `320`                                                                  |
-| `glowSize`         | `number`    | `600`                                                                  |
-| `glowOpacity`      | `number`    | `0.08`                                                                 |
-| `background`       | `string`    | `"#050505"`                                                            |
-| `cardColor`        | `string`    | `"#0a0a0a"`                                                            |
-| `textColor`        | `string`    | `"#fafafa"`                                                            |
-| `mutedColor`       | `string`    | `"#71717a"`                                                            |
-| `speed`            | `number`    | `1`                                                                    |
-| `fps`              | `number`    | `30`                                                                   |
-| `durationInFrames` | `number`    | `150`                                                                  |
-| `className`        | `string`    | `-`                                                                    |
-| `children`         | `ReactNode` | `-`                                                                    |
+| File                  | Target                                        |
+| --------------------- | --------------------------------------------- |
+| `spotlight-card.html` | `compositions/components/spotlight-card.html` |
 
 ## Notes
 

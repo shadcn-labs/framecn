@@ -3,75 +3,54 @@ title: "Perspective Marquee"
 description: "Marquee tilted into 3D space with depth fade."
 ---
 
-<ComponentPreview name="perspective-marquee" hideCode />
+<ComponentPreview base="hyperframes" name="perspective-marquee" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/perspective-marquee
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/perspective-marquee.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="perspective-marquee"
-  title="components/ui/perspective-marquee.tsx"
+  title="compositions/components/perspective-marquee.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { PerspectiveMarquee } from "@/components/framecn/perspective-marquee";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="perspective-marquee"
+  data-composition-src="compositions/components/perspective-marquee.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<PerspectiveMarquee />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### PerspectiveMarquee
+## Files
 
-| Prop               | Type       | Default         |
-| ------------------ | ---------- | --------------- |
-| `items`            | `string[]` | `DEFAULT_ITEMS` |
-| `fontSize`         | `number`   | `84`            |
-| `color`            | `string`   | `"#fafafa"`     |
-| `fontWeight`       | `number`   | `700`           |
-| `pixelsPerFrame`   | `number`   | `2`             |
-| `rotateY`          | `number`   | `-28`           |
-| `rotateX`          | `number`   | `8`             |
-| `perspective`      | `number`   | `1200`          |
-| `fadeColor`        | `string`   | `"#050505"`     |
-| `background`       | `string`   | `"#050505"`     |
-| `speed`            | `number`   | `1`             |
-| `fps`              | `number`   | `30`            |
-| `durationInFrames` | `number`   | `300`           |
-| `width`            | `number`   | `1280`          |
-| `height`           | `number`   | `720`           |
-| `className`        | `string`   | `-`             |
+| File                       | Target                                             |
+| -------------------------- | -------------------------------------------------- |
+| `perspective-marquee.html` | `compositions/components/perspective-marquee.html` |
 
 ## Notes
 

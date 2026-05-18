@@ -3,67 +3,51 @@ title: "Chat To Preview Layout"
 description: "Chat input transforms into a preview layout."
 ---
 
-<ComponentPreview name="chat-to-preview-layout" hideCode />
+<ComponentPreview base="hyperframes" name="chat-to-preview-layout" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/chat-to-preview-layout
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/chat-to-preview-layout.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="chat-to-preview-layout"
-  title="components/ui/chat-to-preview-layout.tsx"
+  title="compositions/chat-to-preview-layout.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { ChatToPreviewLayout } from "@/components/framecn/chat-to-preview-layout";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="chat-to-preview-layout"
+  data-composition-src="compositions/chat-to-preview-layout.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<ChatToPreviewLayout />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### ChatToPreviewLayout
+## Files
 
-| Prop               | Type        | Default     |
-| ------------------ | ----------- | ----------- |
-| `chat`             | `ReactNode` | `-`         |
-| `preview`          | `ReactNode` | `-`         |
-| `startChatRatio`   | `number`    | `0.5`       |
-| `endChatRatio`     | `number`    | `0.25`      |
-| `background`       | `string`    | `"#0a0a0a"` |
-| `speed`            | `number`    | `1`         |
-| `fps`              | `number`    | `30`        |
-| `durationInFrames` | `number`    | `150`       |
-| `width`            | `number`    | `1280`      |
-| `height`           | `number`    | `720`       |
-| `className`        | `string`    | `-`         |
+| File                          | Target                                     |
+| ----------------------------- | ------------------------------------------ |
+| `chat-to-preview-layout.html` | `compositions/chat-to-preview-layout.html` |

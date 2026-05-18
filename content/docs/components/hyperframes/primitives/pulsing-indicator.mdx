@@ -3,67 +3,54 @@ title: "Pulsing Indicator"
 description: "Continuous sine-driven pulse for loading or activity states."
 ---
 
-<ComponentPreview name="pulsing-indicator" hideCode />
+<ComponentPreview base="hyperframes" name="pulsing-indicator" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/pulsing-indicator
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/pulsing-indicator.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="pulsing-indicator"
-  title="components/ui/pulsing-indicator.tsx"
+  title="compositions/components/pulsing-indicator.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { PulsingIndicator } from "@/components/framecn/pulsing-indicator";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="pulsing-indicator"
+  data-composition-src="compositions/components/pulsing-indicator.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<PulsingIndicator />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### PulsingIndicator
+## Files
 
-| Prop               | Type     | Default     |
-| ------------------ | -------- | ----------- |
-| `color`            | `string` | `"#22c55e"` |
-| `size`             | `number` | `16`        |
-| `period`           | `number` | `8`         |
-| `speed`            | `number` | `1`         |
-| `background`       | `string` | `"white"`   |
-| `fps`              | `number` | `30`        |
-| `durationInFrames` | `number` | `90`        |
-| `className`        | `string` | `-`         |
+| File                     | Target                                           |
+| ------------------------ | ------------------------------------------------ |
+| `pulsing-indicator.html` | `compositions/components/pulsing-indicator.html` |
 
 ## Notes
 

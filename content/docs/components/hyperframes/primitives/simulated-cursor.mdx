@@ -3,67 +3,54 @@ title: "Simulated Cursor"
 description: "A simulated cursor with click animations and movement."
 ---
 
-<ComponentPreview name="simulated-cursor" hideCode />
+<ComponentPreview base="hyperframes" name="simulated-cursor" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/simulated-cursor
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/simulated-cursor.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="simulated-cursor"
-  title="components/ui/simulated-cursor.tsx"
+  title="compositions/components/simulated-cursor.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { SimulatedCursor } from "@/components/framecn/simulated-cursor";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="simulated-cursor"
+  data-composition-src="compositions/components/simulated-cursor.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<SimulatedCursor />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### SimulatedCursor
+## Files
 
-| Prop               | Type            | Default          |
-| ------------------ | --------------- | ---------------- |
-| `points`           | `CursorPoint[]` | `DEFAULT_POINTS` |
-| `color`            | `string`        | `"#ffffff"`      |
-| `size`             | `number`        | `32`             |
-| `background`       | `string`        | `"#0a0a0a"`      |
-| `speed`            | `number`        | `1`              |
-| `fps`              | `number`        | `30`             |
-| `durationInFrames` | `number`        | `150`            |
-| `className`        | `string`        | `-`              |
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `simulated-cursor.html` | `compositions/components/simulated-cursor.html` |
 
 ## Notes
 

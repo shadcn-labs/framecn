@@ -3,66 +3,54 @@ title: "Live Code Compilation"
 description: "Split-screen where typed code on the left snaps a live UI preview on the right."
 ---
 
-<ComponentPreview name="live-code-compilation" hideCode />
+<ComponentPreview base="hyperframes" name="live-code-compilation" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/live-code-compilation
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/live-code-compilation.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="live-code-compilation"
-  title="components/ui/live-code-compilation.tsx"
+  title="compositions/live-code-compilation.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { LiveCodeCompilation } from "@/components/framecn/live-code-compilation";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="live-code-compilation"
+  data-composition-src="compositions/live-code-compilation.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<LiveCodeCompilation />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### LiveCodeCompilation
+## Files
 
-| Prop               | Type     | Default     |
-| ------------------ | -------- | ----------- |
-| `accentColor`      | `string` | `"#3b82f6"` |
-| `speed`            | `number` | `1`         |
-| `fps`              | `number` | `30`        |
-| `durationInFrames` | `number` | `290`       |
-| `width`            | `number` | `1280`      |
-| `height`           | `number` | `900`       |
-| `className`        | `string` | `-`         |
+| File                         | Target                                    |
+| ---------------------------- | ----------------------------------------- |
+| `live-code-compilation.html` | `compositions/live-code-compilation.html` |
 
 ## Notes
 

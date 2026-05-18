@@ -3,73 +3,52 @@ title: "Changelog Bite"
 description: "Short changelog entry animation for product updates."
 ---
 
-<ComponentPreview name="changelog-bite" hideCode />
+<ComponentPreview base="hyperframes" name="changelog-bite" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/changelog-bite
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/changelog-bite.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="changelog-bite"
-  title="components/ui/changelog-bite.tsx"
+  title="compositions/changelog-bite.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { ChangelogBite } from "@/components/framecn/changelog-bite";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="changelog-bite"
+  data-composition-src="compositions/changelog-bite.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<ChangelogBite />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### ChangelogBite
+## Files
 
-| Prop               | Type                     | Default                    |
-| ------------------ | ------------------------ | -------------------------- |
-| `label`            | `string`                 | `"New"`                    |
-| `title`            | `string`                 | `"Inline diff view"`       |
-| `oldContent`       | `ReactNode`              | `-`                        |
-| `newContent`       | `ReactNode`              | `-`                        |
-| `format`           | `"square" \| "portrait"` | `"square"`                 |
-| `background`       | `string`                 | `"#141318"`                |
-| `cardBackground`   | `string`                 | `"rgba(20, 19, 24, 0.92)"` |
-| `accent`           | `string`                 | `"#FFB38E"`                |
-| `speed`            | `number`                 | `1`                        |
-| `fps`              | `number`                 | `30`                       |
-| `durationInFrames` | `number`                 | `150`                      |
-| `width`            | `number`                 | `1080`                     |
-| `height`           | `number`                 | `1080`                     |
-| `className`        | `string`                 | `-`                        |
+| File                  | Target                             |
+| --------------------- | ---------------------------------- |
+| `changelog-bite.html` | `compositions/changelog-bite.html` |
 
 ## Notes
 

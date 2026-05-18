@@ -3,72 +3,52 @@ title: "Progress Steps"
 description: "Multi-step pipeline visualization with line fill and pulsing dots."
 ---
 
-<ComponentPreview name="progress-steps" hideCode />
+<ComponentPreview base="hyperframes" name="progress-steps" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/progress-steps
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/progress-steps.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="progress-steps"
-  title="components/ui/progress-steps.tsx"
+  title="compositions/progress-steps.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { ProgressSteps } from "@/components/framecn/progress-steps";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="progress-steps"
+  data-composition-src="compositions/progress-steps.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<ProgressSteps />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### ProgressSteps
+## Files
 
-| Prop               | Type                         | Default                                                             |
-| ------------------ | ---------------------------- | ------------------------------------------------------------------- |
-| `steps`            | `{ label: string }[]`        | `[{ label: "Connect" }, { label: "Process" }, { label: "Deploy" }]` |
-| `orientation`      | `"horizontal" \| "vertical"` | `"horizontal"`                                                      |
-| `activeColor`      | `string`                     | `"#22c55e"`                                                         |
-| `inactiveColor`    | `string`                     | `"#27272a"`                                                         |
-| `background`       | `string`                     | `"#0a0a0a"`                                                         |
-| `textColor`        | `string`                     | `"white"`                                                           |
-| `stepDuration`     | `number`                     | `30`                                                                |
-| `speed`            | `number`                     | `1`                                                                 |
-| `fps`              | `number`                     | `30`                                                                |
-| `durationInFrames` | `number`                     | `150`                                                               |
-| `width`            | `number`                     | `1000`                                                              |
-| `height`           | `number`                     | `500`                                                               |
-| `className`        | `string`                     | `-`                                                                 |
+| File                  | Target                             |
+| --------------------- | ---------------------------------- |
+| `progress-steps.html` | `compositions/progress-steps.html` |
 
 ## Notes
 

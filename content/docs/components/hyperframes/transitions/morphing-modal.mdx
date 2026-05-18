@@ -3,76 +3,54 @@ title: "Morphing Modal"
 description: "Card lifts off a grid and expands into a full-screen modal."
 ---
 
-<ComponentPreview name="morphing-modal" hideCode />
+<ComponentPreview base="hyperframes" name="morphing-modal" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/morphing-modal
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/morphing-modal.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="morphing-modal"
-  title="components/ui/morphing-modal.tsx"
+  title="compositions/components/morphing-modal.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { MorphingModal } from "@/components/framecn/morphing-modal";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="morphing-modal"
+  data-composition-src="compositions/components/morphing-modal.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<MorphingModal />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### MorphingModal
+## Files
 
-| Prop               | Type                | Default        |
-| ------------------ | ------------------- | -------------- |
-| `from`             | `MorphingModalRect` | `DEFAULT_FROM` |
-| `to`               | `MorphingModalRect` | `DEFAULT_TO`   |
-| `borderRadiusFrom` | `number`            | `24`           |
-| `borderRadiusTo`   | `number`            | `0`            |
-| `morphAt`          | `number`            | `30`           |
-| `background`       | `string`            | `"#050505"`    |
-| `cardColor`        | `string`            | `"#0a0a0a"`    |
-| `textColor`        | `string`            | `"#fafafa"`    |
-| `mutedColor`       | `string`            | `"#71717a"`    |
-| `source`           | `ReactNode`         | `-`            |
-| `modal`            | `ReactNode`         | `-`            |
-| `speed`            | `number`            | `1`            |
-| `fps`              | `number`            | `30`           |
-| `durationInFrames` | `number`            | `180`          |
-| `width`            | `number`            | `1280`         |
-| `height`           | `number`            | `720`          |
-| `className`        | `string`            | `-`            |
+| File                  | Target                                        |
+| --------------------- | --------------------------------------------- |
+| `morphing-modal.html` | `compositions/components/morphing-modal.html` |
 
 ## Notes
 

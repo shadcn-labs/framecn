@@ -3,66 +3,54 @@ title: "Dynamic Grid"
 description: "Subtle moving grid or dot pattern background."
 ---
 
-<ComponentPreview name="dynamic-grid" hideCode />
+<ComponentPreview base="hyperframes" name="dynamic-grid" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/dynamic-grid
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/dynamic-grid.html`.
+</Step>
 
-<ComponentSource name="dynamic-grid" title="components/ui/dynamic-grid.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="dynamic-grid"
+  title="compositions/components/dynamic-grid.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { DynamicGrid } from "@/components/framecn/dynamic-grid";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="dynamic-grid"
+  data-composition-src="compositions/components/dynamic-grid.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<DynamicGrid />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### DynamicGrid
+## Files
 
-| Prop               | Type                                       | Default      |
-| ------------------ | ------------------------------------------ | ------------ |
-| `cellSize`         | `number`                                   | `40`         |
-| `lineColor`        | `string`                                   | `"#27272a"`  |
-| `background`       | `string`                                   | `"#0a0a0a"`  |
-| `speed`            | `number`                                   | `0.5`        |
-| `direction`        | `"diagonal" \| "horizontal" \| "vertical"` | `"diagonal"` |
-| `fps`              | `number`                                   | `30`         |
-| `durationInFrames` | `number`                                   | `150`        |
-| `width`            | `number`                                   | `1280`       |
-| `height`           | `number`                                   | `720`        |
-| `className`        | `string`                                   | `-`          |
+| File                | Target                                      |
+| ------------------- | ------------------------------------------- |
+| `dynamic-grid.html` | `compositions/components/dynamic-grid.html` |
 
 ## Notes
 

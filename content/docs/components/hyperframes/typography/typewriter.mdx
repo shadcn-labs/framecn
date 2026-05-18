@@ -3,70 +3,54 @@ title: "Typewriter"
 description: "Character-by-character text reveal with a deterministic blinking cursor."
 ---
 
-<ComponentPreview name="typewriter" hideCode />
+<ComponentPreview base="hyperframes" name="typewriter" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/typewriter
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/typewriter.html`.
+</Step>
 
-<ComponentSource name="typewriter" title="components/ui/typewriter.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="typewriter"
+  title="compositions/components/typewriter.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { Typewriter } from "@/components/framecn/typewriter";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="typewriter"
+  data-composition-src="compositions/components/typewriter.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<Typewriter />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### Typewriter
+## Files
 
-| Prop               | Type      | Default                         |
-| ------------------ | --------- | ------------------------------- |
-| `text`             | `string`  | `"console.log('hello, world')"` |
-| `cursor`           | `boolean` | `true`                          |
-| `charsPerSecond`   | `number`  | `20`                            |
-| `speed`            | `number`  | `1`                             |
-| `fontSize`         | `number`  | `48`                            |
-| `color`            | `string`  | `"#171717"`                     |
-| `cursorColor`      | `string`  | `"#171717"`                     |
-| `fontWeight`       | `number`  | `600`                           |
-| `className`        | `string`  | `-`                             |
-| `fps`              | `number`  | `30`                            |
-| `durationInFrames` | `number`  | `120`                           |
-| `width`            | `number`  | `1000`                          |
-| `height`           | `number`  | `500`                           |
-| `background`       | `string`  | `"white"`                       |
+| File              | Target                                    |
+| ----------------- | ----------------------------------------- |
+| `typewriter.html` | `compositions/components/typewriter.html` |
 
 ## Notes
 

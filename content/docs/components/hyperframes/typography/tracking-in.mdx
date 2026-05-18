@@ -3,66 +3,54 @@ title: "Tracking In"
 description: "Letter-spacing collapses from wide to normal with a spring snap."
 ---
 
-<ComponentPreview name="tracking-in" hideCode />
+<ComponentPreview base="hyperframes" name="tracking-in" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/tracking-in
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/tracking-in.html`.
+</Step>
 
-<ComponentSource name="tracking-in" title="components/ui/tracking-in.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="tracking-in"
+  title="compositions/components/tracking-in.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { TrackingIn } from "@/components/framecn/tracking-in";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="tracking-in"
+  data-composition-src="compositions/components/tracking-in.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<TrackingIn />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### TrackingIn
+## Files
 
-| Prop               | Type     | Default         |
-| ------------------ | -------- | --------------- |
-| `text`             | `string` | `"Tracking In"` |
-| `startTracking`    | `number` | `0.5`           |
-| `startBlur`        | `number` | `12`            |
-| `fontSize`         | `number` | `96`            |
-| `color`            | `string` | `"#171717"`     |
-| `fontWeight`       | `number` | `700`           |
-| `speed`            | `number` | `1`             |
-| `fps`              | `number` | `30`            |
-| `durationInFrames` | `number` | `90`            |
-| `className`        | `string` | `-`             |
+| File               | Target                                     |
+| ------------------ | ------------------------------------------ |
+| `tracking-in.html` | `compositions/components/tracking-in.html` |
 
 ## Notes
 

@@ -3,65 +3,58 @@ title: "Terminal To Browser Deploy"
 description: "CLI deploy completes, terminal blurs back, and a browser window springs from the deploy URL."
 ---
 
-<ComponentPreview name="terminal-to-browser-deploy" hideCode />
+<ComponentPreview
+  base="hyperframes"
+  name="terminal-to-browser-deploy"
+  hideCode
+/>
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/terminal-to-browser-deploy
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/terminal-to-browser-deploy.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="terminal-to-browser-deploy"
-  title="components/ui/terminal-to-browser-deploy.tsx"
+  title="compositions/terminal-to-browser-deploy.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { TerminalToBrowserDeploy } from "@/components/framecn/terminal-to-browser-deploy";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="terminal-to-browser-deploy"
+  data-composition-src="compositions/terminal-to-browser-deploy.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<TerminalToBrowserDeploy />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### TerminalToBrowserDeploy
+## Files
 
-| Prop               | Type     | Default                     |
-| ------------------ | -------- | --------------------------- |
-| `siteUrl`          | `string` | `"https://app.example.com"` |
-| `accentColor`      | `string` | `"#22c55e"`                 |
-| `speed`            | `number` | `1`                         |
-| `fps`              | `number` | `30`                        |
-| `durationInFrames` | `number` | `210`                       |
-| `className`        | `string` | `-`                         |
+| File                              | Target                                         |
+| --------------------------------- | ---------------------------------------------- |
+| `terminal-to-browser-deploy.html` | `compositions/terminal-to-browser-deploy.html` |
 
 ## Notes
 

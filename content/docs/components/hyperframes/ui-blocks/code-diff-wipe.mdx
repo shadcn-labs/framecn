@@ -3,73 +3,52 @@ title: "Code Diff Wipe"
 description: "Before/after comparison with a clip-path slider revealing the new code."
 ---
 
-<ComponentPreview name="code-diff-wipe" hideCode />
+<ComponentPreview base="hyperframes" name="code-diff-wipe" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/code-diff-wipe
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/code-diff-wipe.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="code-diff-wipe"
-  title="components/ui/code-diff-wipe.tsx"
+  title="compositions/code-diff-wipe.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { CodeDiffWipe } from "@/components/framecn/code-diff-wipe";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="code-diff-wipe"
+  data-composition-src="compositions/code-diff-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<CodeDiffWipe />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### CodeDiffWipe
+## Files
 
-| Prop                 | Type      | Default          |
-| -------------------- | --------- | ---------------- |
-| `before`             | `string`  | `DEFAULT_BEFORE` |
-| `after`              | `string`  | `DEFAULT_AFTER`  |
-| `language`           | `string`  | `"tsx"`          |
-| `background`         | `string`  | `"#0a0a0a"`      |
-| `accent`             | `string`  | `"#0ea5e9"`      |
-| `transitionStart`    | `number`  | `20`             |
-| `transitionDuration` | `number`  | `60`             |
-| `showHandle`         | `boolean` | `true`           |
-| `speed`              | `number`  | `1`              |
-| `fps`                | `number`  | `30`             |
-| `durationInFrames`   | `number`  | `120`            |
-| `width`              | `number`  | `1280`           |
-| `height`             | `number`  | `720`            |
-| `className`          | `string`  | `-`              |
+| File                  | Target                             |
+| --------------------- | ---------------------------------- |
+| `code-diff-wipe.html` | `compositions/code-diff-wipe.html` |
 
 ## Notes
 

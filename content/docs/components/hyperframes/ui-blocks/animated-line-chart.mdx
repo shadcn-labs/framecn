@@ -3,71 +3,52 @@ title: "Animated Line Chart"
 description: "SVG line chart drawn left-to-right via stroke-dashoffset."
 ---
 
-<ComponentPreview name="animated-line-chart" hideCode />
+<ComponentPreview base="hyperframes" name="animated-line-chart" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/animated-line-chart
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/animated-line-chart.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="animated-line-chart"
-  title="components/ui/animated-line-chart.tsx"
+  title="compositions/animated-line-chart.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { AnimatedLineChart } from "@/components/framecn/animated-line-chart";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="animated-line-chart"
+  data-composition-src="compositions/animated-line-chart.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<AnimatedLineChart />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### AnimatedLineChart
+## Files
 
-| Prop               | Type       | Default                               |
-| ------------------ | ---------- | ------------------------------------- |
-| `data`             | `number[]` | `[12, 19, 8, 15, 22, 18, 28, 25, 32]` |
-| `width`            | `number`   | `1000`                                |
-| `height`           | `number`   | `500`                                 |
-| `strokeColor`      | `string`   | `"#22c55e"`                           |
-| `strokeWidth`      | `number`   | `4`                                   |
-| `background`       | `string`   | `"#0a0a0a"`                           |
-| `gridColor`        | `string`   | `"#27272a"`                           |
-| `showDot`          | `boolean`  | `true`                                |
-| `speed`            | `number`   | `1`                                   |
-| `fps`              | `number`   | `30`                                  |
-| `durationInFrames` | `number`   | `90`                                  |
-| `className`        | `string`   | `-`                                   |
+| File                       | Target                                  |
+| -------------------------- | --------------------------------------- |
+| `animated-line-chart.html` | `compositions/animated-line-chart.html` |
 
 ## Notes
 

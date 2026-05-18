@@ -3,65 +3,54 @@ title: "Spring Pop In"
 description: "Elastic scale pop with configurable overshoot."
 ---
 
-<ComponentPreview name="spring-pop-in" hideCode />
+<ComponentPreview base="hyperframes" name="spring-pop-in" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/spring-pop-in
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/spring-pop-in.html`.
+</Step>
 
-<ComponentSource name="spring-pop-in" title="components/ui/spring-pop-in.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="spring-pop-in"
+  title="compositions/components/spring-pop-in.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { SpringPopIn } from "@/components/framecn/spring-pop-in";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="spring-pop-in"
+  data-composition-src="compositions/components/spring-pop-in.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<SpringPopIn />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### SpringPopIn
+## Files
 
-| Prop               | Type        | Default |
-| ------------------ | ----------- | ------- |
-| `children`         | `ReactNode` | `-`     |
-| `damping`          | `number`    | `12`    |
-| `mass`             | `number`    | `1`     |
-| `stiffness`        | `number`    | `100`   |
-| `delayInFrames`    | `number`    | `0`     |
-| `speed`            | `number`    | `1`     |
-| `fps`              | `number`    | `30`    |
-| `durationInFrames` | `number`    | `45`    |
-| `className`        | `string`    | `-`     |
+| File                 | Target                                       |
+| -------------------- | -------------------------------------------- |
+| `spring-pop-in.html` | `compositions/components/spring-pop-in.html` |
 
 ## Notes
 

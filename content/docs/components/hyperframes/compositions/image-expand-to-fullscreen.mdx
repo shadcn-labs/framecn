@@ -3,75 +3,55 @@ title: "Image Expand To Fullscreen"
 description: "Image expands from thumbnail to fullscreen with smooth transition."
 ---
 
-<ComponentPreview name="image-expand-to-fullscreen" hideCode />
+<ComponentPreview
+  base="hyperframes"
+  name="image-expand-to-fullscreen"
+  hideCode
+/>
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/image-expand-to-fullscreen
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/image-expand-to-fullscreen.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="image-expand-to-fullscreen"
-  title="components/ui/image-expand-to-fullscreen.tsx"
+  title="compositions/image-expand-to-fullscreen.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { ImageExpandToFullscreen } from "@/components/framecn/image-expand-to-fullscreen";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="image-expand-to-fullscreen"
+  data-composition-src="compositions/image-expand-to-fullscreen.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<ImageExpandToFullscreen />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### ImageExpandToFullscreen
+## Files
 
-| Prop               | Type              | Default                                                               |
-| ------------------ | ----------------- | --------------------------------------------------------------------- |
-| `from`             | `ImageExpandRect` | `DEFAULT_FROM`                                                        |
-| `to`               | `ImageExpandRect` | `DEFAULT_TO`                                                          |
-| `borderRadiusFrom` | `number`          | `12`                                                                  |
-| `borderRadiusTo`   | `number`          | `16`                                                                  |
-| `morphAt`          | `number`          | `30`                                                                  |
-| `imageColorA`      | `string`          | `"#ff6b6b"`                                                           |
-| `imageColorB`      | `string`          | `"#845ec2"`                                                           |
-| `imageColorC`      | `string`          | `"#4d8dff"`                                                           |
-| `feedBackground`   | `string`          | `"#f4f4f5"`                                                           |
-| `editorBackground` | `string`          | `"#0a0a0a"`                                                           |
-| `accent`           | `string`          | `"#fafafa"`                                                           |
-| `postAuthor`       | `string`          | `"Maya Larsson"`                                                      |
-| `postBody`         | `string`          | `"Sunset over the old harbor — color graded straight out of camera."` |
-| `speed`            | `number`          | `1`                                                                   |
-| `fps`              | `number`          | `30`                                                                  |
-| `durationInFrames` | `number`          | `150`                                                                 |
-| `width`            | `number`          | `1280`                                                                |
-| `height`           | `number`          | `720`                                                                 |
-| `className`        | `string`          | `-`                                                                   |
+| File                              | Target                                         |
+| --------------------------------- | ---------------------------------------------- |
+| `image-expand-to-fullscreen.html` | `compositions/image-expand-to-fullscreen.html` |

@@ -3,63 +3,49 @@ title: "Browser Flow"
 description: "Full Safari/Chrome simulation: URL typing, loading bar, scroll, and click."
 ---
 
-<ComponentPreview name="browser-flow" hideCode />
+<ComponentPreview base="hyperframes" name="browser-flow" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/browser-flow
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/browser-flow.html`.</Step>
 
-<ComponentSource name="browser-flow" title="components/ui/browser-flow.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource name="browser-flow" title="compositions/browser-flow.html" />
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { BrowserFlow } from "@/components/framecn/browser-flow";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="browser-flow"
+  data-composition-src="compositions/browser-flow.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<BrowserFlow />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### BrowserFlow
+## Files
 
-| Prop               | Type     | Default         |
-| ------------------ | -------- | --------------- |
-| `url`              | `string` | `"framecn.dev"` |
-| `speed`            | `number` | `1`             |
-| `className`        | `string` | `-`             |
-| `fps`              | `number` | `30`            |
-| `durationInFrames` | `number` | `270`           |
-| `width`            | `number` | `1280`          |
-| `height`           | `number` | `720`           |
+| File                | Target                           |
+| ------------------- | -------------------------------- |
+| `browser-flow.html` | `compositions/browser-flow.html` |
 
 ## Notes
 

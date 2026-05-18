@@ -3,65 +3,54 @@ title: "Spatial Push"
 description: "A new scene physically presses the old one back into the frame."
 ---
 
-<ComponentPreview name="spatial-push" hideCode />
+<ComponentPreview base="hyperframes" name="spatial-push" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/spatial-push
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/spatial-push.html`.
+</Step>
 
-<ComponentSource name="spatial-push" title="components/ui/spatial-push.tsx" />
+<Step>Copy and paste the following code into the file.</Step>
 
-<Step>Update the import paths to match your project setup.</Step>
+<ComponentSource
+  name="spatial-push"
+  title="compositions/components/spatial-push.html"
+/>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { SpatialPush } from "@/components/framecn/spatial-push";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="spatial-push"
+  data-composition-src="compositions/components/spatial-push.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<SpatialPush />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### SpatialPush
+## Files
 
-| Prop                 | Type                                  | Default |
-| -------------------- | ------------------------------------- | ------- |
-| `from`               | `ReactNode`                           | `-`     |
-| `to`                 | `ReactNode`                           | `-`     |
-| `direction`          | `"up" \| "down" \| "left" \| "right"` | `"up"`  |
-| `transitionStart`    | `number`                              | `-`     |
-| `transitionDuration` | `number`                              | `30`    |
-| `speed`              | `number`                              | `1`     |
-| `fps`                | `number`                              | `30`    |
-| `durationInFrames`   | `number`                              | `90`    |
-| `className`          | `string`                              | `-`     |
+| File                | Target                                      |
+| ------------------- | ------------------------------------------- |
+| `spatial-push.html` | `compositions/components/spatial-push.html` |
 
 ## Notes
 

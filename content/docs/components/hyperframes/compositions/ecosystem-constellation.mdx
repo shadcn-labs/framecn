@@ -3,68 +3,54 @@ title: "Ecosystem Constellation"
 description: "Central logo orbited by integration satellites with pulsing data lines."
 ---
 
-<ComponentPreview name="ecosystem-constellation" hideCode />
+<ComponentPreview base="hyperframes" name="ecosystem-constellation" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/ecosystem-constellation
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/ecosystem-constellation.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="ecosystem-constellation"
-  title="components/ui/ecosystem-constellation.tsx"
+  title="compositions/ecosystem-constellation.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { EcosystemConstellation } from "@/components/framecn/ecosystem-constellation";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="ecosystem-constellation"
+  data-composition-src="compositions/ecosystem-constellation.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<EcosystemConstellation />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### EcosystemConstellation
+## Files
 
-| Prop               | Type     | Default     |
-| ------------------ | -------- | ----------- |
-| `satelliteCount`   | `number` | `6`         |
-| `centerLabel`      | `string` | `"V"`       |
-| `accentColor`      | `string` | `"#a855f7"` |
-| `speed`            | `number` | `1`         |
-| `fps`              | `number` | `30`        |
-| `durationInFrames` | `number` | `240`       |
-| `width`            | `number` | `1280`      |
-| `height`           | `number` | `720`       |
-| `className`        | `string` | `-`         |
+| File                           | Target                                      |
+| ------------------------------ | ------------------------------------------- |
+| `ecosystem-constellation.html` | `compositions/ecosystem-constellation.html` |
 
 ## Notes
 

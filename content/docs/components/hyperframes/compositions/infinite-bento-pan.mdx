@@ -3,67 +3,52 @@ title: "Infinite Bento Pan"
 description: "Camera diagonally drifts across an oversized bento grid behind a soft vignette."
 ---
 
-<ComponentPreview name="infinite-bento-pan" hideCode />
+<ComponentPreview base="hyperframes" name="infinite-bento-pan" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/infinite-bento-pan
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/infinite-bento-pan.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="infinite-bento-pan"
-  title="components/ui/infinite-bento-pan.tsx"
+  title="compositions/infinite-bento-pan.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { InfiniteBentoPan } from "@/components/framecn/infinite-bento-pan";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="infinite-bento-pan"
+  data-composition-src="compositions/infinite-bento-pan.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<InfiniteBentoPan />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### InfiniteBentoPan
+## Files
 
-| Prop               | Type     | Default     |
-| ------------------ | -------- | ----------- |
-| `panSpeed`         | `number` | `1`         |
-| `accentColor`      | `string` | `"#7c3aed"` |
-| `speed`            | `number` | `1`         |
-| `fps`              | `number` | `30`        |
-| `durationInFrames` | `number` | `300`       |
-| `width`            | `number` | `1280`      |
-| `height`           | `number` | `720`       |
-| `className`        | `string` | `-`         |
+| File                      | Target                                 |
+| ------------------------- | -------------------------------------- |
+| `infinite-bento-pan.html` | `compositions/infinite-bento-pan.html` |
 
 ## Notes
 

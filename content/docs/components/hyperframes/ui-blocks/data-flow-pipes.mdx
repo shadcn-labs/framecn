@@ -3,74 +3,52 @@ title: "Data Flow Pipes"
 description: "Glowing data packets fly along SVG pipes with trailing tails."
 ---
 
-<ComponentPreview name="data-flow-pipes" hideCode />
+<ComponentPreview base="hyperframes" name="data-flow-pipes" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/data-flow-pipes
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/data-flow-pipes.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="data-flow-pipes"
-  title="components/ui/data-flow-pipes.tsx"
+  title="compositions/data-flow-pipes.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { DataFlowPipes } from "@/components/framecn/data-flow-pipes";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="data-flow-pipes"
+  data-composition-src="compositions/data-flow-pipes.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<DataFlowPipes />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### DataFlowPipes
+## Files
 
-| Prop               | Type             | Default         |
-| ------------------ | ---------------- | --------------- |
-| `nodes`            | `DataFlowNode[]` | `DEFAULT_NODES` |
-| `edges`            | `DataFlowEdge[]` | `DEFAULT_EDGES` |
-| `pipeColor`        | `string`         | `"#1f1f23"`     |
-| `pulseColor`       | `string`         | `"#22d3ee"`     |
-| `pulseLength`      | `number`         | `60`            |
-| `pulseDuration`    | `number`         | `36`            |
-| `background`       | `string`         | `"#050505"`     |
-| `nodeColor`        | `string`         | `"#0a0a0a"`     |
-| `textColor`        | `string`         | `"#fafafa"`     |
-| `speed`            | `number`         | `1`             |
-| `fps`              | `number`         | `30`            |
-| `durationInFrames` | `number`         | `180`           |
-| `width`            | `number`         | `1280`          |
-| `height`           | `number`         | `720`           |
-| `className`        | `string`         | `-`             |
+| File                   | Target                              |
+| ---------------------- | ----------------------------------- |
+| `data-flow-pipes.html` | `compositions/data-flow-pipes.html` |
 
 ## Notes
 

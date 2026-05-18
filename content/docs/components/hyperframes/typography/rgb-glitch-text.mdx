@@ -3,71 +3,54 @@ title: "RGB Glitch Text"
 description: "Three-channel RGB split with a brief horizontal jitter."
 ---
 
-<ComponentPreview name="rgb-glitch-text" hideCode />
+<ComponentPreview base="hyperframes" name="rgb-glitch-text" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/rgb-glitch-text
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/rgb-glitch-text.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="rgb-glitch-text"
-  title="components/ui/rgb-glitch-text.tsx"
+  title="compositions/components/rgb-glitch-text.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { RGBGlitchText } from "@/components/framecn/rgb-glitch-text";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="rgb-glitch-text"
+  data-composition-src="compositions/components/rgb-glitch-text.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<RGBGlitchText text="value" />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### RGBGlitchText
+## Files
 
-| Prop               | Type     | Default     |
-| ------------------ | -------- | ----------- |
-| `text`             | `string` | `-`         |
-| `fontSize`         | `number` | `96`        |
-| `color`            | `string` | `"#171717"` |
-| `fontWeight`       | `number` | `700`       |
-| `glitchAt`         | `number` | `20`        |
-| `glitchDuration`   | `number` | `8`         |
-| `intensity`        | `number` | `6`         |
-| `seed`             | `string` | `"glitch"`  |
-| `speed`            | `number` | `1`         |
-| `fps`              | `number` | `30`        |
-| `durationInFrames` | `number` | `60`        |
-| `className`        | `string` | `-`         |
+| File                   | Target                                         |
+| ---------------------- | ---------------------------------------------- |
+| `rgb-glitch-text.html` | `compositions/components/rgb-glitch-text.html` |
 
 ## Notes
 

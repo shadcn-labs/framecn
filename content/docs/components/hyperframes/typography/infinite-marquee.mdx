@@ -3,73 +3,54 @@ title: "Infinite Marquee"
 description: "Endlessly scrolling horizontal text band."
 ---
 
-<ComponentPreview name="infinite-marquee" hideCode />
+<ComponentPreview base="hyperframes" name="infinite-marquee" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/infinite-marquee
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/infinite-marquee.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="infinite-marquee"
-  title="components/ui/infinite-marquee.tsx"
+  title="compositions/components/infinite-marquee.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { InfiniteMarquee } from "@/components/framecn/infinite-marquee";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="infinite-marquee"
+  data-composition-src="compositions/components/infinite-marquee.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<InfiniteMarquee />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### InfiniteMarquee
+## Files
 
-| Prop               | Type      | Default                       |
-| ------------------ | --------- | ----------------------------- |
-| `text`             | `string`  | `"ship · build · animate · "` |
-| `fontSize`         | `number`  | `120`                         |
-| `color`            | `string`  | `"#171717"`                   |
-| `fontWeight`       | `number`  | `900`                         |
-| `pixelsPerFrame`   | `number`  | `4`                           |
-| `stroke`           | `boolean` | `false`                       |
-| `strokeColor`      | `string`  | `"#171717"`                   |
-| `background`       | `string`  | `"#fafafa"`                   |
-| `speed`            | `number`  | `1`                           |
-| `fps`              | `number`  | `30`                          |
-| `durationInFrames` | `number`  | `300`                         |
-| `width`            | `number`  | `1280`                        |
-| `height`           | `number`  | `720`                         |
-| `className`        | `string`  | `-`                           |
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `infinite-marquee.html` | `compositions/components/infinite-marquee.html` |
 
 ## Notes
 

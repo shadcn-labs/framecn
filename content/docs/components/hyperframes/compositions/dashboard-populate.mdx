@@ -3,67 +3,52 @@ title: "Dashboard Populate"
 description: "Empty dashboard cascades to life with KPI count-ups, bar bounces, line traces, and a donut fill."
 ---
 
-<ComponentPreview name="dashboard-populate" hideCode />
+<ComponentPreview base="hyperframes" name="dashboard-populate" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/dashboard-populate
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/dashboard-populate.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="dashboard-populate"
-  title="components/ui/dashboard-populate.tsx"
+  title="compositions/dashboard-populate.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { DashboardPopulate } from "@/components/framecn/dashboard-populate";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="dashboard-populate"
+  data-composition-src="compositions/dashboard-populate.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<DashboardPopulate />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### DashboardPopulate
+## Files
 
-| Prop               | Type     | Default     |
-| ------------------ | -------- | ----------- |
-| `accentColor`      | `string` | `"#22c55e"` |
-| `kpiTarget`        | `number` | `128_400`   |
-| `speed`            | `number` | `1`         |
-| `fps`              | `number` | `30`        |
-| `durationInFrames` | `number` | `180`       |
-| `width`            | `number` | `1280`      |
-| `height`           | `number` | `720`       |
-| `className`        | `string` | `-`         |
+| File                      | Target                                 |
+| ------------------------- | -------------------------------------- |
+| `dashboard-populate.html` | `compositions/dashboard-populate.html` |
 
 ## Notes
 

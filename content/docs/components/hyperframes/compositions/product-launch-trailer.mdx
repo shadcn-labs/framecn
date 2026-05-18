@@ -3,68 +3,54 @@ title: "Product Launch Trailer"
 description: "Cinematic product reveal trailer animation."
 ---
 
-<ComponentPreview name="product-launch-trailer" hideCode />
+<ComponentPreview base="hyperframes" name="product-launch-trailer" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/product-launch-trailer
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/product-launch-trailer.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="product-launch-trailer"
-  title="components/ui/product-launch-trailer.tsx"
+  title="compositions/product-launch-trailer.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { ProductLaunchTrailer } from "@/components/framecn/product-launch-trailer";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="product-launch-trailer"
+  data-composition-src="compositions/product-launch-trailer.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<ProductLaunchTrailer />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### ProductLaunchTrailer
+## Files
 
-| Prop             | Type     | Default          |
-| ---------------- | -------- | ---------------- |
-| `logoLabel`      | `string` | `"R"`            |
-| `productName`    | `string` | `"Framecn"`      |
-| `versionLabel`   | `string` | `"v1.0 is live"` |
-| `accentPeach`    | `string` | `"#FFB38E"`      |
-| `accentLavender` | `string` | `"#D4B3FF"`      |
-| `accentMint`     | `string` | `"#A1EEBD"`      |
-| `background`     | `string` | `"#141318"`      |
-| `speed`          | `number` | `1`              |
-| `className`      | `string` | `-`              |
+| File                          | Target                                     |
+| ----------------------------- | ------------------------------------------ |
+| `product-launch-trailer.html` | `compositions/product-launch-trailer.html` |
 
 ## Notes
 

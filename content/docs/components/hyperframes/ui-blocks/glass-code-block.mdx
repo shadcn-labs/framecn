@@ -3,72 +3,52 @@ title: "Glass Code Block"
 description: "Premium frosted-glass code window with rim light and traffic-light controls."
 ---
 
-<ComponentPreview name="glass-code-block" hideCode />
+<ComponentPreview base="hyperframes" name="glass-code-block" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/glass-code-block
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Create a new HTML file at `compositions/glass-code-block.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="glass-code-block"
-  title="components/ui/glass-code-block.tsx"
+  title="compositions/glass-code-block.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { GlassCodeBlock } from "@/components/framecn/glass-code-block";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="glass-code-block"
+  data-composition-src="compositions/glass-code-block.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<GlassCodeBlock />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### GlassCodeBlock
+## Files
 
-| Prop                | Type      | Default                   |
-| ------------------- | --------- | ------------------------- |
-| `code`              | `string`  | `DEFAULT_CODE`            |
-| `title`             | `string`  | `"hero.tsx"`              |
-| `width`             | `number`  | `760`                     |
-| `height`            | `number`  | `460`                     |
-| `fontSize`          | `number`  | `16`                      |
-| `background`        | `string`  | `"#0a0a0a"`               |
-| `glassColor`        | `string`  | `"rgba(10, 10, 10, 0.6)"` |
-| `staggerFrames`     | `number`  | `4`                       |
-| `showTrafficLights` | `boolean` | `true`                    |
-| `speed`             | `number`  | `1`                       |
-| `fps`               | `number`  | `30`                      |
-| `durationInFrames`  | `number`  | `180`                     |
-| `className`         | `string`  | `-`                       |
+| File                    | Target                               |
+| ----------------------- | ------------------------------------ |
+| `glass-code-block.html` | `compositions/glass-code-block.html` |
 
 ## Notes
 

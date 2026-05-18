@@ -3,74 +3,54 @@ title: "Grid Pixelate Wipe"
 description: "Dissolve from one scene to the next through a deterministic grid of mask cells."
 ---
 
-<ComponentPreview name="grid-pixelate-wipe" hideCode />
+<ComponentPreview base="hyperframes" name="grid-pixelate-wipe" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/grid-pixelate-wipe
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at `compositions/components/grid-pixelate-wipe.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="grid-pixelate-wipe"
-  title="components/ui/grid-pixelate-wipe.tsx"
+  title="compositions/components/grid-pixelate-wipe.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { GridPixelateWipe } from "@/components/framecn/grid-pixelate-wipe";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="grid-pixelate-wipe"
+  data-composition-src="compositions/components/grid-pixelate-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<GridPixelateWipe />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### GridPixelateWipe
+## Files
 
-| Prop                 | Type                               | Default   |
-| -------------------- | ---------------------------------- | --------- |
-| `from`               | `React.ReactNode`                  | `-`       |
-| `to`                 | `React.ReactNode`                  | `-`       |
-| `cols`               | `number`                           | `12`      |
-| `rows`               | `number`                           | `7`       |
-| `pattern`            | `"wave" \| "diagonal" \| "spiral"` | `"wave"`  |
-| `transitionStart`    | `number`                           | `36`      |
-| `transitionDuration` | `number`                           | `30`      |
-| `cellFadeFrames`     | `number`                           | `4`       |
-| `speed`              | `number`                           | `1`       |
-| `fps`                | `number`                           | `30`      |
-| `durationInFrames`   | `number`                           | `90`      |
-| `width`              | `number`                           | `1280`    |
-| `height`             | `number`                           | `720`     |
-| `background`         | `string`                           | `"black"` |
-| `className`          | `string`                           | `-`       |
+| File                      | Target                                            |
+| ------------------------- | ------------------------------------------------- |
+| `grid-pixelate-wipe.html` | `compositions/components/grid-pixelate-wipe.html` |
 
 ## Notes
 

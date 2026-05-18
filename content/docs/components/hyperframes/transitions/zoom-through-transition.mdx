@@ -3,67 +3,55 @@ title: "Zoom Through Transition"
 description: "Aggressive scale-in through an element to the next scene."
 ---
 
-<ComponentPreview name="zoom-through-transition" hideCode />
+<ComponentPreview base="hyperframes" name="zoom-through-transition" hideCode />
 
 ## Installation
 
-<CodeTabs>
-
-<TabsList>
-<TabsTrigger value="cli">Command</TabsTrigger>
-<TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
-
-```bash
-npx shadcn@latest add @framecn/zoom-through-transition
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
 <Steps>
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>
+  Create a new HTML file at
+  `compositions/components/zoom-through-transition.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
 
 <ComponentSource
   name="zoom-through-transition"
-  title="components/ui/zoom-through-transition.tsx"
+  title="compositions/components/zoom-through-transition.html"
 />
-
-<Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
 
-</TabsContent>
-
-</CodeTabs>
-
 ## Usage
 
-```tsx
-import { ZoomThroughTransition } from "@/components/framecn/zoom-through-transition";
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="zoom-through-transition"
+  data-composition-src="compositions/components/zoom-through-transition.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
 ```
 
-```tsx
-<ZoomThroughTransition />
-```
+## Details
 
-## API Reference
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
 
-### ZoomThroughTransition
+## Files
 
-| Prop               | Type        | Default           |
-| ------------------ | ----------- | ----------------- |
-| `children`         | `ReactNode` | `-`               |
-| `targetScale`      | `number`    | `20`              |
-| `transformOrigin`  | `string`    | `"center center"` |
-| `background`       | `string`    | `"white"`         |
-| `speed`            | `number`    | `1`               |
-| `fps`              | `number`    | `30`              |
-| `durationInFrames` | `number`    | `90`              |
-| `className`        | `string`    | `-`               |
+| File                           | Target                                                 |
+| ------------------------------ | ------------------------------------------------------ |
+| `zoom-through-transition.html` | `compositions/components/zoom-through-transition.html` |
 
 ## Notes
 
