@@ -14,16 +14,12 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
-import registry from "@/registry/__index__";
 
 const formatTime = (seconds: number) => {
   const mins = Math.floor(seconds / 60);
@@ -31,7 +27,7 @@ const formatTime = (seconds: number) => {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
-const HyperframesPlayer = ({
+export const HyperframesPlayer = ({
   src,
   className,
   autoplay = false,
@@ -293,69 +289,6 @@ const HyperframesPlayer = ({
             </TooltipContent>
           </Tooltip>
         </div>
-      )}
-    </div>
-  );
-};
-
-export const HyperframesPreview = ({
-  name,
-  hideCode = false,
-  className,
-}: {
-  name: string;
-  hideCode?: boolean;
-  className?: string;
-}) => {
-  const playCopy = useFeedback({ sound: "copy" });
-  const { copyToClipboard, isCopied } = useCopyToClipboard({
-    onCopy: () => playCopy(),
-    timeout: 1500,
-  });
-
-  const handleCopyLink = useCallback(() => {
-    copyToClipboard(window.location.href);
-  }, [copyToClipboard]);
-
-  useHotkeys("c", () => handleCopyLink(), {
-    enabled: !isCopied,
-    preventDefault: true,
-  });
-
-  const entry = registry.hyperframes[name];
-
-  if (!entry) {
-    return (
-      <div className="not-prose mb-6 rounded-lg border border-fd-border p-4 text-sm text-fd-muted-foreground">
-        Unknown component: <code>{name}</code>
-      </div>
-    );
-  }
-
-  const player = <HyperframesPlayer src={entry.htmlPath} className="w-full" />;
-
-  return (
-    <div className={cn("not-prose flex flex-col gap-4", className)}>
-      {hideCode ? (
-        player
-      ) : (
-        <Tabs defaultValue="preview" className="gap-3">
-          <TabsList>
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="preview" className="mt-0">
-            {player}
-          </TabsContent>
-
-          <TabsContent value="code" className="mt-0">
-            <div className="rounded-lg border border-fd-border p-4 text-sm text-fd-muted-foreground">
-              Source code viewer coming soon. The composition source is at{" "}
-              <code className="text-foreground">{entry.htmlPath}</code>.
-            </div>
-          </TabsContent>
-        </Tabs>
       )}
     </div>
   );
