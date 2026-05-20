@@ -25,9 +25,9 @@ import registry from "@/registry/__index__";
 import type { BaseName } from "@/registry/bases";
 
 const LoadingComponent = () => (
-  <div className="px-1 pt-1 rounded-lg bg-code">
+  <div className="px-1 pt-1 pb-1.5 space-y-1.5 rounded-lg bg-code">
     <Skeleton className="aspect-video rounded-md" />
-    <Skeleton className="h-8 my-1.5" />
+    <Skeleton className="h-8" />
   </div>
 );
 
@@ -147,10 +147,12 @@ const HyperframesPreview = ({
 
   return (
     <PreviewShell className={className} player={player} hideCode={hideCode}>
-      <div className="rounded-lg border border-fd-border p-4 text-sm text-fd-muted-foreground">
-        Source code viewer coming soon. The composition source is at{" "}
-        <code className="text-foreground">{entry.htmlPath}</code>.
-      </div>
+      {!hideCode && (
+        <div className="rounded-lg border border-fd-border p-4 text-sm text-fd-muted-foreground">
+          Source code viewer coming soon. The composition source is at{" "}
+          <code className="text-foreground">{entry.htmlPath}</code>.
+        </div>
+      )}
     </PreviewShell>
   );
 };
