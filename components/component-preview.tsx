@@ -24,11 +24,20 @@ import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
 import type { BaseName } from "@/registry/bases";
 
-const LoadingComponent = () => (
-  <div className="px-1 pt-1 pb-1.5 space-y-1.5 rounded-lg bg-code">
-    <Skeleton className="aspect-video rounded-md" />
-    <Skeleton className="h-8" />
-  </div>
+const EditframePlayer = dynamic(
+  async () => {
+    const m = await import("@/components/players/editframe-player");
+    return { default: m.EditframePlayer };
+  },
+  {
+    loading: () => (
+      <div className="px-1 pt-1 pb-1.5 space-y-1.5 rounded-lg bg-code">
+        <Skeleton className="aspect-video" />
+        <Skeleton className="h-8" />
+      </div>
+    ),
+    ssr: false,
+  }
 );
 
 const HyperframesPlayer = dynamic(
@@ -36,15 +45,10 @@ const HyperframesPlayer = dynamic(
     const m = await import("@/components/players/hyperframes-player");
     return { default: m.HyperframesPlayer };
   },
-  { loading: LoadingComponent, ssr: false }
-);
-
-const EditframePlayer = dynamic(
-  async () => {
-    const m = await import("@/components/players/editframe-player");
-    return { default: m.EditframePlayer };
-  },
-  { loading: LoadingComponent, ssr: false }
+  {
+    loading: () => <Skeleton className="aspect-video rounded-lg" />,
+    ssr: false,
+  }
 );
 
 const CopyLinkButton = ({
