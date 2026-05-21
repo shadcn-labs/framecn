@@ -32,14 +32,6 @@ export const swipeTransitionWipeConfig: ComponentConfig = {
       step: 0.1,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     swipeAt: {
       default: 30,
       label: "Swipe start frame",

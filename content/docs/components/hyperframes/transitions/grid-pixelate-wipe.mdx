@@ -1,0 +1,60 @@
+---
+title: "Grid Pixelate Wipe"
+description: "Dissolve from one scene to the next through a deterministic grid of mask cells."
+---
+
+<ComponentPreview base="hyperframes" name="grid-pixelate-wipe" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/grid-pixelate-wipe.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="grid-pixelate-wipe"
+  title="compositions/components/grid-pixelate-wipe.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="grid-pixelate-wipe"
+  data-composition-src="compositions/components/grid-pixelate-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                      | Target                                            |
+| ------------------------- | ------------------------------------------------- |
+| `grid-pixelate-wipe.html` | `compositions/components/grid-pixelate-wipe.html` |
+
+## Notes
+
+<Callout title="Deterministic cell reveal">
+  Grid cells reveal in a deterministic pattern. Cell timing is based on distance
+  from center for a natural dissolve effect.
+</Callout>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Populate</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 80px 120px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        box-sizing: border-box;
+      }
+      .dashboard-header {
+        font-size: 36px;
+        font-weight: 700;
+        color: #e2e2e8;
+        opacity: 0;
+      }
+      .widget-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        flex: 1;
+      }
+      .widget {
+        background: #14141f;
+        border-radius: 16px;
+        padding: 28px;
+        border: 1px solid #27272a;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .widget-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #71717a;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 12px;
+      }
+      .widget-value {
+        font-size: 48px;
+        font-weight: 800;
+        color: #e2e2e8;
+        margin-bottom: 8px;
+      }
+      .widget-change {
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .widget-change.positive {
+        color: #22c55e;
+      }
+      .widget-change.negative {
+        color: #ef4444;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="dashboard-populate"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Dashboard</div>
+        <div class="dashboard-header" id="dash-header">Analytics Overview</div>
+        <div class="widget-grid">
+          <div class="widget" id="w-1">
+            <div class="widget-title">Revenue</div>
+            <div class="widget-value">$48.2K</div>
+            <div class="widget-change positive">+12.5%</div>
+          </div>
+          <div class="widget" id="w-2">
+            <div class="widget-title">Users</div>
+            <div class="widget-value">2,847</div>
+            <div class="widget-change positive">+8.3%</div>
+          </div>
+          <div class="widget" id="w-3">
+            <div class="widget-title">Conversion</div>
+            <div class="widget-value">3.2%</div>
+            <div class="widget-change negative">-0.4%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to("#dash-header", { opacity: 1, duration: 0.4 }, 0.3);
+      var widgets = ["#w-1", "#w-2", "#w-3"];
+      for (var i = 0; i < widgets.length; i++) {
+        tl.to(
+          widgets[i],
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.5 + i * 0.2
+        );
+      }
+
+      window.__timelines["dashboard-populate"] = tl;
+    </script>
+  </body>
+</html>

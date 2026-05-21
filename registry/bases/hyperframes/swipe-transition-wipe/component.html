@@ -1,0 +1,98 @@
+<template id="swipe-transition-wipe-template">
+  <div
+    data-composition-id="swipe-transition-wipe"
+    data-width="1920"
+    data-height="1080"
+  >
+    <style>
+      [data-composition-id="swipe-transition-wipe"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="swipe-transition-wipe"] .sw-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="swipe-transition-wipe"] .sw-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="swipe-transition-wipe"] .sw-scene-in {
+        z-index: 2;
+        opacity: 0;
+      }
+      [data-composition-id="swipe-transition-wipe"] .sw-trail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 50;
+        pointer-events: none;
+      }
+      [data-composition-id="swipe-transition-wipe"] .sw-band {
+        position: absolute;
+        top: 0;
+        left: -200px;
+        width: 200px;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(45, 212, 191, 0.15),
+          transparent
+        );
+        opacity: 0;
+      }
+    </style>
+    <div class="sw-scene sw-scene-out" id="sw-out"></div>
+    <div class="sw-scene sw-scene-in" id="sw-in"></div>
+    <div class="sw-trail"><div class="sw-band" id="sw-band"></div></div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var direction = vars.direction || "left";
+        var duration = vars.transitionDuration || 0.5;
+        var T = 0;
+        var w = 1920;
+
+        if (direction === "left") {
+          tl.to("#sw-out", { x: -w, duration: duration, ease: "power3.in" }, T);
+          tl.fromTo(
+            "#sw-in",
+            { x: w },
+            { x: 0, duration: duration, ease: "power3.out" },
+            T
+          );
+        } else {
+          tl.to("#sw-out", { x: w, duration: duration, ease: "power3.in" }, T);
+          tl.fromTo(
+            "#sw-in",
+            { x: -w },
+            { x: 0, duration: duration, ease: "power3.out" },
+            T
+          );
+        }
+
+        tl.to("#sw-band", { opacity: 1, duration: 0.05 }, T);
+        tl.to(
+          "#sw-band",
+          { left: w + "px", duration: duration * 0.8, ease: "power2.in" },
+          T
+        );
+        tl.to("#sw-band", { opacity: 0, duration: 0.1 }, T + duration * 0.7);
+
+        window.__timelines["swipe-transition-wipe"] = tl;
+      })();
+    </script>
+  </div>
+</template>

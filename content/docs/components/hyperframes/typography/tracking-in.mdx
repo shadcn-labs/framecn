@@ -1,0 +1,60 @@
+---
+title: "Tracking In"
+description: "Letter-spacing collapses from wide to normal with a spring snap."
+---
+
+<ComponentPreview base="hyperframes" name="tracking-in" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/tracking-in.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="tracking-in"
+  title="compositions/components/tracking-in.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="tracking-in"
+  data-composition-src="compositions/components/tracking-in.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File               | Target                                     |
+| ------------------ | ------------------------------------------ |
+| `tracking-in.html` | `compositions/components/tracking-in.html` |
+
+## Notes
+
+<Callout title="Spring-based collapse">
+  The letter-spacing uses a spring animation for a natural snap effect. The
+  duration controls the spring configuration.
+</Callout>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Morphing Modal</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fafafa;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .trigger-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #6366f1;
+        color: white;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .morph-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .morph-modal {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-content {
+        opacity: 0;
+        padding: 40px;
+        text-align: center;
+        width: 500px;
+      }
+      .modal-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #171717;
+        margin-bottom: 12px;
+      }
+      .modal-desc {
+        font-size: 18px;
+        color: #71717a;
+        line-height: 1.5;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #6366f1;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="morphing-modal"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Morphing Modal</div>
+        <div class="trigger-btn" id="trigger">+</div>
+      </div>
+      <div class="morph-overlay" id="morph-overlay">
+        <div class="morph-modal" id="morph-modal">
+          <div class="modal-content" id="modal-content">
+            <div class="modal-title">Modal Dialog</div>
+            <div class="modal-desc">
+              Expanded from a small circular trigger with smooth morphing
+              animation.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to("#morph-overlay", { opacity: 1, duration: 0.01 }, 1);
+      tl.to(
+        "#morph-modal",
+        {
+          width: 580,
+          height: 300,
+          borderRadius: 20,
+          duration: 0.6,
+          ease: "power3.inOut",
+        },
+        1
+      );
+      tl.to("#modal-content", { opacity: 1, duration: 0.3 }, 1.4);
+
+      tl.to("#modal-content", { opacity: 0, duration: 0.2 }, 4);
+      tl.to(
+        "#morph-modal",
+        {
+          width: 60,
+          height: 60,
+          borderRadius: "50%",
+          duration: 0.5,
+          ease: "power3.inOut",
+        },
+        4.2
+      );
+      tl.to("#morph-overlay", { opacity: 0, duration: 0.2 }, 4.6);
+
+      window.__timelines["morphing-modal"] = tl;
+    </script>
+  </body>
+</html>

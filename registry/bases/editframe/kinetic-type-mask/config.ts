@@ -22,14 +22,6 @@ export const kineticTypeMaskConfig: ComponentConfig = {
       step: 5,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     text: { default: "NEXT", label: "Text", type: "text" },
     transitionDuration: {
       default: 24,

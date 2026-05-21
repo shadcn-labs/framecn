@@ -1,0 +1,64 @@
+---
+title: "Terminal To Browser Deploy"
+description: "CLI deploy completes, terminal blurs back, and a browser window springs from the deploy URL."
+---
+
+<ComponentPreview
+  base="hyperframes"
+  name="terminal-to-browser-deploy"
+  hideCode
+/>
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/terminal-to-browser-deploy.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="terminal-to-browser-deploy"
+  title="compositions/terminal-to-browser-deploy.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="terminal-to-browser-deploy"
+  data-composition-src="compositions/terminal-to-browser-deploy.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                              | Target                                         |
+| --------------------------------- | ---------------------------------------------- |
+| `terminal-to-browser-deploy.html` | `compositions/terminal-to-browser-deploy.html` |
+
+## Notes
+
+<Callout title="CLI to browser transition">
+  Terminal animates command execution, blurs, then a browser window springs open
+  from the URL. Perfect for deployment product demos.
+</Callout>

@@ -1,0 +1,60 @@
+---
+title: "Spotlight Card"
+description: "Cursor-tracked radial light that rims a card and lifts it from the dark."
+---
+
+<ComponentPreview base="hyperframes" name="spotlight-card" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/spotlight-card.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="spotlight-card"
+  title="compositions/components/spotlight-card.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="spotlight-card"
+  data-composition-src="compositions/components/spotlight-card.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                  | Target                                        |
+| --------------------- | --------------------------------------------- |
+| `spotlight-card.html` | `compositions/components/spotlight-card.html` |
+
+## Notes
+
+<Callout title="Cursor-tracked rim light">
+  A radial spotlight follows the cursor and rims the card edges. Creates a
+  dramatic lifting effect from a dark background.
+</Callout>

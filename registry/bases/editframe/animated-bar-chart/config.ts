@@ -16,14 +16,6 @@ export const animatedBarChartConfig: ComponentConfig = {
       step: 2,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     staggerFrames: {
       default: 6,
       label: "Stagger frames",

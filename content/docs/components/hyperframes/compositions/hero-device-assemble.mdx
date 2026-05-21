@@ -1,0 +1,58 @@
+---
+title: "Hero Device Assemble"
+description: "Floating device layers spring into a laptop or phone, then the screen wakes with a shimmer."
+---
+
+<ComponentPreview base="hyperframes" name="hero-device-assemble" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/hero-device-assemble.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="hero-device-assemble"
+  title="compositions/hero-device-assemble.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="hero-device-assemble"
+  data-composition-src="compositions/hero-device-assemble.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                        | Target                                   |
+| --------------------------- | ---------------------------------------- |
+| `hero-device-assemble.html` | `compositions/hero-device-assemble.html` |
+
+## Notes
+
+<Callout title="Two-phase device assembly">
+  Devices spring into place from floating layers, then the screen wakes with a
+  shimmer effect. The device prop selects laptop or phone.
+</Callout>

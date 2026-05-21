@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staggered Fade Up</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        box-sizing: border-box;
+      }
+      .fade-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .fade-item {
+        background: #14141f;
+        border-radius: 12px;
+        padding: 24px 28px;
+        border: 1px solid #27272a;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .fade-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(99, 102, 241, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #818cf8;
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .fade-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #e2e2e8;
+        margin-bottom: 4px;
+      }
+      .fade-desc {
+        font-size: 16px;
+        color: #71717a;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #818cf8;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="staggered-fade-up"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Staggered Fade Up</div>
+        <div class="line"></div>
+        <div class="fade-list">
+          <div class="fade-item" id="fade-1">
+            <div class="fade-icon">⚡</div>
+            <div>
+              <div class="fade-title">Lightning Fast</div>
+              <div class="fade-desc">Optimized for performance</div>
+            </div>
+          </div>
+          <div class="fade-item" id="fade-2">
+            <div class="fade-icon">🔒</div>
+            <div>
+              <div class="fade-title">Secure by Default</div>
+              <div class="fade-desc">Enterprise-grade security</div>
+            </div>
+          </div>
+          <div class="fade-item" id="fade-3">
+            <div class="fade-icon">📊</div>
+            <div>
+              <div class="fade-title">Rich Analytics</div>
+              <div class="fade-desc">Deep insights into your data</div>
+            </div>
+          </div>
+          <div class="fade-item" id="fade-4">
+            <div class="fade-icon">🌍</div>
+            <div>
+              <div class="fade-title">Global CDN</div>
+              <div class="fade-desc">Fast everywhere in the world</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var items = ["#fade-1", "#fade-2", "#fade-3", "#fade-4"];
+      for (var i = 0; i < items.length; i++) {
+        tl.to(
+          items[i],
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.3 + i * 0.12
+        );
+      }
+
+      window.__timelines["staggered-fade-up"] = tl;
+    </script>
+  </body>
+</html>

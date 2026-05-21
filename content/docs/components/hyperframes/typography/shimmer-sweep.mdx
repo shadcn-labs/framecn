@@ -1,0 +1,60 @@
+---
+title: "Shimmer Sweep"
+description: "Bright gradient sweeps across dim text, lighting it up."
+---
+
+<ComponentPreview base="hyperframes" name="shimmer-sweep" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/shimmer-sweep.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="shimmer-sweep"
+  title="compositions/components/shimmer-sweep.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="shimmer-sweep"
+  data-composition-src="compositions/components/shimmer-sweep.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                 | Target                                       |
+| -------------------- | -------------------------------------------- |
+| `shimmer-sweep.html` | `compositions/components/shimmer-sweep.html` |
+
+## Notes
+
+<Callout title="Gradient direction is left-to-right">
+  The shimmer effect sweeps from left to right. You can reverse this by swapping
+  the gradient colors or using a custom gradient direction.
+</Callout>

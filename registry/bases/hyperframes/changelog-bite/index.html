@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Changelog Bite</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fafafa;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        box-sizing: border-box;
+      }
+      .changelog-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .version-badge {
+        background: #6366f1;
+        color: white;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      .changelog-date {
+        font-size: 16px;
+        color: #71717a;
+        opacity: 0;
+      }
+      .changelog-entry {
+        background: white;
+        border-radius: 16px;
+        padding: 24px 28px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .entry-type {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+      .entry-type.feature {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+      .entry-type.fix {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .entry-type.breaking {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .entry-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #171717;
+        margin-bottom: 6px;
+      }
+      .entry-desc {
+        font-size: 16px;
+        color: #71717a;
+        line-height: 1.5;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #6366f1;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #6366f1;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="changelog-bite"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Changelog</div>
+        <div class="line"></div>
+        <div class="changelog-header">
+          <div class="version-badge" id="version">v2.4.0</div>
+          <div class="changelog-date" id="date">May 15, 2026</div>
+        </div>
+        <div class="changelog-entry" id="entry-1">
+          <div class="entry-type feature">Feature</div>
+          <div class="entry-title">New composition engine</div>
+          <div class="entry-desc">
+            Rewritten rendering pipeline with 3x performance improvement.
+          </div>
+        </div>
+        <div class="changelog-entry" id="entry-2">
+          <div class="entry-type fix">Fix</div>
+          <div class="entry-title">Timeline sync issues resolved</div>
+          <div class="entry-desc">
+            Fixed edge cases where sub-compositions would drift from parent
+            timeline.
+          </div>
+        </div>
+        <div class="changelog-entry" id="entry-3">
+          <div class="entry-type breaking">Breaking</div>
+          <div class="entry-title">API v2 migration required</div>
+          <div class="entry-desc">
+            Legacy v1 endpoints deprecated. Update your integration keys.
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        "#version",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        0.3
+      );
+      tl.to("#date", { opacity: 1, duration: 0.3 }, 0.5);
+      tl.to(
+        "#entry-1",
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        0.7
+      );
+      tl.to(
+        "#entry-2",
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        1.1
+      );
+      tl.to(
+        "#entry-3",
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        1.5
+      );
+
+      window.__timelines["changelog-bite"] = tl;
+    </script>
+  </body>
+</html>

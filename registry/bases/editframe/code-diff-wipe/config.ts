@@ -10,14 +10,6 @@ export const codeDiffWipeConfig: ComponentConfig = {
     background: { default: "#0a0a0a", label: "Background", type: "color" },
     language: { default: "tsx", label: "Language", type: "text" },
     showHandle: { default: true, label: "Show handle", type: "boolean" },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     transitionDuration: {
       default: 60,
       label: "Transition duration",

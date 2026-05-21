@@ -1,0 +1,65 @@
+---
+title: "Infinite Marquee"
+description: "Endlessly scrolling horizontal text band."
+---
+
+<ComponentPreview base="hyperframes" name="infinite-marquee" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/infinite-marquee.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="infinite-marquee"
+  title="compositions/components/infinite-marquee.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="infinite-marquee"
+  data-composition-src="compositions/components/infinite-marquee.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `infinite-marquee.html` | `compositions/components/infinite-marquee.html` |
+
+## Notes
+
+<Callout title="Uses CSS transform for performance">
+  The marquee uses CSS transforms for smooth scrolling. The text is duplicated
+  to create the infinite loop effect.
+</Callout>
+
+<Callout title="May cause layout shift on resize" variant="destructive">
+  The marquee calculates width based on initial render. If the container
+  resizes, you may need to force a re-render.
+</Callout>

@@ -1,14 +1,42 @@
 import type { Node as PageTreeNode } from "fumadocs-core/page-tree";
 
+import type { BaseName } from "@/registry/bases";
+import { DEFAULT_BASE_NAME } from "@/registry/bases";
+
 export type PageTreeFolder = Extract<PageTreeNode, { type: "folder" }>;
 export type PageTreePage = Extract<PageTreeNode, { type: "page" }>;
 
+const matchesBase = (folder: PageTreeFolder, base: string): boolean =>
+  folder.$id === base ||
+  (typeof folder.name === "string" && folder.name.toLowerCase() === base);
+
+const findBaseFolder = (
+  folder: PageTreeFolder,
+  base: string
+): PageTreeFolder | undefined => {
+  for (const child of folder.children) {
+    if (child.type !== "folder") {
+      continue;
+    }
+    if (matchesBase(child, base)) {
+      return child;
+    }
+  }
+};
+
 export const getFoldersFromFolder = (
-  folder: PageTreeFolder
-): PageTreeFolder[] =>
-  folder.children.filter(
-    (child): child is PageTreeFolder => child.type === "folder"
+  folder: PageTreeFolder,
+  base = DEFAULT_BASE_NAME
+): PageTreeFolder[] => {
+  const baseFolder = findBaseFolder(folder, base);
+  if (!baseFolder) {
+    return [];
+  }
+
+  return baseFolder.children.filter(
+    (c): c is PageTreeFolder => c.type === "folder"
   );
+};
 
 export const getPagesFromFolder = (
   folder: PageTreeFolder,
@@ -37,4 +65,9 @@ export const getAllPagesFromFolder = (
   }
 
   return pages;
+};
+
+export const getCurrentBase = (pathname: string): BaseName => {
+  const match = pathname.match(/\/docs\/components\/([^/]+)\//);
+  return match ? (match[1] as unknown as BaseName) : DEFAULT_BASE_NAME;
 };

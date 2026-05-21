@@ -1,0 +1,60 @@
+---
+title: "RGB Glitch Text"
+description: "Three-channel RGB split with a brief horizontal jitter."
+---
+
+<ComponentPreview base="hyperframes" name="rgb-glitch-text" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/rgb-glitch-text.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="rgb-glitch-text"
+  title="compositions/components/rgb-glitch-text.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="rgb-glitch-text"
+  data-composition-src="compositions/components/rgb-glitch-text.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                   | Target                                         |
+| ---------------------- | ---------------------------------------------- |
+| `rgb-glitch-text.html` | `compositions/components/rgb-glitch-text.html` |
+
+## Notes
+
+<Callout title="RGB channels offset with jitter">
+  The text renders three offset channels (red, green, blue) with randomized
+  horizontal jitter. The intensity controls the offset amount.
+</Callout>

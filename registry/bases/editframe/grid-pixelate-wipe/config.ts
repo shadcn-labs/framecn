@@ -36,14 +36,6 @@ export const gridPixelateWipeConfig: ComponentConfig = {
       step: 1,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     transitionDuration: {
       default: 30,
       label: "Transition duration",

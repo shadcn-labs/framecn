@@ -1,0 +1,60 @@
+---
+title: "Pulsing Indicator"
+description: "Continuous sine-driven pulse for loading or activity states."
+---
+
+<ComponentPreview base="hyperframes" name="pulsing-indicator" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/pulsing-indicator.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="pulsing-indicator"
+  title="compositions/components/pulsing-indicator.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="pulsing-indicator"
+  data-composition-src="compositions/components/pulsing-indicator.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                     | Target                                           |
+| ------------------------ | ------------------------------------------------ |
+| `pulsing-indicator.html` | `compositions/components/pulsing-indicator.html` |
+
+## Notes
+
+<Callout title="Continuous sine wave pulse">
+  The indicator uses a continuous sine wave for smooth pulsing. The duration
+  controls the period of one pulse cycle.
+</Callout>

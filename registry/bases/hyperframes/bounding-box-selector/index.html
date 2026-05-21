@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bounding Box Selector</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .content-area {
+        width: 800px;
+        height: 500px;
+        background: #14141f;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #52525b;
+        font-size: 24px;
+        position: relative;
+      }
+      .bbox {
+        position: absolute;
+        border: 2px solid #6366f1;
+        border-radius: 8px;
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      .bbox-label {
+        position: absolute;
+        top: -28px;
+        left: 0;
+        background: #6366f1;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .bbox-1 {
+        top: 60px;
+        left: 80px;
+        width: 280px;
+        height: 180px;
+      }
+      .bbox-2 {
+        top: 80px;
+        right: 100px;
+        width: 240px;
+        height: 160px;
+      }
+      .bbox-3 {
+        bottom: 60px;
+        left: 120px;
+        width: 560px;
+        height: 120px;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #818cf8;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="bounding-box-selector"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Bounding Boxes</div>
+        <div class="line"></div>
+        <div class="content-area">
+          <div class="bbox bbox-1" id="bbox-1">
+            <div class="bbox-label">Header Region</div>
+          </div>
+          <div class="bbox bbox-2" id="bbox-2">
+            <div class="bbox-label">Sidebar</div>
+          </div>
+          <div class="bbox bbox-3" id="bbox-3">
+            <div class="bbox-label">Content Area</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        "#bbox-1",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        0.5
+      );
+      tl.to(
+        "#bbox-2",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        0.9
+      );
+      tl.to(
+        "#bbox-3",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        1.3
+      );
+
+      window.__timelines["bounding-box-selector"] = tl;
+    </script>
+  </body>
+</html>

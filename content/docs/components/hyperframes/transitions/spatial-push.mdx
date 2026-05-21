@@ -1,0 +1,61 @@
+---
+title: "Spatial Push"
+description: "A new scene physically presses the old one back into the frame."
+---
+
+<ComponentPreview base="hyperframes" name="spatial-push" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/spatial-push.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="spatial-push"
+  title="compositions/components/spatial-push.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="spatial-push"
+  data-composition-src="compositions/components/spatial-push.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                | Target                                      |
+| ------------------- | ------------------------------------------- |
+| `spatial-push.html` | `compositions/components/spatial-push.html` |
+
+## Notes
+
+<Callout title="3D perspective push">
+  The old scene is pushed back in 3D space while the next scene slides in from
+  the chosen `direction`. Use `transitionDuration` to control how long the push
+  phase takes.
+</Callout>

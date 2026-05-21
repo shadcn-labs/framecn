@@ -1,0 +1,58 @@
+---
+title: "Pipeline Journey"
+description: "Kanban ticket flies between columns, triggering events on landing."
+---
+
+<ComponentPreview base="hyperframes" name="pipeline-journey" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/pipeline-journey.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="pipeline-journey"
+  title="compositions/pipeline-journey.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="pipeline-journey"
+  data-composition-src="compositions/pipeline-journey.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                    | Target                               |
+| ----------------------- | ------------------------------------ |
+| `pipeline-journey.html` | `compositions/pipeline-journey.html` |
+
+## Notes
+
+<Callout title="Kanban ticket animation">
+  A ticket flies between configured columns with spring physics. Triggers
+  landing events when the ticket reaches the destination.
+</Callout>

@@ -1,0 +1,55 @@
+---
+title: "Browser Flow"
+description: "Full Safari/Chrome simulation: URL typing, loading bar, scroll, and click."
+---
+
+<ComponentPreview base="hyperframes" name="browser-flow" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/browser-flow.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource name="browser-flow" title="compositions/browser-flow.html" />
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="browser-flow"
+  data-composition-src="compositions/browser-flow.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                | Target                           |
+| ------------------- | -------------------------------- |
+| `browser-flow.html` | `compositions/browser-flow.html` |
+
+## Notes
+
+<Callout title="Multi-stage animation">
+  The browser flow combines multiple animations: URL typing, loading bar,
+  scroll, and click. Each stage can be toggled independently.
+</Callout>

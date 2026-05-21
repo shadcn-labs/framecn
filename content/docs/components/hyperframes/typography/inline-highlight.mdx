@@ -1,0 +1,60 @@
+---
+title: "Inline Highlight"
+description: "Animates one word inside a sentence from a base color to a brand color."
+---
+
+<ComponentPreview base="hyperframes" name="inline-highlight" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/inline-highlight.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="inline-highlight"
+  title="compositions/components/inline-highlight.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="inline-highlight"
+  data-composition-src="compositions/components/inline-highlight.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `inline-highlight.html` | `compositions/components/inline-highlight.html` |
+
+## Notes
+
+<Callout title="Word selection is array-based">
+  Pass an array of word indices to `highlightWords` to animate multiple words.
+  The animation sequences through each word in the array.
+</Callout>

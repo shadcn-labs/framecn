@@ -1,0 +1,61 @@
+---
+title: "Matrix Decode"
+description: "Random characters scramble and resolve into the target string."
+---
+
+<ComponentPreview base="hyperframes" name="matrix-decode" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/matrix-decode.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="matrix-decode"
+  title="compositions/components/matrix-decode.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="matrix-decode"
+  data-composition-src="compositions/components/matrix-decode.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                 | Target                                       |
+| -------------------- | -------------------------------------------- |
+| `matrix-decode.html` | `compositions/components/matrix-decode.html` |
+
+## Notes
+
+<Callout title="Random characters resolve to target">
+  The decode effect uses random characters from a Matrix-style character set
+  that gradually resolve to the target text. Longer texts take more time to
+  fully resolve.
+</Callout>

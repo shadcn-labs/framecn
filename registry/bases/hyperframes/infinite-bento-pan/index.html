@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite Bento Pan</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fafafa;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .pan-track {
+        display: flex;
+        gap: 16px;
+        padding: 0 160px;
+      }
+      .pan-card {
+        width: 320px;
+        height: 200px;
+        border-radius: 16px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+      }
+      .pan-card:nth-child(odd) {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      }
+      .pan-card:nth-child(even) {
+        background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #6366f1;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        padding: 0 160px;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #6366f1;
+        border-radius: 2px;
+        margin-left: 160px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="infinite-bento-pan"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="10"
+    >
+      <div class="scene-content">
+        <div class="tag">Infinite Pan</div>
+        <div class="line"></div>
+        <div class="pan-track" id="pan-track">
+          <div class="pan-card">Card 1</div>
+          <div class="pan-card">Card 2</div>
+          <div class="pan-card">Card 3</div>
+          <div class="pan-card">Card 4</div>
+          <div class="pan-card">Card 5</div>
+          <div class="pan-card">Card 6</div>
+          <div class="pan-card">Card 7</div>
+          <div class="pan-card">Card 8</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var track = document.getElementById("pan-track");
+      var cards = track.innerHTML;
+      track.innerHTML = cards + cards;
+
+      var totalWidth = track.scrollWidth / 2;
+      tl.to(
+        "#pan-track",
+        {
+          x: -totalWidth,
+          duration: 8,
+          ease: "none",
+          repeat: 1,
+        },
+        0.5
+      );
+
+      window.__timelines["infinite-bento-pan"] = tl;
+    </script>
+  </body>
+</html>

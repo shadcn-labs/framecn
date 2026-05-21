@@ -33,7 +33,7 @@ export const SHARED_CONTROLS: ControlConfig = {
   speed: {
     default: 1,
     label: "Speed",
-    max: 4,
+    max: 3,
     min: 0.25,
     step: 0.25,
     type: "number",

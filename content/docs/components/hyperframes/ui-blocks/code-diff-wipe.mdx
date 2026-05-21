@@ -1,0 +1,58 @@
+---
+title: "Code Diff Wipe"
+description: "Before/after comparison with a clip-path slider revealing the new code."
+---
+
+<ComponentPreview base="hyperframes" name="code-diff-wipe" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/code-diff-wipe.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="code-diff-wipe"
+  title="compositions/code-diff-wipe.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="code-diff-wipe"
+  data-composition-src="compositions/code-diff-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                  | Target                             |
+| --------------------- | ---------------------------------- |
+| `code-diff-wipe.html` | `compositions/code-diff-wipe.html` |
+
+## Notes
+
+<Callout title="Before/after code comparison">
+  A clip-path slider reveals new code over old code. Great for showing code
+  changes or refactoring diffs.
+</Callout>

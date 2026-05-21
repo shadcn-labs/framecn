@@ -1,0 +1,61 @@
+---
+title: "Strikethrough Replace"
+description: "Text gets crossed out and replaced with new text in a single motion."
+---
+
+<ComponentPreview base="hyperframes" name="strikethrough-replace" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at
+  `compositions/components/strikethrough-replace.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="strikethrough-replace"
+  title="compositions/components/strikethrough-replace.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="strikethrough-replace"
+  data-composition-src="compositions/components/strikethrough-replace.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                         | Target                                               |
+| ---------------------------- | ---------------------------------------------------- |
+| `strikethrough-replace.html` | `compositions/components/strikethrough-replace.html` |
+
+## Notes
+
+<Callout title="Diagonal line cuts through text">
+  The strikethrough line cuts diagonally from top-left to bottom-right. The
+  animation syncs the old text removal with the new text reveal.
+</Callout>

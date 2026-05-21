@@ -24,14 +24,6 @@ export const trackingInConfig: ComponentConfig = {
       step: 100,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     startBlur: {
       default: 12,
       label: "Start blur",

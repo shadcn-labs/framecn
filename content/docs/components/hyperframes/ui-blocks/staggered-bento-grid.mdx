@@ -1,0 +1,58 @@
+---
+title: "Staggered Bento Grid"
+description: "Bento grid where cards cascade in with per-cell sequences."
+---
+
+<ComponentPreview base="hyperframes" name="staggered-bento-grid" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/staggered-bento-grid.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="staggered-bento-grid"
+  title="compositions/staggered-bento-grid.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="staggered-bento-grid"
+  data-composition-src="compositions/staggered-bento-grid.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                        | Target                                   |
+| --------------------------- | ---------------------------------------- |
+| `staggered-bento-grid.html` | `compositions/staggered-bento-grid.html` |
+
+## Notes
+
+<Callout title="Per-cell cascade animation">
+  Cards cascade in with staggered timing. Each cell has its own animation
+  sequence for a dynamic entrance effect.
+</Callout>

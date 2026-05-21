@@ -1,0 +1,61 @@
+---
+title: "Bounding Box Selector"
+description: "Figma-style selection rectangle that snaps around a target."
+---
+
+<ComponentPreview base="hyperframes" name="bounding-box-selector" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at
+  `compositions/components/bounding-box-selector.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="bounding-box-selector"
+  title="compositions/components/bounding-box-selector.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="bounding-box-selector"
+  data-composition-src="compositions/components/bounding-box-selector.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                         | Target                                               |
+| ---------------------------- | ---------------------------------------------------- |
+| `bounding-box-selector.html` | `compositions/components/bounding-box-selector.html` |
+
+## Notes
+
+<Callout title="Sizing from wrapped child">
+  The bounding boxes are positioned absolutely within the content area. Adjust
+  the `top`, `left`, `width`, and `height` values to match your layout.
+</Callout>

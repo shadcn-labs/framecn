@@ -1,0 +1,65 @@
+---
+title: "Cursor Flow"
+description: "Realistic mouse that arcs along Bezier paths and clicks targets."
+---
+
+<ComponentPreview base="hyperframes" name="cursor-flow" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/cursor-flow.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="cursor-flow"
+  title="compositions/components/cursor-flow.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="cursor-flow"
+  data-composition-src="compositions/components/cursor-flow.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File               | Target                                     |
+| ------------------ | ------------------------------------------ |
+| `cursor-flow.html` | `compositions/components/cursor-flow.html` |
+
+## Notes
+
+<Callout title="Bezier arcs between waypoints">
+  The cursor follows per-segment cubic Bezier curves with perpendicular control
+  points. The arc creates natural, realistic movement.
+</Callout>
+
+<Callout title="No d3-shape dependency" variant="warning">
+  Curves are computed inline to avoid pulling in external dependencies. Path
+  math is handled internally.
+</Callout>

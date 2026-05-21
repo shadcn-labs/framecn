@@ -20,14 +20,6 @@ export const chromaticAberrationWipeConfig: ComponentConfig = {
       options: ["left", "right"],
       type: "select",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     transitionDuration: {
       default: 7,
       label: "Transition duration",

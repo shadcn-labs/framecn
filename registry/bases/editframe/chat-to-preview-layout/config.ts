@@ -15,14 +15,6 @@ export const chatToPreviewLayoutConfig: ComponentConfig = {
       step: 0.05,
       type: "number",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     startChatRatio: {
       default: 0.5,
       label: "Start chat ratio",

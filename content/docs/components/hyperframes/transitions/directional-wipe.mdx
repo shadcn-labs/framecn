@@ -1,0 +1,60 @@
+---
+title: "Directional Wipe"
+description: "Slide one scene in while pushing the other out."
+---
+
+<ComponentPreview base="hyperframes" name="directional-wipe" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/directional-wipe.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="directional-wipe"
+  title="compositions/components/directional-wipe.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="directional-wipe"
+  data-composition-src="compositions/components/directional-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `directional-wipe.html` | `compositions/components/directional-wipe.html` |
+
+## Notes
+
+<Callout title="Push-style transition">
+  One scene slides in while pushing the other out in the specified direction.
+  The duration controls the transition speed.
+</Callout>

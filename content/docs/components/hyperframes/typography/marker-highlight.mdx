@@ -1,0 +1,65 @@
+---
+title: "Marker Highlight"
+description: "Marker bar sweeps in behind a phrase, optionally inverting the text color."
+---
+
+<ComponentPreview base="hyperframes" name="marker-highlight" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/marker-highlight.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="marker-highlight"
+  title="compositions/components/marker-highlight.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="marker-highlight"
+  data-composition-src="compositions/components/marker-highlight.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `marker-highlight.html` | `compositions/components/marker-highlight.html` |
+
+## Notes
+
+<Callout title="Marker uses absolute positioning">
+  The marker bar is positioned absolutely behind the text. Ensure the parent has
+  `position: relative` for correct placement.
+</Callout>
+
+<Callout title="Text inversion requires contrast" variant="destructive">
+  When `invertText` is true, the text color inverts. Ensure your marker color
+  has sufficient contrast with the background.
+</Callout>

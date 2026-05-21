@@ -1,15 +1,17 @@
+// oxlint-disable complexity
 import { findNeighbour } from "fumadocs-core/page-tree";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { DocsAdPlacement } from "@/components/docs-ad-placement";
-// import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
+import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
 import { DocsCopyPage } from "@/components/docs-copy-page";
 import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
 import { DocsNavLink } from "@/components/docs-nav-link";
 import { DocsShareMenu } from "@/components/docs-share-menu";
 import { DocsTableOfContents } from "@/components/docs-toc";
+import { DocsTocFooter } from "@/components/docs-toc-footer";
 import { PageTransition } from "@/components/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
@@ -179,16 +181,17 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
               </div>
               <DocsAdPlacement type="card" showOnMobile showOnDesktop={false} />
               <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
-                {/* {params.slug &&
-                params.slug[0] === "components" &&
-                params.slug[1] &&
-                params.slug[2] && (
-                  <DocsBaseSwitcher
-                    base={params.slug[1]}
-                    component={params.slug.slice(2).join("/")}
-                    className="mb-4"
-                  />
-                )} */}
+                {params.slug &&
+                  params.slug[0] === "components" &&
+                  params.slug[1] &&
+                  params.slug[2] &&
+                  params.slug[3] && (
+                    <DocsBaseSwitcher
+                      base={params.slug[1]}
+                      component={params.slug.slice(2).join("/")}
+                      className="mb-4"
+                    />
+                  )}
                 <MdxContent components={mdxComponents} />
               </div>
             </div>
@@ -217,10 +220,11 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
           <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--footer-height)+2rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
             <div className="h-(--top-spacing) shrink-0" />
             {doc.toc?.length ? (
-              <div className="no-scrollbar overflow-y-auto px-8">
-                <DocsTableOfContents toc={doc.toc} docId={page.path} />
+              <div className="no-scrollbar overflow-y-auto mx-8 border-b">
+                <DocsTableOfContents toc={doc.toc} />
               </div>
             ) : null}
+            <DocsTocFooter docId={page.path} className="mx-8" />
             <DocsAdPlacement
               type="card"
               showOnDesktop

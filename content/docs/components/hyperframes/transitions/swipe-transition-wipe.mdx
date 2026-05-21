@@ -1,0 +1,61 @@
+---
+title: "Swipe Transition Wipe"
+description: "Quick swipe transition between scenes."
+---
+
+<ComponentPreview base="hyperframes" name="swipe-transition-wipe" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at
+  `compositions/components/swipe-transition-wipe.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="swipe-transition-wipe"
+  title="compositions/components/swipe-transition-wipe.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="swipe-transition-wipe"
+  data-composition-src="compositions/components/swipe-transition-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                         | Target                                               |
+| ---------------------------- | ---------------------------------------------------- |
+| `swipe-transition-wipe.html` | `compositions/components/swipe-transition-wipe.html` |
+
+## Notes
+
+<Callout title="Quick directional swipe">
+  The transition uses a quick swipe in the specified direction. Duration is
+  typically shorter for a snappier feel.
+</Callout>

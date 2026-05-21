@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Launch Trailer</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .launch-title {
+        font-size: 120px;
+        font-weight: 900;
+        color: #e2e2e8;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      .launch-subtitle {
+        font-size: 36px;
+        color: #71717a;
+        text-align: center;
+        opacity: 0;
+      }
+      .launch-date {
+        font-size: 24px;
+        color: #6366f1;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        opacity: 0;
+      }
+      .launch-line {
+        width: 80px;
+        height: 3px;
+        background: #6366f1;
+        border-radius: 2px;
+        transform: scaleX(0);
+      }
+      .glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.1;
+        background: #6366f1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="product-launch-trailer"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="glow"></div>
+      <div class="scene-content">
+        <div class="launch-line" id="launch-line"></div>
+        <div class="launch-title" id="launch-title">Introducing</div>
+        <div class="launch-subtitle" id="launch-subtitle">
+          The next generation of development tools
+        </div>
+        <div class="launch-date" id="launch-date">Coming June 2026</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        "#launch-line",
+        { scaleX: 1, duration: 0.5, ease: "power2.out" },
+        0.5
+      );
+      tl.to(
+        "#launch-title",
+        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+        0.8
+      );
+      tl.to(
+        "#launch-subtitle",
+        { opacity: 1, duration: 0.6, ease: "power2.out" },
+        1.4
+      );
+      tl.to(
+        "#launch-date",
+        { opacity: 1, duration: 0.4, ease: "power2.out" },
+        2
+      );
+
+      window.__timelines["product-launch-trailer"] = tl;
+    </script>
+  </body>
+</html>

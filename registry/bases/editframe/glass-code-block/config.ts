@@ -33,14 +33,6 @@ export const glassCodeBlockConfig: ComponentConfig = {
       label: "Traffic lights",
       type: "boolean",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     staggerFrames: {
       default: 4,
       label: "Stagger frames",

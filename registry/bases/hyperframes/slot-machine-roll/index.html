@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slot Machine Roll</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+      .slot-container {
+        display: flex;
+        gap: 16px;
+      }
+      .slot-window {
+        width: 100px;
+        height: 120px;
+        background: #14141f;
+        border-radius: 12px;
+        border: 2px solid #27272a;
+        overflow: hidden;
+        position: relative;
+      }
+      .slot-strip {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .slot-digit {
+        width: 100px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 64px;
+        font-weight: 800;
+        color: #e2e2e8;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #fbbf24;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .result {
+        font-size: 32px;
+        color: #71717a;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="slot-machine-roll"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Counter Roll</div>
+        <div class="slot-container">
+          <div class="slot-window">
+            <div class="slot-strip" id="strip-1"></div>
+          </div>
+          <div class="slot-window">
+            <div class="slot-strip" id="strip-2"></div>
+          </div>
+          <div class="slot-window">
+            <div class="slot-strip" id="strip-3"></div>
+          </div>
+        </div>
+        <div class="result" id="result">Rolling...</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var target = [2, 5, 6];
+      for (var s = 0; s < 3; s++) {
+        var strip = document.getElementById("strip-" + (s + 1));
+        for (var i = 0; i <= target[s] + 5; i++) {
+          var d = document.createElement("div");
+          d.className = "slot-digit";
+          d.textContent = i % 10;
+          strip.appendChild(d);
+        }
+      }
+
+      tl.to(
+        "#strip-1",
+        { y: -(120 * (target[0] + 2)), duration: 1.5, ease: "power3.out" },
+        0.5
+      );
+      tl.to(
+        "#strip-2",
+        { y: -(120 * (target[1] + 2)), duration: 1.8, ease: "power3.out" },
+        0.5
+      );
+      tl.to(
+        "#strip-3",
+        { y: -(120 * (target[2] + 2)), duration: 2.1, ease: "power3.out" },
+        0.5
+      );
+      tl.to("#result", { opacity: 0, duration: 0.2 }, 0.5);
+      tl.call(
+        function () {
+          document.getElementById("result").textContent = "Result: 256";
+        },
+        null,
+        2.8
+      );
+      tl.to("#result", { opacity: 1, duration: 0.3 }, 2.8);
+
+      window.__timelines["slot-machine-roll"] = tl;
+    </script>
+  </body>
+</html>

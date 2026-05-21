@@ -1,0 +1,60 @@
+---
+title: "Perspective Marquee"
+description: "Marquee tilted into 3D space with depth fade."
+---
+
+<ComponentPreview base="hyperframes" name="perspective-marquee" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/perspective-marquee.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="perspective-marquee"
+  title="compositions/components/perspective-marquee.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="perspective-marquee"
+  data-composition-src="compositions/components/perspective-marquee.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                       | Target                                             |
+| -------------------------- | -------------------------------------------------- |
+| `perspective-marquee.html` | `compositions/components/perspective-marquee.html` |
+
+## Notes
+
+<Callout title="3D perspective creates depth">
+  The marquee uses CSS perspective and transform3D for the 3D effect. Text fades
+  in opacity as it moves deeper into the scene.
+</Callout>

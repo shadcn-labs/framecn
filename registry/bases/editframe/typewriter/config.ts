@@ -31,14 +31,6 @@ export const typewriterConfig: ComponentConfig = {
       options: FONT_WEIGHT_OPTIONS,
       type: "select",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     text: {
       default: "console.log('hello, world')",
       label: "Text",

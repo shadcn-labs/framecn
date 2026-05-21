@@ -15,7 +15,11 @@ import {
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
 import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
-import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import {
+  getCurrentBase,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import type { source } from "@/lib/source";
 
 const TOP_LEVEL_SECTIONS = [
@@ -75,6 +79,7 @@ export const DocsSidebar = ({
   ...props
 }: React.ComponentProps<typeof Sidebar> & { tree: typeof source.pageTree }) => {
   const pathname = usePathname();
+  const currentBase = getCurrentBase(pathname);
 
   return (
     <Sidebar
@@ -122,7 +127,7 @@ export const DocsSidebar = ({
           }
 
           if (isComponentsFolder(item)) {
-            return getFoldersFromFolder(item).map((category) => (
+            return getFoldersFromFolder(item, currentBase).map((category) => (
               <SidebarPageGroup
                 key={category.$id}
                 label={category.name}

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Flow Pipes</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 120px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .flow-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+      }
+      .flow-node {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        background: #14141f;
+        border: 2px solid #27272a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      .flow-node-icon {
+        font-size: 32px;
+      }
+      .flow-node-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #e2e2e8;
+      }
+      .flow-pipe {
+        width: 100px;
+        height: 4px;
+        background: #27272a;
+        position: relative;
+        overflow: hidden;
+      }
+      .flow-pipe-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(to right, #6366f1, #818cf8);
+        border-radius: 2px;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #818cf8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #818cf8;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="data-flow-pipes"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Data Pipeline</div>
+        <div class="line"></div>
+        <div class="flow-container">
+          <div class="flow-node" id="node-1">
+            <div class="flow-node-icon">📥</div>
+            <div class="flow-node-label">Ingest</div>
+          </div>
+          <div class="flow-pipe">
+            <div class="flow-pipe-fill" id="pipe-1"></div>
+          </div>
+          <div class="flow-node" id="node-2">
+            <div class="flow-node-icon">⚙️</div>
+            <div class="flow-node-label">Process</div>
+          </div>
+          <div class="flow-pipe">
+            <div class="flow-pipe-fill" id="pipe-2"></div>
+          </div>
+          <div class="flow-node" id="node-3">
+            <div class="flow-node-icon">📊</div>
+            <div class="flow-node-label">Analyze</div>
+          </div>
+          <div class="flow-pipe">
+            <div class="flow-pipe-fill" id="pipe-3"></div>
+          </div>
+          <div class="flow-node" id="node-4">
+            <div class="flow-node-icon">🚀</div>
+            <div class="flow-node-label">Deploy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        "#node-1",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        0.3
+      );
+      tl.to(
+        "#pipe-1",
+        { width: "100%", duration: 0.4, ease: "power2.out" },
+        0.6
+      );
+      tl.to(
+        "#node-2",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        0.9
+      );
+      tl.to(
+        "#pipe-2",
+        { width: "100%", duration: 0.4, ease: "power2.out" },
+        1.2
+      );
+      tl.to(
+        "#node-3",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        1.5
+      );
+      tl.to(
+        "#pipe-3",
+        { width: "100%", duration: 0.4, ease: "power2.out" },
+        1.8
+      );
+      tl.to(
+        "#node-4",
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        2.1
+      );
+
+      window.__timelines["data-flow-pipes"] = tl;
+    </script>
+  </body>
+</html>

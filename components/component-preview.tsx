@@ -1,29 +1,13 @@
 "use client";
 
-import {
-  Controls,
-  FitScale,
-  Preview,
-  Scrubber,
-  TimeDisplay,
-  ToggleLoop,
-  TogglePlay,
-} from "@editframe/react";
-import {
-  CheckIcon,
-  LinkIcon,
-  PauseIcon,
-  PlayIcon,
-  Repeat1Icon,
-  RepeatIcon,
-  RotateCcwIcon,
-} from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { CheckIcon, LinkIcon, RotateCcwIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { ComponentCustomizer } from "@/components/component-customizer";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
@@ -35,10 +19,37 @@ import { useCustomizer } from "@/hooks/use-customizer";
 import { useCustomizerTracking } from "@/hooks/use-customizer-tracking";
 import { useFeedback } from "@/hooks/use-feedback";
 import { usePreviewId } from "@/hooks/use-preview-id";
-import type { ComponentConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
+import type { BaseName } from "@/registry/bases";
+
+const EditframePlayer = dynamic(
+  async () => {
+    const m = await import("@/components/players/editframe-player");
+    return { default: m.EditframePlayer };
+  },
+  {
+    loading: () => (
+      <div className="px-1 pt-1 pb-1.5 space-y-1.5 rounded-lg bg-code">
+        <Skeleton className="aspect-video" />
+        <Skeleton className="h-8" />
+      </div>
+    ),
+    ssr: false,
+  }
+);
+
+const HyperframesPlayer = dynamic(
+  async () => {
+    const m = await import("@/components/players/hyperframes-player");
+    return { default: m.HyperframesPlayer };
+  },
+  {
+    loading: () => <Skeleton className="aspect-video rounded-lg" />,
+    ssr: false,
+  }
+);
 
 const CopyLinkButton = ({
   isCopied,
@@ -89,123 +100,80 @@ const ResetButton = ({ ...props }: React.ComponentProps<typeof Button>) => (
   </Tooltip>
 );
 
-type RegistryComponent = React.ComponentType<Record<string, unknown>>;
-
-const PreviewControls = ({ previewId }: { previewId: string }) => {
-  const controlsRef = useRef<React.ComponentRef<typeof Controls>>(null);
-  const [isLooping, setIsLooping] = useState(false);
-
-  const readLoopFromControls = useCallback(() => {
-    const el = controlsRef.current;
-    setIsLooping(Boolean(el?.loop));
-  }, []);
-
-  /** Runs after EFControls / Lit propagate `loop` (slot click ordering vs React). */
-  const reconcileLoopFromControls = useCallback(() => {
-    window.setTimeout(() => {
-      readLoopFromControls();
-    }, 0);
-  }, [readLoopFromControls]);
-
-  useEffect(() => {
-    let cancelled = false;
-    const id = window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        if (!cancelled) {
-          readLoopFromControls();
-        }
-      });
-    });
-    return () => {
-      cancelled = true;
-      window.cancelAnimationFrame(id);
-    };
-  }, [previewId, readLoopFromControls]);
-
-  return (
-    <Controls
-      ref={controlsRef}
-      target={previewId}
-      className="flex items-center gap-2 px-2 py-1.5 text-muted-foreground"
-    >
-      <TogglePlay className="inline-flex">
-        <Button
-          type="button"
-          slot="play"
-          variant="ghost"
-          size="icon-sm"
-          aria-label="Play preview"
-          title="Play preview"
-        >
-          <PlayIcon />
-        </Button>
-        <Button
-          type="button"
-          slot="pause"
-          variant="ghost"
-          size="icon-sm"
-          aria-label="Pause preview"
-          title="Pause preview"
-        >
-          <PauseIcon />
-        </Button>
-      </TogglePlay>
-
-      <Scrubber className="min-w-0 flex-1 [--ef-scrubber-background:var(--border)] [--ef-scrubber-progress-color:var(--foreground)]" />
-
-      <TimeDisplay className="min-w-22 justify-end font-mono text-xs tabular-nums text-foreground" />
-
-      <ToggleLoop className="inline-flex">
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          aria-label={isLooping ? "Disable loop" : "Enable loop"}
-          aria-pressed={isLooping}
-          title={isLooping ? "Loop is on" : "Loop is off"}
-          onClick={reconcileLoopFromControls}
-        >
-          {isLooping ? <Repeat1Icon /> : <RepeatIcon />}
-        </Button>
-      </ToggleLoop>
-    </Controls>
-  );
-};
-
-const PreviewChrome = ({
-  previewId,
-  Component,
-  componentProps,
+const PreviewShell = ({
+  player,
+  hideCode,
+  code,
+  className,
+  children,
 }: {
-  previewId: string;
-  Component: RegistryComponent;
-  componentProps: Record<string, unknown>;
+  player: React.ReactNode;
+  code?: React.ReactNode;
+  hideCode: boolean;
+  className?: string;
+  children?: React.ReactNode;
 }) => (
-  <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
-    <Preview id={previewId} className="aspect-video">
-      <FitScale className="rounded-md">
-        <Component {...componentProps} />
-      </FitScale>
-    </Preview>
-    <PreviewControls previewId={previewId} />
+  <div className={cn("not-prose flex flex-col gap-4", className)}>
+    <Tabs defaultValue="preview" className="gap-3">
+      {!hideCode && (
+        <TabsList>
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+          <TabsTrigger value="code">Code</TabsTrigger>
+        </TabsList>
+      )}
+
+      <TabsContent value="preview" className="mt-0">
+        {player}
+      </TabsContent>
+
+      {!hideCode && (
+        <TabsContent value="code" className="mt-0">
+          {code}
+        </TabsContent>
+      )}
+    </Tabs>
+    {children}
   </div>
 );
 
-const ComponentPreviewInner = ({
+const HyperframesPreview = ({
   name,
-  config,
-  Component,
+  hideCode = false,
+  className,
+}: {
+  name: string;
+  hideCode?: boolean;
+  className?: string;
+}) => {
+  const entry = registry.hyperframes[name];
+
+  const player = <HyperframesPlayer src={entry.htmlPath} className="w-full" />;
+
+  return (
+    <PreviewShell className={className} player={player} hideCode={hideCode}>
+      {!hideCode && (
+        <div className="rounded-lg border border-fd-border p-4 text-sm text-fd-muted-foreground">
+          Source code viewer coming soon. The composition source is at{" "}
+          <code className="text-foreground">{entry.htmlPath}</code>.
+        </div>
+      )}
+    </PreviewShell>
+  );
+};
+
+const EditframePreview = ({
+  name,
   hideCode = false,
   hideCustomizer = false,
   className,
 }: {
   name: string;
-  config: ComponentConfig;
-  Component: RegistryComponent;
   hideCode?: boolean;
   hideCustomizer?: boolean;
   className?: string;
 }) => {
+  const { config, Component } = registry.editframe[name];
+
   const playCopy = useFeedback({ sound: "copy" });
   const playUndo = useFeedback({ sound: "undo" });
   const previewId = usePreviewId(name);
@@ -251,35 +219,18 @@ const ComponentPreviewInner = ({
     preventDefault: true,
   });
 
-  const previewChrome = (
-    <PreviewChrome
-      previewId={previewId}
-      Component={Component}
-      componentProps={componentProps}
-    />
-  );
-
   return (
-    <div className={cn("not-prose flex flex-col gap-4", className)}>
-      {hideCode ? (
-        previewChrome
-      ) : (
-        <Tabs defaultValue="preview" className="gap-3">
-          <TabsList>
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="preview" className="mt-0">
-            {previewChrome}
-          </TabsContent>
-
-          <TabsContent value="code" className="mt-0">
-            {/* {source} */}
-          </TabsContent>
-        </Tabs>
-      )}
-
+    <PreviewShell
+      hideCode={hideCode}
+      className={className}
+      player={
+        <EditframePlayer
+          previewId={previewId}
+          Component={Component}
+          componentProps={componentProps}
+        />
+      }
+    >
       {!hideCustomizer && (
         <div className="rounded-lg bg-code px-1 pb-1">
           <div className="flex items-center justify-between px-2 py-1.5">
@@ -294,28 +245,30 @@ const ComponentPreviewInner = ({
           <div className="rounded-md p-4 bg-background">
             <ComponentCustomizer
               controls={config.controls}
-              values={values as Record<string, unknown>}
+              values={values}
               onChange={handleCustomizeChange}
             />
           </div>
         </div>
       )}
-    </div>
+    </PreviewShell>
   );
 };
 
 export const ComponentPreview = ({
   name,
+  base = "editframe",
   hideCode = false,
   hideCustomizer = false,
   className,
 }: {
   name: string;
+  base?: BaseName;
   hideCode?: boolean;
   hideCustomizer?: boolean;
   className?: string;
 }) => {
-  const entry = registry[name];
+  const entry = registry[base][name];
 
   if (!entry) {
     return (
@@ -325,11 +278,19 @@ export const ComponentPreview = ({
     );
   }
 
+  if (base === "hyperframes") {
+    return (
+      <HyperframesPreview
+        name={name}
+        hideCode={hideCode}
+        className={className}
+      />
+    );
+  }
+
   return (
-    <ComponentPreviewInner
+    <EditframePreview
       name={name}
-      config={entry.config}
-      Component={entry.Component}
       hideCode={hideCode}
       hideCustomizer={hideCustomizer}
       className={className}

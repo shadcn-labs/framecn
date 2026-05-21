@@ -1,0 +1,61 @@
+---
+title: "Zoom Through Transition"
+description: "Aggressive scale-in through an element to the next scene."
+---
+
+<ComponentPreview base="hyperframes" name="zoom-through-transition" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at
+  `compositions/components/zoom-through-transition.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="zoom-through-transition"
+  title="compositions/components/zoom-through-transition.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="zoom-through-transition"
+  data-composition-src="compositions/components/zoom-through-transition.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                           | Target                                                 |
+| ------------------------------ | ------------------------------------------------------ |
+| `zoom-through-transition.html` | `compositions/components/zoom-through-transition.html` |
+
+## Notes
+
+<Callout title="Scale-through effect">
+  The transition scales through a given element to create an aggressive zoom
+  effect. Higher scale values create more dramatic transitions.
+</Callout>

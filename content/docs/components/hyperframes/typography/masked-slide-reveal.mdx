@@ -1,0 +1,60 @@
+---
+title: "Masked Slide Reveal"
+description: "Lines grow out from behind an invisible horizontal mask."
+---
+
+<ComponentPreview base="hyperframes" name="masked-slide-reveal" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/masked-slide-reveal.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="masked-slide-reveal"
+  title="compositions/components/masked-slide-reveal.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="masked-slide-reveal"
+  data-composition-src="compositions/components/masked-slide-reveal.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                       | Target                                             |
+| -------------------------- | -------------------------------------------------- |
+| `masked-slide-reveal.html` | `compositions/components/masked-slide-reveal.html` |
+
+## Notes
+
+<Callout title="Uses clip-path for reveal">
+  The masked reveal uses CSS clip-path. The mask expands horizontally to reveal
+  the text underneath.
+</Callout>

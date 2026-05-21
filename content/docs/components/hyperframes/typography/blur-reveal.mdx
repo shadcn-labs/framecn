@@ -1,0 +1,60 @@
+---
+title: "Blur Reveal"
+description: "Text fades in from a heavy blur into sharp focus."
+---
+
+<ComponentPreview base="hyperframes" name="blur-reveal" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/blur-reveal.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="blur-reveal"
+  title="compositions/components/blur-reveal.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="blur-reveal"
+  data-composition-src="compositions/components/blur-reveal.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File               | Target                                     |
+| ------------------ | ------------------------------------------ |
+| `blur-reveal.html` | `compositions/components/blur-reveal.html` |
+
+## Notes
+
+<Callout title="Blur uses backdrop-filter">
+  The blur effect uses CSS backdrop-filter which may not be supported in all
+  browsers. Consider providing a fallback for older browsers.
+</Callout>

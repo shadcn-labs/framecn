@@ -1,0 +1,58 @@
+---
+title: "AI Generate Overlay"
+description: "Overlay UI for AI content generation with prompt input and result display."
+---
+
+<ComponentPreview base="hyperframes" name="ai-generate-overlay" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/ai-generate-overlay.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="ai-generate-overlay"
+  title="compositions/ai-generate-overlay.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="ai-generate-overlay"
+  data-composition-src="compositions/ai-generate-overlay.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                       | Target                                  |
+| -------------------------- | --------------------------------------- |
+| `ai-generate-overlay.html` | `compositions/ai-generate-overlay.html` |
+
+## Notes
+
+<Callout title="State-driven generation UI">
+  The overlay shows prompt input with generating state. Great for AI product
+  demos showing the generation workflow.
+</Callout>

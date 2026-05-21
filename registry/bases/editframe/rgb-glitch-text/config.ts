@@ -52,14 +52,6 @@ export const rgbGlitchTextConfig: ComponentConfig = {
       label: "Seed",
       type: "text",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     text: {
       default: "GLITCH",
       label: "Text",

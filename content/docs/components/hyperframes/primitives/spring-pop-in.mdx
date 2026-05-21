@@ -1,0 +1,61 @@
+---
+title: "Spring Pop In"
+description: "Elastic scale pop with configurable overshoot."
+---
+
+<ComponentPreview base="hyperframes" name="spring-pop-in" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/spring-pop-in.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="spring-pop-in"
+  title="compositions/components/spring-pop-in.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="spring-pop-in"
+  data-composition-src="compositions/components/spring-pop-in.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                 | Target                                       |
+| -------------------- | -------------------------------------------- |
+| `spring-pop-in.html` | `compositions/components/spring-pop-in.html` |
+
+## Notes
+
+<Callout title="Spring-based overshoot">
+  The animation uses a spring function with configurable overshoot. Tune
+  `stiffness`, `damping`, and `mass` to shape how far it overshoots before
+  settling.
+</Callout>

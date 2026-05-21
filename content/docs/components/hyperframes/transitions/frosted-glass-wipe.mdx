@@ -1,0 +1,60 @@
+---
+title: "Frosted Glass Wipe"
+description: "Elegant scene transition through a sliding pane of frosted glass."
+---
+
+<ComponentPreview base="hyperframes" name="frosted-glass-wipe" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/frosted-glass-wipe.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="frosted-glass-wipe"
+  title="compositions/components/frosted-glass-wipe.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="frosted-glass-wipe"
+  data-composition-src="compositions/components/frosted-glass-wipe.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                      | Target                                            |
+| ------------------------- | ------------------------------------------------- |
+| `frosted-glass-wipe.html` | `compositions/components/frosted-glass-wipe.html` |
+
+## Notes
+
+<Callout title="Uses backdrop-filter">
+  The frosted glass effect uses CSS backdrop-filter for the blur. Browser
+  support is good but not universal.
+</Callout>

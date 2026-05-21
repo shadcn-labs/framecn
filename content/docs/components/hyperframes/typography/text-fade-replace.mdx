@@ -1,0 +1,65 @@
+---
+title: "Text Fade Replace"
+description: "Cross-fades between two strings on the same line. Includes a Strikethrough variant."
+---
+
+<ComponentPreview base="hyperframes" name="text-fade-replace" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/text-fade-replace.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="text-fade-replace"
+  title="compositions/components/text-fade-replace.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="text-fade-replace"
+  data-composition-src="compositions/components/text-fade-replace.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                     | Target                                           |
+| ------------------------ | ------------------------------------------------ |
+| `text-fade-replace.html` | `compositions/components/text-fade-replace.html` |
+
+## Notes
+
+<Callout title="Includes strikethrough variant">
+  The component supports a strikethrough animation variant. Check the demo to
+  see the strikethrough effect in action.
+</Callout>
+
+<Callout title="Both texts must have equal length" variant="destructive">
+  For the best cross-fade effect, ensure `fromText` and `toText` are
+  approximately the same length to avoid layout shift.
+</Callout>

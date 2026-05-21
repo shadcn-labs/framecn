@@ -1,0 +1,58 @@
+---
+title: "Animated Line Chart"
+description: "SVG line chart drawn left-to-right via stroke-dashoffset."
+---
+
+<ComponentPreview base="hyperframes" name="animated-line-chart" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/animated-line-chart.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="animated-line-chart"
+  title="compositions/animated-line-chart.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="animated-line-chart"
+  data-composition-src="compositions/animated-line-chart.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                       | Target                                  |
+| -------------------------- | --------------------------------------- |
+| `animated-line-chart.html` | `compositions/animated-line-chart.html` |
+
+## Notes
+
+<Callout title="SVG stroke-dashoffset animation">
+  The chart line is drawn using stroke-dashoffset animation for a smooth
+  left-to-right reveal effect.
+</Callout>

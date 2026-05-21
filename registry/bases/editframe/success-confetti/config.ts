@@ -24,14 +24,6 @@ export const successConfettiConfig: ComponentConfig = {
       type: "number",
     },
     seed: { default: "framecn", label: "Random seed", type: "text" },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     text: { default: "Merged!", label: "Text", type: "text" },
     textColor: { default: "#171717", label: "Text color", type: "color" },
     velocity: {

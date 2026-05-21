@@ -28,14 +28,6 @@ export const textFadeReplaceConfig: ComponentConfig = {
       label: "From text",
       type: "text",
     },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     to: {
       default: "World",
       label: "To text",

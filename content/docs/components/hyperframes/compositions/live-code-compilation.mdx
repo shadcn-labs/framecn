@@ -1,0 +1,60 @@
+---
+title: "Live Code Compilation"
+description: "Split-screen where typed code on the left snaps a live UI preview on the right."
+---
+
+<ComponentPreview base="hyperframes" name="live-code-compilation" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/live-code-compilation.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="live-code-compilation"
+  title="compositions/live-code-compilation.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="live-code-compilation"
+  data-composition-src="compositions/live-code-compilation.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Example   |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                         | Target                                    |
+| ---------------------------- | ----------------------------------------- |
+| `live-code-compilation.html` | `compositions/live-code-compilation.html` |
+
+## Notes
+
+<Callout title="Split-screen workflow">
+  Code typing on the left triggers live UI updates on the right. Great for code
+  editor or developer tool demos.
+</Callout>

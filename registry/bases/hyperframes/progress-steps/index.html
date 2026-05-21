@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress Steps</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 200px 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 60px;
+        box-sizing: border-box;
+      }
+      .steps-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+      }
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .step-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 3px solid #3f3f46;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 600;
+        color: #52525b;
+        background: #0a0a0f;
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      .step-circle.active {
+        border-color: #7c5cbf;
+        color: #a78bfa;
+        background: rgba(124, 92, 191, 0.1);
+      }
+      .step-circle.done {
+        border-color: #22c55e;
+        background: #22c55e;
+        color: white;
+      }
+      .step-label {
+        font-size: 16px;
+        color: #71717a;
+        opacity: 0;
+      }
+      .step-connector {
+        width: 120px;
+        height: 3px;
+        background: #3f3f46;
+        margin: 0 8px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+      }
+      .step-connector-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        background: #22c55e;
+        border-radius: 2px;
+      }
+      .tag {
+        font-size: 20px;
+        font-weight: 600;
+        color: #7c5cbf;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+      .line {
+        width: 60px;
+        height: 3px;
+        background: #a78bfa;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="progress-steps"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="8"
+    >
+      <div class="scene-content">
+        <div class="tag">Progress Steps</div>
+        <div class="line"></div>
+        <div class="steps-container">
+          <div class="step">
+            <div class="step-circle done" id="step-1">✓</div>
+            <div class="step-label" id="label-1">Setup</div>
+          </div>
+          <div class="step-connector">
+            <div class="step-connector-fill" id="conn-1"></div>
+          </div>
+          <div class="step">
+            <div class="step-circle done" id="step-2">✓</div>
+            <div class="step-label" id="label-2">Build</div>
+          </div>
+          <div class="step-connector">
+            <div class="step-connector-fill" id="conn-2"></div>
+          </div>
+          <div class="step">
+            <div class="step-circle active" id="step-3">3</div>
+            <div class="step-label" id="label-3">Deploy</div>
+          </div>
+          <div class="step-connector">
+            <div class="step-connector-fill" id="conn-3"></div>
+          </div>
+          <div class="step">
+            <div class="step-circle" id="step-4">4</div>
+            <div class="step-label" id="label-4">Live</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var steps = ["#step-1", "#step-2", "#step-3", "#step-4"];
+      var labels = ["#label-1", "#label-2", "#label-3", "#label-4"];
+      var conns = ["#conn-1", "#conn-2", "#conn-3"];
+
+      tl.to(
+        steps[0],
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        0.3
+      );
+      tl.to(labels[0], { opacity: 1, duration: 0.3 }, 0.5);
+      tl.to(
+        conns[0],
+        { width: "100%", duration: 0.5, ease: "power2.out" },
+        0.7
+      );
+
+      tl.to(
+        steps[1],
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        1.0
+      );
+      tl.to(labels[1], { opacity: 1, duration: 0.3 }, 1.2);
+      tl.to(
+        conns[1],
+        { width: "100%", duration: 0.5, ease: "power2.out" },
+        1.4
+      );
+
+      tl.to(
+        steps[2],
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        1.7
+      );
+      tl.to(labels[2], { opacity: 1, duration: 0.3 }, 1.9);
+      tl.to(
+        conns[2],
+        { width: "100%", duration: 0.5, ease: "power2.out" },
+        2.1
+      );
+
+      tl.to(
+        steps[3],
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" },
+        2.4
+      );
+      tl.to(labels[3], { opacity: 1, duration: 0.3 }, 2.6);
+
+      window.__timelines["progress-steps"] = tl;
+    </script>
+  </body>
+</html>

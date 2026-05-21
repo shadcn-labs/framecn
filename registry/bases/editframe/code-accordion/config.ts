@@ -25,14 +25,6 @@ export const codeAccordionConfig: ComponentConfig = {
       type: "number",
     },
     mutedColor: { default: "#52525b", label: "Muted color", type: "color" },
-    speed: {
-      default: 1,
-      label: "Speed",
-      max: 3,
-      min: 0.25,
-      step: 0.25,
-      type: "number",
-    },
     textColor: { default: "#e4e4e7", label: "Text color", type: "color" },
     title: { default: "process-orders.ts", label: "Title", type: "text" },
     width: {

@@ -1,0 +1,60 @@
+---
+title: "Simulated Cursor"
+description: "A simulated cursor with click animations and movement."
+---
+
+<ComponentPreview base="hyperframes" name="simulated-cursor" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/simulated-cursor.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="simulated-cursor"
+  title="compositions/components/simulated-cursor.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="simulated-cursor"
+  data-composition-src="compositions/components/simulated-cursor.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `simulated-cursor.html` | `compositions/components/simulated-cursor.html` |
+
+## Notes
+
+<Callout title="Inline SVG cursor">
+  The cursor is drawn as inline SVG, so you don't need to copy anything into
+  `public/`. Drop the component into any composition and it just works.
+</Callout>

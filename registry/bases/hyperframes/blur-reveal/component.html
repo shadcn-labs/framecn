@@ -1,0 +1,59 @@
+<template id="blur-reveal-template">
+  <div data-composition-id="blur-reveal" data-width="1920" data-height="1080">
+    <style>
+      [data-composition-id="blur-reveal"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="blur-reveal"] .br-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="blur-reveal"] .br-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="blur-reveal"] .br-scene-in {
+        z-index: 2;
+        opacity: 0;
+        filter: blur(var(--br-blur, 25px));
+      }
+    </style>
+    <div class="br-scene br-scene-out" id="br-out"></div>
+    <div class="br-scene br-scene-in" id="br-in"></div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var blurAmount = vars.blurAmount || 25;
+        var duration = vars.transitionDuration || 0.8;
+        var T = 0;
+
+        document.getElementById("br-in").style.filter =
+          "blur(" + blurAmount + "px)";
+
+        tl.to("#br-in", { opacity: 1, duration: 0.01 }, T);
+        tl.to(
+          "#br-in",
+          { filter: "blur(0px)", duration: duration, ease: "power2.inOut" },
+          T
+        );
+        tl.to(
+          "#br-out",
+          { opacity: 0, duration: duration * 0.6, ease: "power2.in" },
+          T
+        );
+
+        window.__timelines["blur-reveal"] = tl;
+      })();
+    </script>
+  </div>
+</template>

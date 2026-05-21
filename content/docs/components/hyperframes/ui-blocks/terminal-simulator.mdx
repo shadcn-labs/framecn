@@ -1,0 +1,58 @@
+---
+title: "Terminal Simulator"
+description: "CLI build simulation with chunked log output and step-function scrolling."
+---
+
+<ComponentPreview base="hyperframes" name="terminal-simulator" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>Create a new HTML file at `compositions/terminal-simulator.html`.</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="terminal-simulator"
+  title="compositions/terminal-simulator.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="terminal-simulator"
+  data-composition-src="compositions/terminal-simulator.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Block     |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                      | Target                                 |
+| ------------------------- | -------------------------------------- |
+| `terminal-simulator.html` | `compositions/terminal-simulator.html` |
+
+## Notes
+
+<Callout title="CLI typing simulation">
+  Commands type out character-by-character with chunked log output. The terminal
+  auto-scrolls as new content appears.
+</Callout>

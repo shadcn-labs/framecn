@@ -1,0 +1,65 @@
+---
+title: "Success Confetti"
+description: "Deterministic particle burst from a chosen origin point."
+---
+
+<ComponentPreview base="hyperframes" name="success-confetti" hideCode />
+
+## Installation
+
+<Steps>
+
+<Step>
+  Create a new HTML file at `compositions/components/success-confetti.html`.
+</Step>
+
+<Step>Copy and paste the following code into the file.</Step>
+
+<ComponentSource
+  name="success-confetti"
+  title="compositions/components/success-confetti.html"
+/>
+
+</Steps>
+
+## Usage
+
+Add the composition to your host HTML file:
+
+```html
+<div
+  data-composition-id="success-confetti"
+  data-composition-src="compositions/components/success-confetti.html"
+  data-start="0"
+  data-duration="8"
+  data-track-index="1"
+  data-width="1920"
+  data-height="1080"
+></div>
+```
+
+## Details
+
+| Property   | Value     |
+| ---------- | --------- |
+| Type       | Component |
+| Dimensions | 1920×1080 |
+| Duration   | 8s        |
+
+## Files
+
+| File                    | Target                                          |
+| ----------------------- | ----------------------------------------------- |
+| `success-confetti.html` | `compositions/components/success-confetti.html` |
+
+## Notes
+
+<Callout title="Deterministic particle physics">
+  The confetti uses deterministic physics with seeded random values. Same inputs
+  always produce the same particle patterns.
+</Callout>
+
+<Callout title="Performance scales with particle count" variant="warning">
+  Higher particle counts may impact performance. Keep particleCount under 100
+  for smooth animations.
+</Callout>

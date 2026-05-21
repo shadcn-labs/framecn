@@ -1,0 +1,95 @@
+<template id="frosted-glass-wipe-template">
+  <div
+    data-composition-id="frosted-glass-wipe"
+    data-width="1920"
+    data-height="1080"
+  >
+    <style>
+      [data-composition-id="frosted-glass-wipe"] {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="frosted-glass-wipe"] .fg-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      [data-composition-id="frosted-glass-wipe"] .fg-scene-out {
+        z-index: 1;
+      }
+      [data-composition-id="frosted-glass-wipe"] .fg-scene-in {
+        z-index: 2;
+        opacity: 0;
+      }
+      [data-composition-id="frosted-glass-wipe"] .fg-glass {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+        opacity: 0;
+      }
+    </style>
+    <div class="fg-scene fg-scene-out" id="fg-out"></div>
+    <div class="fg-scene fg-scene-in" id="fg-in"></div>
+    <div class="fg-glass" id="fg-glass"></div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var vars = window.__hyperframes
+          ? window.__hyperframes.getVariables()
+          : {};
+        var blurAmount = vars.blurAmount || 30;
+        var duration = vars.transitionDuration || 0.8;
+        var T = 0;
+
+        tl.to(
+          "#fg-glass",
+          { opacity: 1, duration: duration * 0.2, ease: "power2.out" },
+          T
+        );
+        tl.to(
+          "#fg-glass",
+          {
+            backdropFilter: "blur(" + blurAmount + "px)",
+            webkitBackdropFilter: "blur(" + blurAmount + "px)",
+            duration: duration * 0.4,
+            ease: "power2.inOut",
+          },
+          T + duration * 0.2
+        );
+
+        tl.to("#fg-in", { opacity: 1, duration: 0.01 }, T + duration * 0.4);
+        tl.to(
+          "#fg-glass",
+          {
+            backdropFilter: "blur(0px)",
+            webkitBackdropFilter: "blur(0px)",
+            duration: duration * 0.3,
+            ease: "power2.in",
+          },
+          T + duration * 0.7
+        );
+
+        tl.to("#fg-out", { opacity: 0, duration: 0.01 }, T + duration);
+        tl.to(
+          "#fg-glass",
+          { opacity: 0, duration: duration * 0.1 },
+          T + duration * 1.1
+        );
+
+        window.__timelines["frosted-glass-wipe"] = tl;
+      })();
+    </script>
+  </div>
+</template>
