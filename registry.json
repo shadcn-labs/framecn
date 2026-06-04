@@ -11,7 +11,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/blur-reveal/index.tsx",
+          "path": "registry/bases/editframe/blur-reveal/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/blur-reveal.tsx"
         }
@@ -25,7 +25,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/typewriter/index.tsx",
+          "path": "registry/bases/editframe/typewriter/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/typewriter.tsx"
         }
@@ -39,7 +39,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/inline-highlight/index.tsx",
+          "path": "registry/bases/editframe/inline-highlight/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/inline-highlight.tsx"
         }
@@ -53,7 +53,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/text-fade-replace/index.tsx",
+          "path": "registry/bases/editframe/text-fade-replace/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/text-fade-replace.tsx"
         }
@@ -67,7 +67,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/strikethrough-replace/index.tsx",
+          "path": "registry/bases/editframe/strikethrough-replace/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/strikethrough-replace.tsx"
         }
@@ -81,7 +81,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/staggered-fade-up/index.tsx",
+          "path": "registry/bases/editframe/staggered-fade-up/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/staggered-fade-up.tsx"
         }
@@ -95,7 +95,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/masked-slide-reveal/index.tsx",
+          "path": "registry/bases/editframe/masked-slide-reveal/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/masked-slide-reveal.tsx"
         }
@@ -109,7 +109,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/tracking-in/index.tsx",
+          "path": "registry/bases/editframe/tracking-in/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/tracking-in.tsx"
         }
@@ -123,7 +123,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/shimmer-sweep/index.tsx",
+          "path": "registry/bases/editframe/shimmer-sweep/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/shimmer-sweep.tsx"
         }
@@ -137,7 +137,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/marker-highlight/index.tsx",
+          "path": "registry/bases/editframe/marker-highlight/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/marker-highlight.tsx"
         }
@@ -151,7 +151,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/slot-machine-roll/index.tsx",
+          "path": "registry/bases/editframe/slot-machine-roll/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/slot-machine-roll.tsx"
         }
@@ -165,7 +165,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/matrix-decode/index.tsx",
+          "path": "registry/bases/editframe/matrix-decode/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/matrix-decode.tsx"
         }
@@ -179,7 +179,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/rgb-glitch-text/index.tsx",
+          "path": "registry/bases/editframe/rgb-glitch-text/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/rgb-glitch-text.tsx"
         }
@@ -193,7 +193,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/infinite-marquee/index.tsx",
+          "path": "registry/bases/editframe/infinite-marquee/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/infinite-marquee.tsx"
         }
@@ -207,7 +207,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/mesh-gradient-bg/index.tsx",
+          "path": "registry/bases/editframe/mesh-gradient-bg/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/mesh-gradient-bg.tsx"
         }
@@ -221,7 +221,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/dynamic-grid/index.tsx",
+          "path": "registry/bases/editframe/dynamic-grid/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/dynamic-grid.tsx"
         }
@@ -235,7 +235,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/spring-pop-in/index.tsx",
+          "path": "registry/bases/editframe/spring-pop-in/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/spring-pop-in.tsx"
         }
@@ -249,7 +249,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/simulated-cursor/index.tsx",
+          "path": "registry/bases/editframe/simulated-cursor/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/simulated-cursor.tsx"
         }
@@ -263,7 +263,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/pulsing-indicator/index.tsx",
+          "path": "registry/bases/editframe/pulsing-indicator/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/pulsing-indicator.tsx"
         }
@@ -277,7 +277,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/directional-wipe/index.tsx",
+          "path": "registry/bases/editframe/directional-wipe/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/directional-wipe.tsx"
         }
@@ -291,7 +291,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/device-mockup-zoom/index.tsx",
+          "path": "registry/bases/editframe/device-mockup-zoom/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/device-mockup-zoom.tsx"
         }
@@ -305,7 +305,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/zoom-through-transition/index.tsx",
+          "path": "registry/bases/editframe/zoom-through-transition/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/zoom-through-transition.tsx"
         }
@@ -319,7 +319,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/staggered-bento-grid/index.tsx",
+          "path": "registry/bases/editframe/staggered-bento-grid/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/staggered-bento-grid.tsx"
         }
@@ -333,7 +333,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/chat-to-preview-layout/index.tsx",
+          "path": "registry/bases/editframe/chat-to-preview-layout/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/chat-to-preview-layout.tsx"
         }
@@ -347,7 +347,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/bounding-box-selector/index.tsx",
+          "path": "registry/bases/editframe/bounding-box-selector/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/bounding-box-selector.tsx"
         }
@@ -361,7 +361,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/animated-line-chart/index.tsx",
+          "path": "registry/bases/editframe/animated-line-chart/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/animated-line-chart.tsx"
         }
@@ -375,7 +375,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/animated-bar-chart/index.tsx",
+          "path": "registry/bases/editframe/animated-bar-chart/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/animated-bar-chart.tsx"
         }
@@ -389,7 +389,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/terminal-simulator/index.tsx",
+          "path": "registry/bases/editframe/terminal-simulator/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/terminal-simulator.tsx"
         }
@@ -403,7 +403,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/code-diff-wipe/index.tsx",
+          "path": "registry/bases/editframe/code-diff-wipe/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/code-diff-wipe.tsx"
         }
@@ -417,7 +417,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/toast-notification/index.tsx",
+          "path": "registry/bases/editframe/toast-notification/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/toast-notification.tsx"
         }
@@ -431,7 +431,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/drag-and-drop-flow/index.tsx",
+          "path": "registry/bases/editframe/drag-and-drop-flow/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/drag-and-drop-flow.tsx"
         }
@@ -445,7 +445,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/progress-steps/index.tsx",
+          "path": "registry/bases/editframe/progress-steps/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/progress-steps.tsx"
         }
@@ -459,7 +459,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/morphing-modal/index.tsx",
+          "path": "registry/bases/editframe/morphing-modal/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/morphing-modal.tsx"
         }
@@ -473,7 +473,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/data-flow-pipes/index.tsx",
+          "path": "registry/bases/editframe/data-flow-pipes/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/data-flow-pipes.tsx"
         }
@@ -487,7 +487,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/cursor-flow/index.tsx",
+          "path": "registry/bases/editframe/cursor-flow/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/cursor-flow.tsx"
         }
@@ -501,7 +501,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/code-accordion/index.tsx",
+          "path": "registry/bases/editframe/code-accordion/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/code-accordion.tsx"
         }
@@ -515,7 +515,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/glass-code-block/index.tsx",
+          "path": "registry/bases/editframe/glass-code-block/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/glass-code-block.tsx"
         }
@@ -529,7 +529,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/spotlight-card/index.tsx",
+          "path": "registry/bases/editframe/spotlight-card/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/spotlight-card.tsx"
         }
@@ -543,7 +543,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/perspective-marquee/index.tsx",
+          "path": "registry/bases/editframe/perspective-marquee/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/perspective-marquee.tsx"
         }
@@ -557,7 +557,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/success-confetti/index.tsx",
+          "path": "registry/bases/editframe/success-confetti/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/success-confetti.tsx"
         }
@@ -571,7 +571,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/frosted-glass-wipe/index.tsx",
+          "path": "registry/bases/editframe/frosted-glass-wipe/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/frosted-glass-wipe.tsx"
         }
@@ -585,7 +585,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/kinetic-type-mask/index.tsx",
+          "path": "registry/bases/editframe/kinetic-type-mask/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/kinetic-type-mask.tsx"
         }
@@ -599,7 +599,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/spatial-push/index.tsx",
+          "path": "registry/bases/editframe/spatial-push/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/spatial-push.tsx"
         }
@@ -613,7 +613,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/grid-pixelate-wipe/index.tsx",
+          "path": "registry/bases/editframe/grid-pixelate-wipe/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/grid-pixelate-wipe.tsx"
         }
@@ -627,7 +627,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/chromatic-aberration-wipe/index.tsx",
+          "path": "registry/bases/editframe/chromatic-aberration-wipe/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/chromatic-aberration-wipe.tsx"
         }
@@ -641,7 +641,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/hero-device-assemble/index.tsx",
+          "path": "registry/bases/editframe/hero-device-assemble/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/hero-device-assemble.tsx"
         }
@@ -655,7 +655,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/ecosystem-constellation/index.tsx",
+          "path": "registry/bases/editframe/ecosystem-constellation/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/ecosystem-constellation.tsx"
         }
@@ -669,7 +669,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/ai-generation-canvas/index.tsx",
+          "path": "registry/bases/editframe/ai-generation-canvas/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/ai-generation-canvas.tsx"
         }
@@ -683,7 +683,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/live-code-compilation/index.tsx",
+          "path": "registry/bases/editframe/live-code-compilation/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/live-code-compilation.tsx"
         }
@@ -697,7 +697,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/landing-code-showcase/index.tsx",
+          "path": "registry/bases/editframe/landing-code-showcase/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/landing-code-showcase.tsx"
         }
@@ -711,7 +711,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/pipeline-journey/index.tsx",
+          "path": "registry/bases/editframe/pipeline-journey/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/pipeline-journey.tsx"
         }
@@ -725,7 +725,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/dashboard-populate/index.tsx",
+          "path": "registry/bases/editframe/dashboard-populate/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/dashboard-populate.tsx"
         }
@@ -739,7 +739,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/terminal-to-browser-deploy/index.tsx",
+          "path": "registry/bases/editframe/terminal-to-browser-deploy/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/terminal-to-browser-deploy.tsx"
         }
@@ -753,7 +753,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/browser-flow/index.tsx",
+          "path": "registry/bases/editframe/browser-flow/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/browser-flow.tsx"
         }
@@ -767,7 +767,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/pricing-tier-focus/index.tsx",
+          "path": "registry/bases/editframe/pricing-tier-focus/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/pricing-tier-focus.tsx"
         }
@@ -781,7 +781,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/infinite-bento-pan/index.tsx",
+          "path": "registry/bases/editframe/infinite-bento-pan/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/infinite-bento-pan.tsx"
         }
@@ -795,7 +795,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/brush-stroke-simulator/index.tsx",
+          "path": "registry/bases/editframe/brush-stroke-simulator/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/brush-stroke-simulator.tsx"
         }
@@ -809,7 +809,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/ai-generate-overlay/index.tsx",
+          "path": "registry/bases/editframe/ai-generate-overlay/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/ai-generate-overlay.tsx"
         }
@@ -823,7 +823,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/tool-menu-slide-in/index.tsx",
+          "path": "registry/bases/editframe/tool-menu-slide-in/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/tool-menu-slide-in.tsx"
         }
@@ -837,7 +837,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/image-expand-to-fullscreen/index.tsx",
+          "path": "registry/bases/editframe/image-expand-to-fullscreen/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/image-expand-to-fullscreen.tsx"
         }
@@ -851,7 +851,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/swipe-transition-wipe/index.tsx",
+          "path": "registry/bases/editframe/swipe-transition-wipe/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/swipe-transition-wipe.tsx"
         }
@@ -865,7 +865,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/product-launch-trailer/index.tsx",
+          "path": "registry/bases/editframe/product-launch-trailer/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/product-launch-trailer.tsx"
         }
@@ -879,7 +879,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/changelog-bite/index.tsx",
+          "path": "registry/bases/editframe/changelog-bite/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/changelog-bite.tsx"
         }
@@ -893,7 +893,7 @@
       "dependencies": ["remotion"],
       "files": [
         {
-          "path": "registry/framecn/visual-docs-snippet/index.tsx",
+          "path": "registry/bases/editframe/visual-docs-snippet/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/visual-docs-snippet.tsx"
         }
