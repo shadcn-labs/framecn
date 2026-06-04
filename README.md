@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/og.png" alt="framecn banner" />
+</p>
+
 <h1 align="center">framecn</h1>
 
 <p align="center">
@@ -6,15 +10,16 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/shadcn-labs/framecn"><img src="https://www.shieldcn.dev/github/stars/shadcn-labs/framecn.svg?variant=secondary&size=xs&theme=zinc" alt="GitHub Stars" /></a>
+  <a href="https://github.com/shadcn-labs/framecn/actions"><img src="https://www.shieldcn.dev/github/ci/shadcn-labs/framecn.svg?variant=secondary&size=xs&theme=zinc" alt="CI" /></a>
+  <a href="https://discord.com/invite/N6G36KhYK4"><img src="https://www.shieldcn.dev/discord/online-members/N6G36KhYK4.svg?variant=secondary&size=xs&theme=zinc" alt="Discord Members" /></a>
+  <a href="https://x.com/shadcnlabs"><img src="https://www.shieldcn.dev/x/follow/shadcnlabs.svg?variant=branded&size=xs&theme=zinc" alt="X Follow" /></a>
+</p>
+
+<p align="center">
   <a href="https://framecn.dev/docs">Get Started</a> ·
   <a href="https://framecn.dev/docs/installation">Installation</a> ·
   <a href="https://framecn.dev/docs/components">Components</a>
-</p>
-
-<br />
-
-<p align="center">
-  <img src="public/og.png" alt="framecn banner" />
 </p>
 
 ## Features
