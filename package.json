@@ -14,7 +14,6 @@
     "prepare": "lefthook install"
   },
   "dependencies": {
-    "@editframe/api": "^0.50.0",
     "@editframe/elements": "^0.50.1",
     "@editframe/react": "^0.50.1",
     "@tailwindcss/postcss": "^4.2.4",
