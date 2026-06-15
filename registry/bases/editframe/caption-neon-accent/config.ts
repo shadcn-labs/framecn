@@ -33,5 +33,5 @@ export const captionNeonAccentConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/neon-accent",
+  importPath: "@/components/framecn/caption-neon-accent",
 };

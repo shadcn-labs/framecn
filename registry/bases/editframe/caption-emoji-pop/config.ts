@@ -25,5 +25,5 @@ export const captionEmojiPopConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/emoji-pop",
+  importPath: "@/components/framecn/caption-emoji-pop",
 };

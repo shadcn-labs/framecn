@@ -25,5 +25,5 @@ export const captionParticleBurstConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/particle-burst",
+  importPath: "@/components/framecn/caption-particle-burst",
 };

@@ -38,5 +38,5 @@ export const captionHighlightConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/highlight",
+  importPath: "@/components/framecn/caption-highlight",
 };

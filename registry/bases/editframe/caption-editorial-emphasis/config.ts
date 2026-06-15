@@ -32,5 +32,5 @@ export const captionEditorialEmphasisConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/editorial-emphasis",
+  importPath: "@/components/framecn/caption-editorial-emphasis",
 };

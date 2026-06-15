@@ -1,20 +1,20 @@
 {
   "title": "Captions",
   "pages": [
-    "index",
-    "highlight",
-    "pill-karaoke",
-    "kinetic-slam",
     "clip-wipe",
     "editorial-emphasis",
     "emoji-pop",
     "glitch-rgb",
     "gradient-fill",
-    "caption-matrix-decode",
+    "highlight",
+    "index",
+    "kinetic-slam",
+    "matrix-decode",
     "neon-accent",
     "neon-glow",
     "parallax-layers",
     "particle-burst",
+    "pill-karaoke",
     "texture",
     "weight-shift"
   ]

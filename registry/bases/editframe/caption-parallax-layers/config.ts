@@ -29,5 +29,5 @@ export const captionParallaxLayersConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/parallax-layers",
+  importPath: "@/components/framecn/caption-parallax-layers",
 };

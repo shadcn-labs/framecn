@@ -32,5 +32,5 @@ export const captionNeonGlowConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/neon-glow",
+  importPath: "@/components/framecn/caption-neon-glow",
 };

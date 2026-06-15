@@ -30,5 +30,5 @@ export const captionTextureConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/texture",
+  importPath: "@/components/framecn/caption-texture",
 };

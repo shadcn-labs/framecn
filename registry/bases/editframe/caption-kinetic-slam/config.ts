@@ -25,5 +25,5 @@ export const captionKineticSlamConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/kinetic-slam",
+  importPath: "@/components/framecn/caption-kinetic-slam",
 };

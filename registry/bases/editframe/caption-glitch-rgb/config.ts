@@ -30,5 +30,5 @@ export const captionGlitchRgbConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/glitch-rgb",
+  importPath: "@/components/framecn/caption-glitch-rgb",
 };

@@ -28,5 +28,5 @@ export const captionWeightShiftConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/weight-shift",
+  importPath: "@/components/framecn/caption-weight-shift",
 };

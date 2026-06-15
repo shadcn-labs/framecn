@@ -35,5 +35,5 @@ export const captionPillKaraokeConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/pill-karaoke",
+  importPath: "@/components/framecn/caption-pill-karaoke",
 };

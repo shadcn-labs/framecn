@@ -26,5 +26,5 @@ export const captionGradientFillConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/gradient-fill",
+  importPath: "@/components/framecn/caption-gradient-fill",
 };

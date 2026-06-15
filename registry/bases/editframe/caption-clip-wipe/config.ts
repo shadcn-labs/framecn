@@ -25,5 +25,5 @@ export const captionClipWipeConfig: ComponentConfig = {
   },
   durationInFrames: 180,
   fps: FPS,
-  importPath: "@/components/framecn/clip-wipe",
+  importPath: "@/components/framecn/caption-clip-wipe",
 };
