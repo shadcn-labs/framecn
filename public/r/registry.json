@@ -805,7 +805,7 @@
       "name": "ai-generate-overlay",
       "type": "registry:component",
       "title": "AI Generate Overlay",
-      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating…' pill before a new image fades in.",
+      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating\u2026' pill before a new image fades in.",
       "dependencies": ["remotion"],
       "files": [
         {
@@ -896,6 +896,230 @@
           "path": "registry/bases/editframe/visual-docs-snippet/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/visual-docs-snippet.tsx"
+        }
+      ]
+    },
+    {
+      "name": "highlight",
+      "type": "registry:component",
+      "title": "Caption Highlight",
+      "description": "Word-by-word captions with an accent-colored highlight background that sweeps in behind each spoken word.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/highlight/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/highlight.tsx"
+        }
+      ]
+    },
+    {
+      "name": "pill-karaoke",
+      "type": "registry:component",
+      "title": "Caption Pill Karaoke",
+      "description": "Karaoke-style captions in a rounded pill container \u2014 active word snaps to full contrast, others stay dimmed.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/pill-karaoke/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/pill-karaoke.tsx"
+        }
+      ]
+    },
+    {
+      "name": "kinetic-slam",
+      "type": "registry:component",
+      "title": "Caption Kinetic Slam",
+      "description": "One word at a time, uppercase centered, slams in from above and scales down to rest.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/kinetic-slam/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/kinetic-slam.tsx"
+        }
+      ]
+    },
+    {
+      "name": "blend-difference",
+      "type": "registry:component",
+      "title": "Caption Blend Difference",
+      "description": "Auto-inverting captions via mix-blend-mode: difference \u2014 text color inverts per-pixel against whatever is behind it.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/blend-difference/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/blend-difference.tsx"
+        }
+      ]
+    },
+    {
+      "name": "clip-wipe",
+      "type": "registry:component",
+      "title": "Caption Clip Wipe",
+      "description": "Words reveal left-to-right via clip-path; keywords turn gold on speak; the group exits with a wipe.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/clip-wipe/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/clip-wipe.tsx"
+        }
+      ]
+    },
+    {
+      "name": "editorial-emphasis",
+      "type": "registry:component",
+      "title": "Caption Editorial Emphasis",
+      "description": "Editorial two-font layout \u2014 normal Inter text with oversized italic Playfair Display for key words.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/editorial-emphasis/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/editorial-emphasis.tsx"
+        }
+      ]
+    },
+    {
+      "name": "emoji-pop",
+      "type": "registry:component",
+      "title": "Caption Emoji Pop",
+      "description": "Word groups with a contextual emoji above, spring scale-in/out animation.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/emoji-pop/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/emoji-pop.tsx"
+        }
+      ]
+    },
+    {
+      "name": "glitch-rgb",
+      "type": "registry:component",
+      "title": "Caption Glitch RGB",
+      "description": "RGB channel separation (red+cyan text-shadow) glitch effect on each word entry.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/glitch-rgb/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/glitch-rgb.tsx"
+        }
+      ]
+    },
+    {
+      "name": "gradient-fill",
+      "type": "registry:component",
+      "title": "Caption Gradient Fill",
+      "description": "Siri-style gradient sweeps across text via background-clip on each word's speaking window.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/gradient-fill/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/gradient-fill.tsx"
+        }
+      ]
+    },
+    {
+      "name": "caption-matrix-decode",
+      "type": "registry:component",
+      "title": "Caption Matrix Decode",
+      "description": "Matrix-style green text decodes from blur to sharp on each word.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/caption-matrix-decode/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/caption-matrix-decode.tsx"
+        }
+      ]
+    },
+    {
+      "name": "neon-accent",
+      "type": "registry:component",
+      "title": "Caption Neon Accent",
+      "description": "Normal words with accent keywords at 1.5x size and a neon glow text-shadow.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/neon-accent/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/neon-accent.tsx"
+        }
+      ]
+    },
+    {
+      "name": "neon-glow",
+      "type": "registry:component",
+      "title": "Caption Neon Glow",
+      "description": "All words start at 14% opacity neon; they burst to full glow when spoken.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/neon-glow/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/neon-glow.tsx"
+        }
+      ]
+    },
+    {
+      "name": "parallax-layers",
+      "type": "registry:component",
+      "title": "Caption Parallax Layers",
+      "description": "Two depth layers \u2014 large translucent italic text behind, clean text in front.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/parallax-layers/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/parallax-layers.tsx"
+        }
+      ]
+    },
+    {
+      "name": "particle-burst",
+      "type": "registry:component",
+      "title": "Caption Particle Burst",
+      "description": "Words dim at 40% opacity; a colored burst ring expands outward when each word is spoken.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/particle-burst/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/particle-burst.tsx"
+        }
+      ]
+    },
+    {
+      "name": "texture",
+      "type": "registry:component",
+      "title": "Caption Texture",
+      "description": "Lava-texture fill via layered radial-gradients and background-clip: text, kinetic-slam style.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/texture/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/texture.tsx"
+        }
+      ]
+    },
+    {
+      "name": "weight-shift",
+      "type": "registry:component",
+      "title": "Caption Weight Shift",
+      "description": "Font weight animates from 100 to 900 when each word is spoken, back to thin after.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/weight-shift/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/weight-shift.tsx"
         }
       ]
     }

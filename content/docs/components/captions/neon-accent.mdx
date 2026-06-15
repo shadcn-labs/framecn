@@ -1,0 +1,67 @@
+---
+title: "Neon Accent"
+description: "Normal words with accent keywords at 1.5x size and a neon glow text-shadow."
+---
+
+<ComponentPreview name="neon-accent" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/neon-accent
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource name="neon-accent" title="components/ui/neon-accent.tsx" />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionNeonAccent } from "@/components/framecn/neon-accent";
+```
+
+```tsx
+<CaptionNeonAccent accentWords={["frame.", "code."]} />
+```
+
+## API Reference
+
+### CaptionNeonAccent
+
+| Prop               | Type               | Default               |
+| ------------------ | ------------------ | --------------------- |
+| `words`            | `CaptionWord[]`    | (demo words)          |
+| `accentWords`      | `string[]`         | `["frame.", "code."]` |
+| `color`            | `string`           | `"#ffffff"`           |
+| `accentColor`      | `string`           | `"#a855f7"`           |
+| `fontSize`         | `number`           | `64`                  |
+| `fontWeight`       | `number \| string` | `700`                 |
+| `accentScale`      | `number`           | `1.5`                 |
+| `speed`            | `number`           | `1`                   |
+| `fps`              | `number`           | `30`                  |
+| `durationInFrames` | `number`           | `180`                 |
+| `width`            | `number`           | `1280`                |
+| `height`           | `number`           | `720`                 |
+| `className`        | `string`           | `-`                   |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

@@ -1,0 +1,65 @@
+---
+title: "Weight Shift"
+description: "Font weight animates from 100 to 900 when each word is spoken, back to thin after."
+---
+
+<ComponentPreview name="weight-shift" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/weight-shift
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource name="weight-shift" title="components/ui/weight-shift.tsx" />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionWeightShift } from "@/components/framecn/weight-shift";
+```
+
+```tsx
+<CaptionWeightShift />
+```
+
+## API Reference
+
+### CaptionWeightShift
+
+| Prop               | Type            | Default                    |
+| ------------------ | --------------- | -------------------------- |
+| `words`            | `CaptionWord[]` | (demo words)               |
+| `color`            | `string`        | `"#ffffff"`                |
+| `activeColor`      | `string`        | `"#ffffff"`                |
+| `dimColor`         | `string`        | `"rgba(255,255,255,0.35)"` |
+| `fontSize`         | `number`        | `72`                       |
+| `speed`            | `number`        | `1`                        |
+| `fps`              | `number`        | `30`                       |
+| `durationInFrames` | `number`        | `180`                      |
+| `width`            | `number`        | `1280`                     |
+| `height`           | `number`        | `720`                      |
+| `className`        | `string`        | `-`                        |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

@@ -1,0 +1,67 @@
+---
+title: "Matrix Decode"
+description: "Matrix-style green monospace text that decodes from blurry/bright to sharp using a stepped animation."
+---
+
+<ComponentPreview name="caption-matrix-decode" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/caption-matrix-decode
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource
+    name="caption-matrix-decode"
+    title="components/ui/caption-matrix-decode.tsx"
+  />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionMatrixDecode } from "@/components/framecn/caption-matrix-decode";
+```
+
+```tsx
+<CaptionMatrixDecode />
+```
+
+## API Reference
+
+### CaptionMatrixDecode
+
+| Prop               | Type               | Default      |
+| ------------------ | ------------------ | ------------ |
+| `words`            | `CaptionWord[]`    | (demo words) |
+| `color`            | `string`           | `"#00ff41"`  |
+| `fontSize`         | `number`           | `80`         |
+| `fontWeight`       | `number \| string` | `700`        |
+| `speed`            | `number`           | `1`          |
+| `fps`              | `number`           | `30`         |
+| `durationInFrames` | `number`           | `180`        |
+| `width`            | `number`           | `1280`       |
+| `height`           | `number`           | `720`        |
+| `className`        | `string`           | `-`          |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

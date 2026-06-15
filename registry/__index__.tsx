@@ -8,13 +8,16 @@ import { aiGenerateOverlayConfig } from "@/registry/bases/editframe/ai-generate-
 import { aiGenerationCanvasConfig } from "@/registry/bases/editframe/ai-generation-canvas/config";
 import { animatedBarChartConfig } from "@/registry/bases/editframe/animated-bar-chart/config";
 import { animatedLineChartConfig } from "@/registry/bases/editframe/animated-line-chart/config";
+import { captionBlendDifferenceConfig } from "@/registry/bases/editframe/blend-difference/config";
 import { blurRevealConfig } from "@/registry/bases/editframe/blur-reveal/config";
 import { boundingBoxSelectorConfig } from "@/registry/bases/editframe/bounding-box-selector/config";
 import { browserFlowConfig } from "@/registry/bases/editframe/browser-flow/config";
 import { brushStrokeSimulatorConfig } from "@/registry/bases/editframe/brush-stroke-simulator/config";
+import { captionMatrixDecodeConfig } from "@/registry/bases/editframe/caption-matrix-decode/config";
 import { changelogBiteConfig } from "@/registry/bases/editframe/changelog-bite/config";
 import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/chat-to-preview-layout/config";
 import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/chromatic-aberration-wipe/config";
+import { captionClipWipeConfig } from "@/registry/bases/editframe/clip-wipe/config";
 import { codeAccordionConfig } from "@/registry/bases/editframe/code-accordion/config";
 import { codeDiffWipeConfig } from "@/registry/bases/editframe/code-diff-wipe/config";
 import { cursorFlowConfig } from "@/registry/bases/editframe/cursor-flow/config";
@@ -25,14 +28,20 @@ import { directionalWipeConfig } from "@/registry/bases/editframe/directional-wi
 import { dragAndDropFlowConfig } from "@/registry/bases/editframe/drag-and-drop-flow/config";
 import { dynamicGridConfig } from "@/registry/bases/editframe/dynamic-grid/config";
 import { ecosystemConstellationConfig } from "@/registry/bases/editframe/ecosystem-constellation/config";
+import { captionEditorialEmphasisConfig } from "@/registry/bases/editframe/editorial-emphasis/config";
+import { captionEmojiPopConfig } from "@/registry/bases/editframe/emoji-pop/config";
 import { frostedGlassWipeConfig } from "@/registry/bases/editframe/frosted-glass-wipe/config";
 import { glassCodeBlockConfig } from "@/registry/bases/editframe/glass-code-block/config";
+import { captionGlitchRgbConfig } from "@/registry/bases/editframe/glitch-rgb/config";
+import { captionGradientFillConfig } from "@/registry/bases/editframe/gradient-fill/config";
 import { gridPixelateWipeConfig } from "@/registry/bases/editframe/grid-pixelate-wipe/config";
 import { heroDeviceAssembleConfig } from "@/registry/bases/editframe/hero-device-assemble/config";
+import { captionHighlightConfig } from "@/registry/bases/editframe/highlight/config";
 import { imageExpandToFullscreenConfig } from "@/registry/bases/editframe/image-expand-to-fullscreen/config";
 import { infiniteBentoPanConfig } from "@/registry/bases/editframe/infinite-bento-pan/config";
 import { infiniteMarqueeConfig } from "@/registry/bases/editframe/infinite-marquee/config";
 import { inlineHighlightConfig } from "@/registry/bases/editframe/inline-highlight/config";
+import { captionKineticSlamConfig } from "@/registry/bases/editframe/kinetic-slam/config";
 import { kineticTypeMaskConfig } from "@/registry/bases/editframe/kinetic-type-mask/config";
 import { landingCodeShowcaseConfig } from "@/registry/bases/editframe/landing-code-showcase/config";
 import { liveCodeCompilationConfig } from "@/registry/bases/editframe/live-code-compilation/config";
@@ -41,7 +50,12 @@ import { maskedSlideRevealConfig } from "@/registry/bases/editframe/masked-slide
 import { matrixDecodeConfig } from "@/registry/bases/editframe/matrix-decode/config";
 import { meshGradientBgConfig } from "@/registry/bases/editframe/mesh-gradient-bg/config";
 import { morphingModalConfig } from "@/registry/bases/editframe/morphing-modal/config";
+import { captionNeonAccentConfig } from "@/registry/bases/editframe/neon-accent/config";
+import { captionNeonGlowConfig } from "@/registry/bases/editframe/neon-glow/config";
+import { captionParallaxLayersConfig } from "@/registry/bases/editframe/parallax-layers/config";
+import { captionParticleBurstConfig } from "@/registry/bases/editframe/particle-burst/config";
 import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/perspective-marquee/config";
+import { captionPillKaraokeConfig } from "@/registry/bases/editframe/pill-karaoke/config";
 import { pipelineJourneyConfig } from "@/registry/bases/editframe/pipeline-journey/config";
 import { pricingTierFocusConfig } from "@/registry/bases/editframe/pricing-tier-focus/config";
 import { productLaunchTrailerConfig } from "@/registry/bases/editframe/product-launch-trailer/config";
@@ -62,11 +76,13 @@ import { swipeTransitionWipeConfig } from "@/registry/bases/editframe/swipe-tran
 import { terminalSimulatorConfig } from "@/registry/bases/editframe/terminal-simulator/config";
 import { terminalToBrowserDeployConfig } from "@/registry/bases/editframe/terminal-to-browser-deploy/config";
 import { textFadeReplaceConfig } from "@/registry/bases/editframe/text-fade-replace/config";
+import { captionTextureConfig } from "@/registry/bases/editframe/texture/config";
 import { toastNotificationConfig } from "@/registry/bases/editframe/toast-notification/config";
 import { toolMenuSlideInConfig } from "@/registry/bases/editframe/tool-menu-slide-in/config";
 import { trackingInConfig } from "@/registry/bases/editframe/tracking-in/config";
 import { typewriterConfig } from "@/registry/bases/editframe/typewriter/config";
 import { visualDocsSnippetConfig } from "@/registry/bases/editframe/visual-docs-snippet/config";
+import { captionWeightShiftConfig } from "@/registry/bases/editframe/weight-shift/config";
 import { zoomThroughTransitionConfig } from "@/registry/bases/editframe/zoom-through-transition/config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -113,6 +129,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: animatedLineChartConfig,
   },
+  "blend-difference": {
+    Component: lazy(async () => {
+      const { CaptionBlendDifference } =
+        await import("@/registry/bases/editframe/blend-difference");
+      return { default: CaptionBlendDifference };
+    }),
+    config: captionBlendDifferenceConfig,
+  },
   "blur-reveal": {
     Component: lazy(async () => {
       const { BlurReveal } =
@@ -145,6 +169,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: brushStrokeSimulatorConfig,
   },
+  "caption-matrix-decode": {
+    Component: lazy(async () => {
+      const { CaptionMatrixDecode } =
+        await import("@/registry/bases/editframe/caption-matrix-decode");
+      return { default: CaptionMatrixDecode };
+    }),
+    config: captionMatrixDecodeConfig,
+  },
   "changelog-bite": {
     Component: lazy(async () => {
       const { ChangelogBite } =
@@ -168,6 +200,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: ChromaticAberrationWipe };
     }),
     config: chromaticAberrationWipeConfig,
+  },
+  "clip-wipe": {
+    Component: lazy(async () => {
+      const { CaptionClipWipe } =
+        await import("@/registry/bases/editframe/clip-wipe");
+      return { default: CaptionClipWipe };
+    }),
+    config: captionClipWipeConfig,
   },
   "code-accordion": {
     Component: lazy(async () => {
@@ -249,6 +289,22 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: ecosystemConstellationConfig,
   },
+  "editorial-emphasis": {
+    Component: lazy(async () => {
+      const { CaptionEditorialEmphasis } =
+        await import("@/registry/bases/editframe/editorial-emphasis");
+      return { default: CaptionEditorialEmphasis };
+    }),
+    config: captionEditorialEmphasisConfig,
+  },
+  "emoji-pop": {
+    Component: lazy(async () => {
+      const { CaptionEmojiPop } =
+        await import("@/registry/bases/editframe/emoji-pop");
+      return { default: CaptionEmojiPop };
+    }),
+    config: captionEmojiPopConfig,
+  },
   "frosted-glass-wipe": {
     Component: lazy(async () => {
       const { FrostedGlassWipe } =
@@ -265,6 +321,22 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: glassCodeBlockConfig,
   },
+  "glitch-rgb": {
+    Component: lazy(async () => {
+      const { CaptionGlitchRgb } =
+        await import("@/registry/bases/editframe/glitch-rgb");
+      return { default: CaptionGlitchRgb };
+    }),
+    config: captionGlitchRgbConfig,
+  },
+  "gradient-fill": {
+    Component: lazy(async () => {
+      const { CaptionGradientFill } =
+        await import("@/registry/bases/editframe/gradient-fill");
+      return { default: CaptionGradientFill };
+    }),
+    config: captionGradientFillConfig,
+  },
   "grid-pixelate-wipe": {
     Component: lazy(async () => {
       const { GridPixelateWipe } =
@@ -280,6 +352,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: HeroDeviceAssemble };
     }),
     config: heroDeviceAssembleConfig,
+  },
+  highlight: {
+    Component: lazy(async () => {
+      const { CaptionHighlight } =
+        await import("@/registry/bases/editframe/highlight");
+      return { default: CaptionHighlight };
+    }),
+    config: captionHighlightConfig,
   },
   "image-expand-to-fullscreen": {
     Component: lazy(async () => {
@@ -312,6 +392,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: InlineHighlight };
     }),
     config: inlineHighlightConfig,
+  },
+  "kinetic-slam": {
+    Component: lazy(async () => {
+      const { CaptionKineticSlam } =
+        await import("@/registry/bases/editframe/kinetic-slam");
+      return { default: CaptionKineticSlam };
+    }),
+    config: captionKineticSlamConfig,
   },
   "kinetic-type-mask": {
     Component: lazy(async () => {
@@ -377,6 +465,38 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: morphingModalConfig,
   },
+  "neon-accent": {
+    Component: lazy(async () => {
+      const { CaptionNeonAccent } =
+        await import("@/registry/bases/editframe/neon-accent");
+      return { default: CaptionNeonAccent };
+    }),
+    config: captionNeonAccentConfig,
+  },
+  "neon-glow": {
+    Component: lazy(async () => {
+      const { CaptionNeonGlow } =
+        await import("@/registry/bases/editframe/neon-glow");
+      return { default: CaptionNeonGlow };
+    }),
+    config: captionNeonGlowConfig,
+  },
+  "parallax-layers": {
+    Component: lazy(async () => {
+      const { CaptionParallaxLayers } =
+        await import("@/registry/bases/editframe/parallax-layers");
+      return { default: CaptionParallaxLayers };
+    }),
+    config: captionParallaxLayersConfig,
+  },
+  "particle-burst": {
+    Component: lazy(async () => {
+      const { CaptionParticleBurst } =
+        await import("@/registry/bases/editframe/particle-burst");
+      return { default: CaptionParticleBurst };
+    }),
+    config: captionParticleBurstConfig,
+  },
   "perspective-marquee": {
     Component: lazy(async () => {
       const { PerspectiveMarquee } =
@@ -384,6 +504,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: PerspectiveMarquee };
     }),
     config: perspectiveMarqueeConfig,
+  },
+  "pill-karaoke": {
+    Component: lazy(async () => {
+      const { CaptionPillKaraoke } =
+        await import("@/registry/bases/editframe/pill-karaoke");
+      return { default: CaptionPillKaraoke };
+    }),
+    config: captionPillKaraokeConfig,
   },
   "pipeline-journey": {
     Component: lazy(async () => {
@@ -545,6 +673,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: textFadeReplaceConfig,
   },
+  texture: {
+    Component: lazy(async () => {
+      const { CaptionTexture } =
+        await import("@/registry/bases/editframe/texture");
+      return { default: CaptionTexture };
+    }),
+    config: captionTextureConfig,
+  },
   "toast-notification": {
     Component: lazy(async () => {
       const { ToastNotification } =
@@ -584,6 +720,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: VisualDocsSnippet };
     }),
     config: visualDocsSnippetConfig,
+  },
+  "weight-shift": {
+    Component: lazy(async () => {
+      const { CaptionWeightShift } =
+        await import("@/registry/bases/editframe/weight-shift");
+      return { default: CaptionWeightShift };
+    }),
+    config: captionWeightShiftConfig,
   },
   "zoom-through-transition": {
     Component: lazy(async () => {

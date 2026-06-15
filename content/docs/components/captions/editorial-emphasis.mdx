@@ -1,0 +1,69 @@
+---
+title: "Editorial Emphasis"
+description: "Editorial two-font layout — normal Inter text with oversized italic Playfair Display for key words."
+---
+
+<ComponentPreview name="editorial-emphasis" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/editorial-emphasis
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource
+    name="editorial-emphasis"
+    title="components/ui/editorial-emphasis.tsx"
+  />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionEditorialEmphasis } from "@/components/framecn/editorial-emphasis";
+```
+
+```tsx
+<CaptionEditorialEmphasis emphasisWords={["single", "code."]} />
+```
+
+## API Reference
+
+### CaptionEditorialEmphasis
+
+| Prop               | Type               | Default               |
+| ------------------ | ------------------ | --------------------- |
+| `words`            | `CaptionWord[]`    | (demo words)          |
+| `emphasisWords`    | `string[]`         | `["single", "code."]` |
+| `color`            | `string`           | `"#f5f0d0"`           |
+| `fontSize`         | `number`           | `56`                  |
+| `fontWeight`       | `number \| string` | `"400"`               |
+| `emphasisScale`    | `number`           | `2`                   |
+| `speed`            | `number`           | `1`                   |
+| `fps`              | `number`           | `30`                  |
+| `durationInFrames` | `number`           | `180`                 |
+| `width`            | `number`           | `1280`                |
+| `height`           | `number`           | `720`                 |
+| `className`        | `string`           | `-`                   |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

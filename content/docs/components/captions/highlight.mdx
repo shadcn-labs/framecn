@@ -1,0 +1,98 @@
+---
+title: "Highlight"
+description: "Word-by-word captions with an accent-colored highlight background that sweeps in behind each spoken word."
+---
+
+<ComponentPreview name="highlight" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/highlight
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="highlight" title="components/ui/highlight.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionHighlight } from "@/components/framecn/highlight";
+import type { CaptionWord } from "@/components/framecn/highlight";
+```
+
+```tsx
+const words: CaptionWord[] = [
+  { text: "Every", start: 0.0, end: 0.35 },
+  { text: "great", start: 0.35, end: 0.65 },
+  { text: "video", start: 0.65, end: 1.0 },
+  // ...
+];
+
+<CaptionHighlight words={words} />;
+```
+
+## API Reference
+
+### CaptionHighlight
+
+| Prop               | Type            | Default      |
+| ------------------ | --------------- | ------------ |
+| `words`            | `CaptionWord[]` | (demo words) |
+| `wordsPerGroup`    | `number`        | `3`          |
+| `color`            | `string`        | `"#ffffff"`  |
+| `highlightColor`   | `string`        | `"#ff1745"`  |
+| `fontSize`         | `number`        | `72`         |
+| `fontWeight`       | `number`        | `800`        |
+| `background`       | `string`        | `"#0a0a0a"`  |
+| `speed`            | `number`        | `1`          |
+| `fps`              | `number`        | `30`         |
+| `durationInFrames` | `number`        | `180`        |
+| `width`            | `number`        | `1280`       |
+| `height`           | `number`        | `720`        |
+| `className`        | `string`        | `-`          |
+
+### CaptionWord
+
+| Field   | Type     | Description           |
+| ------- | -------- | --------------------- |
+| `text`  | `string` | The word text         |
+| `start` | `number` | Start time in seconds |
+| `end`   | `number` | End time in seconds   |
+
+## Notes
+
+<Callout title="Words are grouped automatically">
+  The `wordsPerGroup` prop controls how many words appear on screen at once.
+  Groups fade in together and out together, with each word's highlight timed to
+  its `start`/`end` window.
+</Callout>
+
+<Callout title="Word timing is in seconds" variant="destructive">
+  The `start` and `end` fields on each `CaptionWord` are in seconds, not
+  milliseconds or frames. Pass the raw transcript timing from your
+  speech-to-text provider directly.
+</Callout>
