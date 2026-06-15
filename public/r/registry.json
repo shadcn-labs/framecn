@@ -907,7 +907,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/highlight/index.tsx",
+          "path": "registry/bases/editframe/caption-highlight/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/highlight.tsx"
         }
@@ -921,7 +921,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/pill-karaoke/index.tsx",
+          "path": "registry/bases/editframe/caption-pill-karaoke/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/pill-karaoke.tsx"
         }
@@ -935,23 +935,9 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/kinetic-slam/index.tsx",
+          "path": "registry/bases/editframe/caption-kinetic-slam/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/kinetic-slam.tsx"
-        }
-      ]
-    },
-    {
-      "name": "blend-difference",
-      "type": "registry:component",
-      "title": "Caption Blend Difference",
-      "description": "Auto-inverting captions via mix-blend-mode: difference \u2014 text color inverts per-pixel against whatever is behind it.",
-      "dependencies": ["@editframe/react"],
-      "files": [
-        {
-          "path": "registry/bases/editframe/blend-difference/index.tsx",
-          "type": "registry:component",
-          "target": "components/framecn/blend-difference.tsx"
         }
       ]
     },
@@ -963,7 +949,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/clip-wipe/index.tsx",
+          "path": "registry/bases/editframe/caption-clip-wipe/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/clip-wipe.tsx"
         }
@@ -977,7 +963,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/editorial-emphasis/index.tsx",
+          "path": "registry/bases/editframe/caption-editorial-emphasis/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/editorial-emphasis.tsx"
         }
@@ -991,7 +977,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/emoji-pop/index.tsx",
+          "path": "registry/bases/editframe/caption-emoji-pop/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/emoji-pop.tsx"
         }
@@ -1005,7 +991,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/glitch-rgb/index.tsx",
+          "path": "registry/bases/editframe/caption-glitch-rgb/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/glitch-rgb.tsx"
         }
@@ -1019,7 +1005,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/gradient-fill/index.tsx",
+          "path": "registry/bases/editframe/caption-gradient-fill/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/gradient-fill.tsx"
         }
@@ -1047,7 +1033,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/neon-accent/index.tsx",
+          "path": "registry/bases/editframe/caption-neon-accent/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/neon-accent.tsx"
         }
@@ -1061,7 +1047,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/neon-glow/index.tsx",
+          "path": "registry/bases/editframe/caption-neon-glow/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/neon-glow.tsx"
         }
@@ -1075,7 +1061,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/parallax-layers/index.tsx",
+          "path": "registry/bases/editframe/caption-parallax-layers/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/parallax-layers.tsx"
         }
@@ -1089,7 +1075,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/particle-burst/index.tsx",
+          "path": "registry/bases/editframe/caption-particle-burst/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/particle-burst.tsx"
         }
@@ -1103,7 +1089,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/texture/index.tsx",
+          "path": "registry/bases/editframe/caption-texture/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/texture.tsx"
         }
@@ -1117,7 +1103,7 @@
       "dependencies": ["@editframe/react"],
       "files": [
         {
-          "path": "registry/bases/editframe/weight-shift/index.tsx",
+          "path": "registry/bases/editframe/caption-weight-shift/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/weight-shift.tsx"
         }
