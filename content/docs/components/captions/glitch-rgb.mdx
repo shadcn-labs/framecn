@@ -1,0 +1,69 @@
+---
+title: "Glitch RGB"
+description: "RGB channel separation red+cyan text-shadow glitch effect on each word entry."
+---
+
+<ComponentPreview name="caption-glitch-rgb" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/caption-glitch-rgb
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource
+    name="caption-glitch-rgb"
+    title="components/ui/caption-glitch-rgb.tsx"
+  />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionGlitchRgb } from "@/components/framecn/caption-glitch-rgb";
+```
+
+```tsx
+<CaptionGlitchRgb />
+```
+
+## API Reference
+
+### CaptionGlitchRgb
+
+| Prop               | Type               | Default      |
+| ------------------ | ------------------ | ------------ |
+| `words`            | `CaptionWord[]`    | (demo words) |
+| `color`            | `string`           | `"#ffffff"`  |
+| `glitchRedColor`   | `string`           | `"#ff003c"`  |
+| `glitchCyanColor`  | `string`           | `"#00e5ff"`  |
+| `fontSize`         | `number`           | `88`         |
+| `fontWeight`       | `number \| string` | `700`        |
+| `speed`            | `number`           | `1`          |
+| `fps`              | `number`           | `30`         |
+| `durationInFrames` | `number`           | `180`        |
+| `width`            | `number`           | `1280`       |
+| `height`           | `number`           | `720`        |
+| `className`        | `string`           | `-`          |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

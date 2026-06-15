@@ -1,0 +1,70 @@
+---
+title: "Clip Wipe"
+description: "Words reveal left-to-right via clip-path; keywords turn gold on speak; the group exits with a wipe."
+---
+
+<ComponentPreview name="caption-clip-wipe" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/caption-clip-wipe
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource
+    name="caption-clip-wipe"
+    title="components/ui/caption-clip-wipe.tsx"
+  />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionClipWipe } from "@/components/framecn/caption-clip-wipe";
+```
+
+```tsx
+<CaptionClipWipe keywords={["single", "code."]} />
+```
+
+## API Reference
+
+### CaptionClipWipe
+
+| Prop               | Type               | Default               |
+| ------------------ | ------------------ | --------------------- |
+| `words`            | `CaptionWord[]`    | (demo words)          |
+| `keywords`         | `string[]`         | `["single", "code."]` |
+| `color`            | `string`           | `"#ffffff"`           |
+| `keywordColor`     | `string`           | `"#FFD700"`           |
+| `fontSize`         | `number`           | `72`                  |
+| `fontWeight`       | `number \| string` | `700`                 |
+| `background`       | `string`           | `"#0a0a0a"`           |
+| `speed`            | `number`           | `1`                   |
+| `fps`              | `number`           | `30`                  |
+| `durationInFrames` | `number`           | `180`                 |
+| `width`            | `number`           | `1280`                |
+| `height`           | `number`           | `720`                 |
+| `className`        | `string`           | `-`                   |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

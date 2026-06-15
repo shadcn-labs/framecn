@@ -1,0 +1,68 @@
+---
+title: "Particle Burst"
+description: "Words dim at 40% opacity; a colored burst ring expands outward when each word is spoken."
+---
+
+<ComponentPreview name="caption-particle-burst" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/caption-particle-burst
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource
+    name="particle-burst"
+    title="components/ui/caption-particle-burst.tsx"
+  />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionParticleBurst } from "@/components/framecn/caption-particle-burst";
+```
+
+```tsx
+<CaptionParticleBurst />
+```
+
+## API Reference
+
+### CaptionParticleBurst
+
+| Prop               | Type               | Default      |
+| ------------------ | ------------------ | ------------ |
+| `words`            | `CaptionWord[]`    | (demo words) |
+| `color`            | `string`           | `"#ffffff"`  |
+| `burstColor`       | `string`           | `"#fbbf24"`  |
+| `fontSize`         | `number`           | `80`         |
+| `fontWeight`       | `number \| string` | `900`        |
+| `speed`            | `number`           | `1`          |
+| `fps`              | `number`           | `30`         |
+| `durationInFrames` | `number`           | `180`        |
+| `width`            | `number`           | `1280`       |
+| `height`           | `number`           | `720`        |
+| `className`        | `string`           | `-`          |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

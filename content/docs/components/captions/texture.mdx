@@ -1,0 +1,69 @@
+---
+title: "Texture"
+description: "Lava-texture fill via layered radial-gradients and background-clip: text, kinetic-slam style."
+---
+
+<ComponentPreview name="caption-texture" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/caption-texture
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource
+    name="caption-texture"
+    title="components/ui/caption-texture.tsx"
+  />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionTexture } from "@/components/framecn/caption-texture";
+```
+
+```tsx
+<CaptionTexture />
+```
+
+## API Reference
+
+### CaptionTexture
+
+| Prop               | Type               | Default      |
+| ------------------ | ------------------ | ------------ |
+| `words`            | `CaptionWord[]`    | (demo words) |
+| `textureFrom`      | `string`           | `"#ff6414"`  |
+| `textureMid`       | `string`           | `"#ff2200"`  |
+| `textureTo`        | `string`           | `"#ffd000"`  |
+| `fontSize`         | `number`           | `120`        |
+| `fontWeight`       | `number \| string` | `900`        |
+| `speed`            | `number`           | `1`          |
+| `fps`              | `number`           | `30`         |
+| `durationInFrames` | `number`           | `180`        |
+| `width`            | `number`           | `1280`       |
+| `height`           | `number`           | `720`        |
+| `className`        | `string`           | `-`          |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

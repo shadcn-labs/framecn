@@ -1,0 +1,68 @@
+---
+title: "Parallax Layers"
+description: "Two depth layers — large translucent italic text behind, clean text in front."
+---
+
+<ComponentPreview name="caption-parallax-layers" hideCode />
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/caption-parallax-layers
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource
+    name="parallax-layers"
+    title="components/ui/caption-parallax-layers.tsx"
+  />
+  <Step>Update the import paths to match your project setup.</Step>
+</Steps>
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionParallaxLayers } from "@/components/framecn/caption-parallax-layers";
+```
+
+```tsx
+<CaptionParallaxLayers />
+```
+
+## API Reference
+
+### CaptionParallaxLayers
+
+| Prop               | Type               | Default      |
+| ------------------ | ------------------ | ------------ |
+| `words`            | `CaptionWord[]`    | (demo words) |
+| `color`            | `string`           | `"#ffffff"`  |
+| `behindColor`      | `string`           | `"#a78bfa"`  |
+| `fontSize`         | `number`           | `56`         |
+| `fontWeight`       | `number \| string` | `700`        |
+| `speed`            | `number`           | `1`          |
+| `fps`              | `number`           | `30`         |
+| `durationInFrames` | `number`           | `180`        |
+| `width`            | `number`           | `1280`       |
+| `height`           | `number`           | `720`        |
+| `className`        | `string`           | `-`          |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

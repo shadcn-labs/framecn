@@ -1,0 +1,98 @@
+---
+title: "Kinetic Slam"
+description: "One word at a time, uppercase centered, slams in from above and scales down to rest."
+---
+
+<ComponentPreview name="caption-kinetic-slam" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/caption-kinetic-slam
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="caption-kinetic-slam"
+  title="components/ui/caption-kinetic-slam.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CaptionKineticSlam } from "@/components/framecn/caption-kinetic-slam";
+import type { CaptionWord } from "@/components/framecn/caption-kinetic-slam";
+```
+
+```tsx
+const words: CaptionWord[] = [
+  { text: "Every", start: 0.0, end: 0.35 },
+  { text: "great", start: 0.35, end: 0.65 },
+  // ...
+];
+
+<CaptionKineticSlam words={words} />;
+```
+
+## API Reference
+
+### CaptionKineticSlam
+
+| Prop               | Type            | Default      |
+| ------------------ | --------------- | ------------ |
+| `words`            | `CaptionWord[]` | (demo words) |
+| `color`            | `string`        | `"#ffffff"`  |
+| `fontSize`         | `number`        | `120`        |
+| `fontWeight`       | `number`        | `900`        |
+| `background`       | `string`        | `"#0a0a0a"`  |
+| `speed`            | `number`        | `1`          |
+| `fps`              | `number`        | `30`         |
+| `durationInFrames` | `number`        | `180`        |
+| `width`            | `number`        | `1280`       |
+| `height`           | `number`        | `720`        |
+| `className`        | `string`        | `-`          |
+
+### CaptionWord
+
+| Field   | Type     | Description           |
+| ------- | -------- | --------------------- |
+| `text`  | `string` | The word text         |
+| `start` | `number` | Start time in seconds |
+| `end`   | `number` | End time in seconds   |
+
+## Notes
+
+<Callout title="Best suited for punchy, single-word moments">
+  Kinetic Slam works best for high-energy clips where each word carries weight.
+  Words are displayed one at a time, full-width centered. For denser narration,
+  use Caption Highlight or Caption Pill Karaoke instead.
+</Callout>
+
+<Callout title="Font falls back gracefully">
+  The component prefers Anton (a condensed display face) with Impact and
+  system-ui as fallbacks. For best results, load Anton from Google Fonts in your
+  project.
+</Callout>

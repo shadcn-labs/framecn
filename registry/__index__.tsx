@@ -12,6 +12,21 @@ import { blurRevealConfig } from "@/registry/bases/editframe/blur-reveal/config"
 import { boundingBoxSelectorConfig } from "@/registry/bases/editframe/bounding-box-selector/config";
 import { browserFlowConfig } from "@/registry/bases/editframe/browser-flow/config";
 import { brushStrokeSimulatorConfig } from "@/registry/bases/editframe/brush-stroke-simulator/config";
+import { captionClipWipeConfig } from "@/registry/bases/editframe/caption-clip-wipe/config";
+import { captionEditorialEmphasisConfig } from "@/registry/bases/editframe/caption-editorial-emphasis/config";
+import { captionEmojiPopConfig } from "@/registry/bases/editframe/caption-emoji-pop/config";
+import { captionGlitchRgbConfig } from "@/registry/bases/editframe/caption-glitch-rgb/config";
+import { captionGradientFillConfig } from "@/registry/bases/editframe/caption-gradient-fill/config";
+import { captionHighlightConfig } from "@/registry/bases/editframe/caption-highlight/config";
+import { captionKineticSlamConfig } from "@/registry/bases/editframe/caption-kinetic-slam/config";
+import { captionMatrixDecodeConfig } from "@/registry/bases/editframe/caption-matrix-decode/config";
+import { captionNeonAccentConfig } from "@/registry/bases/editframe/caption-neon-accent/config";
+import { captionNeonGlowConfig } from "@/registry/bases/editframe/caption-neon-glow/config";
+import { captionParallaxLayersConfig } from "@/registry/bases/editframe/caption-parallax-layers/config";
+import { captionParticleBurstConfig } from "@/registry/bases/editframe/caption-particle-burst/config";
+import { captionPillKaraokeConfig } from "@/registry/bases/editframe/caption-pill-karaoke/config";
+import { captionTextureConfig } from "@/registry/bases/editframe/caption-texture/config";
+import { captionWeightShiftConfig } from "@/registry/bases/editframe/caption-weight-shift/config";
 import { changelogBiteConfig } from "@/registry/bases/editframe/changelog-bite/config";
 import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/chat-to-preview-layout/config";
 import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/chromatic-aberration-wipe/config";
@@ -144,6 +159,126 @@ const registry: Record<string, RegistryEntry> = {
       return { default: BrushStrokeSimulator };
     }),
     config: brushStrokeSimulatorConfig,
+  },
+  "caption-clip-wipe": {
+    Component: lazy(async () => {
+      const { CaptionClipWipe } =
+        await import("@/registry/bases/editframe/caption-clip-wipe");
+      return { default: CaptionClipWipe };
+    }),
+    config: captionClipWipeConfig,
+  },
+  "caption-editorial-emphasis": {
+    Component: lazy(async () => {
+      const { CaptionEditorialEmphasis } =
+        await import("@/registry/bases/editframe/caption-editorial-emphasis");
+      return { default: CaptionEditorialEmphasis };
+    }),
+    config: captionEditorialEmphasisConfig,
+  },
+  "caption-emoji-pop": {
+    Component: lazy(async () => {
+      const { CaptionEmojiPop } =
+        await import("@/registry/bases/editframe/caption-emoji-pop");
+      return { default: CaptionEmojiPop };
+    }),
+    config: captionEmojiPopConfig,
+  },
+  "caption-glitch-rgb": {
+    Component: lazy(async () => {
+      const { CaptionGlitchRgb } =
+        await import("@/registry/bases/editframe/caption-glitch-rgb");
+      return { default: CaptionGlitchRgb };
+    }),
+    config: captionGlitchRgbConfig,
+  },
+  "caption-gradient-fill": {
+    Component: lazy(async () => {
+      const { CaptionGradientFill } =
+        await import("@/registry/bases/editframe/caption-gradient-fill");
+      return { default: CaptionGradientFill };
+    }),
+    config: captionGradientFillConfig,
+  },
+  "caption-highlight": {
+    Component: lazy(async () => {
+      const { CaptionHighlight } =
+        await import("@/registry/bases/editframe/caption-highlight");
+      return { default: CaptionHighlight };
+    }),
+    config: captionHighlightConfig,
+  },
+  "caption-kinetic-slam": {
+    Component: lazy(async () => {
+      const { CaptionKineticSlam } =
+        await import("@/registry/bases/editframe/caption-kinetic-slam");
+      return { default: CaptionKineticSlam };
+    }),
+    config: captionKineticSlamConfig,
+  },
+  "caption-matrix-decode": {
+    Component: lazy(async () => {
+      const { CaptionMatrixDecode } =
+        await import("@/registry/bases/editframe/caption-matrix-decode");
+      return { default: CaptionMatrixDecode };
+    }),
+    config: captionMatrixDecodeConfig,
+  },
+  "caption-neon-accent": {
+    Component: lazy(async () => {
+      const { CaptionNeonAccent } =
+        await import("@/registry/bases/editframe/caption-neon-accent");
+      return { default: CaptionNeonAccent };
+    }),
+    config: captionNeonAccentConfig,
+  },
+  "caption-neon-glow": {
+    Component: lazy(async () => {
+      const { CaptionNeonGlow } =
+        await import("@/registry/bases/editframe/caption-neon-glow");
+      return { default: CaptionNeonGlow };
+    }),
+    config: captionNeonGlowConfig,
+  },
+  "caption-parallax-layers": {
+    Component: lazy(async () => {
+      const { CaptionParallaxLayers } =
+        await import("@/registry/bases/editframe/caption-parallax-layers");
+      return { default: CaptionParallaxLayers };
+    }),
+    config: captionParallaxLayersConfig,
+  },
+  "caption-particle-burst": {
+    Component: lazy(async () => {
+      const { CaptionParticleBurst } =
+        await import("@/registry/bases/editframe/caption-particle-burst");
+      return { default: CaptionParticleBurst };
+    }),
+    config: captionParticleBurstConfig,
+  },
+  "caption-pill-karaoke": {
+    Component: lazy(async () => {
+      const { CaptionPillKaraoke } =
+        await import("@/registry/bases/editframe/caption-pill-karaoke");
+      return { default: CaptionPillKaraoke };
+    }),
+    config: captionPillKaraokeConfig,
+  },
+  "caption-texture": {
+    Component: lazy(async () => {
+      const { CaptionTexture } =
+        await import("@/registry/bases/editframe/caption-texture");
+      return { default: CaptionTexture };
+    }),
+    config: captionTextureConfig,
+  },
+  "caption-weight-shift": {
+    Component: lazy(async () => {
+      const { CaptionWeightShift } =
+        await import("@/registry/bases/editframe/caption-weight-shift");
+      return { default: CaptionWeightShift };
+    }),
+    config: captionWeightShiftConfig,
   },
   "changelog-bite": {
     Component: lazy(async () => {
