@@ -91,6 +91,12 @@
       "skillPath": "skills/hyperframes/SKILL.md",
       "computedHash": "f726a7478c7a3133e763c9af5f8ade12bc65dbdf32f09a854696ebabc68433a5"
     },
+    "launch-shadcn-registry": {
+      "source": "shadcn-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/launch-shadcn-registry/SKILL.md",
+      "computedHash": "17a0c8751bac286ce315bcfdec7c9a6b500883d048e40bc61ae75844491f7783"
+    },
     "linear-cli": {
       "source": "editframe/skills",
       "sourceType": "github",
