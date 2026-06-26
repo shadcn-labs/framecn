@@ -1,0 +1,76 @@
+---
+title: "Top Down Letters"
+description: "Each letter falls from above with a staggered fade-in cascade."
+---
+
+<ComponentPreview name="top-down-letters" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/top-down-letters
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="top-down-letters"
+  title="components/ui/top-down-letters.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { TopDownLetters } from "@/components/framecn/top-down-letters";
+```
+
+```tsx
+<TopDownLetters text="Hello world" />
+```
+
+## API Reference
+
+### TopDownLetters
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `text`             | `string` | `"Hello world"` |
+| `staggerDelay`     | `number` | `3`             |
+| `distance`         | `number` | `46`            |
+| `fontSize`         | `number` | `72`            |
+| `color`            | `string` | `"#171717"`     |
+| `fontWeight`       | `number` | `600`           |
+| `speed`            | `number` | `1`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `90`            |
+| `className`        | `string` | `-`             |
+
+## Notes
+
+<Callout title="Per-character stagger">
+  Text is split into individual characters. Spaces are preserved using
+  `white-space: pre`. The `distance` prop controls how far above each letter
+  starts before falling into place.
+</Callout>

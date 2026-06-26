@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "micro-scale-fade",
+  "title": "Micro Scale Fade",
+  "description": "Entire text fades in with a subtle scale-up for a polished entrance.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/micro-scale-fade/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface MicroScaleFadeProps {\n  text?: string;\n  scaleFrom?: number;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const MicroScaleFade = ({\n  text = \"Scale fade in\",\n  scaleFrom = 0.96,\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: MicroScaleFadeProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const enterMs = (18 * frameMs) / safeSpeed;\n  const keyframeName = `framecn-msf-in-${Math.round(scaleFrom * 100)}`;\n\n  const containerStyle: CSSProperties = {\n    alignItems: \"center\",\n    background: \"white\",\n    display: \"flex\",\n    inset: 0,\n    justifyContent: \"center\",\n    position: \"absolute\",\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={containerStyle}\n    >\n      <>\n        <style>{`\n          @keyframes ${keyframeName} {\n            from { opacity: 0; transform: scale(${scaleFrom}); }\n            to { opacity: 1; transform: scale(1); }\n          }\n        `}</style>\n        <span\n          style={{\n            animation: `${keyframeName} ${enterMs}ms cubic-bezier(0.22,1,0.36,1) 0ms backwards`,\n            color,\n            fontFamily: FONT_FAMILY,\n            fontSize,\n            fontWeight,\n            letterSpacing: \"-0.03em\",\n          }}\n        >\n          {text}\n        </span>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/micro-scale-fade.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

@@ -1,0 +1,67 @@
+---
+title: "Scale Down Fade"
+description: "Text enters scaling down into place with a fade, then shrinks and fades out."
+---
+
+<ComponentPreview name="scale-down-fade" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/scale-down-fade
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="scale-down-fade"
+  title="components/ui/scale-down-fade.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ScaleDownFade } from "@/components/framecn/scale-down-fade";
+```
+
+```tsx
+<ScaleDownFade text="Scale down fade" />
+```
+
+## API Reference
+
+### ScaleDownFade
+
+| Prop               | Type     | Default             |
+| ------------------ | -------- | ------------------- |
+| `text`             | `string` | `"Scale down fade"` |
+| `fontSize`         | `number` | `72`                |
+| `color`            | `string` | `"#171717"`         |
+| `fontWeight`       | `number` | `600`               |
+| `speed`            | `number` | `1`                 |
+| `fps`              | `number` | `30`                |
+| `durationInFrames` | `number` | `90`                |
+| `className`        | `string` | `-`                 |

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "focus-blur-resolve",
+  "title": "Focus Blur Resolve",
+  "description": "Text resolves from blurred and shifted into sharp focus, exits into blur.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/focus-blur-resolve/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface FocusBlurResolveProps {\n  text?: string;\n  blur?: number;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const FocusBlurResolve = ({\n  text = \"Focus blur resolve\",\n  blur = 14,\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: FocusBlurResolveProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const enterMs = (23 * frameMs) / safeSpeed;\n  const exitMs = (16 * frameMs) / safeSpeed;\n  const exitStartMs = durationMs - exitMs;\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={\n        {\n          alignItems: \"center\",\n          background: \"white\",\n          display: \"flex\",\n          inset: 0,\n          justifyContent: \"center\",\n          position: \"absolute\",\n        } as CSSProperties\n      }\n    >\n      <>\n        <style>{`\n          @keyframes framecn-fbr-in-${blur} {\n            from { opacity: 0; transform: translateY(14px) scale(1.01); filter: blur(${blur}px); }\n            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }\n          }\n          @keyframes framecn-fbr-out-${blur} {\n            from { opacity: 1; transform: translateY(0); filter: blur(0); }\n            to { opacity: 0; transform: translateY(-10px); filter: blur(10px); }\n          }\n        `}</style>\n        <span\n          style={{\n            animation: `framecn-fbr-in-${blur} ${enterMs}ms cubic-bezier(0.22,1,0.36,1) 0ms backwards, framecn-fbr-out-${blur} ${exitMs}ms ease-in ${exitStartMs}ms forwards`,\n            color,\n            display: \"inline-block\",\n            fontFamily: FONT_FAMILY,\n            fontSize,\n            fontWeight,\n            letterSpacing: \"-0.03em\",\n          }}\n        >\n          {text}\n        </span>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/focus-blur-resolve.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

@@ -1,0 +1,71 @@
+---
+title: "Blur Out Up"
+description: "Words blur and drift upward on exit, with a smooth fade-in entrance."
+---
+
+<ComponentPreview name="blur-out-up" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/blur-out-up
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="blur-out-up" title="components/ui/blur-out-up.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BlurOutUp } from "@/components/framecn/blur-out-up";
+```
+
+```tsx
+<BlurOutUp text="Words fade and blur" />
+```
+
+## API Reference
+
+### BlurOutUp
+
+| Prop               | Type     | Default                 |
+| ------------------ | -------- | ----------------------- |
+| `text`             | `string` | `"Words fade and blur"` |
+| `staggerDelay`     | `number` | `4`                     |
+| `fontSize`         | `number` | `72`                    |
+| `color`            | `string` | `"#171717"`             |
+| `fontWeight`       | `number` | `600`                   |
+| `speed`            | `number` | `1`                     |
+| `fps`              | `number` | `30`                    |
+| `durationInFrames` | `number` | `90`                    |
+| `className`        | `string` | `-`                     |
+
+## Notes
+
+<Callout title="Enter and exit animations">
+  Each word enters with a blur fade-in and exits with a blur drift upward. The
+  `staggerDelay` prop (in frames) controls the cascade timing between words.
+</Callout>

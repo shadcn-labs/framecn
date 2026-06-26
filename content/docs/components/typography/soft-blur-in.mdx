@@ -1,0 +1,72 @@
+---
+title: "Soft Blur In"
+description: "Characters fade in through a soft blur and upward drift, staggered one frame apart."
+---
+
+<ComponentPreview name="soft-blur-in" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/soft-blur-in
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="soft-blur-in" title="components/ui/soft-blur-in.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SoftBlurIn } from "@/components/framecn/soft-blur-in";
+```
+
+```tsx
+<SoftBlurIn text="Soft blur letters" />
+```
+
+## API Reference
+
+### SoftBlurIn
+
+| Prop               | Type     | Default               |
+| ------------------ | -------- | --------------------- |
+| `text`             | `string` | `"Soft blur letters"` |
+| `blur`             | `number` | `12`                  |
+| `fontSize`         | `number` | `72`                  |
+| `color`            | `string` | `"#171717"`           |
+| `fontWeight`       | `number` | `600`                 |
+| `speed`            | `number` | `1`                   |
+| `fps`              | `number` | `30`                  |
+| `durationInFrames` | `number` | `90`                  |
+| `className`        | `string` | `-`                   |
+
+## Notes
+
+<Callout title="Dynamic blur keyframe">
+  The `blur` prop directly controls the starting blur amount. Each blur value
+  generates a uniquely named keyframe, so multiple instances with different blur
+  values can coexist on the same page without conflict.
+</Callout>

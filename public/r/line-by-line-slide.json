@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "line-by-line-slide",
+  "title": "Line By Line Slide",
+  "description": "Multi-line text slides in from the left and exits to the right with stagger.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/line-by-line-slide/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface LineByLineSlideProps {\n  text?: string;\n  distance?: number;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const LineByLineSlide = ({\n  text = \"First line\\nSecond line\",\n  distance = 48,\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: LineByLineSlideProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const enterMs = (27 * frameMs) / safeSpeed;\n  const exitMs = (18 * frameMs) / safeSpeed;\n  const enterStaggerMs = (4 * frameMs) / safeSpeed;\n  const exitStaggerMs = (2 * frameMs) / safeSpeed;\n\n  const lines = text.split(\"\\n\");\n  const exitStartMs = durationMs - exitMs - (lines.length - 1) * exitStaggerMs;\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={\n        {\n          alignItems: \"center\",\n          background: \"white\",\n          display: \"flex\",\n          inset: 0,\n          justifyContent: \"center\",\n          position: \"absolute\",\n        } as CSSProperties\n      }\n    >\n      <>\n        <style>{`\n          @keyframes framecn-lbls-in {\n            from { opacity: 0; transform: translateX(-${distance}px); }\n            to { opacity: 1; transform: translateX(0); }\n          }\n          @keyframes framecn-lbls-out {\n            from { opacity: 1; transform: translateX(0); }\n            to { opacity: 0; transform: translateX(${distance}px); }\n          }\n        `}</style>\n        <div\n          style={{\n            alignItems: \"center\",\n            display: \"flex\",\n            flexDirection: \"column\",\n            gap: \"0.1em\",\n          }}\n        >\n          {lines.map((line, i) => {\n            const enterDelay = i * enterStaggerMs;\n            const exitDelay = exitStartMs + i * exitStaggerMs;\n            return (\n              <div\n                key={i}\n                style={{\n                  animation: `framecn-lbls-in ${enterMs}ms ease-out ${enterDelay}ms backwards, framecn-lbls-out ${exitMs}ms ease-in ${exitDelay}ms forwards`,\n                  color,\n                  display: \"block\",\n                  fontFamily: FONT_FAMILY,\n                  fontSize,\n                  fontWeight,\n                  letterSpacing: \"-0.03em\",\n                }}\n              >\n                {line}\n              </div>\n            );\n          })}\n        </div>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/line-by-line-slide.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

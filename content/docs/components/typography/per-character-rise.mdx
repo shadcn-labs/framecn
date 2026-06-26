@@ -1,0 +1,74 @@
+---
+title: "Per Character Rise"
+description: "Characters rise from below with a smooth spring-like easing, staggered one frame apart."
+---
+
+<ComponentPreview name="per-character-rise" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/per-character-rise
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="per-character-rise"
+  title="components/ui/per-character-rise.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PerCharacterRise } from "@/components/framecn/per-character-rise";
+```
+
+```tsx
+<PerCharacterRise text="Rise up letters" />
+```
+
+## API Reference
+
+### PerCharacterRise
+
+| Prop               | Type     | Default             |
+| ------------------ | -------- | ------------------- |
+| `text`             | `string` | `"Rise up letters"` |
+| `distance`         | `number` | `32`                |
+| `fontSize`         | `number` | `72`                |
+| `color`            | `string` | `"#171717"`         |
+| `fontWeight`       | `number` | `600`               |
+| `speed`            | `number` | `1`                 |
+| `fps`              | `number` | `30`                |
+| `durationInFrames` | `number` | `90`                |
+| `className`        | `string` | `-`                 |
+
+## Notes
+
+<Callout title="Fixed 1-frame stagger">
+  The stagger between characters is fixed at 1 frame for a tight, fluid cascade.
+  Use the `speed` prop to adjust the overall pace of the animation.
+</Callout>

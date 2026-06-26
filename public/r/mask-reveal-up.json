@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mask-reveal-up",
+  "title": "Mask Reveal Up",
+  "description": "Lines reveal upward with blur and opacity, then exit rising further with blur.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/mask-reveal-up/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface MaskRevealUpProps {\n  text?: string;\n  distance?: number;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const MaskRevealUp = ({\n  text = \"First line\\nSecond line\",\n  distance = 30,\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: MaskRevealUpProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const enterMs = (23 * frameMs) / safeSpeed;\n  const exitMs = (16 * frameMs) / safeSpeed;\n  const enterStaggerMs = (3 * frameMs) / safeSpeed;\n  const exitStaggerMs = (2 * frameMs) / safeSpeed;\n\n  const lines = text.split(\"\\n\");\n  const exitStartMs = durationMs - exitMs - (lines.length - 1) * exitStaggerMs;\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={\n        {\n          alignItems: \"center\",\n          background: \"white\",\n          display: \"flex\",\n          inset: 0,\n          justifyContent: \"center\",\n          position: \"absolute\",\n        } as CSSProperties\n      }\n    >\n      <>\n        <style>{`\n          @keyframes framecn-mru-in {\n            from { opacity: 0; transform: translateY(${distance}px); filter: blur(6px); }\n            to { opacity: 1; transform: translateY(0); filter: blur(0); }\n          }\n          @keyframes framecn-mru-out {\n            from { opacity: 1; transform: translateY(0); filter: blur(0); }\n            to { opacity: 0; transform: translateY(-22px); filter: blur(6px); }\n          }\n        `}</style>\n        <div\n          style={{\n            alignItems: \"center\",\n            display: \"flex\",\n            flexDirection: \"column\",\n            gap: \"0.1em\",\n          }}\n        >\n          {lines.map((line, i) => {\n            const enterDelay = i * enterStaggerMs;\n            const exitDelay = exitStartMs + i * exitStaggerMs;\n            return (\n              <div\n                key={i}\n                style={{\n                  animation: `framecn-mru-in ${enterMs}ms cubic-bezier(0.22,1,0.36,1) ${enterDelay}ms backwards, framecn-mru-out ${exitMs}ms ease-in ${exitDelay}ms forwards`,\n                  color,\n                  display: \"block\",\n                  fontFamily: FONT_FAMILY,\n                  fontSize,\n                  fontWeight,\n                  letterSpacing: \"-0.03em\",\n                }}\n              >\n                {line}\n              </div>\n            );\n          })}\n        </div>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/mask-reveal-up.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

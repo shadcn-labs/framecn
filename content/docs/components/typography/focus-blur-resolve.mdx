@@ -1,0 +1,76 @@
+---
+title: "Focus Blur Resolve"
+description: "Text resolves into focus from a blurred, shifted state, then blurs back out on exit."
+---
+
+<ComponentPreview name="focus-blur-resolve" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/focus-blur-resolve
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="focus-blur-resolve"
+  title="components/ui/focus-blur-resolve.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { FocusBlurResolve } from "@/components/framecn/focus-blur-resolve";
+```
+
+```tsx
+<FocusBlurResolve text="Focus blur resolve" />
+```
+
+## API Reference
+
+### FocusBlurResolve
+
+| Prop               | Type     | Default                |
+| ------------------ | -------- | ---------------------- |
+| `text`             | `string` | `"Focus blur resolve"` |
+| `blur`             | `number` | `14`                   |
+| `fontSize`         | `number` | `72`                   |
+| `color`            | `string` | `"#171717"`            |
+| `fontWeight`       | `number` | `600`                  |
+| `speed`            | `number` | `1`                    |
+| `fps`              | `number` | `30`                   |
+| `durationInFrames` | `number` | `90`                   |
+| `className`        | `string` | `-`                    |
+
+## Notes
+
+<Callout title="Blur affects keyframe names">
+  The `blur` prop is embedded directly in the CSS keyframe name to ensure unique
+  keyframe definitions when multiple instances with different blur values render
+  on the same page.
+</Callout>

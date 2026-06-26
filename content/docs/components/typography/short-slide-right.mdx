@@ -1,0 +1,77 @@
+---
+title: "Short Slide Right"
+description: "The text group slides in from the left while individual words fade in with a stagger."
+---
+
+<ComponentPreview name="short-slide-right" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/short-slide-right
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="short-slide-right"
+  title="components/ui/short-slide-right.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShortSlideRight } from "@/components/framecn/short-slide-right";
+```
+
+```tsx
+<ShortSlideRight text="Short slide right" />
+```
+
+## API Reference
+
+### ShortSlideRight
+
+| Prop               | Type     | Default               |
+| ------------------ | -------- | --------------------- |
+| `text`             | `string` | `"Short slide right"` |
+| `distance`         | `number` | `24`                  |
+| `staggerDelay`     | `number` | `3`                   |
+| `fontSize`         | `number` | `72`                  |
+| `color`            | `string` | `"#171717"`           |
+| `fontWeight`       | `number` | `600`                 |
+| `speed`            | `number` | `1`                   |
+| `fps`              | `number` | `30`                  |
+| `durationInFrames` | `number` | `90`                  |
+| `className`        | `string` | `-`                   |
+
+## Notes
+
+<Callout title="Dual animation layers">
+  The outer container slides as a unit while each word independently fades in
+  with a cascading delay, creating a combined motion that feels natural and
+  composed.
+</Callout>

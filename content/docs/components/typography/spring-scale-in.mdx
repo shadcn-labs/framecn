@@ -1,0 +1,77 @@
+---
+title: "Spring Scale In"
+description: "Words pop in one by one with an overshoot spring scale effect."
+---
+
+<ComponentPreview name="spring-scale-in" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/spring-scale-in
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="spring-scale-in"
+  title="components/ui/spring-scale-in.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SpringScaleIn } from "@/components/framecn/spring-scale-in";
+```
+
+```tsx
+<SpringScaleIn text="Spring scale in" />
+```
+
+## API Reference
+
+### SpringScaleIn
+
+| Prop               | Type     | Default             |
+| ------------------ | -------- | ------------------- |
+| `text`             | `string` | `"Spring scale in"` |
+| `staggerDelay`     | `number` | `3`                 |
+| `scaleFrom`        | `number` | `0.7`               |
+| `fontSize`         | `number` | `72`                |
+| `color`            | `string` | `"#171717"`         |
+| `fontWeight`       | `number` | `600`               |
+| `speed`            | `number` | `1`                 |
+| `fps`              | `number` | `30`                |
+| `durationInFrames` | `number` | `90`                |
+| `className`        | `string` | `-`                 |
+
+## Notes
+
+<Callout title="Spring overshoot easing">
+  The animation uses `cubic-bezier(0.34, 1.56, 0.64, 1)` which produces a
+  natural overshoot past scale 1 before settling, giving each word a satisfying
+  pop-in feel.
+</Callout>

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "soft-blur-in",
+  "title": "Soft Blur In",
+  "description": "Per-character fade with blur and rise for a dreamy entrance effect.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/soft-blur-in/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface SoftBlurInProps {\n  text?: string;\n  blur?: number;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const SoftBlurIn = ({\n  text = \"Soft blur letters\",\n  blur = 12,\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: SoftBlurInProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const enterMs = (27 * frameMs) / safeSpeed;\n  const charStaggerMs = (1 * frameMs) / safeSpeed;\n\n  const chars = [...text];\n  const keyframeName = `framecn-sbi-in-${blur}`;\n\n  const containerStyle: CSSProperties = {\n    alignItems: \"center\",\n    background: \"white\",\n    display: \"flex\",\n    inset: 0,\n    justifyContent: \"center\",\n    position: \"absolute\",\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={containerStyle}\n    >\n      <>\n        <style>{`\n          @keyframes ${keyframeName} {\n            from { opacity: 0; transform: translateY(16px); filter: blur(${blur}px); }\n            to { opacity: 1; transform: translateY(0); filter: blur(0); }\n          }\n        `}</style>\n        <span\n          style={{\n            color,\n            fontFamily: FONT_FAMILY,\n            fontSize,\n            fontWeight,\n            letterSpacing: \"-0.03em\",\n          }}\n        >\n          {chars.map((char, i) => (\n            <span\n              key={i}\n              style={{\n                animation: `${keyframeName} ${enterMs}ms cubic-bezier(0.22, 1, 0.36, 1) ${i * charStaggerMs}ms backwards`,\n                display: \"inline-block\",\n                whiteSpace: \"pre\",\n              }}\n            >\n              {char}\n            </span>\n          ))}\n        </span>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/soft-blur-in.tsx"
+    }
+  ],
+  "type": "registry:component"
+}
