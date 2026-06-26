@@ -13,13 +13,33 @@ export type ChangelogPage = ReturnType<typeof source.getPages>[number] & {
   date: Date | null;
 };
 
+const DOCS_ROOT = path.join(process.cwd(), DOCS_DIR);
+
+const resolveSourceFile = (slugs: string[]): string | null => {
+  const relative = `${path.join(...slugs)}.mdx`;
+
+  const direct = path.join(DOCS_ROOT, relative);
+  if (fs.existsSync(direct)) {
+    return direct;
+  }
+
+  for (const entry of fs.readdirSync(DOCS_ROOT, { withFileTypes: true })) {
+    if (entry.isDirectory() && entry.name.startsWith("(")) {
+      const candidate = path.join(DOCS_ROOT, entry.name, relative);
+      if (fs.existsSync(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
+  return null;
+};
+
 export const getDateFromFile = (slugs: string[]) => {
-  const filePath = path.join(
-    process.cwd(),
-    DOCS_DIR,
-    ...slugs.slice(0, -1),
-    `${slugs.at(-1)}.mdx`
-  );
+  const filePath = resolveSourceFile(slugs);
+  if (!filePath) {
+    return null;
+  }
 
   try {
     const content = fs.readFileSync(filePath, "utf-8");
