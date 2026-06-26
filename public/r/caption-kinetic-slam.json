@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "caption-kinetic-slam",
   "title": "Caption Kinetic Slam",
-  "description": "One word at a time, uppercase centered, slams in from above and scales down to rest.",
+  "description": "Dynamic word-by-word captions: each word pops in with a springy scale/opacity entrance, then drops out in an overlapping ripple.",
   "dependencies": [
     "@editframe/react"
   ],

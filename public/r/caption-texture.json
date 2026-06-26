@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "caption-texture",
   "title": "Caption Texture",
-  "description": "Lava-texture fill via layered radial-gradients and background-clip: text, kinetic-slam style.",
+  "description": "Captions filled with a rich gradient texture that animates across words.",
   "dependencies": [
     "@editframe/react"
   ],
