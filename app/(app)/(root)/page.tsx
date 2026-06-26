@@ -2,7 +2,6 @@ import { CommandBox } from "@/components/command-box";
 import { ComponentPreview } from "@/components/component-preview";
 import { HomeCtas } from "@/components/home-ctas";
 import { PageTransition } from "@/components/page-transition";
-import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { BreadcrumbJsonLd } from "@/seo/json-ld";
 
@@ -50,29 +49,6 @@ export default function IndexPage() {
             </p>
 
             <CommandBox className="mt-4 w-full max-w-xl" />
-
-            <div className="relative flex w-full mt-4 max-w-xl flex-col items-center justify-center pl-4 after:absolute after:left-0 after:h-full after:w-[4px] after:bg-foreground/10">
-              <blockquote className="text-sm text-left before:content-[open-quote] after:content-[close-quote]">
-                This project was heavily inspired from the work of{" "}
-                <a
-                  href={LINK.REMOCN}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium underline underline-offset-4"
-                >
-                  remocn by kapish
-                </a>{" "}
-                and I wanted to create a something similar for{" "}
-                <a
-                  href={LINK.EDITFRAME}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium underline underline-offset-4"
-                >
-                  Editframe
-                </a>
-              </blockquote>
-            </div>
 
             <HomeCtas className="mt-4" />
           </div>
