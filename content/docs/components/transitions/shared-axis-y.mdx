@@ -1,0 +1,72 @@
+---
+title: "Shared Axis Y"
+description: "A snappy word-by-word opacity flip using stepped easing for a punchy snap effect."
+---
+
+<ComponentPreview name="shared-axis-y" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shared-axis-y
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="shared-axis-y" title="components/ui/shared-axis-y.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SharedAxisY } from "@/components/framecn/shared-axis-y";
+```
+
+```tsx
+<SharedAxisY fromText="Hello world" toText="New world" />
+```
+
+## API Reference
+
+### SharedAxisY
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `fromText`         | `string` | `"Hello world"` |
+| `toText`           | `string` | `"New world"`   |
+| `fontSize`         | `number` | `72`            |
+| `color`            | `string` | `"#171717"`     |
+| `fontWeight`       | `number` | `600`           |
+| `speed`            | `number` | `1`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `90`            |
+| `className`        | `string` | `-`             |
+
+## Notes
+
+<Callout title="Stepped easing for a digital snap">
+  Uses `steps(1)` easing so each word snaps on/off rather than fading. This
+  creates a sharp, frame-accurate digital feel well suited to fast-cut edits and
+  lower-thirds.
+</Callout>

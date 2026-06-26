@@ -1,0 +1,75 @@
+---
+title: "Per Word Crossfade"
+description: "Words exit one by one, then new words enter word by word with a slight stagger."
+---
+
+<ComponentPreview name="per-word-crossfade" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/per-word-crossfade
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="per-word-crossfade"
+  title="components/ui/per-word-crossfade.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PerWordCrossfade } from "@/components/framecn/per-word-crossfade";
+```
+
+```tsx
+<PerWordCrossfade fromText="Hello world" toText="New world" />
+```
+
+## API Reference
+
+### PerWordCrossfade
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `fromText`         | `string` | `"Hello world"` |
+| `toText`           | `string` | `"New world"`   |
+| `fontSize`         | `number` | `72`            |
+| `color`            | `string` | `"#171717"`     |
+| `fontWeight`       | `number` | `600`           |
+| `speed`            | `number` | `1`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `90`            |
+| `className`        | `string` | `-`             |
+
+## Notes
+
+<Callout title="Word-level stagger">
+  Each word in the exit phrase fades out separately, followed by each word in
+  the entry phrase fading in. The enter sequence overlaps slightly with the tail
+  end of the exit for a more fluid feel.
+</Callout>

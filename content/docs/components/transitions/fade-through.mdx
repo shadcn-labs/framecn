@@ -1,0 +1,72 @@
+---
+title: "Fade Through"
+description: "One text fades out while a new one fades in with a slight blur and motion offset."
+---
+
+<ComponentPreview name="fade-through" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/fade-through
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="fade-through" title="components/ui/fade-through.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { FadeThrough } from "@/components/framecn/fade-through";
+```
+
+```tsx
+<FadeThrough fromText="Hello world" toText="New world" />
+```
+
+## API Reference
+
+### FadeThrough
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `fromText`         | `string` | `"Hello world"` |
+| `toText`           | `string` | `"New world"`   |
+| `fontSize`         | `number` | `72`            |
+| `color`            | `string` | `"#171717"`     |
+| `fontWeight`       | `number` | `600`           |
+| `speed`            | `number` | `1`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `90`            |
+| `className`        | `string` | `-`             |
+
+## Notes
+
+<Callout title="Overlapping fade timing">
+  The enter animation begins one frame after the exit animation finishes,
+  creating a smooth handoff. Adjust `speed` to control the overall pace of the
+  transition.
+</Callout>
