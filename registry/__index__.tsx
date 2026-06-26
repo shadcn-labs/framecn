@@ -822,6 +822,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: toolMenuSlideInConfig,
   },
+  "top-down-letters": {
+    Component: lazy(async () => {
+      const { TopDownLetters } =
+        await import("@/registry/bases/editframe/top-down-letters");
+      return { default: TopDownLetters };
+    }),
+    config: topDownLettersConfig,
+  },
 
   "tracking-in": {
     Component: lazy(async () => {
