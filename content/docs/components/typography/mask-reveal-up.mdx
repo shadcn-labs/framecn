@@ -1,0 +1,75 @@
+---
+title: "Mask Reveal Up"
+description: "Lines rise up from below through a blur, then exit upward with a blur on each line."
+---
+
+<ComponentPreview name="mask-reveal-up" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/mask-reveal-up
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="mask-reveal-up"
+  title="components/ui/mask-reveal-up.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MaskRevealUp } from "@/components/framecn/mask-reveal-up";
+```
+
+```tsx
+<MaskRevealUp text={"First line\nSecond line"} />
+```
+
+## API Reference
+
+### MaskRevealUp
+
+| Prop               | Type     | Default                     |
+| ------------------ | -------- | --------------------------- |
+| `text`             | `string` | `"First line\nSecond line"` |
+| `distance`         | `number` | `30`                        |
+| `fontSize`         | `number` | `72`                        |
+| `color`            | `string` | `"#171717"`                 |
+| `fontWeight`       | `number` | `600`                       |
+| `speed`            | `number` | `1`                         |
+| `fps`              | `number` | `30`                        |
+| `durationInFrames` | `number` | `90`                        |
+| `className`        | `string` | `-`                         |
+
+## Notes
+
+<Callout title="Newline-delimited lines">
+  Split your text with `\n` to define each line. Lines reveal with a staggered
+  cascade and exit in the same order with blur transitions.
+</Callout>

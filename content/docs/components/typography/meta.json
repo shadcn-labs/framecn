@@ -16,6 +16,18 @@
     "perspective-marquee",
     "matrix-decode",
     "rgb-glitch-text",
-    "strikethrough-replace"
+    "strikethrough-replace",
+    "blur-out-up",
+    "bottom-up-letters",
+    "top-down-letters",
+    "per-character-rise",
+    "soft-blur-in",
+    "micro-scale-fade",
+    "scale-down-fade",
+    "focus-blur-resolve",
+    "spring-scale-in",
+    "line-by-line-slide",
+    "mask-reveal-up",
+    "short-slide-right"
   ]
 }
