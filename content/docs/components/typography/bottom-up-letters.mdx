@@ -1,0 +1,76 @@
+---
+title: "Bottom Up Letters"
+description: "Each letter rises from below with a staggered fade-in cascade."
+---
+
+<ComponentPreview name="bottom-up-letters" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/bottom-up-letters
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="bottom-up-letters"
+  title="components/ui/bottom-up-letters.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BottomUpLetters } from "@/components/framecn/bottom-up-letters";
+```
+
+```tsx
+<BottomUpLetters text="Hello world" />
+```
+
+## API Reference
+
+### BottomUpLetters
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `text`             | `string` | `"Hello world"` |
+| `staggerDelay`     | `number` | `3`             |
+| `distance`         | `number` | `46`            |
+| `fontSize`         | `number` | `72`            |
+| `color`            | `string` | `"#171717"`     |
+| `fontWeight`       | `number` | `600`           |
+| `speed`            | `number` | `1`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `90`            |
+| `className`        | `string` | `-`             |
+
+## Notes
+
+<Callout title="Per-character stagger">
+  Text is split into individual characters. Spaces are preserved using
+  `white-space: pre`. The `distance` prop controls how far below each letter
+  starts before rising into place.
+</Callout>

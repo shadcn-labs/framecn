@@ -10,6 +10,7 @@ import { animatedBarChartConfig } from "@/registry/bases/editframe/animated-bar-
 import { animatedLineChartConfig } from "@/registry/bases/editframe/animated-line-chart/config";
 import { backdropConfig } from "@/registry/bases/editframe/backdrop/config";
 import { blurRevealConfig } from "@/registry/bases/editframe/blur-reveal/config";
+import { bottomUpLettersConfig } from "@/registry/bases/editframe/bottom-up-letters/config";
 import { boundingBoxSelectorConfig } from "@/registry/bases/editframe/bounding-box-selector/config";
 import { browserFlowConfig } from "@/registry/bases/editframe/browser-flow/config";
 import { brushStrokeSimulatorConfig } from "@/registry/bases/editframe/brush-stroke-simulator/config";
@@ -53,12 +54,15 @@ import { infiniteMarqueeConfig } from "@/registry/bases/editframe/infinite-marqu
 import { inlineHighlightConfig } from "@/registry/bases/editframe/inline-highlight/config";
 import { kineticTypeMaskConfig } from "@/registry/bases/editframe/kinetic-type-mask/config";
 import { landingCodeShowcaseConfig } from "@/registry/bases/editframe/landing-code-showcase/config";
+import { lineByLineSlideConfig } from "@/registry/bases/editframe/line-by-line-slide/config";
 import { liveCodeCompilationConfig } from "@/registry/bases/editframe/live-code-compilation/config";
 import { logoEnterConfig } from "@/registry/bases/editframe/logo-enter/config";
 import { markerHighlightConfig } from "@/registry/bases/editframe/marker-highlight/config";
+import { maskRevealUpConfig } from "@/registry/bases/editframe/mask-reveal-up/config";
 import { maskedSlideRevealConfig } from "@/registry/bases/editframe/masked-slide-reveal/config";
 import { matrixDecodeConfig } from "@/registry/bases/editframe/matrix-decode/config";
 import { meshGradientBgConfig } from "@/registry/bases/editframe/mesh-gradient-bg/config";
+import { microScaleFadeConfig } from "@/registry/bases/editframe/micro-scale-fade/config";
 import { morphingModalConfig } from "@/registry/bases/editframe/morphing-modal/config";
 import { perWordCrossfadeConfig } from "@/registry/bases/editframe/per-word-crossfade/config";
 import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/perspective-marquee/config";
@@ -71,11 +75,14 @@ import { rgbGlitchTextConfig } from "@/registry/bases/editframe/rgb-glitch-text/
 import { sharedAxisYConfig } from "@/registry/bases/editframe/shared-axis-y/config";
 import { sharedAxisZConfig } from "@/registry/bases/editframe/shared-axis-z/config";
 import { shimmerSweepConfig } from "@/registry/bases/editframe/shimmer-sweep/config";
+import { shortSlideRightConfig } from "@/registry/bases/editframe/short-slide-right/config";
 import { simulatedCursorConfig } from "@/registry/bases/editframe/simulated-cursor/config";
 import { slotMachineRollConfig } from "@/registry/bases/editframe/slot-machine-roll/config";
+import { softBlurInConfig } from "@/registry/bases/editframe/soft-blur-in/config";
 import { spatialPushConfig } from "@/registry/bases/editframe/spatial-push/config";
 import { spotlightCardConfig } from "@/registry/bases/editframe/spotlight-card/config";
 import { springPopInConfig } from "@/registry/bases/editframe/spring-pop-in/config";
+import { springScaleInConfig } from "@/registry/bases/editframe/spring-scale-in/config";
 import { staggeredBentoGridConfig } from "@/registry/bases/editframe/staggered-bento-grid/config";
 import { staggeredFadeUpConfig } from "@/registry/bases/editframe/staggered-fade-up/config";
 import { strikethroughReplaceConfig } from "@/registry/bases/editframe/strikethrough-replace/config";
@@ -86,6 +93,7 @@ import { terminalToBrowserDeployConfig } from "@/registry/bases/editframe/termin
 import { textFadeReplaceConfig } from "@/registry/bases/editframe/text-fade-replace/config";
 import { toastNotificationConfig } from "@/registry/bases/editframe/toast-notification/config";
 import { toolMenuSlideInConfig } from "@/registry/bases/editframe/tool-menu-slide-in/config";
+import { topDownLettersConfig } from "@/registry/bases/editframe/top-down-letters/config";
 import { trackingInConfig } from "@/registry/bases/editframe/tracking-in/config";
 import { typewriterConfig } from "@/registry/bases/editframe/typewriter/config";
 import { visualDocsSnippetConfig } from "@/registry/bases/editframe/visual-docs-snippet/config";
@@ -149,6 +157,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: BlurReveal };
     }),
     config: blurRevealConfig,
+  },
+  "bottom-up-letters": {
+    Component: lazy(async () => {
+      const { BottomUpLetters } =
+        await import("@/registry/bases/editframe/bottom-up-letters");
+      return { default: BottomUpLetters };
+    }),
+    config: bottomUpLettersConfig,
   },
   "bounding-box-selector": {
     Component: lazy(async () => {
@@ -493,6 +509,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: landingCodeShowcaseConfig,
   },
+  "line-by-line-slide": {
+    Component: lazy(async () => {
+      const { LineByLineSlide } =
+        await import("@/registry/bases/editframe/line-by-line-slide");
+      return { default: LineByLineSlide };
+    }),
+    config: lineByLineSlideConfig,
+  },
   "live-code-compilation": {
     Component: lazy(async () => {
       const { LiveCodeCompilation } =
@@ -517,6 +541,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: markerHighlightConfig,
   },
+  "mask-reveal-up": {
+    Component: lazy(async () => {
+      const { MaskRevealUp } =
+        await import("@/registry/bases/editframe/mask-reveal-up");
+      return { default: MaskRevealUp };
+    }),
+    config: maskRevealUpConfig,
+  },
   "masked-slide-reveal": {
     Component: lazy(async () => {
       const { MaskedSlideReveal } =
@@ -540,6 +572,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: MeshGradientBg };
     }),
     config: meshGradientBgConfig,
+  },
+  "micro-scale-fade": {
+    Component: lazy(async () => {
+      const { MicroScaleFade } =
+        await import("@/registry/bases/editframe/micro-scale-fade");
+      return { default: MicroScaleFade };
+    }),
+    config: microScaleFadeConfig,
   },
   "morphing-modal": {
     Component: lazy(async () => {
@@ -637,6 +677,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: shimmerSweepConfig,
   },
+  "short-slide-right": {
+    Component: lazy(async () => {
+      const { ShortSlideRight } =
+        await import("@/registry/bases/editframe/short-slide-right");
+      return { default: ShortSlideRight };
+    }),
+    config: shortSlideRightConfig,
+  },
   "simulated-cursor": {
     Component: lazy(async () => {
       const { SimulatedCursor } =
@@ -652,6 +700,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: SlotMachineRoll };
     }),
     config: slotMachineRollConfig,
+  },
+  "soft-blur-in": {
+    Component: lazy(async () => {
+      const { SoftBlurIn } =
+        await import("@/registry/bases/editframe/soft-blur-in");
+      return { default: SoftBlurIn };
+    }),
+    config: softBlurInConfig,
   },
   "spatial-push": {
     Component: lazy(async () => {
@@ -677,6 +733,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: springPopInConfig,
   },
+  "spring-scale-in": {
+    Component: lazy(async () => {
+      const { SpringScaleIn } =
+        await import("@/registry/bases/editframe/spring-scale-in");
+      return { default: SpringScaleIn };
+    }),
+    config: springScaleInConfig,
+  },
   "staggered-bento-grid": {
     Component: lazy(async () => {
       const { StaggeredBentoGrid } =
@@ -701,6 +765,7 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: strikethroughReplaceConfig,
   },
+
   "success-confetti": {
     Component: lazy(async () => {
       const { SuccessConfetti } =
