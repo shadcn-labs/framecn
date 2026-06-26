@@ -872,20 +872,6 @@
       ]
     },
     {
-      "name": "changelog-bite",
-      "type": "registry:component",
-      "title": "Changelog Bite",
-      "description": "Seamlessly looping square card showing a before/after diff with a frosted glass wipe and a pulsing New pill.",
-      "dependencies": ["remotion"],
-      "files": [
-        {
-          "path": "registry/bases/editframe/changelog-bite/index.tsx",
-          "type": "registry:component",
-          "target": "components/framecn/changelog-bite.tsx"
-        }
-      ]
-    },
-    {
       "name": "visual-docs-snippet",
       "type": "registry:component",
       "title": "Visual Docs Snippet",
