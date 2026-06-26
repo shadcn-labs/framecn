@@ -1,0 +1,78 @@
+---
+title: "Confetti"
+description: "Deterministic particle burst with configurable power, gravity, and seed."
+---
+
+<ComponentPreview name="confetti" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/confetti
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="confetti" title="components/ui/confetti.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Confetti } from "@/components/framecn/confetti";
+```
+
+```tsx
+<Confetti />
+```
+
+## API Reference
+
+### Confetti
+
+| Prop               | Type       | Default                                                         |
+| ------------------ | ---------- | --------------------------------------------------------------- |
+| `particleCount`    | `number`   | `80`                                                            |
+| `originX`          | `number`   | `0.5`                                                           |
+| `originY`          | `number`   | `0.5`                                                           |
+| `lifetime`         | `number`   | `90`                                                            |
+| `power`            | `number`   | `17`                                                            |
+| `gravity`          | `number`   | `0.45`                                                          |
+| `size`             | `number`   | `13`                                                            |
+| `seed`             | `number`   | `1`                                                             |
+| `colors`           | `string[]` | `["#1d9bf0","#ff5da2","#ffd23f","#22c55e","#a855f7","#ff7a45"]` |
+| `width`            | `number`   | `1280`                                                          |
+| `height`           | `number`   | `720`                                                           |
+| `speed`            | `number`   | `1`                                                             |
+| `fps`              | `number`   | `30`                                                            |
+| `durationInFrames` | `number`   | `180`                                                           |
+| `className`        | `string`   | `-`                                                             |
+
+## Notes
+
+<Callout title="Deterministic by seed">
+  Particle positions, angles, and sizes are generated from a mulberry32 PRNG
+  seeded by the `seed` prop. Changing `seed` produces a completely different
+  burst pattern while remaining frame-for-frame reproducible on every render.
+</Callout>
