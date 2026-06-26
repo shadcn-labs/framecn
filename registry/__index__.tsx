@@ -42,6 +42,7 @@ import { directionalWipeConfig } from "@/registry/bases/editframe/directional-wi
 import { dragAndDropFlowConfig } from "@/registry/bases/editframe/drag-and-drop-flow/config";
 import { dynamicGridConfig } from "@/registry/bases/editframe/dynamic-grid/config";
 import { ecosystemConstellationConfig } from "@/registry/bases/editframe/ecosystem-constellation/config";
+import { fadeThroughConfig } from "@/registry/bases/editframe/fade-through/config";
 import { frostedGlassWipeConfig } from "@/registry/bases/editframe/frosted-glass-wipe/config";
 import { glassCodeBlockConfig } from "@/registry/bases/editframe/glass-code-block/config";
 import { gridPixelateWipeConfig } from "@/registry/bases/editframe/grid-pixelate-wipe/config";
@@ -59,6 +60,7 @@ import { maskedSlideRevealConfig } from "@/registry/bases/editframe/masked-slide
 import { matrixDecodeConfig } from "@/registry/bases/editframe/matrix-decode/config";
 import { meshGradientBgConfig } from "@/registry/bases/editframe/mesh-gradient-bg/config";
 import { morphingModalConfig } from "@/registry/bases/editframe/morphing-modal/config";
+import { perWordCrossfadeConfig } from "@/registry/bases/editframe/per-word-crossfade/config";
 import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/perspective-marquee/config";
 import { pipelineJourneyConfig } from "@/registry/bases/editframe/pipeline-journey/config";
 import { pricingTierFocusConfig } from "@/registry/bases/editframe/pricing-tier-focus/config";
@@ -66,6 +68,8 @@ import { productLaunchTrailerConfig } from "@/registry/bases/editframe/product-l
 import { progressStepsConfig } from "@/registry/bases/editframe/progress-steps/config";
 import { pulsingIndicatorConfig } from "@/registry/bases/editframe/pulsing-indicator/config";
 import { rgbGlitchTextConfig } from "@/registry/bases/editframe/rgb-glitch-text/config";
+import { sharedAxisYConfig } from "@/registry/bases/editframe/shared-axis-y/config";
+import { sharedAxisZConfig } from "@/registry/bases/editframe/shared-axis-z/config";
 import { shimmerSweepConfig } from "@/registry/bases/editframe/shimmer-sweep/config";
 import { simulatedCursorConfig } from "@/registry/bases/editframe/simulated-cursor/config";
 import { slotMachineRollConfig } from "@/registry/bases/editframe/slot-machine-roll/config";
@@ -401,6 +405,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: ecosystemConstellationConfig,
   },
+  "fade-through": {
+    Component: lazy(async () => {
+      const { FadeThrough } =
+        await import("@/registry/bases/editframe/fade-through");
+      return { default: FadeThrough };
+    }),
+    config: fadeThroughConfig,
+  },
   "frosted-glass-wipe": {
     Component: lazy(async () => {
       const { FrostedGlassWipe } =
@@ -537,6 +549,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: morphingModalConfig,
   },
+  "per-word-crossfade": {
+    Component: lazy(async () => {
+      const { PerWordCrossfade } =
+        await import("@/registry/bases/editframe/per-word-crossfade");
+      return { default: PerWordCrossfade };
+    }),
+    config: perWordCrossfadeConfig,
+  },
   "perspective-marquee": {
     Component: lazy(async () => {
       const { PerspectiveMarquee } =
@@ -592,6 +612,22 @@ const registry: Record<string, RegistryEntry> = {
       return { default: RGBGlitchText };
     }),
     config: rgbGlitchTextConfig,
+  },
+  "shared-axis-y": {
+    Component: lazy(async () => {
+      const { SharedAxisY } =
+        await import("@/registry/bases/editframe/shared-axis-y");
+      return { default: SharedAxisY };
+    }),
+    config: sharedAxisYConfig,
+  },
+  "shared-axis-z": {
+    Component: lazy(async () => {
+      const { SharedAxisZ } =
+        await import("@/registry/bases/editframe/shared-axis-z");
+      return { default: SharedAxisZ };
+    }),
+    config: sharedAxisZConfig,
   },
   "shimmer-sweep": {
     Component: lazy(async () => {
@@ -721,6 +757,7 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: toolMenuSlideInConfig,
   },
+
   "tracking-in": {
     Component: lazy(async () => {
       const { TrackingIn } =
