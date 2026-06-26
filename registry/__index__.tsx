@@ -28,6 +28,7 @@ import { captionPillKaraokeConfig } from "@/registry/bases/editframe/caption-pil
 import { captionTextureConfig } from "@/registry/bases/editframe/caption-texture/config";
 import { captionWeightShiftConfig } from "@/registry/bases/editframe/caption-weight-shift/config";
 import { changelogBiteConfig } from "@/registry/bases/editframe/changelog-bite/config";
+import { changelogConfig } from "@/registry/bases/editframe/changelog/config";
 import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/chat-to-preview-layout/config";
 import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/chromatic-aberration-wipe/config";
 import { codeAccordionConfig } from "@/registry/bases/editframe/code-accordion/config";
@@ -279,6 +280,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: CaptionWeightShift };
     }),
     config: captionWeightShiftConfig,
+  },
+  changelog: {
+    Component: lazy(async () => {
+      const { Changelog } =
+        await import("@/registry/bases/editframe/changelog");
+      return { default: Changelog };
+    }),
+    config: changelogConfig,
   },
   "changelog-bite": {
     Component: lazy(async () => {

@@ -886,6 +886,20 @@
       ]
     },
     {
+      "name": "changelog",
+      "type": "registry:component",
+      "title": "Changelog",
+      "description": "Animated changelog feed with timeline, staggered entry reveals, and a pulsing latest-update indicator.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/changelog/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/changelog.tsx"
+        }
+      ]
+    },
+    {
       "name": "visual-docs-snippet",
       "type": "registry:component",
       "title": "Visual Docs Snippet",

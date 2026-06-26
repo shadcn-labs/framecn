@@ -1,0 +1,111 @@
+---
+title: "Changelog"
+description: "Animated changelog feed with timeline, staggered entry reveals, and a pulsing latest-update indicator."
+---
+
+<ComponentPreview name="changelog" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/changelog
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="changelog"
+  title="components/ui/changelog.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Changelog } from "@/components/framecn/changelog";
+```
+
+```tsx
+<Changelog />
+```
+
+Pass custom entries to display your own release history:
+
+```tsx
+<Changelog
+  heading="Release Notes"
+  tagline="What's new"
+  accent="#6ee7b7"
+  entries={[
+    {
+      date: "Jun 26, 2026",
+      version: "v2.0",
+      title: "Major Update",
+      items: ["Redesigned UI", "Performance improvements"],
+    },
+    {
+      date: "Jun 1, 2026",
+      version: "v1.0",
+      title: "Initial Release",
+      items: ["First public release"],
+    },
+  ]}
+/>
+```
+
+## API Reference
+
+### Changelog
+
+| Prop               | Type               | Default                    |
+| ------------------ | ------------------ | -------------------------- |
+| `heading`          | `string`           | `"Changelog"`              |
+| `tagline`          | `string`           | `"What's new"`             |
+| `entries`          | `ChangelogEntry[]` | See default entries        |
+| `accent`           | `string`           | `"#FFB38E"`                |
+| `background`       | `string`           | `"#0d0c10"`                |
+| `cardBackground`   | `string`           | `"rgba(18,17,22,0.97)"`    |
+| `speed`            | `number`           | `1`                        |
+| `fps`              | `number`           | `30`                       |
+| `durationInFrames` | `number`           | `240`                      |
+| `width`            | `number`           | `1920`                     |
+| `height`           | `number`           | `1080`                     |
+| `className`        | `string`           | `-`                        |
+
+### ChangelogEntry
+
+| Field     | Type       | Description                        |
+| --------- | ---------- | ---------------------------------- |
+| `date`    | `string`   | Display date (e.g. `"Jun 26, 2026"`) |
+| `version` | `string?`  | Optional version tag (e.g. `"v2.0"`) |
+| `title`   | `string`   | Entry headline                     |
+| `items`   | `string[]` | Bullet points for this release     |
+
+## Notes
+
+<Callout title="Up to 4 entries">
+  The component renders a maximum of 4 changelog entries. Additional entries in
+  the array are silently ignored. Keep titles and bullet text short for best
+  results in a 1920×1080 frame.
+</Callout>
