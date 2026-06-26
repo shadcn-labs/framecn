@@ -8,7 +8,6 @@ import { aiGenerateOverlayConfig } from "@/registry/bases/editframe/ai-generate-
 import { aiGenerationCanvasConfig } from "@/registry/bases/editframe/ai-generation-canvas/config";
 import { animatedBarChartConfig } from "@/registry/bases/editframe/animated-bar-chart/config";
 import { animatedLineChartConfig } from "@/registry/bases/editframe/animated-line-chart/config";
-import { backdropConfig } from "@/registry/bases/editframe/backdrop/config";
 import { blurOutUpConfig } from "@/registry/bases/editframe/blur-out-up/config";
 import { blurRevealConfig } from "@/registry/bases/editframe/blur-reveal/config";
 import { bottomUpLettersConfig } from "@/registry/bases/editframe/bottom-up-letters/config";
@@ -35,7 +34,6 @@ import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/chat-to-pr
 import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/chromatic-aberration-wipe/config";
 import { codeAccordionConfig } from "@/registry/bases/editframe/code-accordion/config";
 import { codeDiffWipeConfig } from "@/registry/bases/editframe/code-diff-wipe/config";
-import { confettiConfig } from "@/registry/bases/editframe/confetti/config";
 import { cursorFlowConfig } from "@/registry/bases/editframe/cursor-flow/config";
 import { dashboardPopulateConfig } from "@/registry/bases/editframe/dashboard-populate/config";
 import { dataFlowPipesConfig } from "@/registry/bases/editframe/data-flow-pipes/config";
@@ -44,7 +42,6 @@ import { directionalWipeConfig } from "@/registry/bases/editframe/directional-wi
 import { dragAndDropFlowConfig } from "@/registry/bases/editframe/drag-and-drop-flow/config";
 import { dynamicGridConfig } from "@/registry/bases/editframe/dynamic-grid/config";
 import { ecosystemConstellationConfig } from "@/registry/bases/editframe/ecosystem-constellation/config";
-import { fadeThroughConfig } from "@/registry/bases/editframe/fade-through/config";
 import { focusBlurResolveConfig } from "@/registry/bases/editframe/focus-blur-resolve/config";
 import { frostedGlassWipeConfig } from "@/registry/bases/editframe/frosted-glass-wipe/config";
 import { glassCodeBlockConfig } from "@/registry/bases/editframe/glass-code-block/config";
@@ -58,7 +55,6 @@ import { kineticTypeMaskConfig } from "@/registry/bases/editframe/kinetic-type-m
 import { landingCodeShowcaseConfig } from "@/registry/bases/editframe/landing-code-showcase/config";
 import { lineByLineSlideConfig } from "@/registry/bases/editframe/line-by-line-slide/config";
 import { liveCodeCompilationConfig } from "@/registry/bases/editframe/live-code-compilation/config";
-import { logoEnterConfig } from "@/registry/bases/editframe/logo-enter/config";
 import { markerHighlightConfig } from "@/registry/bases/editframe/marker-highlight/config";
 import { maskRevealUpConfig } from "@/registry/bases/editframe/mask-reveal-up/config";
 import { maskedSlideRevealConfig } from "@/registry/bases/editframe/masked-slide-reveal/config";
@@ -67,7 +63,6 @@ import { meshGradientBgConfig } from "@/registry/bases/editframe/mesh-gradient-b
 import { microScaleFadeConfig } from "@/registry/bases/editframe/micro-scale-fade/config";
 import { morphingModalConfig } from "@/registry/bases/editframe/morphing-modal/config";
 import { perCharacterRiseConfig } from "@/registry/bases/editframe/per-character-rise/config";
-import { perWordCrossfadeConfig } from "@/registry/bases/editframe/per-word-crossfade/config";
 import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/perspective-marquee/config";
 import { pipelineJourneyConfig } from "@/registry/bases/editframe/pipeline-journey/config";
 import { pricingTierFocusConfig } from "@/registry/bases/editframe/pricing-tier-focus/config";
@@ -76,8 +71,6 @@ import { progressStepsConfig } from "@/registry/bases/editframe/progress-steps/c
 import { pulsingIndicatorConfig } from "@/registry/bases/editframe/pulsing-indicator/config";
 import { rgbGlitchTextConfig } from "@/registry/bases/editframe/rgb-glitch-text/config";
 import { scaleDownFadeConfig } from "@/registry/bases/editframe/scale-down-fade/config";
-import { sharedAxisYConfig } from "@/registry/bases/editframe/shared-axis-y/config";
-import { sharedAxisZConfig } from "@/registry/bases/editframe/shared-axis-z/config";
 import { shimmerSweepConfig } from "@/registry/bases/editframe/shimmer-sweep/config";
 import { shortSlideRightConfig } from "@/registry/bases/editframe/short-slide-right/config";
 import { simulatedCursorConfig } from "@/registry/bases/editframe/simulated-cursor/config";
@@ -146,13 +139,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: AnimatedLineChart };
     }),
     config: animatedLineChartConfig,
-  },
-  backdrop: {
-    Component: lazy(async () => {
-      const { Backdrop } = await import("@/registry/bases/editframe/backdrop");
-      return { default: Backdrop };
-    }),
-    config: backdropConfig,
   },
   "blur-out-up": {
     Component: lazy(async () => {
@@ -258,13 +244,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: codeDiffWipeConfig,
   },
-  confetti: {
-    Component: lazy(async () => {
-      const { Confetti } = await import("@/registry/bases/editframe/confetti");
-      return { default: Confetti };
-    }),
-    config: confettiConfig,
-  },
   "cursor-flow": {
     Component: lazy(async () => {
       const { CursorFlow } =
@@ -344,14 +323,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: CaptionEmojiPop };
     }),
     config: captionEmojiPopConfig,
-  },
-  "fade-through": {
-    Component: lazy(async () => {
-      const { FadeThrough } =
-        await import("@/registry/bases/editframe/fade-through");
-      return { default: FadeThrough };
-    }),
-    config: fadeThroughConfig,
   },
   "focus-blur-resolve": {
     Component: lazy(async () => {
@@ -489,14 +460,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: liveCodeCompilationConfig,
   },
-  "logo-enter": {
-    Component: lazy(async () => {
-      const { LogoEnter } =
-        await import("@/registry/bases/editframe/logo-enter");
-      return { default: LogoEnter };
-    }),
-    config: logoEnterConfig,
-  },
   "marker-highlight": {
     Component: lazy(async () => {
       const { MarkerHighlight } =
@@ -593,14 +556,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: perCharacterRiseConfig,
   },
-  "per-word-crossfade": {
-    Component: lazy(async () => {
-      const { PerWordCrossfade } =
-        await import("@/registry/bases/editframe/per-word-crossfade");
-      return { default: PerWordCrossfade };
-    }),
-    config: perWordCrossfadeConfig,
-  },
   "perspective-marquee": {
     Component: lazy(async () => {
       const { PerspectiveMarquee } =
@@ -672,22 +627,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: ScaleDownFade };
     }),
     config: scaleDownFadeConfig,
-  },
-  "shared-axis-y": {
-    Component: lazy(async () => {
-      const { SharedAxisY } =
-        await import("@/registry/bases/editframe/shared-axis-y");
-      return { default: SharedAxisY };
-    }),
-    config: sharedAxisYConfig,
-  },
-  "shared-axis-z": {
-    Component: lazy(async () => {
-      const { SharedAxisZ } =
-        await import("@/registry/bases/editframe/shared-axis-z");
-      return { default: SharedAxisZ };
-    }),
-    config: sharedAxisZConfig,
   },
   "shimmer-sweep": {
     Component: lazy(async () => {
