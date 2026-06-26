@@ -27,10 +27,7 @@ npx shadcn@latest add @framecn/changelog
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource
-  name="changelog"
-  title="components/ui/changelog.tsx"
-/>
+<ComponentSource name="changelog" title="components/ui/changelog.tsx" />
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -78,29 +75,29 @@ Pass custom entries to display your own release history:
 
 ### Changelog
 
-| Prop               | Type               | Default                    |
-| ------------------ | ------------------ | -------------------------- |
-| `heading`          | `string`           | `"Changelog"`              |
-| `tagline`          | `string`           | `"What's new"`             |
-| `entries`          | `ChangelogEntry[]` | See default entries        |
-| `accent`           | `string`           | `"#FFB38E"`                |
-| `background`       | `string`           | `"#0d0c10"`                |
-| `cardBackground`   | `string`           | `"rgba(18,17,22,0.97)"`    |
-| `speed`            | `number`           | `1`                        |
-| `fps`              | `number`           | `30`                       |
-| `durationInFrames` | `number`           | `240`                      |
-| `width`            | `number`           | `1920`                     |
-| `height`           | `number`           | `1080`                     |
-| `className`        | `string`           | `-`                        |
+| Prop               | Type               | Default                 |
+| ------------------ | ------------------ | ----------------------- |
+| `heading`          | `string`           | `"Changelog"`           |
+| `tagline`          | `string`           | `"What's new"`          |
+| `entries`          | `ChangelogEntry[]` | See default entries     |
+| `accent`           | `string`           | `"#FFB38E"`             |
+| `background`       | `string`           | `"#0d0c10"`             |
+| `cardBackground`   | `string`           | `"rgba(18,17,22,0.97)"` |
+| `speed`            | `number`           | `1`                     |
+| `fps`              | `number`           | `30`                    |
+| `durationInFrames` | `number`           | `240`                   |
+| `width`            | `number`           | `1920`                  |
+| `height`           | `number`           | `1080`                  |
+| `className`        | `string`           | `-`                     |
 
 ### ChangelogEntry
 
-| Field     | Type       | Description                        |
-| --------- | ---------- | ---------------------------------- |
+| Field     | Type       | Description                          |
+| --------- | ---------- | ------------------------------------ |
 | `date`    | `string`   | Display date (e.g. `"Jun 26, 2026"`) |
 | `version` | `string?`  | Optional version tag (e.g. `"v2.0"`) |
-| `title`   | `string`   | Entry headline                     |
-| `items`   | `string[]` | Bullet points for this release     |
+| `title`   | `string`   | Entry headline                       |
+| `items`   | `string[]` | Bullet points for this release       |
 
 ## Notes
 
