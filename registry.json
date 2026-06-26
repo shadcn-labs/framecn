@@ -900,114 +900,114 @@
       ]
     },
     {
-      "name": "caption-highlight",
+      "name": "highlight",
       "type": "registry:component",
-      "title": "Caption Highlight",
+      "title": "Highlight",
       "description": "Word-by-word captions with an accent-colored highlight background that sweeps in behind each spoken word.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-highlight/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-highlight.tsx"
+          "target": "components/framecn/highlight.tsx"
         }
       ]
     },
     {
-      "name": "caption-pill-karaoke",
+      "name": "pill-karaoke",
       "type": "registry:component",
-      "title": "Caption Pill Karaoke",
+      "title": "Pill Karaoke",
       "description": "Karaoke-style captions where each word sits inside a pill-shaped background.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-pill-karaoke/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-pill-karaoke.tsx"
+          "target": "components/framecn/pill-karaoke.tsx"
         }
       ]
     },
     {
-      "name": "caption-kinetic-slam",
+      "name": "kinetic-slam",
       "type": "registry:component",
-      "title": "Caption Kinetic Slam",
+      "title": "Kinetic Slam",
       "description": "Dynamic word-by-word captions: each word pops in with a springy scale/opacity entrance, then drops out in an overlapping ripple.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-kinetic-slam/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-kinetic-slam.tsx"
+          "target": "components/framecn/kinetic-slam.tsx"
         }
       ]
     },
     {
-      "name": "caption-clip-wipe",
+      "name": "clip-wipe",
       "type": "registry:component",
-      "title": "Caption Clip Wipe",
+      "title": "Clip Wipe",
       "description": "Words reveal left-to-right via clip-path; keywords turn gold on speak; the group exits with a wipe.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-clip-wipe/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-clip-wipe.tsx"
+          "target": "components/framecn/clip-wipe.tsx"
         }
       ]
     },
     {
-      "name": "caption-editorial-emphasis",
+      "name": "editorial-emphasis",
       "type": "registry:component",
-      "title": "Caption Editorial Emphasis",
+      "title": "Editorial Emphasis",
       "description": "Headline-style captions that emphasise specific words using accent colors and weight shifts.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-editorial-emphasis/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-editorial-emphasis.tsx"
+          "target": "components/framecn/editorial-emphasis.tsx"
         }
       ]
     },
     {
-      "name": "caption-emoji-pop",
+      "name": "emoji-pop",
       "type": "registry:component",
-      "title": "Caption Emoji Pop",
+      "title": "Emoji Pop",
       "description": "Captions with emoji that pop in alongside words.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-emoji-pop/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-emoji-pop.tsx"
+          "target": "components/framecn/emoji-pop.tsx"
         }
       ]
     },
     {
-      "name": "caption-glitch-rgb",
+      "name": "glitch-rgb",
       "type": "registry:component",
-      "title": "Caption Glitch RGB",
+      "title": "Glitch RGB",
       "description": "Captions with a glitchy RGB-split effect on each word.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-glitch-rgb/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-glitch-rgb.tsx"
+          "target": "components/framecn/glitch-rgb.tsx"
         }
       ]
     },
     {
-      "name": "caption-gradient-fill",
+      "name": "gradient-fill",
       "type": "registry:component",
-      "title": "Caption Gradient Fill",
+      "title": "Gradient Fill",
       "description": "Captions where words fill with a horizontal gradient from left to right.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-gradient-fill/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-gradient-fill.tsx"
+          "target": "components/framecn/gradient-fill.tsx"
         }
       ]
     },
@@ -1026,72 +1026,72 @@
       ]
     },
     {
-      "name": "caption-neon-accent",
+      "name": "neon-accent",
       "type": "registry:component",
-      "title": "Caption Neon Accent",
+      "title": "Neon Accent",
       "description": "Captions where words glow with a bright neon accent border and subtle glow.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-neon-accent/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-neon-accent.tsx"
+          "target": "components/framecn/neon-accent.tsx"
         }
       ]
     },
     {
-      "name": "caption-neon-glow",
+      "name": "neon-glow",
       "type": "registry:component",
-      "title": "Caption Neon Glow",
+      "title": "Neon Glow",
       "description": "Captions with a neon glow effect on each word.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-neon-glow/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-neon-glow.tsx"
+          "target": "components/framecn/neon-glow.tsx"
         }
       ]
     },
     {
-      "name": "caption-parallax-layers",
+      "name": "parallax-layers",
       "type": "registry:component",
-      "title": "Caption Parallax Layers",
+      "title": "Parallax Layers",
       "description": "Multi-layer captions where background and foreground words move at different depths, creating a parallax depth effect.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-parallax-layers/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-parallax-layers.tsx"
+          "target": "components/framecn/parallax-layers.tsx"
         }
       ]
     },
     {
-      "name": "caption-particle-burst",
+      "name": "particle-burst",
       "type": "registry:component",
-      "title": "Caption Particle Burst",
+      "title": "Particle Burst",
       "description": "Captions where each word explodes into particles as it exits.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-particle-burst/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-particle-burst.tsx"
+          "target": "components/framecn/particle-burst.tsx"
         }
       ]
     },
     {
-      "name": "caption-texture",
+      "name": "texture",
       "type": "registry:component",
-      "title": "Caption Texture",
+      "title": "Texture",
       "description": "Captions filled with a rich gradient texture that animates across words.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/caption-texture/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/caption-texture.tsx"
+          "target": "components/framecn/texture.tsx"
         }
       ]
     },
@@ -1106,6 +1106,272 @@
           "path": "registry/bases/editframe/caption-weight-shift/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/weight-shift.tsx"
+        }
+      ]
+    },
+    {
+      "name": "blur-out-up",
+      "type": "registry:component",
+      "title": "Blur Out Up",
+      "description": "Per-word blur, fade, and rise animation with synchronized enter and exit.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/blur-out-up/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/blur-out-up.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bottom-up-letters",
+      "type": "registry:component",
+      "title": "Bottom Up Letters",
+      "description": "Per-character animation that rises from below with a staggered entrance.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/bottom-up-letters/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/bottom-up-letters.tsx"
+        }
+      ]
+    },
+    {
+      "name": "top-down-letters",
+      "type": "registry:component",
+      "title": "Top Down Letters",
+      "description": "Per-character animation that falls from above with a staggered entrance.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/top-down-letters/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/top-down-letters.tsx"
+        }
+      ]
+    },
+    {
+      "name": "per-character-rise",
+      "type": "registry:component",
+      "title": "Per Character Rise",
+      "description": "Smooth per-character rise from below with spring easing and tight stagger.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/per-character-rise/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/per-character-rise.tsx"
+        }
+      ]
+    },
+    {
+      "name": "soft-blur-in",
+      "type": "registry:component",
+      "title": "Soft Blur In",
+      "description": "Per-character fade with blur and rise for a dreamy entrance effect.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/soft-blur-in/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/soft-blur-in.tsx"
+        }
+      ]
+    },
+    {
+      "name": "micro-scale-fade",
+      "type": "registry:component",
+      "title": "Micro Scale Fade",
+      "description": "Entire text fades in with a subtle scale-up for a polished entrance.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/micro-scale-fade/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/micro-scale-fade.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scale-down-fade",
+      "type": "registry:component",
+      "title": "Scale Down Fade",
+      "description": "Text enters scaling down and exits shrinking, with synchronized opacity.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/scale-down-fade/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/scale-down-fade.tsx"
+        }
+      ]
+    },
+    {
+      "name": "focus-blur-resolve",
+      "type": "registry:component",
+      "title": "Focus Blur Resolve",
+      "description": "Text resolves from blurred and shifted into sharp focus, exits into blur.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/focus-blur-resolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/focus-blur-resolve.tsx"
+        }
+      ]
+    },
+    {
+      "name": "spring-scale-in",
+      "type": "registry:component",
+      "title": "Spring Scale In",
+      "description": "Per-word spring pop-in with scale overshoot for a bouncy entrance.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/spring-scale-in/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/spring-scale-in.tsx"
+        }
+      ]
+    },
+    {
+      "name": "line-by-line-slide",
+      "type": "registry:component",
+      "title": "Line By Line Slide",
+      "description": "Multi-line text slides in from the left and exits to the right with stagger.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/line-by-line-slide/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/line-by-line-slide.tsx"
+        }
+      ]
+    },
+    {
+      "name": "mask-reveal-up",
+      "type": "registry:component",
+      "title": "Mask Reveal Up",
+      "description": "Lines reveal upward with blur and opacity, then exit rising further with blur.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/mask-reveal-up/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/mask-reveal-up.tsx"
+        }
+      ]
+    },
+    {
+      "name": "short-slide-right",
+      "type": "registry:component",
+      "title": "Short Slide Right",
+      "description": "Text container slides right while each word fades in with stagger.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/short-slide-right/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/short-slide-right.tsx"
+        }
+      ]
+    },
+    {
+      "name": "fade-through",
+      "type": "registry:component",
+      "title": "Fade Through",
+      "description": "First text fades out while the second fades in with blur and slight overlap.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/fade-through/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/fade-through.tsx"
+        }
+      ]
+    },
+    {
+      "name": "per-word-crossfade",
+      "type": "registry:component",
+      "title": "Per Word Crossfade",
+      "description": "Words exit one-by-one and new words enter staggered for a smooth crossfade.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/per-word-crossfade/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/per-word-crossfade.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shared-axis-y",
+      "type": "registry:component",
+      "title": "Shared Axis Y",
+      "description": "Quick per-word opacity snap transition between two texts using step easing.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/shared-axis-y/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/shared-axis-y.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shared-axis-z",
+      "type": "registry:component",
+      "title": "Shared Axis Z",
+      "description": "Scale-based depth transition from first text to second text with blur.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/shared-axis-z/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/shared-axis-z.tsx"
+        }
+      ]
+    },
+    {
+      "name": "confetti",
+      "type": "registry:component",
+      "title": "Confetti",
+      "description": "Deterministic CSS-animated particle burst celebration effect.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/confetti/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/confetti.tsx"
+        }
+      ]
+    },
+    {
+      "name": "logo-enter",
+      "type": "registry:component",
+      "title": "Logo Enter",
+      "description": "Row of overlapping logo circles that spring in one by one.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/logo-enter/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/logo-enter.tsx"
+        }
+      ]
+    },
+    {
+      "name": "backdrop",
+      "type": "registry:component",
+      "title": "Backdrop",
+      "description": "Layout wrapper providing a background fill with optional padding, radius, and shadow.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/backdrop/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/backdrop.tsx"
         }
       ]
     }

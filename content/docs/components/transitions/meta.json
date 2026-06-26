@@ -11,6 +11,10 @@
     "kinetic-type-mask",
     "swipe-transition-wipe",
     "grid-pixelate-wipe",
-    "chromatic-aberration-wipe"
+    "chromatic-aberration-wipe",
+    "fade-through",
+    "per-word-crossfade",
+    "shared-axis-y",
+    "shared-axis-z"
   ]
 }

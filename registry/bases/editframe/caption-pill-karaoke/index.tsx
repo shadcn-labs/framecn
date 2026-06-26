@@ -11,14 +11,6 @@ export interface CaptionWord {
 
 export interface CaptionPillKaraokeProps {
   words?: CaptionWord[];
-  wordsPerSegment?: number;
-  activeColor?: string;
-  dimColor?: string;
-  pillColor?: string;
-  fontSize?: number;
-  fontWeight?: number | string;
-  background?: string;
-  speed?: number;
   fps?: number;
   durationInFrames?: number;
   width?: number;
@@ -26,56 +18,113 @@ export interface CaptionPillKaraokeProps {
   className?: string;
 }
 
+const _DURATION = 8;
+
 const DEFAULT_WORDS: CaptionWord[] = [
-  { end: 0.35, start: 0, text: "Every" },
-  { end: 0.65, start: 0.35, text: "great" },
-  { end: 1, start: 0.65, text: "video" },
-  { end: 1.45, start: 1.1, text: "starts" },
-  { end: 1.65, start: 1.45, text: "with" },
-  { end: 1.8, start: 1.65, text: "a" },
-  { end: 2.15, start: 1.8, text: "single" },
-  { end: 2.7, start: 2.15, text: "frame." },
-  { end: 3.2, start: 3, text: "No" },
-  { end: 3.9, start: 3.2, text: "timelines." },
-  { end: 4.2, start: 4, text: "No" },
-  { end: 4.5, start: 4.2, text: "drag" },
-  { end: 4.65, start: 4.5, text: "and" },
-  { end: 5.1, start: 4.65, text: "drop." },
-  { end: 5.55, start: 5.3, text: "Just" },
-  { end: 6, start: 5.55, text: "code." },
+  { end: 0.3, start: 0, text: "Every" },
+  { end: 0.55, start: 0.3, text: "great" },
+  { end: 0.85, start: 0.55, text: "video" },
+  { end: 1.1, start: 0.85, text: "starts" },
+  { end: 1.25, start: 1.1, text: "with" },
+  { end: 1.35, start: 1.25, text: "a" },
+  { end: 1.65, start: 1.35, text: "single" },
+  { end: 2, start: 1.65, text: "frame." },
+  { end: 2.65, start: 2.1, text: "HyperFrames" },
+  { end: 2.85, start: 2.65, text: "lets" },
+  { end: 2.95, start: 2.85, text: "you" },
+  { end: 3.15, start: 2.95, text: "write" },
+  { end: 3.55, start: 3.15, text: "HTML" },
+  { end: 3.65, start: 3.55, text: "and" },
+  { end: 3.95, start: 3.65, text: "render" },
+  { end: 4.45, start: 3.95, text: "professional" },
+  { end: 4.8, start: 4.45, text: "video." },
+  { end: 5.05, start: 4.9, text: "No" },
+  { end: 5.45, start: 5.05, text: "timeline." },
+  { end: 5.65, start: 5.5, text: "No" },
+  { end: 5.85, start: 5.65, text: "drag" },
+  { end: 5.95, start: 5.85, text: "and" },
+  { end: 6.25, start: 5.95, text: "drop." },
+  { end: 6.55, start: 6.35, text: "Just" },
+  { end: 6.8, start: 6.55, text: "code" },
+  { end: 6.95, start: 6.8, text: "that" },
+  { end: 7.3, start: 6.95, text: "becomes" },
+  { end: 7.7, start: 7.3, text: "cinema." },
 ];
 
-export const CaptionPillKaraoke = ({
-  words = DEFAULT_WORDS,
-  wordsPerSegment = 6,
-  activeColor = "#1a1a1a",
-  dimColor = "#a6a6a6",
-  pillColor = "#e7e5e7",
-  fontSize = 60,
-  fontWeight = 700,
-  background = "#0a0a0a",
-  speed = 1,
-  fps = 30,
-  durationInFrames = 180,
-  width = 1280,
-  height = 720,
-  className,
-}: CaptionPillKaraokeProps) => {
-  const safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
+const MAX_WORDS_PER_GROUP = 4;
+const PAUSE_THRESHOLD = 0.1;
+const GROUP_END_BUFFER = 0.3;
+const WORD_FADE_LEAD = 0.05;
+const COLOR_FADE_DURATION = 0.1;
 
-  const segments = [];
-  for (let i = 0; i < words.length; i += wordsPerSegment) {
-    const segWords = words.slice(i, i + wordsPerSegment);
-    segments.push({
-      endMs: ((segWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (segWords[0].start * 1000) / safeSpeed,
-      words: segWords,
+const COLOR_INACTIVE = "#A6A6A6";
+const COLOR_ACTIVE = "#1C1E1D";
+
+interface Group {
+  words: CaptionWord[];
+  start: number;
+  end: number;
+}
+
+const makeGroups = (words: CaptionWord[]): Group[] => {
+  const groups: Group[] = [];
+  let current: CaptionWord[] = [];
+
+  for (let index = 0; index < words.length; index += 1) {
+    const word = words[index];
+    const nextWord = words[index + 1];
+
+    if (current.length >= MAX_WORDS_PER_GROUP) {
+      groups.push({
+        end: current.at(-1)?.end ?? 0,
+        start: current[0].start,
+        words: [...current],
+      });
+      current = [word];
+      continue;
+    }
+
+    current.push(word);
+
+    const hasPunctuation = /[,.:!?]$/.test(word.text);
+    const pauseDuration = nextWord ? nextWord.start - word.end : 0;
+    const hasNaturalPause = pauseDuration >= PAUSE_THRESHOLD;
+    const maxWordsReached = current.length >= MAX_WORDS_PER_GROUP;
+
+    if (maxWordsReached || !nextWord || hasPunctuation || hasNaturalPause) {
+      groups.push({
+        end: current.at(-1)?.end ?? 0,
+        start: current[0].start,
+        words: [...current],
+      });
+      current = [];
+    }
+  }
+
+  if (current.length) {
+    groups.push({
+      end: current.at(-1)?.end ?? 0,
+      start: current[0].start,
+      words: [...current],
     });
   }
 
+  return groups;
+};
+
+export const CaptionPillKaraoke = ({
+  words = DEFAULT_WORDS,
+  fps = 30,
+  durationInFrames = 240,
+  width = 1920,
+  height = 1080,
+  className,
+}: CaptionPillKaraokeProps) => {
+  const durationSec = durationInFrames / fps;
+  const groups = makeGroups(words);
+
   const containerStyle: CSSProperties = {
-    background,
+    background: "transparent",
     height,
     overflow: "hidden",
     position: "relative",
@@ -85,87 +134,138 @@ export const CaptionPillKaraoke = ({
   return (
     <Timegroup
       className={className}
-      duration={`${durationMs}ms`}
+      duration={`${(durationInFrames / fps) * 1000}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-pk-seg-in {
-            from { opacity: 0; transform: translateY(10px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+          @keyframes cpk-grp-show {
+            to { visibility: visible; }
           }
-          @keyframes framecn-pk-seg-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
+          @keyframes cpk-grp-hide {
+            to { visibility: hidden; opacity: 0; }
           }
-          @keyframes framecn-pk-word-active {
-            0%, 100% { color: ${dimColor}; }
-            8%, 92%  { color: ${activeColor}; }
+          @keyframes cpk-word-active {
+            to { color: var(--cpk-active-color); }
           }
         `}</style>
         <div
-          style={{
-            bottom: Math.round(height * 0.12),
-            display: "flex",
-            justifyContent: "center",
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
+          style={
+            {
+              "--cpk-active-color": COLOR_ACTIVE,
+              "--cpk-inactive-color": COLOR_INACTIVE,
+              bottom: 100,
+              left: 0,
+              position: "absolute",
+              right: 0,
+            } as CSSProperties
+          }
         >
-          {segments.map((seg, si) => (
-            <div
-              key={si}
-              style={{
-                animation: [
-                  `framecn-pk-seg-in 150ms cubic-bezier(0.16, 1, 0.3, 1) ${seg.startMs}ms both`,
-                  `framecn-pk-seg-out 100ms ease-in ${seg.endMs}ms forwards`,
-                ].join(", "),
-                opacity: 0,
-                position: "absolute",
-              }}
-            >
+          {groups.map((group, gi) => {
+            const nextGroup = groups[gi + 1];
+            const isLastGroup = gi === groups.length - 1;
+            const effectiveEnd = isLastGroup
+              ? durationSec
+              : Math.min(nextGroup.start, group.end + GROUP_END_BUFFER);
+            const visibleStart = Math.max(0, group.start);
+            const visibleEnd = Math.max(visibleStart + 0.01, effectiveEnd);
+
+            const groupStartMs = visibleStart * 1000;
+            const groupEndMs = visibleEnd * 1000;
+
+            return (
               <div
+                key={gi}
                 style={{
-                  background: pillColor,
-                  borderRadius: 22,
-                  boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+                  alignItems: "center",
+                  animation: [
+                    `cpk-grp-show 1ms linear ${groupStartMs}ms both`,
+                    `cpk-grp-hide 1ms linear ${groupEndMs}ms forwards`,
+                  ].join(", "),
+                  bottom: 0,
                   display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0.3em",
                   justifyContent: "center",
-                  maxWidth: width - 160,
-                  padding: "18px 56px 20px",
+                  left: 0,
+                  position: "absolute",
+                  right: 0,
+                  top: 0,
+                  visibility: "hidden",
                 }}
               >
-                {seg.words.map((word, wi) => {
-                  const wordStartMs = (word.start * 1000) / safeSpeed;
-                  const wordDurationMs = Math.max(
-                    150,
-                    ((word.end - word.start) * 1000) / safeSpeed
-                  );
-                  return (
-                    <span
-                      key={wi}
+                <div
+                  style={{
+                    alignItems: "center",
+                    background: "#e7e5e7",
+                    borderRadius: 22,
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
+                    display: "flex",
+                    justifyContent: "center",
+                    maxWidth: 1600,
+                    padding: "18px 60px 20px",
+                    width: "fit-content",
+                  }}
+                >
+                  <div
+                    style={{
+                      alignItems: "center",
+                      color: COLOR_INACTIVE,
+                      display: "flex",
+                      flexDirection: "column",
+                      fontFamily: "'Poppins', Arial, sans-serif",
+                      fontSize: 72,
+                      fontWeight: 700,
+                      justifyContent: "center",
+                      lineHeight: 1.16,
+                      overflow: "visible",
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                    }}
+                  >
+                    <div
                       style={{
-                        animation: `framecn-pk-word-active ${wordDurationMs}ms ease-in-out ${wordStartMs}ms both`,
-                        color: dimColor,
-                        fontFamily:
-                          "'Poppins', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                        fontSize,
-                        fontWeight,
-                        letterSpacing: 0,
-                        lineHeight: 1.2,
+                        columnGap: 16,
+                        display: "flex",
+                        justifyContent: "center",
+                        lineHeight: 1.16,
+                        overflow: "visible",
+                        whiteSpace: "nowrap",
+                        width: "100%",
                       }}
                     >
-                      {word.text}
-                    </span>
-                  );
-                })}
+                      {group.words.map((word, wi) => {
+                        const isFirstWord = wi === 0;
+                        const wordStartMs =
+                          Math.max(visibleStart, word.start - WORD_FADE_LEAD) *
+                          1000;
+                        const fadeDurationMs = COLOR_FADE_DURATION * 1000;
+
+                        return (
+                          <span
+                            key={wi}
+                            style={{
+                              color: isFirstWord
+                                ? COLOR_ACTIVE
+                                : COLOR_INACTIVE,
+                              display: "inline-block",
+                              ...(isFirstWord
+                                ? {}
+                                : {
+                                    animation: `cpk-word-active ${fadeDurationMs}ms linear ${wordStartMs}ms both`,
+                                  }),
+                            }}
+                          >
+                            {word.text.toLowerCase()}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </>
     </Timegroup>

@@ -1,5 +1,5 @@
 import type { ComponentConfig } from "@/lib/customizer-config";
-import { H, W, FPS, FONT_WEIGHT_OPTIONS } from "@/lib/customizer-config";
+import { H, W, FPS } from "@/lib/customizer-config";
 
 export const captionParallaxLayersConfig: ComponentConfig = {
   componentName: "CaptionParallaxLayers",
@@ -7,27 +7,29 @@ export const captionParallaxLayersConfig: ComponentConfig = {
   compositionWidth: W,
   controls: {
     behindColor: {
-      default: "#a78bfa",
+      default: "#e50914",
       label: "Behind layer color",
       type: "color",
     },
-    color: { default: "#ffffff", label: "Front color", type: "color" },
-    fontSize: {
-      default: 56,
-      label: "Font size",
-      max: 120,
-      min: 24,
+    behindFontSize: {
+      default: 220,
+      label: "Behind font size",
+      max: 320,
+      min: 80,
+      step: 4,
+      type: "number",
+    },
+    color: { default: "#eeeeee", label: "Front color", type: "color" },
+    frontFontSize: {
+      default: 130,
+      label: "Front font size",
+      max: 200,
+      min: 40,
       step: 2,
       type: "number",
     },
-    fontWeight: {
-      default: "700",
-      label: "Font weight",
-      options: FONT_WEIGHT_OPTIONS,
-      type: "select",
-    },
   },
-  durationInFrames: 180,
+  durationInFrames: 240,
   fps: FPS,
   importPath: "@/components/framecn/caption-parallax-layers",
 };

@@ -8,6 +8,9 @@
     "cursor-flow",
     "simulated-cursor",
     "bounding-box-selector",
-    "toast-notification"
+    "toast-notification",
+    "confetti",
+    "logo-enter",
+    "backdrop"
   ]
 }
