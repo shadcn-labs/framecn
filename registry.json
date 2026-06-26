@@ -805,7 +805,7 @@
       "name": "ai-generate-overlay",
       "type": "registry:component",
       "title": "AI Generate Overlay",
-      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating\u2026' pill before a new image fades in.",
+      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating…' pill before a new image fades in.",
       "dependencies": ["remotion"],
       "files": [
         {
@@ -1106,6 +1106,48 @@
           "path": "registry/bases/editframe/caption-weight-shift/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/weight-shift.tsx"
+        }
+      ]
+    },
+    {
+      "name": "confetti",
+      "type": "registry:component",
+      "title": "Confetti",
+      "description": "Deterministic CSS-animated particle burst celebration effect.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/confetti/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/confetti.tsx"
+        }
+      ]
+    },
+    {
+      "name": "logo-enter",
+      "type": "registry:component",
+      "title": "Logo Enter",
+      "description": "Row of overlapping logo circles that spring in one by one.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/logo-enter/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/logo-enter.tsx"
+        }
+      ]
+    },
+    {
+      "name": "backdrop",
+      "type": "registry:component",
+      "title": "Backdrop",
+      "description": "Layout wrapper providing a background fill with optional padding, radius, and shadow.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/backdrop/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/backdrop.tsx"
         }
       ]
     }

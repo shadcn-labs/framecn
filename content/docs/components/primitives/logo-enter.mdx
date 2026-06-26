@@ -1,0 +1,75 @@
+---
+title: "Logo Enter"
+description: "A row or column of overlapping logo circles that spring in one by one."
+---
+
+<ComponentPreview name="logo-enter" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/logo-enter
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="logo-enter" title="components/ui/logo-enter.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { LogoEnter } from "@/components/framecn/logo-enter";
+```
+
+```tsx
+<LogoEnter />
+```
+
+## API Reference
+
+### LogoEnter
+
+| Prop               | Type                         | Default        |
+| ------------------ | ---------------------------- | -------------- |
+| `diameter`         | `number`                     | `118`          |
+| `overlap`          | `number`                     | `38`           |
+| `ringColor`        | `string`                     | `"#ffffff"`    |
+| `orientation`      | `"horizontal" \| "vertical"` | `"horizontal"` |
+| `stagger`          | `number`                     | `7`            |
+| `background`       | `string`                     | `"#0a0a0a"`    |
+| `speed`            | `number`                     | `1`            |
+| `fps`              | `number`                     | `30`           |
+| `durationInFrames` | `number`                     | `90`           |
+| `width`            | `number`                     | `1280`         |
+| `height`           | `number`                     | `720`          |
+| `className`        | `string`                     | `-`            |
+
+## Notes
+
+<Callout title="Spring overshoot effect">
+  Each logo circle uses a `cubic-bezier(0.34, 1.56, 0.64, 1)` spring curve that
+  produces a natural overshoot before settling. Increase `stagger` to widen the
+  delay between each logo's entrance.
+</Callout>

@@ -8,6 +8,7 @@ import { aiGenerateOverlayConfig } from "@/registry/bases/editframe/ai-generate-
 import { aiGenerationCanvasConfig } from "@/registry/bases/editframe/ai-generation-canvas/config";
 import { animatedBarChartConfig } from "@/registry/bases/editframe/animated-bar-chart/config";
 import { animatedLineChartConfig } from "@/registry/bases/editframe/animated-line-chart/config";
+import { backdropConfig } from "@/registry/bases/editframe/backdrop/config";
 import { blurRevealConfig } from "@/registry/bases/editframe/blur-reveal/config";
 import { boundingBoxSelectorConfig } from "@/registry/bases/editframe/bounding-box-selector/config";
 import { browserFlowConfig } from "@/registry/bases/editframe/browser-flow/config";
@@ -32,6 +33,7 @@ import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/chat-to-pr
 import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/chromatic-aberration-wipe/config";
 import { codeAccordionConfig } from "@/registry/bases/editframe/code-accordion/config";
 import { codeDiffWipeConfig } from "@/registry/bases/editframe/code-diff-wipe/config";
+import { confettiConfig } from "@/registry/bases/editframe/confetti/config";
 import { cursorFlowConfig } from "@/registry/bases/editframe/cursor-flow/config";
 import { dashboardPopulateConfig } from "@/registry/bases/editframe/dashboard-populate/config";
 import { dataFlowPipesConfig } from "@/registry/bases/editframe/data-flow-pipes/config";
@@ -51,6 +53,7 @@ import { inlineHighlightConfig } from "@/registry/bases/editframe/inline-highlig
 import { kineticTypeMaskConfig } from "@/registry/bases/editframe/kinetic-type-mask/config";
 import { landingCodeShowcaseConfig } from "@/registry/bases/editframe/landing-code-showcase/config";
 import { liveCodeCompilationConfig } from "@/registry/bases/editframe/live-code-compilation/config";
+import { logoEnterConfig } from "@/registry/bases/editframe/logo-enter/config";
 import { markerHighlightConfig } from "@/registry/bases/editframe/marker-highlight/config";
 import { maskedSlideRevealConfig } from "@/registry/bases/editframe/masked-slide-reveal/config";
 import { matrixDecodeConfig } from "@/registry/bases/editframe/matrix-decode/config";
@@ -127,6 +130,13 @@ const registry: Record<string, RegistryEntry> = {
       return { default: AnimatedLineChart };
     }),
     config: animatedLineChartConfig,
+  },
+  backdrop: {
+    Component: lazy(async () => {
+      const { Backdrop } = await import("@/registry/bases/editframe/backdrop");
+      return { default: Backdrop };
+    }),
+    config: backdropConfig,
   },
   "blur-reveal": {
     Component: lazy(async () => {
@@ -320,6 +330,13 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: codeDiffWipeConfig,
   },
+  confetti: {
+    Component: lazy(async () => {
+      const { Confetti } = await import("@/registry/bases/editframe/confetti");
+      return { default: Confetti };
+    }),
+    config: confettiConfig,
+  },
   "cursor-flow": {
     Component: lazy(async () => {
       const { CursorFlow } =
@@ -471,6 +488,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: LiveCodeCompilation };
     }),
     config: liveCodeCompilationConfig,
+  },
+  "logo-enter": {
+    Component: lazy(async () => {
+      const { LogoEnter } =
+        await import("@/registry/bases/editframe/logo-enter");
+      return { default: LogoEnter };
+    }),
+    config: logoEnterConfig,
   },
   "marker-highlight": {
     Component: lazy(async () => {
@@ -704,6 +729,7 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: trackingInConfig,
   },
+
   typewriter: {
     Component: lazy(async () => {
       const { Typewriter } =
