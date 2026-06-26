@@ -160,6 +160,54 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: brushStrokeSimulatorConfig,
   },
+  "caption-clip-wipe": {
+    Component: lazy(async () => {
+      const { CaptionClipWipe } =
+        await import("@/registry/bases/editframe/caption-clip-wipe");
+      return { default: CaptionClipWipe };
+    }),
+    config: captionClipWipeConfig,
+  },
+  "caption-editorial-emphasis": {
+    Component: lazy(async () => {
+      const { CaptionEditorialEmphasis } =
+        await import("@/registry/bases/editframe/caption-editorial-emphasis");
+      return { default: CaptionEditorialEmphasis };
+    }),
+    config: captionEditorialEmphasisConfig,
+  },
+  "caption-emoji-pop": {
+    Component: lazy(async () => {
+      const { CaptionEmojiPop } =
+        await import("@/registry/bases/editframe/caption-emoji-pop");
+      return { default: CaptionEmojiPop };
+    }),
+    config: captionEmojiPopConfig,
+  },
+  "caption-glitch-rgb": {
+    Component: lazy(async () => {
+      const { CaptionGlitchRgb } =
+        await import("@/registry/bases/editframe/caption-glitch-rgb");
+      return { default: CaptionGlitchRgb };
+    }),
+    config: captionGlitchRgbConfig,
+  },
+  "caption-gradient-fill": {
+    Component: lazy(async () => {
+      const { CaptionGradientFill } =
+        await import("@/registry/bases/editframe/caption-gradient-fill");
+      return { default: CaptionGradientFill };
+    }),
+    config: captionGradientFillConfig,
+  },
+  "caption-kinetic-slam": {
+    Component: lazy(async () => {
+      const { CaptionKineticSlam } =
+        await import("@/registry/bases/editframe/caption-kinetic-slam");
+      return { default: CaptionKineticSlam };
+    }),
+    config: captionKineticSlamConfig,
+  },
   "caption-matrix-decode": {
     Component: lazy(async () => {
       const { CaptionMatrixDecode } =
@@ -167,6 +215,54 @@ const registry: Record<string, RegistryEntry> = {
       return { default: CaptionMatrixDecode };
     }),
     config: captionMatrixDecodeConfig,
+  },
+  "caption-neon-accent": {
+    Component: lazy(async () => {
+      const { CaptionNeonAccent } =
+        await import("@/registry/bases/editframe/caption-neon-accent");
+      return { default: CaptionNeonAccent };
+    }),
+    config: captionNeonAccentConfig,
+  },
+  "caption-neon-glow": {
+    Component: lazy(async () => {
+      const { CaptionNeonGlow } =
+        await import("@/registry/bases/editframe/caption-neon-glow");
+      return { default: CaptionNeonGlow };
+    }),
+    config: captionNeonGlowConfig,
+  },
+  "caption-parallax-layers": {
+    Component: lazy(async () => {
+      const { CaptionParallaxLayers } =
+        await import("@/registry/bases/editframe/caption-parallax-layers");
+      return { default: CaptionParallaxLayers };
+    }),
+    config: captionParallaxLayersConfig,
+  },
+  "caption-particle-burst": {
+    Component: lazy(async () => {
+      const { CaptionParticleBurst } =
+        await import("@/registry/bases/editframe/caption-particle-burst");
+      return { default: CaptionParticleBurst };
+    }),
+    config: captionParticleBurstConfig,
+  },
+  "caption-pill-karaoke": {
+    Component: lazy(async () => {
+      const { CaptionPillKaraoke } =
+        await import("@/registry/bases/editframe/caption-pill-karaoke");
+      return { default: CaptionPillKaraoke };
+    }),
+    config: captionPillKaraokeConfig,
+  },
+  "caption-weight-shift": {
+    Component: lazy(async () => {
+      const { CaptionWeightShift } =
+        await import("@/registry/bases/editframe/caption-weight-shift");
+      return { default: CaptionWeightShift };
+    }),
+    config: captionWeightShiftConfig,
   },
   "changelog-bite": {
     Component: lazy(async () => {
@@ -191,14 +287,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: ChromaticAberrationWipe };
     }),
     config: chromaticAberrationWipeConfig,
-  },
-  "clip-wipe": {
-    Component: lazy(async () => {
-      const { CaptionClipWipe } =
-        await import("@/registry/bases/editframe/caption-clip-wipe");
-      return { default: CaptionClipWipe };
-    }),
-    config: captionClipWipeConfig,
   },
   "code-accordion": {
     Component: lazy(async () => {
@@ -280,22 +368,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: ecosystemConstellationConfig,
   },
-  "editorial-emphasis": {
-    Component: lazy(async () => {
-      const { CaptionEditorialEmphasis } =
-        await import("@/registry/bases/editframe/caption-editorial-emphasis");
-      return { default: CaptionEditorialEmphasis };
-    }),
-    config: captionEditorialEmphasisConfig,
-  },
-  "emoji-pop": {
-    Component: lazy(async () => {
-      const { CaptionEmojiPop } =
-        await import("@/registry/bases/editframe/caption-emoji-pop");
-      return { default: CaptionEmojiPop };
-    }),
-    config: captionEmojiPopConfig,
-  },
   "frosted-glass-wipe": {
     Component: lazy(async () => {
       const { FrostedGlassWipe } =
@@ -311,22 +383,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: GlassCodeBlock };
     }),
     config: glassCodeBlockConfig,
-  },
-  "glitch-rgb": {
-    Component: lazy(async () => {
-      const { CaptionGlitchRgb } =
-        await import("@/registry/bases/editframe/caption-glitch-rgb");
-      return { default: CaptionGlitchRgb };
-    }),
-    config: captionGlitchRgbConfig,
-  },
-  "gradient-fill": {
-    Component: lazy(async () => {
-      const { CaptionGradientFill } =
-        await import("@/registry/bases/editframe/caption-gradient-fill");
-      return { default: CaptionGradientFill };
-    }),
-    config: captionGradientFillConfig,
   },
   "grid-pixelate-wipe": {
     Component: lazy(async () => {
@@ -383,14 +439,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: InlineHighlight };
     }),
     config: inlineHighlightConfig,
-  },
-  "kinetic-slam": {
-    Component: lazy(async () => {
-      const { CaptionKineticSlam } =
-        await import("@/registry/bases/editframe/caption-kinetic-slam");
-      return { default: CaptionKineticSlam };
-    }),
-    config: captionKineticSlamConfig,
   },
   "kinetic-type-mask": {
     Component: lazy(async () => {
@@ -456,38 +504,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: morphingModalConfig,
   },
-  "neon-accent": {
-    Component: lazy(async () => {
-      const { CaptionNeonAccent } =
-        await import("@/registry/bases/editframe/caption-neon-accent");
-      return { default: CaptionNeonAccent };
-    }),
-    config: captionNeonAccentConfig,
-  },
-  "neon-glow": {
-    Component: lazy(async () => {
-      const { CaptionNeonGlow } =
-        await import("@/registry/bases/editframe/caption-neon-glow");
-      return { default: CaptionNeonGlow };
-    }),
-    config: captionNeonGlowConfig,
-  },
-  "parallax-layers": {
-    Component: lazy(async () => {
-      const { CaptionParallaxLayers } =
-        await import("@/registry/bases/editframe/caption-parallax-layers");
-      return { default: CaptionParallaxLayers };
-    }),
-    config: captionParallaxLayersConfig,
-  },
-  "particle-burst": {
-    Component: lazy(async () => {
-      const { CaptionParticleBurst } =
-        await import("@/registry/bases/editframe/caption-particle-burst");
-      return { default: CaptionParticleBurst };
-    }),
-    config: captionParticleBurstConfig,
-  },
   "perspective-marquee": {
     Component: lazy(async () => {
       const { PerspectiveMarquee } =
@@ -495,14 +511,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: PerspectiveMarquee };
     }),
     config: perspectiveMarqueeConfig,
-  },
-  "pill-karaoke": {
-    Component: lazy(async () => {
-      const { CaptionPillKaraoke } =
-        await import("@/registry/bases/editframe/caption-pill-karaoke");
-      return { default: CaptionPillKaraoke };
-    }),
-    config: captionPillKaraokeConfig,
   },
   "pipeline-journey": {
     Component: lazy(async () => {
@@ -711,14 +719,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: VisualDocsSnippet };
     }),
     config: visualDocsSnippetConfig,
-  },
-  "weight-shift": {
-    Component: lazy(async () => {
-      const { CaptionWeightShift } =
-        await import("@/registry/bases/editframe/caption-weight-shift");
-      return { default: CaptionWeightShift };
-    }),
-    config: captionWeightShiftConfig,
   },
   "zoom-through-transition": {
     Component: lazy(async () => {

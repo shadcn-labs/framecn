@@ -900,7 +900,7 @@
       ]
     },
     {
-      "name": "highlight",
+      "name": "caption-highlight",
       "type": "registry:component",
       "title": "Highlight",
       "description": "Word-by-word captions with an accent-colored highlight background that sweeps in behind each spoken word.",
@@ -909,12 +909,12 @@
         {
           "path": "registry/bases/editframe/caption-highlight/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/highlight.tsx"
+          "target": "components/framecn/caption-highlight.tsx"
         }
       ]
     },
     {
-      "name": "pill-karaoke",
+      "name": "caption-pill-karaoke",
       "type": "registry:component",
       "title": "Pill Karaoke",
       "description": "Karaoke-style captions where each word sits inside a pill-shaped background.",
@@ -923,12 +923,12 @@
         {
           "path": "registry/bases/editframe/caption-pill-karaoke/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/pill-karaoke.tsx"
+          "target": "components/framecn/caption-pill-karaoke.tsx"
         }
       ]
     },
     {
-      "name": "kinetic-slam",
+      "name": "caption-kinetic-slam",
       "type": "registry:component",
       "title": "Kinetic Slam",
       "description": "Dynamic word-by-word captions: each word pops in with a springy scale/opacity entrance, then drops out in an overlapping ripple.",
@@ -937,12 +937,12 @@
         {
           "path": "registry/bases/editframe/caption-kinetic-slam/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/kinetic-slam.tsx"
+          "target": "components/framecn/caption-kinetic-slam.tsx"
         }
       ]
     },
     {
-      "name": "clip-wipe",
+      "name": "caption-clip-wipe",
       "type": "registry:component",
       "title": "Clip Wipe",
       "description": "Words reveal left-to-right via clip-path; keywords turn gold on speak; the group exits with a wipe.",
@@ -951,12 +951,12 @@
         {
           "path": "registry/bases/editframe/caption-clip-wipe/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/clip-wipe.tsx"
+          "target": "components/framecn/caption-clip-wipe.tsx"
         }
       ]
     },
     {
-      "name": "editorial-emphasis",
+      "name": "caption-editorial-emphasis",
       "type": "registry:component",
       "title": "Editorial Emphasis",
       "description": "Headline-style captions that emphasise specific words using accent colors and weight shifts.",
@@ -965,12 +965,12 @@
         {
           "path": "registry/bases/editframe/caption-editorial-emphasis/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/editorial-emphasis.tsx"
+          "target": "components/framecn/caption-editorial-emphasis.tsx"
         }
       ]
     },
     {
-      "name": "emoji-pop",
+      "name": "caption-emoji-pop",
       "type": "registry:component",
       "title": "Emoji Pop",
       "description": "Captions with emoji that pop in alongside words.",
@@ -979,12 +979,12 @@
         {
           "path": "registry/bases/editframe/caption-emoji-pop/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/emoji-pop.tsx"
+          "target": "components/framecn/caption-emoji-pop.tsx"
         }
       ]
     },
     {
-      "name": "glitch-rgb",
+      "name": "caption-glitch-rgb",
       "type": "registry:component",
       "title": "Glitch RGB",
       "description": "Captions with a glitchy RGB-split effect on each word.",
@@ -993,12 +993,12 @@
         {
           "path": "registry/bases/editframe/caption-glitch-rgb/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/glitch-rgb.tsx"
+          "target": "components/framecn/caption-glitch-rgb.tsx"
         }
       ]
     },
     {
-      "name": "gradient-fill",
+      "name": "caption-gradient-fill",
       "type": "registry:component",
       "title": "Gradient Fill",
       "description": "Captions where words fill with a horizontal gradient from left to right.",
@@ -1007,7 +1007,7 @@
         {
           "path": "registry/bases/editframe/caption-gradient-fill/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/gradient-fill.tsx"
+          "target": "components/framecn/caption-gradient-fill.tsx"
         }
       ]
     },
@@ -1026,7 +1026,7 @@
       ]
     },
     {
-      "name": "neon-accent",
+      "name": "caption-neon-accent",
       "type": "registry:component",
       "title": "Neon Accent",
       "description": "Captions where words glow with a bright neon accent border and subtle glow.",
@@ -1035,12 +1035,12 @@
         {
           "path": "registry/bases/editframe/caption-neon-accent/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/neon-accent.tsx"
+          "target": "components/framecn/caption-neon-accent.tsx"
         }
       ]
     },
     {
-      "name": "neon-glow",
+      "name": "caption-neon-glow",
       "type": "registry:component",
       "title": "Neon Glow",
       "description": "Captions with a neon glow effect on each word.",
@@ -1049,12 +1049,12 @@
         {
           "path": "registry/bases/editframe/caption-neon-glow/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/neon-glow.tsx"
+          "target": "components/framecn/caption-neon-glow.tsx"
         }
       ]
     },
     {
-      "name": "parallax-layers",
+      "name": "caption-parallax-layers",
       "type": "registry:component",
       "title": "Parallax Layers",
       "description": "Multi-layer captions where background and foreground words move at different depths, creating a parallax depth effect.",
@@ -1063,12 +1063,12 @@
         {
           "path": "registry/bases/editframe/caption-parallax-layers/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/parallax-layers.tsx"
+          "target": "components/framecn/caption-parallax-layers.tsx"
         }
       ]
     },
     {
-      "name": "particle-burst",
+      "name": "caption-particle-burst",
       "type": "registry:component",
       "title": "Particle Burst",
       "description": "Captions where each word explodes into particles as it exits.",
@@ -1077,12 +1077,12 @@
         {
           "path": "registry/bases/editframe/caption-particle-burst/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/particle-burst.tsx"
+          "target": "components/framecn/caption-particle-burst.tsx"
         }
       ]
     },
     {
-      "name": "texture",
+      "name": "caption-texture",
       "type": "registry:component",
       "title": "Texture",
       "description": "Captions filled with a rich gradient texture that animates across words.",
@@ -1091,12 +1091,12 @@
         {
           "path": "registry/bases/editframe/caption-texture/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/texture.tsx"
+          "target": "components/framecn/caption-texture.tsx"
         }
       ]
     },
     {
-      "name": "weight-shift",
+      "name": "caption-weight-shift",
       "type": "registry:component",
       "title": "Caption Weight Shift",
       "description": "Font weight animates from 100 to 900 when each word is spoken, back to thin after.",
@@ -1105,7 +1105,7 @@
         {
           "path": "registry/bases/editframe/caption-weight-shift/index.tsx",
           "type": "registry:component",
-          "target": "components/framecn/weight-shift.tsx"
+          "target": "components/framecn/caption-weight-shift.tsx"
         }
       ]
     }
