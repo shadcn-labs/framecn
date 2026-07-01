@@ -4,100 +4,100 @@ import dynamic from "next/dynamic";
 
 import { SHARED_CONTROLS } from "@/lib/customizer-config";
 import type { ComponentConfig } from "@/lib/customizer-config";
-import { aiGenerateOverlayConfig } from "@/registry/bases/editframe/ai-generate-overlay/config";
-import { aiGenerationCanvasConfig } from "@/registry/bases/editframe/ai-generation-canvas/config";
-import { animatedBarChartConfig } from "@/registry/bases/editframe/animated-bar-chart/config";
-import { animatedLineChartConfig } from "@/registry/bases/editframe/animated-line-chart/config";
-import { backdropConfig } from "@/registry/bases/editframe/backdrop/config";
-import { blurOutUpConfig } from "@/registry/bases/editframe/blur-out-up/config";
-import { blurRevealConfig } from "@/registry/bases/editframe/blur-reveal/config";
-import { bottomUpLettersConfig } from "@/registry/bases/editframe/bottom-up-letters/config";
-import { boundingBoxSelectorConfig } from "@/registry/bases/editframe/bounding-box-selector/config";
-import { browserFlowConfig } from "@/registry/bases/editframe/browser-flow/config";
-import { captionClipWipeConfig } from "@/registry/bases/editframe/caption-clip-wipe/config";
-import { captionEditorialEmphasisConfig } from "@/registry/bases/editframe/caption-editorial-emphasis/config";
-import { captionEmojiPopConfig } from "@/registry/bases/editframe/caption-emoji-pop/config";
-import { captionGlitchRgbConfig } from "@/registry/bases/editframe/caption-glitch-rgb/config";
-import { captionGradientFillConfig } from "@/registry/bases/editframe/caption-gradient-fill/config";
-import { captionHighlightConfig } from "@/registry/bases/editframe/caption-highlight/config";
-import { captionKineticSlamConfig } from "@/registry/bases/editframe/caption-kinetic-slam/config";
-import { captionMatrixDecodeConfig } from "@/registry/bases/editframe/caption-matrix-decode/config";
-import { captionNeonAccentConfig } from "@/registry/bases/editframe/caption-neon-accent/config";
-import { captionNeonGlowConfig } from "@/registry/bases/editframe/caption-neon-glow/config";
-import { captionParallaxLayersConfig } from "@/registry/bases/editframe/caption-parallax-layers/config";
-import { captionParticleBurstConfig } from "@/registry/bases/editframe/caption-particle-burst/config";
-import { captionPillKaraokeConfig } from "@/registry/bases/editframe/caption-pill-karaoke/config";
-import { captionTextureConfig } from "@/registry/bases/editframe/caption-texture/config";
-import { captionWeightShiftConfig } from "@/registry/bases/editframe/caption-weight-shift/config";
-import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/chat-to-preview-layout/config";
-import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/chromatic-aberration-wipe/config";
-import { codeAccordionConfig } from "@/registry/bases/editframe/code-accordion/config";
-import { codeDiffWipeConfig } from "@/registry/bases/editframe/code-diff-wipe/config";
-import { confettiConfig } from "@/registry/bases/editframe/confetti/config";
-import { cursorFlowConfig } from "@/registry/bases/editframe/cursor-flow/config";
-import { dashboardPopulateConfig } from "@/registry/bases/editframe/dashboard-populate/config";
-import { dataFlowPipesConfig } from "@/registry/bases/editframe/data-flow-pipes/config";
-import { deviceMockupZoomConfig } from "@/registry/bases/editframe/device-mockup-zoom/config";
-import { directionalWipeConfig } from "@/registry/bases/editframe/directional-wipe/config";
-import { dragAndDropFlowConfig } from "@/registry/bases/editframe/drag-and-drop-flow/config";
-import { dynamicGridConfig } from "@/registry/bases/editframe/dynamic-grid/config";
-import { ecosystemConstellationConfig } from "@/registry/bases/editframe/ecosystem-constellation/config";
-import { fadeThroughConfig } from "@/registry/bases/editframe/fade-through/config";
-import { focusBlurResolveConfig } from "@/registry/bases/editframe/focus-blur-resolve/config";
-import { frostedGlassWipeConfig } from "@/registry/bases/editframe/frosted-glass-wipe/config";
-import { glassCodeBlockConfig } from "@/registry/bases/editframe/glass-code-block/config";
-import { gridPixelateWipeConfig } from "@/registry/bases/editframe/grid-pixelate-wipe/config";
-import { heroDeviceAssembleConfig } from "@/registry/bases/editframe/hero-device-assemble/config";
-import { imageExpandToFullscreenConfig } from "@/registry/bases/editframe/image-expand-to-fullscreen/config";
-import { infiniteBentoPanConfig } from "@/registry/bases/editframe/infinite-bento-pan/config";
-import { infiniteMarqueeConfig } from "@/registry/bases/editframe/infinite-marquee/config";
-import { inlineHighlightConfig } from "@/registry/bases/editframe/inline-highlight/config";
-import { kineticTypeMaskConfig } from "@/registry/bases/editframe/kinetic-type-mask/config";
-import { landingCodeShowcaseConfig } from "@/registry/bases/editframe/landing-code-showcase/config";
-import { lineByLineSlideConfig } from "@/registry/bases/editframe/line-by-line-slide/config";
-import { liveCodeCompilationConfig } from "@/registry/bases/editframe/live-code-compilation/config";
-import { logoEnterConfig } from "@/registry/bases/editframe/logo-enter/config";
-import { markerHighlightConfig } from "@/registry/bases/editframe/marker-highlight/config";
-import { maskRevealUpConfig } from "@/registry/bases/editframe/mask-reveal-up/config";
-import { maskedSlideRevealConfig } from "@/registry/bases/editframe/masked-slide-reveal/config";
-import { matrixDecodeConfig } from "@/registry/bases/editframe/matrix-decode/config";
-import { meshGradientBgConfig } from "@/registry/bases/editframe/mesh-gradient-bg/config";
-import { microScaleFadeConfig } from "@/registry/bases/editframe/micro-scale-fade/config";
-import { morphingModalConfig } from "@/registry/bases/editframe/morphing-modal/config";
-import { perCharacterRiseConfig } from "@/registry/bases/editframe/per-character-rise/config";
-import { perWordCrossfadeConfig } from "@/registry/bases/editframe/per-word-crossfade/config";
-import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/perspective-marquee/config";
-import { pipelineJourneyConfig } from "@/registry/bases/editframe/pipeline-journey/config";
-import { pricingTierFocusConfig } from "@/registry/bases/editframe/pricing-tier-focus/config";
-import { productLaunchTrailerConfig } from "@/registry/bases/editframe/product-launch-trailer/config";
-import { progressStepsConfig } from "@/registry/bases/editframe/progress-steps/config";
-import { pulsingIndicatorConfig } from "@/registry/bases/editframe/pulsing-indicator/config";
-import { rgbGlitchTextConfig } from "@/registry/bases/editframe/rgb-glitch-text/config";
-import { scaleDownFadeConfig } from "@/registry/bases/editframe/scale-down-fade/config";
-import { sharedAxisYConfig } from "@/registry/bases/editframe/shared-axis-y/config";
-import { sharedAxisZConfig } from "@/registry/bases/editframe/shared-axis-z/config";
-import { shimmerSweepConfig } from "@/registry/bases/editframe/shimmer-sweep/config";
-import { shortSlideRightConfig } from "@/registry/bases/editframe/short-slide-right/config";
-import { simulatedCursorConfig } from "@/registry/bases/editframe/simulated-cursor/config";
-import { slotMachineRollConfig } from "@/registry/bases/editframe/slot-machine-roll/config";
-import { softBlurInConfig } from "@/registry/bases/editframe/soft-blur-in/config";
-import { spatialPushConfig } from "@/registry/bases/editframe/spatial-push/config";
-import { spotlightCardConfig } from "@/registry/bases/editframe/spotlight-card/config";
-import { springPopInConfig } from "@/registry/bases/editframe/spring-pop-in/config";
-import { springScaleInConfig } from "@/registry/bases/editframe/spring-scale-in/config";
-import { staggeredBentoGridConfig } from "@/registry/bases/editframe/staggered-bento-grid/config";
-import { staggeredFadeUpConfig } from "@/registry/bases/editframe/staggered-fade-up/config";
-import { strikethroughReplaceConfig } from "@/registry/bases/editframe/strikethrough-replace/config";
-import { successConfettiConfig } from "@/registry/bases/editframe/success-confetti/config";
-import { swipeTransitionWipeConfig } from "@/registry/bases/editframe/swipe-transition-wipe/config";
-import { terminalSimulatorConfig } from "@/registry/bases/editframe/terminal-simulator/config";
-import { terminalToBrowserDeployConfig } from "@/registry/bases/editframe/terminal-to-browser-deploy/config";
-import { textFadeReplaceConfig } from "@/registry/bases/editframe/text-fade-replace/config";
-import { toastNotificationConfig } from "@/registry/bases/editframe/toast-notification/config";
-import { topDownLettersConfig } from "@/registry/bases/editframe/top-down-letters/config";
-import { trackingInConfig } from "@/registry/bases/editframe/tracking-in/config";
-import { typewriterConfig } from "@/registry/bases/editframe/typewriter/config";
-import { zoomThroughTransitionConfig } from "@/registry/bases/editframe/zoom-through-transition/config";
+import { aiGenerateOverlayConfig } from "@/registry/bases/editframe/components/ai-generate-overlay/config";
+import { aiGenerationCanvasConfig } from "@/registry/bases/editframe/components/ai-generation-canvas/config";
+import { animatedBarChartConfig } from "@/registry/bases/editframe/components/animated-bar-chart/config";
+import { animatedLineChartConfig } from "@/registry/bases/editframe/components/animated-line-chart/config";
+import { backdropConfig } from "@/registry/bases/editframe/components/backdrop/config";
+import { blurOutUpConfig } from "@/registry/bases/editframe/components/blur-out-up/config";
+import { blurRevealConfig } from "@/registry/bases/editframe/components/blur-reveal/config";
+import { bottomUpLettersConfig } from "@/registry/bases/editframe/components/bottom-up-letters/config";
+import { boundingBoxSelectorConfig } from "@/registry/bases/editframe/components/bounding-box-selector/config";
+import { browserFlowConfig } from "@/registry/bases/editframe/components/browser-flow/config";
+import { captionClipWipeConfig } from "@/registry/bases/editframe/components/caption-clip-wipe/config";
+import { captionEditorialEmphasisConfig } from "@/registry/bases/editframe/components/caption-editorial-emphasis/config";
+import { captionEmojiPopConfig } from "@/registry/bases/editframe/components/caption-emoji-pop/config";
+import { captionGlitchRgbConfig } from "@/registry/bases/editframe/components/caption-glitch-rgb/config";
+import { captionGradientFillConfig } from "@/registry/bases/editframe/components/caption-gradient-fill/config";
+import { captionHighlightConfig } from "@/registry/bases/editframe/components/caption-highlight/config";
+import { captionKineticSlamConfig } from "@/registry/bases/editframe/components/caption-kinetic-slam/config";
+import { captionMatrixDecodeConfig } from "@/registry/bases/editframe/components/caption-matrix-decode/config";
+import { captionNeonAccentConfig } from "@/registry/bases/editframe/components/caption-neon-accent/config";
+import { captionNeonGlowConfig } from "@/registry/bases/editframe/components/caption-neon-glow/config";
+import { captionParallaxLayersConfig } from "@/registry/bases/editframe/components/caption-parallax-layers/config";
+import { captionParticleBurstConfig } from "@/registry/bases/editframe/components/caption-particle-burst/config";
+import { captionPillKaraokeConfig } from "@/registry/bases/editframe/components/caption-pill-karaoke/config";
+import { captionTextureConfig } from "@/registry/bases/editframe/components/caption-texture/config";
+import { captionWeightShiftConfig } from "@/registry/bases/editframe/components/caption-weight-shift/config";
+import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/components/chat-to-preview-layout/config";
+import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/components/chromatic-aberration-wipe/config";
+import { codeAccordionConfig } from "@/registry/bases/editframe/components/code-accordion/config";
+import { codeDiffWipeConfig } from "@/registry/bases/editframe/components/code-diff-wipe/config";
+import { confettiConfig } from "@/registry/bases/editframe/components/confetti/config";
+import { cursorFlowConfig } from "@/registry/bases/editframe/components/cursor-flow/config";
+import { dashboardPopulateConfig } from "@/registry/bases/editframe/components/dashboard-populate/config";
+import { dataFlowPipesConfig } from "@/registry/bases/editframe/components/data-flow-pipes/config";
+import { deviceMockupZoomConfig } from "@/registry/bases/editframe/components/device-mockup-zoom/config";
+import { directionalWipeConfig } from "@/registry/bases/editframe/components/directional-wipe/config";
+import { dragAndDropFlowConfig } from "@/registry/bases/editframe/components/drag-and-drop-flow/config";
+import { dynamicGridConfig } from "@/registry/bases/editframe/components/dynamic-grid/config";
+import { ecosystemConstellationConfig } from "@/registry/bases/editframe/components/ecosystem-constellation/config";
+import { fadeThroughConfig } from "@/registry/bases/editframe/components/fade-through/config";
+import { focusBlurResolveConfig } from "@/registry/bases/editframe/components/focus-blur-resolve/config";
+import { frostedGlassWipeConfig } from "@/registry/bases/editframe/components/frosted-glass-wipe/config";
+import { glassCodeBlockConfig } from "@/registry/bases/editframe/components/glass-code-block/config";
+import { gridPixelateWipeConfig } from "@/registry/bases/editframe/components/grid-pixelate-wipe/config";
+import { heroDeviceAssembleConfig } from "@/registry/bases/editframe/components/hero-device-assemble/config";
+import { imageExpandToFullscreenConfig } from "@/registry/bases/editframe/components/image-expand-to-fullscreen/config";
+import { infiniteBentoPanConfig } from "@/registry/bases/editframe/components/infinite-bento-pan/config";
+import { infiniteMarqueeConfig } from "@/registry/bases/editframe/components/infinite-marquee/config";
+import { inlineHighlightConfig } from "@/registry/bases/editframe/components/inline-highlight/config";
+import { kineticTypeMaskConfig } from "@/registry/bases/editframe/components/kinetic-type-mask/config";
+import { landingCodeShowcaseConfig } from "@/registry/bases/editframe/components/landing-code-showcase/config";
+import { lineByLineSlideConfig } from "@/registry/bases/editframe/components/line-by-line-slide/config";
+import { liveCodeCompilationConfig } from "@/registry/bases/editframe/components/live-code-compilation/config";
+import { logoEnterConfig } from "@/registry/bases/editframe/components/logo-enter/config";
+import { markerHighlightConfig } from "@/registry/bases/editframe/components/marker-highlight/config";
+import { maskRevealUpConfig } from "@/registry/bases/editframe/components/mask-reveal-up/config";
+import { maskedSlideRevealConfig } from "@/registry/bases/editframe/components/masked-slide-reveal/config";
+import { matrixDecodeConfig } from "@/registry/bases/editframe/components/matrix-decode/config";
+import { meshGradientBgConfig } from "@/registry/bases/editframe/components/mesh-gradient-bg/config";
+import { microScaleFadeConfig } from "@/registry/bases/editframe/components/micro-scale-fade/config";
+import { morphingModalConfig } from "@/registry/bases/editframe/components/morphing-modal/config";
+import { perCharacterRiseConfig } from "@/registry/bases/editframe/components/per-character-rise/config";
+import { perWordCrossfadeConfig } from "@/registry/bases/editframe/components/per-word-crossfade/config";
+import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/components/perspective-marquee/config";
+import { pipelineJourneyConfig } from "@/registry/bases/editframe/components/pipeline-journey/config";
+import { pricingTierFocusConfig } from "@/registry/bases/editframe/components/pricing-tier-focus/config";
+import { productLaunchTrailerConfig } from "@/registry/bases/editframe/components/product-launch-trailer/config";
+import { progressStepsConfig } from "@/registry/bases/editframe/components/progress-steps/config";
+import { pulsingIndicatorConfig } from "@/registry/bases/editframe/components/pulsing-indicator/config";
+import { rgbGlitchTextConfig } from "@/registry/bases/editframe/components/rgb-glitch-text/config";
+import { scaleDownFadeConfig } from "@/registry/bases/editframe/components/scale-down-fade/config";
+import { sharedAxisYConfig } from "@/registry/bases/editframe/components/shared-axis-y/config";
+import { sharedAxisZConfig } from "@/registry/bases/editframe/components/shared-axis-z/config";
+import { shimmerSweepConfig } from "@/registry/bases/editframe/components/shimmer-sweep/config";
+import { shortSlideRightConfig } from "@/registry/bases/editframe/components/short-slide-right/config";
+import { simulatedCursorConfig } from "@/registry/bases/editframe/components/simulated-cursor/config";
+import { slotMachineRollConfig } from "@/registry/bases/editframe/components/slot-machine-roll/config";
+import { softBlurInConfig } from "@/registry/bases/editframe/components/soft-blur-in/config";
+import { spatialPushConfig } from "@/registry/bases/editframe/components/spatial-push/config";
+import { spotlightCardConfig } from "@/registry/bases/editframe/components/spotlight-card/config";
+import { springPopInConfig } from "@/registry/bases/editframe/components/spring-pop-in/config";
+import { springScaleInConfig } from "@/registry/bases/editframe/components/spring-scale-in/config";
+import { staggeredBentoGridConfig } from "@/registry/bases/editframe/components/staggered-bento-grid/config";
+import { staggeredFadeUpConfig } from "@/registry/bases/editframe/components/staggered-fade-up/config";
+import { strikethroughReplaceConfig } from "@/registry/bases/editframe/components/strikethrough-replace/config";
+import { successConfettiConfig } from "@/registry/bases/editframe/components/success-confetti/config";
+import { swipeTransitionWipeConfig } from "@/registry/bases/editframe/components/swipe-transition-wipe/config";
+import { terminalSimulatorConfig } from "@/registry/bases/editframe/components/terminal-simulator/config";
+import { terminalToBrowserDeployConfig } from "@/registry/bases/editframe/components/terminal-to-browser-deploy/config";
+import { textFadeReplaceConfig } from "@/registry/bases/editframe/components/text-fade-replace/config";
+import { toastNotificationConfig } from "@/registry/bases/editframe/components/toast-notification/config";
+import { topDownLettersConfig } from "@/registry/bases/editframe/components/top-down-letters/config";
+import { trackingInConfig } from "@/registry/bases/editframe/components/tracking-in/config";
+import { typewriterConfig } from "@/registry/bases/editframe/components/typewriter/config";
+import { zoomThroughTransitionConfig } from "@/registry/bases/editframe/components/zoom-through-transition/config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyComponent = React.ComponentType<any>;
@@ -114,7 +114,7 @@ const registry: Record<string, RegistryEntry> = {
   "ai-generate-overlay": {
     Component: lazy(async () => {
       const { AIGenerateOverlay } =
-        await import("@/registry/bases/editframe/ai-generate-overlay");
+        await import("@/registry/bases/editframe/components/ai-generate-overlay");
       return { default: AIGenerateOverlay };
     }),
     config: aiGenerateOverlayConfig,
@@ -122,7 +122,7 @@ const registry: Record<string, RegistryEntry> = {
   "ai-generation-canvas": {
     Component: lazy(async () => {
       const { AIGenerationCanvas } =
-        await import("@/registry/bases/editframe/ai-generation-canvas");
+        await import("@/registry/bases/editframe/components/ai-generation-canvas");
       return { default: AIGenerationCanvas };
     }),
     config: aiGenerationCanvasConfig,
@@ -130,7 +130,7 @@ const registry: Record<string, RegistryEntry> = {
   "animated-bar-chart": {
     Component: lazy(async () => {
       const { AnimatedBarChart } =
-        await import("@/registry/bases/editframe/animated-bar-chart");
+        await import("@/registry/bases/editframe/components/animated-bar-chart");
       return { default: AnimatedBarChart };
     }),
     config: animatedBarChartConfig,
@@ -138,14 +138,15 @@ const registry: Record<string, RegistryEntry> = {
   "animated-line-chart": {
     Component: lazy(async () => {
       const { AnimatedLineChart } =
-        await import("@/registry/bases/editframe/animated-line-chart");
+        await import("@/registry/bases/editframe/components/animated-line-chart");
       return { default: AnimatedLineChart };
     }),
     config: animatedLineChartConfig,
   },
   backdrop: {
     Component: lazy(async () => {
-      const { Backdrop } = await import("@/registry/bases/editframe/backdrop");
+      const { Backdrop } =
+        await import("@/registry/bases/editframe/components/backdrop");
       return { default: Backdrop };
     }),
     config: backdropConfig,
@@ -153,7 +154,7 @@ const registry: Record<string, RegistryEntry> = {
   "blur-out-up": {
     Component: lazy(async () => {
       const { BlurOutUp } =
-        await import("@/registry/bases/editframe/blur-out-up");
+        await import("@/registry/bases/editframe/components/blur-out-up");
       return { default: BlurOutUp };
     }),
     config: blurOutUpConfig,
@@ -161,7 +162,7 @@ const registry: Record<string, RegistryEntry> = {
   "blur-reveal": {
     Component: lazy(async () => {
       const { BlurReveal } =
-        await import("@/registry/bases/editframe/blur-reveal");
+        await import("@/registry/bases/editframe/components/blur-reveal");
       return { default: BlurReveal };
     }),
     config: blurRevealConfig,
@@ -169,7 +170,7 @@ const registry: Record<string, RegistryEntry> = {
   "bottom-up-letters": {
     Component: lazy(async () => {
       const { BottomUpLetters } =
-        await import("@/registry/bases/editframe/bottom-up-letters");
+        await import("@/registry/bases/editframe/components/bottom-up-letters");
       return { default: BottomUpLetters };
     }),
     config: bottomUpLettersConfig,
@@ -177,7 +178,7 @@ const registry: Record<string, RegistryEntry> = {
   "bounding-box-selector": {
     Component: lazy(async () => {
       const { BoundingBoxSelector } =
-        await import("@/registry/bases/editframe/bounding-box-selector");
+        await import("@/registry/bases/editframe/components/bounding-box-selector");
       return { default: BoundingBoxSelector };
     }),
     config: boundingBoxSelectorConfig,
@@ -185,7 +186,7 @@ const registry: Record<string, RegistryEntry> = {
   "browser-flow": {
     Component: lazy(async () => {
       const { BrowserFlow } =
-        await import("@/registry/bases/editframe/browser-flow");
+        await import("@/registry/bases/editframe/components/browser-flow");
       return { default: BrowserFlow };
     }),
     config: browserFlowConfig,
@@ -193,7 +194,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-clip-wipe": {
     Component: lazy(async () => {
       const { CaptionClipWipe } =
-        await import("@/registry/bases/editframe/caption-clip-wipe");
+        await import("@/registry/bases/editframe/components/caption-clip-wipe");
       return { default: CaptionClipWipe };
     }),
     config: captionClipWipeConfig,
@@ -201,7 +202,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-editorial-emphasis": {
     Component: lazy(async () => {
       const { CaptionEditorialEmphasis } =
-        await import("@/registry/bases/editframe/caption-editorial-emphasis");
+        await import("@/registry/bases/editframe/components/caption-editorial-emphasis");
       return { default: CaptionEditorialEmphasis };
     }),
     config: captionEditorialEmphasisConfig,
@@ -209,7 +210,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-emoji-pop": {
     Component: lazy(async () => {
       const { CaptionEmojiPop } =
-        await import("@/registry/bases/editframe/caption-emoji-pop");
+        await import("@/registry/bases/editframe/components/caption-emoji-pop");
       return { default: CaptionEmojiPop };
     }),
     config: captionEmojiPopConfig,
@@ -217,7 +218,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-glitch-rgb": {
     Component: lazy(async () => {
       const { CaptionGlitchRgb } =
-        await import("@/registry/bases/editframe/caption-glitch-rgb");
+        await import("@/registry/bases/editframe/components/caption-glitch-rgb");
       return { default: CaptionGlitchRgb };
     }),
     config: captionGlitchRgbConfig,
@@ -225,7 +226,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-gradient-fill": {
     Component: lazy(async () => {
       const { CaptionGradientFill } =
-        await import("@/registry/bases/editframe/caption-gradient-fill");
+        await import("@/registry/bases/editframe/components/caption-gradient-fill");
       return { default: CaptionGradientFill };
     }),
     config: captionGradientFillConfig,
@@ -233,7 +234,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-highlight": {
     Component: lazy(async () => {
       const { CaptionHighlight } =
-        await import("@/registry/bases/editframe/caption-highlight");
+        await import("@/registry/bases/editframe/components/caption-highlight");
       return { default: CaptionHighlight };
     }),
     config: captionHighlightConfig,
@@ -241,7 +242,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-kinetic-slam": {
     Component: lazy(async () => {
       const { CaptionKineticSlam } =
-        await import("@/registry/bases/editframe/caption-kinetic-slam");
+        await import("@/registry/bases/editframe/components/caption-kinetic-slam");
       return { default: CaptionKineticSlam };
     }),
     config: captionKineticSlamConfig,
@@ -249,7 +250,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-matrix-decode": {
     Component: lazy(async () => {
       const { CaptionMatrixDecode } =
-        await import("@/registry/bases/editframe/caption-matrix-decode");
+        await import("@/registry/bases/editframe/components/caption-matrix-decode");
       return { default: CaptionMatrixDecode };
     }),
     config: captionMatrixDecodeConfig,
@@ -257,7 +258,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-neon-accent": {
     Component: lazy(async () => {
       const { CaptionNeonAccent } =
-        await import("@/registry/bases/editframe/caption-neon-accent");
+        await import("@/registry/bases/editframe/components/caption-neon-accent");
       return { default: CaptionNeonAccent };
     }),
     config: captionNeonAccentConfig,
@@ -265,7 +266,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-neon-glow": {
     Component: lazy(async () => {
       const { CaptionNeonGlow } =
-        await import("@/registry/bases/editframe/caption-neon-glow");
+        await import("@/registry/bases/editframe/components/caption-neon-glow");
       return { default: CaptionNeonGlow };
     }),
     config: captionNeonGlowConfig,
@@ -273,7 +274,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-parallax-layers": {
     Component: lazy(async () => {
       const { CaptionParallaxLayers } =
-        await import("@/registry/bases/editframe/caption-parallax-layers");
+        await import("@/registry/bases/editframe/components/caption-parallax-layers");
       return { default: CaptionParallaxLayers };
     }),
     config: captionParallaxLayersConfig,
@@ -281,7 +282,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-particle-burst": {
     Component: lazy(async () => {
       const { CaptionParticleBurst } =
-        await import("@/registry/bases/editframe/caption-particle-burst");
+        await import("@/registry/bases/editframe/components/caption-particle-burst");
       return { default: CaptionParticleBurst };
     }),
     config: captionParticleBurstConfig,
@@ -289,7 +290,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-pill-karaoke": {
     Component: lazy(async () => {
       const { CaptionPillKaraoke } =
-        await import("@/registry/bases/editframe/caption-pill-karaoke");
+        await import("@/registry/bases/editframe/components/caption-pill-karaoke");
       return { default: CaptionPillKaraoke };
     }),
     config: captionPillKaraokeConfig,
@@ -297,7 +298,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-texture": {
     Component: lazy(async () => {
       const { CaptionTexture } =
-        await import("@/registry/bases/editframe/caption-texture");
+        await import("@/registry/bases/editframe/components/caption-texture");
       return { default: CaptionTexture };
     }),
     config: captionTextureConfig,
@@ -305,7 +306,7 @@ const registry: Record<string, RegistryEntry> = {
   "caption-weight-shift": {
     Component: lazy(async () => {
       const { CaptionWeightShift } =
-        await import("@/registry/bases/editframe/caption-weight-shift");
+        await import("@/registry/bases/editframe/components/caption-weight-shift");
       return { default: CaptionWeightShift };
     }),
     config: captionWeightShiftConfig,
@@ -313,7 +314,7 @@ const registry: Record<string, RegistryEntry> = {
   "chat-to-preview-layout": {
     Component: lazy(async () => {
       const { ChatToPreviewLayout } =
-        await import("@/registry/bases/editframe/chat-to-preview-layout");
+        await import("@/registry/bases/editframe/components/chat-to-preview-layout");
       return { default: ChatToPreviewLayout };
     }),
     config: chatToPreviewLayoutConfig,
@@ -321,7 +322,7 @@ const registry: Record<string, RegistryEntry> = {
   "chromatic-aberration-wipe": {
     Component: lazy(async () => {
       const { ChromaticAberrationWipe } =
-        await import("@/registry/bases/editframe/chromatic-aberration-wipe");
+        await import("@/registry/bases/editframe/components/chromatic-aberration-wipe");
       return { default: ChromaticAberrationWipe };
     }),
     config: chromaticAberrationWipeConfig,
@@ -329,7 +330,7 @@ const registry: Record<string, RegistryEntry> = {
   "code-accordion": {
     Component: lazy(async () => {
       const { CodeAccordion } =
-        await import("@/registry/bases/editframe/code-accordion");
+        await import("@/registry/bases/editframe/components/code-accordion");
       return { default: CodeAccordion };
     }),
     config: codeAccordionConfig,
@@ -337,14 +338,15 @@ const registry: Record<string, RegistryEntry> = {
   "code-diff-wipe": {
     Component: lazy(async () => {
       const { CodeDiffWipe } =
-        await import("@/registry/bases/editframe/code-diff-wipe");
+        await import("@/registry/bases/editframe/components/code-diff-wipe");
       return { default: CodeDiffWipe };
     }),
     config: codeDiffWipeConfig,
   },
   confetti: {
     Component: lazy(async () => {
-      const { Confetti } = await import("@/registry/bases/editframe/confetti");
+      const { Confetti } =
+        await import("@/registry/bases/editframe/components/confetti");
       return { default: Confetti };
     }),
     config: confettiConfig,
@@ -352,7 +354,7 @@ const registry: Record<string, RegistryEntry> = {
   "cursor-flow": {
     Component: lazy(async () => {
       const { CursorFlow } =
-        await import("@/registry/bases/editframe/cursor-flow");
+        await import("@/registry/bases/editframe/components/cursor-flow");
       return { default: CursorFlow };
     }),
     config: cursorFlowConfig,
@@ -360,7 +362,7 @@ const registry: Record<string, RegistryEntry> = {
   "dashboard-populate": {
     Component: lazy(async () => {
       const { DashboardPopulate } =
-        await import("@/registry/bases/editframe/dashboard-populate");
+        await import("@/registry/bases/editframe/components/dashboard-populate");
       return { default: DashboardPopulate };
     }),
     config: dashboardPopulateConfig,
@@ -368,7 +370,7 @@ const registry: Record<string, RegistryEntry> = {
   "data-flow-pipes": {
     Component: lazy(async () => {
       const { DataFlowPipes } =
-        await import("@/registry/bases/editframe/data-flow-pipes");
+        await import("@/registry/bases/editframe/components/data-flow-pipes");
       return { default: DataFlowPipes };
     }),
     config: dataFlowPipesConfig,
@@ -376,7 +378,7 @@ const registry: Record<string, RegistryEntry> = {
   "device-mockup-zoom": {
     Component: lazy(async () => {
       const { DeviceMockupZoom } =
-        await import("@/registry/bases/editframe/device-mockup-zoom");
+        await import("@/registry/bases/editframe/components/device-mockup-zoom");
       return { default: DeviceMockupZoom };
     }),
     config: deviceMockupZoomConfig,
@@ -384,7 +386,7 @@ const registry: Record<string, RegistryEntry> = {
   "directional-wipe": {
     Component: lazy(async () => {
       const { DirectionalWipe } =
-        await import("@/registry/bases/editframe/directional-wipe");
+        await import("@/registry/bases/editframe/components/directional-wipe");
       return { default: DirectionalWipe };
     }),
     config: directionalWipeConfig,
@@ -392,7 +394,7 @@ const registry: Record<string, RegistryEntry> = {
   "drag-and-drop-flow": {
     Component: lazy(async () => {
       const { DragAndDropFlow } =
-        await import("@/registry/bases/editframe/drag-and-drop-flow");
+        await import("@/registry/bases/editframe/components/drag-and-drop-flow");
       return { default: DragAndDropFlow };
     }),
     config: dragAndDropFlowConfig,
@@ -400,7 +402,7 @@ const registry: Record<string, RegistryEntry> = {
   "dynamic-grid": {
     Component: lazy(async () => {
       const { DynamicGrid } =
-        await import("@/registry/bases/editframe/dynamic-grid");
+        await import("@/registry/bases/editframe/components/dynamic-grid");
       return { default: DynamicGrid };
     }),
     config: dynamicGridConfig,
@@ -408,7 +410,7 @@ const registry: Record<string, RegistryEntry> = {
   "ecosystem-constellation": {
     Component: lazy(async () => {
       const { EcosystemConstellation } =
-        await import("@/registry/bases/editframe/ecosystem-constellation");
+        await import("@/registry/bases/editframe/components/ecosystem-constellation");
       return { default: EcosystemConstellation };
     }),
     config: ecosystemConstellationConfig,
@@ -416,7 +418,7 @@ const registry: Record<string, RegistryEntry> = {
   "fade-through": {
     Component: lazy(async () => {
       const { FadeThrough } =
-        await import("@/registry/bases/editframe/fade-through");
+        await import("@/registry/bases/editframe/components/fade-through");
       return { default: FadeThrough };
     }),
     config: fadeThroughConfig,
@@ -424,7 +426,7 @@ const registry: Record<string, RegistryEntry> = {
   "focus-blur-resolve": {
     Component: lazy(async () => {
       const { FocusBlurResolve } =
-        await import("@/registry/bases/editframe/focus-blur-resolve");
+        await import("@/registry/bases/editframe/components/focus-blur-resolve");
       return { default: FocusBlurResolve };
     }),
     config: focusBlurResolveConfig,
@@ -432,7 +434,7 @@ const registry: Record<string, RegistryEntry> = {
   "frosted-glass-wipe": {
     Component: lazy(async () => {
       const { FrostedGlassWipe } =
-        await import("@/registry/bases/editframe/frosted-glass-wipe");
+        await import("@/registry/bases/editframe/components/frosted-glass-wipe");
       return { default: FrostedGlassWipe };
     }),
     config: frostedGlassWipeConfig,
@@ -440,7 +442,7 @@ const registry: Record<string, RegistryEntry> = {
   "glass-code-block": {
     Component: lazy(async () => {
       const { GlassCodeBlock } =
-        await import("@/registry/bases/editframe/glass-code-block");
+        await import("@/registry/bases/editframe/components/glass-code-block");
       return { default: GlassCodeBlock };
     }),
     config: glassCodeBlockConfig,
@@ -448,7 +450,7 @@ const registry: Record<string, RegistryEntry> = {
   "grid-pixelate-wipe": {
     Component: lazy(async () => {
       const { GridPixelateWipe } =
-        await import("@/registry/bases/editframe/grid-pixelate-wipe");
+        await import("@/registry/bases/editframe/components/grid-pixelate-wipe");
       return { default: GridPixelateWipe };
     }),
     config: gridPixelateWipeConfig,
@@ -456,7 +458,7 @@ const registry: Record<string, RegistryEntry> = {
   "hero-device-assemble": {
     Component: lazy(async () => {
       const { HeroDeviceAssemble } =
-        await import("@/registry/bases/editframe/hero-device-assemble");
+        await import("@/registry/bases/editframe/components/hero-device-assemble");
       return { default: HeroDeviceAssemble };
     }),
     config: heroDeviceAssembleConfig,
@@ -464,7 +466,7 @@ const registry: Record<string, RegistryEntry> = {
   "image-expand-to-fullscreen": {
     Component: lazy(async () => {
       const { ImageExpandToFullscreen } =
-        await import("@/registry/bases/editframe/image-expand-to-fullscreen");
+        await import("@/registry/bases/editframe/components/image-expand-to-fullscreen");
       return { default: ImageExpandToFullscreen };
     }),
     config: imageExpandToFullscreenConfig,
@@ -472,7 +474,7 @@ const registry: Record<string, RegistryEntry> = {
   "infinite-bento-pan": {
     Component: lazy(async () => {
       const { InfiniteBentoPan } =
-        await import("@/registry/bases/editframe/infinite-bento-pan");
+        await import("@/registry/bases/editframe/components/infinite-bento-pan");
       return { default: InfiniteBentoPan };
     }),
     config: infiniteBentoPanConfig,
@@ -480,7 +482,7 @@ const registry: Record<string, RegistryEntry> = {
   "infinite-marquee": {
     Component: lazy(async () => {
       const { InfiniteMarquee } =
-        await import("@/registry/bases/editframe/infinite-marquee");
+        await import("@/registry/bases/editframe/components/infinite-marquee");
       return { default: InfiniteMarquee };
     }),
     config: infiniteMarqueeConfig,
@@ -488,7 +490,7 @@ const registry: Record<string, RegistryEntry> = {
   "inline-highlight": {
     Component: lazy(async () => {
       const { InlineHighlight } =
-        await import("@/registry/bases/editframe/inline-highlight");
+        await import("@/registry/bases/editframe/components/inline-highlight");
       return { default: InlineHighlight };
     }),
     config: inlineHighlightConfig,
@@ -496,7 +498,7 @@ const registry: Record<string, RegistryEntry> = {
   "kinetic-type-mask": {
     Component: lazy(async () => {
       const { KineticTypeMask } =
-        await import("@/registry/bases/editframe/kinetic-type-mask");
+        await import("@/registry/bases/editframe/components/kinetic-type-mask");
       return { default: KineticTypeMask };
     }),
     config: kineticTypeMaskConfig,
@@ -504,7 +506,7 @@ const registry: Record<string, RegistryEntry> = {
   "landing-code-showcase": {
     Component: lazy(async () => {
       const { LandingCodeShowcase } =
-        await import("@/registry/bases/editframe/landing-code-showcase");
+        await import("@/registry/bases/editframe/components/landing-code-showcase");
       return { default: LandingCodeShowcase };
     }),
     config: landingCodeShowcaseConfig,
@@ -512,7 +514,7 @@ const registry: Record<string, RegistryEntry> = {
   "line-by-line-slide": {
     Component: lazy(async () => {
       const { LineByLineSlide } =
-        await import("@/registry/bases/editframe/line-by-line-slide");
+        await import("@/registry/bases/editframe/components/line-by-line-slide");
       return { default: LineByLineSlide };
     }),
     config: lineByLineSlideConfig,
@@ -520,7 +522,7 @@ const registry: Record<string, RegistryEntry> = {
   "live-code-compilation": {
     Component: lazy(async () => {
       const { LiveCodeCompilation } =
-        await import("@/registry/bases/editframe/live-code-compilation");
+        await import("@/registry/bases/editframe/components/live-code-compilation");
       return { default: LiveCodeCompilation };
     }),
     config: liveCodeCompilationConfig,
@@ -528,7 +530,7 @@ const registry: Record<string, RegistryEntry> = {
   "logo-enter": {
     Component: lazy(async () => {
       const { LogoEnter } =
-        await import("@/registry/bases/editframe/logo-enter");
+        await import("@/registry/bases/editframe/components/logo-enter");
       return { default: LogoEnter };
     }),
     config: logoEnterConfig,
@@ -536,7 +538,7 @@ const registry: Record<string, RegistryEntry> = {
   "marker-highlight": {
     Component: lazy(async () => {
       const { MarkerHighlight } =
-        await import("@/registry/bases/editframe/marker-highlight");
+        await import("@/registry/bases/editframe/components/marker-highlight");
       return { default: MarkerHighlight };
     }),
     config: markerHighlightConfig,
@@ -544,7 +546,7 @@ const registry: Record<string, RegistryEntry> = {
   "mask-reveal-up": {
     Component: lazy(async () => {
       const { MaskRevealUp } =
-        await import("@/registry/bases/editframe/mask-reveal-up");
+        await import("@/registry/bases/editframe/components/mask-reveal-up");
       return { default: MaskRevealUp };
     }),
     config: maskRevealUpConfig,
@@ -552,7 +554,7 @@ const registry: Record<string, RegistryEntry> = {
   "masked-slide-reveal": {
     Component: lazy(async () => {
       const { MaskedSlideReveal } =
-        await import("@/registry/bases/editframe/masked-slide-reveal");
+        await import("@/registry/bases/editframe/components/masked-slide-reveal");
       return { default: MaskedSlideReveal };
     }),
     config: maskedSlideRevealConfig,
@@ -560,7 +562,7 @@ const registry: Record<string, RegistryEntry> = {
   "matrix-decode": {
     Component: lazy(async () => {
       const { MatrixDecode } =
-        await import("@/registry/bases/editframe/matrix-decode");
+        await import("@/registry/bases/editframe/components/matrix-decode");
       return { default: MatrixDecode };
     }),
     config: matrixDecodeConfig,
@@ -568,7 +570,7 @@ const registry: Record<string, RegistryEntry> = {
   "mesh-gradient-bg": {
     Component: lazy(async () => {
       const { MeshGradientBg } =
-        await import("@/registry/bases/editframe/mesh-gradient-bg");
+        await import("@/registry/bases/editframe/components/mesh-gradient-bg");
       return { default: MeshGradientBg };
     }),
     config: meshGradientBgConfig,
@@ -576,7 +578,7 @@ const registry: Record<string, RegistryEntry> = {
   "micro-scale-fade": {
     Component: lazy(async () => {
       const { MicroScaleFade } =
-        await import("@/registry/bases/editframe/micro-scale-fade");
+        await import("@/registry/bases/editframe/components/micro-scale-fade");
       return { default: MicroScaleFade };
     }),
     config: microScaleFadeConfig,
@@ -584,7 +586,7 @@ const registry: Record<string, RegistryEntry> = {
   "morphing-modal": {
     Component: lazy(async () => {
       const { MorphingModal } =
-        await import("@/registry/bases/editframe/morphing-modal");
+        await import("@/registry/bases/editframe/components/morphing-modal");
       return { default: MorphingModal };
     }),
     config: morphingModalConfig,
@@ -592,7 +594,7 @@ const registry: Record<string, RegistryEntry> = {
   "per-character-rise": {
     Component: lazy(async () => {
       const { PerCharacterRise } =
-        await import("@/registry/bases/editframe/per-character-rise");
+        await import("@/registry/bases/editframe/components/per-character-rise");
       return { default: PerCharacterRise };
     }),
     config: perCharacterRiseConfig,
@@ -600,7 +602,7 @@ const registry: Record<string, RegistryEntry> = {
   "per-word-crossfade": {
     Component: lazy(async () => {
       const { PerWordCrossfade } =
-        await import("@/registry/bases/editframe/per-word-crossfade");
+        await import("@/registry/bases/editframe/components/per-word-crossfade");
       return { default: PerWordCrossfade };
     }),
     config: perWordCrossfadeConfig,
@@ -608,7 +610,7 @@ const registry: Record<string, RegistryEntry> = {
   "perspective-marquee": {
     Component: lazy(async () => {
       const { PerspectiveMarquee } =
-        await import("@/registry/bases/editframe/perspective-marquee");
+        await import("@/registry/bases/editframe/components/perspective-marquee");
       return { default: PerspectiveMarquee };
     }),
     config: perspectiveMarqueeConfig,
@@ -616,7 +618,7 @@ const registry: Record<string, RegistryEntry> = {
   "pipeline-journey": {
     Component: lazy(async () => {
       const { PipelineJourney } =
-        await import("@/registry/bases/editframe/pipeline-journey");
+        await import("@/registry/bases/editframe/components/pipeline-journey");
       return { default: PipelineJourney };
     }),
     config: pipelineJourneyConfig,
@@ -624,7 +626,7 @@ const registry: Record<string, RegistryEntry> = {
   "pricing-tier-focus": {
     Component: lazy(async () => {
       const { PricingTierFocus } =
-        await import("@/registry/bases/editframe/pricing-tier-focus");
+        await import("@/registry/bases/editframe/components/pricing-tier-focus");
       return { default: PricingTierFocus };
     }),
     config: pricingTierFocusConfig,
@@ -632,7 +634,7 @@ const registry: Record<string, RegistryEntry> = {
   "product-launch-trailer": {
     Component: lazy(async () => {
       const { ProductLaunchTrailer } =
-        await import("@/registry/bases/editframe/product-launch-trailer");
+        await import("@/registry/bases/editframe/components/product-launch-trailer");
       return { default: ProductLaunchTrailer };
     }),
     config: productLaunchTrailerConfig,
@@ -640,7 +642,7 @@ const registry: Record<string, RegistryEntry> = {
   "progress-steps": {
     Component: lazy(async () => {
       const { ProgressSteps } =
-        await import("@/registry/bases/editframe/progress-steps");
+        await import("@/registry/bases/editframe/components/progress-steps");
       return { default: ProgressSteps };
     }),
     config: progressStepsConfig,
@@ -648,7 +650,7 @@ const registry: Record<string, RegistryEntry> = {
   "pulsing-indicator": {
     Component: lazy(async () => {
       const { PulsingIndicator } =
-        await import("@/registry/bases/editframe/pulsing-indicator");
+        await import("@/registry/bases/editframe/components/pulsing-indicator");
       return { default: PulsingIndicator };
     }),
     config: pulsingIndicatorConfig,
@@ -656,7 +658,7 @@ const registry: Record<string, RegistryEntry> = {
   "rgb-glitch-text": {
     Component: lazy(async () => {
       const { RGBGlitchText } =
-        await import("@/registry/bases/editframe/rgb-glitch-text");
+        await import("@/registry/bases/editframe/components/rgb-glitch-text");
       return { default: RGBGlitchText };
     }),
     config: rgbGlitchTextConfig,
@@ -664,7 +666,7 @@ const registry: Record<string, RegistryEntry> = {
   "scale-down-fade": {
     Component: lazy(async () => {
       const { ScaleDownFade } =
-        await import("@/registry/bases/editframe/scale-down-fade");
+        await import("@/registry/bases/editframe/components/scale-down-fade");
       return { default: ScaleDownFade };
     }),
     config: scaleDownFadeConfig,
@@ -672,7 +674,7 @@ const registry: Record<string, RegistryEntry> = {
   "shared-axis-y": {
     Component: lazy(async () => {
       const { SharedAxisY } =
-        await import("@/registry/bases/editframe/shared-axis-y");
+        await import("@/registry/bases/editframe/components/shared-axis-y");
       return { default: SharedAxisY };
     }),
     config: sharedAxisYConfig,
@@ -680,7 +682,7 @@ const registry: Record<string, RegistryEntry> = {
   "shared-axis-z": {
     Component: lazy(async () => {
       const { SharedAxisZ } =
-        await import("@/registry/bases/editframe/shared-axis-z");
+        await import("@/registry/bases/editframe/components/shared-axis-z");
       return { default: SharedAxisZ };
     }),
     config: sharedAxisZConfig,
@@ -688,7 +690,7 @@ const registry: Record<string, RegistryEntry> = {
   "shimmer-sweep": {
     Component: lazy(async () => {
       const { ShimmerSweep } =
-        await import("@/registry/bases/editframe/shimmer-sweep");
+        await import("@/registry/bases/editframe/components/shimmer-sweep");
       return { default: ShimmerSweep };
     }),
     config: shimmerSweepConfig,
@@ -696,7 +698,7 @@ const registry: Record<string, RegistryEntry> = {
   "short-slide-right": {
     Component: lazy(async () => {
       const { ShortSlideRight } =
-        await import("@/registry/bases/editframe/short-slide-right");
+        await import("@/registry/bases/editframe/components/short-slide-right");
       return { default: ShortSlideRight };
     }),
     config: shortSlideRightConfig,
@@ -704,7 +706,7 @@ const registry: Record<string, RegistryEntry> = {
   "simulated-cursor": {
     Component: lazy(async () => {
       const { SimulatedCursor } =
-        await import("@/registry/bases/editframe/simulated-cursor");
+        await import("@/registry/bases/editframe/components/simulated-cursor");
       return { default: SimulatedCursor };
     }),
     config: simulatedCursorConfig,
@@ -712,7 +714,7 @@ const registry: Record<string, RegistryEntry> = {
   "slot-machine-roll": {
     Component: lazy(async () => {
       const { SlotMachineRoll } =
-        await import("@/registry/bases/editframe/slot-machine-roll");
+        await import("@/registry/bases/editframe/components/slot-machine-roll");
       return { default: SlotMachineRoll };
     }),
     config: slotMachineRollConfig,
@@ -720,7 +722,7 @@ const registry: Record<string, RegistryEntry> = {
   "soft-blur-in": {
     Component: lazy(async () => {
       const { SoftBlurIn } =
-        await import("@/registry/bases/editframe/soft-blur-in");
+        await import("@/registry/bases/editframe/components/soft-blur-in");
       return { default: SoftBlurIn };
     }),
     config: softBlurInConfig,
@@ -728,7 +730,7 @@ const registry: Record<string, RegistryEntry> = {
   "spatial-push": {
     Component: lazy(async () => {
       const { SpatialPush } =
-        await import("@/registry/bases/editframe/spatial-push");
+        await import("@/registry/bases/editframe/components/spatial-push");
       return { default: SpatialPush };
     }),
     config: spatialPushConfig,
@@ -736,7 +738,7 @@ const registry: Record<string, RegistryEntry> = {
   "spotlight-card": {
     Component: lazy(async () => {
       const { SpotlightCard } =
-        await import("@/registry/bases/editframe/spotlight-card");
+        await import("@/registry/bases/editframe/components/spotlight-card");
       return { default: SpotlightCard };
     }),
     config: spotlightCardConfig,
@@ -744,7 +746,7 @@ const registry: Record<string, RegistryEntry> = {
   "spring-pop-in": {
     Component: lazy(async () => {
       const { SpringPopIn } =
-        await import("@/registry/bases/editframe/spring-pop-in");
+        await import("@/registry/bases/editframe/components/spring-pop-in");
       return { default: SpringPopIn };
     }),
     config: springPopInConfig,
@@ -752,7 +754,7 @@ const registry: Record<string, RegistryEntry> = {
   "spring-scale-in": {
     Component: lazy(async () => {
       const { SpringScaleIn } =
-        await import("@/registry/bases/editframe/spring-scale-in");
+        await import("@/registry/bases/editframe/components/spring-scale-in");
       return { default: SpringScaleIn };
     }),
     config: springScaleInConfig,
@@ -760,7 +762,7 @@ const registry: Record<string, RegistryEntry> = {
   "staggered-bento-grid": {
     Component: lazy(async () => {
       const { StaggeredBentoGrid } =
-        await import("@/registry/bases/editframe/staggered-bento-grid");
+        await import("@/registry/bases/editframe/components/staggered-bento-grid");
       return { default: StaggeredBentoGrid };
     }),
     config: staggeredBentoGridConfig,
@@ -768,7 +770,7 @@ const registry: Record<string, RegistryEntry> = {
   "staggered-fade-up": {
     Component: lazy(async () => {
       const { StaggeredFadeUp } =
-        await import("@/registry/bases/editframe/staggered-fade-up");
+        await import("@/registry/bases/editframe/components/staggered-fade-up");
       return { default: StaggeredFadeUp };
     }),
     config: staggeredFadeUpConfig,
@@ -776,7 +778,7 @@ const registry: Record<string, RegistryEntry> = {
   "strikethrough-replace": {
     Component: lazy(async () => {
       const { StrikethroughReplace } =
-        await import("@/registry/bases/editframe/strikethrough-replace");
+        await import("@/registry/bases/editframe/components/strikethrough-replace");
       return { default: StrikethroughReplace };
     }),
     config: strikethroughReplaceConfig,
@@ -785,7 +787,7 @@ const registry: Record<string, RegistryEntry> = {
   "success-confetti": {
     Component: lazy(async () => {
       const { SuccessConfetti } =
-        await import("@/registry/bases/editframe/success-confetti");
+        await import("@/registry/bases/editframe/components/success-confetti");
       return { default: SuccessConfetti };
     }),
     config: successConfettiConfig,
@@ -793,7 +795,7 @@ const registry: Record<string, RegistryEntry> = {
   "swipe-transition-wipe": {
     Component: lazy(async () => {
       const { SwipeTransitionWipe } =
-        await import("@/registry/bases/editframe/swipe-transition-wipe");
+        await import("@/registry/bases/editframe/components/swipe-transition-wipe");
       return { default: SwipeTransitionWipe };
     }),
     config: swipeTransitionWipeConfig,
@@ -801,7 +803,7 @@ const registry: Record<string, RegistryEntry> = {
   "terminal-simulator": {
     Component: lazy(async () => {
       const { TerminalSimulator } =
-        await import("@/registry/bases/editframe/terminal-simulator");
+        await import("@/registry/bases/editframe/components/terminal-simulator");
       return { default: TerminalSimulator };
     }),
     config: terminalSimulatorConfig,
@@ -809,7 +811,7 @@ const registry: Record<string, RegistryEntry> = {
   "terminal-to-browser-deploy": {
     Component: lazy(async () => {
       const { TerminalToBrowserDeploy } =
-        await import("@/registry/bases/editframe/terminal-to-browser-deploy");
+        await import("@/registry/bases/editframe/components/terminal-to-browser-deploy");
       return { default: TerminalToBrowserDeploy };
     }),
     config: terminalToBrowserDeployConfig,
@@ -817,7 +819,7 @@ const registry: Record<string, RegistryEntry> = {
   "text-fade-replace": {
     Component: lazy(async () => {
       const { TextFadeReplace } =
-        await import("@/registry/bases/editframe/text-fade-replace");
+        await import("@/registry/bases/editframe/components/text-fade-replace");
       return { default: TextFadeReplace };
     }),
     config: textFadeReplaceConfig,
@@ -825,7 +827,7 @@ const registry: Record<string, RegistryEntry> = {
   "toast-notification": {
     Component: lazy(async () => {
       const { ToastNotification } =
-        await import("@/registry/bases/editframe/toast-notification");
+        await import("@/registry/bases/editframe/components/toast-notification");
       return { default: ToastNotification };
     }),
     config: toastNotificationConfig,
@@ -833,7 +835,7 @@ const registry: Record<string, RegistryEntry> = {
   "top-down-letters": {
     Component: lazy(async () => {
       const { TopDownLetters } =
-        await import("@/registry/bases/editframe/top-down-letters");
+        await import("@/registry/bases/editframe/components/top-down-letters");
       return { default: TopDownLetters };
     }),
     config: topDownLettersConfig,
@@ -842,7 +844,7 @@ const registry: Record<string, RegistryEntry> = {
   "tracking-in": {
     Component: lazy(async () => {
       const { TrackingIn } =
-        await import("@/registry/bases/editframe/tracking-in");
+        await import("@/registry/bases/editframe/components/tracking-in");
       return { default: TrackingIn };
     }),
     config: trackingInConfig,
@@ -851,7 +853,7 @@ const registry: Record<string, RegistryEntry> = {
   typewriter: {
     Component: lazy(async () => {
       const { Typewriter } =
-        await import("@/registry/bases/editframe/typewriter");
+        await import("@/registry/bases/editframe/components/typewriter");
       return { default: Typewriter };
     }),
     config: typewriterConfig,
@@ -859,7 +861,7 @@ const registry: Record<string, RegistryEntry> = {
   "zoom-through-transition": {
     Component: lazy(async () => {
       const { ZoomThroughTransition } =
-        await import("@/registry/bases/editframe/zoom-through-transition");
+        await import("@/registry/bases/editframe/components/zoom-through-transition");
       return { default: ZoomThroughTransition };
     }),
     config: zoomThroughTransitionConfig,
