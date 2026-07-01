@@ -507,14 +507,6 @@
   z-index: 100;
 }
 
-::view-transition-group(docs-sidebar) {
-  animation-duration: var(--duration-move);
-}
-
-::view-transition-group(docs-sidebar-panel) {
-  animation-duration: var(--duration-move);
-}
-
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*),
   ::view-transition-new(*),

@@ -20,7 +20,6 @@ const navItems = [
   {
     href: ROUTES.DOCS_UI,
     label: "UI",
-    transitionTypes: ["sidebar-panel-forward", "nav-forward"],
   },
 ];
 
