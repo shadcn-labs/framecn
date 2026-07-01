@@ -843,7 +843,6 @@
         }
       ]
     },
-
     {
       "name": "caption-highlight",
       "type": "registry:component",
@@ -1107,6 +1106,62 @@
           "path": "registry/bases/editframe/components/top-down-letters/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/top-down-letters.tsx"
+        }
+      ]
+    },
+    {
+      "name": "blur-out-up",
+      "type": "registry:component",
+      "title": "Blur Out Up",
+      "description": "Words blur and drift upward while fading out, staggered per word.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/blur-out-up/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/blur-out-up.tsx"
+        }
+      ]
+    },
+    {
+      "name": "focus-blur-resolve",
+      "type": "registry:component",
+      "title": "Focus Blur Resolve",
+      "description": "Text resolves into focus from a blurred, shifted state, then blurs back out on exit.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/focus-blur-resolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/focus-blur-resolve.tsx"
+        }
+      ]
+    },
+    {
+      "name": "per-character-rise",
+      "type": "registry:component",
+      "title": "Per Character Rise",
+      "description": "Characters rise from below with a smooth spring-like easing, staggered one frame apart.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/per-character-rise/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/per-character-rise.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scale-down-fade",
+      "type": "registry:component",
+      "title": "Scale Down Fade",
+      "description": "Text enters scaling down into place with a fade, then shrinks and fades out.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/scale-down-fade/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/scale-down-fade.tsx"
         }
       ]
     }
