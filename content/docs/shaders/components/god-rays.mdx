@@ -1,0 +1,54 @@
+---
+title: "God Rays"
+description: "Volumetric light rays radiating from an off-screen source."
+---
+
+<ComponentPreview name="shader-god-rays" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-god-rays
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-god-rays"
+  title="components/framecn/shader-god-rays.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderGodRays } from "@/components/framecn/shader-god-rays";
+```
+
+```tsx
+<ShaderGodRays speed={1} />
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).

@@ -1,0 +1,54 @@
+---
+title: "Grain Gradient"
+description: "Grainy multi-stop gradient that drifts slowly with film-grain texture over the blend."
+---
+
+<ComponentPreview name="shader-grain-gradient" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-grain-gradient
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-grain-gradient"
+  title="components/framecn/shader-grain-gradient.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderGrainGradient } from "@/components/framecn/shader-grain-gradient";
+```
+
+```tsx
+<ShaderGrainGradient speed={1} />
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).

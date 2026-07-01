@@ -1,0 +1,54 @@
+---
+title: "Spiral"
+description: "Rotating spiral arms radiating from the center."
+---
+
+<ComponentPreview name="shader-spiral" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-spiral
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-spiral"
+  title="components/framecn/shader-spiral.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderSpiral } from "@/components/framecn/shader-spiral";
+```
+
+```tsx
+<ShaderSpiral speed={1} />
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).

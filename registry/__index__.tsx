@@ -74,6 +74,24 @@ import { progressStepsConfig } from "@/registry/bases/editframe/components/progr
 import { pulsingIndicatorConfig } from "@/registry/bases/editframe/components/pulsing-indicator/config";
 import { rgbGlitchTextConfig } from "@/registry/bases/editframe/components/rgb-glitch-text/config";
 import { scaleDownFadeConfig } from "@/registry/bases/editframe/components/scale-down-fade/config";
+import { shaderColorPanelsConfig } from "@/registry/bases/editframe/components/shader-color-panels/config";
+import { shaderDitheringConfig } from "@/registry/bases/editframe/components/shader-dithering/config";
+import { shaderDotOrbitConfig } from "@/registry/bases/editframe/components/shader-dot-orbit/config";
+import { shaderGodRaysConfig } from "@/registry/bases/editframe/components/shader-god-rays/config";
+import { shaderGrainGradientConfig } from "@/registry/bases/editframe/components/shader-grain-gradient/config";
+import { shaderLiquidMetalConfig } from "@/registry/bases/editframe/components/shader-liquid-metal/config";
+import { shaderMeshGradientConfig } from "@/registry/bases/editframe/components/shader-mesh-gradient/config";
+import { shaderMetaballsConfig } from "@/registry/bases/editframe/components/shader-metaballs/config";
+import { shaderNeuroNoiseConfig } from "@/registry/bases/editframe/components/shader-neuro-noise/config";
+import { shaderPerlinNoiseConfig } from "@/registry/bases/editframe/components/shader-perlin-noise/config";
+import { shaderPulsingBorderConfig } from "@/registry/bases/editframe/components/shader-pulsing-border/config";
+import { shaderSimplexNoiseConfig } from "@/registry/bases/editframe/components/shader-simplex-noise/config";
+import { shaderSmokeRingConfig } from "@/registry/bases/editframe/components/shader-smoke-ring/config";
+import { shaderSpiralConfig } from "@/registry/bases/editframe/components/shader-spiral/config";
+import { shaderSwirlConfig } from "@/registry/bases/editframe/components/shader-swirl/config";
+import { shaderVoronoiConfig } from "@/registry/bases/editframe/components/shader-voronoi/config";
+import { shaderWarpConfig } from "@/registry/bases/editframe/components/shader-warp/config";
+import { shaderWaterConfig } from "@/registry/bases/editframe/components/shader-water/config";
 import { sharedAxisYConfig } from "@/registry/bases/editframe/components/shared-axis-y/config";
 import { sharedAxisZConfig } from "@/registry/bases/editframe/components/shared-axis-z/config";
 import { shimmerSweepConfig } from "@/registry/bases/editframe/components/shimmer-sweep/config";
@@ -671,6 +689,151 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: scaleDownFadeConfig,
   },
+  "shader-color-panels": {
+    Component: lazy(async () => {
+      const { ShaderColorPanels } =
+        await import("@/registry/bases/editframe/components/shader-color-panels");
+      return { default: ShaderColorPanels };
+    }),
+    config: shaderColorPanelsConfig,
+  },
+  "shader-dithering": {
+    Component: lazy(async () => {
+      const { ShaderDithering } =
+        await import("@/registry/bases/editframe/components/shader-dithering");
+      return { default: ShaderDithering };
+    }),
+    config: shaderDitheringConfig,
+  },
+  "shader-dot-orbit": {
+    Component: lazy(async () => {
+      const { ShaderDotOrbit } =
+        await import("@/registry/bases/editframe/components/shader-dot-orbit");
+      return { default: ShaderDotOrbit };
+    }),
+    config: shaderDotOrbitConfig,
+  },
+  "shader-god-rays": {
+    Component: lazy(async () => {
+      const { ShaderGodRays } =
+        await import("@/registry/bases/editframe/components/shader-god-rays");
+      return { default: ShaderGodRays };
+    }),
+    config: shaderGodRaysConfig,
+  },
+  "shader-grain-gradient": {
+    Component: lazy(async () => {
+      const { ShaderGrainGradient } =
+        await import("@/registry/bases/editframe/components/shader-grain-gradient");
+      return { default: ShaderGrainGradient };
+    }),
+    config: shaderGrainGradientConfig,
+  },
+  "shader-liquid-metal": {
+    Component: lazy(async () => {
+      const { ShaderLiquidMetal } =
+        await import("@/registry/bases/editframe/components/shader-liquid-metal");
+      return { default: ShaderLiquidMetal };
+    }),
+    config: shaderLiquidMetalConfig,
+  },
+  "shader-mesh-gradient": {
+    Component: lazy(async () => {
+      const { ShaderMeshGradient } =
+        await import("@/registry/bases/editframe/components/shader-mesh-gradient");
+      return { default: ShaderMeshGradient };
+    }),
+    config: shaderMeshGradientConfig,
+  },
+  "shader-metaballs": {
+    Component: lazy(async () => {
+      const { ShaderMetaballs } =
+        await import("@/registry/bases/editframe/components/shader-metaballs");
+      return { default: ShaderMetaballs };
+    }),
+    config: shaderMetaballsConfig,
+  },
+  "shader-neuro-noise": {
+    Component: lazy(async () => {
+      const { ShaderNeuroNoise } =
+        await import("@/registry/bases/editframe/components/shader-neuro-noise");
+      return { default: ShaderNeuroNoise };
+    }),
+    config: shaderNeuroNoiseConfig,
+  },
+  "shader-perlin-noise": {
+    Component: lazy(async () => {
+      const { ShaderPerlinNoise } =
+        await import("@/registry/bases/editframe/components/shader-perlin-noise");
+      return { default: ShaderPerlinNoise };
+    }),
+    config: shaderPerlinNoiseConfig,
+  },
+  "shader-pulsing-border": {
+    Component: lazy(async () => {
+      const { ShaderPulsingBorder } =
+        await import("@/registry/bases/editframe/components/shader-pulsing-border");
+      return { default: ShaderPulsingBorder };
+    }),
+    config: shaderPulsingBorderConfig,
+  },
+  "shader-simplex-noise": {
+    Component: lazy(async () => {
+      const { ShaderSimplexNoise } =
+        await import("@/registry/bases/editframe/components/shader-simplex-noise");
+      return { default: ShaderSimplexNoise };
+    }),
+    config: shaderSimplexNoiseConfig,
+  },
+  "shader-smoke-ring": {
+    Component: lazy(async () => {
+      const { ShaderSmokeRing } =
+        await import("@/registry/bases/editframe/components/shader-smoke-ring");
+      return { default: ShaderSmokeRing };
+    }),
+    config: shaderSmokeRingConfig,
+  },
+  "shader-spiral": {
+    Component: lazy(async () => {
+      const { ShaderSpiral } =
+        await import("@/registry/bases/editframe/components/shader-spiral");
+      return { default: ShaderSpiral };
+    }),
+    config: shaderSpiralConfig,
+  },
+
+  "shader-swirl": {
+    Component: lazy(async () => {
+      const { ShaderSwirl } =
+        await import("@/registry/bases/editframe/components/shader-swirl");
+      return { default: ShaderSwirl };
+    }),
+    config: shaderSwirlConfig,
+  },
+  "shader-voronoi": {
+    Component: lazy(async () => {
+      const { ShaderVoronoi } =
+        await import("@/registry/bases/editframe/components/shader-voronoi");
+      return { default: ShaderVoronoi };
+    }),
+    config: shaderVoronoiConfig,
+  },
+  "shader-warp": {
+    Component: lazy(async () => {
+      const { ShaderWarp } =
+        await import("@/registry/bases/editframe/components/shader-warp");
+      return { default: ShaderWarp };
+    }),
+    config: shaderWarpConfig,
+  },
+  "shader-water": {
+    Component: lazy(async () => {
+      const { ShaderWater } =
+        await import("@/registry/bases/editframe/components/shader-water");
+      return { default: ShaderWater };
+    }),
+    config: shaderWaterConfig,
+  },
   "shared-axis-y": {
     Component: lazy(async () => {
       const { SharedAxisY } =
@@ -695,6 +858,7 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: shimmerSweepConfig,
   },
+
   "short-slide-right": {
     Component: lazy(async () => {
       const { ShortSlideRight } =
@@ -703,6 +867,7 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: shortSlideRightConfig,
   },
+
   "simulated-cursor": {
     Component: lazy(async () => {
       const { SimulatedCursor } =
@@ -783,7 +948,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: strikethroughReplaceConfig,
   },
-
   "success-confetti": {
     Component: lazy(async () => {
       const { SuccessConfetti } =
@@ -840,7 +1004,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: topDownLettersConfig,
   },
-
   "tracking-in": {
     Component: lazy(async () => {
       const { TrackingIn } =
@@ -849,7 +1012,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: trackingInConfig,
   },
-
   typewriter: {
     Component: lazy(async () => {
       const { Typewriter } =

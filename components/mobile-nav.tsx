@@ -3,7 +3,7 @@
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
 import type { LinkProps } from "next/link";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -14,8 +14,17 @@ import {
 } from "@/components/ui/popover";
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
-import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
-import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import {
+  EXCLUDED_SECTIONS,
+  getDocsSidebarPanel,
+  isComponentsFolder,
+  isShadersFolder,
+} from "@/lib/docs";
+import {
+  getCatalogSubfolder,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 
 const MobileLink = ({
@@ -86,6 +95,8 @@ export const MobileNav = ({
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const panel = getDocsSidebarPanel(pathname ?? "");
 
   return (
     <Popover sounds open={open} onOpenChange={setOpen}>
@@ -146,6 +157,44 @@ export const MobileNav = ({
               ))}
             </div>
           </div>
+          {panel === "components"
+            ? tree.children.map((item) => {
+                if (item.type !== "folder") {
+                  return null;
+                }
+                if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
+                  return null;
+                }
+                if (!isComponentsFolder(item)) {
+                  return null;
+                }
+
+                return getFoldersFromFolder(item).map((category) => (
+                  <MobileNavGroup
+                    key={category.$id}
+                    label={category.name}
+                    pages={getPagesFromFolder(category, false)}
+                    setOpen={setOpen}
+                  />
+                ));
+              })
+            : tree.children.map((item) => {
+                if (item.type !== "folder" || !isShadersFolder(item)) {
+                  return null;
+                }
+
+                const shaderPagesFolder =
+                  getCatalogSubfolder(item, "components") ?? item;
+
+                return (
+                  <MobileNavGroup
+                    key={item.$id}
+                    label="Shaders"
+                    pages={getPagesFromFolder(shaderPagesFolder, false)}
+                    setOpen={setOpen}
+                  />
+                );
+              })}
           {tree.children.map((item) => {
             if (item.type !== "folder") {
               return null;
@@ -153,16 +202,8 @@ export const MobileNav = ({
             if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
               return null;
             }
-
-            if (isComponentsFolder(item)) {
-              return getFoldersFromFolder(item).map((category) => (
-                <MobileNavGroup
-                  key={category.$id}
-                  label={category.name}
-                  pages={getPagesFromFolder(category, false)}
-                  setOpen={setOpen}
-                />
-              ));
+            if (isComponentsFolder(item) || isShadersFolder(item)) {
+              return null;
             }
 
             return (
