@@ -1,0 +1,47 @@
+---
+title: "Chat Flow"
+description: "A messaging composition with typing, sending, and reaction animations."
+---
+
+<ComponentPreview hideCustomizer name="chat-flow" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/chat-flow
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="chat-flow" title="components/ui/chat-flow.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ChatFlow } from "@/components/ui/chat-flow";
+```
+
+```tsx
+<ChatFlow />
+```

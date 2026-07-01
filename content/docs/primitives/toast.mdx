@@ -1,0 +1,47 @@
+---
+title: "Toast"
+description: "A toast notification with slide-in and auto-dismiss."
+---
+
+<ComponentPreview hideCustomizer name="toast" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/toast
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="toast" title="components/ui/toast.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Toast } from "@/components/ui/toast";
+```
+
+```tsx
+<Toast />
+```

@@ -10,6 +10,7 @@ import { ComponentSource } from "@/components/component-source";
 import { ComponentsList } from "@/components/components-list";
 import { CopyButton } from "@/components/copy-button";
 import { getIconForLanguageExtension } from "@/components/icons";
+
 import {
   Accordion,
   AccordionContent,
@@ -99,6 +100,7 @@ export const mdxComponents = {
       {...props}
     />
   ),
+
   Step: ({ className, children, ...props }: React.ComponentProps<"h3">) => (
     <h3
       className={cn(

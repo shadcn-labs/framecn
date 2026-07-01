@@ -1,0 +1,50 @@
+---
+title: "Settings Toggle Flow"
+description: "A two-column settings card with switch, select, and slider."
+---
+
+<ComponentPreview hideCustomizer name="settings-toggle-flow" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/settings-toggle-flow
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="settings-toggle-flow"
+  title="components/ui/settings-toggle-flow.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SettingsToggleFlow } from "@/components/ui/settings-toggle-flow";
+```
+
+```tsx
+<SettingsToggleFlow />
+```

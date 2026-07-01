@@ -1,0 +1,50 @@
+---
+title: "Command Menu Item"
+description: "A command-palette row with icon, label, and shortcut."
+---
+
+<ComponentPreview hideCustomizer name="command-menu-item" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/command-menu-item
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="command-menu-item"
+  title="components/ui/command-menu-item.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CommandMenuItem } from "@/components/ui/command-menu-item";
+```
+
+```tsx
+<CommandMenuItem />
+```

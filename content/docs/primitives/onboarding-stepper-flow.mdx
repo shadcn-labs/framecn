@@ -1,0 +1,50 @@
+---
+title: "Onboarding Stepper Flow"
+description: "A multi-step onboarding composition with stepper and panels."
+---
+
+<ComponentPreview hideCustomizer name="onboarding-stepper-flow" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/onboarding-stepper-flow
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="onboarding-stepper-flow"
+  title="components/ui/onboarding-stepper-flow.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { OnboardingStepperFlow } from "@/components/ui/onboarding-stepper-flow";
+```
+
+```tsx
+<OnboardingStepperFlow />
+```

@@ -44,7 +44,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Credits
 
-- [remocn](https://github.com/kapishdima/remocn) by [Kapish Dima](https://github.com/kapishdima)
+- [framecn](https://github.com/kapishdima/framecn) by [Kapish Dima](https://github.com/kapishdima)
 
 ## License
 

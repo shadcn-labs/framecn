@@ -98,13 +98,57 @@ import { topDownLettersConfig } from "@/registry/bases/editframe/components/top-
 import { trackingInConfig } from "@/registry/bases/editframe/components/tracking-in/config";
 import { typewriterConfig } from "@/registry/bases/editframe/components/typewriter/config";
 import { zoomThroughTransitionConfig } from "@/registry/bases/editframe/components/zoom-through-transition/config";
+import { Accordion } from "@/registry/bases/editframe/ui/accordion";
+import { AiPromptFlow } from "@/registry/bases/editframe/ui/ai-prompt-flow";
+import { AlertDialog } from "@/registry/bases/editframe/ui/alert-dialog";
+import { BlurIn } from "@/registry/bases/editframe/ui/blur-in";
+import { Button } from "@/registry/bases/editframe/ui/button";
+import { Caret } from "@/registry/bases/editframe/ui/caret";
+import { ChatFlow } from "@/registry/bases/editframe/ui/chat-flow";
+import { Checkbox } from "@/registry/bases/editframe/ui/checkbox";
+import { CheckoutFlow } from "@/registry/bases/editframe/ui/checkout-flow";
+import { Combobox } from "@/registry/bases/editframe/ui/combobox";
+import { CommandMenu } from "@/registry/bases/editframe/ui/command-menu";
+import { CommandMenuItem } from "@/registry/bases/editframe/ui/command-menu-item";
+import { ContextMenu } from "@/registry/bases/editframe/ui/context-menu";
+import { Cursor } from "@/registry/bases/editframe/ui/cursor";
+import { Dialog } from "@/registry/bases/editframe/ui/dialog";
+import { Drawer } from "@/registry/bases/editframe/ui/drawer";
+import { DropdownMenu } from "@/registry/bases/editframe/ui/dropdown-menu";
+import { DropdownMenuItem } from "@/registry/bases/editframe/ui/dropdown-menu-item";
+import { Field } from "@/registry/bases/editframe/ui/field";
+import { ImessageChatFlow } from "@/registry/bases/editframe/ui/imessage-chat-flow";
+import { Input } from "@/registry/bases/editframe/ui/input";
+import { MessageBubble } from "@/registry/bases/editframe/ui/message-bubble";
+import { OnboardingStepperFlow } from "@/registry/bases/editframe/ui/onboarding-stepper-flow";
+import { Popover } from "@/registry/bases/editframe/ui/popover";
+import { Progress } from "@/registry/bases/editframe/ui/progress";
+import { Radio } from "@/registry/bases/editframe/ui/radio";
+import { Resizable } from "@/registry/bases/editframe/ui/resizable";
+import { Select } from "@/registry/bases/editframe/ui/select";
+import { SelectItem } from "@/registry/bases/editframe/ui/select-item";
+import { SettingsToggleFlow } from "@/registry/bases/editframe/ui/settings-toggle-flow";
+import { Sheet } from "@/registry/bases/editframe/ui/sheet";
+import { SignupFlow } from "@/registry/bases/editframe/ui/signup-flow";
+import { Skeleton } from "@/registry/bases/editframe/ui/skeleton";
+import { SkeletonBlock } from "@/registry/bases/editframe/ui/skeleton-block";
+import { Slider } from "@/registry/bases/editframe/ui/slider";
+import { Spinner } from "@/registry/bases/editframe/ui/spinner";
+import { Stepper } from "@/registry/bases/editframe/ui/stepper";
+import { Switch } from "@/registry/bases/editframe/ui/switch";
+import { Tabs } from "@/registry/bases/editframe/ui/tabs";
+import { TelegramChatFlow } from "@/registry/bases/editframe/ui/telegram-chat-flow";
+import { Toast } from "@/registry/bases/editframe/ui/toast";
+import { ToggleGroup } from "@/registry/bases/editframe/ui/toggle-group";
+import { Tooltip } from "@/registry/bases/editframe/ui/tooltip";
+import { TypingIndicator } from "@/registry/bases/editframe/ui/typing-indicator";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyComponent = React.ComponentType<any>;
 
 export interface RegistryEntry {
   Component: AnyComponent;
-  config: ComponentConfig;
+  config?: ComponentConfig;
 }
 
 const lazy = (loader: () => Promise<{ default: AnyComponent }>) =>
@@ -866,12 +910,147 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: zoomThroughTransitionConfig,
   },
+,
+  "accordion": {
+    Component: Accordion,
+  },
+  "ai-prompt-flow": {
+    Component: AiPromptFlow,
+  },
+  "alert-dialog": {
+    Component: AlertDialog,
+  },
+  "blur-in": {
+    Component: BlurIn,
+  },
+  "button": {
+    Component: Button,
+  },
+  "caret": {
+    Component: Caret,
+  },
+  "chat-flow": {
+    Component: ChatFlow,
+  },
+  "checkbox": {
+    Component: Checkbox,
+  },
+  "checkout-flow": {
+    Component: CheckoutFlow,
+  },
+  "combobox": {
+    Component: Combobox,
+  },
+  "command-menu": {
+    Component: CommandMenu,
+  },
+  "command-menu-item": {
+    Component: CommandMenuItem,
+  },
+  "context-menu": {
+    Component: ContextMenu,
+  },
+  "cursor": {
+    Component: Cursor,
+  },
+  "dialog": {
+    Component: Dialog,
+  },
+  "drawer": {
+    Component: Drawer,
+  },
+  "dropdown-menu": {
+    Component: DropdownMenu,
+  },
+  "dropdown-menu-item": {
+    Component: DropdownMenuItem,
+  },
+  "field": {
+    Component: Field,
+  },
+  "imessage-chat-flow": {
+    Component: ImessageChatFlow,
+  },
+  "input": {
+    Component: Input,
+  },
+  "message-bubble": {
+    Component: MessageBubble,
+  },
+  "onboarding-stepper-flow": {
+    Component: OnboardingStepperFlow,
+  },
+  "popover": {
+    Component: Popover,
+  },
+  "progress": {
+    Component: Progress,
+  },
+  "radio": {
+    Component: Radio,
+  },
+  "resizable": {
+    Component: Resizable,
+  },
+  "select": {
+    Component: Select,
+  },
+  "select-item": {
+    Component: SelectItem,
+  },
+  "settings-toggle-flow": {
+    Component: SettingsToggleFlow,
+  },
+  "sheet": {
+    Component: Sheet,
+  },
+  "signup-flow": {
+    Component: SignupFlow,
+  },
+  "skeleton": {
+    Component: Skeleton,
+  },
+  "skeleton-block": {
+    Component: SkeletonBlock,
+  },
+  "slider": {
+    Component: Slider,
+  },
+  "spinner": {
+    Component: Spinner,
+  },
+  "stepper": {
+    Component: Stepper,
+  },
+  "switch": {
+    Component: Switch,
+  },
+  "tabs": {
+    Component: Tabs,
+  },
+  "telegram-chat-flow": {
+    Component: TelegramChatFlow,
+  },
+  "toast": {
+    Component: Toast,
+  },
+  "toggle-group": {
+    Component: ToggleGroup,
+  },
+  "tooltip": {
+    Component: Tooltip,
+  },
+  "typing-indicator": {
+    Component: TypingIndicator,
+  }
 };
 
 // Append the shared controls (e.g. `speed`) to every component config so
 // every animation in the customizer exposes the same baseline knobs.
-for (const { config } of Object.values(registry)) {
-  config.controls = { ...config.controls, ...SHARED_CONTROLS };
+for (const entry of Object.values(registry)) {
+  if (entry.config) {
+    entry.config.controls = { ...entry.config.controls, ...SHARED_CONTROLS };
+  }
 }
 
 export default registry;

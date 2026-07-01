@@ -1,0 +1,184 @@
+"use client";
+
+import { useFramecnTheme } from "@/lib/framecn-ui";
+import type { FramecnTheme } from "@/lib/framecn-ui";
+import { Button } from "@/registry/bases/editframe/ui/button";
+import { Cursor } from "@/registry/bases/editframe/ui/cursor";
+import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
+import {
+  Field,
+  FieldControl,
+  FieldGroup,
+  FieldLabel,
+} from "@/registry/bases/editframe/ui/field";
+import { Input } from "@/registry/bases/editframe/ui/input";
+import { Radio } from "@/registry/bases/editframe/ui/radio";
+import { Stepper } from "@/registry/bases/editframe/ui/stepper";
+import { Switch } from "@/registry/bases/editframe/ui/switch";
+
+const STAGE_W = 1280;
+const CARD_W = 420;
+const CARD_PAD = 28;
+const CARD_TOP = 80;
+const CARD_LEFT = (STAGE_W - CARD_W) / 2;
+
+const STEP_1_Y = 200;
+const NAME_X = CARD_LEFT + CARD_PAD + 60;
+const EMAIL_X = NAME_X;
+const EMAIL_Y = STEP_1_Y + 72;
+const NOTIF_X = EMAIL_X;
+const NOTIF_Y = EMAIL_Y + 72;
+const NEXT_X = CARD_LEFT + CARD_W - CARD_PAD - 48;
+const NEXT_Y = NOTIF_Y + 80;
+
+export interface OnboardingStepperFlowProps {
+  title?: string;
+  description?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  notifLabel?: string;
+  nextLabel?: string;
+  theme?: Partial<FramecnTheme>;
+}
+
+export function OnboardingStepperFlow({
+  title = "Create your account",
+  description = "Fill in your details to get started.",
+  nameLabel = "Full name",
+  namePlaceholder = "Jane Doe",
+  emailLabel = "Email",
+  emailPlaceholder = "jane@example.com",
+  notifLabel = "Enable notifications",
+  nextLabel = "Continue",
+  theme,
+}: OnboardingStepperFlowProps) {
+  const resolved = useFramecnTheme(theme);
+
+  const cursorStyle = useCursorPath([
+    { at: 0, x: 140, y: 90 },
+    { at: 48, click: true, duration: 20, x: NAME_X, y: STEP_1_Y },
+    { at: 90, click: true, duration: 18, x: EMAIL_X, y: EMAIL_Y },
+    { at: 120, click: true, duration: 14, x: NOTIF_X, y: NOTIF_Y },
+    { at: 148, click: true, duration: 16, x: NEXT_X, y: NEXT_Y },
+  ]);
+
+  return (
+    <div
+      style={{
+        background: "transparent",
+        fontFamily:
+          "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
+        height: "100%",
+        position: "relative",
+        width: "100%",
+      }}
+    >
+      <div
+        style={{
+          background: resolved.background,
+          border: `1px solid ${resolved.border}`,
+          borderRadius: 14,
+          boxShadow:
+            "0 10px 30px -12px rgba(0,0,0,0.22), 0 2px 8px -3px rgba(0,0,0,0.10)",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          gap: 20,
+          left: CARD_LEFT,
+          padding: CARD_PAD,
+          position: "absolute",
+          top: CARD_TOP,
+          width: CARD_W,
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <span
+            style={{
+              color: resolved.cardForeground,
+              fontSize: 22,
+              fontWeight: 600,
+              letterSpacing: "-0.02em",
+              lineHeight: "28px",
+            }}
+          >
+            {title}
+          </span>
+          <span
+            style={{
+              color: resolved.mutedForeground,
+              fontSize: 14,
+              lineHeight: "20px",
+            }}
+          >
+            {description}
+          </span>
+        </div>
+
+        <Stepper
+          steps={["Account", "Profile", "Finish"]}
+          current={0}
+          theme={theme}
+        />
+
+        <FieldGroup gap={18}>
+          <Field>
+            <FieldLabel theme={theme}>{nameLabel}</FieldLabel>
+            <FieldControl>
+              <Input
+                placeholder={namePlaceholder}
+                value={namePlaceholder}
+                state="typing"
+                from="idle"
+                duration="8frames"
+                fullWidth
+                theme={theme}
+              />
+            </FieldControl>
+          </Field>
+
+          <Field>
+            <FieldLabel theme={theme}>{emailLabel}</FieldLabel>
+            <FieldControl>
+              <Input
+                placeholder={emailPlaceholder}
+                value={emailPlaceholder}
+                state="typing"
+                from="idle"
+                duration="10frames"
+                fullWidth
+                theme={theme}
+              />
+            </FieldControl>
+          </Field>
+
+          <Field>
+            <FieldControl height={32}>
+              <Switch
+                state="checked"
+                from="unchecked"
+                duration="10frames"
+                theme={theme}
+              />
+            </FieldControl>
+          </Field>
+        </FieldGroup>
+
+        <Field gap={10}>
+          <FieldControl height={44}>
+            <Button
+              label={nextLabel}
+              state="idle"
+              from="idle"
+              align="end"
+              theme={theme}
+            />
+          </FieldControl>
+        </Field>
+      </div>
+
+      <Cursor style={cursorStyle} theme={theme} />
+    </div>
+  );
+}

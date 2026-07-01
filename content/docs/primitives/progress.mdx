@@ -1,0 +1,47 @@
+---
+title: "Progress"
+description: "A progress bar whose fill is a pure function of a numeric value."
+---
+
+<ComponentPreview hideCustomizer name="progress" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/progress
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="progress" title="components/ui/progress.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+```
+
+```tsx
+<Progress />
+```

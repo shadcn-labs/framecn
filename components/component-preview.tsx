@@ -211,7 +211,7 @@ export const ComponentPreview = ({
   return (
     <ComponentPreviewInner
       name={name}
-      config={entry.config}
+      config={entry.config!}
       Component={entry.Component}
       hideCode={hideCode}
       hideCustomizer={hideCustomizer}

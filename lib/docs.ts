@@ -24,9 +24,7 @@ export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 
 export const PAGES_NEW: string[] = [
   ROUTES.DOCS_CHANGELOG,
-  `${ROUTES.DOCS_COMPONENTS}/primitives/backdrop`,
-  `${ROUTES.DOCS_COMPONENTS}/primitives/confetti`,
-  `${ROUTES.DOCS_COMPONENTS}/primitives/logo-enter`,
+
   `${ROUTES.DOCS_COMPONENTS}/transitions/fade-through`,
   `${ROUTES.DOCS_COMPONENTS}/transitions/per-word-crossfade`,
   `${ROUTES.DOCS_COMPONENTS}/transitions/shared-axis-y`,
