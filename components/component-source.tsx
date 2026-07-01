@@ -52,7 +52,12 @@ export const ComponentSource = async ({
   if (src) {
     code = await readFileFromRoot(src);
   } else if (name) {
-    const guessedPaths = [`registry/bases/editframe/${name}/index.tsx`];
+    const guessedPaths = [
+      `registry/bases/editframe/components/${name}/index.tsx`,
+      `registry/bases/editframe/ui/${name}/index.tsx`,
+      `registry/bases/editframe/ui/${name}.tsx`,
+      `registry/bases/editframe/${name}/index.tsx`,
+    ];
 
     for (const guessedPath of guessedPaths) {
       try {

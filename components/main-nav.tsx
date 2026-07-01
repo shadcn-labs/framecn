@@ -11,7 +11,11 @@ export const MainNav = ({
   className,
   ...props
 }: React.ComponentProps<"nav"> & {
-  items: { href: string; label: string }[];
+  items: {
+    href: string;
+    label: string;
+    transitionTypes?: string[];
+  }[];
 }) => {
   const pathname = usePathname();
 
@@ -22,7 +26,7 @@ export const MainNav = ({
           <Link
             href={item.href}
             className={cn(pathname === item.href && "text-primary")}
-            transitionTypes={["nav-forward"]}
+            transitionTypes={item.transitionTypes ?? ["nav-forward"]}
           >
             {item.label}
           </Link>

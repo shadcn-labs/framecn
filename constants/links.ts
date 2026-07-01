@@ -12,7 +12,6 @@ export const LINK = {
   GITHUB: githubUrl,
   LICENSE: `${githubUrl}/blob/${GITHUB.branch}/LICENSE`,
   PORTFOLIO: "https://aniketpawar.com",
-  REMOCN: "https://github.com/kapishdima/remocn",
   SHADCN_MCP_DOCS: "https://ui.shadcn.com/docs/mcp",
   SPONSOR: `https://github.com/sponsors/Aniket-508`,
   X: "https://x.com/alaymanguy",

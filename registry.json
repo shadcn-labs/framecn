@@ -8,7 +8,7 @@
       "type": "registry:component",
       "title": "Blur Reveal",
       "description": "Text fades in from a heavy blur into sharp focus.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/blur-reveal/index.tsx",
@@ -22,7 +22,7 @@
       "type": "registry:component",
       "title": "Typewriter",
       "description": "Character-by-character text reveal with a deterministic blinking cursor.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/typewriter/index.tsx",
@@ -36,7 +36,7 @@
       "type": "registry:component",
       "title": "Inline Highlight",
       "description": "Animates one word inside a sentence from a base color to a brand color.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/inline-highlight/index.tsx",
@@ -50,7 +50,7 @@
       "type": "registry:component",
       "title": "Text Fade Replace",
       "description": "Cross-fades between two strings on the same line without layout shift.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/text-fade-replace/index.tsx",
@@ -64,7 +64,7 @@
       "type": "registry:component",
       "title": "Strikethrough Replace",
       "description": "Draws a strike line across old text then reveals new text in its place.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/strikethrough-replace/index.tsx",
@@ -78,7 +78,7 @@
       "type": "registry:component",
       "title": "Staggered Fade Up",
       "description": "Words fade in and slide up one after another with a configurable delay.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/staggered-fade-up/index.tsx",
@@ -92,7 +92,7 @@
       "type": "registry:component",
       "title": "Masked Slide Reveal",
       "description": "Words slide up out of an invisible horizontal mask, one after another.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/masked-slide-reveal/index.tsx",
@@ -106,7 +106,7 @@
       "type": "registry:component",
       "title": "Tracking In",
       "description": "Letter-spacing collapses and blur clears with a springy motion.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/tracking-in/index.tsx",
@@ -120,7 +120,7 @@
       "type": "registry:component",
       "title": "Shimmer Sweep",
       "description": "Light shine sweeps across muted text via background-clip:text.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/shimmer-sweep/index.tsx",
@@ -134,7 +134,7 @@
       "type": "registry:component",
       "title": "Marker Highlight",
       "description": "Colored marker block draws behind a phrase as the text color shifts.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/marker-highlight/index.tsx",
@@ -148,7 +148,7 @@
       "type": "registry:component",
       "title": "Slot Machine Roll",
       "description": "Vertical reel scrolls characters from one value to another.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/slot-machine-roll/index.tsx",
@@ -162,7 +162,7 @@
       "type": "registry:component",
       "title": "Matrix Decode",
       "description": "Random scramble resolves left-to-right into the target text.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/matrix-decode/index.tsx",
@@ -176,7 +176,7 @@
       "type": "registry:component",
       "title": "RGB Glitch Text",
       "description": "Three RGB-offset text copies jitter for a brief glitch window.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/rgb-glitch-text/index.tsx",
@@ -190,7 +190,7 @@
       "type": "registry:component",
       "title": "Infinite Marquee",
       "description": "Seamlessly looping horizontal text strip with optional stroke style.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/infinite-marquee/index.tsx",
@@ -204,7 +204,7 @@
       "type": "registry:component",
       "title": "Mesh Gradient Background",
       "description": "Living gradient with amorphous color blobs slowly drifting across the frame.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/mesh-gradient-bg/index.tsx",
@@ -218,7 +218,7 @@
       "type": "registry:component",
       "title": "Dynamic Grid",
       "description": "Subtle moving grid background with configurable cell size and direction.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/dynamic-grid/index.tsx",
@@ -232,7 +232,7 @@
       "type": "registry:component",
       "title": "Spring Pop In",
       "description": "Elastic spring-driven scale-in wrapper for any child element.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/spring-pop-in/index.tsx",
@@ -246,7 +246,7 @@
       "type": "registry:component",
       "title": "Simulated Cursor",
       "description": "Animated mouse cursor moving between waypoints with click ripple feedback.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/simulated-cursor/index.tsx",
@@ -260,7 +260,7 @@
       "type": "registry:component",
       "title": "Pulsing Indicator",
       "description": "Continuous pulsing dot with ping ring for loading or live states.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/pulsing-indicator/index.tsx",
@@ -274,7 +274,7 @@
       "type": "registry:component",
       "title": "Directional Wipe",
       "description": "Slide one scene in while pushing the other out.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/directional-wipe/index.tsx",
@@ -288,7 +288,7 @@
       "type": "registry:component",
       "title": "Device Mockup Zoom",
       "description": "Pull back from a UI to reveal it inside a device frame.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/device-mockup-zoom/index.tsx",
@@ -302,7 +302,7 @@
       "type": "registry:component",
       "title": "Zoom Through Transition",
       "description": "Aggressively scale into the center of an element.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/zoom-through-transition/index.tsx",
@@ -316,7 +316,7 @@
       "type": "registry:component",
       "title": "Staggered Bento Grid",
       "description": "Cards pop into a bento grid one after another with a spring.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/staggered-bento-grid/index.tsx",
@@ -330,7 +330,7 @@
       "type": "registry:component",
       "title": "Chat to Preview Layout",
       "description": "Two-column layout where chat shrinks and preview expands.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/chat-to-preview-layout/index.tsx",
@@ -344,7 +344,7 @@
       "type": "registry:component",
       "title": "Bounding Box Selector",
       "description": "Figma-style selection rectangle appears around any element.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/bounding-box-selector/index.tsx",
@@ -358,7 +358,7 @@
       "type": "registry:component",
       "title": "Animated Line Chart",
       "description": "Line chart whose SVG path draws on from left to right with a leading dot.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/animated-line-chart/index.tsx",
@@ -372,7 +372,7 @@
       "type": "registry:component",
       "title": "Animated Bar Chart",
       "description": "Bars spring up from the baseline in a staggered cascade.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/animated-bar-chart/index.tsx",
@@ -386,7 +386,7 @@
       "type": "registry:component",
       "title": "Terminal Simulator",
       "description": "Terminal window that types out commands and rolls old lines off the top.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/terminal-simulator/index.tsx",
@@ -400,7 +400,7 @@
       "type": "registry:component",
       "title": "Code Diff Wipe",
       "description": "Before/after code reveal via clip-path wipe with a handle marker.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/code-diff-wipe/index.tsx",
@@ -414,7 +414,7 @@
       "type": "registry:component",
       "title": "Toast Notification",
       "description": "System-style toast pops in, holds, then slides out.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/toast-notification/index.tsx",
@@ -428,7 +428,7 @@
       "type": "registry:component",
       "title": "Drag and Drop Flow",
       "description": "Simulated file drag into a dropzone followed by upload progress.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/drag-and-drop-flow/index.tsx",
@@ -442,7 +442,7 @@
       "type": "registry:component",
       "title": "Progress Steps",
       "description": "Multi-step pipeline with sequentially activating nodes and filling lines.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/progress-steps/index.tsx",
@@ -456,7 +456,7 @@
       "type": "registry:component",
       "title": "Morphing Modal",
       "description": "A bento card lifts off the grid and blooms into a full-screen modal driven by a single heavy spring.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/morphing-modal/index.tsx",
@@ -470,7 +470,7 @@
       "type": "registry:component",
       "title": "Data Flow Pipes",
       "description": "Glowing data packets travel along SVG bezier pipes between system nodes, leaving fading trails.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/data-flow-pipes/index.tsx",
@@ -484,7 +484,7 @@
       "type": "registry:component",
       "title": "Cursor Flow",
       "description": "A realistic mouse that arcs along cubic Bezier paths, pauses, and clicks targets that dip in response.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/cursor-flow/index.tsx",
@@ -498,7 +498,7 @@
       "type": "registry:component",
       "title": "Code Accordion",
       "description": "A code window that springs a range of lines closed and replaces them with a \"N lines collapsed\" placeholder.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/code-accordion/index.tsx",
@@ -512,7 +512,7 @@
       "type": "registry:component",
       "title": "Glass Code Block",
       "description": "A premium frosted-glass code editor window with a regex tokenizer and line-by-line stagger reveal.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/glass-code-block/index.tsx",
@@ -526,7 +526,7 @@
       "type": "registry:component",
       "title": "Spotlight Card",
       "description": "A card with a moonlight-cool radial spotlight that follows a synthetic cursor and lights up its microborder.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/spotlight-card/index.tsx",
@@ -540,7 +540,7 @@
       "type": "registry:component",
       "title": "Perspective Marquee",
       "description": "A 3D-tilted infinite marquee with depth-of-field blur on items rolling toward the horizon.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/perspective-marquee/index.tsx",
@@ -554,7 +554,7 @@
       "type": "registry:component",
       "title": "Success Confetti",
       "description": "Deterministic seeded confetti burst with optional headline.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/success-confetti/index.tsx",
@@ -568,7 +568,7 @@
       "type": "registry:component",
       "title": "Frosted Glass Wipe",
       "description": "Elegant scene transition through a sliding pane of frosted glass.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/frosted-glass-wipe/index.tsx",
@@ -582,7 +582,7 @@
       "type": "registry:component",
       "title": "Kinetic Type Mask",
       "description": "Use giant typography as a window into the next scene.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/kinetic-type-mask/index.tsx",
@@ -596,7 +596,7 @@
       "type": "registry:component",
       "title": "Spatial Push",
       "description": "A new scene physically presses the old one back into the frame.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/spatial-push/index.tsx",
@@ -610,7 +610,7 @@
       "type": "registry:component",
       "title": "Grid Pixelate Wipe",
       "description": "Dissolve from one scene to the next through a deterministic grid of mask cells.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/grid-pixelate-wipe/index.tsx",
@@ -624,7 +624,7 @@
       "type": "registry:component",
       "title": "Chromatic Aberration Wipe",
       "description": "An ultra-fast slide transition with an RGB glitch on the peak frames.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/chromatic-aberration-wipe/index.tsx",
@@ -638,7 +638,7 @@
       "type": "registry:component",
       "title": "Hero Device Assemble",
       "description": "Floating device layers spring together into a laptop or phone mockup, then the screen wakes with a shimmer.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/hero-device-assemble/index.tsx",
@@ -652,7 +652,7 @@
       "type": "registry:component",
       "title": "Ecosystem Constellation",
       "description": "A central logo orbited by integration satellites with pulsing data lines.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/ecosystem-constellation/index.tsx",
@@ -666,7 +666,7 @@
       "type": "registry:component",
       "title": "AI Generation Canvas",
       "description": "A prompt input transforms into a header, then a skeleton dashboard flips into populated cards.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/ai-generation-canvas/index.tsx",
@@ -680,7 +680,7 @@
       "type": "registry:component",
       "title": "Live Code Compilation",
       "description": "Split-screen where typed code on the left snaps a live UI preview on the right, HMR-style.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/live-code-compilation/index.tsx",
@@ -694,7 +694,7 @@
       "type": "registry:component",
       "title": "Landing Code Showcase",
       "description": "Magical split-screen: code types itself on the left while the preview reactively re-renders on the right with sparks and tactile bounce.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/landing-code-showcase/index.tsx",
@@ -708,7 +708,7 @@
       "type": "registry:component",
       "title": "Pipeline Journey",
       "description": "A Kanban ticket arcs across columns triggering landings and a final confetti burst.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/pipeline-journey/index.tsx",
@@ -722,7 +722,7 @@
       "type": "registry:component",
       "title": "Dashboard Populate",
       "description": "An empty dashboard cascades to life with KPI count-ups, bar bounces, line traces, and a donut fill.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/dashboard-populate/index.tsx",
@@ -736,7 +736,7 @@
       "type": "registry:component",
       "title": "Terminal to Browser Deploy",
       "description": "A CLI deploy completes, the terminal blurs back, and a browser window springs from the deploy URL.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/terminal-to-browser-deploy/index.tsx",
@@ -750,7 +750,7 @@
       "type": "registry:component",
       "title": "Browser Flow",
       "description": "Full Safari/Chrome simulation: typed URL, progress bar, page render, scroll, and a virtual cursor click.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/browser-flow/index.tsx",
@@ -764,7 +764,7 @@
       "type": "registry:component",
       "title": "Pricing Tier Focus",
       "description": "Three pricing cards where the focused tier rises and brightens while siblings dim and blur.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/pricing-tier-focus/index.tsx",
@@ -778,7 +778,7 @@
       "type": "registry:component",
       "title": "Infinite Bento Pan",
       "description": "A camera diagonally drifts across an oversized bento grid behind a soft vignette.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/infinite-bento-pan/index.tsx",
@@ -791,8 +791,8 @@
       "name": "ai-generate-overlay",
       "type": "registry:component",
       "title": "AI Generate Overlay",
-      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating…' pill before a new image fades in.",
-      "dependencies": ["remotion"],
+      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating\u2026' pill before a new image fades in.",
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/ai-generate-overlay/index.tsx",
@@ -806,7 +806,7 @@
       "type": "registry:component",
       "title": "Image Expand To Fullscreen",
       "description": "An image lifts out of a feed post and morphs into a fullscreen editor with toolbars sliding in.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/image-expand-to-fullscreen/index.tsx",
@@ -820,7 +820,7 @@
       "type": "registry:component",
       "title": "Swipe Transition Wipe",
       "description": "Two scenes laid out side-by-side flick across the screen with a parallax background and a darkening outgoing layer.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/swipe-transition-wipe/index.tsx",
@@ -834,7 +834,7 @@
       "type": "registry:component",
       "title": "Product Launch Trailer",
       "description": "Cinematic Product Hunt teaser: pulsing logo, zoom-through transition, 3D bento fly-over, and a confetti version drop.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/product-launch-trailer/index.tsx",
@@ -1100,7 +1100,7 @@
       "type": "registry:component",
       "title": "Top Down Letters",
       "description": "Letters animate in from top to bottom.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/top-down-letters/index.tsx",
@@ -1114,7 +1114,7 @@
       "type": "registry:component",
       "title": "Blur Out Up",
       "description": "Words blur and drift upward while fading out, staggered per word.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/blur-out-up/index.tsx",
@@ -1128,7 +1128,7 @@
       "type": "registry:component",
       "title": "Focus Blur Resolve",
       "description": "Text resolves into focus from a blurred, shifted state, then blurs back out on exit.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/focus-blur-resolve/index.tsx",
@@ -1142,7 +1142,7 @@
       "type": "registry:component",
       "title": "Per Character Rise",
       "description": "Characters rise from below with a smooth spring-like easing, staggered one frame apart.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/per-character-rise/index.tsx",
@@ -1156,12 +1156,540 @@
       "type": "registry:component",
       "title": "Scale Down Fade",
       "description": "Text enters scaling down into place with a fade, then shrinks and fades out.",
-      "dependencies": ["remotion"],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/scale-down-fade/index.tsx",
           "type": "registry:component",
           "target": "components/framecn/scale-down-fade.tsx"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/accordion/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "ai-prompt-flow",
+      "type": "registry:ui",
+      "title": "Ai Prompt Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/ai-prompt-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/alert-dialog/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "blur-in",
+      "type": "registry:ui",
+      "title": "Blur In",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/blur-in/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/button/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "caret",
+      "type": "registry:ui",
+      "title": "Caret",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/caret/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chat-flow",
+      "type": "registry:ui",
+      "title": "Chat Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/chat-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/checkbox/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkout-flow",
+      "type": "registry:ui",
+      "title": "Checkout Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/checkout-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/combobox/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command-menu",
+      "type": "registry:ui",
+      "title": "Command Menu",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/command-menu/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command-menu-item",
+      "type": "registry:ui",
+      "title": "Command Menu Item",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/command-menu-item/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/context-menu/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "cursor",
+      "type": "registry:ui",
+      "title": "Cursor",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/cursor/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/dialog/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/drawer/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/dropdown-menu/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu-item",
+      "type": "registry:ui",
+      "title": "Dropdown Menu Item",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/dropdown-menu-item/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/field/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "imessage-chat-flow",
+      "type": "registry:ui",
+      "title": "Imessage Chat Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/imessage-chat-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/input/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message-bubble",
+      "type": "registry:ui",
+      "title": "Message Bubble",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/message-bubble/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "onboarding-stepper-flow",
+      "type": "registry:ui",
+      "title": "Onboarding Stepper Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/onboarding-stepper-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/popover/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/progress/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio",
+      "type": "registry:ui",
+      "title": "Radio",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/radio/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/resizable/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/select/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select-item",
+      "type": "registry:ui",
+      "title": "Select Item",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/select-item/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "settings-toggle-flow",
+      "type": "registry:ui",
+      "title": "Settings Toggle Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/settings-toggle-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/sheet/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "signup-flow",
+      "type": "registry:ui",
+      "title": "Signup Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/signup-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/skeleton/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton-block",
+      "type": "registry:ui",
+      "title": "Skeleton Block",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/skeleton-block/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/slider/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/spinner/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:ui",
+      "title": "Stepper",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/stepper/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/switch/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/tabs/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "telegram-chat-flow",
+      "type": "registry:ui",
+      "title": "Telegram Chat Flow",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/telegram-chat-flow/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/toast/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/toggle-group/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/tooltip/index.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "typing-indicator",
+      "type": "registry:ui",
+      "title": "Typing Indicator",
+      "description": "",
+      "files": [
+        {
+          "path": "registry/bases/editframe/ui/typing-indicator/index.tsx",
+          "type": "registry:ui"
         }
       ]
     }

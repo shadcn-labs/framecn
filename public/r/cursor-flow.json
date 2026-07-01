@@ -4,7 +4,7 @@
   "title": "Cursor Flow",
   "description": "A realistic mouse that arcs along cubic Bezier paths, pauses, and clicks targets that dip in response.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

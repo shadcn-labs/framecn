@@ -4,7 +4,7 @@
   "title": "Zoom Through Transition",
   "description": "Aggressively scale into the center of an element.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

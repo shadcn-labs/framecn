@@ -4,7 +4,7 @@
   "title": "Animated Line Chart",
   "description": "Line chart whose SVG path draws on from left to right with a leading dot.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

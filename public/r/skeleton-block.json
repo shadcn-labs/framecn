@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton-block",
+  "title": "Skeleton Block",
+  "description": "",
+  "files": [
+    {
+      "path": "registry/bases/editframe/ui/skeleton-block/index.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useRef } from \"react\";\n\nexport interface SkeletonBlockProps {\n  width?: number;\n  height?: number;\n  radius?: number;\n  baseColor?: string;\n  speed?: number;\n  flexShrink?: number;\n  className?: string;\n}\n\nexport const SkeletonBlock = ({\n  width = 200,\n  height = 20,\n  radius,\n  baseColor = \"oklch(0.92 0 0)\",\n  speed = 1,\n  flexShrink = 1,\n  className,\n}: SkeletonBlockProps) => {\n  const ref = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    const el = ref.current;\n    if (!el) {\n      return;\n    }\n    const duration = `${1.8 / speed}s`;\n    el.style.animation = `skeleton-shimmer ${duration} ease-in-out infinite`;\n  }, [speed]);\n\n  return (\n    <>\n      <style>{`\n        @keyframes skeleton-shimmer {\n          0%, 100% { opacity: 0.6; }\n          50% { opacity: 1; }\n        }\n      `}</style>\n      <div\n        ref={ref}\n        className={className}\n        style={{\n          background: baseColor,\n          borderRadius: radius ?? 6,\n          flexShrink,\n          height,\n          width,\n        }}\n      />\n    </>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

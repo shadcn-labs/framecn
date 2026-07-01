@@ -199,11 +199,24 @@ export const ComponentPreview = ({
   className?: string;
 }) => {
   const entry = registry[name];
+  const previewId = usePreviewId(name);
 
   if (!entry) {
     return (
       <div className="not-prose mb-6 rounded-lg border border-fd-border p-4 text-sm text-fd-muted-foreground">
         Unknown component: <code>{name}</code>
+      </div>
+    );
+  }
+
+  if (!entry.config) {
+    return (
+      <div className={cn("not-prose flex flex-col gap-4", className)}>
+        <VideoPreview
+          previewId={previewId}
+          Component={entry.Component}
+          componentProps={{}}
+        />
       </div>
     );
   }

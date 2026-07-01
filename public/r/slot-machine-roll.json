@@ -4,7 +4,7 @@
   "title": "Slot Machine Roll",
   "description": "Vertical reel scrolls characters from one value to another.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

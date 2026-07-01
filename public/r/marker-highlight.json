@@ -4,7 +4,7 @@
   "title": "Marker Highlight",
   "description": "Colored marker block draws behind a phrase as the text color shifts.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

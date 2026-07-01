@@ -6,13 +6,15 @@ import type { CSSProperties } from "react";
 const FONT_MONO =
   "var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace";
 
-const DEFAULT_CODE = `import { motion } from "remotion";
+const DEFAULT_CODE = `import { Timegroup } from "@editframe/react";
 
 // Generate a hero scene
 export function Hero() {
-  const frame = useCurrentFrame();
-  const opacity = frame / 30;
-  return <h1 style={{ opacity }}>Hello</h1>;
+  return (
+    <Timegroup duration="1000ms" mode="fixed">
+      <h1 style={{ opacity: 1 }}>Hello</h1>
+    </Timegroup>
+  );
 }`;
 
 const KEYWORDS = new Set([

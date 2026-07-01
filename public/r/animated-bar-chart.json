@@ -4,7 +4,7 @@
   "title": "Animated Bar Chart",
   "description": "Bars spring up from the baseline in a staggered cascade.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

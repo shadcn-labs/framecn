@@ -4,7 +4,7 @@
   "title": "Progress Steps",
   "description": "Multi-step pipeline with sequentially activating nodes and filling lines.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

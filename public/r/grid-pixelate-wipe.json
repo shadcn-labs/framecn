@@ -4,7 +4,7 @@
   "title": "Grid Pixelate Wipe",
   "description": "Dissolve from one scene to the next through a deterministic grid of mask cells.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

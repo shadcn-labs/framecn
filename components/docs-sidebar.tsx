@@ -14,19 +14,34 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
-import { EXCLUDED_SECTIONS, isComponentsFolder, PAGES_NEW } from "@/lib/docs";
+import {
+  getDocsSidebarPanel,
+  isComponentsFolder,
+  isUiFolder,
+  PAGES_NEW,
+} from "@/lib/docs";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import type { PageTreeFolder } from "@/lib/page-tree";
 import type { source } from "@/lib/source";
 
 const TOP_LEVEL_SECTIONS = [
   { href: ROUTES.DOCS, name: "Introduction" },
   { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
+  { href: ROUTES.DOCS_CONCEPTS, name: "Concepts" },
   { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
+  { href: ROUTES.DOCS_UI, name: "UI" },
   { href: ROUTES.DOCS_MCP, name: "MCP" },
   { href: ROUTES.DOCS_REGISTRY, name: "Registry" },
   { href: ROUTES.LLMS, name: "llms.txt" },
   { href: ROUTES.DOCS_CHANGELOG, name: "Changelog" },
-];
+] as const;
+
+const isSectionActive = (href: string, pathname: string) => {
+  if (href === ROUTES.DOCS) {
+    return pathname === href;
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
 
 const SidebarMenuItemLink = ({
   href,
@@ -89,11 +104,87 @@ const SidebarPageGroup = ({
   );
 };
 
+const getUiCategoryFolder = (
+  uiFolder: PageTreeFolder,
+  category: "components" | "blocks"
+) =>
+  getFoldersFromFolder(uiFolder).find(
+    (folder) =>
+      folder.$id === `ui/${category}` ||
+      String(folder.$id ?? "").endsWith(`/${category}`) ||
+      folder.name?.toString().toLowerCase() === category
+  );
+
+const ComponentsSidebarPanel = ({
+  tree,
+  pathname,
+}: {
+  tree: typeof source.pageTree;
+  pathname: string;
+}) => {
+  const componentsFolder = tree.children.find(
+    (item): item is PageTreeFolder =>
+      item.type === "folder" && isComponentsFolder(item)
+  );
+
+  if (!componentsFolder) {
+    return null;
+  }
+
+  return getFoldersFromFolder(componentsFolder).map((category) => (
+    <SidebarPageGroup
+      key={category.$id}
+      label={category.name}
+      pages={getPagesFromFolder(category, false)}
+      pathname={pathname}
+    />
+  ));
+};
+
+const UiSidebarPanel = ({
+  tree,
+  pathname,
+}: {
+  tree: typeof source.pageTree;
+  pathname: string;
+}) => {
+  const uiFolder = tree.children.find(
+    (item): item is PageTreeFolder => item.type === "folder" && isUiFolder(item)
+  );
+
+  if (!uiFolder) {
+    return null;
+  }
+
+  const componentsFolder = getUiCategoryFolder(uiFolder, "components");
+  const blocksFolder = getUiCategoryFolder(uiFolder, "blocks");
+
+  return (
+    <>
+      {componentsFolder ? (
+        <SidebarPageGroup
+          label="Components"
+          pages={getPagesFromFolder(componentsFolder, false)}
+          pathname={pathname}
+        />
+      ) : null}
+      {blocksFolder ? (
+        <SidebarPageGroup
+          label="Blocks"
+          pages={getPagesFromFolder(blocksFolder, false)}
+          pathname={pathname}
+        />
+      ) : null}
+    </>
+  );
+};
+
 export const DocsSidebar = ({
   tree,
   ...props
 }: React.ComponentProps<typeof Sidebar> & { tree: typeof source.pageTree }) => {
   const pathname = usePathname();
+  const panel = getDocsSidebarPanel(pathname);
 
   return (
     <Sidebar
@@ -115,11 +206,7 @@ export const DocsSidebar = ({
                 <SidebarMenuItemLink
                   key={name}
                   href={href}
-                  isActive={
-                    href === ROUTES.DOCS
-                      ? pathname === href
-                      : pathname.startsWith(href)
-                  }
+                  isActive={isSectionActive(href, pathname)}
                 >
                   {name}
                 </SidebarMenuItemLink>
@@ -127,34 +214,11 @@ export const DocsSidebar = ({
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {tree.children.map((item) => {
-          if (item.type !== "folder") {
-            return null;
-          }
-          if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
-            return null;
-          }
-
-          if (isComponentsFolder(item)) {
-            return getFoldersFromFolder(item).map((category) => (
-              <SidebarPageGroup
-                key={category.$id}
-                label={category.name}
-                pages={getPagesFromFolder(category, false)}
-                pathname={pathname}
-              />
-            ));
-          }
-
-          return (
-            <SidebarPageGroup
-              key={item.$id}
-              label={item.name}
-              pages={getPagesFromFolder(item)}
-              pathname={pathname}
-            />
-          );
-        })}
+        {panel === "components" ? (
+          <ComponentsSidebarPanel pathname={pathname} tree={tree} />
+        ) : (
+          <UiSidebarPanel pathname={pathname} tree={tree} />
+        )}
         <div className="from-background via-background/80 to-background/50 sticky -bottom-1 z-10 h-16 shrink-0 bg-linear-to-t blur-xs" />
       </SidebarContent>
     </Sidebar>

@@ -4,7 +4,7 @@
   "title": "Dashboard Populate",
   "description": "An empty dashboard cascades to life with KPI count-ups, bar bounces, line traces, and a donut fill.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

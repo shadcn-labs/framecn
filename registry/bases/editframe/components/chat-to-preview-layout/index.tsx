@@ -125,7 +125,7 @@ const DefaultPreview = () => (
         Ship faster.
       </div>
       <div style={{ color: "#71717a", fontSize: 16, maxWidth: 360 }}>
-        The fastest way to launch your idea. Built with Remotion.
+        The fastest way to launch your idea. Built with Editframe.
       </div>
       <div
         style={{
