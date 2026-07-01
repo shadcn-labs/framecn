@@ -53,7 +53,7 @@ export interface CheckoutFlowProps {
   theme?: Partial<FramecnTheme>;
 }
 
-export function CheckoutFlow({
+export const CheckoutFlow = ({
   title = "Upgrade your plan",
   description = "Complete your purchase to unlock every feature.",
   plans = DEFAULT_PLANS,
@@ -63,7 +63,7 @@ export function CheckoutFlow({
   payLabel = "Pay $49",
   toastTitle = "Payment successful",
   theme,
-}: CheckoutFlowProps) {
+}: CheckoutFlowProps) => {
   const resolved = useFramecnTheme(theme);
 
   const cursorStyle = useCursorPath([
@@ -131,11 +131,7 @@ export function CheckoutFlow({
 
         <BlurIn display="block" state="revealed">
           <FieldControl height={44}>
-            <ToggleGroup
-              state={1}
-              items={plans}
-              theme={theme}
-            />
+            <ToggleGroup state={1} items={plans} theme={theme} />
           </FieldControl>
         </BlurIn>
 
@@ -198,4 +194,4 @@ export function CheckoutFlow({
       <Cursor style={cursorStyle} variant="pointer" theme={theme} />
     </div>
   );
-}
+};

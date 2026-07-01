@@ -35,7 +35,9 @@ export interface DialogStyleContext {
   mutedForeground: string;
 }
 
-export const dialogStyleContext = (theme: FramecnTheme): DialogStyleContext => ({
+export const dialogStyleContext = (
+  theme: FramecnTheme
+): DialogStyleContext => ({
   background: theme.popover,
   border: theme.border,
   foreground: theme.foreground,
@@ -66,7 +68,7 @@ export const dialogStyle = (
   }
 };
 
-export function Dialog({
+export const Dialog = ({
   state = "open",
   from,
   title = "Edit profile",
@@ -74,7 +76,7 @@ export function Dialog({
   theme: themeOverride,
   className,
   duration = "12frames",
-}: DialogProps) {
+}: DialogProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = dialogStyleContext(theme);
   const v = dialogStyle(state, ctx);
@@ -119,8 +121,7 @@ export function Dialog({
           background: ctx.background,
           border: `1px solid ${ctx.border}`,
           borderRadius: theme.radius,
-          boxShadow:
-            "0 25px 50px -12px rgba(0,0,0,0.25)",
+          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
           display: "flex",
           flexDirection: "column",
           gap: 16,
@@ -201,4 +202,4 @@ export function Dialog({
       </div>
     </div>
   );
-}
+};

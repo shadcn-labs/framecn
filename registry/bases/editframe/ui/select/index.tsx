@@ -71,7 +71,7 @@ export const selectStyle = (
   }
 };
 
-export function Select({
+export const Select = ({
   state = "open",
   from,
   value = "option-1",
@@ -80,7 +80,7 @@ export function Select({
   theme: themeOverride,
   className,
   duration = "12frames",
-}: SelectProps) {
+}: SelectProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = selectStyleContext(theme);
   const v = selectStyle(state, ctx);
@@ -89,7 +89,11 @@ export function Select({
   const fromStyle = hasAnimation ? selectStyle(from, ctx) : v;
   const anim = hasAnimation
     ? selectAnimation(from, state, duration, fromStyle, v)
-    : { chevronTransform: "none", panelOpacity: "none", panelTransform: "none" };
+    : {
+        chevronTransform: "none",
+        panelOpacity: "none",
+        panelTransform: "none",
+      };
 
   return (
     <div
@@ -226,4 +230,4 @@ export function Select({
       </div>
     </div>
   );
-}
+};

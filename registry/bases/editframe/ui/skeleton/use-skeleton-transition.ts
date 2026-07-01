@@ -1,6 +1,5 @@
 "use client";
 
-import { skeletonStyle } from "@/registry/bases/editframe/ui/skeleton";
 import type {
   SkeletonState,
   SkeletonStyle,
@@ -31,8 +30,8 @@ export const skeletonAnimation = (
   from: SkeletonState,
   to: SkeletonState,
   duration: string,
-  fromStyle: SkeletonStyle,
-  toStyle: SkeletonStyle
+  _fromStyle: SkeletonStyle,
+  _toStyle: SkeletonStyle
 ): { skeleton: string; content: string } => {
   if (from === to) {
     return { content: "none", skeleton: "none" };

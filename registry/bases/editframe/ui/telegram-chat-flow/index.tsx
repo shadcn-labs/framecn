@@ -95,7 +95,7 @@ export const telegramChatFlowSchedule = (
   const items: ScheduledMessage[] = [];
   let cursor = LEAD_IN;
 
-  messages.forEach((message, index) => {
+  for (const [index, message] of messages.entries()) {
     const hasReaction =
       message.reaction !== undefined && message.reaction !== "";
     if (message.from === "me") {
@@ -151,7 +151,7 @@ export const telegramChatFlowSchedule = (
         (hasReaction ? REACT_DELAY + REACT_DUR : 0) +
         MSG_GAP;
     }
-  });
+  }
 
   const duration = Math.max(cursor - MSG_GAP + TAIL, LEAD_IN + TAIL);
   return { duration, items };
@@ -179,7 +179,13 @@ export const sendPulse = (items: ScheduledMessage[], eff: number): number => {
   return best;
 };
 
-function Avatar({ contact, size }: { contact: TelegramContact; size: number }) {
+const Avatar = ({
+  contact,
+  size,
+}: {
+  contact: TelegramContact;
+  size: number;
+}) => {
   const initial = contact.name.trim().charAt(0).toUpperCase();
   return (
     <div
@@ -201,154 +207,140 @@ function Avatar({ contact, size }: { contact: TelegramContact; size: number }) {
         width: size,
       }}
     >
-      {contact.avatar !== undefined ? (
+      {contact.avatar === undefined ? (
+        initial
+      ) : (
         <img
           src={contact.avatar}
           alt={contact.name}
           style={{ height: "100%", objectFit: "cover", width: "100%" }}
         />
-      ) : (
-        initial
       )}
     </div>
   );
-}
+};
 
-function DoubleCheck({ color }: { color: string }) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 7 17l-5-5" />
-      <path d="m22 10-7.5 7.5L13 16" />
-    </svg>
-  );
-}
+const DoubleCheck = ({ color }: { color: string }) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M18 6 7 17l-5-5" />
+    <path d="m22 10-7.5 7.5L13 16" />
+  </svg>
+);
 
-function PaperPlane({ color }: { color: string }) {
-  return (
-    <svg
-      width={20}
-      height={20}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
-      <path d="m21.854 2.147-10.94 10.939" />
-    </svg>
-  );
-}
+const PaperPlane = ({ color }: { color: string }) => (
+  <svg
+    width={20}
+    height={20}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+    <path d="m21.854 2.147-10.94 10.939" />
+  </svg>
+);
 
-function MicIcon({ color }: { color: string }) {
-  return (
-    <svg
-      width={22}
-      height={22}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 19v3" />
-      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-      <rect x={9} y={2} width={6} height={13} rx={3} />
-    </svg>
-  );
-}
+const MicIcon = ({ color }: { color: string }) => (
+  <svg
+    width={22}
+    height={22}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 19v3" />
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+    <rect x={9} y={2} width={6} height={13} rx={3} />
+  </svg>
+);
 
-function SmileIcon({ color }: { color: string }) {
-  return (
-    <svg
-      width={22}
-      height={22}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx={12} cy={12} r={10} />
-      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-      <line x1={9} x2={9.01} y1={9} y2={9} />
-      <line x1={15} x2={15.01} y1={9} y2={9} />
-    </svg>
-  );
-}
+const SmileIcon = ({ color }: { color: string }) => (
+  <svg
+    width={22}
+    height={22}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx={12} cy={12} r={10} />
+    <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+    <line x1={9} x2={9.01} y1={9} y2={9} />
+    <line x1={15} x2={15.01} y1={9} y2={9} />
+  </svg>
+);
 
-function AttachIcon({ color }: { color: string }) {
-  return (
-    <svg
-      width={22}
-      height={22}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551" />
-    </svg>
-  );
-}
+const AttachIcon = ({ color }: { color: string }) => (
+  <svg
+    width={22}
+    height={22}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551" />
+  </svg>
+);
 
-function PhoneIcon({ color }: { color: string }) {
-  return (
-    <svg
-      width={22}
-      height={22}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
-    </svg>
-  );
-}
+const PhoneIcon = ({ color }: { color: string }) => (
+  <svg
+    width={22}
+    height={22}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+  </svg>
+);
 
-function MoreIcon({ color }: { color: string }) {
-  return (
-    <svg
-      width={22}
-      height={22}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx={12} cy={12} r={1} />
-      <circle cx={12} cy={5} r={1} />
-      <circle cx={12} cy={19} r={1} />
-    </svg>
-  );
-}
+const MoreIcon = ({ color }: { color: string }) => (
+  <svg
+    width={22}
+    height={22}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx={12} cy={12} r={1} />
+    <circle cx={12} cy={5} r={1} />
+    <circle cx={12} cy={19} r={1} />
+  </svg>
+);
 
-function BubbleTail({
+const BubbleTail = ({
   side,
   color,
 }: {
   side: "left" | "right";
   color: string;
-}) {
+}) => {
   const path =
     side === "right"
       ? "M0 0 H4 C4 7 7 12 13 13 C6 13 0 9 0 0 Z"
@@ -368,9 +360,139 @@ function BubbleTail({
       <path d={path} fill={color} />
     </svg>
   );
-}
+};
 
-export function TelegramChatFlow({
+// eslint-disable-next-line complexity
+const TelegramRow = ({
+  item,
+  eff,
+  contact,
+  accent,
+}: {
+  item: ScheduledMessage;
+  eff: number;
+  contact?: TelegramContact;
+  accent: string;
+}) => {
+  const outgoing = item.from === "me";
+
+  const enterProgress = clamp(
+    (eff - item.revealAt) / (16 * (1 / Math.max(0.01, 1))),
+    0,
+    1
+  );
+  const ease = 1 - (1 - enterProgress) ** 3;
+  const opacity = ease;
+  const translateY = 10 * (1 - ease);
+  const scale = 0.92 + 0.08 * ease;
+
+  let reactionScale = 0;
+  let reactionOpacity = 0;
+  if (item.reactAt !== undefined && eff >= item.reactAt) {
+    const reactProgress = clamp((eff - item.reactAt) / 12, 0, 1);
+    reactionScale =
+      reactProgress < 0.6
+        ? (reactProgress / 0.6) * 1.15
+        : 1.15 - ((reactProgress - 0.6) / 0.4) * 0.15;
+    reactionOpacity = clamp((eff - item.reactAt) / 5, 0, 1);
+  }
+
+  const bg = outgoing ? accent : INCOMING_BG;
+  const fg = outgoing ? OUTGOING_FG : INCOMING_FG;
+  const metaColor = outgoing ? OUTGOING_META : INCOMING_META;
+  const tailColor = outgoing ? accent : INCOMING_BG;
+
+  const bubble = (
+    <div
+      style={{
+        background: bg,
+        borderBottomLeftRadius: outgoing ? 16 : 6,
+        borderBottomRightRadius: outgoing ? 6 : 16,
+        borderRadius: 16,
+        boxShadow: outgoing ? "none" : "0 1px 1px rgba(0,0,0,0.1)",
+        color: fg,
+        fontSize: 15,
+        lineHeight: 1.35,
+        maxWidth: "76%",
+        padding: "6px 11px 7px",
+        position: "relative",
+      }}
+    >
+      <span style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
+        {item.text}
+      </span>
+      <div
+        style={{
+          alignItems: "center",
+          display: "flex",
+          gap: 8,
+          justifyContent:
+            item.reaction === undefined ? "flex-end" : "space-between",
+          marginTop: 2,
+        }}
+      >
+        {item.reaction !== undefined && (
+          <span
+            style={{
+              alignItems: "center",
+              background: outgoing
+                ? "rgba(255,255,255,0.22)"
+                : "rgba(51,144,236,0.12)",
+              borderRadius: 11,
+              color: outgoing ? "#ffffff" : accent,
+              display: "inline-flex",
+              fontSize: 13,
+              fontWeight: 600,
+              gap: 4,
+              opacity: reactionOpacity,
+              padding: "1px 7px",
+              transform: `scale(${reactionScale})`,
+              transformOrigin: "left center",
+            }}
+          >
+            {item.reaction} 1
+          </span>
+        )}
+        <span
+          style={{
+            alignItems: "center",
+            color: metaColor,
+            display: "inline-flex",
+            fontSize: 12,
+            gap: 3,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {item.time ?? "9:41"}
+          {outgoing && <DoubleCheck color={metaColor} />}
+        </span>
+      </div>
+      <BubbleTail side={outgoing ? "right" : "left"} color={tailColor} />
+    </div>
+  );
+
+  return (
+    <div
+      style={{
+        alignItems: "flex-end",
+        display: "flex",
+        gap: 7,
+        justifyContent: outgoing ? "flex-end" : "flex-start",
+        opacity,
+        transform: `translateY(${translateY}px) scale(${scale})`,
+        transformOrigin: outgoing ? "bottom right" : "bottom left",
+        width: "100%",
+      }}
+    >
+      {!outgoing && contact !== undefined && (
+        <Avatar contact={contact} size={30} />
+      )}
+      {bubble}
+    </div>
+  );
+};
+
+export const TelegramChatFlow = ({
   messages = DEFAULT_MESSAGES,
   contact,
   accentColor,
@@ -378,7 +500,7 @@ export function TelegramChatFlow({
   fps = 30,
   durationInFrames,
   className,
-}: TelegramChatFlowProps) {
+}: TelegramChatFlowProps) => {
   const [eff, setEff] = useState(0);
   const startRef = useRef<number | null>(null);
   const accent = accentColor ?? TELEGRAM_BLUE;
@@ -581,7 +703,6 @@ export function TelegramChatFlow({
                     key={item.index}
                     item={item}
                     eff={eff}
-                    fps={fps}
                     contact={contact}
                     accent={accent}
                   />
@@ -663,135 +784,4 @@ export function TelegramChatFlow({
       </>
     </Timegroup>
   );
-}
-
-function TelegramRow({
-  item,
-  eff,
-  fps,
-  contact,
-  accent,
-}: {
-  item: ScheduledMessage;
-  eff: number;
-  fps: number;
-  contact?: TelegramContact;
-  accent: string;
-}) {
-  const outgoing = item.from === "me";
-
-  const enterProgress = clamp(
-    (eff - item.revealAt) / (16 * (1 / Math.max(0.01, 1))),
-    0,
-    1
-  );
-  const ease = 1 - (1 - enterProgress) ** 3;
-  const opacity = ease;
-  const translateY = 10 * (1 - ease);
-  const scale = 0.92 + 0.08 * ease;
-
-  let reactionScale = 0;
-  let reactionOpacity = 0;
-  if (item.reactAt !== undefined && eff >= item.reactAt) {
-    const reactProgress = clamp((eff - item.reactAt) / 12, 0, 1);
-    reactionScale =
-      reactProgress < 0.6
-        ? (reactProgress / 0.6) * 1.15
-        : 1.15 - ((reactProgress - 0.6) / 0.4) * 0.15;
-    reactionOpacity = clamp((eff - item.reactAt) / 5, 0, 1);
-  }
-
-  const bg = outgoing ? accent : INCOMING_BG;
-  const fg = outgoing ? OUTGOING_FG : INCOMING_FG;
-  const metaColor = outgoing ? OUTGOING_META : INCOMING_META;
-  const tailColor = outgoing ? accent : INCOMING_BG;
-
-  const bubble = (
-    <div
-      style={{
-        background: bg,
-        borderBottomLeftRadius: outgoing ? 16 : 6,
-        borderBottomRightRadius: outgoing ? 6 : 16,
-        borderRadius: 16,
-        boxShadow: outgoing ? "none" : "0 1px 1px rgba(0,0,0,0.1)",
-        color: fg,
-        fontSize: 15,
-        lineHeight: 1.35,
-        maxWidth: "76%",
-        padding: "6px 11px 7px",
-        position: "relative",
-      }}
-    >
-      <span style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
-        {item.text}
-      </span>
-      <div
-        style={{
-          alignItems: "center",
-          display: "flex",
-          gap: 8,
-          justifyContent:
-            item.reaction !== undefined ? "space-between" : "flex-end",
-          marginTop: 2,
-        }}
-      >
-        {item.reaction !== undefined && (
-          <span
-            style={{
-              alignItems: "center",
-              background: outgoing
-                ? "rgba(255,255,255,0.22)"
-                : "rgba(51,144,236,0.12)",
-              borderRadius: 11,
-              color: outgoing ? "#ffffff" : accent,
-              display: "inline-flex",
-              fontSize: 13,
-              fontWeight: 600,
-              gap: 4,
-              opacity: reactionOpacity,
-              padding: "1px 7px",
-              transform: `scale(${reactionScale})`,
-              transformOrigin: "left center",
-            }}
-          >
-            {item.reaction} 1
-          </span>
-        )}
-        <span
-          style={{
-            alignItems: "center",
-            color: metaColor,
-            display: "inline-flex",
-            fontSize: 12,
-            gap: 3,
-            whiteSpace: "nowrap",
-          }}
-        >
-          {item.time ?? "9:41"}
-          {outgoing && <DoubleCheck color={metaColor} />}
-        </span>
-      </div>
-      <BubbleTail side={outgoing ? "right" : "left"} color={tailColor} />
-    </div>
-  );
-
-  return (
-    <div
-      style={{
-        alignItems: "flex-end",
-        display: "flex",
-        gap: 7,
-        justifyContent: outgoing ? "flex-end" : "flex-start",
-        opacity,
-        transform: `translateY(${translateY}px) scale(${scale})`,
-        transformOrigin: outgoing ? "bottom right" : "bottom left",
-        width: "100%",
-      }}
-    >
-      {!outgoing && contact !== undefined && (
-        <Avatar contact={contact} size={30} />
-      )}
-      {bubble}
-    </div>
-  );
-}
+};

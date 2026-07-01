@@ -1,11 +1,7 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  toggleGroupStyle,
-  toggleGroupStyleContext,
-} from "@/registry/bases/editframe/ui/toggle-group";
 import type {
   ToggleGroupItem,
   ToggleGroupState,
@@ -13,7 +9,7 @@ import type {
   ToggleGroupStyleContext,
 } from "@/registry/bases/editframe/ui/toggle-group";
 
-const DEFAULT_ITEMS: ToggleGroupItem[] = [
+const _DEFAULT_ITEMS: ToggleGroupItem[] = [
   { label: "Monthly", value: "Monthly" },
   { label: "Yearly", value: "Yearly" },
 ];
@@ -69,7 +65,7 @@ export const toggleGroupKeyframes = (
     }
   `;
 
-  for (let i = 0; i < ctx.items.length; i++) {
+  for (let i = 0; i < ctx.items.length; i += 1) {
     if (fromLabelColors[i] !== toLabelColors[i]) {
       css += `
         @keyframes framecn-toggle-group-label-${i} {

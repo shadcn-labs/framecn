@@ -1,6 +1,5 @@
 "use client";
 
-import { dropdownMenuStyle } from "@/registry/bases/editframe/ui/dropdown-menu";
 import type {
   DropdownMenuState,
   DropdownMenuStyle,
@@ -50,8 +49,8 @@ export const dropdownMenuAnimation = (
   from: DropdownMenuState,
   to: DropdownMenuState,
   duration: string,
-  fromStyle: DropdownMenuStyle,
-  toStyle: DropdownMenuStyle
+  _fromStyle: DropdownMenuStyle,
+  _toStyle: DropdownMenuStyle
 ): {
   panelOpacity: string;
   panelTransform: string;

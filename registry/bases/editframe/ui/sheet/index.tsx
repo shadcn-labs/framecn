@@ -37,9 +37,7 @@ export interface SheetProps {
 
 const SHEET_WIDTH = 360;
 
-export const sheetStyleContext = (
-  theme: FramecnTheme
-): SheetStyleContext => ({
+export const sheetStyleContext = (theme: FramecnTheme): SheetStyleContext => ({
   background: theme.popover,
   border: theme.border,
   foreground: theme.foreground,
@@ -66,7 +64,7 @@ export const sheetStyle = (
   }
 };
 
-export function Sheet({
+export const Sheet = ({
   state = "open",
   from,
   side = "right",
@@ -75,7 +73,7 @@ export function Sheet({
   theme: themeOverride,
   className,
   duration = "12frames",
-}: SheetProps) {
+}: SheetProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = sheetStyleContext(theme);
   const v = sheetStyle(state, side, ctx);
@@ -169,4 +167,4 @@ export function Sheet({
       </div>
     </div>
   );
-}
+};

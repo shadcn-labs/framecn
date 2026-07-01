@@ -2,16 +2,13 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  sliderStyleAt,
-  tweenSliderStyle,
-} from "@/registry/bases/editframe/ui/slider/use-slider-transition";
-import type {
-  SliderStep,
-  SliderTransitionOptions,
-} from "@/registry/bases/editframe/ui/slider/use-slider-transition";
 
-export type SliderThumbState = "idle" | "hover" | "press" | "active" | "disabled";
+export type SliderThumbState =
+  | "idle"
+  | "hover"
+  | "press"
+  | "active"
+  | "disabled";
 
 export interface SliderStyle {
   ringOpacity: number;
@@ -19,46 +16,45 @@ export interface SliderStyle {
   value: number;
 }
 
-export const sliderThumbStyle = (state: SliderThumbState): { ringOpacity: number; thumbScale: number } => {
+export const sliderThumbStyle = (
+  state: SliderThumbState
+): { ringOpacity: number; thumbScale: number } => {
   switch (state) {
-    case "hover":
+    case "hover": {
       return { ringOpacity: 0.3, thumbScale: 1.1 };
-    case "press":
+    }
+    case "press": {
       return { ringOpacity: 0.5, thumbScale: 0.9 };
-    case "active":
+    }
+    case "active": {
       return { ringOpacity: 0.4, thumbScale: 1.05 };
-    case "disabled":
+    }
+    case "disabled": {
       return { ringOpacity: 0, thumbScale: 0.8 };
-    default:
+    }
+    default: {
       return { ringOpacity: 0, thumbScale: 1 };
+    }
   }
 };
 
 export interface SliderProps {
   value?: number;
-  from?: number;
   min?: number;
   max?: number;
-  steps?: SliderStep[];
   theme?: Partial<FramecnTheme>;
   primary?: string;
-  speed?: number;
   className?: string;
-  duration?: string;
 }
 
-export function Slider({
+export const Slider = ({
   value = 50,
-  from,
   min = 0,
   max = 100,
-  steps,
   theme: themeOverride,
   primary,
-  speed = 1,
   className,
-  duration = "18frames",
-}: SliderProps) {
+}: SliderProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
@@ -66,14 +62,10 @@ export function Slider({
 
   const range = max - min;
   const normalized = range > 0 ? (value - min) / range : 0;
-  const fromNormalized = from !== undefined ? (from - min) / range : undefined;
 
   const trackHeight = 6;
   const thumbSize = 18;
-  const thumbOffset = normalized * (100);
-  const fromOffset = fromNormalized !== undefined ? fromNormalized * 100 : undefined;
-
-  const trackFill = `linear-gradient(to right, ${theme.primary} ${thumbOffset}%, ${theme.muted} ${thumbOffset}%)`;
+  const thumbOffset = normalized * 100;
 
   return (
     <div
@@ -120,8 +112,8 @@ export function Slider({
       <span
         style={{
           color: theme.foreground,
-          fontVariantNumeric: "tabular-nums",
           fontSize: 14,
+          fontVariantNumeric: "tabular-nums",
           minWidth: 36,
           textAlign: "right",
         }}
@@ -130,4 +122,4 @@ export function Slider({
       </span>
     </div>
   );
-}
+};

@@ -1,5 +1,6 @@
 "use client";
 
+import type { EFTimegroup } from "@editframe/elements";
 import { Timegroup } from "@editframe/react";
 import { format, parseISO } from "date-fns";
 import { memo, useMemo, useState, useEffect, useRef } from "react";
@@ -433,7 +434,7 @@ export const downsampleStargazers = (
     return len ? [stargazers[0]] : [];
   }
   const out: Stargazer[] = [];
-  for (let i = 0; i < max; i++) {
+  for (let i = 0; i < max; i += 1) {
     out.push(stargazers[Math.round((i * (len - 1)) / (max - 1))]);
   }
   return out;
@@ -504,27 +505,25 @@ export const getStarCount = (
   totalStars: number
 ): number => Math.round(scrollProgress * totalStars);
 
-function StarGlyph({ size, fill }: { size: number; fill: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      color={fill}
-      fill={fill}
-      stroke={fill}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <title>Stars</title>
-      <path d="M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z" />
-    </svg>
-  );
-}
+const StarGlyph = ({ size, fill }: { size: number; fill: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    color={fill}
+    fill={fill}
+    stroke={fill}
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <title>Stars</title>
+    <path d="M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z" />
+  </svg>
+);
 
-function Avatar({
+const Avatar = ({
   login,
   avatarUrl,
   size,
@@ -534,7 +533,7 @@ function Avatar({
   avatarUrl: string;
   size: number;
   theme: Theme;
-}) {
+}) => {
   const [errored, setErrored] = useState(false);
   const ringStyle = {
     border: `1px solid ${theme.border}`,
@@ -571,7 +570,7 @@ function Avatar({
       style={{ ...ringStyle, objectFit: "cover" }}
     />
   );
-}
+};
 
 interface RowProps {
   stargazer: Stargazer;
@@ -702,8 +701,9 @@ const Row = memo(function Row({
   );
 });
 
-export function GithubStars({
-  repo = "remotion-dev/remotion",
+// eslint-disable-next-line complexity
+export const GithubStars = ({
+  repo = "shadcn-labs/framecn",
   totalStars = 24_813,
   stargazers = SAMPLE_STARGAZERS,
   orientation = "horizontal",
@@ -714,7 +714,7 @@ export function GithubStars({
   fps = 30,
   durationInFrames = 300,
   className,
-}: GitHubStarsProps) {
+}: GitHubStarsProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
   const t = THEMES[theme] ?? THEMES.light;
   const isVertical = orientation === "vertical";
@@ -722,7 +722,7 @@ export function GithubStars({
   const refH = isVertical ? 1280 : 720;
   const safeSpeed = Math.max(0.01, speed);
 
-  const groupRef = useRef<any>(null);
+  const groupRef = useRef<EFTimegroup | null>(null);
   const stateRef = useRef({ counterProgress: 0, scrollProgress: 0, settle: 0 });
 
   const rows = useMemo(() => downsampleStargazers(stargazers), [stargazers]);
@@ -985,4 +985,4 @@ export function GithubStars({
       </div>
     </Timegroup>
   );
-}
+};

@@ -1,6 +1,5 @@
 "use client";
 
-import { popoverStyle } from "@/registry/bases/editframe/ui/popover";
 import type {
   PopoverState,
   PopoverStyle,
@@ -42,8 +41,8 @@ export const popoverAnimation = (
   from: PopoverState,
   to: PopoverState,
   duration: string,
-  fromStyle: PopoverStyle,
-  toStyle: PopoverStyle
+  _fromStyle: PopoverStyle,
+  _toStyle: PopoverStyle
 ): {
   opacity: string;
   transform: string;

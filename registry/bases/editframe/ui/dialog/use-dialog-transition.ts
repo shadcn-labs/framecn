@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  dialogStyle,
-  dialogStyleContext,
-} from "@/registry/bases/editframe/ui/dialog";
 import type {
   DialogState,
   DialogStyle,
@@ -36,8 +32,8 @@ export const dialogAnimation = (
   from: DialogState,
   to: DialogState,
   duration: string,
-  fromStyle: DialogStyle,
-  toStyle: DialogStyle
+  _fromStyle: DialogStyle,
+  _toStyle: DialogStyle
 ): { overlay: string; popup: string } => {
   if (from === to) {
     return { overlay: "none", popup: "none" };

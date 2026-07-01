@@ -4,7 +4,7 @@
   "title": "Image Expand To Fullscreen",
   "description": "An image lifts out of a feed post and morphs into a fullscreen editor with toolbars sliding in.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

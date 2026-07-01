@@ -30,6 +30,30 @@ export interface AiPromptFlowProps {
 
 const FLOW_WIDTH = 480;
 
+const buttonStateFor = (
+  state: AiPromptFlowState
+): "idle" | "loading" | "success" => {
+  if (state === "loading") {
+    return "loading";
+  }
+  if (state === "done") {
+    return "success";
+  }
+  return "idle";
+};
+
+const buttonFromFor = (
+  from: AiPromptFlowState | undefined
+): "idle" | "loading" | undefined => {
+  if (from === "loading") {
+    return "idle";
+  }
+  if (from === "done") {
+    return "loading";
+  }
+  return undefined;
+};
+
 export interface AiPromptFlowStyle {
   inputOpacity: number;
   buttonOpacity: number;
@@ -38,7 +62,9 @@ export interface AiPromptFlowStyle {
   toastOpacity: number;
 }
 
-export const aiPromptFlowStyle = (state: AiPromptFlowState): AiPromptFlowStyle => {
+export const aiPromptFlowStyle = (
+  state: AiPromptFlowState
+): AiPromptFlowStyle => {
   switch (state) {
     case "typing": {
       return {
@@ -88,7 +114,7 @@ export const aiPromptFlowStyle = (state: AiPromptFlowState): AiPromptFlowStyle =
   }
 };
 
-export function AiPromptFlow({
+export const AiPromptFlow = ({
   state = "idle",
   from,
   prompt = "Write a haiku about coding",
@@ -97,11 +123,10 @@ export function AiPromptFlow({
   theme: themeOverride,
   className,
   duration = "12frames",
-}: AiPromptFlowProps) {
+}: AiPromptFlowProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const v = aiPromptFlowStyle(state);
 
-  const hasAnimation = from && from !== state;
   const isCompact = variant === "compact";
 
   return (
@@ -139,14 +164,8 @@ export function AiPromptFlow({
         </div>
         <div style={{ opacity: v.buttonOpacity }}>
           <Button
-            state={
-              state === "loading"
-                ? "loading"
-                : state === "done"
-                  ? "success"
-                  : "idle"
-            }
-            from={from === "loading" ? "idle" : from === "done" ? "loading" : undefined}
+            state={buttonStateFor(state)}
+            from={buttonFromFor(from)}
             label={state === "done" ? "Sent" : "Send"}
             theme={themeOverride}
             duration={duration}
@@ -176,21 +195,9 @@ export function AiPromptFlow({
           width: "100%",
         }}
       >
-        <SkeletonBlock
-          width={280}
-          height={14}
-          baseColor={theme.muted}
-        />
-        <SkeletonBlock
-          width={220}
-          height={14}
-          baseColor={theme.muted}
-        />
-        <SkeletonBlock
-          width={160}
-          height={14}
-          baseColor={theme.muted}
-        />
+        <SkeletonBlock width={280} height={14} baseColor={theme.muted} />
+        <SkeletonBlock width={220} height={14} baseColor={theme.muted} />
+        <SkeletonBlock width={160} height={14} baseColor={theme.muted} />
       </div>
 
       <div style={{ opacity: v.toastOpacity }}>
@@ -206,4 +213,4 @@ export function AiPromptFlow({
       </div>
     </div>
   );
-}
+};

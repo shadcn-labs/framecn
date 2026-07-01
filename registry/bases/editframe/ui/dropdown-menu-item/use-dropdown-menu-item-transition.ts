@@ -1,6 +1,5 @@
 "use client";
 
-import { dropdownMenuItemStyle } from "@/registry/bases/editframe/ui/dropdown-menu-item";
 import type {
   DropdownMenuItemState,
   DropdownMenuItemStyle,
@@ -40,8 +39,8 @@ export const dropdownMenuItemAnimation = (
   from: DropdownMenuItemState,
   to: DropdownMenuItemState,
   duration: string,
-  fromStyle: DropdownMenuItemStyle,
-  toStyle: DropdownMenuItemStyle
+  _fromStyle: DropdownMenuItemStyle,
+  _toStyle: DropdownMenuItemStyle
 ): {
   background: string;
   scale: string;

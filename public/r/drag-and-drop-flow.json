@@ -4,7 +4,7 @@
   "title": "Drag and Drop Flow",
   "description": "Simulated file drag into a dropzone followed by upload progress.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

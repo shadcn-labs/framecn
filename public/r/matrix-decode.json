@@ -4,7 +4,7 @@
   "title": "Matrix Decode",
   "description": "Random scramble resolves left-to-right into the target text.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

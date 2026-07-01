@@ -105,7 +105,7 @@ export const accordionStyle = (
   }
 };
 
-export function Accordion({
+export const Accordion = ({
   state = "closed",
   from,
   title = "Is it accessible?",
@@ -115,7 +115,7 @@ export function Accordion({
   theme: themeOverride,
   className,
   duration = "14frames",
-}: AccordionProps) {
+}: AccordionProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = accordionStyleContext(variant, theme);
   const v = accordionStyle(state, ctx);
@@ -207,4 +207,4 @@ export function Accordion({
       </div>
     </div>
   );
-}
+};

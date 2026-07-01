@@ -2,11 +2,7 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  toggleGroupAnimation,
-  toggleGroupKeyframes,
-  tweenToggleGroupStyle,
-} from "@/registry/bases/editframe/ui/toggle-group/use-toggle-group-transition";
+import { toggleGroupKeyframes } from "@/registry/bases/editframe/ui/toggle-group/use-toggle-group-transition";
 
 export interface ToggleGroupItem {
   label: string;
@@ -32,15 +28,15 @@ export const toggleGroupStyleContext = (
   theme: FramecnTheme
 ): ToggleGroupStyleContext => ({
   activeFg: theme.foreground,
-  indicatorBg: theme.background,
   inactiveFg: theme.mutedForeground,
+  indicatorBg: theme.background,
   items,
   trackBg: theme.muted,
 });
 
 export const toggleGroupStyle = (
   state: ToggleGroupState,
-  ctx: ToggleGroupStyleContext
+  _ctx: ToggleGroupStyleContext
 ): ToggleGroupStyle => ({
   indicatorOffset: state,
 });
@@ -51,12 +47,10 @@ export interface ToggleGroupProps {
   from?: ToggleGroupState;
   theme?: Partial<FramecnTheme>;
   primary?: string;
-  speed?: number;
   className?: string;
-  duration?: string;
 }
 
-export function ToggleGroup({
+export const ToggleGroup = ({
   items = [
     { label: "Monthly", value: "Monthly" },
     { label: "Yearly", value: "Yearly" },
@@ -65,10 +59,8 @@ export function ToggleGroup({
   from,
   theme: themeOverride,
   primary,
-  speed = 1,
   className,
-  duration = "14frames",
-}: ToggleGroupProps) {
+}: ToggleGroupProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
@@ -96,7 +88,9 @@ export function ToggleGroup({
       }}
     >
       {hasAnimation && fromStyle && (
-        <style>{toggleGroupKeyframes(fromStyle, toStyle, ctx, segmentWidth)}</style>
+        <style>
+          {toggleGroupKeyframes(fromStyle, toStyle, ctx, segmentWidth)}
+        </style>
       )}
       <div
         style={{
@@ -153,4 +147,4 @@ export function ToggleGroup({
       </div>
     </div>
   );
-}
+};

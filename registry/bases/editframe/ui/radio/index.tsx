@@ -35,9 +35,7 @@ export interface RadioProps {
 const RADIO_SIZE = 20;
 const DOT_SIZE = 10;
 
-export const radioStyleContext = (
-  theme: FramecnTheme
-): RadioStyleContext => ({
+export const radioStyleContext = (theme: FramecnTheme): RadioStyleContext => ({
   checkedBorder: theme.primary,
   dotColor: theme.primary,
   foreground: theme.foreground,
@@ -63,14 +61,14 @@ export const radioStyle = (
   }
 };
 
-export function Radio({
+export const Radio = ({
   state = "unchecked",
   from,
   label = "Option",
   theme: themeOverride,
   className,
   duration = "10frames",
-}: RadioProps) {
+}: RadioProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = radioStyleContext(theme);
   const v = radioStyle(state, ctx);
@@ -142,4 +140,4 @@ export function Radio({
       </label>
     </div>
   );
-}
+};

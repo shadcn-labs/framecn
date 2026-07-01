@@ -1,8 +1,7 @@
 "use client";
 
-import { easings, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import { buttonStyleContext } from "@/registry/bases/editframe/ui/button";
 import type {
   ButtonState,
   ButtonStyle,
@@ -86,16 +85,18 @@ const buttonStateStyle = (
   state: ButtonState,
   ctx: ButtonStyleContext
 ): ButtonStyle => {
-  const base =
-    state === "idle"
-      ? BUTTON_IDLE_STYLE
-      : state === "hover"
-        ? BUTTON_HOVER_STYLE
-        : state === "press"
-          ? BUTTON_PRESS_STYLE
-          : state === "loading"
-            ? BUTTON_LOADING_STYLE
-            : BUTTON_SUCCESS_STYLE;
+  let base: ButtonStyle;
+  if (state === "idle") {
+    base = BUTTON_IDLE_STYLE;
+  } else if (state === "hover") {
+    base = BUTTON_HOVER_STYLE;
+  } else if (state === "press") {
+    base = BUTTON_PRESS_STYLE;
+  } else if (state === "loading") {
+    base = BUTTON_LOADING_STYLE;
+  } else {
+    base = BUTTON_SUCCESS_STYLE;
+  }
 
   let bg = ctx.restBg;
   if (state === "hover" || state === "loading") {

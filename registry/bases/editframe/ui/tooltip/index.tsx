@@ -2,10 +2,7 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  getTooltipAnimation,
-  getTooltipKeyframes,
-} from "@/registry/bases/editframe/ui/tooltip/use-tooltip-transition";
+import { getTooltipAnimation } from "@/registry/bases/editframe/ui/tooltip/use-tooltip-transition";
 
 export type TooltipState = "hidden" | "visible";
 
@@ -17,44 +14,77 @@ export interface TooltipProps {
   label?: string;
   placement?: TooltipPlacement;
   theme?: Partial<FramecnTheme>;
-  speed?: number;
   className?: string;
-  duration?: string;
   children?: React.ReactNode;
 }
 
-const placementOffset = (placement: TooltipPlacement): { x: number; y: number } => {
+const placementOffset = (
+  placement: TooltipPlacement
+): { x: number; y: number } => {
   switch (placement) {
-    case "top":
+    case "top": {
       return { x: 0, y: -6 };
-    case "bottom":
+    }
+    case "bottom": {
       return { x: 0, y: 6 };
-    case "left":
+    }
+    case "left": {
       return { x: -6, y: 0 };
-    case "right":
+    }
+    case "right": {
       return { x: 6, y: 0 };
-    default:
+    }
+    default: {
       return { x: 0, y: -6 };
+    }
   }
 };
 
-export function Tooltip({
+const tooltipLeft = (p: TooltipPlacement): string | undefined => {
+  if (p === "right") {
+    return "100%";
+  }
+  if (p === "left") {
+    return undefined;
+  }
+  return "50%";
+};
+
+const tooltipMarginLeft = (
+  p: TooltipPlacement
+): number | string | undefined => {
+  if (p === "left") {
+    return undefined;
+  }
+  if (p === "right") {
+    return 6;
+  }
+  return "-50%";
+};
+
+const tooltipMarginRight = (p: TooltipPlacement): number => {
+  if (p === "right") {
+    return 0;
+  }
+  if (p === "left") {
+    return 6;
+  }
+  return 0;
+};
+
+export const Tooltip = ({
   state = "hidden",
   from,
   label = "",
   placement = "top",
   theme: themeOverride,
-  speed = 1,
   className,
-  duration,
   children,
-}: TooltipProps) {
+}: TooltipProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
 
   const hasAnimation = from !== undefined && from !== state;
-  const anim = hasAnimation
-    ? getTooltipAnimation(from)
-    : null;
+  const anim = hasAnimation ? getTooltipAnimation(from) : null;
 
   const offset = placementOffset(placement);
   const isVisible = state === "visible";
@@ -81,11 +111,11 @@ export function Tooltip({
           color: theme.background,
           fontSize: 13,
           fontWeight: 500,
-          left: placement === "right" ? "100%" : placement === "left" ? undefined : "50%",
+          left: tooltipLeft(placement),
           lineHeight: "1.4",
           marginBottom: placement === "top" ? 6 : 0,
-          marginLeft: placement === "left" ? undefined : placement === "right" ? 6 : "-50%",
-          marginRight: placement === "right" ? undefined : placement === "left" ? 6 : 0,
+          marginLeft: tooltipMarginLeft(placement),
+          marginRight: tooltipMarginRight(placement),
           marginTop: placement === "bottom" ? 6 : 0,
           opacity: isVisible ? 1 : 0,
           padding: "6px 12px",
@@ -116,4 +146,4 @@ export function Tooltip({
       </div>
     </div>
   );
-}
+};

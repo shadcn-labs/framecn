@@ -35,11 +35,11 @@ export const progressStyle = (
   value: Math.max(0, Math.min(1, value)),
 });
 
-export function Progress({
+export const Progress = ({
   value = 0.6,
   theme: themeOverride,
   className,
-}: ProgressProps) {
+}: ProgressProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = progressStyleContext(theme);
   const v = progressStyle(value, ctx);
@@ -79,4 +79,4 @@ export function Progress({
       </div>
     </div>
   );
-}
+};

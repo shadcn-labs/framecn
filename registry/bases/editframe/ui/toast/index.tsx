@@ -59,13 +59,13 @@ export const toastStyle = (state: ToastState): ToastStyle => {
   }
 };
 
-function ToastIcon({
+const ToastIcon = ({
   variant,
   color,
 }: {
   variant: ToastVariant;
   color: string;
-}) {
+}) => {
   if (variant === "success") {
     return (
       <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
@@ -101,9 +101,9 @@ function ToastIcon({
       <circle cx="12" cy="8" r="1.1" fill={color} />
     </svg>
   );
-}
+};
 
-export function Toast({
+export const Toast = ({
   state = "hidden",
   from,
   style,
@@ -113,7 +113,7 @@ export function Toast({
   theme: themeOverride,
   className,
   duration = "12frames",
-}: ToastProps) {
+}: ToastProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = toastStyleContext(variant, theme);
   const v = style ?? toastStyle(state);
@@ -193,4 +193,4 @@ export function Toast({
       </div>
     </div>
   );
-}
+};

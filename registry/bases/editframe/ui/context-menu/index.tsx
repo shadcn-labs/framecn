@@ -83,7 +83,7 @@ const rowState = (
   return "idle";
 };
 
-export function ContextMenu({
+export const ContextMenu = ({
   state = "closed",
   from,
   duration = DEFAULT_DURATION,
@@ -94,14 +94,14 @@ export function ContextMenu({
   itemStyles,
   theme: themeOverride,
   className,
-}: ContextMenuProps) {
+}: ContextMenuProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = contextMenuStyleContext(theme);
   const v = style ?? contextMenuStyle(state, ctx);
 
   const shouldAnimate = from !== undefined && from !== state;
   const animation = shouldAnimate
-    ? contextMenuAnimation(from, state, theme, duration)
+    ? contextMenuAnimation(from, state, duration)
     : undefined;
 
   return (
@@ -146,4 +146,4 @@ export function ContextMenu({
       })}
     </div>
   );
-}
+};

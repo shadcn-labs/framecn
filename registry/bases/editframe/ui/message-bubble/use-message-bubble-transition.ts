@@ -1,9 +1,21 @@
 "use client";
 
-import { messageBubbleStyle } from "@/registry/bases/editframe/ui/message-bubble";
 import type { MessageBubbleState } from "@/registry/bases/editframe/ui/message-bubble";
 
 export const DEFAULT_DURATION = 14;
+
+const messageBubbleStyle = (
+  state: MessageBubbleState
+): { opacity: number; translateY: number; scale: number } => {
+  switch (state) {
+    case "visible": {
+      return { opacity: 1, scale: 1, translateY: 0 };
+    }
+    default: {
+      return { opacity: 0, scale: 0.92, translateY: 10 };
+    }
+  }
+};
 
 export interface MessageBubbleTransitionOptions {
   duration?: number;

@@ -1,6 +1,5 @@
 "use client";
 
-import { sheetStyle } from "@/registry/bases/editframe/ui/sheet";
 import type {
   SheetState,
   SheetStyle,
@@ -32,8 +31,8 @@ export const sheetAnimation = (
   from: SheetState,
   to: SheetState,
   duration: string,
-  fromStyle: SheetStyle,
-  toStyle: SheetStyle
+  _fromStyle: SheetStyle,
+  _toStyle: SheetStyle
 ): { overlay: string; panel: string } => {
   if (from === to) {
     return { overlay: "none", panel: "none" };

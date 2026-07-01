@@ -19,7 +19,7 @@ export interface ShortSlideDownProps {
   className?: string;
 }
 
-export function ShortSlideDown({
+export const ShortSlideDown = ({
   text = "Short slide down",
   distance = 24,
   staggerDelay = 3,
@@ -30,7 +30,7 @@ export function ShortSlideDown({
   fps = 30,
   durationInFrames = 90,
   className,
-}: ShortSlideDownProps) {
+}: ShortSlideDownProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
   const safeSpeed = Math.max(0.01, speed);
   const frameMs = 1000 / fps;
@@ -95,4 +95,4 @@ export function ShortSlideDown({
       </>
     </Timegroup>
   );
-}
+};

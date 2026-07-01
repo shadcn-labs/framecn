@@ -1,13 +1,7 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  getSwitchKeyframes,
-  switchTrackAnimation,
-  switchThumbAnimation,
-  tweenSwitchStyle,
-} from "@/registry/bases/editframe/ui/switch/use-switch-transition";
 
 export type SwitchState = "unchecked" | "checked";
 
@@ -41,16 +35,18 @@ export const switchStyle = (
   ctx: SwitchStyleContext
 ): SwitchStyle => {
   switch (state) {
-    case "checked":
+    case "checked": {
       return {
         thumbOffset: ctx.travel,
         trackBackground: ctx.trackOn,
       };
-    default:
+    }
+    default: {
       return {
         thumbOffset: 0,
         trackBackground: ctx.trackOff,
       };
+    }
   }
 };
 
@@ -59,20 +55,16 @@ export interface SwitchProps {
   from?: SwitchState;
   theme?: Partial<FramecnTheme>;
   primary?: string;
-  speed?: number;
   className?: string;
-  duration?: string;
 }
 
-export function Switch({
+export const Switch = ({
   state = "unchecked",
   from,
   theme: themeOverride,
   primary,
-  speed = 1,
   className,
-  duration = "10frames",
-}: SwitchProps) {
+}: SwitchProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
@@ -128,4 +120,4 @@ export function Switch({
       </div>
     </div>
   );
-}
+};

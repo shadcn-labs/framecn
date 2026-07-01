@@ -3,11 +3,7 @@
 import { Timegroup } from "@editframe/react";
 import type { CSSProperties } from "react";
 
-import { Cursor } from "@/registry/bases/editframe/ui/cursor";
-import { Input } from "@/registry/bases/editframe/ui/input";
-import { Button } from "@/registry/bases/editframe/ui/button";
-
-const FONT_FAMILY =
+const _FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
 const MONO_FAMILY =
   "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
@@ -47,7 +43,7 @@ const TYPE_COLORS: Record<string, string> = {
   success: "#22c55e",
 };
 
-export function Opencode({
+export const Opencode = ({
   accentColor = "#7c3aed",
   speed = 1,
   fps = 30,
@@ -55,7 +51,7 @@ export function Opencode({
   width = 1280,
   height = 720,
   className,
-}: OpencodeProps) {
+}: OpencodeProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const frameMs = 1000 / fps;
@@ -63,7 +59,7 @@ export function Opencode({
 
   const lineTimings = TERMINAL_LINES.map((line, index) => {
     let startFrame = 10;
-    for (let i = 0; i < index; i++) {
+    for (let i = 0; i < index; i += 1) {
       startFrame += TERMINAL_LINES[i].type === "command" ? 12 : 6;
     }
     const typingFrames = line.type === "command" ? 8 : 0;
@@ -236,4 +232,4 @@ export function Opencode({
       </>
     </Timegroup>
   );
-}
+};

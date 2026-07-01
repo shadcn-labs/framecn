@@ -75,7 +75,7 @@ export interface SettingsToggleFlowProps {
   theme?: Partial<FramecnTheme>;
 }
 
-export function SettingsToggleFlow({
+export const SettingsToggleFlow = ({
   title = "Notification settings",
   description = "Manage how you receive alerts, set your theme, and tune the volume.",
   rows = DEFAULT_ROWS,
@@ -83,7 +83,7 @@ export function SettingsToggleFlow({
   saveLabel = "Save settings",
   toastTitle = "Settings saved",
   theme,
-}: SettingsToggleFlowProps) {
+}: SettingsToggleFlowProps) => {
   const resolved = useFramecnTheme(theme);
 
   const lastItem = selectItems.length - 1;
@@ -209,12 +209,7 @@ export function SettingsToggleFlow({
         }}
       >
         <BlurIn display="block" state="revealed">
-          <Switch
-            state="checked"
-            from="unchecked"
-            duration="12frames"
-            theme={theme}
-          />
+          <Switch state="checked" from="unchecked" theme={theme} />
         </BlurIn>
       </div>
 
@@ -299,4 +294,4 @@ export function SettingsToggleFlow({
       <Cursor style={cursorStyle} variant="pointer" theme={theme} />
     </div>
   );
-}
+};

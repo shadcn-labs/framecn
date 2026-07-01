@@ -2,12 +2,12 @@
 
 import { mixOklch } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import type { switchStyleContext } from "@/registry/bases/editframe/ui/switch";
-import { switchStyle } from "@/registry/bases/editframe/ui/switch";
 import type {
   SwitchState,
   SwitchStyle,
+  switchStyleContext,
 } from "@/registry/bases/editframe/ui/switch";
+import { switchStyle } from "@/registry/bases/editframe/ui/switch";
 
 export const DEFAULT_DURATION = 10;
 

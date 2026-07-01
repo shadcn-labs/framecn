@@ -4,7 +4,7 @@
   "title": "Typewriter",
   "description": "Character-by-character text reveal with a deterministic blinking cursor.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

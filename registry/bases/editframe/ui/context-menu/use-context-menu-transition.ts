@@ -1,8 +1,5 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
-import type { FramecnTheme } from "@/lib/framecn-ui";
-import { contextMenuStyleContext } from "@/registry/bases/editframe/ui/context-menu";
 import type {
   ContextMenuState,
   ContextMenuStyle,
@@ -20,18 +17,11 @@ export const tweenContextMenuStyle = (
   translateY: a.translateY + (b.translateY - a.translateY) * t,
 });
 
-export interface ContextMenuTransitionOptions {
-  theme?: Partial<FramecnTheme>;
-  mode?: "light" | "dark";
-}
-
 export const contextMenuAnimation = (
   from: ContextMenuState,
   to: ContextMenuState,
-  theme: FramecnTheme,
   duration: number = DEFAULT_DURATION
 ): string => {
-  const ctx = contextMenuStyleContext(theme);
   const fromStyle =
     from === "opened"
       ? { opacity: 1, scale: 1, translateY: 0 }
@@ -68,15 +58,11 @@ export const contextMenuAnimation = (
 
 export const useContextMenuAnimation = (
   from: ContextMenuState,
-  to: ContextMenuState,
-  opts: ContextMenuTransitionOptions = {}
+  to: ContextMenuState
 ): string | undefined => {
-  const { theme: themeOverride, mode } = opts;
-  const theme = useFramecnTheme(themeOverride, mode);
-
   if (from === to) {
     return undefined;
   }
 
-  return contextMenuAnimation(from, to, theme, DEFAULT_DURATION);
+  return contextMenuAnimation(from, to, DEFAULT_DURATION);
 };

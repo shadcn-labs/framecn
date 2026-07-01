@@ -7,12 +7,12 @@ export interface SpinnerProps {
   className?: string;
 }
 
-export function Spinner({
+export const Spinner = ({
   color = "currentColor",
   size = 16,
   speed = 1,
   className,
-}: SpinnerProps) {
+}: SpinnerProps) => {
   const duration = `${1 / speed}s`;
 
   return (
@@ -44,4 +44,4 @@ export function Spinner({
       </svg>
     </>
   );
-}
+};

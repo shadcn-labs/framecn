@@ -2,11 +2,7 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  tabsAnimation,
-  tabsKeyframes,
-  tweenTabsStyle,
-} from "@/registry/bases/editframe/ui/tabs/use-tabs-transition";
+import { tabsKeyframes } from "@/registry/bases/editframe/ui/tabs/use-tabs-transition";
 
 export type TabsState = number;
 
@@ -29,8 +25,8 @@ export const tabsStyleContext = (
   theme: FramecnTheme
 ): TabsStyleContext => ({
   activeFg: theme.foreground,
-  indicatorBg: theme.primary,
   inactiveFg: theme.mutedForeground,
+  indicatorBg: theme.primary,
   items,
   trackBg: variant === "pill" ? theme.muted : "transparent",
   variant,
@@ -38,7 +34,7 @@ export const tabsStyleContext = (
 
 export const tabsStyle = (
   state: TabsState,
-  ctx: TabsStyleContext
+  _ctx: TabsStyleContext
 ): TabsStyle => ({
   indicatorOffset: state,
 });
@@ -50,22 +46,18 @@ export interface TabsProps {
   variant?: "pill" | "underline";
   theme?: Partial<FramecnTheme>;
   primary?: string;
-  speed?: number;
   className?: string;
-  duration?: string;
 }
 
-export function Tabs({
+export const Tabs = ({
   state = 0,
   from,
   items = ["Account", "Password", "Settings"],
   variant = "pill",
   theme: themeOverride,
   primary,
-  speed = 1,
   className,
-  duration = "14frames",
-}: TabsProps) {
+}: TabsProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
@@ -101,7 +93,8 @@ export function Tabs({
       <div
         style={{
           background: ctx.trackBg,
-          border: variant === "underline" ? `1px solid ${theme.border}` : "none",
+          border:
+            variant === "underline" ? `1px solid ${theme.border}` : "none",
           borderRadius: variant === "pill" ? theme.radius : 0,
           display: "flex",
           padding: trackPad,
@@ -168,4 +161,4 @@ export function Tabs({
       </div>
     </div>
   );
-}
+};

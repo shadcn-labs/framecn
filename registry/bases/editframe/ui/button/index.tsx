@@ -32,8 +32,15 @@ export interface ButtonProps {
   className?: string;
   duration?: string;
 }
-const justify = (align: "start" | "center" | "end"): string =>
-  align === "start" ? "flex-start" : align === "end" ? "flex-end" : "center";
+const justify = (align: "start" | "center" | "end"): string => {
+  if (align === "start") {
+    return "flex-start";
+  }
+  if (align === "end") {
+    return "flex-end";
+  }
+  return "center";
+};
 
 const CHECK_PATH_LENGTH = 14;
 
@@ -183,7 +190,7 @@ export const buttonStyle = (
   }
 };
 
-export function Button({
+export const Button = ({
   state = "idle",
   from,
   label = "Continue",
@@ -195,7 +202,7 @@ export function Button({
   align = "center",
   className,
   duration = "8frames",
-}: ButtonProps) {
+}: ButtonProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
@@ -306,4 +313,4 @@ export function Button({
       </button>
     </div>
   );
-}
+};

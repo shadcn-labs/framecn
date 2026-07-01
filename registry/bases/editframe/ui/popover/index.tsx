@@ -59,7 +59,7 @@ export const popoverStyle = (
   }
 };
 
-export function Popover({
+export const Popover = ({
   state = "open",
   from,
   title = "Hover Preview",
@@ -67,7 +67,7 @@ export function Popover({
   theme: themeOverride,
   className,
   duration = "10frames",
-}: PopoverProps) {
+}: PopoverProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = popoverStyleContext(theme);
   const v = popoverStyle(state, ctx);
@@ -95,7 +95,9 @@ export function Popover({
       <div
         className={className}
         style={{
-          animation: hasAnimation ? `${anim.opacity}, ${anim.transform}` : undefined,
+          animation: hasAnimation
+            ? `${anim.opacity}, ${anim.transform}`
+            : undefined,
           background: ctx.background,
           border: `1px solid ${ctx.border}`,
           borderRadius: theme.radius,
@@ -136,4 +138,4 @@ export function Popover({
       </div>
     </div>
   );
-}
+};

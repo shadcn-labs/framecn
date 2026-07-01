@@ -151,7 +151,7 @@ const CodeLine = ({
   );
 };
 
-export function Intro({
+export const Intro = ({
   width = 760,
   height = 460,
   background = "#0a0a0a",
@@ -161,75 +161,73 @@ export function Intro({
   height?: number;
   background?: string;
   glassColor?: string;
-}) {
-  return (
+}) => (
+  <div
+    style={{
+      alignItems: "center",
+      background,
+      display: "flex",
+      height,
+      justifyContent: "center",
+      width,
+    }}
+  >
     <div
       style={{
-        alignItems: "center",
-        background,
-        display: "flex",
-        height,
-        justifyContent: "center",
-        width,
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 100%)",
+        borderRadius: 16,
+        boxShadow: "0 50px 120px rgba(0,0,0,0.55)",
+        height: height - 100,
+        padding: 1,
+        width: width - 100,
       }}
     >
       <div
         style={{
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 100%)",
-          borderRadius: 16,
-          boxShadow: "0 50px 120px rgba(0,0,0,0.55)",
-          height: height - 100,
-          padding: 1,
-          width: width - 100,
+          WebkitBackdropFilter: "blur(16px)",
+          backdropFilter: "blur(16px)",
+          background: glassColor,
+          borderRadius: 15,
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
+          display: "flex",
+          flexDirection: "column",
+          fontFamily: FONT_MONO,
+          height: "100%",
+          overflow: "hidden",
+          width: "100%",
         }}
       >
         <div
           style={{
-            WebkitBackdropFilter: "blur(16px)",
-            backdropFilter: "blur(16px)",
-            background: glassColor,
-            borderRadius: 15,
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
+            alignItems: "center",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
             display: "flex",
-            flexDirection: "column",
-            fontFamily: FONT_MONO,
-            height: "100%",
-            overflow: "hidden",
-            width: "100%",
+            gap: 8,
+            height: 40,
+            padding: "0 16px",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-              display: "flex",
-              gap: 8,
-              height: 40,
-              padding: "0 16px",
-            }}
-          >
-            <Light color="#ff5f57" />
-            <Light color="#febc2e" />
-            <Light color="#28c840" />
-          </div>
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "rgba(255,255,255,0.3)",
-              fontSize: 16,
-            }}
-          >
-            Code walkthrough
-          </div>
+          <Light color="#ff5f57" />
+          <Light color="#febc2e" />
+          <Light color="#28c840" />
+        </div>
+        <div
+          style={{
+            alignItems: "center",
+            color: "rgba(255,255,255,0.3)",
+            display: "flex",
+            flex: 1,
+            fontSize: 16,
+            justifyContent: "center",
+          }}
+        >
+          Code walkthrough
         </div>
       </div>
     </div>
-  );
-}
+  </div>
+);
 
 export const GlassCodeWalk = ({
   code = DEFAULT_CODE,

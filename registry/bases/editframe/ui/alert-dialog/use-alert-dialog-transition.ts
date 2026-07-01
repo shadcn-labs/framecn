@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  alertDialogStyle,
-  alertDialogStyleContext,
-} from "@/registry/bases/editframe/ui/alert-dialog";
 import type {
   AlertDialogState,
   AlertDialogStyle,
@@ -36,8 +32,8 @@ export const alertDialogAnimation = (
   from: AlertDialogState,
   to: AlertDialogState,
   duration: string,
-  fromStyle: AlertDialogStyle,
-  toStyle: AlertDialogStyle
+  _fromStyle: AlertDialogStyle,
+  _toStyle: AlertDialogStyle
 ): { overlay: string; popup: string } => {
   if (from === to) {
     return { overlay: "none", popup: "none" };

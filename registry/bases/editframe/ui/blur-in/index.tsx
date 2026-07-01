@@ -56,7 +56,7 @@ export interface BlurInProps {
   className?: string;
 }
 
-export function BlurIn({
+export const BlurIn = ({
   state = "hidden",
   style,
   children,
@@ -65,7 +65,7 @@ export function BlurIn({
   distance = 12,
   display = "inline-block",
   className,
-}: BlurInProps) {
+}: BlurInProps) => {
   const v =
     style ?? blurInStyle(state, blurInStyleContext(blur, direction, distance));
   return (
@@ -81,4 +81,4 @@ export function BlurIn({
       {children}
     </div>
   );
-}
+};

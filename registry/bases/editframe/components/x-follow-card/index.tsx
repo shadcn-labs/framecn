@@ -1,5 +1,6 @@
 "use client";
 
+import type { EFTimegroup } from "@editframe/elements";
 import { Timegroup } from "@editframe/react";
 import { useState, useEffect, useRef } from "react";
 
@@ -69,16 +70,18 @@ const BUTTON_LAYOUT: Record<
 
 export const cardBounceIn = (
   frame: number,
-  fps: number
+  _fps: number
 ): { translateY: number; scale: number } => {
   const t = Math.min(frame / 18, 1);
   const c4 = (2 * Math.PI) / 3;
-  const s =
-    t === 0
-      ? 0
-      : t === 1
-        ? 1
-        : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+  let s: number;
+  if (t === 0) {
+    s = 0;
+  } else if (t === 1) {
+    s = 1;
+  } else {
+    s = 2 ** (-10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+  }
   const translateY = s * 60;
   const scale = 0.9 + s * 0.1;
   return { scale, translateY };
@@ -142,7 +145,7 @@ export const buildFollowWaypoints = (args: {
 const tintGradient = (accent: string): string =>
   `linear-gradient(135deg, ${accent} 0%, ${accent}99 55%, ${accent}55 100%)`;
 
-function Cover({
+const Cover = ({
   coverUrl,
   accent,
   height,
@@ -150,7 +153,7 @@ function Cover({
   coverUrl: string;
   accent: string;
   height: number;
-}) {
+}) => {
   const [errored, setErrored] = useState(false);
   const fallback = (
     <div style={{ background: tintGradient(accent), height, width: "100%" }} />
@@ -159,6 +162,7 @@ function Cover({
     return fallback;
   }
   return (
+    // eslint-disable-next-line next/no-img-element
     <img
       src={coverUrl}
       crossOrigin="anonymous"
@@ -166,9 +170,9 @@ function Cover({
       style={{ display: "block", height, objectFit: "cover", width: "100%" }}
     />
   );
-}
+};
 
-function Avatar({
+const Avatar = ({
   avatarUrl,
   name,
   size,
@@ -180,7 +184,7 @@ function Avatar({
   size: number;
   accent: string;
   theme: Theme;
-}) {
+}) => {
   const [errored, setErrored] = useState(false);
   const ringStyle = {
     border: `4px solid ${theme.cardBg}`,
@@ -212,6 +216,7 @@ function Avatar({
   }
 
   return (
+    // eslint-disable-next-line next/no-img-element
     <img
       src={avatarUrl}
       crossOrigin="anonymous"
@@ -219,24 +224,22 @@ function Avatar({
       style={{ ...ringStyle, objectFit: "cover" }}
     />
   );
-}
+};
 
-function VerifiedBadge({ accent, size }: { accent: string; size: number }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 22 22"
-      width={size}
-      height={size}
-      fill={accent}
-    >
-      <title>Verified</title>
-      <path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" />
-    </svg>
-  );
-}
+const VerifiedBadge = ({ accent, size }: { accent: string; size: number }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 22 22"
+    width={size}
+    height={size}
+    fill={accent}
+  >
+    <title>Verified</title>
+    <path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" />
+  </svg>
+);
 
-function ProfileInfo({
+const ProfileInfo = ({
   name,
   handle,
   bio,
@@ -258,69 +261,88 @@ function ProfileInfo({
   nameStyle: React.CSSProperties;
   handleStyle: React.CSSProperties;
   bioStyle: React.CSSProperties;
-}) {
-  return (
+}) => (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: 2,
+      marginTop: 12,
+    }}
+  >
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        marginTop: 12,
-      }}
+      style={{ ...nameStyle, alignItems: "center", display: "flex", gap: 6 }}
     >
-      <div
-        style={{ ...nameStyle, alignItems: "center", display: "flex", gap: 6 }}
-      >
-        <span
-          style={{
-            color: theme.fg,
-            fontFamily: FONT_FAMILY,
-            fontSize: isVertical ? 28 : 24,
-            fontWeight: 800,
-            letterSpacing: "-0.01em",
-            lineHeight: 1.2,
-          }}
-        >
-          {name}
-        </span>
-        {verified && (
-          <VerifiedBadge accent={accent} size={isVertical ? 24 : 22} />
-        )}
-      </div>
       <span
         style={{
-          ...handleStyle,
-          color: theme.fgMuted,
-          fontFamily: FONT_FAMILY,
-          fontSize: isVertical ? 18 : 16,
-          fontWeight: 400,
-          lineHeight: 1.3,
-        }}
-      >
-        @{handle}
-      </span>
-      <p
-        style={{
-          ...bioStyle,
-          WebkitBoxOrient: "vertical",
-          WebkitLineClamp: 2,
           color: theme.fg,
-          display: "-webkit-box",
           fontFamily: FONT_FAMILY,
-          fontSize: isVertical ? 18 : 16,
-          fontWeight: 400,
-          lineHeight: 1.4,
-          margin: "8px 0 0",
-          overflow: "hidden",
+          fontSize: isVertical ? 28 : 24,
+          fontWeight: 800,
+          letterSpacing: "-0.01em",
+          lineHeight: 1.2,
         }}
       >
-        {bio}
-      </p>
+        {name}
+      </span>
+      {verified && (
+        <VerifiedBadge accent={accent} size={isVertical ? 24 : 22} />
+      )}
     </div>
-  );
-}
+    <span
+      style={{
+        ...handleStyle,
+        color: theme.fgMuted,
+        fontFamily: FONT_FAMILY,
+        fontSize: isVertical ? 18 : 16,
+        fontWeight: 400,
+        lineHeight: 1.3,
+      }}
+    >
+      @{handle}
+    </span>
+    <p
+      style={{
+        ...bioStyle,
+        WebkitBoxOrient: "vertical",
+        WebkitLineClamp: 2,
+        color: theme.fg,
+        display: "-webkit-box",
+        fontFamily: FONT_FAMILY,
+        fontSize: isVertical ? 18 : 16,
+        fontWeight: 400,
+        lineHeight: 1.4,
+        margin: "8px 0 0",
+        overflow: "hidden",
+      }}
+    >
+      {bio}
+    </p>
+  </div>
+);
 
-function MetaRow({
+const PinIcon = ({ color }: { color: string }) => (
+  <svg width={16} height={16} viewBox="0 0 24 24" fill={color}>
+    <title>Location</title>
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
+  </svg>
+);
+
+const LinkIcon = ({ color }: { color: string }) => (
+  <svg width={16} height={16} viewBox="0 0 24 24" fill={color}>
+    <title>Website</title>
+    <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
+  </svg>
+);
+
+const CalendarIcon = ({ color }: { color: string }) => (
+  <svg width={16} height={16} viewBox="0 0 24 24" fill={color}>
+    <title>Joined</title>
+    <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
+  </svg>
+);
+
+const MetaRow = ({
   location,
   website,
   joined,
@@ -332,7 +354,7 @@ function MetaRow({
   joined: string;
   accent: string;
   theme: Theme;
-}) {
+}) => {
   const itemStyle = {
     alignItems: "center",
     color: theme.fgMuted,
@@ -357,36 +379,9 @@ function MetaRow({
       </span>
     </div>
   );
-}
+};
 
-function PinIcon({ color }: { color: string }) {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill={color}>
-      <title>Location</title>
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
-    </svg>
-  );
-}
-
-function LinkIcon({ color }: { color: string }) {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill={color}>
-      <title>Website</title>
-      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
-    </svg>
-  );
-}
-
-function CalendarIcon({ color }: { color: string }) {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill={color}>
-      <title>Joined</title>
-      <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
-    </svg>
-  );
-}
-
-function FollowButton({
+const FollowButton = ({
   frame,
   speed,
   accent,
@@ -400,8 +395,8 @@ function FollowButton({
   theme: Theme;
   layout: { x: number; y: number; w: number; h: number };
   pressScale: number;
-}) {
-  const followed = followStateAt(frame, speed);
+}) => {
+  const _followed = followStateAt(frame, speed);
   const flipProgress = Math.max(
     0,
     Math.min(1, (frame * speed - CLICK_FRAME) / 10)
@@ -460,40 +455,38 @@ function FollowButton({
       </div>
     </div>
   );
-}
+};
 
-function MessageButton({
+const MessageButton = ({
   layout,
   theme,
 }: {
   layout: { x: number; y: number; size: number };
   theme: Theme;
-}) {
-  return (
-    <div
-      style={{
-        alignItems: "center",
-        background: theme.cardBg,
-        border: `1px solid ${theme.cardBorder}`,
-        borderRadius: layout.size / 2,
-        display: "flex",
-        height: layout.size,
-        justifyContent: "center",
-        left: layout.x,
-        position: "absolute",
-        top: layout.y,
-        width: layout.size,
-      }}
-    >
-      <svg width={20} height={20} viewBox="0 0 24 24" fill={theme.fg}>
-        <title>Message</title>
-        <path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.638V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.638-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z" />
-      </svg>
-    </div>
-  );
-}
+}) => (
+  <div
+    style={{
+      alignItems: "center",
+      background: theme.cardBg,
+      border: `1px solid ${theme.cardBorder}`,
+      borderRadius: layout.size / 2,
+      display: "flex",
+      height: layout.size,
+      justifyContent: "center",
+      left: layout.x,
+      position: "absolute",
+      top: layout.y,
+      width: layout.size,
+    }}
+  >
+    <svg width={20} height={20} viewBox="0 0 24 24" fill={theme.fg}>
+      <title>Message</title>
+      <path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.638V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.638-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z" />
+    </svg>
+  </div>
+);
 
-function Tabs({
+const Tabs = ({
   accent,
   theme,
   isVertical,
@@ -501,7 +494,7 @@ function Tabs({
   accent: string;
   theme: Theme;
   isVertical: boolean;
-}) {
+}) => {
   const tabs = ["Posts", "Replies", "Media", "Likes"];
   return (
     <div
@@ -552,9 +545,9 @@ function Tabs({
       })}
     </div>
   );
-}
+};
 
-function SamplePost({
+const SamplePost = ({
   name,
   handle,
   avatarUrl,
@@ -566,80 +559,69 @@ function SamplePost({
   avatarUrl: string;
   accent: string;
   theme: Theme;
-}) {
-  return (
-    <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-      <Avatar
-        avatarUrl={avatarUrl}
-        name={name}
-        size={44}
-        accent={accent}
-        theme={theme}
-      />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div
-          style={{
-            alignItems: "center",
-            display: "flex",
-            fontFamily: FONT_FAMILY,
-            gap: 6,
-          }}
-        >
-          <span style={{ color: theme.fg, fontSize: 15, fontWeight: 700 }}>
-            {name}
-          </span>
-          <span
-            style={{ color: theme.fgMuted, fontSize: 15 }}
-          >{`@${handle} · 2d`}</span>
-        </div>
-        <p
-          style={{
-            color: theme.fg,
-            fontFamily: FONT_FAMILY,
-            fontSize: 15,
-            lineHeight: 1.4,
-            margin: "4px 0 0",
-          }}
-        >
-          Shipping something new today. Built entirely with Remotion and a lot
-          of coffee. More soon.
-        </p>
-        <div
-          style={{
-            color: theme.fgMuted,
-            display: "flex",
-            fontFamily: FONT_FAMILY,
-            fontSize: 13,
-            gap: 40,
-            marginTop: 10,
-          }}
-        >
-          <span>12</span>
-          <span>48</span>
-          <span>312</span>
-        </div>
+}) => (
+  <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
+    <Avatar
+      avatarUrl={avatarUrl}
+      name={name}
+      size={44}
+      accent={accent}
+      theme={theme}
+    />
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div
+        style={{
+          alignItems: "center",
+          display: "flex",
+          fontFamily: FONT_FAMILY,
+          gap: 6,
+        }}
+      >
+        <span style={{ color: theme.fg, fontSize: 15, fontWeight: 700 }}>
+          {name}
+        </span>
+        <span
+          style={{ color: theme.fgMuted, fontSize: 15 }}
+        >{`@${handle} · 2d`}</span>
+      </div>
+      <p
+        style={{
+          color: theme.fg,
+          fontFamily: FONT_FAMILY,
+          fontSize: 15,
+          lineHeight: 1.4,
+          margin: "4px 0 0",
+        }}
+      >
+        Shipping something new today. Built entirely with Editframe and a lot of
+        coffee. More soon.
+      </p>
+      <div
+        style={{
+          color: theme.fgMuted,
+          display: "flex",
+          fontFamily: FONT_FAMILY,
+          fontSize: 13,
+          gap: 40,
+          marginTop: 10,
+        }}
+      >
+        <span>12</span>
+        <span>48</span>
+        <span>312</span>
       </div>
     </div>
-  );
-}
+  </div>
+);
 
-function CursorLayer({
-  theme,
-  accent,
-  style,
-}: {
-  theme: "light" | "dark";
-  accent: string;
-  style: CursorStyle;
-}) {
-  return (
-    <div style={{ inset: 0, pointerEvents: "none", position: "absolute" }}>
-      <Cursor style={style} />
-    </div>
-  );
-}
+const CursorLayer = ({ style }: { style: CursorStyle }) => (
+  <div style={{ inset: 0, pointerEvents: "none", position: "absolute" }}>
+    <Cursor style={style} />
+  </div>
+);
 
-export function XFollowCard({
+// eslint-disable-next-line complexity
+export const XFollowCard = ({
   name = "framecn",
   handle = "framecn",
   bio = "Building the collaborative video toolkit for small teams.\nShip demos faster with ready-made motion.",
@@ -655,7 +637,7 @@ export function XFollowCard({
   fps = 30,
   durationInFrames = 200,
   className,
-}: XFollowCardProps) {
+}: XFollowCardProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
   const t = THEMES.light;
   const isVertical = orientation === "vertical";
@@ -664,7 +646,7 @@ export function XFollowCard({
   const frameMs = 1000 / fps;
   const safeSpeed = Math.max(0.01, speed);
 
-  const groupRef = useRef<any>(null);
+  const groupRef = useRef<EFTimegroup | null>(null);
   const frameRef = useRef(0);
 
   const cardWidth = isVertical ? 660 : 600;
@@ -870,9 +852,9 @@ export function XFollowCard({
             </div>
           </div>
 
-          <CursorLayer theme="light" accent={accentColor} style={cursorStyle} />
+          <CursorLayer style={cursorStyle} />
         </div>
       </>
     </Timegroup>
   );
-}
+};

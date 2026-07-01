@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  blurInStyle,
-  blurInStyleContext,
-} from "@/registry/bases/editframe/ui/blur-in";
 import type {
-  BlurInDirection,
   BlurInState,
   BlurInStyle,
 } from "@/registry/bases/editframe/ui/blur-in";
@@ -41,8 +36,8 @@ export const blurInAnimation = (
   from: BlurInState,
   to: BlurInState,
   duration: string,
-  fromStyle: BlurInStyle,
-  toStyle: BlurInStyle
+  _fromStyle: BlurInStyle,
+  _toStyle: BlurInStyle
 ): { opacity: string; filter: string; transform: string } => {
   if (from === to) {
     return { filter: "none", opacity: "none", transform: "none" };

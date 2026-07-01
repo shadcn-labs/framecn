@@ -3,12 +3,6 @@
 import { Timegroup } from "@editframe/react";
 import type { CSSProperties } from "react";
 
-import { Cursor } from "@/registry/bases/editframe/ui/cursor";
-import { Input } from "@/registry/bases/editframe/ui/input";
-import { Button } from "@/registry/bases/editframe/ui/button";
-import { Skeleton } from "@/registry/bases/editframe/ui/skeleton";
-import { Toast } from "@/registry/bases/editframe/ui/toast";
-
 const FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
 const MONO_FAMILY =
@@ -37,31 +31,29 @@ export interface ClaudeCodeProps {
   className?: string;
 }
 
-function Mascot({ size = 48 }: { size?: number }) {
-  return (
-    <div
-      style={{
-        alignItems: "center",
-        background: "linear-gradient(135deg, #d4a574 0%, #c4956a 100%)",
-        borderRadius: size * 0.3,
-        display: "flex",
-        height: size,
-        justifyContent: "center",
-        width: size,
-      }}
-    >
-      <svg width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24" fill="none">
-        <path
-          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"
-          fill="white"
-          fillOpacity={0.9}
-        />
-      </svg>
-    </div>
-  );
-}
+const Mascot = ({ size = 48 }: { size?: number }) => (
+  <div
+    style={{
+      alignItems: "center",
+      background: "linear-gradient(135deg, #d4a574 0%, #c4956a 100%)",
+      borderRadius: size * 0.3,
+      display: "flex",
+      height: size,
+      justifyContent: "center",
+      width: size,
+    }}
+  >
+    <svg width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"
+        fill="white"
+        fillOpacity={0.9}
+      />
+    </svg>
+  </div>
+);
 
-export function ClaudeCode({
+export const ClaudeCode = ({
   code = DEFAULT_CODE,
   accentColor = "#d4a574",
   speed = 1,
@@ -70,10 +62,10 @@ export function ClaudeCode({
   width = 1280,
   height = 720,
   className,
-}: ClaudeCodeProps) {
+}: ClaudeCodeProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
-  const frameMs = 1000 / fps;
+  const _frameMs = 1000 / fps;
 
   const lines = code.split("\n");
 
@@ -225,9 +217,13 @@ export function ClaudeCode({
                   <div
                     key={f}
                     style={{
-                      background: i === 0 ? "rgba(255,255,255,0.06)" : "transparent",
+                      background:
+                        i === 0 ? "rgba(255,255,255,0.06)" : "transparent",
                       borderRadius: 6,
-                      color: i === 0 ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)",
+                      color:
+                        i === 0
+                          ? "rgba(255,255,255,0.85)"
+                          : "rgba(255,255,255,0.4)",
                       fontFamily: MONO_FAMILY,
                       fontSize: 13,
                       padding: "6px 8px",
@@ -291,4 +287,4 @@ export function ClaudeCode({
       </>
     </Timegroup>
   );
-}
+};

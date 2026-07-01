@@ -111,25 +111,23 @@ const ICON_PATHS: Record<CommandMenuIcon, string> = {
   user: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM5 20a7 7 0 0 1 14 0",
 };
 
-function CommandMenuItemIcon({
+const CommandMenuItemIcon = ({
   icon,
   color,
 }: {
   icon: CommandMenuIcon;
   color: string;
-}) {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
-      <path
-        d={ICON_PATHS[icon]}
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+}) => (
+  <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+    <path
+      d={ICON_PATHS[icon]}
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 export interface CommandMenuItemRowProps {
   style?: CommandMenuItemStyle;
@@ -144,7 +142,7 @@ export interface CommandMenuItemRowProps {
   duration?: string;
 }
 
-export function CommandMenuItemRow({
+export const CommandMenuItemRow = ({
   style,
   state = "idle",
   from,
@@ -155,7 +153,7 @@ export function CommandMenuItemRow({
   width,
   radius,
   duration = "8frames",
-}: CommandMenuItemRowProps) {
+}: CommandMenuItemRowProps) => {
   const v = style ?? commandMenuItemStyle(state, ctx);
 
   const hasAnimation = from && from !== state;
@@ -239,9 +237,9 @@ export function CommandMenuItemRow({
       )}
     </div>
   );
-}
+};
 
-export function CommandMenuItem({
+export const CommandMenuItem = ({
   state = "idle",
   from,
   style,
@@ -252,7 +250,7 @@ export function CommandMenuItem({
   theme: themeOverride,
   className,
   duration = "8frames",
-}: CommandMenuItemProps) {
+}: CommandMenuItemProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = commandMenuItemStyleContext(theme);
 
@@ -284,4 +282,4 @@ export function CommandMenuItem({
       />
     </div>
   );
-}
+};

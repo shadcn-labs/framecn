@@ -24,16 +24,6 @@ export const tweenProgressStyle = (
   t: number
 ): ProgressStyle => ({ value: a.value + (b.value - a.value) * t });
 
-export const useProgressTransition = (
-  steps: ProgressStep[],
-  frame: number = 0,
-  opts: ProgressTransitionOptions = {}
-): ProgressStyle => {
-  const { speed = 1 } = opts;
-  const raw = frame * speed;
-  return progressValueAt(steps, raw, opts);
-};
-
 export const progressValueAt = (
   steps: ProgressStep[],
   raw: number,
@@ -45,14 +35,14 @@ export const progressValueAt = (
     return { value: 0 };
   }
 
-  const first = steps[0];
+  const [first] = steps;
 
   if (raw <= first.at) {
     return { value: first.value };
   }
 
   let toIndex = steps.length - 1;
-  for (let i = 1; i < steps.length; i++) {
+  for (let i = 1; i < steps.length; i += 1) {
     if (steps[i].at > raw) {
       toIndex = i;
       break;
@@ -78,4 +68,14 @@ export const progressValueAt = (
   const value = from.value + (to.value - from.value) * t;
 
   return { value };
+};
+
+export const useProgressTransition = (
+  steps: ProgressStep[],
+  frame = 0,
+  opts: ProgressTransitionOptions = {}
+): number => {
+  const { speed = 1 } = opts;
+  const raw = frame * speed;
+  return progressValueAt(steps, raw, opts).value;
 };

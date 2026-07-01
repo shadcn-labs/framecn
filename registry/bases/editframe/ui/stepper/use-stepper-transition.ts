@@ -24,16 +24,6 @@ export const tweenStepperStyle = (
   t: number
 ): StepperStyle => ({ position: a.position + (b.position - a.position) * t });
 
-export const useStepperTransition = (
-  steps: StepperStep[],
-  frame: number = 0,
-  opts: StepperTransitionOptions = {}
-): StepperStyle => {
-  const { speed = 1 } = opts;
-  const raw = frame * speed;
-  return stepperStyleAt(steps, raw, opts);
-};
-
 export const stepperStyleAt = (
   steps: StepperStep[],
   raw: number,
@@ -45,14 +35,14 @@ export const stepperStyleAt = (
     return { position: 0 };
   }
 
-  const first = steps[0];
+  const [first] = steps;
 
   if (raw <= first.at) {
     return { position: first.index };
   }
 
   let toIndex = steps.length - 1;
-  for (let i = 1; i < steps.length; i++) {
+  for (let i = 1; i < steps.length; i += 1) {
     if (steps[i].at > raw) {
       toIndex = i;
       break;
@@ -78,4 +68,14 @@ export const stepperStyleAt = (
   const position = from.index + (to.index - from.index) * t;
 
   return { position };
+};
+
+export const useStepperTransition = (
+  steps: StepperStep[],
+  frame = 0,
+  opts: StepperTransitionOptions = {}
+): StepperStyle => {
+  const { speed = 1 } = opts;
+  const raw = frame * speed;
+  return stepperStyleAt(steps, raw, opts);
 };

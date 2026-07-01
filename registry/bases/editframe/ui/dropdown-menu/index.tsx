@@ -26,7 +26,9 @@ export interface DropdownMenuStyle {
   panelTranslateY: number;
 }
 
-export const dropdownMenuStyle = (state: DropdownMenuState): DropdownMenuStyle => {
+export const dropdownMenuStyle = (
+  state: DropdownMenuState
+): DropdownMenuStyle => {
   switch (state) {
     case "open": {
       return {
@@ -47,7 +49,7 @@ export const dropdownMenuStyle = (state: DropdownMenuState): DropdownMenuStyle =
   }
 };
 
-export function DropdownMenu({
+export const DropdownMenu = ({
   state = "closed",
   from,
   label = "Options",
@@ -55,7 +57,7 @@ export function DropdownMenu({
   theme: themeOverride,
   className,
   duration = "12frames",
-}: DropdownMenuProps) {
+}: DropdownMenuProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const v = dropdownMenuStyle(state);
 
@@ -63,7 +65,11 @@ export function DropdownMenu({
   const fromStyle = hasAnimation ? dropdownMenuStyle(from) : v;
   const anim = hasAnimation
     ? dropdownMenuAnimation(from, state, duration, fromStyle, v)
-    : { chevronTransform: "none", panelOpacity: "none", panelTransform: "none" };
+    : {
+        chevronTransform: "none",
+        panelOpacity: "none",
+        panelTransform: "none",
+      };
 
   const isOpen = state === "open";
 
@@ -173,4 +179,4 @@ export function DropdownMenu({
       </div>
     </div>
   );
-}
+};

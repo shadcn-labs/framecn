@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "title": "Field",
+  "description": "",
+  "files": [
+    {
+      "path": "registry/bases/editframe/ui/field/index.tsx",
+      "content": "\"use client\";\n\nimport type { CSSProperties, ReactNode } from \"react\";\n\nimport { useFramecnTheme } from \"@/lib/framecn-ui\";\nimport type { FramecnTheme } from \"@/lib/framecn-ui\";\n\nexport interface FieldGroupProps {\n  children: ReactNode;\n  gap?: number;\n  style?: CSSProperties;\n}\n\nexport const FieldGroup = ({ children, gap = 16, style }: FieldGroupProps) => (\n  <div style={{ display: \"flex\", flexDirection: \"column\", gap, ...style }}>\n    {children}\n  </div>\n);\n\nexport interface FieldProps {\n  children: ReactNode;\n  gap?: number;\n  style?: CSSProperties;\n}\n\nexport const Field = ({ children, gap = 6, style }: FieldProps) => (\n  <div style={{ display: \"flex\", flexDirection: \"column\", gap, ...style }}>\n    {children}\n  </div>\n);\n\nexport interface FieldLabelProps {\n  children: ReactNode;\n  theme?: Partial<FramecnTheme>;\n  style?: CSSProperties;\n}\n\nexport const FieldLabel = ({ children, theme, style }: FieldLabelProps) => {\n  const t = useFramecnTheme(theme, \"light\");\n  return (\n    <div\n      style={{\n        color: t.foreground,\n        fontSize: 13,\n        fontWeight: 500,\n        letterSpacing: \"-0.01em\",\n        lineHeight: \"18px\",\n        ...style,\n      }}\n    >\n      {children}\n    </div>\n  );\n};\n\nexport interface FieldDescriptionProps {\n  children: ReactNode;\n  align?: \"start\" | \"center\";\n  theme?: Partial<FramecnTheme>;\n  style?: CSSProperties;\n}\n\nexport const FieldDescription = ({\n  children,\n  align = \"start\",\n  theme,\n  style,\n}: FieldDescriptionProps) => {\n  const t = useFramecnTheme(theme, \"light\");\n  return (\n    <div\n      style={{\n        color: t.mutedForeground,\n        fontSize: 12,\n        lineHeight: \"16px\",\n        textAlign: align === \"center\" ? \"center\" : \"left\",\n        ...style,\n      }}\n    >\n      {children}\n    </div>\n  );\n};\n\nexport interface FieldControlProps {\n  children: ReactNode;\n  height?: number;\n  style?: CSSProperties;\n}\n\nexport const FieldControl = ({\n  children,\n  height = 40,\n  style,\n}: FieldControlProps) => (\n  <div style={{ height, position: \"relative\", ...style }}>{children}</div>\n);\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

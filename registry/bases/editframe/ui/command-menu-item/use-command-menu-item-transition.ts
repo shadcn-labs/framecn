@@ -1,6 +1,5 @@
 "use client";
 
-import { commandMenuItemStyle } from "@/registry/bases/editframe/ui/command-menu-item";
 import type {
   CommandMenuItemState,
   CommandMenuItemStyle,
@@ -45,8 +44,8 @@ export const commandMenuItemAnimation = (
   from: CommandMenuItemState,
   to: CommandMenuItemState,
   duration: string,
-  fromStyle: CommandMenuItemStyle,
-  toStyle: CommandMenuItemStyle
+  _fromStyle: CommandMenuItemStyle,
+  _toStyle: CommandMenuItemStyle
 ): {
   background: string;
   iconColor: string;

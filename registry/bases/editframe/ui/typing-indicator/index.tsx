@@ -36,7 +36,7 @@ export const typingDotOffset = (
   };
 };
 
-export function TypingIndicator({
+export const TypingIndicator = ({
   dotCount = 3,
   color = "currentColor",
   size = 8,
@@ -45,7 +45,7 @@ export function TypingIndicator({
   speed = 1,
   cyclesPerSecond = 1.1,
   className,
-}: TypingIndicatorProps) {
+}: TypingIndicatorProps) => {
   const cycleDuration = `${1 / (cyclesPerSecond * speed)}s`;
 
   return (
@@ -82,4 +82,4 @@ export function TypingIndicator({
       </div>
     </>
   );
-}
+};

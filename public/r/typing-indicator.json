@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "typing-indicator",
+  "title": "Typing Indicator",
+  "description": "",
+  "files": [
+    {
+      "path": "registry/bases/editframe/ui/typing-indicator/index.tsx",
+      "content": "\"use client\";\n\nexport interface TypingIndicatorProps {\n  dotCount?: number;\n  color?: string;\n  size?: number;\n  gap?: number;\n  amplitude?: number;\n  speed?: number;\n  cyclesPerSecond?: number;\n  className?: string;\n}\n\nexport interface TypingDotOptions {\n  fps: number;\n  dotCount: number;\n  amplitude: number;\n  speed: number;\n  cyclesPerSecond: number;\n}\n\nexport const typingDotOffset = (\n  frame: number,\n  index: number,\n  opts: TypingDotOptions\n): { translateY: number; opacity: number } => {\n  const cps = opts.cyclesPerSecond <= 0 ? 1 : opts.cyclesPerSecond;\n  const periodFrames = opts.fps / cps;\n  const stagger = opts.dotCount > 0 ? periodFrames / (opts.dotCount * 2) : 0;\n  const phase =\n    ((frame * opts.speed - index * stagger) / periodFrames) * Math.PI * 2;\n  const wave = (Math.sin(phase) + 1) / 2;\n  return {\n    opacity: 0.45 + 0.55 * wave,\n    translateY: -opts.amplitude * wave,\n  };\n};\n\nexport const TypingIndicator = ({\n  dotCount = 3,\n  color = \"currentColor\",\n  size = 8,\n  gap = 5,\n  amplitude = 5,\n  speed = 1,\n  cyclesPerSecond = 1.1,\n  className,\n}: TypingIndicatorProps) => {\n  const cycleDuration = `${1 / (cyclesPerSecond * speed)}s`;\n\n  return (\n    <>\n      <style>{`@keyframes editframe-typing-bounce {\n  0%, 100% { transform: translateY(0); opacity: 0.45; }\n  50% { transform: translateY(-5px); opacity: 1; }\n}`}</style>\n      <div\n        className={className}\n        style={{\n          alignItems: \"center\",\n          display: \"inline-flex\",\n          gap,\n          height: size + amplitude * 2,\n        }}\n      >\n        {Array.from({ length: dotCount }, (_, i) => {\n          const staggerDelay = `${(i / dotCount) * (1 / (cyclesPerSecond * speed))}s`;\n          return (\n            <span\n              key={i}\n              style={{\n                animation: `editframe-typing-bounce ${cycleDuration} ease-in-out ${staggerDelay} infinite`,\n                background: color,\n                borderRadius: \"50%\",\n                display: \"inline-block\",\n                height: size,\n                width: size,\n              }}\n            />\n          );\n        })}\n      </div>\n    </>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

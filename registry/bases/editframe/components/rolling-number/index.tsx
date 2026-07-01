@@ -21,25 +21,15 @@ export interface RollingNumberProps {
   className?: string;
 }
 
-const springEase = (t: number): number => {
-  const c4 = (2 * Math.PI) / 3;
-  return t === 0
-    ? 0
-    : t === 1
-      ? 1
-      : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
-};
-
-const formatWithSeparators = (
-  n: number,
-  separator: string
-): string => {
+const formatWithSeparators = (n: number, separator: string): string => {
   const parts = Math.round(n).toLocaleString("en-US").split(",");
   return parts.join(separator);
 };
 
 const placeOpacity = (current: number, place: number): number => {
-  if (place === 0) return 1;
+  if (place === 0) {
+    return 1;
+  }
   const threshold = 10 ** place;
   return Math.max(
     0,
@@ -47,49 +37,7 @@ const placeOpacity = (current: number, place: number): number => {
   );
 };
 
-function RollingDigit({
-  digit,
-  fontSize,
-  color,
-  cellHeight,
-}: {
-  digit: number;
-  fontSize: number;
-  color: string;
-  cellHeight: number;
-}) {
-  return (
-    <span
-      style={{
-        display: "inline-block",
-        height: cellHeight,
-        overflow: "hidden",
-        textAlign: "center",
-        verticalAlign: "top",
-        width: "0.62em",
-      }}
-    >
-      <span
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          transform: `translateY(${-digit * cellHeight}px)`,
-        }}
-      >
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((d, di) => (
-          <span
-            key={di}
-            style={{ height: cellHeight, lineHeight: `${cellHeight}px` }}
-          >
-            {d}
-          </span>
-        ))}
-      </span>
-    </span>
-  );
-}
-
-export function RollingNumber({
+export const RollingNumber = ({
   from = 0,
   to = 24_813,
   fontSize = 120,
@@ -101,10 +49,10 @@ export function RollingNumber({
   fps = 30,
   durationInFrames = 90,
   className,
-}: RollingNumberProps) {
+}: RollingNumberProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
-  const frameMs = 1000 / fps;
+  const _frameMs = 1000 / fps;
 
   const start = Math.max(0, Math.round(from));
   const end = Math.max(0, Math.round(to));
@@ -116,7 +64,7 @@ export function RollingNumber({
   const progressSteps = useMemo(() => {
     const steps: { pct: number; current: number }[] = [];
     const stepsCount = 20;
-    for (let s = 0; s <= stepsCount; s++) {
+    for (let s = 0; s <= stepsCount; s += 1) {
       const t = s / stepsCount;
       const eased = t * t * (3 - 2 * t);
       const current = start + eased * (end - start);
@@ -128,7 +76,7 @@ export function RollingNumber({
   const digitAnimations = useMemo(() => {
     const anims: string[] = [];
     let place = 0;
-    for (let i = template.length - 1; i >= 0; i--) {
+    for (let i = template.length - 1; i >= 0; i -= 1) {
       const ch = template[i];
       if (ch !== separator) {
         const keyframeLines: string[] = [];
@@ -141,7 +89,7 @@ export function RollingNumber({
         anims.push(
           `@keyframes framecn-rn-place-${place} {\n${keyframeLines.join("\n")}\n}`
         );
-        place++;
+        place += 1;
       }
     }
     return anims.join("\n\n");
@@ -150,7 +98,7 @@ export function RollingNumber({
   const opacityAnimations = useMemo(() => {
     const anims: string[] = [];
     let place = 0;
-    for (let i = template.length - 1; i >= 0; i--) {
+    for (let i = template.length - 1; i >= 0; i -= 1) {
       const ch = template[i];
       if (ch !== separator) {
         const keyframeLines: string[] = [];
@@ -163,7 +111,7 @@ export function RollingNumber({
         anims.push(
           `@keyframes framecn-rn-opacity-${place} {\n${keyframeLines.join("\n")}\n}`
         );
-        place++;
+        place += 1;
       }
     }
     return anims.join("\n\n");
@@ -171,7 +119,7 @@ export function RollingNumber({
 
   const cells: React.ReactNode[] = [];
   let place = 0;
-  for (let i = template.length - 1; i >= 0; i--) {
+  for (let i = template.length - 1; i >= 0; i -= 1) {
     const ch = template[i];
     if (ch === separator) {
       cells.unshift(
@@ -190,7 +138,6 @@ export function RollingNumber({
         </span>
       );
     } else {
-      const digit = Math.floor(maxVal / 10 ** place) % 10;
       cells.unshift(
         <span
           key={`d${i}`}
@@ -222,7 +169,7 @@ export function RollingNumber({
           </span>
         </span>
       );
-      place++;
+      place += 1;
     }
   }
 
@@ -266,4 +213,4 @@ export function RollingNumber({
       </>
     </Timegroup>
   );
-}
+};

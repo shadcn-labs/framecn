@@ -28,7 +28,7 @@ export const caretBlinkOpacity = (
   return Math.floor((frame * opts.speed) / halfPeriod) % 2 === 0 ? 1 : 0;
 };
 
-export function Caret({
+export const Caret = ({
   color = "currentColor",
   width = 2,
   height = 18,
@@ -40,14 +40,18 @@ export function Caret({
   marginLeft = 0,
   className,
   style,
-}: CaretProps) {
+}: CaretProps) => {
   const blinkDuration = `${1 / (blinkPerSecond * speed)}s`;
   const blinkStyle = blink
     ? { animation: `editframe-blink ${blinkDuration} step-end infinite` }
     : {};
 
-  const resolvedOpacity =
-    opacity !== undefined ? opacity : blink ? undefined : 1;
+  let resolvedOpacity: number | undefined;
+  if (opacity === undefined) {
+    resolvedOpacity = blink ? undefined : 1;
+  } else {
+    resolvedOpacity = opacity;
+  }
 
   return (
     <>
@@ -69,4 +73,4 @@ export function Caret({
       />
     </>
   );
-}
+};

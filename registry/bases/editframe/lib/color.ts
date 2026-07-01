@@ -12,7 +12,7 @@ export const parseColor = (c: string): Rgb => {
   if (s.startsWith("var(")) {
     if (process.env.NODE_ENV !== "production") {
       console.warn(
-        `[framecn-ui] parseColor cannot resolve CSS variable "${s}" under Remotion's per-frame render. ` +
+        `[framecn-ui] parseColor cannot resolve CSS variable "${s}" under Editframe's per-frame render. ` +
           "Animated colors must be concrete oklch/hex/rgb values supplied via the theme. " +
           "Falling back to the JS default."
       );
@@ -47,7 +47,7 @@ const resolveColorString = (s: string): string => {
   if (trimmed.startsWith("var(")) {
     if (process.env.NODE_ENV !== "production") {
       console.warn(
-        `[framecn-ui] mixOklch cannot resolve CSS variable "${trimmed}" under Remotion's per-frame render. ` +
+        `[framecn-ui] mixOklch cannot resolve CSS variable "${trimmed}" under Editframe's per-frame render. ` +
           "Animated colors must be concrete oklch/hex/rgb values supplied via the theme. " +
           "Falling back to the JS default."
       );
@@ -65,6 +65,8 @@ const resolveColorString = (s: string): string => {
   return trimmed;
 };
 
+export const toCss = (color: Rgb): string => formatRgb(color);
+
 export const mixOklch = (a: string, b: string, t: number): string => {
   const mixed = clampChroma(
     interpolate([resolveColorString(a), resolveColorString(b)], "oklch")(t),
@@ -73,5 +75,3 @@ export const mixOklch = (a: string, b: string, t: number): string => {
   );
   return toCss(toRgb(mixed));
 };
-
-export const toCss = (color: Rgb): string => formatRgb(color);

@@ -1,7 +1,6 @@
 "use client";
 
 import { mixOklch } from "@/lib/framecn-ui";
-import { selectItemStyle } from "@/registry/bases/editframe/ui/select-item";
 import type {
   SelectItemState,
   SelectItemStyle,
@@ -47,8 +46,8 @@ export const selectItemAnimation = (
   from: SelectItemState,
   to: SelectItemState,
   duration: string,
-  fromStyle: SelectItemStyle,
-  toStyle: SelectItemStyle
+  _fromStyle: SelectItemStyle,
+  _toStyle: SelectItemStyle
 ): {
   background: string;
   checkOpacity: string;

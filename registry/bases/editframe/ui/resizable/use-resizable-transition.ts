@@ -2,11 +2,11 @@
 
 import { clamp01, easings } from "@/lib/framecn-ui";
 import type { EasingName } from "@/lib/framecn-ui";
-import { resizableHandleStyle } from "@/registry/bases/editframe/ui/resizable";
 import type {
   ResizableHandleState,
   ResizableStyle,
 } from "@/registry/bases/editframe/ui/resizable";
+import { resizableHandleStyle } from "@/registry/bases/editframe/ui/resizable";
 
 export interface ResizableStep {
   at: number;
@@ -34,15 +34,6 @@ export const tweenResizableStyle = (
   ratio: a.ratio + (b.ratio - a.ratio) * t,
 });
 
-export const useResizableTransition = (
-  steps: ResizableStep[],
-  frame: number = 0,
-  opts: ResizableTransitionOptions = {}
-): ResizableStyle => {
-  const { speed = 1 } = opts;
-  const raw = frame * speed;
-  return resizableStyleAt(steps, raw, opts);
-};
 const ratioAt = (
   steps: ResizableStep[],
   raw: number,
@@ -54,13 +45,13 @@ const ratioAt = (
   if (ratioSteps.length === 0) {
     return 0.5;
   }
-  const first = ratioSteps[0];
+  const [first] = ratioSteps;
   if (raw <= first.at) {
     return first.ratio;
   }
 
   let toIndex = ratioSteps.length - 1;
-  for (let i = 1; i < ratioSteps.length; i++) {
+  for (let i = 1; i < ratioSteps.length; i += 1) {
     if (ratioSteps[i].at > raw) {
       toIndex = i;
       break;
@@ -97,13 +88,13 @@ const handleAt = (
   if (handleSteps.length === 0) {
     return resizableHandleStyle("idle");
   }
-  const first = handleSteps[0];
+  const [first] = handleSteps;
   if (raw <= first.at) {
     return resizableHandleStyle(first.handleState);
   }
 
   let toIndex = handleSteps.length - 1;
-  for (let i = 1; i < handleSteps.length; i++) {
+  for (let i = 1; i < handleSteps.length; i += 1) {
     if (handleSteps[i].at > raw) {
       toIndex = i;
       break;

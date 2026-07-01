@@ -1,6 +1,5 @@
 "use client";
 
-import { toastStyle } from "@/registry/bases/editframe/ui/toast";
 import type {
   ToastState,
   ToastStyle,
@@ -44,8 +43,8 @@ export const toastAnimation = (
   from: ToastState,
   to: ToastState,
   duration: string,
-  fromStyle: ToastStyle,
-  toStyle: ToastStyle
+  _fromStyle: ToastStyle,
+  _toStyle: ToastStyle
 ): {
   opacity: string;
   transform: string;

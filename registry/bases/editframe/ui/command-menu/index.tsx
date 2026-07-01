@@ -50,20 +50,20 @@ export const commandMenuStyle = (state: CommandMenuState): CommandMenuStyle => {
   }
 };
 
-export function CommandMenu({
+export const CommandMenu = ({
   state = "closed",
   from,
   placeholder = "Search commands...",
   groups = [
     {
-      label: "Suggestions",
       items: ["Calendar", "Search Emoji", "Calculator"],
+      label: "Suggestions",
     },
   ],
   theme: themeOverride,
   className,
   duration = "12frames",
-}: CommandMenuProps) {
+}: CommandMenuProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const v = commandMenuStyle(state);
 
@@ -108,8 +108,7 @@ export function CommandMenu({
           background: theme.popover,
           border: `1px solid ${theme.border}`,
           borderRadius: theme.radius,
-          boxShadow:
-            "0 25px 50px -12px rgba(0,0,0,0.25)",
+          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
           display: isOpen ? "flex" : "none",
           flexDirection: "column",
           height: MENU_HEIGHT,
@@ -133,20 +132,26 @@ export function CommandMenu({
             padding: "12px 16px",
           }}
         >
-          <svg
-            width={16}
-            height={16}
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <circle cx="11" cy="11" r="7" stroke={theme.mutedForeground} strokeWidth="2" />
-            <path d="M16 16l4 4" stroke={theme.mutedForeground} strokeWidth="2" strokeLinecap="round" />
+          <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+              stroke={theme.mutedForeground}
+              strokeWidth="2"
+            />
+            <path
+              d="M16 16l4 4"
+              stroke={theme.mutedForeground}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
           <span
             style={{
               color: theme.mutedForeground,
-              fontSize: 14,
               flex: 1,
+              fontSize: 14,
             }}
           >
             {placeholder}
@@ -213,4 +218,4 @@ export function CommandMenu({
       </div>
     </div>
   );
-}
+};

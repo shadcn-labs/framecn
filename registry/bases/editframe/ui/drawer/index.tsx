@@ -33,7 +33,9 @@ export interface DrawerStyleContext {
   radius: number;
 }
 
-export const drawerStyleContext = (theme: FramecnTheme): DrawerStyleContext => ({
+export const drawerStyleContext = (
+  theme: FramecnTheme
+): DrawerStyleContext => ({
   background: theme.popover,
   border: theme.border,
   foreground: theme.foreground,
@@ -55,7 +57,7 @@ export const drawerStyle = (
   }
 };
 
-export function Drawer({
+export const Drawer = ({
   state = "open",
   from,
   title = "Move Goal",
@@ -63,7 +65,7 @@ export function Drawer({
   theme: themeOverride,
   className,
   duration = "12frames",
-}: DrawerProps) {
+}: DrawerProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = drawerStyleContext(theme);
   const v = drawerStyle(state, ctx);
@@ -108,8 +110,8 @@ export function Drawer({
           background: ctx.background,
           borderBottomLeftRadius: ctx.radius,
           borderBottomRightRadius: ctx.radius,
-          boxShadow: "0 -4px 6px -1px rgba(0,0,0,0.1)",
           bottom: 0,
+          boxShadow: "0 -4px 6px -1px rgba(0,0,0,0.1)",
           display: "flex",
           flexDirection: "column",
           gap: 16,
@@ -191,4 +193,4 @@ export function Drawer({
       </div>
     </div>
   );
-}
+};

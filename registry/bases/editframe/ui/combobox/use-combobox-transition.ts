@@ -1,6 +1,5 @@
 "use client";
 
-import { comboboxStyle } from "@/registry/bases/editframe/ui/combobox";
 import type {
   ComboboxState,
   ComboboxStyle,
@@ -32,8 +31,8 @@ export const comboboxAnimation = (
   from: ComboboxState,
   to: ComboboxState,
   duration: string,
-  fromStyle: ComboboxStyle,
-  toStyle: ComboboxStyle
+  _fromStyle: ComboboxStyle,
+  _toStyle: ComboboxStyle
 ): { panelOpacity: string; panelTransform: string } => {
   if (from === to) {
     return { panelOpacity: "none", panelTransform: "none" };

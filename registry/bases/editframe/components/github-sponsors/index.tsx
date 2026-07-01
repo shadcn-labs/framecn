@@ -1,5 +1,6 @@
 "use client";
 
+import type { EFTimegroup } from "@editframe/elements";
 import { Timegroup } from "@editframe/react";
 import { memo, useMemo, useState, useEffect, useRef } from "react";
 
@@ -203,7 +204,7 @@ export const gridLayout = (
   }
   const rows = Math.ceil(count / cols);
   const out: Point[] = [];
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i += 1) {
     const r = Math.floor(i / cols);
     const c = i % cols;
     const rowCount = Math.min(cols, count - r * cols);
@@ -225,7 +226,7 @@ const ramp = (
   return Math.max(0, Math.min(1, (fc - start) / (end - start)));
 };
 
-function Avatar({
+const Avatar = ({
   login,
   avatarUrl,
   size,
@@ -237,7 +238,7 @@ function Avatar({
   size: number;
   theme: Theme;
   grayscale: number;
-}) {
+}) => {
   const [errored, setErrored] = useState(false);
   const base = {
     border: `1px solid ${theme.border}`,
@@ -276,7 +277,7 @@ function Avatar({
       style={{ ...base, objectFit: "cover" }}
     />
   );
-}
+};
 
 const SponsorNode = memo(function SponsorNode({
   sponsor,
@@ -317,7 +318,7 @@ const SponsorNode = memo(function SponsorNode({
   );
 });
 
-function HeartGlyph({
+const HeartGlyph = ({
   size,
   accent,
   draw,
@@ -327,32 +328,30 @@ function HeartGlyph({
   accent: string;
   draw: number;
   fill: number;
-}) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-    >
-      <title>GitHub Sponsors</title>
-      <path
-        d={HEART_PATH}
-        pathLength={1}
-        fill={accent}
-        fillOpacity={fill}
-        stroke={accent}
-        strokeWidth={1.4}
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        strokeDasharray={1}
-        strokeDashoffset={1 - draw}
-      />
-    </svg>
-  );
-}
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+  >
+    <title>GitHub Sponsors</title>
+    <path
+      d={HEART_PATH}
+      pathLength={1}
+      fill={accent}
+      fillOpacity={fill}
+      stroke={accent}
+      strokeWidth={1.4}
+      strokeLinejoin="round"
+      strokeLinecap="round"
+      strokeDasharray={1}
+      strokeDashoffset={1 - draw}
+    />
+  </svg>
+);
 
-export function GithubSponsors({
+export const GithubSponsors = ({
   account = "framecn",
   sponsors = SAMPLE_SPONSORS,
   accentColor = "#db61a2",
@@ -361,12 +360,12 @@ export function GithubSponsors({
   fps = 30,
   durationInFrames = 300,
   className,
-}: GitHubSponsorsProps) {
+}: GitHubSponsorsProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
   const t = THEMES[theme] ?? THEMES.light;
   const safeSpeed = Math.max(0.01, speed);
 
-  const groupRef = useRef<any>(null);
+  const groupRef = useRef<EFTimegroup | null>(null);
   const frameRef = useRef(0);
 
   const count = sponsors.length;
@@ -402,14 +401,17 @@ export function GithubSponsors({
     Math.min(1, (frameRef.current * safeSpeed) / DRAW_END)
   );
   const pulseFrame = frameRef.current * safeSpeed;
-  const pulseT =
-    pulseFrame <= DRAW_END - 2
-      ? 0
-      : pulseFrame >= PULSE_END
+  let pulseT = 0;
+  if (pulseFrame > DRAW_END - 2) {
+    pulseT =
+      pulseFrame >= PULSE_END
         ? 1
         : (pulseFrame - (DRAW_END - 2)) / (PULSE_END - (DRAW_END - 2));
-  const pulseScale =
-    pulseT <= 0 ? 1 : pulseT >= 1 ? 1 : 1 - 0.1 * Math.sin(pulseT * Math.PI);
+  }
+  let pulseScale = 1;
+  if (pulseT > 0 && pulseT < 1) {
+    pulseScale = 1 - 0.1 * Math.sin(pulseT * Math.PI);
+  }
   const fillO = ramp(frameRef.current, safeSpeed, DRAW_END - 8, PULSE_END);
   const dock = ramp(
     frameRef.current,
@@ -610,4 +612,4 @@ export function GithubSponsors({
       </>
     </Timegroup>
   );
-}
+};

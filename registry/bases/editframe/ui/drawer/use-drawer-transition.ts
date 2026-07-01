@@ -1,11 +1,6 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  drawerStyle,
-  drawerStyleContext,
-} from "@/registry/bases/editframe/ui/drawer";
 import type {
   DrawerState,
   DrawerStyle,
@@ -37,8 +32,8 @@ export const drawerAnimation = (
   from: DrawerState,
   to: DrawerState,
   duration: string,
-  fromStyle: DrawerStyle,
-  toStyle: DrawerStyle
+  _fromStyle: DrawerStyle,
+  _toStyle: DrawerStyle
 ): { overlay: string; panel: string } => {
   if (from === to) {
     return { overlay: "none", panel: "none" };

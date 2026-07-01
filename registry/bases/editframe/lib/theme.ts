@@ -85,17 +85,16 @@ export interface FramecnUIProviderProps {
   children: ReactNode;
 }
 
-export function FramecnUIProvider({
+export const FramecnUIProvider = ({
   theme,
   mode,
   children,
-}: FramecnUIProviderProps) {
-  return createElement(
+}: FramecnUIProviderProps) =>
+  createElement(
     FramecnThemeContext.Provider,
     { value: { mode, theme } },
     children
   );
-}
 
 export const useFramecnTheme = (
   override?: Partial<FramecnTheme>,

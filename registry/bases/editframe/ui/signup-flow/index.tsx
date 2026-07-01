@@ -44,7 +44,7 @@ export interface SignupFlowProps {
   theme?: Partial<FramecnTheme>;
 }
 
-export function SignupFlow({
+export const SignupFlow = ({
   title = "Create an account",
   description = "Enter your details to get started.",
   nameLabel = "Full name",
@@ -56,7 +56,7 @@ export function SignupFlow({
   submitLabel = "Sign up",
   toastTitle = "Account created",
   theme,
-}: SignupFlowProps) {
+}: SignupFlowProps) => {
   const resolved = useFramecnTheme(theme);
 
   const cursorStyle = useCursorPath([
@@ -202,4 +202,4 @@ export function SignupFlow({
       <Cursor style={cursorStyle} theme={theme} />
     </div>
   );
-}
+};

@@ -2,14 +2,6 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  stepperStyleAt,
-  tweenStepperStyle,
-} from "@/registry/bases/editframe/ui/stepper/use-stepper-transition";
-import type {
-  StepperStep,
-  StepperTransitionOptions,
-} from "@/registry/bases/editframe/ui/stepper/use-stepper-transition";
 
 export interface StepperStyle {
   position: number;
@@ -18,33 +10,24 @@ export interface StepperStyle {
 export interface StepperProps {
   steps?: string[];
   current?: number;
-  from?: number;
   theme?: Partial<FramecnTheme>;
   primary?: string;
-  speed?: number;
   className?: string;
-  duration?: string;
 }
 
-export function Stepper({
+export const Stepper = ({
   steps = ["Account", "Profile", "Billing", "Done"],
   current = 0,
-  from,
   theme: themeOverride,
   primary,
-  speed = 1,
   className,
-  duration = "24frames",
-}: StepperProps) {
+}: StepperProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
   );
 
   const progress = steps.length > 1 ? current / (steps.length - 1) : 0;
-  const fromProgress = from !== undefined && steps.length > 1
-    ? from / (steps.length - 1)
-    : undefined;
 
   const trackHeight = 4;
   const progressPercent = progress * 100;
@@ -112,7 +95,9 @@ export function Stepper({
                     background: isActive ? theme.primary : theme.muted,
                     border: `2px solid ${isActive ? theme.primary : theme.border}`,
                     borderRadius: "50%",
-                    color: isActive ? theme.primaryForeground : theme.mutedForeground,
+                    color: isActive
+                      ? theme.primaryForeground
+                      : theme.mutedForeground,
                     display: "flex",
                     fontSize: 12,
                     fontWeight: 600,
@@ -140,4 +125,4 @@ export function Stepper({
       </div>
     </div>
   );
-}
+};

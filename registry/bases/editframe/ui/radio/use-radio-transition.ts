@@ -1,11 +1,7 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
-import type { FramecnTheme } from "@/lib/framecn-ui";
-import { radioStyleContext } from "@/registry/bases/editframe/ui/radio";
 import type {
   RadioState,
-  RadioStyle,
   RadioStyleContext,
 } from "@/registry/bases/editframe/ui/radio";
 

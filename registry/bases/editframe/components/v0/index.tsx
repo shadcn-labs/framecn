@@ -1,5 +1,6 @@
 "use client";
 
+import type { EFTimegroup } from "@editframe/elements";
 import { Timegroup } from "@editframe/react";
 import { useEffect, useRef } from "react";
 
@@ -11,7 +12,6 @@ const SANS_FAMILY =
 
 export interface V0Props {
   greeting?: string;
-  placeholder?: string;
   prompt?: string;
   modelName?: string;
   projectName?: string;
@@ -69,111 +69,102 @@ export const morphProgressAt = (
     return 0;
   }
   const t = Math.min(local / 15, 1);
+  if (t === 0) {
+    return 0;
+  }
+  if (t === 1) {
+    return 1;
+  }
   const c4 = (2 * Math.PI) / 3;
-  return t === 0
-    ? 0
-    : t === 1
-      ? 1
-      : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+  return 2 ** (-10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
 };
 
-function PlusIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <title>Add</title>
-      <path
-        d="M12 5v14M5 12h14"
-        stroke={color}
-        strokeWidth={2}
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
+const PlusIcon = ({ size, color }: { size: number; color: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <title>Add</title>
+    <path
+      d="M12 5v14M5 12h14"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+  </svg>
+);
 
-function V0LogoIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <title>v0</title>
-      <rect
-        x={2.5}
-        y={2.5}
-        width={19}
-        height={19}
-        rx={5}
-        stroke={color}
-        strokeWidth={1.8}
-      />
-      <rect
-        x={7.5}
-        y={7.5}
-        width={9}
-        height={9}
-        rx={2.5}
-        stroke={color}
-        strokeWidth={1.8}
-      />
-    </svg>
-  );
-}
+const V0LogoIcon = ({ size, color }: { size: number; color: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <title>v0</title>
+    <rect
+      x={2.5}
+      y={2.5}
+      width={19}
+      height={19}
+      rx={5}
+      stroke={color}
+      strokeWidth={1.8}
+    />
+    <rect
+      x={7.5}
+      y={7.5}
+      width={9}
+      height={9}
+      rx={2.5}
+      stroke={color}
+      strokeWidth={1.8}
+    />
+  </svg>
+);
 
-function ChevronDownIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <title>Expand</title>
-      <path
-        d="M6 9l6 6 6-6"
-        stroke={color}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+const ChevronDownIcon = ({ size, color }: { size: number; color: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <title>Expand</title>
+    <path
+      d="M6 9l6 6 6-6"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
-function MicIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <title>Voice input</title>
-      <rect
-        x={9}
-        y={3}
-        width={6}
-        height={11}
-        rx={3}
-        stroke={color}
-        strokeWidth={1.8}
-      />
-      <path
-        d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21M9 21h6"
-        stroke={color}
-        strokeWidth={1.8}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+const MicIcon = ({ size, color }: { size: number; color: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <title>Voice input</title>
+    <rect
+      x={9}
+      y={3}
+      width={6}
+      height={11}
+      rx={3}
+      stroke={color}
+      strokeWidth={1.8}
+    />
+    <path
+      d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21M9 21h6"
+      stroke={color}
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
-function ArrowUpIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <title>Send</title>
-      <path
-        d="M12 19V6M12 6l-6 6M12 6l6 6"
-        stroke={color}
-        strokeWidth={2.2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+const ArrowUpIcon = ({ size, color }: { size: number; color: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <title>Send</title>
+    <path
+      d="M12 19V6M12 6l-6 6M12 6l6 6"
+      stroke={color}
+      strokeWidth={2.2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
-export function V0({
+export const V0 = ({
   greeting = "What do you want to create?",
-  placeholder = "Ask v0 to build…",
   prompt = "a landing page for my SaaS with pricing and testimonials",
   modelName = "v0 Max",
   projectName = "Project",
@@ -181,7 +172,7 @@ export function V0({
   fps = 30,
   durationInFrames = 200,
   className,
-}: V0Props) {
+}: V0Props) => {
   const durationMs = (durationInFrames / fps) * 1000;
   const t = THEMES.dark;
   const refW = 1280;
@@ -189,7 +180,7 @@ export function V0({
   const frameMs = 1000 / fps;
   const safeSpeed = Math.max(0.01, speed);
 
-  const groupRef = useRef<any>(null);
+  const groupRef = useRef<EFTimegroup | null>(null);
   const textRef = useRef<HTMLSpanElement>(null);
   const micRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
@@ -422,4 +413,4 @@ export function V0({
       </>
     </Timegroup>
   );
-}
+};

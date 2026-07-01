@@ -4,7 +4,7 @@
   "title": "Tracking In",
   "description": "Letter-spacing collapses and blur clears with a springy motion.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

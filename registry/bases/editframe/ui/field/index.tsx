@@ -11,13 +11,11 @@ export interface FieldGroupProps {
   style?: CSSProperties;
 }
 
-export function FieldGroup({ children, gap = 16, style }: FieldGroupProps) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap, ...style }}>
-      {children}
-    </div>
-  );
-}
+export const FieldGroup = ({ children, gap = 16, style }: FieldGroupProps) => (
+  <div style={{ display: "flex", flexDirection: "column", gap, ...style }}>
+    {children}
+  </div>
+);
 
 export interface FieldProps {
   children: ReactNode;
@@ -25,13 +23,11 @@ export interface FieldProps {
   style?: CSSProperties;
 }
 
-export function Field({ children, gap = 6, style }: FieldProps) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap, ...style }}>
-      {children}
-    </div>
-  );
-}
+export const Field = ({ children, gap = 6, style }: FieldProps) => (
+  <div style={{ display: "flex", flexDirection: "column", gap, ...style }}>
+    {children}
+  </div>
+);
 
 export interface FieldLabelProps {
   children: ReactNode;
@@ -39,7 +35,7 @@ export interface FieldLabelProps {
   style?: CSSProperties;
 }
 
-export function FieldLabel({ children, theme, style }: FieldLabelProps) {
+export const FieldLabel = ({ children, theme, style }: FieldLabelProps) => {
   const t = useFramecnTheme(theme, "light");
   return (
     <div
@@ -55,7 +51,7 @@ export function FieldLabel({ children, theme, style }: FieldLabelProps) {
       {children}
     </div>
   );
-}
+};
 
 export interface FieldDescriptionProps {
   children: ReactNode;
@@ -64,12 +60,12 @@ export interface FieldDescriptionProps {
   style?: CSSProperties;
 }
 
-export function FieldDescription({
+export const FieldDescription = ({
   children,
   align = "start",
   theme,
   style,
-}: FieldDescriptionProps) {
+}: FieldDescriptionProps) => {
   const t = useFramecnTheme(theme, "light");
   return (
     <div
@@ -84,7 +80,7 @@ export function FieldDescription({
       {children}
     </div>
   );
-}
+};
 
 export interface FieldControlProps {
   children: ReactNode;
@@ -92,12 +88,10 @@ export interface FieldControlProps {
   style?: CSSProperties;
 }
 
-export function FieldControl({
+export const FieldControl = ({
   children,
   height = 40,
   style,
-}: FieldControlProps) {
-  return (
-    <div style={{ height, position: "relative", ...style }}>{children}</div>
-  );
-}
+}: FieldControlProps) => (
+  <div style={{ height, position: "relative", ...style }}>{children}</div>
+);

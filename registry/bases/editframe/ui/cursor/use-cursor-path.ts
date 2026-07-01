@@ -54,16 +54,7 @@ export const clickPress = (framesSinceClick: number): number => {
   return 1 - clamp01(p);
 };
 
-export const useCursorPath = (
-  waypoints: CursorWaypoint[],
-  frame: number = 0,
-  opts: CursorPathOptions = {}
-): CursorStyle => {
-  const { speed = 1 } = opts;
-  const raw = frame * speed;
-  return cursorPathAt(waypoints, raw, opts);
-};
-
+// eslint-disable-next-line complexity
 export const cursorPathAt = (
   waypoints: CursorWaypoint[],
   raw: number,
@@ -72,10 +63,17 @@ export const cursorPathAt = (
   const { defaultDuration = DEFAULT_DURATION } = opts;
 
   if (waypoints.length === 0) {
-    return { pressScale: 1, rippleOpacity: 0, rippleScale: 0, scale: 1, x: 0, y: 0 };
+    return {
+      pressScale: 1,
+      rippleOpacity: 0,
+      rippleScale: 0,
+      scale: 1,
+      x: 0,
+      y: 0,
+    };
   }
 
-  const first = waypoints[0];
+  const [first] = waypoints;
 
   if (raw <= first.at) {
     return {
@@ -89,7 +87,7 @@ export const cursorPathAt = (
   }
 
   let toIndex = waypoints.length - 1;
-  for (let i = 1; i < waypoints.length; i++) {
+  for (let i = 1; i < waypoints.length; i += 1) {
     if (waypoints[i].at > raw) {
       toIndex = i;
       break;
@@ -152,4 +150,14 @@ export const cursorPathAt = (
     x,
     y,
   };
+};
+
+export const useCursorPath = (
+  waypoints: CursorWaypoint[],
+  frame = 0,
+  opts: CursorPathOptions = {}
+): CursorStyle => {
+  const { speed = 1 } = opts;
+  const raw = frame * speed;
+  return cursorPathAt(waypoints, raw, opts);
 };

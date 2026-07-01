@@ -3,10 +3,6 @@
 import { Timegroup } from "@editframe/react";
 import type { CSSProperties } from "react";
 
-import { Cursor } from "@/registry/bases/editframe/ui/cursor";
-import { Input } from "@/registry/bases/editframe/ui/input";
-import { Button } from "@/registry/bases/editframe/ui/button";
-
 const FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
 const MONO_FAMILY =
@@ -24,14 +20,14 @@ export interface KineticCenterBuildProps {
 }
 
 const BUILD_STEPS = [
-  { label: "Install dependencies", icon: "📦", duration: 0.15 },
-  { label: "Compile TypeScript", icon: "⚙️", duration: 0.2 },
-  { label: "Bundle assets", icon: "📦", duration: 0.15 },
-  { label: "Run tests", icon: "✅", duration: 0.15 },
-  { label: "Deploy to edge", icon: "🚀", duration: 0.2 },
+  { duration: 0.15, icon: "📦", label: "Install dependencies" },
+  { duration: 0.2, icon: "⚙️", label: "Compile TypeScript" },
+  { duration: 0.15, icon: "📦", label: "Bundle assets" },
+  { duration: 0.15, icon: "✅", label: "Run tests" },
+  { duration: 0.2, icon: "🚀", label: "Deploy to edge" },
 ];
 
-export function KineticCenterBuild({
+export const KineticCenterBuild = ({
   accentColor = "#22c55e",
   projectName = "my-app",
   speed = 1,
@@ -40,10 +36,10 @@ export function KineticCenterBuild({
   width = 1280,
   height = 720,
   className,
-}: KineticCenterBuildProps) {
+}: KineticCenterBuildProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
-  const frameMs = 1000 / fps;
+  const _frameMs = 1000 / fps;
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
@@ -108,8 +104,8 @@ export function KineticCenterBuild({
         <div
           style={{
             animation: `framecn-kcb-orbit ${durationMs * 0.8}ms linear infinite`,
-            borderRadius: "50%",
             border: `1px solid ${accentColor}33`,
+            borderRadius: "50%",
             height: 360,
             position: "absolute",
             width: 360,
@@ -121,10 +117,10 @@ export function KineticCenterBuild({
               borderRadius: "50%",
               boxShadow: `0 0 20px ${accentColor}`,
               height: 12,
-              position: "absolute",
-              top: -6,
               left: "50%",
               marginLeft: -6,
+              position: "absolute",
+              top: -6,
               width: 12,
             }}
           />
@@ -198,7 +194,9 @@ export function KineticCenterBuild({
             }}
           >
             {BUILD_STEPS.map((step, i) => {
-              const stepStart = 0.1 + BUILD_STEPS.slice(0, i).reduce((s, e) => s + e.duration, 0);
+              const stepStart =
+                0.1 +
+                BUILD_STEPS.slice(0, i).reduce((s, e) => s + e.duration, 0);
               const stepEnd = stepStart + step.duration;
               return (
                 <div
@@ -226,7 +224,7 @@ export function KineticCenterBuild({
                   </span>
                   <div
                     style={{
-                      animation: `framecn-kcb-check 300ms ease-out ${((stepEnd * durationMs) / safeSpeed) - 200}ms backwards`,
+                      animation: `framecn-kcb-check 300ms ease-out ${(stepEnd * durationMs) / safeSpeed - 200}ms backwards`,
                       color: accentColor,
                       fontFamily: MONO_FAMILY,
                       fontSize: 12,
@@ -262,4 +260,4 @@ export function KineticCenterBuild({
       </>
     </Timegroup>
   );
-}
+};

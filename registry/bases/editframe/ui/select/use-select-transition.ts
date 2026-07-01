@@ -1,6 +1,5 @@
 "use client";
 
-import { selectStyle } from "@/registry/bases/editframe/ui/select";
 import type {
   SelectState,
   SelectStyle,
@@ -50,8 +49,8 @@ export const selectAnimation = (
   from: SelectState,
   to: SelectState,
   duration: string,
-  fromStyle: SelectStyle,
-  toStyle: SelectStyle
+  _fromStyle: SelectStyle,
+  _toStyle: SelectStyle
 ): {
   panelOpacity: string;
   panelTransform: string;

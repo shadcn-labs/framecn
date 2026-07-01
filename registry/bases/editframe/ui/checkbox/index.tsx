@@ -1,6 +1,6 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
   checkboxKeyframes,
@@ -76,7 +76,7 @@ export const checkboxStyle = (
   }
 };
 
-export function Checkbox({
+export const Checkbox = ({
   state = "unchecked",
   from,
   label = "Accept terms",
@@ -84,7 +84,7 @@ export function Checkbox({
   primary,
   className,
   duration = "10frames",
-}: CheckboxProps) {
+}: CheckboxProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
@@ -140,7 +140,9 @@ export function Checkbox({
             viewBox="0 0 24 24"
             fill="none"
             style={{
-              animation: hasAnimation ? `${anim.check}, ${anim.draw}` : undefined,
+              animation: hasAnimation
+                ? `${anim.check}, ${anim.draw}`
+                : undefined,
               opacity: v.checkOpacity,
               transform: `scale(${v.checkScale})`,
             }}
@@ -169,4 +171,4 @@ export function Checkbox({
       </label>
     </div>
   );
-}
+};

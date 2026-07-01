@@ -153,19 +153,20 @@ export const inputStyle = (
   }
 };
 
-export function Input({
+// eslint-disable-next-line complexity
+export const Input = ({
   state = "idle",
   from,
   style,
   placeholder = "you@example.com",
-  value = "remotion@framecn.dev",
+  value = "hello@framecn.dev",
   size = "default",
   theme: themeOverride,
   primary,
   fullWidth = false,
   className,
   duration = "8frames",
-}: InputProps) {
+}: InputProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
@@ -182,6 +183,15 @@ export function Input({
   const hasAnimation = from && from !== state;
   const fromStyle = hasAnimation ? inputStyle(from, ctx) : v;
   const anim = hasAnimation ? inputAnimations(from, state, duration) : null;
+  const placeholderOpacity = (() => {
+    if (hasAnimation) {
+      return;
+    }
+    if (v.valueReveal > 0) {
+      return 0;
+    }
+    return v.placeholderOpacity;
+  })();
 
   return (
     <div
@@ -226,11 +236,7 @@ export function Input({
             animation: anim ? anim.placeholderOpacity : undefined,
             color: ctx.mutedForeground,
             left: sizeStyle.padding,
-            opacity: hasAnimation
-              ? undefined
-              : v.valueReveal > 0
-                ? 0
-                : v.placeholderOpacity,
+            opacity: placeholderOpacity,
             pointerEvents: "none",
             position: "absolute",
             whiteSpace: "nowrap",
@@ -255,4 +261,4 @@ export function Input({
       </div>
     </div>
   );
-}
+};

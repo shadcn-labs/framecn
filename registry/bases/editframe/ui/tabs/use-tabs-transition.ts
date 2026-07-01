@@ -1,18 +1,14 @@
 "use client";
 
-import { easings, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  tabsStyle,
-  tabsStyleContext,
-} from "@/registry/bases/editframe/ui/tabs";
 import type {
   TabsState,
   TabsStyle,
   TabsStyleContext,
 } from "@/registry/bases/editframe/ui/tabs";
 
-const DEFAULT_ITEMS = ["Account", "Password", "Settings"];
+const _DEFAULT_ITEMS = ["Account", "Password", "Settings"];
 
 export const DEFAULT_DURATION = 14;
 
@@ -44,7 +40,7 @@ export const tabsKeyframes = (
   const WIDTH = 440;
   const innerWidth = WIDTH - trackPad * 2;
   const segmentWidth = innerWidth / ctx.items.length;
-  const rowHeight = 40;
+  const _rowHeight = 40;
 
   const fromX = trackPad + fromStyle.indicatorOffset * segmentWidth;
   const toX = trackPad + toStyle.indicatorOffset * segmentWidth;
@@ -79,7 +75,7 @@ export const tabsKeyframes = (
     }
   `;
 
-  for (let i = 0; i < ctx.items.length; i++) {
+  for (let i = 0; i < ctx.items.length; i += 1) {
     if (fromLabelColors[i] !== toLabelColors[i]) {
       css += `
         @keyframes framecn-tabs-label-${i} {
@@ -90,7 +86,7 @@ export const tabsKeyframes = (
     }
   }
 
-  for (let i = 0; i < ctx.items.length; i++) {
+  for (let i = 0; i < ctx.items.length; i += 1) {
     if (fromContentOpacities[i] !== toContentOpacities[i]) {
       const delta = toContentOpacities[i] - fromContentOpacities[i];
       css += `

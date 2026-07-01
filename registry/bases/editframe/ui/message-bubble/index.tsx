@@ -5,10 +5,8 @@ import type { ReactNode } from "react";
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
-  messageBubbleAnimation,
   messageBubbleKeyframes,
   messageBubbleReactionAnimation,
-  messageBubbleReactionKeyframes,
 } from "@/registry/bases/editframe/ui/message-bubble/use-message-bubble-transition";
 
 export type MessageBubbleVariant = "incoming" | "outgoing";
@@ -70,7 +68,8 @@ export const messageBubbleStyle = (
   }
 };
 
-export function MessageBubble({
+// eslint-disable-next-line complexity
+export const MessageBubble = ({
   variant = "incoming",
   state = "visible",
   from,
@@ -81,7 +80,7 @@ export function MessageBubble({
   className,
   duration = "14frames",
   children,
-}: MessageBubbleProps) {
+}: MessageBubbleProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = messageBubbleStyleContext(theme);
   const v = style ?? messageBubbleStyle(state);
@@ -91,13 +90,15 @@ export function MessageBubble({
   const fg = isOutgoing ? ctx.outgoingFg : ctx.incomingFg;
 
   const hasAnimation = from && from !== state;
-  const anim = hasAnimation
-    ? messageBubbleKeyframes(from, state)
-    : "none";
+  const anim = hasAnimation ? messageBubbleKeyframes(from, state) : "none";
 
   const hasReaction = reaction !== undefined && reaction !== "";
   const reactionAnim = hasAnimation
-    ? messageBubbleReactionAnimation(from, state, parseInt(duration) || 14)
+    ? messageBubbleReactionAnimation(
+        from,
+        state,
+        Number.parseInt(duration, 10) || 14
+      )
     : "none";
 
   return (
@@ -113,7 +114,9 @@ export function MessageBubble({
         style={{
           animation: hasAnimation ? anim : undefined,
           background: bg,
-          borderRadius: isOutgoing ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+          borderRadius: isOutgoing
+            ? "16px 16px 4px 16px"
+            : "16px 16px 16px 4px",
           boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
           color: fg,
           fontSize: 14,
@@ -139,11 +142,11 @@ export function MessageBubble({
             boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
             fontSize: 16,
             height: 28,
+            left: isOutgoing ? undefined : 8,
             lineHeight: "28px",
             opacity: reactionStyle?.opacity ?? 1,
             position: "absolute",
             right: isOutgoing ? 8 : undefined,
-            left: isOutgoing ? undefined : 8,
             textAlign: "center",
             transform: `scale(${reactionStyle?.scale ?? 1})`,
             width: 28,
@@ -154,4 +157,4 @@ export function MessageBubble({
       )}
     </div>
   );
-}
+};

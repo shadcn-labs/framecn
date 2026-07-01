@@ -3,14 +3,10 @@
 import { Timegroup } from "@editframe/react";
 import type { CSSProperties } from "react";
 
-import { Cursor } from "@/registry/bases/editframe/ui/cursor";
-import { Button } from "@/registry/bases/editframe/ui/button";
-
 const FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
 
 export interface ToolMenuSlideInProps {
-  accentColor?: string;
   tools?: string[];
   speed?: number;
   fps?: number;
@@ -28,8 +24,7 @@ const DEFAULT_TOOLS = [
   { icon: "📊", label: "Chart", shortcut: "⌘D" },
 ];
 
-export function ToolMenuSlideIn({
-  accentColor = "#3b82f6",
+export const ToolMenuSlideIn = ({
   tools,
   speed = 1,
   fps = 30,
@@ -37,13 +32,12 @@ export function ToolMenuSlideIn({
   width = 1280,
   height = 720,
   className,
-}: ToolMenuSlideInProps) {
+}: ToolMenuSlideInProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
-  const frameMs = 1000 / fps;
 
   const menuItems = (tools ?? DEFAULT_TOOLS.map((t) => t.label)).map(
-    (label, i) => {
+    (label) => {
       const item = DEFAULT_TOOLS.find((t) => t.label === label) ?? {
         icon: "•",
         label,
@@ -204,4 +198,4 @@ export function ToolMenuSlideIn({
       </>
     </Timegroup>
   );
-}
+};

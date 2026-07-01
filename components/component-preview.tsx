@@ -199,6 +199,7 @@ export const ComponentPreview = ({
   className?: string;
 }) => {
   const entry = registry[name];
+  const previewId = usePreviewId(name);
 
   if (!entry) {
     return (
@@ -208,10 +209,22 @@ export const ComponentPreview = ({
     );
   }
 
+  if (!entry.config) {
+    return (
+      <div className={cn("not-prose flex flex-col gap-4", className)}>
+        <VideoPreview
+          previewId={previewId}
+          Component={entry.Component}
+          componentProps={{}}
+        />
+      </div>
+    );
+  }
+
   return (
     <ComponentPreviewInner
       name={name}
-      config={entry.config!}
+      config={entry.config}
       Component={entry.Component}
       hideCode={hideCode}
       hideCustomizer={hideCustomizer}

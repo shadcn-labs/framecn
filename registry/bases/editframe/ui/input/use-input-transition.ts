@@ -1,11 +1,6 @@
 "use client";
 
 import { mixOklch } from "@/lib/framecn-ui";
-import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  inputStyle,
-  inputStyleContext,
-} from "@/registry/bases/editframe/ui/input";
 import type {
   InputState,
   InputStyle,
@@ -28,12 +23,12 @@ export const tweenInputStyle = (
   valueReveal: a.valueReveal + (b.valueReveal - a.valueReveal) * t,
 });
 
+const d = (from: number, to: number): number => to - from;
+
 export const inputKeyframes = (
   fromStyle: InputStyle,
   toStyle: InputStyle
-): string => {
-  const d = (from: number, to: number) => to - from;
-  return `
+): string => `
     @property --ef-input-border-color {
       syntax: '<color>';
       inherits: false;
@@ -75,7 +70,6 @@ export const inputKeyframes = (
       100% { opacity: calc(${fromStyle.placeholderOpacity} + ${d(fromStyle.placeholderOpacity, toStyle.placeholderOpacity)} * var(--ef-progress)); }
     }
   `;
-};
 
 export const inputAnimations = (
   from: InputState,

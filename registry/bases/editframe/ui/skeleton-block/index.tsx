@@ -12,7 +12,7 @@ export interface SkeletonBlockProps {
   className?: string;
 }
 
-export function SkeletonBlock({
+export const SkeletonBlock = ({
   width = 200,
   height = 20,
   radius,
@@ -20,12 +20,14 @@ export function SkeletonBlock({
   speed = 1,
   flexShrink = 1,
   className,
-}: SkeletonBlockProps) {
+}: SkeletonBlockProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el) {
+      return;
+    }
     const duration = `${1.8 / speed}s`;
     el.style.animation = `skeleton-shimmer ${duration} ease-in-out infinite`;
   }, [speed]);
@@ -51,4 +53,4 @@ export function SkeletonBlock({
       />
     </>
   );
-}
+};

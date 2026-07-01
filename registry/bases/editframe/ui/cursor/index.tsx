@@ -29,11 +29,11 @@ export interface CursorStyle {
   rippleScale: number;
 }
 
-export function Cursor({
+export const Cursor = ({
   waypoints = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 200, y: 100 },
-    { at: 48, x: 400, y: 50, click: true },
+    { at: 48, click: true, x: 400, y: 50 },
     { at: 72, x: 300, y: 250 },
   ],
   frame = 0,
@@ -41,8 +41,9 @@ export function Cursor({
   style: styleProp,
   theme: themeOverride,
   className,
-}: CursorProps) {
-  const resolvedTheme = typeof themeOverride === "string" ? undefined : themeOverride;
+}: CursorProps) => {
+  const resolvedTheme =
+    typeof themeOverride === "string" ? undefined : themeOverride;
   const theme = useFramecnTheme(resolvedTheme, "light");
   const v = styleProp ?? useCursorPath(waypoints, frame, { speed });
 
@@ -106,4 +107,4 @@ export function Cursor({
       </div>
     </div>
   );
-}
+};

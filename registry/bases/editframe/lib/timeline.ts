@@ -1,5 +1,3 @@
-import type { Step } from "./types";
-
 export const framesFor = (
   d: number | { seconds: number },
   fps: number

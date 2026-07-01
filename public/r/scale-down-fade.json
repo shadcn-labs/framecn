@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scale-down-fade",
+  "title": "Scale Down Fade",
+  "description": "Text enters scaling down into place with a fade, then shrinks and fades out.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/components/scale-down-fade/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface ScaleDownFadeProps {\n  text?: string;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const ScaleDownFade = ({\n  text = \"Scale down fade\",\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: ScaleDownFadeProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const enterMs = (16 * frameMs) / safeSpeed;\n  const exitMs = (11 * frameMs) / safeSpeed;\n  const exitStartMs = durationMs - exitMs;\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={\n        {\n          alignItems: \"center\",\n          background: \"white\",\n          display: \"flex\",\n          inset: 0,\n          justifyContent: \"center\",\n          position: \"absolute\",\n        } as CSSProperties\n      }\n    >\n      <>\n        <style>{`\n          @keyframes framecn-sdf-in {\n            from { opacity: 0; transform: translateY(8px) scale(1.04); }\n            to { opacity: 1; transform: translateY(0) scale(1); }\n          }\n          @keyframes framecn-sdf-out {\n            from { opacity: 1; transform: translateY(0) scale(1); }\n            to { opacity: 0; transform: translateY(-8px) scale(0.94); }\n          }\n        `}</style>\n        <span\n          style={{\n            animation: `framecn-sdf-in ${enterMs}ms ease-out 0ms backwards, framecn-sdf-out ${exitMs}ms ease-in ${exitStartMs}ms forwards`,\n            color,\n            display: \"inline-block\",\n            fontFamily: FONT_FAMILY,\n            fontSize,\n            fontWeight,\n            letterSpacing: \"-0.03em\",\n          }}\n        >\n          {text}\n        </span>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/scale-down-fade.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

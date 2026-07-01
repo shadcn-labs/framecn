@@ -103,7 +103,7 @@ export interface SelectItemRowProps {
   duration?: string;
 }
 
-export function SelectItemRow({
+export const SelectItemRow = ({
   style,
   state = "idle",
   from,
@@ -113,7 +113,7 @@ export function SelectItemRow({
   radius,
   check,
   duration = "8frames",
-}: SelectItemRowProps) {
+}: SelectItemRowProps) => {
   const v = style ?? selectItemStyle(state, ctx);
 
   const hasAnimation = from && from !== state;
@@ -167,9 +167,9 @@ export function SelectItemRow({
       </svg>
     </div>
   );
-}
+};
 
-export function SelectItem({
+export const SelectItem = ({
   state = "idle",
   from,
   style,
@@ -178,7 +178,7 @@ export function SelectItem({
   theme: themeOverride,
   className,
   duration = "8frames",
-}: SelectItemProps) {
+}: SelectItemProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = selectItemStyleContext(theme);
 
@@ -209,4 +209,4 @@ export function SelectItem({
       />
     </div>
   );
-}
+};

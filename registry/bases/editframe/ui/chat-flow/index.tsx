@@ -80,7 +80,7 @@ export const chatFlowSchedule = (messages: ChatMessage[]): ChatFlowSchedule => {
   const items: ScheduledMessage[] = [];
   let cursor = LEAD_IN;
 
-  messages.forEach((message, index) => {
+  for (const [index, message] of messages.entries()) {
     const hasReaction =
       message.reaction !== undefined && message.reaction !== "";
     if (message.from === "me") {
@@ -134,7 +134,7 @@ export const chatFlowSchedule = (messages: ChatMessage[]): ChatFlowSchedule => {
         (hasReaction ? REACT_DELAY + REACT_DUR : 0) +
         MSG_GAP;
     }
-  });
+  }
 
   const duration = Math.max(cursor - MSG_GAP + TAIL, LEAD_IN + TAIL);
   return { duration, items };
@@ -162,13 +162,13 @@ export const sendPulse = (items: ScheduledMessage[], eff: number): number => {
   return best;
 };
 
-function Avatar({
+const Avatar = ({
   contact,
   theme,
 }: {
   contact: ChatContact;
   theme: FramecnTheme;
-}) {
+}) => {
   const initial = contact.name.trim().charAt(0).toUpperCase();
   return (
     <div
@@ -190,48 +190,121 @@ function Avatar({
         width: 32,
       }}
     >
-      {contact.avatar !== undefined ? (
+      {contact.avatar === undefined ? (
+        initial
+      ) : (
+        // eslint-disable-next-line next/no-img-element
         <img
           src={contact.avatar}
           alt={contact.name}
           style={{ height: "100%", objectFit: "cover", width: "100%" }}
         />
-      ) : (
-        initial
       )}
     </div>
   );
-}
+};
 
-function SendIcon({ color }: { color: string }) {
-  return (
-    <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 19V5M12 5l-6 6M12 5l6 6"
-        stroke={color}
-        strokeWidth={2.2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+const SendIcon = ({ color }: { color: string }) => (
+  <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 19V5M12 5l-6 6M12 5l6 6"
+      stroke={color}
+      strokeWidth={2.2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const PlusIcon = ({ color }: { color: string }) => (
+  <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 5v14M5 12h14"
+      stroke={color}
+      strokeWidth={2.2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const ChatRow = ({
+  item,
+  eff,
+  contact,
+  themeProp,
+  theme,
+}: {
+  item: ScheduledMessage;
+  eff: number;
+  contact?: ChatContact;
+  themeProp: Partial<FramecnTheme>;
+  theme: FramecnTheme;
+}) => {
+  const variant = item.from === "me" ? "outgoing" : "incoming";
+  const showTyping =
+    item.from === "them" &&
+    item.typingStart !== undefined &&
+    eff < item.revealAt;
+
+  const bubbleStyle: MessageBubbleStyle = (() => {
+    if (showTyping && item.typingStart !== undefined) {
+      const fadeInProgress = clamp((eff - item.typingStart) / 8, 0, 1);
+      const fadeOutProgress = clamp((eff - (item.revealAt - 6)) / 6, 0, 1);
+      return {
+        opacity: fadeInProgress * (1 - fadeOutProgress),
+        scale: 1,
+        translateY: 10 * (1 - fadeInProgress),
+      };
+    }
+    const revealProgress = clamp((eff - item.revealAt) / REVEAL, 0, 1);
+    return {
+      opacity: revealProgress,
+      scale: 0.92 + 0.08 * revealProgress,
+      translateY: 10 * (1 - revealProgress),
+    };
+  })();
+
+  let reactionStyle: MessageBubbleReactionStyle | undefined;
+  if (item.reactAt !== undefined && eff >= item.reactAt) {
+    const reactProgress = clamp((eff - item.reactAt) / 12, 0, 1);
+    const pop =
+      reactProgress < 0.6
+        ? (reactProgress / 0.6) * 1.15
+        : 1.15 - ((reactProgress - 0.6) / 0.4) * 0.15;
+    const opacity = clamp((eff - item.reactAt) / 5, 0, 1);
+    reactionStyle = { opacity, scale: pop };
+  }
+
+  const bubbleNode = showTyping ? (
+    <MessageBubble variant="incoming" style={bubbleStyle} theme={themeProp}>
+      <TypingIndicator color={theme.mutedForeground} />
+    </MessageBubble>
+  ) : (
+    <MessageBubble
+      variant={variant}
+      style={bubbleStyle}
+      reaction={item.reaction}
+      reactionStyle={reactionStyle}
+      theme={themeProp}
+    >
+      {item.text}
+    </MessageBubble>
   );
-}
 
-function PlusIcon({ color }: { color: string }) {
-  return (
-    <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 5v14M5 12h14"
-        stroke={color}
-        strokeWidth={2.2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+  if (item.from === "them" && contact !== undefined) {
+    return (
+      <div style={{ alignItems: "flex-end", display: "flex", gap: 8 }}>
+        <Avatar contact={contact} theme={theme} />
+        <div style={{ flex: 1, minWidth: 0 }}>{bubbleNode}</div>
+      </div>
+    );
+  }
 
-export function ChatFlow({
+  return bubbleNode;
+};
+
+export const ChatFlow = ({
   messages = DEFAULT_MESSAGES,
   contact,
   accentColor,
@@ -240,7 +313,7 @@ export function ChatFlow({
   durationInFrames,
   theme: themeOverride,
   className,
-}: ChatFlowProps) {
+}: ChatFlowProps) => {
   const [eff, setEff] = useState(0);
   const startRef = useRef<number | null>(null);
 
@@ -443,8 +516,6 @@ export function ChatFlow({
                     key={item.index}
                     item={item}
                     eff={eff}
-                    speed={speed}
-                    fps={fps}
                     contact={contact}
                     themeProp={themeProp}
                     theme={resolved}
@@ -543,84 +614,4 @@ export function ChatFlow({
       </>
     </Timegroup>
   );
-}
-
-function ChatRow({
-  item,
-  eff,
-  speed,
-  fps,
-  contact,
-  themeProp,
-  theme,
-}: {
-  item: ScheduledMessage;
-  eff: number;
-  speed: number;
-  fps: number;
-  contact?: ChatContact;
-  themeProp: Partial<FramecnTheme>;
-  theme: FramecnTheme;
-}) {
-  const variant = item.from === "me" ? "outgoing" : "incoming";
-  const showTyping =
-    item.from === "them" &&
-    item.typingStart !== undefined &&
-    eff < item.revealAt;
-
-  const bubbleStyle: MessageBubbleStyle = (() => {
-    if (showTyping && item.typingStart !== undefined) {
-      const fadeInProgress = clamp((eff - item.typingStart) / 8, 0, 1);
-      const fadeOutProgress = clamp((eff - (item.revealAt - 6)) / 6, 0, 1);
-      return {
-        opacity: fadeInProgress * (1 - fadeOutProgress),
-        scale: 1,
-        translateY: 10 * (1 - fadeInProgress),
-      };
-    }
-    const revealProgress = clamp((eff - item.revealAt) / REVEAL, 0, 1);
-    return {
-      opacity: revealProgress,
-      scale: 0.92 + 0.08 * revealProgress,
-      translateY: 10 * (1 - revealProgress),
-    };
-  })();
-
-  let reactionStyle: MessageBubbleReactionStyle | undefined;
-  if (item.reactAt !== undefined && eff >= item.reactAt) {
-    const reactProgress = clamp((eff - item.reactAt) / 12, 0, 1);
-    const pop =
-      reactProgress < 0.6
-        ? (reactProgress / 0.6) * 1.15
-        : 1.15 - ((reactProgress - 0.6) / 0.4) * 0.15;
-    const opacity = clamp((eff - item.reactAt) / 5, 0, 1);
-    reactionStyle = { opacity, scale: pop };
-  }
-
-  const bubbleNode = showTyping ? (
-    <MessageBubble variant="incoming" style={bubbleStyle} theme={themeProp}>
-      <TypingIndicator color={theme.mutedForeground} />
-    </MessageBubble>
-  ) : (
-    <MessageBubble
-      variant={variant}
-      style={bubbleStyle}
-      reaction={item.reaction}
-      reactionStyle={reactionStyle}
-      theme={themeProp}
-    >
-      {item.text}
-    </MessageBubble>
-  );
-
-  if (item.from === "them" && contact !== undefined) {
-    return (
-      <div style={{ alignItems: "flex-end", display: "flex", gap: 8 }}>
-        <Avatar contact={contact} theme={theme} />
-        <div style={{ flex: 1, minWidth: 0 }}>{bubbleNode}</div>
-      </div>
-    );
-  }
-
-  return bubbleNode;
-}
+};

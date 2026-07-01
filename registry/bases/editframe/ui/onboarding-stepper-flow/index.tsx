@@ -12,7 +12,6 @@ import {
   FieldLabel,
 } from "@/registry/bases/editframe/ui/field";
 import { Input } from "@/registry/bases/editframe/ui/input";
-import { Radio } from "@/registry/bases/editframe/ui/radio";
 import { Stepper } from "@/registry/bases/editframe/ui/stepper";
 import { Switch } from "@/registry/bases/editframe/ui/switch";
 
@@ -38,22 +37,20 @@ export interface OnboardingStepperFlowProps {
   namePlaceholder?: string;
   emailLabel?: string;
   emailPlaceholder?: string;
-  notifLabel?: string;
   nextLabel?: string;
   theme?: Partial<FramecnTheme>;
 }
 
-export function OnboardingStepperFlow({
+export const OnboardingStepperFlow = ({
   title = "Create your account",
   description = "Fill in your details to get started.",
   nameLabel = "Full name",
   namePlaceholder = "Jane Doe",
   emailLabel = "Email",
   emailPlaceholder = "jane@example.com",
-  notifLabel = "Enable notifications",
   nextLabel = "Continue",
   theme,
-}: OnboardingStepperFlowProps) {
+}: OnboardingStepperFlowProps) => {
   const resolved = useFramecnTheme(theme);
 
   const cursorStyle = useCursorPath([
@@ -155,12 +152,7 @@ export function OnboardingStepperFlow({
 
           <Field>
             <FieldControl height={32}>
-              <Switch
-                state="checked"
-                from="unchecked"
-                duration="10frames"
-                theme={theme}
-              />
+              <Switch state="checked" from="unchecked" theme={theme} />
             </FieldControl>
           </Field>
         </FieldGroup>
@@ -181,4 +173,4 @@ export function OnboardingStepperFlow({
       <Cursor style={cursorStyle} theme={theme} />
     </div>
   );
-}
+};

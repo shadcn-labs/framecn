@@ -9,15 +9,12 @@ import {
 
 export type ComboboxState = "open" | "closed";
 
-export type ComboboxVariant = "default" | "ghost";
-
 export interface ComboboxProps {
   state?: ComboboxState;
   from?: ComboboxState;
   placeholder?: string;
   value?: string;
   options?: string[];
-  variant?: ComboboxVariant;
   theme?: Partial<FramecnTheme>;
   className?: string;
   duration?: string;
@@ -43,17 +40,16 @@ export const comboboxStyle = (state: ComboboxState): ComboboxStyle => {
   }
 };
 
-export function Combobox({
+export const Combobox = ({
   state = "closed",
   from,
   placeholder = "Select an option...",
   value,
   options = ["Option 1", "Option 2", "Option 3"],
-  variant = "default",
   theme: themeOverride,
   className,
   duration = "12frames",
-}: ComboboxProps) {
+}: ComboboxProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const v = comboboxStyle(state);
 
@@ -79,7 +75,10 @@ export function Combobox({
       }}
     >
       {hasAnimation && <style>{comboboxKeyframes(fromStyle, v)}</style>}
-      <div className={className} style={{ position: "relative", width: COMBOBOX_WIDTH }}>
+      <div
+        className={className}
+        style={{ position: "relative", width: COMBOBOX_WIDTH }}
+      >
         <button
           type="button"
           style={{
@@ -147,14 +146,11 @@ export function Combobox({
                 type="button"
                 style={{
                   alignItems: "center",
-                  background:
-                    option === value ? theme.accent : "transparent",
+                  background: option === value ? theme.accent : "transparent",
                   border: "none",
                   borderRadius: theme.radius,
                   color:
-                    option === value
-                      ? theme.foreground
-                      : theme.mutedForeground,
+                    option === value ? theme.foreground : theme.mutedForeground,
                   cursor: "pointer",
                   display: "flex",
                   fontSize: 14,
@@ -175,4 +171,4 @@ export function Combobox({
       </div>
     </div>
   );
-}
+};

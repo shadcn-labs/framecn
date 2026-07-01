@@ -2,11 +2,11 @@
 
 import { clamp01, easings } from "@/lib/framecn-ui";
 import type { EasingName } from "@/lib/framecn-ui";
-import { sliderThumbStyle } from "@/registry/bases/editframe/ui/slider";
 import type {
   SliderStyle,
   SliderThumbState,
 } from "@/registry/bases/editframe/ui/slider";
+import { sliderThumbStyle } from "@/registry/bases/editframe/ui/slider";
 
 export interface SliderStep {
   at: number;
@@ -33,15 +33,6 @@ export const tweenSliderStyle = (
   value: a.value + (b.value - a.value) * t,
 });
 
-export const useSliderTransition = (
-  steps: SliderStep[],
-  frame: number = 0,
-  opts: SliderTransitionOptions = {}
-): SliderStyle => {
-  const { speed = 1 } = opts;
-  const raw = frame * speed;
-  return sliderStyleAt(steps, raw, opts);
-};
 const valueAt = (
   steps: SliderStep[],
   raw: number,
@@ -53,13 +44,13 @@ const valueAt = (
   if (valueSteps.length === 0) {
     return 0;
   }
-  const first = valueSteps[0];
+  const [first] = valueSteps;
   if (raw <= first.at) {
     return first.value;
   }
 
   let toIndex = valueSteps.length - 1;
-  for (let i = 1; i < valueSteps.length; i++) {
+  for (let i = 1; i < valueSteps.length; i += 1) {
     if (valueSteps[i].at > raw) {
       toIndex = i;
       break;
@@ -96,13 +87,13 @@ const thumbAt = (
   if (thumbSteps.length === 0) {
     return sliderThumbStyle("idle");
   }
-  const first = thumbSteps[0];
+  const [first] = thumbSteps;
   if (raw <= first.at) {
     return sliderThumbStyle(first.thumbState);
   }
 
   let toIndex = thumbSteps.length - 1;
-  for (let i = 1; i < thumbSteps.length; i++) {
+  for (let i = 1; i < thumbSteps.length; i += 1) {
     if (thumbSteps[i].at > raw) {
       toIndex = i;
       break;
@@ -147,4 +138,14 @@ export const sliderStyleAt = (
     thumbScale: thumb.thumbScale,
     value,
   };
+};
+
+export const useSliderTransition = (
+  steps: SliderStep[],
+  frame = 0,
+  opts: SliderTransitionOptions = {}
+): SliderStyle => {
+  const { speed = 1 } = opts;
+  const raw = frame * speed;
+  return sliderStyleAt(steps, raw, opts);
 };

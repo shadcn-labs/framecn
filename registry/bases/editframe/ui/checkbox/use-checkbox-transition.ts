@@ -1,8 +1,7 @@
 "use client";
 
-import { easings, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import { checkboxStyleContext } from "@/registry/bases/editframe/ui/checkbox";
 import type {
   CheckboxState,
   CheckboxStyle,

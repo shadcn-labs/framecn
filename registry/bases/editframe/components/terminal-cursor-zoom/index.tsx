@@ -3,7 +3,7 @@
 import { Timegroup } from "@editframe/react";
 import type { CSSProperties } from "react";
 
-const FONT_FAMILY =
+const _FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
 const MONO_FAMILY =
   "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
@@ -31,7 +31,7 @@ const DEFAULT_LINES = [
   "  ➜  press h + enter to show help",
 ];
 
-export function TerminalCursorZoom({
+export const TerminalCursorZoom = ({
   lines = DEFAULT_LINES,
   prompt = "$",
   title = "~/project",
@@ -42,7 +42,7 @@ export function TerminalCursorZoom({
   width = 900,
   height = 480,
   className,
-}: TerminalCursorZoomProps) {
+}: TerminalCursorZoomProps) => {
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = ((durationInFrames / fps) * 1000) / safeSpeed;
   const frameMs = 1000 / fps;
@@ -53,7 +53,8 @@ export function TerminalCursorZoom({
 
   const commandTypingMs = (commandLine.length * 2 * frameMs) / safeSpeed;
   const commandStartMs = (10 * frameMs) / safeSpeed;
-  const restStartMs = commandStartMs + commandTypingMs + (15 * frameMs) / safeSpeed;
+  const restStartMs =
+    commandStartMs + commandTypingMs + (15 * frameMs) / safeSpeed;
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
@@ -223,4 +224,4 @@ export function TerminalCursorZoom({
       </>
     </Timegroup>
   );
-}
+};

@@ -85,7 +85,7 @@ export const imessageChatFlowSchedule = (
   const items: ScheduledMessage[] = [];
   let cursor = LEAD_IN;
 
-  messages.forEach((message, index) => {
+  for (const [index, message] of messages.entries()) {
     const hasReaction =
       message.reaction !== undefined && message.reaction !== "";
     if (message.from === "me") {
@@ -139,7 +139,7 @@ export const imessageChatFlowSchedule = (
         (hasReaction ? REACT_DELAY + REACT_DUR : 0) +
         MSG_GAP;
     }
-  });
+  }
 
   const duration = Math.max(cursor - MSG_GAP + TAIL, LEAD_IN + TAIL);
   return { duration, items };
@@ -167,7 +167,13 @@ export const sendPulse = (items: ScheduledMessage[], eff: number): number => {
   return best;
 };
 
-function Avatar({ contact, size }: { contact: ImessageContact; size: number }) {
+const Avatar = ({
+  contact,
+  size,
+}: {
+  contact: ImessageContact;
+  size: number;
+}) => {
   const initial = contact.name.trim().charAt(0).toUpperCase();
   return (
     <div
@@ -189,26 +195,26 @@ function Avatar({ contact, size }: { contact: ImessageContact; size: number }) {
         width: size,
       }}
     >
-      {contact.avatar !== undefined ? (
+      {contact.avatar === undefined ? (
+        initial
+      ) : (
         <img
           src={contact.avatar}
           alt={contact.name}
           style={{ height: "100%", objectFit: "cover", width: "100%" }}
         />
-      ) : (
-        initial
       )}
     </div>
   );
-}
+};
 
-function BubbleTail({
+const BubbleTail = ({
   side,
   color,
 }: {
   side: "left" | "right";
   color: string;
-}) {
+}) => {
   const path =
     side === "right"
       ? "M0 0 C2 8 6 12 12 13 C7 14 1 13 0 8 Z"
@@ -228,295 +234,22 @@ function BubbleTail({
       <path d={path} fill={color} />
     </svg>
   );
-}
+};
 
-export function ImessageChatFlow({
-  messages = DEFAULT_MESSAGES,
-  contact,
-  accentColor,
-  speed = 1,
-  fps = 30,
-  durationInFrames,
-  className,
-}: ImessageChatFlowProps) {
-  const [eff, setEff] = useState(0);
-  const startRef = useRef<number | null>(null);
-  const accent = accentColor ?? IMESSAGE_BLUE;
-
-  const { items, duration: rawDuration } = imessageChatFlowSchedule(messages);
-  const totalDuration =
-    durationInFrames ?? Math.ceil(rawDuration / (speed <= 0 ? 1 : speed));
-  const durationMs = (totalDuration / fps) * 1000;
-
-  useEffect(() => {
-    let raf: number;
-    const tick = (now: number) => {
-      if (startRef.current === null) {
-        startRef.current = now;
-      }
-      const elapsed = now - startRef.current;
-      const frame = (elapsed / 1000) * fps;
-      setEff(Math.min(frame * speed, totalDuration));
-      if (frame * speed < totalDuration) {
-        raf = requestAnimationFrame(tick);
-      }
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [fps, speed, totalDuration]);
-
-  const activeMe = items.find(
-    (item) =>
-      item.from === "me" &&
-      item.typeStart !== undefined &&
-      item.sendAt !== undefined &&
-      eff >= item.typeStart &&
-      eff < item.sendAt
-  );
-  let composerText = "";
-  let typing = false;
-  if (
-    activeMe &&
-    activeMe.typeStart !== undefined &&
-    activeMe.sendAt !== undefined
-  ) {
-    const typeDur = Math.max(
-      activeMe.sendAt - SEND_GAP - activeMe.typeStart,
-      1
-    );
-    const progress = clamp((eff - activeMe.typeStart) / typeDur, 0, 1);
-    composerText = revealedText(
-      activeMe.text,
-      Math.floor(progress * activeMe.text.length)
-    );
-    typing = true;
-  }
-
-  const sendActive = composerText.length > 0;
-  const sendScale = 1 - 0.16 * sendPulse(items, eff);
-  const present = items.filter((item) => eff >= item.presenceStart);
-
-  let lastMeIndex = -1;
-  items.forEach((item) => {
-    if (item.from === "me") {
-      lastMeIndex = item.index;
-    }
-  });
-  const deliveredIndex = lastMeIndex === messages.length - 1 ? lastMeIndex : -1;
-
-  return (
-    <Timegroup
-      className={className}
-      duration={`${durationMs}ms`}
-      mode="fixed"
-      style={{
-        inset: 0,
-        position: "absolute",
-      }}
-    >
-      <>
-        <style>{`
-          @keyframes framecn-imsg-msg-enter {
-            from { opacity: 0; transform: translateY(10px) scale(0.92); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-          }
-          @keyframes framecn-imsg-send-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(0.84); }
-          }
-          @keyframes framecn-imsg-reaction-pop {
-            0% { opacity: 0; transform: scale(0); }
-            60% { transform: scale(1.15); }
-            100% { opacity: 1; transform: scale(1); }
-          }
-        `}</style>
-        <div
-          style={{
-            background: "transparent",
-            display: "flex",
-            fontFamily:
-              "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-            inset: 0,
-            justifyContent: "center",
-            position: "absolute",
-          }}
-        >
-          <div
-            style={{
-              boxSizing: "border-box",
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-              maxWidth: MOBILE_WIDTH,
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                alignItems: "center",
-                backdropFilter: "blur(12px)",
-                background: "rgba(255,255,255,0.82)",
-                borderBottom: "1px solid rgba(0,0,0,0.08)",
-                display: "flex",
-                gap: 6,
-                padding: "10px 12px",
-              }}
-            >
-              <ChevronLeft size={28} color={SYSTEM_BLUE} strokeWidth={2.25} />
-              <div
-                style={{
-                  alignItems: "center",
-                  display: "flex",
-                  flex: 1,
-                  flexDirection: "column",
-                  gap: 2,
-                }}
-              >
-                {contact !== undefined && (
-                  <Avatar contact={contact} size={30} />
-                )}
-                <span
-                  style={{
-                    color: "#000000",
-                    fontSize: 12,
-                    fontWeight: 600,
-                  }}
-                >
-                  {contact?.name ?? "Chat"}
-                </span>
-              </div>
-              <Video size={24} color={SYSTEM_BLUE} strokeWidth={2} />
-            </div>
-
-            <div
-              style={{
-                flex: 1,
-                minHeight: 0,
-                overflow: "hidden",
-                position: "relative",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 18,
-                  justifyContent: "flex-end",
-                  minHeight: "100%",
-                  padding: "16px 14px 12px",
-                }}
-              >
-                {present.map((item) => (
-                  <ImessageRow
-                    key={item.index}
-                    item={item}
-                    eff={eff}
-                    fps={fps}
-                    contact={contact}
-                    accent={accent}
-                    showDelivered={item.index === deliveredIndex}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div
-              style={{
-                alignItems: "flex-end",
-                display: "flex",
-                gap: 8,
-                padding: "8px 12px 12px",
-              }}
-            >
-              <div
-                style={{
-                  alignItems: "center",
-                  background: "#e9e9eb",
-                  borderRadius: "50%",
-                  display: "flex",
-                  height: 34,
-                  justifyContent: "center",
-                  width: 34,
-                }}
-              >
-                <Plus size={22} color="#3c3c43" strokeWidth={2} />
-              </div>
-              <div
-                style={{
-                  alignItems: "center",
-                  background: "#ffffff",
-                  border: "1px solid #d1d1d6",
-                  borderRadius: 18,
-                  display: "flex",
-                  flex: 1,
-                  gap: 6,
-                  minHeight: 36,
-                  padding: "0 6px 0 14px",
-                }}
-              >
-                <div
-                  style={{
-                    alignItems: "center",
-                    color: sendActive ? "#000000" : "#9b9ba1",
-                    display: "flex",
-                    flex: 1,
-                    fontSize: 16,
-                  }}
-                >
-                  <span
-                    style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
-                  >
-                    {sendActive ? composerText : "iMessage"}
-                  </span>
-                  {typing && (
-                    <Caret
-                      color={accent}
-                      height={18}
-                      radius={1}
-                      blink
-                      marginLeft={composerText.length > 0 ? 2 : 0}
-                    />
-                  )}
-                </div>
-                <div
-                  style={{
-                    alignItems: "center",
-                    background: sendActive ? accent : "#c6c6cc",
-                    borderRadius: "50%",
-                    display: "flex",
-                    flexShrink: 0,
-                    height: 28,
-                    justifyContent: "center",
-                    transform: `scale(${sendScale})`,
-                    width: 28,
-                  }}
-                >
-                  <ArrowUp size={20} color="#ffffff" strokeWidth={2.75} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    </Timegroup>
-  );
-}
-
-function ImessageRow({
+// eslint-disable-next-line complexity
+const ImessageRow = ({
   item,
   eff,
-  fps,
   contact,
   accent,
   showDelivered,
 }: {
   item: ScheduledMessage;
   eff: number;
-  fps: number;
   contact?: ImessageContact;
   accent: string;
   showDelivered: boolean;
-}) {
+}) => {
   const outgoing = item.from === "me";
   const showTyping =
     item.from === "them" &&
@@ -642,4 +375,276 @@ function ImessageRow({
       )}
     </div>
   );
-}
+};
+
+// eslint-disable-next-line complexity
+export const ImessageChatFlow = ({
+  messages = DEFAULT_MESSAGES,
+  contact,
+  accentColor,
+  speed = 1,
+  fps = 30,
+  durationInFrames,
+  className,
+}: ImessageChatFlowProps) => {
+  const [eff, setEff] = useState(0);
+  const startRef = useRef<number | null>(null);
+  const accent = accentColor ?? IMESSAGE_BLUE;
+
+  const { items, duration: rawDuration } = imessageChatFlowSchedule(messages);
+  const totalDuration =
+    durationInFrames ?? Math.ceil(rawDuration / (speed <= 0 ? 1 : speed));
+  const durationMs = (totalDuration / fps) * 1000;
+
+  useEffect(() => {
+    let raf: number;
+    const tick = (now: number) => {
+      if (startRef.current === null) {
+        startRef.current = now;
+      }
+      const elapsed = now - startRef.current;
+      const frame = (elapsed / 1000) * fps;
+      setEff(Math.min(frame * speed, totalDuration));
+      if (frame * speed < totalDuration) {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [fps, speed, totalDuration]);
+
+  const activeMe = items.find(
+    (item) =>
+      item.from === "me" &&
+      item.typeStart !== undefined &&
+      item.sendAt !== undefined &&
+      eff >= item.typeStart &&
+      eff < item.sendAt
+  );
+  let composerText = "";
+  let typing = false;
+  if (
+    activeMe &&
+    activeMe.typeStart !== undefined &&
+    activeMe.sendAt !== undefined
+  ) {
+    const typeDur = Math.max(
+      activeMe.sendAt - SEND_GAP - activeMe.typeStart,
+      1
+    );
+    const progress = clamp((eff - activeMe.typeStart) / typeDur, 0, 1);
+    composerText = revealedText(
+      activeMe.text,
+      Math.floor(progress * activeMe.text.length)
+    );
+    typing = true;
+  }
+
+  const sendActive = composerText.length > 0;
+  const sendScale = 1 - 0.16 * sendPulse(items, eff);
+  const present = items.filter((item) => eff >= item.presenceStart);
+
+  let lastMeIndex = -1;
+  for (const item of items) {
+    if (item.from === "me") {
+      lastMeIndex = item.index;
+    }
+  }
+  const deliveredIndex = lastMeIndex === messages.length - 1 ? lastMeIndex : -1;
+
+  return (
+    <Timegroup
+      className={className}
+      duration={`${durationMs}ms`}
+      mode="fixed"
+      style={{
+        inset: 0,
+        position: "absolute",
+      }}
+    >
+      <>
+        <style>{`
+          @keyframes framecn-imsg-msg-enter {
+            from { opacity: 0; transform: translateY(10px) scale(0.92); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+          }
+          @keyframes framecn-imsg-send-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.84); }
+          }
+          @keyframes framecn-imsg-reaction-pop {
+            0% { opacity: 0; transform: scale(0); }
+            60% { transform: scale(1.15); }
+            100% { opacity: 1; transform: scale(1); }
+          }
+        `}</style>
+        <div
+          style={{
+            background: "transparent",
+            display: "flex",
+            fontFamily:
+              "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
+            inset: 0,
+            justifyContent: "center",
+            position: "absolute",
+          }}
+        >
+          <div
+            style={{
+              boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+              maxWidth: MOBILE_WIDTH,
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                alignItems: "center",
+                backdropFilter: "blur(12px)",
+                background: "rgba(255,255,255,0.82)",
+                borderBottom: "1px solid rgba(0,0,0,0.08)",
+                display: "flex",
+                gap: 6,
+                padding: "10px 12px",
+              }}
+            >
+              <ChevronLeft size={28} color={SYSTEM_BLUE} strokeWidth={2.25} />
+              <div
+                style={{
+                  alignItems: "center",
+                  display: "flex",
+                  flex: 1,
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
+                {contact !== undefined && (
+                  <Avatar contact={contact} size={30} />
+                )}
+                <span
+                  style={{
+                    color: "#000000",
+                    fontSize: 12,
+                    fontWeight: 600,
+                  }}
+                >
+                  {contact?.name ?? "Chat"}
+                </span>
+              </div>
+              <Video size={24} color={SYSTEM_BLUE} strokeWidth={2} />
+            </div>
+
+            <div
+              style={{
+                flex: 1,
+                minHeight: 0,
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 18,
+                  justifyContent: "flex-end",
+                  minHeight: "100%",
+                  padding: "16px 14px 12px",
+                }}
+              >
+                {present.map((item) => (
+                  <ImessageRow
+                    key={item.index}
+                    item={item}
+                    eff={eff}
+                    contact={contact}
+                    accent={accent}
+                    showDelivered={item.index === deliveredIndex}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div
+              style={{
+                alignItems: "flex-end",
+                display: "flex",
+                gap: 8,
+                padding: "8px 12px 12px",
+              }}
+            >
+              <div
+                style={{
+                  alignItems: "center",
+                  background: "#e9e9eb",
+                  borderRadius: "50%",
+                  display: "flex",
+                  height: 34,
+                  justifyContent: "center",
+                  width: 34,
+                }}
+              >
+                <Plus size={22} color="#3c3c43" strokeWidth={2} />
+              </div>
+              <div
+                style={{
+                  alignItems: "center",
+                  background: "#ffffff",
+                  border: "1px solid #d1d1d6",
+                  borderRadius: 18,
+                  display: "flex",
+                  flex: 1,
+                  gap: 6,
+                  minHeight: 36,
+                  padding: "0 6px 0 14px",
+                }}
+              >
+                <div
+                  style={{
+                    alignItems: "center",
+                    color: sendActive ? "#000000" : "#9b9ba1",
+                    display: "flex",
+                    flex: 1,
+                    fontSize: 16,
+                  }}
+                >
+                  <span
+                    style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
+                  >
+                    {sendActive ? composerText : "iMessage"}
+                  </span>
+                  {typing && (
+                    <Caret
+                      color={accent}
+                      height={18}
+                      radius={1}
+                      blink
+                      marginLeft={composerText.length > 0 ? 2 : 0}
+                    />
+                  )}
+                </div>
+                <div
+                  style={{
+                    alignItems: "center",
+                    background: sendActive ? accent : "#c6c6cc",
+                    borderRadius: "50%",
+                    display: "flex",
+                    flexShrink: 0,
+                    height: 28,
+                    justifyContent: "center",
+                    transform: `scale(${sendScale})`,
+                    width: 28,
+                  }}
+                >
+                  <ArrowUp size={20} color="#ffffff" strokeWidth={2.75} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    </Timegroup>
+  );
+};

@@ -60,7 +60,7 @@ export interface DropdownMenuItemRowProps {
   duration?: string;
 }
 
-export function DropdownMenuItemRow({
+export const DropdownMenuItemRow = ({
   style,
   state = "idle",
   from,
@@ -68,7 +68,7 @@ export function DropdownMenuItemRow({
   width = ROW_WIDTH,
   theme: themeOverride,
   duration = "8frames",
-}: DropdownMenuItemRowProps) {
+}: DropdownMenuItemRowProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = dropdownMenuItemStyleContext(theme);
   const v = style ?? dropdownMenuItemStyle(state, ctx);
@@ -102,13 +102,13 @@ export function DropdownMenuItemRow({
       <span>{label}</span>
     </div>
   );
-}
+};
 
 export interface DropdownMenuItemProps extends DropdownMenuItemRowProps {
   className?: string;
 }
 
-export function DropdownMenuItem({
+export const DropdownMenuItem = ({
   style,
   state = "idle",
   from,
@@ -117,30 +117,28 @@ export function DropdownMenuItem({
   theme: themeOverride,
   className,
   duration = "8frames",
-}: DropdownMenuItemProps) {
-  return (
-    <div
-      className={className}
-      style={{
-        alignItems: "center",
-        background: "transparent",
-        display: "flex",
-        fontFamily:
-          "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        inset: 0,
-        justifyContent: "center",
-        position: "absolute",
-      }}
-    >
-      <DropdownMenuItemRow
-        style={style}
-        state={state}
-        from={from}
-        label={label}
-        width={width}
-        theme={themeOverride}
-        duration={duration}
-      />
-    </div>
-  );
-}
+}: DropdownMenuItemProps) => (
+  <div
+    className={className}
+    style={{
+      alignItems: "center",
+      background: "transparent",
+      display: "flex",
+      fontFamily:
+        "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
+      inset: 0,
+      justifyContent: "center",
+      position: "absolute",
+    }}
+  >
+    <DropdownMenuItemRow
+      style={style}
+      state={state}
+      from={from}
+      label={label}
+      width={width}
+      theme={themeOverride}
+      duration={duration}
+    />
+  </div>
+);

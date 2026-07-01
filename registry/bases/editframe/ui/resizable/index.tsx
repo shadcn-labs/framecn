@@ -69,13 +69,13 @@ export const resizableStyle = (
   ratio: Math.max(0.1, Math.min(0.9, ratio)),
 });
 
-export function Resizable({
+export const Resizable = ({
   ratio: ratioProp = 0.5,
   theme: themeOverride,
   className,
   leftContent = "Left panel",
   rightContent = "Right panel",
-}: ResizableProps) {
+}: ResizableProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = resizableStyleContext(theme);
   const v = resizableStyle(ratioProp, ctx);
@@ -181,4 +181,4 @@ export function Resizable({
       </div>
     </div>
   );
-}
+};

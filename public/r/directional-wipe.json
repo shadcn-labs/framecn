@@ -4,7 +4,7 @@
   "title": "Directional Wipe",
   "description": "Slide one scene in while pushing the other out.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

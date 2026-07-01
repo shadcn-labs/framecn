@@ -37,7 +37,7 @@ export const skeletonStyle = (state: SkeletonState): SkeletonStyle => {
   }
 };
 
-function LayoutPlaceholder({
+const LayoutPlaceholder = ({
   layout,
   speed,
   baseColor,
@@ -45,7 +45,7 @@ function LayoutPlaceholder({
   layout: SkeletonLayout;
   speed?: number;
   baseColor: string;
-}) {
+}) => {
   const shimmer = { baseColor, speed };
   if (layout === "card") {
     return (
@@ -72,9 +72,9 @@ function LayoutPlaceholder({
       <SkeletonBlock width={160} height={14} {...shimmer} />
     </div>
   );
-}
+};
 
-export function Skeleton({
+export const Skeleton = ({
   state = "loading",
   style,
   children,
@@ -83,7 +83,7 @@ export function Skeleton({
   speed,
   theme: themeOverride,
   className,
-}: SkeletonProps) {
+}: SkeletonProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const v = style ?? skeletonStyle(state);
 
@@ -116,4 +116,4 @@ export function Skeleton({
       </div>
     </div>
   );
-}
+};
