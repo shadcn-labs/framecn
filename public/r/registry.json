@@ -843,7 +843,6 @@
         }
       ]
     },
-
     {
       "name": "caption-highlight",
       "type": "registry:component",
@@ -1109,6 +1108,314 @@
           "target": "components/framecn/top-down-letters.tsx"
         }
       ]
+    },
+    {
+      "name": "blur-out-up",
+      "type": "registry:component",
+      "title": "Blur Out Up",
+      "description": "Words blur and drift upward while fading out, staggered per word.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/blur-out-up/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/blur-out-up.tsx"
+        }
+      ]
+    },
+    {
+      "name": "focus-blur-resolve",
+      "type": "registry:component",
+      "title": "Focus Blur Resolve",
+      "description": "Text resolves into focus from a blurred, shifted state, then blurs back out on exit.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/focus-blur-resolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/focus-blur-resolve.tsx"
+        }
+      ]
+    },
+    {
+      "name": "per-character-rise",
+      "type": "registry:component",
+      "title": "Per Character Rise",
+      "description": "Characters rise from below with a smooth spring-like easing, staggered one frame apart.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/per-character-rise/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/per-character-rise.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scale-down-fade",
+      "type": "registry:component",
+      "title": "Scale Down Fade",
+      "description": "Text enters scaling down into place with a fade, then shrinks and fades out.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/scale-down-fade/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/scale-down-fade.tsx"
+        }
+      ]
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Overlapping translucent color panels sliding past each other.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-color-panels/index.tsx",
+          "target": "components/framecn/shader-color-panels.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-color-panels",
+      "title": "Shader Color Panels",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Ordered-dither shading over an animated gradient field.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-dithering/index.tsx",
+          "target": "components/framecn/shader-dithering.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-dithering",
+      "title": "Shader Dithering",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Dots orbiting on concentric paths across the frame.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-dot-orbit/index.tsx",
+          "target": "components/framecn/shader-dot-orbit.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-dot-orbit",
+      "title": "Shader Dot Orbit",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Volumetric light rays radiating from an off-screen source.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-god-rays/index.tsx",
+          "target": "components/framecn/shader-god-rays.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-god-rays",
+      "title": "Shader God Rays",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Grainy multi-stop gradient that drifts slowly with film-grain texture over the blend.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-grain-gradient/index.tsx",
+          "target": "components/framecn/shader-grain-gradient.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-grain-gradient",
+      "title": "Shader Grain Gradient",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Molten metallic surface with flowing specular highlights.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-liquid-metal/index.tsx",
+          "target": "components/framecn/shader-liquid-metal.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-liquid-metal",
+      "title": "Shader Liquid Metal",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "WebGL mesh gradient backdrop driven per-frame for deterministic Editframe renders.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-mesh-gradient/index.tsx",
+          "target": "components/framecn/shader-mesh-gradient.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-mesh-gradient",
+      "title": "Shader Mesh Gradient",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Organic blobs merging and splitting like lava.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-metaballs/index.tsx",
+          "target": "components/framecn/shader-metaballs.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-metaballs",
+      "title": "Shader Metaballs",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Organic neural-web noise field that slowly morphs.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-neuro-noise/index.tsx",
+          "target": "components/framecn/shader-neuro-noise.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-neuro-noise",
+      "title": "Shader Neuro Noise",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Classic Perlin noise clouds drifting across the frame.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-perlin-noise/index.tsx",
+          "target": "components/framecn/shader-perlin-noise.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-perlin-noise",
+      "title": "Shader Perlin Noise",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Glowing border frame that pulses around the edges.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-pulsing-border/index.tsx",
+          "target": "components/framecn/shader-pulsing-border.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-pulsing-border",
+      "title": "Shader Pulsing Border",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Simplex noise flow field, smoother than Perlin.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-simplex-noise/index.tsx",
+          "target": "components/framecn/shader-simplex-noise.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-simplex-noise",
+      "title": "Shader Simplex Noise",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Soft smoke ring curling and dissipating in place.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-smoke-ring/index.tsx",
+          "target": "components/framecn/shader-smoke-ring.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-smoke-ring",
+      "title": "Shader Smoke Ring",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Rotating spiral arms radiating from the center.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-spiral/index.tsx",
+          "target": "components/framecn/shader-spiral.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-spiral",
+      "title": "Shader Spiral",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Concentric bands swirling around a center point.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-swirl/index.tsx",
+          "target": "components/framecn/shader-swirl.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-swirl",
+      "title": "Shader Swirl",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Animated Voronoi cells shifting and re-tessellating.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-voronoi/index.tsx",
+          "target": "components/framecn/shader-voronoi.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-voronoi",
+      "title": "Shader Voronoi",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Domain-warped color field that folds and stretches like liquid.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-warp/index.tsx",
+          "target": "components/framecn/shader-warp.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-warp",
+      "title": "Shader Warp",
+      "type": "registry:component"
+    },
+    {
+      "dependencies": ["@editframe/react", "@paper-design/shaders-react"],
+      "description": "Caustic water-surface ripples with subtle refraction.",
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/shader-water/index.tsx",
+          "target": "components/framecn/shader-water.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "name": "shader-water",
+      "title": "Shader Water",
+      "type": "registry:component"
     }
   ]
 }

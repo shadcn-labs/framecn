@@ -1,0 +1,54 @@
+---
+title: "Neuro Noise"
+description: "Organic neural-web noise field that slowly morphs."
+---
+
+<ComponentPreview name="shader-neuro-noise" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-neuro-noise
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-neuro-noise"
+  title="components/framecn/shader-neuro-noise.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderNeuroNoise } from "@/components/framecn/shader-neuro-noise";
+
+export function Scene() {
+  return <ShaderNeuroNoise speed={1} />;
+}
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).

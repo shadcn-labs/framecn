@@ -10,6 +10,17 @@ export const EXCLUDED_SECTIONS = new Set(["installation", "(root)"]);
 export const isComponentsFolder = (folder: PageTreeFolder) =>
   folder.$id === "components" || folder.name === "Components";
 
+export const isShadersFolder = (folder: PageTreeFolder) =>
+  folder.$id === "shaders" || folder.name === "Shaders";
+
+export type DocsSidebarPanel = "components" | "shaders";
+
+export const getDocsSidebarPanel = (pathname: string): DocsSidebarPanel =>
+  pathname.startsWith(ROUTES.DOCS_SHADERS) ? "shaders" : "components";
+
+export const isCatalogFolder = (folder: PageTreeFolder) =>
+  isComponentsFolder(folder) || isShadersFolder(folder);
+
 const TITLE_OVERRIDES: Record<string, string> = {
   json: "JSON",
   "qr-code": "QR Code",

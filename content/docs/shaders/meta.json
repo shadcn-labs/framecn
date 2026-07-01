@@ -1,0 +1,5 @@
+{
+  "collapsible": false,
+  "pages": ["index", "components"],
+  "title": "Shaders"
+}

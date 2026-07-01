@@ -1,0 +1,54 @@
+---
+title: "Metaballs"
+description: "Organic blobs merging and splitting like lava."
+---
+
+<ComponentPreview name="shader-metaballs" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-metaballs
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-metaballs"
+  title="components/framecn/shader-metaballs.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderMetaballs } from "@/components/framecn/shader-metaballs";
+
+export function Scene() {
+  return <ShaderMetaballs speed={1} />;
+}
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).

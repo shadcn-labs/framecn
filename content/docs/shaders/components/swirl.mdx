@@ -1,0 +1,54 @@
+---
+title: "Swirl"
+description: "Concentric bands swirling around a center point."
+---
+
+<ComponentPreview name="shader-swirl" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-swirl
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-swirl"
+  title="components/framecn/shader-swirl.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderSwirl } from "@/components/framecn/shader-swirl";
+
+export function Scene() {
+  return <ShaderSwirl speed={1} />;
+}
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).
