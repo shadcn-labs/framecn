@@ -1,14 +1,18 @@
 import Link from "next/link";
 
-import { isComponentsFolder } from "@/lib/docs";
+import { isCatalogFolder } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { source } from "@/lib/source";
 import { cn } from "@/lib/utils";
 
 const getFolder = (name: string): PageTreeFolder | undefined => {
+  const normalized = name.toLowerCase();
   for (const node of source.pageTree.children) {
-    if (node.type === "folder" && node.name === name) {
+    if (
+      node.type === "folder" &&
+      (node.name === name || node.$id === normalized)
+    ) {
       return node;
     }
   }
@@ -80,7 +84,7 @@ export const ComponentsList = ({
     return null;
   }
 
-  if (!isComponentsFolder(folder)) {
+  if (!isCatalogFolder(folder)) {
     const pages = getPagesFromFolder(folder, false);
     if (pages.length === 0) {
       return null;

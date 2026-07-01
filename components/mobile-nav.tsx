@@ -3,7 +3,7 @@
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
 import type { LinkProps } from "next/link";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -14,9 +14,25 @@ import {
 } from "@/components/ui/popover";
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
-import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
+import {
+  getDocsSidebarPanel,
+  isComponentsFolder,
+  isUiFolder,
+} from "@/lib/docs";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import type { PageTreeFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
+
+const getUiCategoryFolder = (
+  uiFolder: PageTreeFolder,
+  category: "components" | "blocks"
+) =>
+  getFoldersFromFolder(uiFolder).find(
+    (folder) =>
+      folder.$id === `ui/${category}` ||
+      String(folder.$id ?? "").endsWith(`/${category}`) ||
+      folder.name?.toString().toLowerCase() === category
+  );
 
 const MobileLink = ({
   href,
@@ -86,6 +102,10 @@ export const MobileNav = ({
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const panel = pathname.startsWith(ROUTES.DOCS)
+    ? getDocsSidebarPanel(pathname)
+    : null;
 
   return (
     <Popover sounds open={open} onOpenChange={setOpen}>
@@ -146,34 +166,59 @@ export const MobileNav = ({
               ))}
             </div>
           </div>
-          {tree.children.map((item) => {
-            if (item.type !== "folder") {
-              return null;
-            }
-            if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
-              return null;
-            }
-
-            if (isComponentsFolder(item)) {
-              return getFoldersFromFolder(item).map((category) => (
-                <MobileNavGroup
-                  key={category.$id}
-                  label={category.name}
-                  pages={getPagesFromFolder(category, false)}
-                  setOpen={setOpen}
-                />
-              ));
-            }
-
-            return (
-              <MobileNavGroup
-                key={item.$id}
-                label={item.name}
-                pages={getPagesFromFolder(item)}
-                setOpen={setOpen}
-              />
-            );
-          })}
+          {panel === "ui"
+            ? (() => {
+                const uiFolder = tree.children.find(
+                  (node) => node.type === "folder" && isUiFolder(node)
+                );
+                if (!uiFolder || uiFolder.type !== "folder") {
+                  return null;
+                }
+                const componentsFolder = getUiCategoryFolder(
+                  uiFolder,
+                  "components"
+                );
+                const blocksFolder = getUiCategoryFolder(uiFolder, "blocks");
+                return (
+                  <>
+                    {componentsFolder ? (
+                      <MobileNavGroup
+                        label="Components"
+                        pages={getPagesFromFolder(componentsFolder, false)}
+                        setOpen={setOpen}
+                      />
+                    ) : null}
+                    {blocksFolder ? (
+                      <MobileNavGroup
+                        label="Blocks"
+                        pages={getPagesFromFolder(blocksFolder, false)}
+                        setOpen={setOpen}
+                      />
+                    ) : null}
+                  </>
+                );
+              })()
+            : null}
+          {panel === "components"
+            ? (() => {
+                const componentsFolder = tree.children.find(
+                  (node) => node.type === "folder" && isComponentsFolder(node)
+                );
+                if (!componentsFolder || componentsFolder.type !== "folder") {
+                  return null;
+                }
+                return getFoldersFromFolder(componentsFolder).map(
+                  (category) => (
+                    <MobileNavGroup
+                      key={category.$id}
+                      label={category.name}
+                      pages={getPagesFromFolder(category, false)}
+                      setOpen={setOpen}
+                    />
+                  )
+                );
+              })()
+            : null}
         </div>
       </PopoverContent>
     </Popover>

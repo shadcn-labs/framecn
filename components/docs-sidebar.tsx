@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ViewTransition } from "react";
 
 import {
   Sidebar,
@@ -14,28 +15,61 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
-import { EXCLUDED_SECTIONS, isComponentsFolder, PAGES_NEW } from "@/lib/docs";
+import {
+  getDocsSidebarPanel,
+  isComponentsFolder,
+  isUiFolder,
+  PAGES_NEW,
+} from "@/lib/docs";
 import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import type { PageTreeFolder } from "@/lib/page-tree";
 import type { source } from "@/lib/source";
 
-const TOP_LEVEL_SECTIONS = [
+const TOP_LEVEL_SECTIONS: {
+  href: string;
+  name: string;
+  panel?: "components" | "ui";
+}[] = [
   { href: ROUTES.DOCS, name: "Introduction" },
   { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
-  { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
+  { href: ROUTES.DOCS_CONCEPTS, name: "Concepts" },
+  { href: ROUTES.DOCS_COMPONENTS, name: "Components", panel: "components" },
+  { href: ROUTES.DOCS_UI, name: "UI", panel: "ui" },
   { href: ROUTES.DOCS_MCP, name: "MCP" },
   { href: ROUTES.DOCS_REGISTRY, name: "Registry" },
   { href: ROUTES.LLMS, name: "llms.txt" },
   { href: ROUTES.DOCS_CHANGELOG, name: "Changelog" },
 ];
 
+const isSectionActive = (href: string, pathname: string) => {
+  if (href === ROUTES.DOCS) {
+    return pathname === href;
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
+
+const panelTransitionTypes = (
+  targetPanel: "components" | "ui" | undefined,
+  currentPanel: ReturnType<typeof getDocsSidebarPanel>
+): string[] | undefined => {
+  if (!targetPanel || currentPanel === targetPanel) {
+    return undefined;
+  }
+  return targetPanel === "ui"
+    ? ["sidebar-panel-forward"]
+    : ["sidebar-panel-back"];
+};
+
 const SidebarMenuItemLink = ({
   href,
   isActive,
   children,
+  transitionTypes,
 }: {
   href: string;
   isActive: boolean;
   children: React.ReactNode;
+  transitionTypes?: string[];
 }) => (
   <SidebarMenuItem>
     <SidebarMenuButton
@@ -43,7 +77,7 @@ const SidebarMenuItemLink = ({
       className="relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48"
       isActive={isActive}
     >
-      <Link href={href}>
+      <Link href={href} transitionTypes={transitionTypes}>
         <span className="absolute inset-0 flex w-(--sidebar-menu-width) bg-transparent" />
         {children}
         {PAGES_NEW.includes(href) && (
@@ -79,6 +113,7 @@ const SidebarPageGroup = ({
               key={page.url}
               href={page.url}
               isActive={page.url === pathname}
+              transitionTypes={["nav-forward"]}
             >
               {page.name}
             </SidebarMenuItemLink>
@@ -89,11 +124,87 @@ const SidebarPageGroup = ({
   );
 };
 
+const getUiCategoryFolder = (
+  uiFolder: PageTreeFolder,
+  category: "components" | "blocks"
+) =>
+  getFoldersFromFolder(uiFolder).find(
+    (folder) =>
+      folder.$id === `ui/${category}` ||
+      String(folder.$id ?? "").endsWith(`/${category}`) ||
+      folder.name?.toString().toLowerCase() === category
+  );
+
+const ComponentsSidebarPanel = ({
+  tree,
+  pathname,
+}: {
+  tree: typeof source.pageTree;
+  pathname: string;
+}) => {
+  const componentsFolder = tree.children.find(
+    (item): item is PageTreeFolder =>
+      item.type === "folder" && isComponentsFolder(item)
+  );
+
+  if (!componentsFolder) {
+    return null;
+  }
+
+  return getFoldersFromFolder(componentsFolder).map((category) => (
+    <SidebarPageGroup
+      key={category.$id}
+      label={category.name}
+      pages={getPagesFromFolder(category, false)}
+      pathname={pathname}
+    />
+  ));
+};
+
+const UiSidebarPanel = ({
+  tree,
+  pathname,
+}: {
+  tree: typeof source.pageTree;
+  pathname: string;
+}) => {
+  const uiFolder = tree.children.find(
+    (item): item is PageTreeFolder => item.type === "folder" && isUiFolder(item)
+  );
+
+  if (!uiFolder) {
+    return null;
+  }
+
+  const componentsFolder = getUiCategoryFolder(uiFolder, "components");
+  const blocksFolder = getUiCategoryFolder(uiFolder, "blocks");
+
+  return (
+    <>
+      {componentsFolder ? (
+        <SidebarPageGroup
+          label="Components"
+          pages={getPagesFromFolder(componentsFolder, false)}
+          pathname={pathname}
+        />
+      ) : null}
+      {blocksFolder ? (
+        <SidebarPageGroup
+          label="Blocks"
+          pages={getPagesFromFolder(blocksFolder, false)}
+          pathname={pathname}
+        />
+      ) : null}
+    </>
+  );
+};
+
 export const DocsSidebar = ({
   tree,
   ...props
 }: React.ComponentProps<typeof Sidebar> & { tree: typeof source.pageTree }) => {
   const pathname = usePathname();
+  const panel = getDocsSidebarPanel(pathname);
 
   return (
     <Sidebar
@@ -111,15 +222,12 @@ export const DocsSidebar = ({
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {TOP_LEVEL_SECTIONS.map(({ name, href }) => (
+              {TOP_LEVEL_SECTIONS.map(({ name, href, panel: sectionPanel }) => (
                 <SidebarMenuItemLink
                   key={name}
                   href={href}
-                  isActive={
-                    href === ROUTES.DOCS
-                      ? pathname === href
-                      : pathname.startsWith(href)
-                  }
+                  isActive={isSectionActive(href, pathname)}
+                  transitionTypes={panelTransitionTypes(sectionPanel, panel)}
                 >
                   {name}
                 </SidebarMenuItemLink>
@@ -127,34 +235,27 @@ export const DocsSidebar = ({
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {tree.children.map((item) => {
-          if (item.type !== "folder") {
-            return null;
-          }
-          if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
-            return null;
-          }
-
-          if (isComponentsFolder(item)) {
-            return getFoldersFromFolder(item).map((category) => (
-              <SidebarPageGroup
-                key={category.$id}
-                label={category.name}
-                pages={getPagesFromFolder(category, false)}
-                pathname={pathname}
-              />
-            ));
-          }
-
-          return (
-            <SidebarPageGroup
-              key={item.$id}
-              label={item.name}
-              pages={getPagesFromFolder(item)}
-              pathname={pathname}
-            />
-          );
-        })}
+        <ViewTransition
+          enter={{
+            default: "none",
+            "sidebar-panel-back": "slide-from-left",
+            "sidebar-panel-forward": "slide-from-right",
+          }}
+          exit={{
+            default: "none",
+            "sidebar-panel-back": "slide-to-right",
+            "sidebar-panel-forward": "slide-to-left",
+          }}
+          default="none"
+        >
+          <div key={panel} style={{ viewTransitionName: "docs-sidebar-panel" }}>
+            {panel === "components" ? (
+              <ComponentsSidebarPanel pathname={pathname} tree={tree} />
+            ) : (
+              <UiSidebarPanel pathname={pathname} tree={tree} />
+            )}
+          </div>
+        </ViewTransition>
         <div className="from-background via-background/80 to-background/50 sticky -bottom-1 z-10 h-16 shrink-0 bg-linear-to-t blur-xs" />
       </SidebarContent>
     </Sidebar>

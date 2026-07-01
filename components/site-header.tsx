@@ -17,6 +17,11 @@ import { source } from "@/lib/source";
 const navItems = [
   { href: ROUTES.DOCS, label: "Docs" },
   { href: ROUTES.DOCS_COMPONENTS, label: "Components" },
+  {
+    href: ROUTES.DOCS_UI,
+    label: "UI",
+    transitionTypes: ["sidebar-panel-forward", "nav-forward"],
+  },
 ];
 
 export const SiteHeader = () => (

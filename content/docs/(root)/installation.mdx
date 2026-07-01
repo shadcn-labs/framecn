@@ -1,21 +1,19 @@
 ---
 title: "Installation"
-description: "Install video components from the registry."
+description: "Install video components and UI primitives from the registry."
 ---
 
 ## Prerequisites
 
 A project with [Editframe](https://editframe.com/) set up.
 
-## Installation
+## Video components
 
-Run the following command to add any component:
+Run the following command to add any video component:
 
 ```bash
 npx shadcn@latest add @framecn/cursor-flow
 ```
-
-## Usage
 
 Import and use the component:
 
@@ -26,3 +24,51 @@ export function DemoVideo() {
   return <CursorFlow />;
 }
 ```
+
+## UI primitives
+
+UI components and blocks install the same way. The shared `framecn-ui` core installs automatically as a `registryDependencies` entry — you do not need to install it separately.
+
+```bash
+npx shadcn@latest add @framecn/button
+```
+
+Blocks pull in nested primitives automatically:
+
+```bash
+npx shadcn@latest add @framecn/chat-flow
+```
+
+### What gets written
+
+| Path                                          | Contents                                                               |
+| --------------------------------------------- | ---------------------------------------------------------------------- |
+| `components/framecn/<name>.tsx`               | The component or block                                                 |
+| `components/framecn/use-<name>-transition.ts` | Transition hook for smooth motion (UI components)                      |
+| `lib/framecn-ui/`                             | Shared core — timeline helpers, theme, color utilities, motion helpers |
+
+All files are copied into your project. You own the code — edit any file freely to suit your video.
+
+### UI usage
+
+Import and wrap in a `Timegroup`:
+
+```tsx
+import { Timegroup } from "@editframe/react";
+import { Button } from "@/components/framecn/button";
+
+export function Scene() {
+  return (
+    <Timegroup duration="3s" mode="fixed">
+      <Button
+        from="idle"
+        state="success"
+        duration="24frames"
+        label="Continue"
+      />
+    </Timegroup>
+  );
+}
+```
+
+See [Concepts](/docs/concepts) for the UI mental model.
