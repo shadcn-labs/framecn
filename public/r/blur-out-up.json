@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "blur-out-up",
+  "title": "Blur Out Up",
+  "description": "Words blur and drift upward while fading out, staggered per word.",
+  "dependencies": [
+    "remotion"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/components/blur-out-up/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface BlurOutUpProps {\n  text?: string;\n  staggerDelay?: number;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  className?: string;\n}\n\nexport const BlurOutUp = ({\n  text = \"Words fade and blur\",\n  staggerDelay = 4,\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  className,\n}: BlurOutUpProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const enterMs = (17 * frameMs) / safeSpeed;\n  const exitMs = (14 * frameMs) / safeSpeed;\n  const staggerMs = (staggerDelay * frameMs) / safeSpeed;\n\n  const words = text.split(\" \");\n  const exitStartMs = Math.max(\n    0,\n    durationMs - exitMs - (words.length - 1) * staggerMs\n  );\n\n  const containerStyle: CSSProperties = {\n    alignItems: \"center\",\n    background: \"white\",\n    display: \"flex\",\n    inset: 0,\n    justifyContent: \"center\",\n    position: \"absolute\",\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={containerStyle}\n    >\n      <>\n        <style>{`\n          @keyframes framecn-bou-in {\n            from { opacity: 0; transform: translateY(10px); filter: blur(6px); }\n            to { opacity: 1; transform: translateY(0); filter: blur(0); }\n          }\n          @keyframes framecn-bou-out {\n            from { opacity: 1; transform: translateY(0); filter: blur(0); }\n            to { opacity: 0; transform: translateY(-14px); filter: blur(8px); }\n          }\n        `}</style>\n        <span\n          style={{\n            color,\n            fontFamily: FONT_FAMILY,\n            fontSize,\n            fontWeight,\n            letterSpacing: \"-0.03em\",\n          }}\n        >\n          {words.map((word, i) => (\n            <span\n              key={i}\n              style={{\n                animation: `framecn-bou-in ${enterMs}ms cubic-bezier(0.22,1,0.36,1) ${i * staggerMs}ms backwards, framecn-bou-out ${exitMs}ms cubic-bezier(0.64,0,0.78,0) ${exitStartMs + i * staggerMs}ms forwards`,\n                display: \"inline-block\",\n                marginRight: \"0.25em\",\n              }}\n            >\n              {word}\n            </span>\n          ))}\n        </span>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/blur-out-up.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

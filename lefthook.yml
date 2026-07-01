@@ -9,4 +9,6 @@ pre-commit:
         - "**/*.json"
         - "**/*.jsonc"
         - "**/*.css"
+      exclude:
+        - "public/r/**"
       stage_fixed: true
