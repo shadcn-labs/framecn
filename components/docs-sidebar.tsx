@@ -221,6 +221,16 @@ export const DocsSidebar = ({
   const pathname = usePathname();
   const panel = getDocsSidebarPanel(pathname);
 
+  const renderPanel = () => {
+    if (panel === "components") {
+      return <ComponentsSidebarPanel pathname={pathname} tree={tree} />;
+    }
+    if (panel === "ui") {
+      return <UiSidebarPanel pathname={pathname} tree={tree} />;
+    }
+    return <ShadersSidebarPanel pathname={pathname} tree={tree} />;
+  };
+
   return (
     <Sidebar
       className="text-sidebar-foreground sticky top-[calc(var(--header-height)+0.6rem)] z-30 hidden h-[calc(100svh-10rem)] flex-col overscroll-none bg-transparent [--sidebar-menu-width:--spacing(56)] lg:flex"
@@ -249,13 +259,7 @@ export const DocsSidebar = ({
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {panel === "components" ? (
-          <ComponentsSidebarPanel pathname={pathname} tree={tree} />
-        ) : (panel === "ui" ? (
-          <UiSidebarPanel pathname={pathname} tree={tree} />
-        ) : (
-          <ShadersSidebarPanel pathname={pathname} tree={tree} />
-        ))}
+        {renderPanel()}
         {tree.children.map((item) => {
           if (item.type !== "folder") {
             return null;
