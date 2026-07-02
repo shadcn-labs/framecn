@@ -15,11 +15,17 @@ import {
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
 import {
+  EXCLUDED_SECTIONS,
   getDocsSidebarPanel,
   isComponentsFolder,
+  isShadersFolder,
   isUiFolder,
 } from "@/lib/docs";
-import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import {
+  getCatalogSubfolder,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import type { PageTreeFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 
@@ -219,6 +225,49 @@ export const MobileNav = ({
                 );
               })()
             : null}
+          {panel === "shaders"
+            ? tree.children.map((item) => {
+                if (item.type !== "folder" || !isShadersFolder(item)) {
+                  return null;
+                }
+
+                const shaderPagesFolder =
+                  getCatalogSubfolder(item, "components") ?? item;
+
+                return (
+                  <MobileNavGroup
+                    key={item.$id}
+                    label="Shaders"
+                    pages={getPagesFromFolder(shaderPagesFolder, false)}
+                    setOpen={setOpen}
+                  />
+                );
+              })
+            : null}
+          {tree.children.map((item) => {
+            if (item.type !== "folder") {
+              return null;
+            }
+            if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
+              return null;
+            }
+            if (
+              isComponentsFolder(item) ||
+              isUiFolder(item) ||
+              isShadersFolder(item)
+            ) {
+              return null;
+            }
+
+            return (
+              <MobileNavGroup
+                key={item.$id}
+                label={item.name}
+                pages={getPagesFromFolder(item)}
+                setOpen={setOpen}
+              />
+            );
+          })}
         </div>
       </PopoverContent>
     </Popover>

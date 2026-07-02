@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shader-water",
+  "title": "Shader Water",
+  "description": "Caustic water-surface ripples with subtle refraction.",
+  "dependencies": [
+    "@editframe/react",
+    "@paper-design/shaders-react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/components/shader-water/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup, useTimingInfo } from \"@editframe/react\";\nimport { Water } from \"@paper-design/shaders-react\";\nimport type { WaterProps } from \"@paper-design/shaders-react\";\nimport { createContext, useCallback, useContext, useState } from \"react\";\nimport type { CSSProperties, ReactNode } from \"react\";\n\nconst ShaderTimingContext = createContext(0);\n\ninterface ShaderLayoutProps {\n  fps?: number;\n  durationInFrames?: number;\n  width?: number;\n  height?: number;\n  className?: string;\n  children: ReactNode;\n}\n\nconst ShaderLayout = ({\n  fps = 30,\n  durationInFrames = 150,\n  width = 1280,\n  height = 720,\n  className,\n  children,\n}: ShaderLayoutProps) => {\n  const { ref, ownCurrentTimeMs } = useTimingInfo();\n  const durationMs = (durationInFrames / fps) * 1000;\n  const containerStyle: CSSProperties = {\n    height,\n    overflow: \"hidden\",\n    position: \"relative\",\n    width,\n  };\n\n  return (\n    <Timegroup\n      ref={ref}\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={containerStyle}\n    >\n      <ShaderTimingContext.Provider value={ownCurrentTimeMs}>\n        {children}\n      </ShaderTimingContext.Provider>\n    </Timegroup>\n  );\n};\n\nconst useShaderFrame = (speed = 1) => {\n  const ownCurrentTimeMs = useContext(ShaderTimingContext);\n  return ownCurrentTimeMs * speed;\n};\n\nconst ShaderCanvas = ({\n  className,\n  children,\n}: {\n  className?: string;\n  children: ReactNode;\n}) => {\n  const [ready, setReady] = useState(false);\n  const gate = useCallback((element: HTMLDivElement | null) => {\n    if (!element) {\n      return;\n    }\n    requestAnimationFrame(() => requestAnimationFrame(() => setReady(true)));\n  }, []);\n\n  return (\n    <div\n      ref={gate}\n      className={className}\n      style={{ inset: 0, position: \"absolute\" }}\n    >\n      {ready ? children : null}\n    </div>\n  );\n};\n\nexport type ShaderWaterProps = Omit<WaterProps, \"frame\" | \"ref\">;\n\nexport interface ShaderWaterWithLayout extends ShaderWaterProps {\n  fps?: number;\n  durationInFrames?: number;\n  width?: number;\n  height?: number;\n}\n\nconst ShaderWaterScene = ({\n  speed = 1,\n  colorBack = \"#16202b\",\n  colorHighlight = \"#5a6a7a\",\n  highlights = 0.06,\n  waves = 0.3,\n  caustic = 0.08,\n  className,\n  width = 1280,\n  height = 720,\n  ...rest\n}: ShaderWaterProps & { width?: number; height?: number }) => {\n  const frame = useShaderFrame(speed);\n\n  return (\n    <ShaderCanvas className={className}>\n      <Water\n        speed={0}\n        frame={frame}\n        colorBack={colorBack}\n        colorHighlight={colorHighlight}\n        highlights={highlights}\n        waves={waves}\n        caustic={caustic}\n        fit=\"cover\"\n        width={width}\n        height={height}\n        {...rest}\n      />\n    </ShaderCanvas>\n  );\n};\n\nexport const ShaderWater = ({\n  speed = 1,\n  fps = 30,\n  durationInFrames = 150,\n  width = 1280,\n  height = 720,\n  className,\n  ...rest\n}: ShaderWaterWithLayout) => (\n  <ShaderLayout\n    className={className}\n    durationInFrames={durationInFrames}\n    fps={fps}\n    height={height}\n    width={width}\n  >\n    <ShaderWaterScene\n      className={className}\n      height={height}\n      speed={speed}\n      width={width}\n      {...rest}\n    />\n  </ShaderLayout>\n);\n",
+      "type": "registry:component",
+      "target": "components/framecn/shader-water.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

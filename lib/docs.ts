@@ -13,14 +13,20 @@ export const isComponentsFolder = (folder: PageTreeFolder) =>
 export const isUiFolder = (folder: PageTreeFolder) =>
   folder.$id === "ui" || folder.name === "UI";
 
-export const isCatalogFolder = (folder: PageTreeFolder) =>
-  isComponentsFolder(folder) || isUiFolder(folder);
+export const isShadersFolder = (folder: PageTreeFolder) =>
+  folder.$id === "shaders" || folder.name === "Shaders";
 
-export type DocsSidebarPanel = "components" | "ui";
+export const isCatalogFolder = (folder: PageTreeFolder) =>
+  isComponentsFolder(folder) || isUiFolder(folder) || isShadersFolder(folder);
+
+export type DocsSidebarPanel = "components" | "ui" | "shaders";
 
 export const getDocsSidebarPanel = (pathname: string): DocsSidebarPanel => {
   if (pathname.startsWith(ROUTES.DOCS_UI)) {
     return "ui";
+  }
+  if (pathname.startsWith(ROUTES.DOCS_SHADERS)) {
+    return "shaders";
   }
   return "components";
 };
@@ -39,7 +45,7 @@ export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 
 export const PAGES_NEW: string[] = [
   ROUTES.DOCS_CHANGELOG,
-
+  ROUTES.DOCS_SHADERS,
   `${ROUTES.DOCS_COMPONENTS}/transitions/fade-through`,
   `${ROUTES.DOCS_COMPONENTS}/transitions/per-word-crossfade`,
   `${ROUTES.DOCS_COMPONENTS}/transitions/shared-axis-y`,

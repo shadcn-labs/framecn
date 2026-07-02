@@ -15,12 +15,18 @@ import {
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
 import {
+  EXCLUDED_SECTIONS,
   getDocsSidebarPanel,
   isComponentsFolder,
+  isShadersFolder,
   isUiFolder,
   PAGES_NEW,
 } from "@/lib/docs";
-import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import {
+  getCatalogSubfolder,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import type { PageTreeFolder } from "@/lib/page-tree";
 import type { source } from "@/lib/source";
 
@@ -30,6 +36,7 @@ const TOP_LEVEL_SECTIONS = [
   { href: ROUTES.DOCS_CONCEPTS, name: "Concepts" },
   { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
   { href: ROUTES.DOCS_UI, name: "UI" },
+  { href: ROUTES.DOCS_SHADERS, name: "Shaders" },
   { href: ROUTES.DOCS_MCP, name: "MCP" },
   { href: ROUTES.DOCS_REGISTRY, name: "Registry" },
   { href: ROUTES.LLMS, name: "llms.txt" },
@@ -116,11 +123,11 @@ const getUiCategoryFolder = (
   );
 
 const ComponentsSidebarPanel = ({
-  tree,
   pathname,
+  tree,
 }: {
-  tree: typeof source.pageTree;
   pathname: string;
+  tree: typeof source.pageTree;
 }) => {
   const componentsFolder = tree.children.find(
     (item): item is PageTreeFolder =>
@@ -142,11 +149,11 @@ const ComponentsSidebarPanel = ({
 };
 
 const UiSidebarPanel = ({
-  tree,
   pathname,
+  tree,
 }: {
-  tree: typeof source.pageTree;
   pathname: string;
+  tree: typeof source.pageTree;
 }) => {
   const uiFolder = tree.children.find(
     (item): item is PageTreeFolder => item.type === "folder" && isUiFolder(item)
@@ -176,6 +183,34 @@ const UiSidebarPanel = ({
         />
       ) : null}
     </>
+  );
+};
+
+const ShadersSidebarPanel = ({
+  pathname,
+  tree,
+}: {
+  pathname: string;
+  tree: typeof source.pageTree;
+}) => {
+  const shadersFolder = tree.children.find(
+    (item): item is PageTreeFolder =>
+      item.type === "folder" && isShadersFolder(item)
+  );
+
+  if (!shadersFolder) {
+    return null;
+  }
+
+  const shaderPagesFolder =
+    getCatalogSubfolder(shadersFolder, "components") ?? shadersFolder;
+
+  return (
+    <SidebarPageGroup
+      label="Shaders"
+      pages={getPagesFromFolder(shaderPagesFolder, false)}
+      pathname={pathname}
+    />
   );
 };
 
@@ -216,9 +251,35 @@ export const DocsSidebar = ({
         </SidebarGroup>
         {panel === "components" ? (
           <ComponentsSidebarPanel pathname={pathname} tree={tree} />
-        ) : (
+        ) : (panel === "ui" ? (
           <UiSidebarPanel pathname={pathname} tree={tree} />
-        )}
+        ) : (
+          <ShadersSidebarPanel pathname={pathname} tree={tree} />
+        ))}
+        {tree.children.map((item) => {
+          if (item.type !== "folder") {
+            return null;
+          }
+          if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
+            return null;
+          }
+          if (
+            isComponentsFolder(item) ||
+            isUiFolder(item) ||
+            isShadersFolder(item)
+          ) {
+            return null;
+          }
+
+          return (
+            <SidebarPageGroup
+              key={item.$id}
+              label={item.name}
+              pages={getPagesFromFolder(item)}
+              pathname={pathname}
+            />
+          );
+        })}
         <div className="from-background via-background/80 to-background/50 sticky -bottom-1 z-10 h-16 shrink-0 bg-linear-to-t blur-xs" />
       </SidebarContent>
     </Sidebar>

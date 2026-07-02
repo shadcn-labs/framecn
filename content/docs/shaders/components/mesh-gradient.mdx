@@ -1,0 +1,54 @@
+---
+title: "Mesh Gradient"
+description: "WebGL mesh gradient backdrop driven per-frame for deterministic Editframe renders."
+---
+
+<ComponentPreview name="shader-mesh-gradient" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-mesh-gradient
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-mesh-gradient"
+  title="components/framecn/shader-mesh-gradient.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderMeshGradient } from "@/components/framecn/shader-mesh-gradient";
+```
+
+```tsx
+<ShaderMeshGradient speed={1} />
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).

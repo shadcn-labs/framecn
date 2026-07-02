@@ -1,0 +1,24 @@
+{
+  "collapsible": false,
+  "pages": [
+    "color-panels",
+    "dithering",
+    "dot-orbit",
+    "god-rays",
+    "grain-gradient",
+    "liquid-metal",
+    "mesh-gradient",
+    "metaballs",
+    "neuro-noise",
+    "perlin-noise",
+    "pulsing-border",
+    "simplex-noise",
+    "smoke-ring",
+    "spiral",
+    "swirl",
+    "voronoi",
+    "warp",
+    "water"
+  ],
+  "title": "Components"
+}

@@ -1,0 +1,54 @@
+---
+title: "Pulsing Border"
+description: "Glowing border frame that pulses around the edges."
+---
+
+<ComponentPreview name="shader-pulsing-border" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/shader-pulsing-border
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="shader-pulsing-border"
+  title="components/framecn/shader-pulsing-border.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ShaderPulsingBorder } from "@/components/framecn/shader-pulsing-border";
+```
+
+```tsx
+<ShaderPulsingBorder speed={1} />
+```
+
+## Credits
+
+Shader by [paper-design/shaders](https://github.com/paper-design/shaders).

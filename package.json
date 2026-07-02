@@ -16,6 +16,7 @@
   "dependencies": {
     "@editframe/elements": "^0.50.1",
     "@editframe/react": "^0.50.1",
+    "@paper-design/shaders-react": "0.0.76",
     "@tailwindcss/postcss": "^4.2.4",
     "@vercel/analytics": "^2.0.1",
     "@web-kits/audio": "^0.1.0",

@@ -2,16 +2,24 @@ import Link from "next/link";
 
 import { isCatalogFolder } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
-import { getFoldersFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import {
+  getCatalogSubfolder,
+  getFoldersFromFolder,
+  getPagesFromFolder,
+} from "@/lib/page-tree";
 import { source } from "@/lib/source";
 import { cn } from "@/lib/utils";
 
 const getFolder = (name: string): PageTreeFolder | undefined => {
   const normalized = name.toLowerCase();
   for (const node of source.pageTree.children) {
+    if (node.type !== "folder") {
+      continue;
+    }
     if (
-      node.type === "folder" &&
-      (node.name === name || node.$id === normalized)
+      node.name === name ||
+      node.$id === normalized ||
+      String(node.$id ?? "").endsWith(`/${normalized}`)
     ) {
       return node;
     }
@@ -95,13 +103,7 @@ export const ComponentsList = ({
   const categoryFolders = getFoldersFromFolder(folder);
 
   if (category) {
-    const match = categoryFolders.find(
-      (cat) =>
-        cat.$id === category ||
-        String(cat.$id ?? "").endsWith(`/${category}`) ||
-        (typeof cat.name === "string" &&
-          cat.name.toLowerCase() === category.toLowerCase())
-    );
+    const match = getCatalogSubfolder(folder, category);
     if (!match) {
       return null;
     }
