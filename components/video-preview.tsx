@@ -13,8 +13,41 @@ import { PauseIcon, PlayIcon, Repeat1Icon, RepeatIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { FPS } from "@/lib/customizer-config";
+import { FrameProvider } from "@/lib/framecn-ui";
+import { DEFAULT_UI_PREVIEW_DURATION_FRAMES } from "@/lib/ui-preview-durations";
+import type { BackdropFill } from "@/registry/bases/editframe/components/backdrop";
 
 type RegistryComponent = React.ComponentType<Record<string, unknown>>;
+
+const backdropStyle = (fill: BackdropFill): React.CSSProperties => {
+  if (fill.type === "image") {
+    return {
+      backgroundImage: `url(${fill.src})`,
+      backgroundPosition: "center",
+      backgroundSize: fill.fit ?? "cover",
+    };
+  }
+  return { background: fill.value };
+};
+
+const withBackdrop = (
+  Component: RegistryComponent,
+  fill: BackdropFill
+): RegistryComponent => {
+  const Wrapped = (props: Record<string, unknown>) => (
+    <div
+      style={{
+        ...backdropStyle(fill),
+        inset: 0,
+        position: "absolute",
+      }}
+    >
+      <Component {...props} />
+    </div>
+  );
+  return Wrapped;
+};
 
 export const PreviewControls = ({ previewId }: { previewId: string }) => {
   const controlsRef = useRef<React.ComponentRef<typeof Controls>>(null);
@@ -101,17 +134,31 @@ export const VideoPreview = ({
   previewId,
   Component,
   componentProps,
+  durationInFrames = DEFAULT_UI_PREVIEW_DURATION_FRAMES,
+  fps = FPS,
+  previewBackdrop,
 }: {
   previewId: string;
   Component: RegistryComponent;
   componentProps: Record<string, unknown>;
-}) => (
-  <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
-    <Preview id={previewId} className="aspect-video">
-      <FitScale className="rounded-md">
-        <Component {...componentProps} />
-      </FitScale>
-    </Preview>
-    <PreviewControls previewId={previewId} />
-  </div>
-);
+  durationInFrames?: number;
+  fps?: number;
+  previewBackdrop?: BackdropFill;
+}) => {
+  const Scene = previewBackdrop
+    ? withBackdrop(Component, previewBackdrop)
+    : Component;
+
+  return (
+    <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
+      <Preview id={previewId} className="aspect-video">
+        <FitScale className="rounded-md">
+          <FrameProvider durationMs={(durationInFrames / fps) * 1000} fps={fps}>
+            <Scene {...componentProps} />
+          </FrameProvider>
+        </FitScale>
+      </Preview>
+      <PreviewControls previewId={previewId} />
+    </div>
+  );
+};

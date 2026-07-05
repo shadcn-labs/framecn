@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckIcon, LinkIcon, RotateCcwIcon } from "lucide-react";
+import { useMemo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { ComponentCustomizer } from "@/components/component-customizer";
@@ -20,6 +21,13 @@ import { useFeedback } from "@/hooks/use-feedback";
 import { usePreviewId } from "@/hooks/use-preview-id";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
+import {
+  getUiDemo,
+  hasUiDemo,
+  pickHonoredProps,
+  UI_DEMO_CONTROLS,
+} from "@/lib/ui-demo";
+import { getPreviewDurationInFrames } from "@/lib/ui-preview-durations";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
 
@@ -134,11 +142,38 @@ const ComponentPreviewInner = ({
     preventDefault: true,
   });
 
+  const demo = getUiDemo(name);
+  const useDemo = hasUiDemo(name) && demo !== undefined;
+  const honored = UI_DEMO_CONTROLS[name];
+  const visibleControls = useMemo(() => {
+    if (!honored) {
+      return config.controls;
+    }
+    return Object.fromEntries(
+      Object.entries(config.controls).filter(([key]) => honored.includes(key))
+    ) as ComponentConfig["controls"];
+  }, [config.controls, honored]);
+
+  const previewComponent = useDemo ? demo.Component : Component;
+  const previewProps = useDemo
+    ? pickHonoredProps(name, values as Record<string, unknown>)
+    : componentProps;
+  const previewDuration = useDemo
+    ? demo.durationInFrames
+    : config.durationInFrames;
+  const previewFps = useDemo ? demo.fps : config.fps;
+  const previewBackdrop = useDemo
+    ? demo.previewBackdrop
+    : config.previewBackdrop;
+
   const videoPreview = (
     <VideoPreview
       previewId={previewId}
-      Component={Component}
-      componentProps={componentProps}
+      Component={previewComponent}
+      componentProps={previewProps}
+      durationInFrames={previewDuration}
+      fps={previewFps}
+      previewBackdrop={previewBackdrop}
     />
   );
 
@@ -176,7 +211,7 @@ const ComponentPreviewInner = ({
           </div>
           <div className="rounded-md p-4 bg-background">
             <ComponentCustomizer
-              controls={config.controls}
+              controls={visibleControls}
               values={values as Record<string, unknown>}
               onChange={handleCustomizeChange}
             />
@@ -216,6 +251,7 @@ export const ComponentPreview = ({
           previewId={previewId}
           Component={entry.Component}
           componentProps={{}}
+          durationInFrames={getPreviewDurationInFrames(name)}
         />
       </div>
     );

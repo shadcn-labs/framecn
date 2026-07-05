@@ -2,10 +2,6 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  accordionKeyframes,
-  accordionAnimation,
-} from "@/registry/bases/editframe/ui/accordion/use-accordion-transition";
 
 export type AccordionState = "opened" | "closed";
 
@@ -13,14 +9,13 @@ type AccordionVariant = "default" | "ghost";
 
 export interface AccordionProps {
   state?: AccordionState;
-  from?: AccordionState;
+  style?: AccordionStyle;
   title?: string;
   content?: string;
   contentHeight?: number;
   variant?: AccordionVariant;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
 const CARD_WIDTH = 440;
@@ -30,10 +25,11 @@ interface VariantTokens {
   closedBg: string;
   openBg: string;
 }
-const variantTokens = (
+
+function variantTokens(
   variant: AccordionVariant,
   theme: FramecnTheme
-): VariantTokens => {
+): VariantTokens {
   const variants = {
     default: {
       bordered: true,
@@ -48,7 +44,7 @@ const variantTokens = (
   };
 
   return variants[variant] ?? variants.default;
-};
+}
 
 export interface AccordionStyle {
   panelHeight: number;
@@ -66,10 +62,10 @@ export interface AccordionStyleContext {
   mutedForeground: string;
 }
 
-export const accordionStyleContext = (
+export function accordionStyleContext(
   variant: AccordionVariant,
   theme: FramecnTheme
-): AccordionStyleContext => {
+): AccordionStyleContext {
   const tokens = variantTokens(variant, theme);
   return {
     border: theme.border,
@@ -79,12 +75,12 @@ export const accordionStyleContext = (
     mutedForeground: theme.mutedForeground,
     openBg: tokens.openBg,
   };
-};
+}
 
-export const accordionStyle = (
+export function accordionStyle(
   state: AccordionState,
   ctx: AccordionStyleContext
-): AccordionStyle => {
+): AccordionStyle {
   switch (state) {
     case "opened": {
       return {
@@ -103,27 +99,22 @@ export const accordionStyle = (
       };
     }
   }
-};
+}
 
-export const Accordion = ({
+export function Accordion({
   state = "closed",
-  from,
+  style,
   title = "Is it accessible?",
   content = "Yes. It adheres to the WAI-ARIA design pattern.",
   contentHeight = 64,
   variant = "default",
   theme: themeOverride,
   className,
-  duration = "14frames",
-}: AccordionProps) => {
+}: AccordionProps) {
   const theme = useFramecnTheme(themeOverride, "light");
-  const ctx = accordionStyleContext(variant, theme);
-  const v = accordionStyle(state, ctx);
 
-  const hasAnimation = from && from !== state;
-  const anim = hasAnimation
-    ? accordionAnimation(from, state, duration)
-    : "none";
+  const ctx = accordionStyleContext(variant, theme);
+  const v = style ?? accordionStyle(state, ctx);
 
   return (
     <div
@@ -138,11 +129,9 @@ export const Accordion = ({
         position: "absolute",
       }}
     >
-      <style>{accordionKeyframes(ctx)}</style>
       <div
         className={className}
         style={{
-          animation: hasAnimation ? anim : undefined,
           background: v.background,
           border: ctx.bordered
             ? `1px solid ${ctx.border}`
@@ -152,6 +141,7 @@ export const Accordion = ({
           width: CARD_WIDTH,
         }}
       >
+        {}
         <div
           style={{
             alignItems: "center",
@@ -172,7 +162,6 @@ export const Accordion = ({
             viewBox="0 0 24 24"
             fill="none"
             style={{
-              animation: hasAnimation ? anim : undefined,
               flexShrink: 0,
               transform: `rotate(${v.chevronRotation}deg)`,
             }}
@@ -186,6 +175,7 @@ export const Accordion = ({
             />
           </svg>
         </div>
+        {}
         <div
           style={{
             height: contentHeight * v.panelHeight,
@@ -207,4 +197,4 @@ export const Accordion = ({
       </div>
     </div>
   );
-};
+}

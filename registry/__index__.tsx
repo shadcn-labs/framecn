@@ -117,6 +117,7 @@ import { trackingInConfig } from "@/registry/bases/editframe/components/tracking
 import { typewriterConfig } from "@/registry/bases/editframe/components/typewriter/config";
 import { zoomThroughTransitionConfig } from "@/registry/bases/editframe/components/zoom-through-transition/config";
 import { Accordion } from "@/registry/bases/editframe/ui/accordion";
+import { accordionConfig } from "@/registry/bases/editframe/ui/accordion/config";
 import { AiPromptFlow } from "@/registry/bases/editframe/ui/ai-prompt-flow";
 import { AlertDialog } from "@/registry/bases/editframe/ui/alert-dialog";
 import { BlurIn } from "@/registry/bases/editframe/ui/blur-in";
@@ -175,6 +176,7 @@ const lazy = (loader: () => Promise<{ default: AnyComponent }>) =>
 const registry: Record<string, RegistryEntry> = {
   accordion: {
     Component: Accordion,
+    config: accordionConfig,
   },
   "ai-generate-overlay": {
     Component: lazy(async () => {

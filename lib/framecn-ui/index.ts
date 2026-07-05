@@ -4,6 +4,9 @@ export {
   framesFor,
   revealCount,
   revealedText,
+  typewriterAt,
+  useCurrentState,
+  useStateTransition,
   useTypewriter,
 } from "@/registry/bases/editframe/lib/timeline";
 export type {
@@ -32,3 +35,12 @@ export type {
   EasingName,
   SpringName,
 } from "@/registry/bases/editframe/lib/motion";
+export {
+  DEFAULT_FPS,
+  FrameProvider,
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "@/registry/bases/editframe/lib/frame";
+export type { FrameProviderProps } from "@/registry/bases/editframe/lib/frame";
