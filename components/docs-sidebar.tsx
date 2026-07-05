@@ -13,6 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { ROUTES } from "@/constants/routes";
 import { TOP_LEVEL_SECTIONS } from "@/constants/site";
 import {
   EXCLUDED_SECTIONS,
@@ -232,7 +233,9 @@ export const DocsSidebar = ({
                   key={name}
                   href={href}
                   isActive={
-                    pathname === href || pathname.startsWith(`${href}/`)
+                    href === ROUTES.DOCS
+                      ? pathname === href
+                      : pathname.startsWith(href)
                   }
                 >
                   {name}
