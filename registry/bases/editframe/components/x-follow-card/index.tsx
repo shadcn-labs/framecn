@@ -663,7 +663,6 @@ export const XFollowCard = ({
 
   const cursorStyle = useCursorPath(
     buildFollowWaypoints({ buttonCenter, orientation }),
-    undefined,
     { speed: safeSpeed }
   );
   const pressScale = 0.9 + 0.1 * (cursorStyle.pressScale ?? 1);

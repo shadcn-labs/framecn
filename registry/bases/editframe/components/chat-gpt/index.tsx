@@ -3,7 +3,7 @@
 import { Timegroup } from "@editframe/react";
 import { useState, useEffect } from "react";
 
-import { useTypewriter } from "@/lib/framecn-ui";
+import { typewriterAt } from "@/lib/framecn-ui";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
 import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
 
@@ -131,7 +131,7 @@ export const ChatGpt = ({
     { at: 60, click: true, duration: 0, x: 400, y: 350 },
   ]);
 
-  const typedPrompt = useTypewriter(prompt, frame, fps, { speed });
+  const typedPrompt = typewriterAt(prompt, frame, fps, { speed });
 
   const showResponse = frame > durationInFrames * 0.35;
   const responseProgress = showResponse

@@ -4,7 +4,7 @@ import type { EFTimegroup } from "@editframe/elements";
 import { Timegroup } from "@editframe/react";
 import { useEffect, useRef } from "react";
 
-import { useTypewriter } from "@/lib/framecn-ui";
+import { typewriterAt } from "@/lib/framecn-ui";
 import { Caret } from "@/registry/bases/editframe/ui/caret";
 
 const SANS_FAMILY =
@@ -192,7 +192,7 @@ export const V0 = ({
     }
     const cleanup = tg.addFrameTask((info: { ownCurrentTimeMs: number }) => {
       const frame = (info.ownCurrentTimeMs / 1000) * fps;
-      const tw = useTypewriter(prompt, frame, fps, {
+      const tw = typewriterAt(prompt, frame, fps, {
         cps: TYPING_CPS,
         speed: safeSpeed,
         startFrame: TYPING_START_FRAME,
