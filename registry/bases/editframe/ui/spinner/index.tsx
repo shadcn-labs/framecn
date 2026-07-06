@@ -1,47 +1,42 @@
 "use client";
 
+import { useCurrentFrame } from "@/lib/framecn-ui";
+
 export interface SpinnerProps {
-  color?: string;
   size?: number;
+  color?: string;
   speed?: number;
+  strokeWidth?: number;
   className?: string;
 }
 
 export const Spinner = ({
+  size = 20,
   color = "currentColor",
-  size = 16,
   speed = 1,
+  strokeWidth = 2.5,
   className,
 }: SpinnerProps) => {
-  const duration = `${1 / speed}s`;
-
+  const rotation = useCurrentFrame() * speed * 6;
   return (
-    <>
-      <style>{`
-        @keyframes spinner-rotate {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
-      <svg
-        className={className}
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        style={{ animation: `spinner-rotate ${duration} linear infinite` }}
-      >
-        <circle
-          cx="12"
-          cy="12"
-          r="9"
-          stroke={color}
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeDasharray="40 14"
-          opacity="0.3"
-        />
-      </svg>
-    </>
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      style={{ transform: `rotate(${rotation}deg)` }}
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeDasharray="44"
+        strokeDashoffset="33"
+      />
+    </svg>
   );
 };

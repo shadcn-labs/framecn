@@ -1,7 +1,6 @@
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import { useTimingInfo } from "@editframe/react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
 import { createContext, useContext, useMemo } from "react";
 import type { CSSProperties, ReactNode } from "react";
 

@@ -1,11 +1,19 @@
 "use client";
 
-import { mixOklch } from "@/lib/framecn-ui";
-import type { FramecnTheme } from "@/lib/framecn-ui";
+import {
+  easings,
+  mixOklch,
+  useFramecnTheme,
+  useStateTransition,
+} from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  checkboxStyle,
+  checkboxStyleContext,
+} from "@/registry/bases/editframe/ui/checkbox";
 import type {
   CheckboxState,
   CheckboxStyle,
-  CheckboxStyleContext,
 } from "@/registry/bases/editframe/ui/checkbox";
 
 export const DEFAULT_DURATION = 10;
@@ -30,87 +38,32 @@ export interface CheckboxTransitionOptions {
   defaultDuration?: number;
 }
 
-export interface CheckboxCssAnimation {
-  keyframes: string;
-  animation: string;
-}
-const checkboxUncheckedStyle = (ctx: CheckboxStyleContext): CheckboxStyle => ({
-  boxBackground: ctx.uncheckedBg,
-  boxBorderColor: ctx.uncheckedBorder,
-  checkDraw: 0,
-  checkOpacity: 0,
-  checkScale: 0.6,
-});
-const checkboxCheckedStyle = (ctx: CheckboxStyleContext): CheckboxStyle => ({
-  boxBackground: ctx.checkedBg,
-  boxBorderColor: ctx.checkedBorder,
-  checkDraw: 1,
-  checkOpacity: 1,
-  checkScale: 1,
-});
-
-export const checkboxKeyframes = (ctx: CheckboxStyleContext): string => {
-  const unchecked = checkboxUncheckedStyle(ctx);
-  const checked = checkboxCheckedStyle(ctx);
-
-  return `
-    @keyframes framecn-checkbox-check {
-      0% {
-        background: ${unchecked.boxBackground};
-        border-color: ${unchecked.boxBorderColor};
-      }
-      100% {
-        background: ${checked.boxBackground};
-        border-color: ${checked.boxBorderColor};
-      }
-    }
-    @keyframes framecn-checkbox-uncheck {
-      0% {
-        background: ${checked.boxBackground};
-        border-color: ${checked.boxBorderColor};
-      }
-      100% {
-        background: ${unchecked.boxBackground};
-        border-color: ${unchecked.boxBorderColor};
-      }
-    }
-    @keyframes framecn-check-draw {
-      0% { stroke-dashoffset: ${unchecked.checkDraw * 14}; }
-      100% { stroke-dashoffset: ${checked.checkDraw * 14}; }
-    }
-    @keyframes framecn-check-erase {
-      0% { stroke-dashoffset: ${checked.checkDraw * 14}; }
-      100% { stroke-dashoffset: ${unchecked.checkDraw * 14}; }
-    }
-    @keyframes framecn-check-scale-in {
-      0% { opacity: ${unchecked.checkOpacity}; transform: scale(${unchecked.checkScale}); }
-      100% { opacity: ${checked.checkOpacity}; transform: scale(${checked.checkScale}); }
-    }
-    @keyframes framecn-check-scale-out {
-      0% { opacity: ${checked.checkOpacity}; transform: scale(${checked.checkScale}); }
-      100% { opacity: ${unchecked.checkOpacity}; transform: scale(${unchecked.checkScale}); }
-    }
-  `;
-};
-
-export const checkboxAnimation = (
-  from: CheckboxState,
-  to: CheckboxState,
-  duration: string
-): { box: string; check: string; draw: string } => {
-  if (from === "unchecked" && to === "checked") {
-    return {
-      box: `${duration} framecn-checkbox-check ease-out forwards`,
-      check: `${duration} framecn-check-scale-in ease-out forwards`,
-      draw: `${duration} framecn-check-draw ease-out forwards`,
-    };
-  }
-  if (from === "checked" && to === "unchecked") {
-    return {
-      box: `${duration} framecn-checkbox-uncheck ease-out forwards`,
-      check: `${duration} framecn-check-scale-out ease-out forwards`,
-      draw: `${duration} framecn-check-erase ease-out forwards`,
-    };
-  }
-  return { box: "none", check: "none", draw: "none" };
+export const useCheckboxTransition = (
+  steps: Step<CheckboxState>[],
+  opts: CheckboxTransitionOptions = {}
+): CheckboxStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    primary,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(
+    { ...themeOverride, ...(primary ? { primary } : {}) },
+    mode
+  );
+  const ctx = checkboxStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "unchecked",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenCheckboxStyle(
+    checkboxStyle(from, ctx),
+    checkboxStyle(to, ctx),
+    t
+  );
 };

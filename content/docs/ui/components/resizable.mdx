@@ -43,5 +43,69 @@ import { Resizable } from "@/components/ui/resizable";
 ```
 
 ```tsx
-<Resizable />
+<Resizable ratio={0.5} direction="horizontal" />
 ```
+
+## Smooth transitions
+
+The docs preview drags the split handle with a cursor while animating ratio and handle state via `useResizableTransition`:
+
+```tsx
+import { H, W } from "@/lib/customizer-config";
+import { Cursor } from "@/components/framecn/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+import { Resizable } from "@/components/framecn/resizable";
+import { useResizableTransition } from "@/components/framecn/use-resizable-transition";
+
+const PANEL_WIDTH = 440;
+const handleX = (ratio: number) =>
+  W / 2 - PANEL_WIDTH / 2 + PANEL_WIDTH * ratio;
+const HANDLE_Y = H / 2;
+
+const cursorStyle = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 32, x: handleX(0.5), y: HANDLE_Y, duration: 28 },
+  { at: 44, x: handleX(0.5), y: HANDLE_Y, press: true, duration: 0 },
+  { at: 84, x: handleX(0.75), y: HANDLE_Y, press: true, duration: 40 },
+  { at: 132, x: handleX(0.25), y: HANDLE_Y, press: true, duration: 48 },
+  { at: 176, x: handleX(0.5), y: HANDLE_Y, press: true, duration: 44 },
+  { at: 184, x: handleX(0.5), y: HANDLE_Y, duration: 0 },
+]);
+
+const resizableStyle = useResizableTransition([
+  { at: 0, ratio: 0.5, handleState: "idle" },
+  { at: 32, handleState: "hover", duration: 8 },
+  { at: 46, handleState: "press", duration: 4 },
+  { at: 44, ratio: 0.5 },
+  { at: 84, ratio: 0.75, duration: 40, easing: "inOut" },
+  { at: 132, ratio: 0.25, duration: 48, easing: "inOut" },
+  { at: 176, ratio: 0.5, duration: 44, easing: "inOut" },
+  { at: 184, handleState: "idle", duration: 8 },
+]);
+
+<div style={{ position: "relative", width: "100%", height: "100%" }}>
+  <Resizable style={resizableStyle} direction="horizontal" />
+  <Cursor style={cursorStyle} variant="pointer" />
+</div>;
+```
+
+`style` takes precedence over `ratio` and `handleState` when provided. Keep cursor `press: true` waypoints in sync with ratio drag steps.
+
+## API Reference
+
+### Resizable
+
+| Prop          | Type                           | Default                                             |
+| ------------- | ------------------------------ | --------------------------------------------------- |
+| `ratio`       | `number`                       | `0.5`                                               |
+| `handleState` | `"idle" \| "hover" \| "press"` | `"idle"`                                            |
+| `style`       | `ResizableStyle`               | `-` (takes precedence over `ratio` / `handleState`) |
+| `direction`   | `"horizontal" \| "vertical"`   | `"horizontal"`                                      |
+| `first`       | `React.ReactNode`              | `-`                                                 |
+| `second`      | `React.ReactNode`              | `-`                                                 |
+| `minRatio`    | `number`                       | `0.15`                                              |
+| `maxRatio`    | `number`                       | `0.85`                                              |
+| `width`       | `number`                       | `-`                                                 |
+| `height`      | `number`                       | `-`                                                 |
+| `theme`       | `Partial<FramecnTheme>`        | `-`                                                 |
+| `className`   | `string`                       | `-`                                                 |

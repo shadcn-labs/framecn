@@ -1,15 +1,56 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import { toggleGroupKeyframes } from "@/registry/bases/editframe/ui/toggle-group/use-toggle-group-transition";
+
+export type ToggleGroupState = string;
+
+export type ToggleGroupSize = "default" | "sm";
 
 export interface ToggleGroupItem {
-  label: string;
   value: string;
+  label: string;
+  icon?: ReactNode;
 }
 
-export type ToggleGroupState = number;
+export interface ToggleGroupProps {
+  state?: ToggleGroupState;
+  style?: ToggleGroupStyle;
+  items?: ToggleGroupItem[];
+  size?: ToggleGroupSize;
+  theme?: Partial<FramecnTheme>;
+  align?: "start" | "center" | "end";
+  className?: string;
+}
+const justify = (align: "start" | "center" | "end"): string => {
+  if (align === "start") {
+    return "flex-start";
+  }
+  if (align === "end") {
+    return "flex-end";
+  }
+  return "center";
+};
+
+const DEFAULT_ITEMS: ToggleGroupItem[] = [
+  { label: "Monthly", value: "Monthly" },
+  { label: "Yearly", value: "Yearly" },
+];
+const SIZE_STYLES: Record<
+  ToggleGroupSize,
+  {
+    height: number;
+    segMinWidth: number;
+    fontSize: number;
+    pad: number;
+    gap: number;
+  }
+> = {
+  default: { fontSize: 14, gap: 8, height: 36, pad: 4, segMinWidth: 88 },
+  sm: { fontSize: 13, gap: 6, height: 32, pad: 3, segMinWidth: 72 },
+};
 
 export interface ToggleGroupStyle {
   indicatorOffset: number;
@@ -17,10 +58,11 @@ export interface ToggleGroupStyle {
 
 export interface ToggleGroupStyleContext {
   items: ToggleGroupItem[];
+  trackBg: string;
+  thumbBg: string;
   activeFg: string;
   inactiveFg: string;
-  trackBg: string;
-  indicatorBg: string;
+  radius: number;
 }
 
 export const toggleGroupStyleContext = (
@@ -29,119 +71,95 @@ export const toggleGroupStyleContext = (
 ): ToggleGroupStyleContext => ({
   activeFg: theme.foreground,
   inactiveFg: theme.mutedForeground,
-  indicatorBg: theme.background,
   items,
+  radius: theme.radius,
+  thumbBg: theme.background,
   trackBg: theme.muted,
 });
 
 export const toggleGroupStyle = (
   state: ToggleGroupState,
-  _ctx: ToggleGroupStyleContext
-): ToggleGroupStyle => ({
-  indicatorOffset: state,
-});
-
-export interface ToggleGroupProps {
-  items?: ToggleGroupItem[];
-  state?: ToggleGroupState;
-  from?: ToggleGroupState;
-  theme?: Partial<FramecnTheme>;
-  primary?: string;
-  className?: string;
-}
+  ctx: ToggleGroupStyleContext
+): ToggleGroupStyle => {
+  const i = ctx.items.findIndex((it) => it.value === state);
+  return { indicatorOffset: Math.max(0, i) };
+};
 
 export const ToggleGroup = ({
-  items = [
-    { label: "Monthly", value: "Monthly" },
-    { label: "Yearly", value: "Yearly" },
-  ],
-  state = 0,
-  from,
+  state = DEFAULT_ITEMS[0].value,
+  style,
+  items = DEFAULT_ITEMS,
+  size = "default",
   theme: themeOverride,
-  primary,
+  align = "center",
   className,
 }: ToggleGroupProps) => {
-  const theme = useFramecnTheme(
-    { ...themeOverride, ...(primary ? { primary } : {}) },
-    "light"
-  );
-
+  const theme = useFramecnTheme(themeOverride, "light");
   const ctx = toggleGroupStyleContext(items, theme);
-  const v = toggleGroupStyle(state, ctx);
-
-  const rowHeight = 40;
-  const trackPad = 4;
-  const segmentWidth = (440 - trackPad * 2) / items.length;
-  const indicatorLeft = trackPad + v.indicatorOffset * segmentWidth;
-
-  const hasAnimation = from !== undefined && from !== state;
-  const fromStyle = hasAnimation ? toggleGroupStyle(from, ctx) : undefined;
-  const toStyle = v;
-
+  const v = style ?? toggleGroupStyle(state, ctx);
+  const sizeStyle = SIZE_STYLES[size];
+  const { pad } = sizeStyle;
+  const segmentWidth = sizeStyle.segMinWidth;
+  const thumbX = pad + v.indicatorOffset * segmentWidth;
   return (
     <div
       className={className}
       style={{
+        alignItems: "center",
+        background: "transparent",
+        display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        width: 440,
+        inset: 0,
+        justifyContent: justify(align),
+        position: "absolute",
       }}
     >
-      {hasAnimation && fromStyle && (
-        <style>
-          {toggleGroupKeyframes(fromStyle, toStyle, ctx, segmentWidth)}
-        </style>
-      )}
       <div
         style={{
           background: ctx.trackBg,
-          borderRadius: theme.radius,
+          borderRadius: ctx.radius,
+          boxSizing: "border-box",
           display: "flex",
-          padding: trackPad,
+          height: sizeStyle.height,
+          padding: pad,
           position: "relative",
         }}
       >
         <div
           style={{
-            background: ctx.indicatorBg,
-            borderRadius: theme.radius - trackPad,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-            height: rowHeight,
-            left: indicatorLeft,
+            background: ctx.thumbBg,
+            borderRadius: Math.max(2, ctx.radius - 3),
+            boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+            height: sizeStyle.height - pad * 2,
+            left: thumbX,
             position: "absolute",
-            transition: hasAnimation
-              ? undefined
-              : "left 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+            top: pad,
             width: segmentWidth,
           }}
         />
-        {items.map((item, i) => {
-          const isActive = i === state;
-          const labelColor = mixOklch(
-            ctx.inactiveFg,
-            ctx.activeFg,
-            Math.max(0, 1 - Math.abs(i - v.indicatorOffset))
-          );
 
+        {items.map((item, i) => {
+          const proximity = Math.max(0, 1 - Math.abs(i - v.indicatorOffset));
           return (
-            <div
+            <span
               key={item.value}
               style={{
                 alignItems: "center",
-                color: labelColor,
-                cursor: "pointer",
+                color: mixOklch(ctx.inactiveFg, ctx.activeFg, proximity),
                 display: "flex",
-                fontSize: 14,
-                fontWeight: isActive ? 500 : 400,
-                height: rowHeight,
+                fontSize: sizeStyle.fontSize,
+                fontWeight: 500,
+                gap: sizeStyle.gap,
                 justifyContent: "center",
+                letterSpacing: "-0.01em",
                 position: "relative",
                 width: segmentWidth,
-                zIndex: 1,
               }}
             >
+              {item.icon}
               {item.label}
-            </div>
+            </span>
           );
         })}
       </div>

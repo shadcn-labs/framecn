@@ -791,7 +791,7 @@
       "name": "ai-generate-overlay",
       "type": "registry:component",
       "title": "AI Generate Overlay",
-      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating…' pill before a new image fades in.",
+      "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating\u2026' pill before a new image fades in.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
@@ -1550,18 +1550,6 @@
       ]
     },
     {
-      "name": "command-menu-item",
-      "type": "registry:ui",
-      "title": "Command Menu Item",
-      "description": "",
-      "files": [
-        {
-          "path": "registry/bases/editframe/ui/command-menu-item/index.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "context-menu",
       "type": "registry:ui",
       "title": "Context Menu",
@@ -1617,30 +1605,6 @@
       "files": [
         {
           "path": "registry/bases/editframe/ui/dropdown-menu/index.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "dropdown-menu-item",
-      "type": "registry:ui",
-      "title": "Dropdown Menu Item",
-      "description": "",
-      "files": [
-        {
-          "path": "registry/bases/editframe/ui/dropdown-menu-item/index.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "field",
-      "type": "registry:ui",
-      "title": "Field",
-      "description": "",
-      "files": [
-        {
-          "path": "registry/bases/editframe/ui/field/index.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1754,18 +1718,6 @@
       ]
     },
     {
-      "name": "select-item",
-      "type": "registry:ui",
-      "title": "Select Item",
-      "description": "",
-      "files": [
-        {
-          "path": "registry/bases/editframe/ui/select-item/index.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "settings-toggle-flow",
       "type": "registry:ui",
       "title": "Settings Toggle Flow",
@@ -1809,18 +1761,6 @@
       "files": [
         {
           "path": "registry/bases/editframe/ui/skeleton/index.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "skeleton-block",
-      "type": "registry:ui",
-      "title": "Skeleton Block",
-      "description": "",
-      "files": [
-        {
-          "path": "registry/bases/editframe/ui/skeleton-block/index.tsx",
           "type": "registry:ui"
         }
       ]

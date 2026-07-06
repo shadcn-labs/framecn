@@ -198,7 +198,7 @@ const ComponentPreviewInner = ({
         </Tabs>
       )}
 
-      {!hideCustomizer && (
+      {!hideCustomizer && Object.keys(visibleControls).length > 0 && (
         <div className="rounded-lg bg-code px-1 pb-1">
           <div className="flex items-center justify-between px-2 py-1.5">
             <span className="text-sm font-medium text-muted-foreground">

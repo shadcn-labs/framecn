@@ -2,16 +2,11 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  commandMenuItemKeyframes,
-  commandMenuItemAnimation,
-} from "@/registry/bases/editframe/ui/command-menu-item/use-command-menu-item-transition";
 
 export type CommandMenuItemState = "idle" | "hover" | "press" | "selected";
 
 export interface CommandMenuItemProps {
   state?: CommandMenuItemState;
-  from?: CommandMenuItemState;
   style?: CommandMenuItemStyle;
   label?: string;
   icon?: CommandMenuIcon;
@@ -19,7 +14,6 @@ export interface CommandMenuItemProps {
   width?: number;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
 export type CommandMenuIcon = "search" | "settings" | "user" | "file";
@@ -132,44 +126,29 @@ const CommandMenuItemIcon = ({
 export interface CommandMenuItemRowProps {
   style?: CommandMenuItemStyle;
   state?: CommandMenuItemState;
-  from?: CommandMenuItemState;
   ctx: CommandMenuItemStyleContext;
   label: string;
   icon?: CommandMenuIcon;
   shortcut?: string;
   width: number;
   radius: number;
-  duration?: string;
 }
 
 export const CommandMenuItemRow = ({
   style,
   state = "idle",
-  from,
   ctx,
   label,
   icon,
   shortcut,
   width,
   radius,
-  duration = "8frames",
 }: CommandMenuItemRowProps) => {
   const v = style ?? commandMenuItemStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? commandMenuItemStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? commandMenuItemAnimation(from, state, duration, fromStyle, v)
-    : { background: "none", iconColor: "none", scale: "none" };
-
   return (
     <div
-      className={undefined}
       style={{
         alignItems: "center",
-        animation: hasAnimation
-          ? `${anim.background}, ${anim.scale}`
-          : undefined,
         background: v.background,
         borderRadius: radius,
         boxSizing: "border-box",
@@ -184,7 +163,6 @@ export const CommandMenuItemRow = ({
         width,
       }}
     >
-      {hasAnimation && <style>{commandMenuItemKeyframes(fromStyle, v)}</style>}
       <span
         style={{
           alignItems: "center",
@@ -194,13 +172,7 @@ export const CommandMenuItemRow = ({
         }}
       >
         {icon !== undefined && (
-          <span
-            style={{
-              animation: hasAnimation ? anim.iconColor : undefined,
-              display: "flex",
-              flexShrink: 0,
-            }}
-          >
+          <span style={{ display: "flex", flexShrink: 0 }}>
             <CommandMenuItemIcon icon={icon} color={v.iconColor} />
           </span>
         )}
@@ -241,7 +213,6 @@ export const CommandMenuItemRow = ({
 
 export const CommandMenuItem = ({
   state = "idle",
-  from,
   style,
   label = "Settings",
   icon = "settings",
@@ -249,11 +220,9 @@ export const CommandMenuItem = ({
   width = ROW_WIDTH,
   theme: themeOverride,
   className,
-  duration = "8frames",
 }: CommandMenuItemProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = commandMenuItemStyleContext(theme);
-
   return (
     <div
       className={className}
@@ -271,14 +240,12 @@ export const CommandMenuItem = ({
       <CommandMenuItemRow
         style={style}
         state={state}
-        from={from}
         ctx={ctx}
         label={label}
         icon={icon}
         shortcut={shortcut}
         width={width}
         radius={theme.radius}
-        duration={duration}
       />
     </div>
   );

@@ -43,5 +43,40 @@ import { Radio } from "@/components/ui/radio";
 ```
 
 ```tsx
-<Radio />
+<Radio label="Subscribe to updates" state="checked" />
 ```
+
+## Smooth transitions
+
+The docs preview animates checked → unchecked via `useRadioTransition`. Forward `primary` into the hook when using `style` so the fill tracks the color prop:
+
+```tsx
+import { Radio } from "@/components/framecn/radio";
+import { useRadioTransition } from "@/components/framecn/use-radio-transition";
+
+const style = useRadioTransition(
+  [
+    { at: 18, state: "checked", duration: 14 },
+    { at: 78, state: "unchecked", duration: 12 },
+  ],
+  { primary: "#171717" }
+);
+
+<Radio label="Subscribe to updates" style={style} />;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Radio
+
+| Prop        | Type                        | Default                             |
+| ----------- | --------------------------- | ----------------------------------- |
+| `state`     | `"unchecked" \| "checked"`  | `"unchecked"`                       |
+| `style`     | `RadioStyle`                | `-` (takes precedence over `state`) |
+| `label`     | `string`                    | `-`                                 |
+| `size`      | `"sm" \| "default" \| "lg"` | `"default"`                         |
+| `theme`     | `Partial<FramecnTheme>`     | `-`                                 |
+| `primary`   | `string`                    | `-`                                 |
+| `className` | `string`                    | `-`                                 |

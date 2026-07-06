@@ -2,6 +2,8 @@
 
 import type { CSSProperties } from "react";
 
+import { useCurrentFrame, useVideoConfig } from "@/lib/framecn-ui";
+
 export interface CaretProps {
   color?: string;
   width?: number;
@@ -18,7 +20,11 @@ export interface CaretProps {
 
 export const caretBlinkOpacity = (
   frame: number,
-  opts: { fps: number; blinkPerSecond: number; speed: number }
+  opts: {
+    fps: number;
+    blinkPerSecond: number;
+    speed: number;
+  }
 ): number => {
   const cycles = opts.blinkPerSecond <= 0 ? 1 : opts.blinkPerSecond;
   const halfPeriod = opts.fps / cycles / 2;
@@ -41,36 +47,31 @@ export const Caret = ({
   className,
   style,
 }: CaretProps) => {
-  const blinkDuration = `${1 / (blinkPerSecond * speed)}s`;
-  const blinkStyle = blink
-    ? { animation: `editframe-blink ${blinkDuration} step-end infinite` }
-    : {};
-
-  let resolvedOpacity: number | undefined;
-  if (opacity === undefined) {
-    resolvedOpacity = blink ? undefined : 1;
-  } else {
-    resolvedOpacity = opacity;
-  }
-
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const resolvedOpacity = (() => {
+    if (opacity !== undefined) {
+      return opacity;
+    }
+    if (blink) {
+      return caretBlinkOpacity(frame, { blinkPerSecond, fps, speed });
+    }
+    return 1;
+  })();
   return (
-    <>
-      <style>{`@keyframes editframe-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }`}</style>
-      <span
-        className={className}
-        style={{
-          background: color,
-          borderRadius: radius,
-          display: "inline-block",
-          flexShrink: 0,
-          height,
-          marginLeft,
-          opacity: resolvedOpacity,
-          width,
-          ...blinkStyle,
-          ...style,
-        }}
-      />
-    </>
+    <span
+      className={className}
+      style={{
+        background: color,
+        borderRadius: radius,
+        display: "inline-block",
+        flexShrink: 0,
+        height,
+        marginLeft,
+        opacity: resolvedOpacity,
+        width,
+        ...style,
+      }}
+    />
   );
 };

@@ -43,5 +43,49 @@ import { Button } from "@/components/ui/button";
 ```
 
 ```tsx
-<Button />
+<Button label="Continue" state="idle" />
 ```
+
+Installing `button` also pulls in `spinner` via registry dependencies.
+
+## Smooth transitions
+
+The docs preview animates hover → press → loading → success via `useButtonTransition`. Pass the resolved style to `Button`:
+
+```tsx
+import { Button } from "@/components/framecn/button";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+
+const style = useButtonTransition(
+  [
+    { at: 12, state: "hover" },
+    { at: 30, state: "press" },
+    { at: 48, state: "loading", duration: 6 },
+    { at: 96, state: "success", duration: 16 },
+  ],
+  { variant: "default", primary: "#171717" }
+);
+
+<Button label="Continue" style={style} />;
+```
+
+Forward `variant` and `primary` into the hook when using `style` so the interpolated background tracks those props.
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Button
+
+| Prop        | Type                                                                | Default                             |
+| ----------- | ------------------------------------------------------------------- | ----------------------------------- |
+| `state`     | `"idle" \| "hover" \| "press" \| "loading" \| "success"`            | `"idle"`                            |
+| `style`     | `ButtonStyle`                                                       | `-` (takes precedence over `state`) |
+| `label`     | `string`                                                            | `"Continue"`                        |
+| `variant`   | `"default" \| "secondary" \| "destructive" \| "outline" \| "ghost"` | `"default"`                         |
+| `size`      | `"sm" \| "default" \| "lg"`                                         | `"default"`                         |
+| `theme`     | `Partial<FramecnTheme>`                                             | `-`                                 |
+| `primary`   | `string`                                                            | `-`                                 |
+| `speed`     | `number`                                                            | `1`                                 |
+| `align`     | `"start" \| "center" \| "end"`                                      | `"center"`                          |
+| `className` | `string`                                                            | `-`                                 |

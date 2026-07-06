@@ -43,5 +43,63 @@ import { ToggleGroup } from "@/components/ui/toggle-group";
 ```
 
 ```tsx
-<ToggleGroup />
+<ToggleGroup
+  state="Monthly"
+  items={[
+    { value: "Monthly", label: "Monthly" },
+    { value: "Yearly", label: "Yearly" },
+  ]}
+/>
 ```
+
+## Smooth transitions
+
+The docs preview clicks Yearly then Monthly with a cursor, sliding the thumb via `useToggleGroupTransition`:
+
+```tsx
+import { H, W } from "@/lib/customizer-config";
+import { Cursor } from "@/components/framecn/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+import { ToggleGroup } from "@/components/framecn/toggle-group";
+import { useToggleGroupTransition } from "@/components/framecn/use-toggle-group-transition";
+
+const SEG_W = 88;
+const PAD = 4;
+const TRACK_W = PAD * 2 + SEG_W * 2;
+const TRACK_LEFT = W / 2 - TRACK_W / 2;
+const MONTHLY_X = TRACK_LEFT + PAD + SEG_W / 2;
+const YEARLY_X = TRACK_LEFT + PAD + SEG_W + SEG_W / 2;
+const TOGGLE_Y = H / 2;
+
+const cursorStyle = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 32, x: YEARLY_X, y: TOGGLE_Y, duration: 28 },
+  { at: 44, x: YEARLY_X, y: TOGGLE_Y, click: true, duration: 0 },
+  { at: 80, x: MONTHLY_X, y: TOGGLE_Y, duration: 20 },
+  { at: 90, x: MONTHLY_X, y: TOGGLE_Y, click: true, duration: 0 },
+]);
+
+const toggleStyle = useToggleGroupTransition([
+  { at: 46, state: "Yearly", duration: 14 },
+  { at: 92, state: "Monthly", duration: 14 },
+]);
+
+<ToggleGroup style={toggleStyle} />
+<Cursor style={cursorStyle} variant="pointer" />;
+```
+
+Adjust cursor coordinates to match your canvas size and segment layout. `style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### ToggleGroup
+
+| Prop        | Type                           | Default                                       |
+| ----------- | ------------------------------ | --------------------------------------------- |
+| `state`     | `string`                       | `"Monthly"`                                   |
+| `style`     | `ToggleGroupStyle`             | `-` (takes precedence over `state`)           |
+| `items`     | `ToggleGroupItem[]`            | `[{ value: "Monthly", label: "Monthly" }, …]` |
+| `size`      | `"default" \| "sm"`            | `"default"`                                   |
+| `theme`     | `Partial<FramecnTheme>`        | `-`                                           |
+| `align`     | `"start" \| "center" \| "end"` | `"center"`                                    |
+| `className` | `string`                       | `-`                                           |

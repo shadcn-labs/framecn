@@ -1,6 +1,6 @@
 ---
 title: "Alert Dialog"
-description: "A modal alert dialog with backdrop dim and popup zoom."
+description: "A modal alert dialog whose opened/closed state is a pure function of the timeline."
 ---
 
 <ComponentPreview hideCode name="alert-dialog" />
@@ -44,5 +44,53 @@ import { AlertDialog } from "@/components/ui/alert-dialog";
 ```
 
 ```tsx
-<AlertDialog />
+<AlertDialog state="opened" />
 ```
+
+The wrapper is transparent by design: AlertDialog is a modal layer meant to compose over another scene, so it does not paint an opaque background.
+
+## Smooth transitions
+
+The docs preview animates a destructive trigger press, then opens and closes the dialog via `useAlertDialogTransition`. Pair it with `useButtonTransition` on the trigger:
+
+```tsx
+import { AlertDialog } from "@/components/framecn/alert-dialog";
+import { useAlertDialogTransition } from "@/components/framecn/use-alert-dialog-transition";
+import { Button } from "@/components/framecn/button";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+
+const trigger = useButtonTransition(
+  [
+    { at: 14, state: "hover" },
+    { at: 26, state: "press" },
+  ],
+  { variant: "destructive" }
+);
+
+const dialog = useAlertDialogTransition([
+  { at: 32, state: "opened", duration: 16 },
+  { at: 92, state: "closed", duration: 12 },
+]);
+
+<>
+  <Button label="Delete account" variant="destructive" style={trigger} />
+  <AlertDialog style={dialog} />
+</>;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### AlertDialog
+
+| Prop          | Type                    | Default                                                                                    |
+| ------------- | ----------------------- | ------------------------------------------------------------------------------------------ |
+| `state`       | `"opened" \| "closed"`  | `"closed"`                                                                                 |
+| `style`       | `AlertDialogStyle`      | `-` (takes precedence over `state`)                                                        |
+| `title`       | `string`                | `"Delete account?"`                                                                        |
+| `description` | `string`                | `"This action cannot be undone. This will permanently remove your data from our servers."` |
+| `actionLabel` | `string`                | `"Delete"`                                                                                 |
+| `cancelLabel` | `string`                | `"Cancel"`                                                                                 |
+| `theme`       | `Partial<FramecnTheme>` | `-`                                                                                        |
+| `className`   | `string`                | `-`                                                                                        |

@@ -1,5 +1,11 @@
 "use client";
 
+import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  comboboxStyle,
+  comboboxStyleContext,
+} from "@/registry/bases/editframe/ui/combobox";
 import type {
   ComboboxState,
   ComboboxStyle,
@@ -7,39 +13,46 @@ import type {
 
 export const DEFAULT_DURATION = 12;
 
-export const comboboxKeyframes = (
-  fromStyle: ComboboxStyle,
-  toStyle: ComboboxStyle
-): string => {
-  const dOpacity = toStyle.panelOpacity - fromStyle.panelOpacity;
-  const dScale = toStyle.panelScale - fromStyle.panelScale;
-  const dY = toStyle.panelTranslateY - fromStyle.panelTranslateY;
+export const tweenComboboxStyle = (
+  a: ComboboxStyle,
+  b: ComboboxStyle,
+  t: number
+): ComboboxStyle => ({
+  panelOpacity: a.panelOpacity + (b.panelOpacity - a.panelOpacity) * t,
+  panelScale: a.panelScale + (b.panelScale - a.panelScale) * t,
+  panelTranslateY:
+    a.panelTranslateY + (b.panelTranslateY - a.panelTranslateY) * t,
+});
 
-  return `
-    @keyframes framecn-combobox-opacity {
-      0% { opacity: ${fromStyle.panelOpacity}; }
-      100% { opacity: calc(${fromStyle.panelOpacity} + ${dOpacity} * var(--ef-progress)); }
-    }
-    @keyframes framecn-combobox-panel {
-      0% { transform: translateY(${fromStyle.panelTranslateY}px) scale(${fromStyle.panelScale}); }
-      100% { transform: translateY(calc(${fromStyle.panelTranslateY}px + ${dY}px * var(--ef-progress))) scale(calc(${fromStyle.panelScale} + ${dScale} * var(--ef-progress))); }
-    }
-  `;
-};
+export interface ComboboxTransitionOptions {
+  theme?: Partial<FramecnTheme>;
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-export const comboboxAnimation = (
-  from: ComboboxState,
-  to: ComboboxState,
-  duration: string,
-  _fromStyle: ComboboxStyle,
-  _toStyle: ComboboxStyle
-): { panelOpacity: string; panelTransform: string } => {
-  if (from === to) {
-    return { panelOpacity: "none", panelTransform: "none" };
-  }
-  const ease = "cubic-bezier(0.4, 0, 0.2, 1)";
-  return {
-    panelOpacity: `${duration} framecn-combobox-opacity ${ease} forwards`,
-    panelTransform: `${duration} framecn-combobox-panel ${ease} forwards`,
-  };
+export const useComboboxTransition = (
+  steps: Step<ComboboxState>[],
+  opts: ComboboxTransitionOptions = {}
+): ComboboxStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = comboboxStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "closed",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenComboboxStyle(
+    comboboxStyle(from, ctx),
+    comboboxStyle(to, ctx),
+    t
+  );
 };

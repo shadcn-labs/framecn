@@ -1,26 +1,60 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { revealedText, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
-  commandMenuKeyframes,
-  commandMenuAnimation,
-} from "@/registry/bases/editframe/ui/command-menu/use-command-menu-transition";
+  CommandMenuItemRow,
+  commandMenuItemStyle,
+  commandMenuItemStyleContext,
+} from "@/registry/bases/editframe/ui/command-menu-item";
+import type {
+  CommandMenuIcon,
+  CommandMenuItemState,
+  CommandMenuItemStyle,
+  CommandMenuItemStyleContext,
+} from "@/registry/bases/editframe/ui/command-menu-item";
 
-export type CommandMenuState = "open" | "closed";
+export type CommandMenuState = "opened" | "closed";
+
+export interface CommandMenuEntry {
+  icon?: CommandMenuIcon;
+  label: string;
+  shortcut?: string;
+}
 
 export interface CommandMenuProps {
   state?: CommandMenuState;
-  from?: CommandMenuState;
-  placeholder?: string;
-  groups?: { label: string; items: string[] }[];
+  style?: CommandMenuStyle;
+  query?: string;
+  revealCount?: number;
+  items?: CommandMenuEntry[];
+  selectedIndex?: number;
+  highlightedIndex?: number;
+  pressedIndex?: number;
+  itemStyles?: (CommandMenuItemStyle | undefined)[];
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
-const MENU_WIDTH = 480;
-const MENU_HEIGHT = 340;
+const PANEL_WIDTH = 440;
+const CONTENT_WIDTH = PANEL_WIDTH - 16;
+const MAX_OVERLAY_ALPHA = 0.5;
+
+export const filterCommandItems = (
+  items: CommandMenuEntry[],
+  query: string,
+  revealCount?: number
+): CommandMenuEntry[] => {
+  const visible = (
+    revealCount === undefined ? query : revealedText(query, revealCount)
+  )
+    .trim()
+    .toLowerCase();
+  if (visible === "") {
+    return items;
+  }
+  return items.filter((item) => item.label.toLowerCase().includes(visible));
+};
 
 export interface CommandMenuStyle {
   backdropOpacity: number;
@@ -29,11 +63,40 @@ export interface CommandMenuStyle {
   panelTranslateY: number;
 }
 
-export const commandMenuStyle = (state: CommandMenuState): CommandMenuStyle => {
+export interface CommandMenuStyleContext {
+  panelBg: string;
+  panelBorder: string;
+  inputFg: string;
+  placeholderFg: string;
+  mutedFg: string;
+  divider: string;
+  caret: string;
+  radius: number;
+  itemCtx: CommandMenuItemStyleContext;
+}
+
+export const commandMenuStyleContext = (
+  theme: FramecnTheme
+): CommandMenuStyleContext => ({
+  caret: theme.foreground,
+  divider: theme.border,
+  inputFg: theme.popoverForeground,
+  itemCtx: commandMenuItemStyleContext(theme),
+  mutedFg: theme.mutedForeground,
+  panelBg: theme.popover,
+  panelBorder: theme.border,
+  placeholderFg: theme.mutedForeground,
+  radius: theme.radius,
+});
+
+export const commandMenuStyle = (
+  state: CommandMenuState,
+  _ctx: CommandMenuStyleContext
+): CommandMenuStyle => {
   switch (state) {
-    case "open": {
+    case "opened": {
       return {
-        backdropOpacity: 0.6,
+        backdropOpacity: 1,
         panelOpacity: 1,
         panelScale: 1,
         panelTranslateY: 0,
@@ -44,176 +107,187 @@ export const commandMenuStyle = (state: CommandMenuState): CommandMenuStyle => {
         backdropOpacity: 0,
         panelOpacity: 0,
         panelScale: 0.96,
-        panelTranslateY: -8,
+        panelTranslateY: 8,
       };
     }
   }
 };
 
+const rowState = (
+  i: number,
+  selectedIndex: number,
+  highlightedIndex: number,
+  pressedIndex: number
+): CommandMenuItemState => {
+  if (i === pressedIndex) {
+    return "press";
+  }
+  if (i === selectedIndex) {
+    return "selected";
+  }
+  if (i === highlightedIndex) {
+    return "hover";
+  }
+  return "idle";
+};
+
 export const CommandMenu = ({
   state = "closed",
-  from,
-  placeholder = "Search commands...",
-  groups = [
-    {
-      items: ["Calendar", "Search Emoji", "Calculator"],
-      label: "Suggestions",
-    },
+  style,
+  query = "",
+  revealCount,
+  items = [
+    { icon: "user", label: "Profile", shortcut: "⌘ P" },
+    { icon: "settings", label: "Settings", shortcut: "⌘ S" },
+    { icon: "file", label: "New File", shortcut: "⌘ N" },
+    { icon: "search", label: "Search docs" },
   ],
+  selectedIndex = -1,
+  highlightedIndex = -1,
+  pressedIndex = -1,
+  itemStyles,
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: CommandMenuProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
-  const v = commandMenuStyle(state);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? commandMenuStyle(from) : v;
-  const anim = hasAnimation
-    ? commandMenuAnimation(from, state, duration, fromStyle, v)
-    : { backdrop: "none", panel: "none" };
-
-  const isOpen = state === "open";
-
+  const ctx = commandMenuStyleContext(theme);
+  const v = style ?? commandMenuStyle(state, ctx);
+  const visibleQuery =
+    revealCount === undefined ? query : revealedText(query, revealCount);
+  const filtered = filterCommandItems(items, query, revealCount);
   return (
     <div
       style={{
-        alignItems: "center",
-        background: "transparent",
+        alignItems: "flex-start",
         display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
         inset: 0,
         justifyContent: "center",
+        paddingTop: "18%",
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{commandMenuKeyframes(fromStyle, v)}</style>}
       <div
         style={{
-          animation: hasAnimation ? anim.backdrop : undefined,
-          background: "black",
-          height: "100%",
-          left: 0,
-          opacity: v.backdropOpacity,
+          background: `rgba(0, 0, 0, ${MAX_OVERLAY_ALPHA * v.backdropOpacity})`,
+          inset: 0,
           position: "absolute",
-          top: 0,
-          width: "100%",
         }}
       />
       <div
         className={className}
         style={{
-          animation: hasAnimation ? anim.panel : undefined,
-          background: theme.popover,
-          border: `1px solid ${theme.border}`,
-          borderRadius: theme.radius,
-          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
-          display: isOpen ? "flex" : "none",
+          background: ctx.panelBg,
+          border: `1px solid ${ctx.panelBorder}`,
+          borderRadius: ctx.radius + 6,
+          boxShadow: "0 24px 48px -12px rgba(0,0,0,0.25)",
+          boxSizing: "border-box",
+          display: "flex",
           flexDirection: "column",
-          height: MENU_HEIGHT,
-          left: "50%",
           opacity: v.panelOpacity,
-          overflow: "hidden",
-          position: "absolute",
-          top: "20%",
-          transform: `translateX(-50%) translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
+          padding: 8,
+          position: "relative",
+          transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
           transformOrigin: "top",
-          width: MENU_WIDTH,
-          zIndex: 50,
+          width: PANEL_WIDTH,
         }}
       >
         <div
           style={{
             alignItems: "center",
-            borderBottom: `1px solid ${theme.border}`,
             display: "flex",
-            gap: 8,
-            padding: "12px 16px",
+            gap: 10,
+            padding: "8px 10px",
           }}
         >
-          <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
-            <circle
-              cx="11"
-              cy="11"
-              r="7"
-              stroke={theme.mutedForeground}
-              strokeWidth="2"
-            />
+          <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
             <path
-              d="M16 16l4 4"
-              stroke={theme.mutedForeground}
+              d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM20 20l-3.5-3.5"
+              stroke={ctx.mutedFg}
               strokeWidth="2"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <span
             style={{
-              color: theme.mutedForeground,
-              flex: 1,
-              fontSize: 14,
+              alignItems: "center",
+              color: visibleQuery ? ctx.inputFg : ctx.placeholderFg,
+              display: "flex",
+              fontSize: 15,
+              letterSpacing: "-0.01em",
             }}
           >
-            {placeholder}
-          </span>
-          <span
-            style={{
-              border: `1px solid ${theme.border}`,
-              borderRadius: 4,
-              color: theme.mutedForeground,
-              fontSize: 11,
-              padding: "2px 6px",
-            }}
-          >
-            ESC
+            {visibleQuery || "Type a command or search…"}
+
+            <span
+              style={{
+                background: ctx.caret,
+                display: "inline-block",
+                height: 18,
+                marginLeft: 1,
+                width: 1.5,
+              }}
+            />
           </span>
         </div>
+
         <div
           style={{
-            flex: 1,
-            overflow: "auto",
-            padding: 4,
+            background: ctx.divider,
+            height: 1,
+            margin: "4px 0",
+          }}
+        />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            padding: "4px 0",
           }}
         >
-          {groups.map((group) => (
-            <div key={group.label} style={{ padding: "4px 0" }}>
-              <span
-                style={{
-                  color: theme.mutedForeground,
-                  fontSize: 12,
-                  fontWeight: 500,
-                  letterSpacing: "0.05em",
-                  padding: "4px 8px",
-                  textTransform: "uppercase",
-                }}
-              >
-                {group.label}
-              </span>
-              {group.items.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  style={{
-                    alignItems: "center",
-                    background: "transparent",
-                    border: "none",
-                    borderRadius: theme.radius,
-                    color: theme.foreground,
-                    cursor: "pointer",
-                    display: "flex",
-                    fontSize: 14,
-                    gap: 8,
-                    height: 36,
-                    padding: "0 8px",
-                    textAlign: "left",
-                    width: "100%",
-                  }}
-                >
-                  {item}
-                </button>
-              ))}
+          {filtered.length === 0 ? (
+            <div
+              style={{
+                color: ctx.mutedFg,
+                fontSize: 14,
+                padding: "20px 12px",
+                textAlign: "center",
+              }}
+            >
+              No results found.
             </div>
-          ))}
+          ) : (
+            filtered.map((item, i) => {
+              const override = itemStyles?.[i];
+              return (
+                <CommandMenuItemRow
+                  key={item.label}
+                  style={
+                    override ??
+                    commandMenuItemStyle(
+                      rowState(
+                        i,
+                        selectedIndex,
+                        highlightedIndex,
+                        pressedIndex
+                      ),
+                      ctx.itemCtx
+                    )
+                  }
+                  ctx={ctx.itemCtx}
+                  label={item.label}
+                  icon={item.icon}
+                  shortcut={item.shortcut}
+                  width={CONTENT_WIDTH}
+                  radius={theme.radius}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </div>

@@ -2,12 +2,32 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  radioKeyframes,
-  radioAnimation,
-} from "@/registry/bases/editframe/ui/radio/use-radio-transition";
 
-export type RadioState = "checked" | "unchecked";
+export type RadioState = "unchecked" | "checked";
+
+type RadioSize = "sm" | "default" | "lg";
+
+export interface RadioProps {
+  state?: RadioState;
+  style?: RadioStyle;
+  label?: string;
+  size?: RadioSize;
+  theme?: Partial<FramecnTheme>;
+  primary?: string;
+  className?: string;
+}
+const SIZE_STYLES: Record<
+  RadioSize,
+  {
+    box: number;
+    fontSize: number;
+    gap: number;
+  }
+> = {
+  default: { box: 20, fontSize: 15, gap: 10 },
+  lg: { box: 24, fontSize: 17, gap: 12 },
+  sm: { box: 16, fontSize: 13, gap: 8 },
+};
 
 export interface RadioStyle {
   ringBorderColor: string;
@@ -16,31 +36,15 @@ export interface RadioStyle {
 }
 
 export interface RadioStyleContext {
-  checkedBorder: string;
   uncheckedBorder: string;
+  checkedBorder: string;
   dotColor: string;
-  foreground: string;
-  mutedForeground: string;
 }
-
-export interface RadioProps {
-  state?: RadioState;
-  from?: RadioState;
-  label?: string;
-  theme?: Partial<FramecnTheme>;
-  className?: string;
-  duration?: string;
-}
-
-const RADIO_SIZE = 20;
-const DOT_SIZE = 10;
 
 export const radioStyleContext = (theme: FramecnTheme): RadioStyleContext => ({
   checkedBorder: theme.primary,
   dotColor: theme.primary,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
-  uncheckedBorder: theme.input,
+  uncheckedBorder: theme.border,
 });
 
 export const radioStyle = (
@@ -49,7 +53,11 @@ export const radioStyle = (
 ): RadioStyle => {
   switch (state) {
     case "checked": {
-      return { dotOpacity: 1, dotScale: 1, ringBorderColor: ctx.checkedBorder };
+      return {
+        dotOpacity: 1,
+        dotScale: 1,
+        ringBorderColor: ctx.checkedBorder,
+      };
     }
     default: {
       return {
@@ -63,21 +71,21 @@ export const radioStyle = (
 
 export const Radio = ({
   state = "unchecked",
-  from,
-  label = "Option",
+  style,
+  label,
+  size = "default",
   theme: themeOverride,
+  primary,
   className,
-  duration = "10frames",
 }: RadioProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(
+    { ...themeOverride, ...(primary ? { primary } : {}) },
+    "light"
+  );
+  const sizeStyle = SIZE_STYLES[size];
   const ctx = radioStyleContext(theme);
-  const v = radioStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const anim = hasAnimation
-    ? radioAnimation(from, state, duration)
-    : { dot: "none", ring: "none" };
-
+  const v = style ?? radioStyle(state, ctx);
+  const boxSize = sizeStyle.box;
   return (
     <div
       style={{
@@ -91,53 +99,50 @@ export const Radio = ({
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{radioKeyframes(ctx)}</style>}
-      <label
+      <span
         className={className}
         style={{
           alignItems: "center",
-          cursor: "pointer",
           display: "inline-flex",
-          gap: 10,
-          userSelect: "none",
+          gap: sizeStyle.gap,
         }}
       >
         <span
           style={{
             alignItems: "center",
-            animation: hasAnimation ? anim.ring : undefined,
-            border: `1.5px solid ${v.ringBorderColor}`,
+            background: theme.background,
+            border: `1px solid ${v.ringBorderColor}`,
             borderRadius: "50%",
             display: "flex",
-            height: RADIO_SIZE,
+            height: boxSize,
             justifyContent: "center",
-            width: RADIO_SIZE,
+            width: boxSize,
           }}
         >
           <span
             style={{
-              animation: hasAnimation ? anim.dot : undefined,
               background: ctx.dotColor,
               borderRadius: "50%",
-              display: "block",
-              height: DOT_SIZE,
+              height: Math.round(boxSize * 0.45),
               opacity: v.dotOpacity,
               transform: `scale(${v.dotScale})`,
-              width: DOT_SIZE,
+              width: Math.round(boxSize * 0.45),
             }}
           />
         </span>
-        <span
-          style={{
-            color: ctx.foreground,
-            fontSize: 14,
-            fontWeight: 500,
-            letterSpacing: "-0.01em",
-          }}
-        >
-          {label}
-        </span>
-      </label>
+        {label !== undefined && (
+          <span
+            style={{
+              color: theme.foreground,
+              fontSize: sizeStyle.fontSize,
+              fontWeight: 500,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {label}
+          </span>
+        )}
+      </span>
     </div>
   );
 };

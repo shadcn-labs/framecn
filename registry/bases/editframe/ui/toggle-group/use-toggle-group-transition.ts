@@ -1,15 +1,18 @@
 "use client";
 
-import { mixOklch } from "@/lib/framecn-ui";
-import type { FramecnTheme } from "@/lib/framecn-ui";
+import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  toggleGroupStyle,
+  toggleGroupStyleContext,
+} from "@/registry/bases/editframe/ui/toggle-group";
 import type {
   ToggleGroupItem,
   ToggleGroupState,
   ToggleGroupStyle,
-  ToggleGroupStyleContext,
 } from "@/registry/bases/editframe/ui/toggle-group";
 
-const _DEFAULT_ITEMS: ToggleGroupItem[] = [
+const DEFAULT_ITEMS: ToggleGroupItem[] = [
   { label: "Monthly", value: "Monthly" },
   { label: "Yearly", value: "Yearly" },
 ];
@@ -33,88 +36,29 @@ export interface ToggleGroupTransitionOptions {
   defaultDuration?: number;
 }
 
-export const toggleGroupKeyframes = (
-  fromStyle: ToggleGroupStyle,
-  toStyle: ToggleGroupStyle,
-  ctx: ToggleGroupStyleContext,
-  segmentWidth: number
-): string => {
-  const fromX = fromStyle.indicatorOffset * segmentWidth;
-  const toX = toStyle.indicatorOffset * segmentWidth;
-  const deltaX = toX - fromX;
-
-  const fromLabelColors = ctx.items.map((_, i) =>
-    mixOklch(
-      ctx.inactiveFg,
-      ctx.activeFg,
-      Math.max(0, 1 - Math.abs(i - fromStyle.indicatorOffset))
-    )
+export const useToggleGroupTransition = (
+  steps: Step<ToggleGroupState>[],
+  opts: ToggleGroupTransitionOptions = {}
+): ToggleGroupStyle => {
+  const {
+    items = DEFAULT_ITEMS,
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = toggleGroupStyleContext(items, theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    items[0].value,
+    speed,
+    defaultDuration
   );
-  const toLabelColors = ctx.items.map((_, i) =>
-    mixOklch(
-      ctx.inactiveFg,
-      ctx.activeFg,
-      Math.max(0, 1 - Math.abs(i - toStyle.indicatorOffset))
-    )
+  const t = easings.out(progress);
+  return tweenToggleGroupStyle(
+    toggleGroupStyle(from, ctx),
+    toggleGroupStyle(to, ctx),
+    t
   );
-
-  let css = `
-    @keyframes framecn-toggle-group-indicator {
-      0% { left: ${fromX}px; }
-      100% { left: calc(${fromX}px + ${deltaX}px * var(--ef-progress)); }
-    }
-  `;
-
-  for (let i = 0; i < ctx.items.length; i += 1) {
-    if (fromLabelColors[i] !== toLabelColors[i]) {
-      css += `
-        @keyframes framecn-toggle-group-label-${i} {
-          0% { color: ${fromLabelColors[i]}; }
-          100% { color: ${toLabelColors[i]}; }
-        }
-      `;
-    }
-  }
-
-  return css;
-};
-
-export const toggleGroupAnimation = (
-  from: ToggleGroupState,
-  to: ToggleGroupState,
-  duration: string,
-  fromStyle: ToggleGroupStyle,
-  toStyle: ToggleGroupStyle,
-  ctx: ToggleGroupStyleContext
-): {
-  indicator: string;
-  labels: string[];
-} => {
-  if (from === to) {
-    return {
-      indicator: "none",
-      labels: ctx.items.map(() => "none"),
-    };
-  }
-
-  const indicatorAnim = `${duration} framecn-toggle-group-indicator cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-
-  const labels = ctx.items.map((_, i) => {
-    const fc = mixOklch(
-      ctx.inactiveFg,
-      ctx.activeFg,
-      Math.max(0, 1 - Math.abs(i - fromStyle.indicatorOffset))
-    );
-    const tc = mixOklch(
-      ctx.inactiveFg,
-      ctx.activeFg,
-      Math.max(0, 1 - Math.abs(i - toStyle.indicatorOffset))
-    );
-    if (fc === tc) {
-      return "none";
-    }
-    return `${duration} framecn-toggle-group-label-${i} cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  });
-
-  return { indicator: indicatorAnim, labels };
 };

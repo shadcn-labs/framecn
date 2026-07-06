@@ -43,5 +43,62 @@ import { Select } from "@/components/ui/select";
 ```
 
 ```tsx
-<Select />
+<Select label="Select a fruit" state="opened" />
 ```
+
+## Smooth transitions
+
+The docs preview animates an outline trigger press, opens the panel, selects row 1 (Banana) via hover → press → selected, then closes. Drive the trigger with `useButtonTransition`, the panel with `useSelectTransition`, and row states with `useSelectItemTransition`:
+
+```tsx
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+import { Select } from "@/components/framecn/select";
+import { useSelectTransition } from "@/components/framecn/use-select-transition";
+import { useSelectItemTransition } from "@/components/framecn/use-select-item-transition";
+
+const triggerStyle = useButtonTransition(
+  [
+    { at: 14, state: "hover" },
+    { at: 26, state: "press" },
+  ],
+  { variant: "outline" }
+);
+
+const panel = useSelectTransition([
+  { at: 32, state: "opened", duration: 16 },
+  { at: 96, state: "closed", duration: 12 },
+]);
+
+const row = useSelectItemTransition([
+  { at: 52, state: "hover" },
+  { at: 64, state: "press" },
+  { at: 72, state: "selected", duration: 10 },
+]);
+
+<Select
+  label="Select a fruit"
+  style={panel}
+  triggerStyle={triggerStyle}
+  itemStyles={[undefined, row, undefined, undefined]}
+/>;
+```
+
+`style` takes precedence over `state` when both are provided. `itemStyles` is indexed by row.
+
+## API Reference
+
+### Select
+
+| Prop               | Type                               | Default                                  |
+| ------------------ | ---------------------------------- | ---------------------------------------- |
+| `state`            | `"opened" \| "closed"`             | `"closed"`                               |
+| `style`            | `SelectStyle`                      | `-` (takes precedence over `state`)      |
+| `label`            | `string`                           | `"Select a fruit"`                       |
+| `triggerStyle`     | `ButtonStyle`                      | `-`                                      |
+| `items`            | `string[]`                         | `["Apple", "Banana", "Orange", "Grape"]` |
+| `selectedIndex`    | `number`                           | `-1`                                     |
+| `highlightedIndex` | `number`                           | `-1`                                     |
+| `pressedIndex`     | `number`                           | `-1`                                     |
+| `itemStyles`       | `(SelectItemStyle \| undefined)[]` | `-` (per-row override, indexed by row)   |
+| `theme`            | `Partial<FramecnTheme>`            | `-`                                      |
+| `className`        | `string`                           | `-`                                      |

@@ -1,6 +1,6 @@
 "use client";
 
-import { clamp01, easings } from "@/lib/framecn-ui";
+import { clamp01, easings, useCurrentFrame } from "@/lib/framecn-ui";
 import type { EasingName } from "@/lib/framecn-ui";
 import type { StepperStyle } from "@/registry/bases/editframe/ui/stepper";
 
@@ -30,17 +30,13 @@ export const stepperStyleAt = (
   opts: StepperTransitionOptions = {}
 ): StepperStyle => {
   const { defaultDuration = DEFAULT_DURATION } = opts;
-
   if (steps.length === 0) {
     return { position: 0 };
   }
-
   const [first] = steps;
-
   if (raw <= first.at) {
     return { position: first.index };
   }
-
   let toIndex = steps.length - 1;
   for (let i = 1; i < steps.length; i += 1) {
     if (steps[i].at > raw) {
@@ -48,34 +44,29 @@ export const stepperStyleAt = (
       break;
     }
   }
-  const lastStep = steps.at(-1);
-  if (!lastStep) {
+  const last = steps.at(-1);
+  if (!last) {
     return { position: 0 };
   }
-
-  const pastLast = raw >= lastStep.at;
-  const to = pastLast ? lastStep : steps[toIndex];
-  const from = pastLast ? lastStep : steps[toIndex - 1];
-
-  if (!to || !from) {
-    return { position: 0 };
+  const pastLast = raw >= last.at;
+  const to = pastLast ? last : steps[toIndex];
+  const from = pastLast ? last : steps[toIndex - 1];
+  if (to === undefined || from === undefined) {
+    return { position: first.index };
   }
-
   const dur = to.duration ?? defaultDuration;
   const ease = easings[to.easing ?? "out"];
   const start = to.at - dur;
   const t = pastLast || dur <= 0 ? 1 : ease(clamp01((raw - start) / dur));
   const position = from.index + (to.index - from.index) * t;
-
   return { position };
 };
 
 export const useStepperTransition = (
   steps: StepperStep[],
-  frame = 0,
   opts: StepperTransitionOptions = {}
 ): StepperStyle => {
   const { speed = 1 } = opts;
-  const raw = frame * speed;
+  const raw = useCurrentFrame() * speed;
   return stepperStyleAt(steps, raw, opts);
 };

@@ -1,5 +1,8 @@
 "use client";
 
+import { easings, useStateTransition } from "@/lib/framecn-ui";
+import type { Step } from "@/lib/framecn-ui";
+import { toastStyle } from "@/registry/bases/editframe/ui/toast";
 import type {
   ToastState,
   ToastStyle,
@@ -17,44 +20,23 @@ export const tweenToastStyle = (
   translateY: a.translateY + (b.translateY - a.translateY) * t,
 });
 
-export const toastKeyframes = (
-  fromStyle: ToastStyle,
-  toStyle: ToastStyle
-): string => {
-  const deltaOpacity = toStyle.opacity - fromStyle.opacity;
-  const deltaTranslateY = toStyle.translateY - fromStyle.translateY;
-  const deltaScale = toStyle.scale - fromStyle.scale;
+export interface ToastTransitionOptions {
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-  const css = `
-    @keyframes framecn-toast-opacity {
-      0% { opacity: ${fromStyle.opacity}; }
-      100% { opacity: calc(${fromStyle.opacity} + ${deltaOpacity} * var(--ef-progress)); }
-    }
-    @keyframes framecn-toast-translate {
-      0% { transform: translateY(${fromStyle.translateY}px) scale(${fromStyle.scale}); }
-      100% { transform: translateY(calc(${fromStyle.translateY}px + ${deltaTranslateY}px * var(--ef-progress))) scale(calc(${fromStyle.scale} + ${deltaScale} * var(--ef-progress))); }
-    }
-  `;
-
-  return css;
-};
-
-export const toastAnimation = (
-  from: ToastState,
-  to: ToastState,
-  duration: string,
-  _fromStyle: ToastStyle,
-  _toStyle: ToastStyle
-): {
-  opacity: string;
-  transform: string;
-} => {
-  if (from === to) {
-    return { opacity: "none", transform: "none" };
-  }
-
-  const opacityAnim = `${duration} framecn-toast-opacity cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  const transformAnim = `${duration} framecn-toast-translate cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-
-  return { opacity: opacityAnim, transform: transformAnim };
+export const useToastTransition = (
+  steps: Step<ToastState>[],
+  opts: ToastTransitionOptions = {}
+): ToastStyle => {
+  const { speed = 1, defaultDuration = DEFAULT_DURATION } = opts;
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "hidden",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenToastStyle(toastStyle(from), toastStyle(to), t);
 };

@@ -1,5 +1,11 @@
 "use client";
 
+import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  sheetStyle,
+  sheetStyleContext,
+} from "@/registry/bases/editframe/ui/sheet";
 import type {
   SheetState,
   SheetStyle,
@@ -7,39 +13,42 @@ import type {
 
 export const DEFAULT_DURATION = 12;
 
-export const sheetKeyframes = (
-  fromStyle: SheetStyle,
-  toStyle: SheetStyle
-): string => {
-  const dOverlay = toStyle.overlayOpacity - fromStyle.overlayOpacity;
-  const dOpacity = toStyle.panelOpacity - fromStyle.panelOpacity;
-  const dX = toStyle.panelTranslateX - fromStyle.panelTranslateX;
+export const tweenSheetStyle = (
+  a: SheetStyle,
+  b: SheetStyle,
+  t: number
+): SheetStyle => ({
+  overlayOpacity: a.overlayOpacity + (b.overlayOpacity - a.overlayOpacity) * t,
+  panelOpacity: a.panelOpacity + (b.panelOpacity - a.panelOpacity) * t,
+  panelTranslateX:
+    a.panelTranslateX + (b.panelTranslateX - a.panelTranslateX) * t,
+});
 
-  return `
-    @keyframes framecn-sheet-overlay {
-      0% { opacity: ${fromStyle.overlayOpacity}; }
-      100% { opacity: calc(${fromStyle.overlayOpacity} + ${dOverlay} * var(--ef-progress)); }
-    }
-    @keyframes framecn-sheet-panel {
-      0% { opacity: ${fromStyle.panelOpacity}; transform: translateX(${fromStyle.panelTranslateX}px); }
-      100% { opacity: calc(${fromStyle.panelOpacity} + ${dOpacity} * var(--ef-progress)); transform: translateX(calc(${fromStyle.panelTranslateX}px + ${dX}px * var(--ef-progress))); }
-    }
-  `;
-};
+export interface SheetTransitionOptions {
+  theme?: Partial<FramecnTheme>;
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-export const sheetAnimation = (
-  from: SheetState,
-  to: SheetState,
-  duration: string,
-  _fromStyle: SheetStyle,
-  _toStyle: SheetStyle
-): { overlay: string; panel: string } => {
-  if (from === to) {
-    return { overlay: "none", panel: "none" };
-  }
-  const ease = "cubic-bezier(0.4, 0, 0.2, 1)";
-  return {
-    overlay: `${duration} framecn-sheet-overlay ${ease} forwards`,
-    panel: `${duration} framecn-sheet-panel ${ease} forwards`,
-  };
+export const useSheetTransition = (
+  steps: Step<SheetState>[],
+  opts: SheetTransitionOptions = {}
+): SheetStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = sheetStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "closed",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenSheetStyle(sheetStyle(from, ctx), sheetStyle(to, ctx), t);
 };

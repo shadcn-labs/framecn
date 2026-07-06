@@ -18,19 +18,17 @@ import type {
 
 export const DEFAULT_DURATION = 14;
 
-export function tweenAccordionStyle(
+export const tweenAccordionStyle = (
   a: AccordionStyle,
   b: AccordionStyle,
   t: number
-): AccordionStyle {
-  return {
-    background: mixOklch(a.background, b.background, t),
-    chevronRotation:
-      a.chevronRotation + (b.chevronRotation - a.chevronRotation) * t,
-    panelHeight: a.panelHeight + (b.panelHeight - a.panelHeight) * t,
-    panelOpacity: a.panelOpacity + (b.panelOpacity - a.panelOpacity) * t,
-  };
-}
+): AccordionStyle => ({
+  background: mixOklch(a.background, b.background, t),
+  chevronRotation:
+    a.chevronRotation + (b.chevronRotation - a.chevronRotation) * t,
+  panelHeight: a.panelHeight + (b.panelHeight - a.panelHeight) * t,
+  panelOpacity: a.panelOpacity + (b.panelOpacity - a.panelOpacity) * t,
+});
 
 export interface AccordionTransitionOptions {
   variant?: "default" | "ghost";
@@ -40,10 +38,10 @@ export interface AccordionTransitionOptions {
   defaultDuration?: number;
 }
 
-export function useAccordionTransition(
+export const useAccordionTransition = (
   steps: Step<AccordionState>[],
   opts: AccordionTransitionOptions = {}
-): AccordionStyle {
+): AccordionStyle => {
   const {
     variant = "default",
     theme: themeOverride,
@@ -65,4 +63,4 @@ export function useAccordionTransition(
     accordionStyle(to, ctx),
     t
   );
-}
+};

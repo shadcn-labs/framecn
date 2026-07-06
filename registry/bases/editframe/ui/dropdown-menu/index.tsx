@@ -3,34 +3,60 @@
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
-  dropdownMenuKeyframes,
-  dropdownMenuAnimation,
-} from "@/registry/bases/editframe/ui/dropdown-menu/use-dropdown-menu-transition";
+  buttonStyle,
+  buttonStyleContext,
+} from "@/registry/bases/editframe/ui/button";
+import type {
+  ButtonStyle,
+  ButtonStyleContext,
+} from "@/registry/bases/editframe/ui/button";
+import {
+  DropdownMenuItemRow,
+  dropdownMenuItemStyle,
+  dropdownMenuItemStyleContext,
+} from "@/registry/bases/editframe/ui/dropdown-menu-item";
+import type {
+  DropdownMenuItemStyle,
+  DropdownMenuItemStyleContext,
+} from "@/registry/bases/editframe/ui/dropdown-menu-item";
 
-export type DropdownMenuState = "open" | "closed";
-
-export interface DropdownMenuProps {
-  state?: DropdownMenuState;
-  from?: DropdownMenuState;
-  label?: string;
-  items?: string[];
-  theme?: Partial<FramecnTheme>;
-  className?: string;
-  duration?: string;
-}
+export type DropdownMenuState = "opened" | "closed";
 
 export interface DropdownMenuStyle {
-  chevronRotation: number;
   panelOpacity: number;
   panelScale: number;
   panelTranslateY: number;
+  chevronRotation: number;
 }
 
+export interface DropdownMenuStyleContext {
+  triggerCtx: ButtonStyleContext;
+  panelBg: string;
+  panelBorder: string;
+  triggerFg: string;
+  mutedFg: string;
+  radius: number;
+  itemCtx: DropdownMenuItemStyleContext;
+}
+
+export const dropdownMenuStyleContext = (
+  theme: FramecnTheme
+): DropdownMenuStyleContext => ({
+  itemCtx: dropdownMenuItemStyleContext(theme),
+  mutedFg: theme.mutedForeground,
+  panelBg: theme.popover,
+  panelBorder: theme.border,
+  radius: theme.radius,
+  triggerCtx: buttonStyleContext("outline", theme),
+  triggerFg: theme.foreground,
+});
+
 export const dropdownMenuStyle = (
-  state: DropdownMenuState
+  state: DropdownMenuState,
+  _ctx: DropdownMenuStyleContext
 ): DropdownMenuStyle => {
   switch (state) {
-    case "open": {
+    case "opened": {
       return {
         chevronRotation: 180,
         panelOpacity: 1,
@@ -49,133 +75,138 @@ export const dropdownMenuStyle = (
   }
 };
 
+const WIDTH = 240;
+
+export interface DropdownMenuProps {
+  state?: DropdownMenuState;
+  style?: DropdownMenuStyle;
+  label?: string;
+  items?: string[];
+  highlightedIndex?: number;
+  pressedIndex?: number;
+  itemStyles?: (DropdownMenuItemStyle | undefined)[];
+  triggerStyle?: ButtonStyle;
+  theme?: Partial<FramecnTheme>;
+  className?: string;
+}
+
 export const DropdownMenu = ({
   state = "closed",
-  from,
+  style,
   label = "Options",
-  items = ["Profile", "Settings", "Sign out"],
+  items = ["Profile", "Billing", "Settings", "Log out"],
+  highlightedIndex = -1,
+  pressedIndex = -1,
+  itemStyles,
+  triggerStyle,
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: DropdownMenuProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
-  const v = dropdownMenuStyle(state);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? dropdownMenuStyle(from) : v;
-  const anim = hasAnimation
-    ? dropdownMenuAnimation(from, state, duration, fromStyle, v)
-    : {
-        chevronTransform: "none",
-        panelOpacity: "none",
-        panelTransform: "none",
-      };
-
-  const isOpen = state === "open";
-
+  const ctx = dropdownMenuStyleContext(theme);
+  const v = style ?? dropdownMenuStyle(state, ctx);
+  const trigger = triggerStyle ?? buttonStyle("idle", ctx.triggerCtx);
   return (
     <div
+      className={className}
       style={{
-        alignItems: "center",
+        alignItems: "flex-start",
         background: "transparent",
         display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
         inset: 0,
         justifyContent: "center",
+        paddingTop: 220,
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{dropdownMenuKeyframes(fromStyle, v)}</style>}
-      <div className={className} style={{ position: "relative" }}>
-        <button
-          type="button"
+      <div style={{ position: "relative", width: WIDTH }}>
+        <div
           style={{
             alignItems: "center",
-            background: theme.background,
-            border: `1px solid ${theme.border}`,
-            borderRadius: theme.radius,
-            color: theme.foreground,
-            cursor: "pointer",
-            display: "inline-flex",
-            fontSize: 14,
+            background: trigger.background,
+            border: `1px solid ${ctx.panelBorder}`,
+            borderRadius: ctx.radius,
+            boxSizing: "border-box",
+            color: ctx.triggerFg,
+            display: "flex",
+            fontSize: 15,
             fontWeight: 500,
-            gap: 8,
+            gap: 12,
             height: 40,
-            justifyContent: "center",
+            justifyContent: "space-between",
             letterSpacing: "-0.01em",
             padding: "0 16px",
+            transform: `translateY(${trigger.translateY}px) scale(${trigger.scale})`,
+            width: WIDTH,
           }}
         >
           <span>{label}</span>
           <svg
-            width={14}
-            height={14}
+            width={16}
+            height={16}
             viewBox="0 0 24 24"
             fill="none"
             style={{
-              animation: hasAnimation ? anim.chevronTransform : undefined,
+              flexShrink: 0,
               transform: `rotate(${v.chevronRotation}deg)`,
             }}
           >
             <path
               d="M6 9l6 6 6-6"
-              stroke={theme.mutedForeground}
-              strokeWidth="2"
+              stroke={ctx.mutedFg}
+              strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
-        </button>
-        {isOpen && (
-          <div
-            style={{
-              animation: hasAnimation
-                ? `${anim.panelOpacity}, ${anim.panelTransform}`
-                : undefined,
-              background: theme.popover,
-              border: `1px solid ${theme.border}`,
-              borderRadius: theme.radius,
-              boxShadow:
-                "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
-              display: "flex",
-              flexDirection: "column",
-              left: 0,
-              opacity: v.panelOpacity,
-              padding: 4,
-              position: "absolute",
-              top: 44,
-              transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
-              transformOrigin: "top",
-              width: 160,
-              zIndex: 50,
-            }}
-          >
-            {items.map((item) => (
-              <button
+        </div>
+
+        <div
+          style={{
+            background: ctx.panelBg,
+            border: `1px solid ${ctx.panelBorder}`,
+            borderRadius: ctx.radius + 2,
+            boxShadow: "0 12px 32px -8px rgba(0,0,0,0.18)",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            left: 0,
+            opacity: v.panelOpacity,
+            padding: 4,
+            position: "absolute",
+            top: 48,
+            transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
+            transformOrigin: "top",
+            width: WIDTH,
+          }}
+        >
+          {items.map((item, i) => {
+            const override = itemStyles?.[i];
+            const rowState = (() => {
+              if (i === pressedIndex) {
+                return "press";
+              }
+              if (i === highlightedIndex) {
+                return "hover";
+              }
+              return "idle";
+            })();
+            const rowStyle =
+              override ?? dropdownMenuItemStyle(rowState, ctx.itemCtx);
+            return (
+              <DropdownMenuItemRow
                 key={item}
-                type="button"
-                style={{
-                  alignItems: "center",
-                  background: "transparent",
-                  border: "none",
-                  borderRadius: theme.radius,
-                  color: theme.foreground,
-                  cursor: "pointer",
-                  display: "flex",
-                  fontSize: 14,
-                  fontWeight: 400,
-                  height: 36,
-                  padding: "0 8px",
-                  textAlign: "left",
-                  width: "100%",
-                }}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        )}
+                style={rowStyle}
+                label={item}
+                width={WIDTH - 8}
+                theme={themeOverride}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

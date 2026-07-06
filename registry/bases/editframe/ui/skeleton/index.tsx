@@ -50,7 +50,6 @@ const LayoutPlaceholder = ({
   if (layout === "card") {
     return (
       <div style={{ alignItems: "center", display: "flex", gap: 14 }}>
-        {}
         <SkeletonBlock
           width={48}
           height={48}
@@ -86,11 +85,9 @@ export const Skeleton = ({
 }: SkeletonProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const v = style ?? skeletonStyle(state);
-
   const placeholderLayer = placeholder ?? (
     <LayoutPlaceholder layout={layout} speed={speed} baseColor={theme.muted} />
   );
-
   return (
     <div
       className={className}
@@ -101,9 +98,8 @@ export const Skeleton = ({
         position: "relative",
       }}
     >
-      {}
       <div style={{ opacity: v.contentOpacity }}>{children}</div>
-      {}
+
       <div
         style={{
           inset: 0,

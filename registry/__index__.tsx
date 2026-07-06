@@ -120,47 +120,71 @@ import { Accordion } from "@/registry/bases/editframe/ui/accordion";
 import { accordionConfig } from "@/registry/bases/editframe/ui/accordion/config";
 import { AiPromptFlow } from "@/registry/bases/editframe/ui/ai-prompt-flow";
 import { AlertDialog } from "@/registry/bases/editframe/ui/alert-dialog";
+import { alertDialogConfig } from "@/registry/bases/editframe/ui/alert-dialog/config";
 import { BlurIn } from "@/registry/bases/editframe/ui/blur-in";
+import { blurInConfig } from "@/registry/bases/editframe/ui/blur-in/config";
 import { Button } from "@/registry/bases/editframe/ui/button";
+import { buttonConfig } from "@/registry/bases/editframe/ui/button/config";
 import { Caret } from "@/registry/bases/editframe/ui/caret";
+import { caretConfig } from "@/registry/bases/editframe/ui/caret/config";
 import { ChatFlow } from "@/registry/bases/editframe/ui/chat-flow";
 import { Checkbox } from "@/registry/bases/editframe/ui/checkbox";
+import { checkboxConfig } from "@/registry/bases/editframe/ui/checkbox/config";
 import { CheckoutFlow } from "@/registry/bases/editframe/ui/checkout-flow";
 import { Combobox } from "@/registry/bases/editframe/ui/combobox";
+import { comboboxConfig } from "@/registry/bases/editframe/ui/combobox/config";
 import { CommandMenu } from "@/registry/bases/editframe/ui/command-menu";
-import { CommandMenuItem } from "@/registry/bases/editframe/ui/command-menu-item";
+import { commandMenuConfig } from "@/registry/bases/editframe/ui/command-menu/config";
 import { ContextMenu } from "@/registry/bases/editframe/ui/context-menu";
+import { contextMenuConfig } from "@/registry/bases/editframe/ui/context-menu/config";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
+import { cursorConfig } from "@/registry/bases/editframe/ui/cursor/config";
 import { Dialog } from "@/registry/bases/editframe/ui/dialog";
+import { dialogConfig } from "@/registry/bases/editframe/ui/dialog/config";
 import { Drawer } from "@/registry/bases/editframe/ui/drawer";
+import { drawerConfig } from "@/registry/bases/editframe/ui/drawer/config";
 import { DropdownMenu } from "@/registry/bases/editframe/ui/dropdown-menu";
-import { DropdownMenuItem } from "@/registry/bases/editframe/ui/dropdown-menu-item";
-import { Field } from "@/registry/bases/editframe/ui/field";
+import { dropdownMenuConfig } from "@/registry/bases/editframe/ui/dropdown-menu/config";
 import { ImessageChatFlow } from "@/registry/bases/editframe/ui/imessage-chat-flow";
 import { Input } from "@/registry/bases/editframe/ui/input";
+import { inputConfig } from "@/registry/bases/editframe/ui/input/config";
 import { MessageBubble } from "@/registry/bases/editframe/ui/message-bubble";
+import { messageBubbleConfig } from "@/registry/bases/editframe/ui/message-bubble/config";
 import { OnboardingStepperFlow } from "@/registry/bases/editframe/ui/onboarding-stepper-flow";
 import { Popover } from "@/registry/bases/editframe/ui/popover";
+import { popoverConfig } from "@/registry/bases/editframe/ui/popover/config";
 import { Progress } from "@/registry/bases/editframe/ui/progress";
+import { progressConfig } from "@/registry/bases/editframe/ui/progress/config";
 import { Radio } from "@/registry/bases/editframe/ui/radio";
+import { radioConfig } from "@/registry/bases/editframe/ui/radio/config";
 import { Resizable } from "@/registry/bases/editframe/ui/resizable";
+import { resizableConfig } from "@/registry/bases/editframe/ui/resizable/config";
 import { Select } from "@/registry/bases/editframe/ui/select";
-import { SelectItem } from "@/registry/bases/editframe/ui/select-item";
+import { selectConfig } from "@/registry/bases/editframe/ui/select/config";
 import { SettingsToggleFlow } from "@/registry/bases/editframe/ui/settings-toggle-flow";
 import { Sheet } from "@/registry/bases/editframe/ui/sheet";
+import { sheetConfig } from "@/registry/bases/editframe/ui/sheet/config";
 import { SignupFlow } from "@/registry/bases/editframe/ui/signup-flow";
 import { Skeleton } from "@/registry/bases/editframe/ui/skeleton";
-import { SkeletonBlock } from "@/registry/bases/editframe/ui/skeleton-block";
+import { skeletonConfig } from "@/registry/bases/editframe/ui/skeleton/config";
 import { Slider } from "@/registry/bases/editframe/ui/slider";
+import { sliderConfig } from "@/registry/bases/editframe/ui/slider/config";
 import { Spinner } from "@/registry/bases/editframe/ui/spinner";
 import { Stepper } from "@/registry/bases/editframe/ui/stepper";
+import { stepperConfig } from "@/registry/bases/editframe/ui/stepper/config";
 import { Switch } from "@/registry/bases/editframe/ui/switch";
+import { switchConfig } from "@/registry/bases/editframe/ui/switch/config";
 import { Tabs } from "@/registry/bases/editframe/ui/tabs";
+import { tabsConfig } from "@/registry/bases/editframe/ui/tabs/config";
 import { TelegramChatFlow } from "@/registry/bases/editframe/ui/telegram-chat-flow";
 import { Toast } from "@/registry/bases/editframe/ui/toast";
+import { toastConfig } from "@/registry/bases/editframe/ui/toast/config";
 import { ToggleGroup } from "@/registry/bases/editframe/ui/toggle-group";
+import { toggleGroupConfig } from "@/registry/bases/editframe/ui/toggle-group/config";
 import { Tooltip } from "@/registry/bases/editframe/ui/tooltip";
+import { tooltipConfig } from "@/registry/bases/editframe/ui/tooltip/config";
 import { TypingIndicator } from "@/registry/bases/editframe/ui/typing-indicator";
+import { typingIndicatorConfig } from "@/registry/bases/editframe/ui/typing-indicator/config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyComponent = React.ComponentType<any>;
@@ -199,6 +223,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   "alert-dialog": {
     Component: AlertDialog,
+    config: alertDialogConfig,
   },
   "animated-bar-chart": {
     Component: lazy(async () => {
@@ -226,6 +251,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   "blur-in": {
     Component: BlurIn,
+    config: blurInConfig,
   },
   "blur-out-up": {
     Component: lazy(async () => {
@@ -269,6 +295,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   button: {
     Component: Button,
+    config: buttonConfig,
   },
   "caption-clip-wipe": {
     Component: lazy(async () => {
@@ -392,6 +419,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   caret: {
     Component: Caret,
+    config: caretConfig,
   },
   "chat-flow": {
     Component: ChatFlow,
@@ -406,6 +434,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   checkbox: {
     Component: Checkbox,
+    config: checkboxConfig,
   },
   "checkout-flow": {
     Component: CheckoutFlow,
@@ -436,12 +465,11 @@ const registry: Record<string, RegistryEntry> = {
   },
   combobox: {
     Component: Combobox,
+    config: comboboxConfig,
   },
   "command-menu": {
     Component: CommandMenu,
-  },
-  "command-menu-item": {
-    Component: CommandMenuItem,
+    config: commandMenuConfig,
   },
   confetti: {
     Component: lazy(async () => {
@@ -453,9 +481,11 @@ const registry: Record<string, RegistryEntry> = {
   },
   "context-menu": {
     Component: ContextMenu,
+    config: contextMenuConfig,
   },
   cursor: {
     Component: Cursor,
+    config: cursorConfig,
   },
   "cursor-flow": {
     Component: lazy(async () => {
@@ -491,6 +521,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   dialog: {
     Component: Dialog,
+    config: dialogConfig,
   },
   "directional-wipe": {
     Component: lazy(async () => {
@@ -510,12 +541,11 @@ const registry: Record<string, RegistryEntry> = {
   },
   drawer: {
     Component: Drawer,
+    config: drawerConfig,
   },
   "dropdown-menu": {
     Component: DropdownMenu,
-  },
-  "dropdown-menu-item": {
-    Component: DropdownMenuItem,
+    config: dropdownMenuConfig,
   },
   "dynamic-grid": {
     Component: lazy(async () => {
@@ -540,9 +570,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: FadeThrough };
     }),
     config: fadeThroughConfig,
-  },
-  field: {
-    Component: Field,
   },
   "focus-blur-resolve": {
     Component: lazy(async () => {
@@ -621,6 +648,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   input: {
     Component: Input,
+    config: inputConfig,
   },
   "kinetic-type-mask": {
     Component: lazy(async () => {
@@ -704,6 +732,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   "message-bubble": {
     Component: MessageBubble,
+    config: messageBubbleConfig,
   },
   "micro-scale-fade": {
     Component: lazy(async () => {
@@ -732,7 +761,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: perCharacterRiseConfig,
   },
-
   "per-word-crossfade": {
     Component: lazy(async () => {
       const { PerWordCrossfade } =
@@ -759,6 +787,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   popover: {
     Component: Popover,
+    config: popoverConfig,
   },
   "pricing-tier-focus": {
     Component: lazy(async () => {
@@ -778,8 +807,8 @@ const registry: Record<string, RegistryEntry> = {
   },
   progress: {
     Component: Progress,
+    config: progressConfig,
   },
-
   "progress-steps": {
     Component: lazy(async () => {
       const { ProgressSteps } =
@@ -799,9 +828,11 @@ const registry: Record<string, RegistryEntry> = {
   },
   radio: {
     Component: Radio,
+    config: radioConfig,
   },
   resizable: {
     Component: Resizable,
+    config: resizableConfig,
   },
   "rgb-glitch-text": {
     Component: lazy(async () => {
@@ -821,9 +852,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   select: {
     Component: Select,
-  },
-  "select-item": {
-    Component: SelectItem,
+    config: selectConfig,
   },
   "settings-toggle-flow": {
     Component: SettingsToggleFlow,
@@ -940,7 +969,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: shaderSpiralConfig,
   },
-
   "shader-swirl": {
     Component: lazy(async () => {
       const { ShaderSwirl } =
@@ -991,6 +1019,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   sheet: {
     Component: Sheet,
+    config: sheetConfig,
   },
   "shimmer-sweep": {
     Component: lazy(async () => {
@@ -1000,7 +1029,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: shimmerSweepConfig,
   },
-
   "short-slide-right": {
     Component: lazy(async () => {
       const { ShortSlideRight } =
@@ -1022,12 +1050,11 @@ const registry: Record<string, RegistryEntry> = {
   },
   skeleton: {
     Component: Skeleton,
-  },
-  "skeleton-block": {
-    Component: SkeletonBlock,
+    config: skeletonConfig,
   },
   slider: {
     Component: Slider,
+    config: sliderConfig,
   },
   "slot-machine-roll": {
     Component: lazy(async () => {
@@ -1098,6 +1125,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   stepper: {
     Component: Stepper,
+    config: stepperConfig,
   },
   "strikethrough-replace": {
     Component: lazy(async () => {
@@ -1125,9 +1153,11 @@ const registry: Record<string, RegistryEntry> = {
   },
   switch: {
     Component: Switch,
+    config: switchConfig,
   },
   tabs: {
     Component: Tabs,
+    config: tabsConfig,
   },
   "telegram-chat-flow": {
     Component: TelegramChatFlow,
@@ -1158,6 +1188,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   toast: {
     Component: Toast,
+    config: toastConfig,
   },
   "toast-notification": {
     Component: lazy(async () => {
@@ -1169,9 +1200,11 @@ const registry: Record<string, RegistryEntry> = {
   },
   "toggle-group": {
     Component: ToggleGroup,
+    config: toggleGroupConfig,
   },
   tooltip: {
     Component: Tooltip,
+    config: tooltipConfig,
   },
   "top-down-letters": {
     Component: lazy(async () => {
@@ -1199,6 +1232,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   "typing-indicator": {
     Component: TypingIndicator,
+    config: typingIndicatorConfig,
   },
   "zoom-through-transition": {
     Component: lazy(async () => {

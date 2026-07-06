@@ -13,7 +13,7 @@ import { PauseIcon, PlayIcon, Repeat1Icon, RepeatIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { FPS } from "@/lib/customizer-config";
+import { FPS, H, W } from "@/lib/customizer-config";
 import { FrameProvider } from "@/lib/framecn-ui";
 import { DEFAULT_UI_PREVIEW_DURATION_FRAMES } from "@/lib/ui-preview-durations";
 import type { BackdropFill } from "@/registry/bases/editframe/components/backdrop";
@@ -153,7 +153,11 @@ export const VideoPreview = ({
     <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
       <Preview id={previewId} className="aspect-video">
         <FitScale className="rounded-md">
-          <FrameProvider durationMs={(durationInFrames / fps) * 1000} fps={fps}>
+          <FrameProvider
+            durationMs={(durationInFrames / fps) * 1000}
+            fps={fps}
+            style={{ height: H, width: W }}
+          >
             <Scene {...componentProps} />
           </FrameProvider>
         </FitScale>

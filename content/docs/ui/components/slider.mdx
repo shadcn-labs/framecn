@@ -43,5 +43,58 @@ import { Slider } from "@/components/ui/slider";
 ```
 
 ```tsx
-<Slider />
+<Slider value={40} showValue width={320} />
 ```
+
+## Smooth transitions
+
+The docs preview eases a cursor onto the thumb, drags from 20 → 80, and animates thumb idle → hover → press → idle via `useSliderTransition`:
+
+```tsx
+import { H, W } from "@/lib/customizer-config";
+import { Cursor } from "@/components/framecn/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+import { Slider } from "@/components/framecn/slider";
+import { useSliderTransition } from "@/components/framecn/use-slider-transition";
+
+const TRACK_WIDTH = 320;
+const THUMB_START_X = W / 2 - TRACK_WIDTH / 2 + 0.2 * TRACK_WIDTH;
+const THUMB_END_X = W / 2 - TRACK_WIDTH / 2 + 0.8 * TRACK_WIDTH;
+const THUMB_Y = H / 2;
+
+const cursorStyle = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 30, x: THUMB_START_X, y: THUMB_Y, duration: 26 },
+  { at: 44, x: THUMB_START_X, y: THUMB_Y, press: true, duration: 0 },
+  { at: 100, x: THUMB_END_X, y: THUMB_Y, press: true, duration: 56 },
+  { at: 108, x: THUMB_END_X, y: THUMB_Y, duration: 0 },
+]);
+
+const sliderStyle = useSliderTransition([
+  { at: 0, value: 20, thumbState: "idle" },
+  { at: 30, thumbState: "hover", duration: 8 },
+  { at: 44, thumbState: "press", duration: 6 },
+  { at: 44, value: 20 },
+  { at: 100, value: 80, duration: 56, easing: "inOut" },
+  { at: 108, thumbState: "idle", duration: 8 },
+]);
+
+<Slider style={sliderStyle} width={320} showValue />
+<Cursor style={cursorStyle} variant="pointer" />;
+```
+
+Use matching `inOut` easing on the value step so the thumb tracks the cursor drag. `style` takes precedence over `value` and `thumbState` when provided.
+
+## API Reference
+
+### Slider
+
+| Prop         | Type                           | Default                                            |
+| ------------ | ------------------------------ | -------------------------------------------------- |
+| `value`      | `number`                       | `0`                                                |
+| `thumbState` | `"idle" \| "hover" \| "press"` | `"idle"`                                           |
+| `style`      | `SliderStyle`                  | `-` (takes precedence over `value` / `thumbState`) |
+| `width`      | `number`                       | `320`                                              |
+| `showValue`  | `boolean`                      | `false`                                            |
+| `theme`      | `Partial<FramecnTheme>`        | `-`                                                |
+| `className`  | `string`                       | `-`                                                |

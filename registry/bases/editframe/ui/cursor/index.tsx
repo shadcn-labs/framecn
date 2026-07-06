@@ -2,109 +2,115 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
-import type { CursorWaypoint } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
 
-export type { CursorWaypoint };
-
-export interface CursorProps {
-  waypoints?: CursorWaypoint[];
-  frame?: number;
-  speed?: number;
-  style?: CursorStyle;
-  variant?: "default" | "pointer";
-  theme?: Partial<FramecnTheme> | "light" | "dark";
-  className?: string;
-}
-
-const CURSOR_SIZE = 16;
-const RIPPLE_SIZE = 40;
+export type CursorVariant = "arrow" | "pointer";
 
 export interface CursorStyle {
   x: number;
   y: number;
   scale: number;
-  pressScale: number;
   rippleOpacity: number;
   rippleScale: number;
+  pressScale?: number;
 }
 
+export interface CursorProps {
+  style?: CursorStyle;
+  variant?: CursorVariant;
+  size?: number;
+  theme?: Partial<FramecnTheme> | "light" | "dark";
+  rippleColor?: string;
+  className?: string;
+}
+
+const REST: CursorStyle = {
+  rippleOpacity: 0,
+  rippleScale: 0,
+  scale: 1,
+  x: 0,
+  y: 0,
+};
+
+const ARROW_PATH =
+  "M1 1 L1 18.5 L5.6 14.4 L8.7 21.6 L11.6 20.4 L8.5 13.2 L14.5 13.2 Z";
+const POINTER_PATH =
+  "M8 2.2 C8 1.3 8.7 0.7 9.5 0.7 C10.3 0.7 11 1.3 11 2.2 L11 9 " +
+  "C11 9 11.3 8.4 12.2 8.4 C13 8.4 13.4 9 13.4 9.6 " +
+  "C13.4 9.6 13.9 9.1 14.7 9.1 C15.5 9.1 15.9 9.7 15.9 10.3 " +
+  "C15.9 10.3 16.4 9.9 17.1 9.9 C17.9 9.9 18.3 10.5 18.3 11.2 " +
+  "L18.3 16.8 C18.3 19.8 16.3 22.3 12.8 22.3 L11.4 22.3 " +
+  "C9 22.3 7.9 21.2 6.6 19.2 L4 15.2 C3.5 14.4 3.7 13.4 4.5 12.9 " +
+  "C5.1 12.5 5.9 12.6 6.4 13.2 L8 15 Z";
+
 export const Cursor = ({
-  waypoints = [
-    { at: 0, x: 0, y: 0 },
-    { at: 24, x: 200, y: 100 },
-    { at: 48, click: true, x: 400, y: 50 },
-    { at: 72, x: 300, y: 250 },
-  ],
-  frame = 0,
-  speed = 1,
-  style: styleProp,
+  style,
+  variant = "arrow",
+  size = 28,
   theme: themeOverride,
+  rippleColor,
   className,
 }: CursorProps) => {
-  const resolvedTheme =
-    typeof themeOverride === "string" ? undefined : themeOverride;
-  const theme = useFramecnTheme(resolvedTheme, "light");
-  const v = styleProp ?? useCursorPath(waypoints, frame, { speed });
-
+  const mode = typeof themeOverride === "string" ? themeOverride : "light";
+  const theme = useFramecnTheme(
+    typeof themeOverride === "string" ? undefined : themeOverride,
+    mode
+  );
+  const v = style ?? REST;
+  const press = v.pressScale ?? 1;
+  const pressedScale = v.scale * (0.9 + 0.1 * press);
+  const ring = rippleColor ?? theme.primary;
+  const fill = theme.foreground;
+  const stroke = theme.background;
+  const rippleSize = size * 1.8;
   return (
     <div
       className={className}
       style={{
-        fontFamily:
-          "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        position: "relative",
+        left: 0,
+        pointerEvents: "none",
+        position: "absolute",
+        top: 0,
+        transform: `translate(${v.x}px, ${v.y}px)`,
       }}
     >
       <div
         style={{
-          left: v.x - CURSOR_SIZE / 2,
-          position: "absolute",
-          top: v.y - CURSOR_SIZE / 2,
-          transform: `scale(${v.pressScale})`,
-          transformOrigin: "center",
-          zIndex: 2,
-        }}
-      >
-        <svg
-          width={CURSOR_SIZE}
-          height={CURSOR_SIZE}
-          viewBox="0 0 16 16"
-          fill="none"
-        >
-          <path
-            d="M1 1.5L1 12.5L4.5 9L8.5 15L11 13.5L7 7.5L12 6.5L1 1.5Z"
-            fill={theme.foreground}
-            stroke={theme.background}
-            strokeWidth="1"
-          />
-        </svg>
-      </div>
-      <div
-        style={{
-          alignItems: "center",
+          border: `2px solid ${ring}`,
           borderRadius: "50%",
-          height: RIPPLE_SIZE,
-          left: v.x - RIPPLE_SIZE / 2,
+          height: rippleSize,
+          left: -rippleSize / 2,
           opacity: v.rippleOpacity,
           position: "absolute",
-          top: v.y - RIPPLE_SIZE / 2,
+          top: -rippleSize / 2,
           transform: `scale(${v.rippleScale})`,
           transformOrigin: "center",
-          width: RIPPLE_SIZE,
-          zIndex: 1,
+          width: rippleSize,
+        }}
+      />
+
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        style={{
+          filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))",
+          left: 0,
+          overflow: "visible",
+          position: "absolute",
+          top: 0,
+          transform: `scale(${pressedScale})`,
+          transformOrigin: "0 0",
         }}
       >
-        <div
-          style={{
-            background: theme.primary,
-            borderRadius: "50%",
-            height: "100%",
-            opacity: 0.3,
-            width: "100%",
-          }}
+        <path
+          d={variant === "pointer" ? POINTER_PATH : ARROW_PATH}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={1.4}
+          strokeLinejoin="round"
         />
-      </div>
+      </svg>
     </div>
   );
 };

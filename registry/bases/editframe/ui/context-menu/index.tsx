@@ -3,10 +3,6 @@
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
-  contextMenuAnimation,
-  DEFAULT_DURATION,
-} from "@/registry/bases/editframe/ui/context-menu/use-context-menu-transition";
-import {
   DropdownMenuItemRow,
   dropdownMenuItemStyle,
   dropdownMenuItemStyleContext,
@@ -21,8 +17,6 @@ export type ContextMenuState = "opened" | "closed";
 
 export interface ContextMenuProps {
   state?: ContextMenuState;
-  from?: ContextMenuState;
-  duration?: number;
   style?: ContextMenuStyle;
   items?: string[];
   highlightedIndex?: number;
@@ -69,6 +63,7 @@ export const contextMenuStyle = (
     }
   }
 };
+
 const rowState = (
   i: number,
   highlightedIndex: number,
@@ -85,8 +80,6 @@ const rowState = (
 
 export const ContextMenu = ({
   state = "closed",
-  from,
-  duration = DEFAULT_DURATION,
   style,
   items = ["Back", "Reload", "Save As…", "Inspect"],
   highlightedIndex = -1,
@@ -98,12 +91,6 @@ export const ContextMenu = ({
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = contextMenuStyleContext(theme);
   const v = style ?? contextMenuStyle(state, ctx);
-
-  const shouldAnimate = from !== undefined && from !== state;
-  const animation = shouldAnimate
-    ? contextMenuAnimation(from, state, duration)
-    : undefined;
-
   return (
     <div
       className={className}
@@ -123,7 +110,6 @@ export const ContextMenu = ({
         transform: `translateY(${v.translateY}px) scale(${v.scale})`,
         transformOrigin: "top left",
         width: WIDTH,
-        ...(animation ? { animation } : {}),
       }}
     >
       {items.map((item, i) => {

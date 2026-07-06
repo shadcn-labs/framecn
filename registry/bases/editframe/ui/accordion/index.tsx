@@ -26,10 +26,10 @@ interface VariantTokens {
   openBg: string;
 }
 
-function variantTokens(
+const variantTokens = (
   variant: AccordionVariant,
   theme: FramecnTheme
-): VariantTokens {
+): VariantTokens => {
   const variants = {
     default: {
       bordered: true,
@@ -44,7 +44,7 @@ function variantTokens(
   };
 
   return variants[variant] ?? variants.default;
-}
+};
 
 export interface AccordionStyle {
   panelHeight: number;
@@ -62,10 +62,10 @@ export interface AccordionStyleContext {
   mutedForeground: string;
 }
 
-export function accordionStyleContext(
+export const accordionStyleContext = (
   variant: AccordionVariant,
   theme: FramecnTheme
-): AccordionStyleContext {
+): AccordionStyleContext => {
   const tokens = variantTokens(variant, theme);
   return {
     border: theme.border,
@@ -75,12 +75,12 @@ export function accordionStyleContext(
     mutedForeground: theme.mutedForeground,
     openBg: tokens.openBg,
   };
-}
+};
 
-export function accordionStyle(
+export const accordionStyle = (
   state: AccordionState,
   ctx: AccordionStyleContext
-): AccordionStyle {
+): AccordionStyle => {
   switch (state) {
     case "opened": {
       return {
@@ -99,9 +99,9 @@ export function accordionStyle(
       };
     }
   }
-}
+};
 
-export function Accordion({
+export const Accordion = ({
   state = "closed",
   style,
   title = "Is it accessible?",
@@ -110,12 +110,10 @@ export function Accordion({
   variant = "default",
   theme: themeOverride,
   className,
-}: AccordionProps) {
+}: AccordionProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
-
   const ctx = accordionStyleContext(variant, theme);
   const v = style ?? accordionStyle(state, ctx);
-
   return (
     <div
       style={{
@@ -141,7 +139,6 @@ export function Accordion({
           width: CARD_WIDTH,
         }}
       >
-        {}
         <div
           style={{
             alignItems: "center",
@@ -175,7 +172,7 @@ export function Accordion({
             />
           </svg>
         </div>
-        {}
+
         <div
           style={{
             height: contentHeight * v.panelHeight,
@@ -197,4 +194,4 @@ export function Accordion({
       </div>
     </div>
   );
-}
+};

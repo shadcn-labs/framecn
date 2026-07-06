@@ -2,9 +2,29 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import { tabsKeyframes } from "@/registry/bases/editframe/ui/tabs/use-tabs-transition";
 
-export type TabsState = number;
+export type TabsState = string;
+
+type TabsVariant = "pill" | "underline";
+
+export interface TabsProps {
+  state?: TabsState;
+  style?: TabsStyle;
+  items?: string[];
+  contents?: string[];
+  contentHeight?: number;
+  variant?: TabsVariant;
+  theme?: Partial<FramecnTheme>;
+  className?: string;
+}
+
+const WIDTH = 440;
+const DEFAULT_ITEMS = ["Account", "Password", "Settings"];
+const DEFAULT_CONTENTS = [
+  "Make changes to your account here.",
+  "Change your password here.",
+  "Manage your notification settings.",
+];
 
 export interface TabsStyle {
   indicatorOffset: number;
@@ -12,152 +32,159 @@ export interface TabsStyle {
 
 export interface TabsStyleContext {
   items: string[];
-  variant: "pill" | "underline";
+  variant: TabsVariant;
+  trackBg: string;
   activeFg: string;
   inactiveFg: string;
-  trackBg: string;
   indicatorBg: string;
+  border: string;
+  radius: number;
+  panelFg: string;
 }
 
 export const tabsStyleContext = (
   items: string[],
-  variant: "pill" | "underline",
+  variant: TabsVariant,
   theme: FramecnTheme
 ): TabsStyleContext => ({
   activeFg: theme.foreground,
+  border: theme.border,
   inactiveFg: theme.mutedForeground,
-  indicatorBg: theme.primary,
+  indicatorBg: variant === "underline" ? theme.primary : theme.background,
   items,
-  trackBg: variant === "pill" ? theme.muted : "transparent",
+  panelFg: theme.mutedForeground,
+  radius: theme.radius,
+  trackBg: theme.muted,
   variant,
 });
 
 export const tabsStyle = (
   state: TabsState,
-  _ctx: TabsStyleContext
-): TabsStyle => ({
-  indicatorOffset: state,
-});
-
-export interface TabsProps {
-  state?: TabsState;
-  from?: TabsState;
-  items?: string[];
-  variant?: "pill" | "underline";
-  theme?: Partial<FramecnTheme>;
-  primary?: string;
-  className?: string;
-}
+  ctx: TabsStyleContext
+): TabsStyle => {
+  const i = ctx.items.indexOf(state);
+  return { indicatorOffset: Math.max(0, i) };
+};
 
 export const Tabs = ({
-  state = 0,
-  from,
-  items = ["Account", "Password", "Settings"],
+  state = DEFAULT_ITEMS[0],
+  style,
+  items = DEFAULT_ITEMS,
+  contents = DEFAULT_CONTENTS,
+  contentHeight = 72,
   variant = "pill",
   theme: themeOverride,
-  primary,
   className,
 }: TabsProps) => {
-  const theme = useFramecnTheme(
-    { ...themeOverride, ...(primary ? { primary } : {}) },
-    "light"
-  );
-
+  const theme = useFramecnTheme(themeOverride, "light");
   const ctx = tabsStyleContext(items, variant, theme);
-  const v = tabsStyle(state, ctx);
-
-  const WIDTH = 440;
-  const trackPad = variant === "pill" ? 4 : 0;
+  const v = style ?? tabsStyle(state, ctx);
+  const isPill = ctx.variant === "pill";
+  const trackPad = isPill ? 4 : 0;
   const innerWidth = WIDTH - trackPad * 2;
   const segmentWidth = innerWidth / items.length;
   const rowHeight = 40;
-
-  const indicatorLeft = trackPad + v.indicatorOffset * segmentWidth;
-
-  const hasAnimation = from !== undefined && from !== state;
-  const fromStyle = hasAnimation ? tabsStyle(from, ctx) : undefined;
-  const toStyle = v;
-
+  const indicatorX = trackPad + v.indicatorOffset * segmentWidth;
   return (
     <div
       className={className}
       style={{
+        alignItems: "center",
+        background: "transparent",
+        display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        width: WIDTH,
+        inset: 0,
+        justifyContent: "center",
+        position: "absolute",
       }}
     >
-      {hasAnimation && fromStyle && (
-        <style>{tabsKeyframes(fromStyle, toStyle, ctx)}</style>
-      )}
-      <div
-        style={{
-          background: ctx.trackBg,
-          border:
-            variant === "underline" ? `1px solid ${theme.border}` : "none",
-          borderRadius: variant === "pill" ? theme.radius : 0,
-          display: "flex",
-          padding: trackPad,
-          position: "relative",
-        }}
-      >
-        {variant === "pill" && (
+      <div style={{ width: WIDTH }}>
+        <div
+          style={{
+            background: isPill ? ctx.trackBg : "transparent",
+            borderBottom: isPill ? undefined : `1px solid ${ctx.border}`,
+            borderRadius: isPill ? ctx.radius : 0,
+            boxSizing: "border-box",
+            display: "flex",
+            height: rowHeight,
+            padding: trackPad,
+            position: "relative",
+          }}
+        >
           <div
-            style={{
-              background: ctx.indicatorBg,
-              borderRadius: theme.radius - trackPad,
-              height: rowHeight,
-              left: indicatorLeft,
-              position: "absolute",
-              transition: hasAnimation
-                ? undefined
-                : "left 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-              width: segmentWidth,
-            }}
-          />
-        )}
-        {items.map((label, i) => {
-          const isActive = i === state;
-          const labelColor = mixOklch(
-            ctx.inactiveFg,
-            ctx.activeFg,
-            Math.max(0, 1 - Math.abs(i - v.indicatorOffset))
-          );
-
-          return (
-            <div
-              key={label}
-              style={{
-                alignItems: "center",
-                color: labelColor,
-                cursor: "pointer",
-                display: "flex",
-                fontSize: 14,
-                fontWeight: isActive ? 500 : 400,
-                height: rowHeight,
-                justifyContent: "center",
-                position: "relative",
-                width: segmentWidth,
-                zIndex: 1,
-              }}
-            >
-              {label}
-              {variant === "underline" && isActive && (
-                <div
-                  style={{
+            style={
+              isPill
+                ? {
                     background: ctx.indicatorBg,
-                    borderRadius: 999,
-                    bottom: -1,
-                    height: 2,
-                    left: 0,
+                    borderRadius: ctx.radius - 3,
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                    height: rowHeight - trackPad * 2,
+                    left: indicatorX,
                     position: "absolute",
-                    right: 0,
-                  }}
-                />
-              )}
-            </div>
-          );
-        })}
+                    top: trackPad,
+                    width: segmentWidth,
+                  }
+                : {
+                    background: ctx.indicatorBg,
+                    bottom: 0,
+                    height: 2,
+                    left: indicatorX,
+                    position: "absolute",
+                    width: segmentWidth,
+                  }
+            }
+          />
+
+          {items.map((item, i) => {
+            const proximity = Math.max(0, 1 - Math.abs(i - v.indicatorOffset));
+            return (
+              <span
+                key={item}
+                style={{
+                  alignItems: "center",
+                  color: mixOklch(ctx.inactiveFg, ctx.activeFg, proximity),
+                  display: "flex",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  justifyContent: "center",
+                  letterSpacing: "-0.01em",
+                  position: "relative",
+                  width: segmentWidth,
+                }}
+              >
+                {item}
+              </span>
+            );
+          })}
+        </div>
+
+        <div
+          style={{
+            height: contentHeight,
+            marginTop: 16,
+            position: "relative",
+          }}
+        >
+          {items.map((item, i) => {
+            const proximity = Math.max(0, 1 - Math.abs(i - v.indicatorOffset));
+            return (
+              <div
+                key={item}
+                style={{
+                  color: ctx.panelFg,
+                  fontSize: 14,
+                  inset: 0,
+                  lineHeight: 1.5,
+                  opacity: proximity,
+                  position: "absolute",
+                }}
+              >
+                {contents[i]}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -43,5 +43,37 @@ import { Stepper } from "@/components/ui/stepper";
 ```
 
 ```tsx
-<Stepper />
+<Stepper steps={["Account", "Plan", "Done"]} activeIndex={1} />
 ```
+
+## Smooth transitions
+
+The docs preview advances through three steps — Account → Plan → Done — via `useStepperTransition`:
+
+```tsx
+import { Stepper } from "@/components/framecn/stepper";
+import { useStepperTransition } from "@/components/framecn/use-stepper-transition";
+
+const stepperStyle = useStepperTransition([
+  { at: 0, index: 0 },
+  { at: 50, index: 1, duration: 24 },
+  { at: 110, index: 2, duration: 24 },
+]);
+
+<Stepper style={stepperStyle} steps={["Account", "Plan", "Done"]} />;
+```
+
+Start explicitly at index 0 so the timeline holds the first step before it fires. Each step ease completes in 24 frames. `style` takes precedence over `activeIndex` when both are provided.
+
+## API Reference
+
+### Stepper
+
+| Prop          | Type                         | Default                                   |
+| ------------- | ---------------------------- | ----------------------------------------- |
+| `steps`       | `string[]`                   | `["Account", "Plan", "Done"]`             |
+| `activeIndex` | `number`                     | `0`                                       |
+| `style`       | `StepperStyle`               | `-` (takes precedence over `activeIndex`) |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"`                            |
+| `theme`       | `Partial<FramecnTheme>`      | `-`                                       |
+| `className`   | `string`                     | `-`                                       |

@@ -41,10 +41,46 @@ npx shadcn@latest add @framecn/typing-indicator
 
 ## Usage
 
-```tsx
-import { TypingIndicator } from "@/components/ui/typing-indicator";
-```
+Place `TypingIndicator` inside a message bubble (or any container) to show the typing state before a reply enters:
 
 ```tsx
-<TypingIndicator />
+import { MessageBubble } from "@/components/ui/message-bubble";
+import { TypingIndicator } from "@/components/ui/typing-indicator";
+
+<MessageBubble variant="incoming" state="visible">
+  <TypingIndicator dotCount={3} size={8} amplitude={5} />
+</MessageBubble>;
 ```
+
+The docs preview centers the indicator in a muted bubble and loops continuously — one bounce cycle is ~27 frames at the default 1.1 cycles per second.
+
+## How animation works
+
+`TypingIndicator` is a motion atom: it reads `useCurrentFrame()` directly and renders staggered sine-wave bounces. There is no `state` prop or transition hook.
+
+Each dot uses `typingDotOffset(frame, index, opts)`:
+
+```
+periodFrames = fps / cyclesPerSecond
+stagger = periodFrames / (dotCount × 2)
+wave = (sin(phase) + 1) / 2
+translateY = -amplitude × wave
+opacity = 0.45 + 0.55 × wave
+```
+
+Export `typingDotOffset` when you need to drive individual dot positions from your own layout.
+
+## API Reference
+
+### TypingIndicator
+
+| Prop              | Type     | Default          |
+| ----------------- | -------- | ---------------- |
+| `dotCount`        | `number` | `3`              |
+| `color`           | `string` | `"currentColor"` |
+| `size`            | `number` | `8`              |
+| `gap`             | `number` | `5`              |
+| `amplitude`       | `number` | `5`              |
+| `speed`           | `number` | `1`              |
+| `cyclesPerSecond` | `number` | `1.1`            |
+| `className`       | `string` | `-`              |

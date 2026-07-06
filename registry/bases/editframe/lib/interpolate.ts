@@ -40,7 +40,7 @@ const applyExtrapolate = (
 };
 
 const findRange = (input: number, inputRange: readonly number[]): number => {
-  for (let i = 1; i < inputRange.length - 1; i++) {
+  for (let i = 1; i < inputRange.length - 1; i += 1) {
     if (inputRange[i] >= input) {
       return i - 1;
     }

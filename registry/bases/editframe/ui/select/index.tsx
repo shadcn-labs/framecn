@@ -3,11 +3,41 @@
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
-  selectAnimation,
-  selectKeyframes,
-} from "@/registry/bases/editframe/ui/select/use-select-transition";
+  buttonStyle,
+  buttonStyleContext,
+} from "@/registry/bases/editframe/ui/button";
+import type {
+  ButtonStyle,
+  ButtonStyleContext,
+} from "@/registry/bases/editframe/ui/button";
+import {
+  SelectItemRow,
+  selectItemStyle,
+  selectItemStyleContext,
+} from "@/registry/bases/editframe/ui/select-item";
+import type {
+  SelectItemState,
+  SelectItemStyle,
+  SelectItemStyleContext,
+} from "@/registry/bases/editframe/ui/select-item";
 
-export type SelectState = "open" | "closed";
+export type SelectState = "opened" | "closed";
+
+export interface SelectProps {
+  state?: SelectState;
+  style?: SelectStyle;
+  label?: string;
+  triggerStyle?: ButtonStyle;
+  items?: string[];
+  selectedIndex?: number;
+  highlightedIndex?: number;
+  pressedIndex?: number;
+  itemStyles?: (SelectItemStyle | undefined)[];
+  theme?: Partial<FramecnTheme>;
+  className?: string;
+}
+
+const WIDTH = 260;
 
 export interface SelectStyle {
   panelOpacity: number;
@@ -17,34 +47,25 @@ export interface SelectStyle {
 }
 
 export interface SelectStyleContext {
-  background: string;
-  border: string;
-  foreground: string;
-  mutedForeground: string;
+  triggerCtx: ButtonStyleContext;
   panelBg: string;
+  panelBorder: string;
+  triggerFg: string;
+  mutedFg: string;
+  radius: number;
+  itemCtx: SelectItemStyleContext;
 }
-
-export interface SelectProps {
-  state?: SelectState;
-  from?: SelectState;
-  value?: string;
-  placeholder?: string;
-  items?: string[];
-  theme?: Partial<FramecnTheme>;
-  className?: string;
-  duration?: string;
-}
-
-const SELECT_WIDTH = 280;
 
 export const selectStyleContext = (
   theme: FramecnTheme
 ): SelectStyleContext => ({
-  background: theme.background,
-  border: theme.border,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
+  itemCtx: selectItemStyleContext(theme),
+  mutedFg: theme.mutedForeground,
   panelBg: theme.popover,
+  panelBorder: theme.border,
+  radius: theme.radius,
+  triggerCtx: buttonStyleContext("outline", theme),
+  triggerFg: theme.foreground,
 });
 
 export const selectStyle = (
@@ -52,7 +73,7 @@ export const selectStyle = (
   _ctx: SelectStyleContext
 ): SelectStyle => {
   switch (state) {
-    case "open": {
+    case "opened": {
       return {
         chevronRotation: 180,
         panelOpacity: 1,
@@ -71,32 +92,45 @@ export const selectStyle = (
   }
 };
 
+const rowState = (
+  i: number,
+  selectedIndex: number,
+  highlightedIndex: number,
+  pressedIndex: number
+): SelectItemState => {
+  if (i === pressedIndex) {
+    return "press";
+  }
+  if (i === selectedIndex) {
+    return "selected";
+  }
+  if (i === highlightedIndex) {
+    return "hover";
+  }
+  return "idle";
+};
+
 export const Select = ({
-  state = "open",
-  from,
-  value = "option-1",
-  placeholder = "Select an option",
-  items = ["option-1", "option-2", "option-3"],
+  state = "closed",
+  style,
+  label = "Select a fruit",
+  triggerStyle,
+  items = ["Apple", "Banana", "Orange", "Grape"],
+  selectedIndex = -1,
+  highlightedIndex = -1,
+  pressedIndex = -1,
+  itemStyles,
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: SelectProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = selectStyleContext(theme);
-  const v = selectStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? selectStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? selectAnimation(from, state, duration, fromStyle, v)
-    : {
-        chevronTransform: "none",
-        panelOpacity: "none",
-        panelTransform: "none",
-      };
-
+  const v = style ?? selectStyle(state, ctx);
+  const trigger: ButtonStyle =
+    triggerStyle ?? buttonStyle("idle", ctx.triggerCtx);
   return (
     <div
+      className={className}
       style={{
         alignItems: "center",
         background: "transparent",
@@ -108,125 +142,89 @@ export const Select = ({
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{selectKeyframes(fromStyle, v)}</style>}
-      <div style={{ position: "relative", width: SELECT_WIDTH }}>
+      <div style={{ position: "relative", width: WIDTH }}>
         <div
-          className={className}
           style={{
             alignItems: "center",
-            background: ctx.background,
-            border: `1px solid ${ctx.border}`,
-            borderRadius: theme.radius,
-            color: value ? ctx.foreground : ctx.mutedForeground,
-            cursor: "pointer",
+            background: trigger.background,
+            border: `1px solid ${ctx.panelBorder}`,
+            borderRadius: ctx.radius,
+            boxSizing: "border-box",
+            color: ctx.triggerFg,
             display: "flex",
-            fontSize: 14,
+            fontSize: 15,
+            fontWeight: 500,
+            gap: 8,
             height: 40,
             justifyContent: "space-between",
             letterSpacing: "-0.01em",
-            padding: "0 12px",
-            width: "100%",
+            padding: "0 16px",
+            transform: `translateY(${trigger.translateY}px) scale(${trigger.scale})`,
+            width: WIDTH,
           }}
         >
-          <span>{value ?? placeholder}</span>
+          <span>{label}</span>
           <svg
             width={16}
             height={16}
             viewBox="0 0 24 24"
             fill="none"
             style={{
-              animation: hasAnimation ? anim.chevronTransform : undefined,
               flexShrink: 0,
               transform: `rotate(${v.chevronRotation}deg)`,
             }}
           >
             <path
               d="M6 9l6 6 6-6"
-              stroke={ctx.mutedForeground}
+              stroke={ctx.mutedFg}
               strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
         </div>
-        {hasAnimation && (
-          <div
-            style={{
-              animation: `${anim.panelOpacity}, ${anim.panelTransform}`,
-              background: ctx.panelBg,
-              border: `1px solid ${ctx.border}`,
-              borderRadius: theme.radius,
-              boxShadow:
-                "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
-              display: "flex",
-              flexDirection: "column",
-              left: 0,
-              marginTop: 4,
-              opacity: v.panelOpacity,
-              overflow: "hidden",
-              position: "absolute",
-              top: "100%",
-              transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
-              transformOrigin: "top center",
-              width: "100%",
-              zIndex: 1,
-            }}
-          >
-            {items.map((item) => (
-              <div
+
+        <div
+          style={{
+            background: ctx.panelBg,
+            border: `1px solid ${ctx.panelBorder}`,
+            borderRadius: ctx.radius,
+            boxShadow: "0 16px 32px -12px rgba(0,0,0,0.25)",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            left: 0,
+            opacity: v.panelOpacity,
+            padding: 4,
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
+            transformOrigin: "top",
+            width: WIDTH,
+          }}
+        >
+          {items.map((item, i) => {
+            const override = itemStyles?.[i];
+            return (
+              <SelectItemRow
                 key={item}
-                style={{
-                  background: item === value ? ctx.background : "transparent",
-                  color: ctx.foreground,
-                  cursor: "pointer",
-                  fontSize: 14,
-                  fontWeight: item === value ? 500 : 400,
-                  letterSpacing: "-0.01em",
-                  padding: "8px 12px",
-                }}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-        )}
-        {!hasAnimation && state === "open" && (
-          <div
-            style={{
-              background: ctx.panelBg,
-              border: `1px solid ${ctx.border}`,
-              borderRadius: theme.radius,
-              boxShadow:
-                "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
-              display: "flex",
-              flexDirection: "column",
-              left: 0,
-              marginTop: 4,
-              overflow: "hidden",
-              position: "absolute",
-              top: "100%",
-              width: "100%",
-              zIndex: 1,
-            }}
-          >
-            {items.map((item) => (
-              <div
-                key={item}
-                style={{
-                  background: item === value ? ctx.background : "transparent",
-                  color: ctx.foreground,
-                  cursor: "pointer",
-                  fontSize: 14,
-                  fontWeight: item === value ? 500 : 400,
-                  letterSpacing: "-0.01em",
-                  padding: "8px 12px",
-                }}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-        )}
+                style={
+                  override ??
+                  selectItemStyle(
+                    rowState(i, selectedIndex, highlightedIndex, pressedIndex),
+                    ctx.itemCtx
+                  )
+                }
+                ctx={ctx.itemCtx}
+                label={item}
+                width={WIDTH - 8}
+                radius={theme.radius}
+                check={ctx.itemCtx.check}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

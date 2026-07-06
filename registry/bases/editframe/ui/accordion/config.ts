@@ -35,7 +35,6 @@ export const accordionConfig: ComponentConfig = {
     const title = values.title as string | undefined;
     const content = values.content as string | undefined;
     const variant = values.variant as string | undefined;
-
     const props: string[] = [`  state="${state}"`];
     if (title !== undefined && title !== "Is it accessible?") {
       props.push(`  title="${title}"`);
@@ -49,7 +48,6 @@ export const accordionConfig: ComponentConfig = {
     if (variant !== undefined && variant !== "default") {
       props.push(`  variant="${variant}"`);
     }
-
     return `import { Accordion } from "@/components/framecn/accordion";
 
 <Accordion

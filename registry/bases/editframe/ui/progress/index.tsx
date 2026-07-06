@@ -1,82 +1,84 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { clamp01, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export interface ProgressStyle {
   value: number;
 }
 
-export interface ProgressStyleContext {
-  trackBg: string;
-  fillBg: string;
-}
-
 export interface ProgressProps {
   value?: number;
+  style?: ProgressStyle;
+  width?: number;
+  showLabel?: boolean;
   theme?: Partial<FramecnTheme>;
   className?: string;
 }
 
-const PROGRESS_WIDTH = 320;
-const PROGRESS_HEIGHT = 8;
+const TRACK_HEIGHT = 12;
 
-export const progressStyleContext = (
-  theme: FramecnTheme
-): ProgressStyleContext => ({
-  fillBg: theme.primary,
-  trackBg: theme.muted,
-});
-
-export const progressStyle = (
-  value: number,
-  _ctx: ProgressStyleContext
-): ProgressStyle => ({
-  value: Math.max(0, Math.min(1, value)),
-});
+const clampValue = (value: number): number => clamp01(value / 100) * 100;
 
 export const Progress = ({
-  value = 0.6,
+  value = 0,
+  style,
+  width = 320,
+  showLabel = false,
   theme: themeOverride,
   className,
 }: ProgressProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
-  const ctx = progressStyleContext(theme);
-  const v = progressStyle(value, ctx);
-
+  const v = clampValue(style ? style.value : value);
+  const track = theme.muted;
+  const indicator = theme.primary;
   return (
     <div
+      className={className}
       style={{
         alignItems: "center",
-        background: "transparent",
-        display: "flex",
+        display: "inline-flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        inset: 0,
-        justifyContent: "center",
-        position: "absolute",
+        gap: 12,
       }}
     >
       <div
-        className={className}
         style={{
-          background: ctx.trackBg,
-          borderRadius: theme.radius,
-          height: PROGRESS_HEIGHT,
+          background: track,
+          borderRadius: TRACK_HEIGHT / 2,
+          height: TRACK_HEIGHT,
           overflow: "hidden",
-          width: PROGRESS_WIDTH,
+          position: "relative",
+          width,
         }}
       >
         <div
           style={{
-            background: ctx.fillBg,
-            borderRadius: theme.radius,
-            height: "100%",
-            transition: "width 80ms linear",
-            width: `${v.value * 100}%`,
+            background: indicator,
+            borderRadius: TRACK_HEIGHT / 2,
+            bottom: 0,
+            left: 0,
+            position: "absolute",
+            top: 0,
+            width: `${v}%`,
           }}
         />
       </div>
+      {showLabel && (
+        <span
+          style={{
+            color: theme.mutedForeground,
+            fontSize: 14,
+            fontVariantNumeric: "tabular-nums",
+            fontWeight: 500,
+            minWidth: "3ch",
+            textAlign: "right",
+          }}
+        >
+          {Math.floor(v)}%
+        </span>
+      )}
     </div>
   );
 };

@@ -3,10 +3,6 @@
 import { mixOklch, revealedText, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Caret } from "@/registry/bases/editframe/ui/caret";
-import {
-  inputKeyframes,
-  inputAnimations,
-} from "@/registry/bases/editframe/ui/input/use-input-transition";
 
 export type InputState =
   | "idle"
@@ -20,7 +16,6 @@ type InputSize = "sm" | "default" | "lg";
 
 export interface InputProps {
   state?: InputState;
-  from?: InputState;
   style?: InputStyle;
   placeholder?: string;
   value?: string;
@@ -29,14 +24,17 @@ export interface InputProps {
   primary?: string;
   fullWidth?: boolean;
   className?: string;
-  duration?: string;
 }
 
 const FIELD_WIDTH = 320;
 
 const SIZE_STYLES: Record<
   InputSize,
-  { height: number; padding: number; fontSize: number }
+  {
+    height: number;
+    padding: number;
+    fontSize: number;
+  }
 > = {
   default: { fontSize: 15, height: 40, padding: 14 },
   lg: { fontSize: 17, height: 48, padding: 16 },
@@ -153,25 +151,21 @@ export const inputStyle = (
   }
 };
 
-// eslint-disable-next-line complexity
 export const Input = ({
   state = "idle",
-  from,
   style,
   placeholder = "you@example.com",
-  value = "hello@framecn.dev",
+  value = "remotion@remocn.dev",
   size = "default",
   theme: themeOverride,
   primary,
   fullWidth = false,
   className,
-  duration = "8frames",
 }: InputProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
   );
-
   const sizeStyle = SIZE_STYLES[size];
   const ctx = inputStyleContext(theme);
   const v = style ?? inputStyle(state, ctx);
@@ -179,20 +173,6 @@ export const Input = ({
     value,
     Math.round(value.length * v.valueReveal)
   );
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? inputStyle(from, ctx) : v;
-  const anim = hasAnimation ? inputAnimations(from, state, duration) : null;
-  const placeholderOpacity = (() => {
-    if (hasAnimation) {
-      return;
-    }
-    if (v.valueReveal > 0) {
-      return 0;
-    }
-    return v.placeholderOpacity;
-  })();
-
   return (
     <div
       style={{
@@ -210,17 +190,10 @@ export const Input = ({
         className={className}
         style={{
           alignItems: "center",
-          animation: anim
-            ? `${anim.border}, ${anim.ring}, ${anim.background}, ${anim.caretOpacity}, ${anim.placeholderOpacity}`
-            : undefined,
-          background: hasAnimation
-            ? "var(--ef-input-background)"
-            : v.background,
-          border: `1px solid ${hasAnimation ? "var(--ef-input-border-color)" : v.borderColor}`,
+          background: v.background,
+          border: `1px solid ${v.borderColor}`,
           borderRadius: theme.radius,
-          boxShadow: hasAnimation
-            ? "0 0 0 var(--ef-input-ring-width) var(--ef-input-ring-color)"
-            : `0 0 0 ${v.ringWidth}px ${v.ringColor}`,
+          boxShadow: `0 0 0 ${v.ringWidth}px ${v.ringColor}`,
           display: "flex",
           fontSize: sizeStyle.fontSize,
           height: sizeStyle.height,
@@ -230,13 +203,11 @@ export const Input = ({
           width: fullWidth ? "100%" : FIELD_WIDTH,
         }}
       >
-        {hasAnimation && <style>{inputKeyframes(fromStyle, v)}</style>}
         <span
           style={{
-            animation: anim ? anim.placeholderOpacity : undefined,
             color: ctx.mutedForeground,
             left: sizeStyle.padding,
-            opacity: placeholderOpacity,
+            opacity: v.valueReveal > 0 ? 0 : v.placeholderOpacity,
             pointerEvents: "none",
             position: "absolute",
             whiteSpace: "nowrap",
@@ -244,19 +215,18 @@ export const Input = ({
         >
           {placeholder}
         </span>
+
         <div style={{ alignItems: "center", display: "flex", minWidth: 0 }}>
           <span style={{ color: ctx.foreground, whiteSpace: "nowrap" }}>
             {revealed}
           </span>
-          <div style={{ animation: anim ? anim.caretOpacity : undefined }}>
-            <Caret
-              color={ctx.foreground}
-              height={Math.round(sizeStyle.fontSize * 1.1)}
-              radius={1}
-              opacity={hasAnimation ? 1 : v.caretOpacity}
-              marginLeft={revealed.length > 0 ? 4 : 0}
-            />
-          </div>
+          <Caret
+            color={ctx.foreground}
+            height={Math.round(sizeStyle.fontSize * 1.1)}
+            radius={1}
+            opacity={v.caretOpacity}
+            marginLeft={revealed.length > 0 ? 4 : 0}
+          />
         </div>
       </div>
     </div>

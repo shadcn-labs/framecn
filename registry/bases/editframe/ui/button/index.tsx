@@ -2,10 +2,6 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  buttonKeyframes,
-  buttonAnimation,
-} from "@/registry/bases/editframe/ui/button/use-button-transition";
 import { Spinner } from "@/registry/bases/editframe/ui/spinner";
 
 export type ButtonState = "idle" | "hover" | "press" | "loading" | "success";
@@ -21,7 +17,7 @@ type ButtonSize = "sm" | "default" | "lg";
 
 export interface ButtonProps {
   state?: ButtonState;
-  from?: ButtonState;
+  style?: ButtonStyle;
   label?: string;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -30,7 +26,6 @@ export interface ButtonProps {
   speed?: number;
   align?: "start" | "center" | "end";
   className?: string;
-  duration?: string;
 }
 const justify = (align: "start" | "center" | "end"): string => {
   if (align === "start") {
@@ -46,7 +41,12 @@ const CHECK_PATH_LENGTH = 14;
 
 const SIZE_STYLES: Record<
   ButtonSize,
-  { height: number; padding: string; fontSize: number; gap: number }
+  {
+    height: number;
+    padding: string;
+    fontSize: number;
+    gap: number;
+  }
 > = {
   default: { fontSize: 15, gap: 8, height: 40, padding: "0 20px" },
   lg: { fontSize: 17, gap: 10, height: 48, padding: "0 28px" },
@@ -192,7 +192,7 @@ export const buttonStyle = (
 
 export const Button = ({
   state = "idle",
-  from,
+  style,
   label = "Continue",
   variant = "default",
   size = "default",
@@ -201,25 +201,16 @@ export const Button = ({
   speed = 1,
   align = "center",
   className,
-  duration = "8frames",
 }: ButtonProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
   );
-
   const sizeStyle = SIZE_STYLES[size];
   const tokens = variantTokens(variant, theme);
-
   const ctx = buttonStyleContext(variant, theme);
-  const v = buttonStyle(state, ctx);
+  const v = style ?? buttonStyle(state, ctx);
   const iconSize = Math.round(sizeStyle.fontSize * 1.1);
-
-  const hasAnimation = from && from !== state;
-  const anim = hasAnimation
-    ? buttonAnimation(from, state, duration)
-    : { container: "none", label: "none" };
-
   return (
     <div
       style={{
@@ -233,13 +224,11 @@ export const Button = ({
         position: "absolute",
       }}
     >
-      <style>{buttonKeyframes(ctx)}</style>
       <button
         type="button"
         className={className}
         style={{
           alignItems: "center",
-          animation: hasAnimation ? anim.container : undefined,
           background: v.background,
           border:
             variant === "outline"
@@ -261,14 +250,7 @@ export const Button = ({
         }}
       >
         <span style={{ display: "inline-flex", position: "relative" }}>
-          <span
-            style={{
-              animation: hasAnimation ? anim.label : undefined,
-              opacity: v.labelOpacity,
-            }}
-          >
-            {label}
-          </span>
+          <span style={{ opacity: v.labelOpacity }}>{label}</span>
           <span
             style={{
               alignItems: "center",

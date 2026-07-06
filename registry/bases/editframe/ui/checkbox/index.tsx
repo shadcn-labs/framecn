@@ -2,52 +2,69 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  checkboxKeyframes,
-  checkboxAnimation,
-} from "@/registry/bases/editframe/ui/checkbox/use-checkbox-transition";
 
-export type CheckboxState = "checked" | "unchecked";
+export type CheckboxState = "unchecked" | "checked";
+
+type CheckboxSize = "sm" | "default" | "lg";
 
 export interface CheckboxProps {
   state?: CheckboxState;
-  from?: CheckboxState;
+  style?: CheckboxStyle;
   label?: string;
+  size?: CheckboxSize;
   theme?: Partial<FramecnTheme>;
   primary?: string;
+  align?: "start" | "center" | "end";
   className?: string;
-  duration?: string;
 }
+const justify = (align: "start" | "center" | "end"): string => {
+  if (align === "start") {
+    return "flex-start";
+  }
+  if (align === "end") {
+    return "flex-end";
+  }
+  return "center";
+};
 
-const CHECKBOX_SIZE = 20;
 const CHECK_PATH_LENGTH = 14;
+const SIZE_STYLES: Record<
+  CheckboxSize,
+  {
+    box: number;
+    fontSize: number;
+    gap: number;
+  }
+> = {
+  default: { box: 20, fontSize: 15, gap: 10 },
+  lg: { box: 24, fontSize: 17, gap: 12 },
+  sm: { box: 16, fontSize: 13, gap: 8 },
+};
 
 export interface CheckboxStyle {
   boxBackground: string;
   boxBorderColor: string;
-  checkDraw: number;
   checkOpacity: number;
   checkScale: number;
+  checkDraw: number;
 }
 
 export interface CheckboxStyleContext {
   uncheckedBg: string;
-  uncheckedBorder: string;
   checkedBg: string;
+  uncheckedBorder: string;
   checkedBorder: string;
-  foreground: string;
-  mutedForeground: string;
+  checkColor: string;
 }
 
 export const checkboxStyleContext = (
   theme: FramecnTheme
 ): CheckboxStyleContext => ({
+  checkColor: theme.primaryForeground,
   checkedBg: theme.primary,
   checkedBorder: theme.primary,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
   uncheckedBg: theme.background,
-  uncheckedBorder: theme.input,
+  uncheckedBorder: theme.border,
 });
 
 export const checkboxStyle = (
@@ -58,7 +75,7 @@ export const checkboxStyle = (
     case "checked": {
       return {
         boxBackground: ctx.checkedBg,
-        boxBorderColor: ctx.checkedBg,
+        boxBorderColor: ctx.checkedBorder,
         checkDraw: 1,
         checkOpacity: 1,
         checkScale: 1,
@@ -78,25 +95,22 @@ export const checkboxStyle = (
 
 export const Checkbox = ({
   state = "unchecked",
-  from,
-  label = "Accept terms",
+  style,
+  label,
+  size = "default",
   theme: themeOverride,
   primary,
+  align = "center",
   className,
-  duration = "10frames",
 }: CheckboxProps) => {
   const theme = useFramecnTheme(
     { ...themeOverride, ...(primary ? { primary } : {}) },
     "light"
   );
+  const sizeStyle = SIZE_STYLES[size];
   const ctx = checkboxStyleContext(theme);
-  const v = checkboxStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const anim = hasAnimation
-    ? checkboxAnimation(from, state, duration)
-    : { box: "none", check: "none", draw: "none" };
-
+  const v = style ?? checkboxStyle(state, ctx);
+  const boxSize = sizeStyle.box;
   return (
     <div
       style={{
@@ -106,69 +120,65 @@ export const Checkbox = ({
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
         inset: 0,
-        justifyContent: "center",
+        justifyContent: justify(align),
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{checkboxKeyframes(ctx)}</style>}
-      <label
+      <span
         className={className}
         style={{
           alignItems: "center",
-          cursor: "pointer",
           display: "inline-flex",
-          gap: 10,
-          userSelect: "none",
+          gap: sizeStyle.gap,
         }}
       >
         <span
           style={{
             alignItems: "center",
-            animation: hasAnimation ? anim.box : undefined,
             background: v.boxBackground,
-            border: `1.5px solid ${v.boxBorderColor}`,
-            borderRadius: 5,
+            border: `1px solid ${v.boxBorderColor}`,
+            borderRadius: Math.round(boxSize * 0.28),
             display: "flex",
-            height: CHECKBOX_SIZE,
+            height: boxSize,
             justifyContent: "center",
-            width: CHECKBOX_SIZE,
+            width: boxSize,
           }}
         >
           <svg
-            width={12}
-            height={12}
+            width={boxSize}
+            height={boxSize}
             viewBox="0 0 24 24"
             fill="none"
             style={{
-              animation: hasAnimation
-                ? `${anim.check}, ${anim.draw}`
-                : undefined,
               opacity: v.checkOpacity,
               transform: `scale(${v.checkScale})`,
             }}
           >
             <path
               d="M5 12.5l4.5 4.5L19 7"
-              stroke="white"
+              stroke={ctx.checkColor}
               strokeWidth="2.6"
               strokeLinecap="round"
               strokeLinejoin="round"
+              pathLength={CHECK_PATH_LENGTH}
               strokeDasharray={CHECK_PATH_LENGTH}
-              strokeDashoffset={(1 - v.checkDraw) * CHECK_PATH_LENGTH}
+              strokeDashoffset={CHECK_PATH_LENGTH * (1 - v.checkDraw)}
             />
           </svg>
         </span>
-        <span
-          style={{
-            color: ctx.foreground,
-            fontSize: 14,
-            fontWeight: 500,
-            letterSpacing: "-0.01em",
-          }}
-        >
-          {label}
-        </span>
-      </label>
+        {label !== undefined && (
+          <span
+            style={{
+              color: theme.foreground,
+              fontSize: sizeStyle.fontSize,
+              fontWeight: 500,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {label}
+          </span>
+        )}
+      </span>
     </div>
   );
 };

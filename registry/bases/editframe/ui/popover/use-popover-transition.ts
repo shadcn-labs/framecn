@@ -1,5 +1,8 @@
 "use client";
 
+import { easings, useStateTransition } from "@/lib/framecn-ui";
+import type { Step } from "@/lib/framecn-ui";
+import { popoverStyle } from "@/registry/bases/editframe/ui/popover";
 import type {
   PopoverState,
   PopoverStyle,
@@ -17,42 +20,23 @@ export const tweenPopoverStyle = (
   translate: a.translate + (b.translate - a.translate) * t,
 });
 
-export const popoverKeyframes = (
-  fromStyle: PopoverStyle,
-  toStyle: PopoverStyle
-): string => {
-  const deltaOpacity = toStyle.opacity - fromStyle.opacity;
-  const deltaScale = toStyle.scale - fromStyle.scale;
-  const deltaTranslate = toStyle.translate - fromStyle.translate;
+export interface PopoverTransitionOptions {
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-  return `
-    @keyframes framecn-popover-opacity {
-      0% { opacity: ${fromStyle.opacity}; }
-      100% { opacity: calc(${fromStyle.opacity} + ${deltaOpacity} * var(--ef-progress)); }
-    }
-    @keyframes framecn-popover-transform {
-      0% { --ef-popover-translate: ${fromStyle.translate}px; --ef-popover-scale: ${fromStyle.scale}; }
-      100% { --ef-popover-translate: calc(${fromStyle.translate}px + ${deltaTranslate}px * var(--ef-progress)); --ef-popover-scale: calc(${fromStyle.scale} + ${deltaScale} * var(--ef-progress)); }
-    }
-  `;
-};
-
-export const popoverAnimation = (
-  from: PopoverState,
-  to: PopoverState,
-  duration: string,
-  _fromStyle: PopoverStyle,
-  _toStyle: PopoverStyle
-): {
-  opacity: string;
-  transform: string;
-} => {
-  if (from === to) {
-    return { opacity: "none", transform: "none" };
-  }
-
-  const opacityAnim = `${duration} framecn-popover-opacity cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  const transformAnim = `${duration} framecn-popover-transform cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-
-  return { opacity: opacityAnim, transform: transformAnim };
+export const usePopoverTransition = (
+  steps: Step<PopoverState>[],
+  opts: PopoverTransitionOptions = {}
+): PopoverStyle => {
+  const { speed = 1, defaultDuration = DEFAULT_DURATION } = opts;
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "closed",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenPopoverStyle(popoverStyle(from), popoverStyle(to), t);
 };

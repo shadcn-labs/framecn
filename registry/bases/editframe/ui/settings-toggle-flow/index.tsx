@@ -2,14 +2,20 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import { BlurIn } from "@/registry/bases/editframe/ui/blur-in";
+import { useBlurInTransition } from "@/registry/bases/editframe/ui/blur-in/use-blur-in-transition";
 import { Button } from "@/registry/bases/editframe/ui/button";
+import { useButtonTransition } from "@/registry/bases/editframe/ui/button/use-button-transition";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
 import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
 import { Select } from "@/registry/bases/editframe/ui/select";
+import { useSelectItemTransition } from "@/registry/bases/editframe/ui/select-item/use-select-item-transition";
+import { useSelectTransition } from "@/registry/bases/editframe/ui/select/use-select-transition";
 import { Slider } from "@/registry/bases/editframe/ui/slider";
+import { useSliderTransition } from "@/registry/bases/editframe/ui/slider/use-slider-transition";
 import { Switch } from "@/registry/bases/editframe/ui/switch";
+import { useSwitchTransition } from "@/registry/bases/editframe/ui/switch/use-switch-transition";
 import { Toast } from "@/registry/bases/editframe/ui/toast";
+import { useToastTransition } from "@/registry/bases/editframe/ui/toast/use-toast-transition";
 
 const DEFAULT_ROWS = [
   { label: "Notifications" },
@@ -17,18 +23,15 @@ const DEFAULT_ROWS = [
   { label: "Volume" },
 ];
 const DEFAULT_SELECT_ITEMS = ["System", "Light", "Dark"];
-
 const LEFT_X = 320;
 const RIGHT_X = 700;
 const COL_W = 300;
-
 const NOTIF_LABEL_Y = 196;
 const SWITCH_TOP = 222;
 const SWITCH_W = 44;
 const SWITCH_H = 28;
 const SWITCH_CX = RIGHT_X + SWITCH_W / 2;
 const SWITCH_CY = SWITCH_TOP + SWITCH_H / 2;
-
 const THEME_LABEL_Y = 280;
 const SELECT_W = 260;
 const TRIGGER_TOP = 320;
@@ -40,7 +43,6 @@ const PANEL_TOP = TRIGGER_TOP + TRIGGER_H + 6;
 const PANEL_PAD = 4;
 const ITEM_H = 33;
 const ITEM_GAP = 2;
-
 const VOL_LABEL_Y = 380;
 const SLIDER_TOP = 400;
 const SLIDER_W = 260;
@@ -49,31 +51,39 @@ const SLIDER_CY = SLIDER_TOP + SLIDER_H / 2;
 const SLIDER_X0 = RIGHT_X;
 const THUMB_X_AT_20 = SLIDER_X0 + 0.2 * SLIDER_W;
 const THUMB_X_AT_80 = SLIDER_X0 + 0.8 * SLIDER_W;
-
 const SAVE_W = 160;
 const SAVE_LEFT = RIGHT_X + SELECT_W - SAVE_W;
 const SAVE_TOP = 544;
 const SAVE_H = 40;
 const SAVE_CX = SAVE_LEFT + SAVE_W / 2;
 const SAVE_CY = SAVE_TOP + SAVE_H / 2;
-
 const CARD_PAD = 44;
 const CARD_LEFT = LEFT_X - CARD_PAD;
 const CARD_TOP = NOTIF_LABEL_Y - CARD_PAD;
 const CARD_W = RIGHT_X + SELECT_W + CARD_PAD - CARD_LEFT;
 const CARD_H = SAVE_TOP + SAVE_H + CARD_PAD - CARD_TOP;
-
 const DEMO = 44;
-
 export interface SettingsToggleFlowProps {
   title?: string;
   description?: string;
-  rows?: { label: string }[];
+  rows?: {
+    label: string;
+  }[];
   selectItems?: string[];
   saveLabel?: string;
   toastTitle?: string;
   theme?: Partial<FramecnTheme>;
 }
+const blurRevealStyle = (e: {
+  opacity: number;
+  blur: number;
+  translateX: number;
+  translateY: number;
+}) => ({
+  filter: e.blur > 0 ? `blur(${e.blur}px)` : "none",
+  opacity: e.opacity,
+  transform: `translate(${e.translateX}px, ${e.translateY}px)`,
+});
 
 export const SettingsToggleFlow = ({
   title = "Notification settings",
@@ -85,11 +95,29 @@ export const SettingsToggleFlow = ({
   theme,
 }: SettingsToggleFlowProps) => {
   const resolved = useFramecnTheme(theme);
-
+  const opts = { theme };
   const lastItem = selectItems.length - 1;
   const ITEM_CY =
     PANEL_TOP + PANEL_PAD + lastItem * (ITEM_H + ITEM_GAP) + ITEM_H / 2;
-
+  const cardEnter = useBlurInTransition(
+    [{ at: 0, duration: 18, state: "revealed" }],
+    { distance: 0 }
+  );
+  const enterHeader = useBlurInTransition([
+    { at: 18, duration: 16, state: "revealed" },
+  ]);
+  const enterSwitch = useBlurInTransition([
+    { at: 24, duration: 16, state: "revealed" },
+  ]);
+  const enterTheme = useBlurInTransition([
+    { at: 30, duration: 16, state: "revealed" },
+  ]);
+  const enterVolume = useBlurInTransition([
+    { at: 36, duration: 16, state: "revealed" },
+  ]);
+  const enterSave = useBlurInTransition([
+    { at: 42, duration: 16, state: "revealed" },
+  ]);
   const cursorStyle = useCursorPath([
     { at: 0, x: 220, y: 130 },
     { at: 24 + DEMO, duration: 20, x: SWITCH_CX, y: SWITCH_CY },
@@ -117,14 +145,60 @@ export const SettingsToggleFlow = ({
     { at: 180 + DEMO, duration: 18, x: SAVE_CX, y: SAVE_CY },
     { at: 180 + DEMO, click: true, duration: 0, x: SAVE_CX, y: SAVE_CY },
   ]);
-
+  const switchStyle = useSwitchTransition(
+    [{ at: 24 + DEMO, duration: 12, state: "checked" }],
+    opts
+  );
+  const panelStyle = useSelectTransition(
+    [
+      { at: 55 + DEMO, duration: 14, state: "opened" },
+      { at: 90 + DEMO, duration: 12, state: "closed" },
+    ],
+    opts
+  );
+  const triggerStyle = useButtonTransition(
+    [
+      { at: 45 + DEMO, duration: 8, state: "hover" },
+      { at: 55 + DEMO, duration: 8, state: "press" },
+    ],
+    { variant: "outline", ...opts }
+  );
+  const itemStyle = useSelectItemTransition(
+    [
+      { at: 68 + DEMO, duration: 8, state: "hover" },
+      { at: 78 + DEMO, duration: 6, state: "press" },
+      { at: 80 + DEMO, duration: 10, state: "selected" },
+    ],
+    opts
+  );
+  const sliderStyle = useSliderTransition([
+    { at: 0, thumbState: "idle", value: 20 },
+    { at: 105 + DEMO, duration: 6, thumbState: "press" },
+    { at: 105 + DEMO, value: 20 },
+    { at: 150 + DEMO, duration: 45, easing: "inOut", value: 80 },
+    { at: 158 + DEMO, duration: 8, thumbState: "idle" },
+  ]);
+  const saveStyle = useButtonTransition(
+    [
+      { at: 172 + DEMO, duration: 8, state: "hover" },
+      { at: 180 + DEMO, duration: 6, state: "press" },
+      { at: 188 + DEMO, duration: 14, state: "success" },
+    ],
+    opts
+  );
+  const toastStyle = useToastTransition(
+    [
+      { at: 196 + DEMO, duration: 12, state: "visible" },
+      { at: 256 + DEMO, duration: 12, state: "hidden" },
+    ],
+    {}
+  );
   const rowLabelStyle = {
     color: resolved.foreground,
     fontSize: 14,
     fontWeight: 500,
     letterSpacing: "-0.01em",
   } as const;
-
   return (
     <div
       style={{
@@ -144,8 +218,10 @@ export const SettingsToggleFlow = ({
           boxShadow:
             "0 10px 30px -12px rgba(0,0,0,0.22), 0 2px 8px -3px rgba(0,0,0,0.10)",
           boxSizing: "border-box",
+          filter: cardEnter.blur > 0 ? `blur(${cardEnter.blur}px)` : "none",
           height: CARD_H,
           left: CARD_LEFT,
+          opacity: cardEnter.opacity,
           position: "absolute",
           top: CARD_TOP,
           width: CARD_W,
@@ -161,30 +237,29 @@ export const SettingsToggleFlow = ({
           position: "absolute",
           top: NOTIF_LABEL_Y,
           width: COL_W,
+          ...blurRevealStyle(enterHeader),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          <div
-            style={{
-              color: resolved.foreground,
-              fontSize: 22,
-              fontWeight: 600,
-              letterSpacing: "-0.02em",
-              lineHeight: "28px",
-            }}
-          >
-            {title}
-          </div>
-          <div
-            style={{
-              color: resolved.mutedForeground,
-              fontSize: 14,
-              lineHeight: "22px",
-            }}
-          >
-            {description}
-          </div>
-        </BlurIn>
+        <div
+          style={{
+            color: resolved.foreground,
+            fontSize: 22,
+            fontWeight: 600,
+            letterSpacing: "-0.02em",
+            lineHeight: "28px",
+          }}
+        >
+          {title}
+        </div>
+        <div
+          style={{
+            color: resolved.mutedForeground,
+            fontSize: 14,
+            lineHeight: "22px",
+          }}
+        >
+          {description}
+        </div>
       </div>
 
       <div
@@ -193,11 +268,10 @@ export const SettingsToggleFlow = ({
           position: "absolute",
           top: NOTIF_LABEL_Y,
           ...rowLabelStyle,
+          ...blurRevealStyle(enterSwitch),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          {rows[0]?.label ?? "Notifications"}
-        </BlurIn>
+        {rows[0]?.label ?? "Notifications"}
       </div>
       <div
         style={{
@@ -206,11 +280,10 @@ export const SettingsToggleFlow = ({
           position: "absolute",
           top: SWITCH_TOP,
           width: SWITCH_W,
+          ...blurRevealStyle(enterSwitch),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          <Switch state="checked" from="unchecked" theme={theme} />
-        </BlurIn>
+        <Switch style={switchStyle} theme={theme} />
       </div>
 
       <div
@@ -219,22 +292,20 @@ export const SettingsToggleFlow = ({
           position: "absolute",
           top: VOL_LABEL_Y,
           ...rowLabelStyle,
+          ...blurRevealStyle(enterVolume),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          {rows[2]?.label ?? "Volume"}
-        </BlurIn>
+        {rows[2]?.label ?? "Volume"}
       </div>
       <div
         style={{
           left: SLIDER_X0,
           position: "absolute",
           top: SLIDER_TOP,
+          ...blurRevealStyle(enterVolume),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          <Slider value={0.5} theme={theme} />
-        </BlurIn>
+        <Slider style={sliderStyle} width={SLIDER_W} theme={theme} />
       </div>
 
       <div
@@ -243,11 +314,10 @@ export const SettingsToggleFlow = ({
           position: "absolute",
           top: THEME_LABEL_Y,
           ...rowLabelStyle,
+          ...blurRevealStyle(enterTheme),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          {rows[1]?.label ?? "Theme"}
-        </BlurIn>
+        {rows[1]?.label ?? "Theme"}
       </div>
       <div
         style={{
@@ -256,15 +326,19 @@ export const SettingsToggleFlow = ({
           position: "absolute",
           top: TRIGGER_TOP,
           width: SELECT_W,
+          ...blurRevealStyle(enterTheme),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          <Select
-            value={selectItems[0] ?? "System"}
-            items={selectItems}
-            theme={theme}
-          />
-        </BlurIn>
+        <Select
+          style={panelStyle}
+          label={selectItems[0] ?? "System"}
+          items={selectItems}
+          triggerStyle={triggerStyle}
+          itemStyles={selectItems.map((_, i) =>
+            i === selectItems.length - 1 ? itemStyle : undefined
+          )}
+          theme={theme}
+        />
       </div>
 
       <div
@@ -274,19 +348,17 @@ export const SettingsToggleFlow = ({
           position: "absolute",
           top: SAVE_TOP,
           width: SAVE_W,
+          ...blurRevealStyle(enterSave),
         }}
       >
-        <BlurIn display="block" state="revealed">
-          <Button label={saveLabel} state="idle" from="idle" theme={theme} />
-        </BlurIn>
+        <Button label={saveLabel} style={saveStyle} theme={theme} />
       </div>
 
       <div style={{ bottom: 24, position: "absolute", right: 24 }}>
         <Toast
+          style={toastStyle}
           title={toastTitle}
           variant="success"
-          state="hidden"
-          from="hidden"
           theme={theme}
         />
       </div>

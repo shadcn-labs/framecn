@@ -2,14 +2,22 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  sheetAnimation,
-  sheetKeyframes,
-} from "@/registry/bases/editframe/ui/sheet/use-sheet-transition";
 
-export type SheetState = "open" | "closed";
+export type SheetState = "opened" | "closed";
 
-export type SheetSide = "left" | "right";
+export interface SheetProps {
+  state?: SheetState;
+  style?: SheetStyle;
+  title?: string;
+  description?: string;
+  actionLabel?: string;
+  cancelLabel?: string;
+  theme?: Partial<FramecnTheme>;
+  className?: string;
+}
+
+const SHEET_WIDTH = 400;
+const MAX_OVERLAY_ALPHA = 0.5;
 
 export interface SheetStyle {
   overlayOpacity: number;
@@ -18,152 +26,183 @@ export interface SheetStyle {
 }
 
 export interface SheetStyleContext {
-  background: string;
+  popoverBg: string;
+  popoverFg: string;
+  mutedFg: string;
   border: string;
-  foreground: string;
-  mutedForeground: string;
+  radius: number;
+  actionBg: string;
+  actionFg: string;
+  cancelFg: string;
 }
-
-export interface SheetProps {
-  state?: SheetState;
-  from?: SheetState;
-  side?: SheetSide;
-  title?: string;
-  description?: string;
-  theme?: Partial<FramecnTheme>;
-  className?: string;
-  duration?: string;
-}
-
-const SHEET_WIDTH = 360;
 
 export const sheetStyleContext = (theme: FramecnTheme): SheetStyleContext => ({
-  background: theme.popover,
+  actionBg: theme.primary,
+  actionFg: theme.primaryForeground,
   border: theme.border,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
+  cancelFg: theme.foreground,
+  mutedFg: theme.mutedForeground,
+  popoverBg: theme.popover,
+  popoverFg: theme.popoverForeground,
+  radius: theme.radius,
 });
 
 export const sheetStyle = (
   state: SheetState,
-  side: SheetSide,
   _ctx: SheetStyleContext
 ): SheetStyle => {
-  const sign = side === "right" ? 1 : -1;
   switch (state) {
-    case "open": {
-      return { overlayOpacity: 0.6, panelOpacity: 1, panelTranslateX: 0 };
+    case "opened": {
+      return {
+        overlayOpacity: 1,
+        panelOpacity: 1,
+        panelTranslateX: 0,
+      };
     }
     default: {
       return {
         overlayOpacity: 0,
         panelOpacity: 0,
-        panelTranslateX: sign * SHEET_WIDTH,
+        panelTranslateX: SHEET_WIDTH,
       };
     }
   }
 };
 
 export const Sheet = ({
-  state = "open",
-  from,
-  side = "right",
-  title = "Settings",
-  description = "Manage your account settings and preferences.",
+  state = "closed",
+  style,
+  title = "Edit profile",
+  description = "Make changes to your profile here. Click save when you're done.",
+  actionLabel = "Save changes",
+  cancelLabel = "Cancel",
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: SheetProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = sheetStyleContext(theme);
-  const v = sheetStyle(state, side, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? sheetStyle(from, side, ctx) : v;
-  const anim = hasAnimation
-    ? sheetAnimation(from, state, duration, fromStyle, v)
-    : { overlay: "none", panel: "none" };
-
-  const isRight = side === "right";
-
+  const v = style ?? sheetStyle(state, ctx);
+  const buttonBase: React.CSSProperties = {
+    alignItems: "center",
+    borderRadius: ctx.radius,
+    cursor: "pointer",
+    display: "inline-flex",
+    fontSize: 15,
+    fontWeight: 500,
+    height: 40,
+    justifyContent: "center",
+    letterSpacing: "-0.01em",
+    padding: "0 20px",
+  };
   return (
     <div
       style={{
-        alignItems: "center",
-        background: "transparent",
-        display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
         inset: 0,
-        justifyContent: "center",
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{sheetKeyframes(fromStyle, v)}</style>}
       <div
         style={{
-          animation: hasAnimation ? anim.overlay : undefined,
-          background: "black",
-          borderRadius: 0,
-          height: "100%",
-          left: 0,
-          opacity: v.overlayOpacity,
+          background: `rgba(0, 0, 0, ${MAX_OVERLAY_ALPHA * v.overlayOpacity})`,
+          inset: 0,
           position: "absolute",
-          top: 0,
-          width: "100%",
         }}
       />
       <div
         className={className}
         style={{
-          animation: hasAnimation ? anim.panel : undefined,
-          background: ctx.background,
-          [isRight ? "borderLeft" : "borderRight"]: `1px solid ${ctx.border}`,
-          boxShadow: isRight
-            ? "-4px 0 6px -1px rgba(0,0,0,0.1)"
-            : "4px 0 6px -1px rgba(0,0,0,0.1)",
+          background: ctx.popoverBg,
+          borderLeft: `1px solid ${ctx.border}`,
+          boxShadow: "-24px 0 48px -12px rgba(0,0,0,0.25)",
+          color: ctx.popoverFg,
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          gap: 8,
           height: "100%",
-          [isRight ? "right" : "left"]: 0,
           opacity: v.panelOpacity,
           padding: 24,
           position: "absolute",
+          right: 0,
           top: 0,
           transform: `translateX(${v.panelTranslateX}px)`,
           width: SHEET_WIDTH,
-          zIndex: 1,
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span
-            style={{
-              color: ctx.foreground,
-              fontSize: 16,
-              fontWeight: 600,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {title}
-          </span>
-          <span
-            style={{
-              color: ctx.mutedForeground,
-              fontSize: 14,
-              lineHeight: 1.5,
-            }}
-          >
-            {description}
-          </span>
+        <button
+          type="button"
+          style={{
+            alignItems: "center",
+            background: "transparent",
+            border: "none",
+            borderRadius: ctx.radius,
+            color: ctx.mutedFg,
+            cursor: "pointer",
+            display: "inline-flex",
+            height: 28,
+            justifyContent: "center",
+            position: "absolute",
+            right: 16,
+            top: 16,
+            width: 28,
+          }}
+        >
+          <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 6 6 18 M6 6 18 18"
+              stroke={ctx.mutedFg}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          style={{
+            fontSize: 18,
+            fontWeight: 500,
+            letterSpacing: "-0.01em",
+            paddingRight: 28,
+          }}
+        >
+          {title}
+        </div>
+        <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: 1.5 }}>
+          {description}
         </div>
         <div
           style={{
-            background: theme.muted,
-            borderRadius: theme.radius,
-            flex: 1,
+            display: "flex",
+            gap: 8,
+            justifyContent: "flex-end",
+            marginTop: "auto",
           }}
-        />
+        >
+          <button
+            type="button"
+            style={{
+              ...buttonBase,
+              background: "transparent",
+              border: `1px solid ${ctx.border}`,
+              color: ctx.cancelFg,
+            }}
+          >
+            {cancelLabel}
+          </button>
+
+          <button
+            type="button"
+            style={{
+              ...buttonBase,
+              background: ctx.actionBg,
+              border: "1px solid transparent",
+              color: ctx.actionFg,
+            }}
+          >
+            {actionLabel}
+          </button>
+        </div>
       </div>
     </div>
   );

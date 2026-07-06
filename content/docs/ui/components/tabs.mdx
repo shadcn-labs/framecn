@@ -43,5 +43,42 @@ import { Tabs } from "@/components/ui/tabs";
 ```
 
 ```tsx
-<Tabs />
+<Tabs state="Account" variant="pill" />
 ```
+
+## Smooth transitions
+
+The docs preview cycles Account → Password → Settings via `useTabsTransition`. Forward `variant` into the hook when using `style` so the indicator layout matches the variant prop:
+
+```tsx
+import { Tabs } from "@/components/framecn/tabs";
+import { useTabsTransition } from "@/components/framecn/use-tabs-transition";
+
+const style = useTabsTransition(
+  [
+    { at: 18, state: "Account", duration: 16 },
+    { at: 58, state: "Password", duration: 18 },
+    { at: 94, state: "Settings", duration: 12 },
+  ],
+  { variant: "pill" }
+);
+
+<Tabs style={style} variant="pill" />;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Tabs
+
+| Prop            | Type                    | Default                               |
+| --------------- | ----------------------- | ------------------------------------- |
+| `state`         | `string`                | `"Account"`                           |
+| `style`         | `TabsStyle`             | `-` (takes precedence over `state`)   |
+| `items`         | `string[]`              | `["Account", "Password", "Settings"]` |
+| `contents`      | `string[]`              | Default panel copy for each tab       |
+| `contentHeight` | `number`                | `-`                                   |
+| `variant`       | `"pill" \| "underline"` | `"pill"`                              |
+| `theme`         | `Partial<FramecnTheme>` | `-`                                   |
+| `className`     | `string`                | `-`                                   |

@@ -2,147 +2,135 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import { getTooltipAnimation } from "@/registry/bases/editframe/ui/tooltip/use-tooltip-transition";
 
 export type TooltipState = "hidden" | "visible";
 
-export type TooltipPlacement = "top" | "bottom" | "left" | "right";
+export type TooltipSide = "top" | "bottom" | "left" | "right";
 
 export interface TooltipProps {
   state?: TooltipState;
-  from?: TooltipState;
-  label?: string;
-  placement?: TooltipPlacement;
+  style?: TooltipStyle;
+  label: string;
+  side?: TooltipSide;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  children?: React.ReactNode;
 }
 
-const placementOffset = (
-  placement: TooltipPlacement
-): { x: number; y: number } => {
-  switch (placement) {
-    case "top": {
-      return { x: 0, y: -6 };
-    }
-    case "bottom": {
-      return { x: 0, y: 6 };
-    }
-    case "left": {
-      return { x: -6, y: 0 };
-    }
-    case "right": {
-      return { x: 6, y: 0 };
+const ARROW = 10;
+
+export interface TooltipStyle {
+  opacity: number;
+  scale: number;
+  translate: number;
+}
+
+export const tooltipStyle = (state: TooltipState): TooltipStyle => {
+  switch (state) {
+    case "visible": {
+      return { opacity: 1, scale: 1, translate: 0 };
     }
     default: {
-      return { x: 0, y: -6 };
+      return { opacity: 0, scale: 0.96, translate: 4 };
     }
   }
 };
 
-const tooltipLeft = (p: TooltipPlacement): string | undefined => {
-  if (p === "right") {
-    return "100%";
+const offsetFor = (
+  side: TooltipSide,
+  translate: number
+): {
+  x: number;
+  y: number;
+} => {
+  switch (side) {
+    case "bottom": {
+      return { x: 0, y: -translate };
+    }
+    case "left": {
+      return { x: translate, y: 0 };
+    }
+    case "right": {
+      return { x: -translate, y: 0 };
+    }
+    default: {
+      return { x: 0, y: translate };
+    }
   }
-  if (p === "left") {
-    return undefined;
-  }
-  return "50%";
-};
-
-const tooltipMarginLeft = (
-  p: TooltipPlacement
-): number | string | undefined => {
-  if (p === "left") {
-    return undefined;
-  }
-  if (p === "right") {
-    return 6;
-  }
-  return "-50%";
-};
-
-const tooltipMarginRight = (p: TooltipPlacement): number => {
-  if (p === "right") {
-    return 0;
-  }
-  if (p === "left") {
-    return 6;
-  }
-  return 0;
 };
 
 export const Tooltip = ({
   state = "hidden",
-  from,
-  label = "",
-  placement = "top",
+  style,
+  label,
+  side = "top",
   theme: themeOverride,
   className,
-  children,
 }: TooltipProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
-
-  const hasAnimation = from !== undefined && from !== state;
-  const anim = hasAnimation ? getTooltipAnimation(from) : null;
-
-  const offset = placementOffset(placement);
-  const isVisible = state === "visible";
-
+  const v = style ?? tooltipStyle(state);
+  const bg = theme.foreground;
+  const fg = theme.background;
+  const { x, y } = offsetFor(side, v.translate);
+  const arrowStyle: React.CSSProperties = {
+    background: bg,
+    borderRadius: 2,
+    height: ARROW,
+    position: "absolute",
+    transform: "rotate(45deg)",
+    width: ARROW,
+    ...(side === "top" && {
+      bottom: -ARROW / 2,
+      left: "50%",
+      marginLeft: -ARROW / 2,
+    }),
+    ...(side === "bottom" && {
+      left: "50%",
+      marginLeft: -ARROW / 2,
+      top: -ARROW / 2,
+    }),
+    ...(side === "left" && {
+      marginTop: -ARROW / 2,
+      right: -ARROW / 2,
+      top: "50%",
+    }),
+    ...(side === "right" && {
+      left: -ARROW / 2,
+      marginTop: -ARROW / 2,
+      top: "50%",
+    }),
+  };
   return (
     <div
       className={className}
       style={{
+        alignItems: "center",
         display: "inline-flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
+        opacity: v.opacity,
         position: "relative",
+        transform: `translate(${x}px, ${y}px) scale(${v.scale})`,
+        transformOrigin: "center",
       }}
     >
-      {children}
       <div
         style={{
-          animation: anim
-            ? `${anim.animationName} ${anim.animationDuration} ${anim.animationTimingFunction} ${anim.animationFillMode}`
-            : undefined,
-          background: theme.foreground,
-          borderRadius: theme.radius,
-          bottom: placement === "top" ? "100%" : undefined,
-          color: theme.background,
-          fontSize: 13,
+          background: bg,
+          borderRadius: theme.radius + 4,
+          boxShadow: "0 4px 12px -4px rgba(0,0,0,0.25)",
+          color: fg,
+          fontSize: 12,
           fontWeight: 500,
-          left: tooltipLeft(placement),
-          lineHeight: "1.4",
-          marginBottom: placement === "top" ? 6 : 0,
-          marginLeft: tooltipMarginLeft(placement),
-          marginRight: tooltipMarginRight(placement),
-          marginTop: placement === "bottom" ? 6 : 0,
-          opacity: isVisible ? 1 : 0,
+          letterSpacing: "-0.005em",
+          lineHeight: 1.3,
           padding: "6px 12px",
-          pointerEvents: "none",
-          position: "absolute",
-          top: placement === "bottom" ? "100%" : undefined,
-          transform: hasAnimation
-            ? undefined
-            : `translate(${offset.x}px, ${offset.y}px)`,
+          position: "relative",
           whiteSpace: "nowrap",
-          zIndex: 50,
         }}
       >
         {label}
-        <div
-          style={{
-            background: theme.foreground,
-            borderRadius: 2,
-            bottom: placement === "top" ? -4 : undefined,
-            height: 8,
-            left: "50%",
-            position: "absolute",
-            top: placement === "bottom" ? -4 : undefined,
-            transform: "translateX(-50%) rotate(45deg)",
-            width: 8,
-          }}
-        />
+
+        <span style={arrowStyle} />
       </div>
     </div>
   );

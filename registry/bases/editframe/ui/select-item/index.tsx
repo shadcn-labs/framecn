@@ -2,22 +2,16 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  selectItemKeyframes,
-  selectItemAnimation,
-} from "@/registry/bases/editframe/ui/select-item/use-select-item-transition";
 
 export type SelectItemState = "idle" | "hover" | "press" | "selected";
 
 export interface SelectItemProps {
   state?: SelectItemState;
-  from?: SelectItemState;
   style?: SelectItemStyle;
   label?: string;
   width?: number;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
 const ROW_WIDTH = 260;
@@ -94,42 +88,28 @@ export const selectItemStyle = (
 export interface SelectItemRowProps {
   style?: SelectItemStyle;
   state?: SelectItemState;
-  from?: SelectItemState;
   ctx: SelectItemStyleContext;
   label: string;
   width: number;
   radius: number;
   check: string;
-  duration?: string;
 }
 
 export const SelectItemRow = ({
   style,
   state = "idle",
-  from,
   ctx,
   label,
   width,
   radius,
   check,
-  duration = "8frames",
 }: SelectItemRowProps) => {
   const v = style ?? selectItemStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? selectItemStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? selectItemAnimation(from, state, duration, fromStyle, v)
-    : { background: "none", checkOpacity: "none", scale: "none" };
-
   return (
     <div
       className={undefined}
       style={{
         alignItems: "center",
-        animation: hasAnimation
-          ? `${anim.background}, ${anim.scale}`
-          : undefined,
         background: v.background,
         borderRadius: radius,
         boxSizing: "border-box",
@@ -144,18 +124,13 @@ export const SelectItemRow = ({
         width,
       }}
     >
-      {hasAnimation && <style>{selectItemKeyframes(fromStyle, v)}</style>}
       <span>{label}</span>
       <svg
         width={16}
         height={16}
         viewBox="0 0 24 24"
         fill="none"
-        style={{
-          animation: hasAnimation ? anim.checkOpacity : undefined,
-          flexShrink: 0,
-          opacity: v.checkOpacity,
-        }}
+        style={{ flexShrink: 0, opacity: v.checkOpacity }}
       >
         <path
           d="M5 12.5l4.5 4.5L19 7"
@@ -171,17 +146,14 @@ export const SelectItemRow = ({
 
 export const SelectItem = ({
   state = "idle",
-  from,
   style,
   label = "Banana",
   width = ROW_WIDTH,
   theme: themeOverride,
   className,
-  duration = "8frames",
 }: SelectItemProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = selectItemStyleContext(theme);
-
   return (
     <div
       className={className}
@@ -199,13 +171,11 @@ export const SelectItem = ({
       <SelectItemRow
         style={style}
         state={state}
-        from={from}
         ctx={ctx}
         label={label}
         width={width}
         radius={theme.radius}
         check={ctx.check}
-        duration={duration}
       />
     </div>
   );

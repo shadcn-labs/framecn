@@ -43,5 +43,40 @@ import { Switch } from "@/components/ui/switch";
 ```
 
 ```tsx
-<Switch />
+<Switch label="Enable notifications" state="checked" />
 ```
+
+## Smooth transitions
+
+The docs preview animates checked → unchecked via `useSwitchTransition`. Forward `primary` into the hook when using `style` so the track fill tracks the color prop:
+
+```tsx
+import { Switch } from "@/components/framecn/switch";
+import { useSwitchTransition } from "@/components/framecn/use-switch-transition";
+
+const style = useSwitchTransition(
+  [
+    { at: 18, state: "checked", duration: 14 },
+    { at: 78, state: "unchecked", duration: 12 },
+  ],
+  { primary: "#171717" }
+);
+
+<Switch label="Enable notifications" style={style} />;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Switch
+
+| Prop        | Type                        | Default                             |
+| ----------- | --------------------------- | ----------------------------------- |
+| `state`     | `"unchecked" \| "checked"`  | `"unchecked"`                       |
+| `style`     | `SwitchStyle`               | `-` (takes precedence over `state`) |
+| `label`     | `string`                    | `-`                                 |
+| `size`      | `"sm" \| "default" \| "lg"` | `"default"`                         |
+| `theme`     | `Partial<FramecnTheme>`     | `-`                                 |
+| `primary`   | `string`                    | `-`                                 |
+| `className` | `string`                    | `-`                                 |

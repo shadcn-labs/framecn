@@ -1,5 +1,8 @@
 "use client";
 
+import { easings, useStateTransition } from "@/lib/framecn-ui";
+import type { Step } from "@/lib/framecn-ui";
+import { skeletonStyle } from "@/registry/bases/editframe/ui/skeleton";
 import type {
   SkeletonState,
   SkeletonStyle,
@@ -7,38 +10,33 @@ import type {
 
 export const DEFAULT_DURATION = 12;
 
-export const skeletonKeyframes = (
-  fromStyle: SkeletonStyle,
-  toStyle: SkeletonStyle
-): string => {
-  const dSkeleton = toStyle.skeletonOpacity - fromStyle.skeletonOpacity;
-  const dContent = toStyle.contentOpacity - fromStyle.contentOpacity;
+export const tweenSkeletonStyle = (
+  a: SkeletonStyle,
+  b: SkeletonStyle,
+  t: number
+): SkeletonStyle => ({
+  contentOpacity: a.contentOpacity + (b.contentOpacity - a.contentOpacity) * t,
+  skeletonOpacity:
+    a.skeletonOpacity + (b.skeletonOpacity - a.skeletonOpacity) * t,
+});
 
-  return `
-    @keyframes framecn-skeleton-opacity {
-      0% { opacity: ${fromStyle.skeletonOpacity}; }
-      100% { opacity: calc(${fromStyle.skeletonOpacity} + ${dSkeleton} * var(--ef-progress)); }
-    }
-    @keyframes framecn-content-opacity {
-      0% { opacity: ${fromStyle.contentOpacity}; }
-      100% { opacity: calc(${fromStyle.contentOpacity} + ${dContent} * var(--ef-progress)); }
-    }
-  `;
-};
+export interface SkeletonTransitionOptions {
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-export const skeletonAnimation = (
-  from: SkeletonState,
-  to: SkeletonState,
-  duration: string,
-  _fromStyle: SkeletonStyle,
-  _toStyle: SkeletonStyle
-): { skeleton: string; content: string } => {
-  if (from === to) {
-    return { content: "none", skeleton: "none" };
-  }
-  const ease = "cubic-bezier(0.4, 0, 0.2, 1)";
-  return {
-    content: `${duration} framecn-content-opacity ${ease} forwards`,
-    skeleton: `${duration} framecn-skeleton-opacity ${ease} forwards`,
-  };
+export const useSkeletonTransition = (
+  steps: Step<SkeletonState>[],
+  opts: SkeletonTransitionOptions = {}
+): SkeletonStyle => {
+  const { speed = 1, defaultDuration = DEFAULT_DURATION } = opts;
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "loading",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenSkeletonStyle(skeletonStyle(from), skeletonStyle(to), t);
 };

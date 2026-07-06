@@ -1,27 +1,61 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { revealedText, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
-  comboboxKeyframes,
-  comboboxAnimation,
-} from "@/registry/bases/editframe/ui/combobox/use-combobox-transition";
+  inputStyle,
+  inputStyleContext,
+} from "@/registry/bases/editframe/ui/input";
+import type {
+  InputStyle,
+  InputStyleContext,
+} from "@/registry/bases/editframe/ui/input";
+import {
+  SelectItemRow,
+  selectItemStyle,
+  selectItemStyleContext,
+} from "@/registry/bases/editframe/ui/select-item";
+import type {
+  SelectItemState,
+  SelectItemStyle,
+  SelectItemStyleContext,
+} from "@/registry/bases/editframe/ui/select-item";
 
-export type ComboboxState = "open" | "closed";
+export type ComboboxState = "opened" | "closed";
 
 export interface ComboboxProps {
   state?: ComboboxState;
-  from?: ComboboxState;
+  style?: ComboboxStyle;
+  query?: string;
+  revealCount?: number;
   placeholder?: string;
-  value?: string;
-  options?: string[];
+  items?: string[];
+  selectedIndex?: number;
+  highlightedIndex?: number;
+  pressedIndex?: number;
+  itemStyles?: (SelectItemStyle | undefined)[];
+  inputStyle?: InputStyle;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
-const COMBOBOX_WIDTH = 320;
-const ITEM_HEIGHT = 36;
+const WIDTH = 280;
+
+export const filterComboboxItems = (
+  items: string[],
+  query: string,
+  revealCount?: number
+): string[] => {
+  const visible = (
+    revealCount === undefined ? query : revealedText(query, revealCount)
+  )
+    .trim()
+    .toLowerCase();
+  if (visible === "") {
+    return items;
+  }
+  return items.filter((item) => item.toLowerCase().includes(visible));
+};
 
 export interface ComboboxStyle {
   panelOpacity: number;
@@ -29,9 +63,32 @@ export interface ComboboxStyle {
   panelTranslateY: number;
 }
 
-export const comboboxStyle = (state: ComboboxState): ComboboxStyle => {
+export interface ComboboxStyleContext {
+  triggerCtx: InputStyleContext;
+  panelBg: string;
+  panelBorder: string;
+  mutedFg: string;
+  radius: number;
+  itemCtx: SelectItemStyleContext;
+}
+
+export const comboboxStyleContext = (
+  theme: FramecnTheme
+): ComboboxStyleContext => ({
+  itemCtx: selectItemStyleContext(theme),
+  mutedFg: theme.mutedForeground,
+  panelBg: theme.popover,
+  panelBorder: theme.border,
+  radius: theme.radius,
+  triggerCtx: inputStyleContext(theme),
+});
+
+export const comboboxStyle = (
+  state: ComboboxState,
+  _ctx: ComboboxStyleContext
+): ComboboxStyle => {
   switch (state) {
-    case "open": {
+    case "opened": {
       return { panelOpacity: 1, panelScale: 1, panelTranslateY: 0 };
     }
     default: {
@@ -40,29 +97,52 @@ export const comboboxStyle = (state: ComboboxState): ComboboxStyle => {
   }
 };
 
+const rowState = (
+  i: number,
+  selectedIndex: number,
+  highlightedIndex: number,
+  pressedIndex: number
+): SelectItemState => {
+  if (i === pressedIndex) {
+    return "press";
+  }
+  if (i === selectedIndex) {
+    return "selected";
+  }
+  if (i === highlightedIndex) {
+    return "hover";
+  }
+  return "idle";
+};
+
 export const Combobox = ({
   state = "closed",
-  from,
-  placeholder = "Select an option...",
-  value,
-  options = ["Option 1", "Option 2", "Option 3"],
+  style,
+  query = "",
+  revealCount,
+  placeholder = "Select a fruit…",
+  items = ["Apple", "Banana", "Orange", "Grape"],
+  selectedIndex = -1,
+  highlightedIndex = -1,
+  pressedIndex = -1,
+  itemStyles,
+  inputStyle: inputStyleOverride,
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: ComboboxProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
-  const v = comboboxStyle(state);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? comboboxStyle(from) : v;
-  const anim = hasAnimation
-    ? comboboxAnimation(from, state, duration, fromStyle, v)
-    : { panelOpacity: "none", panelTransform: "none" };
-
-  const isOpen = state === "open";
-
+  const ctx = comboboxStyleContext(theme);
+  const v = style ?? comboboxStyle(state, ctx);
+  const visibleQuery =
+    revealCount === undefined ? query : revealedText(query, revealCount);
+  const filtered = filterComboboxItems(items, query, revealCount);
+  const trigger: InputStyle =
+    inputStyleOverride ??
+    inputStyle(visibleQuery ? "typing" : "idle", ctx.triggerCtx);
+  const valueWidth = visibleQuery.length * 8;
   return (
     <div
+      className={className}
       style={{
         alignItems: "center",
         background: "transparent",
@@ -74,100 +154,121 @@ export const Combobox = ({
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{comboboxKeyframes(fromStyle, v)}</style>}
-      <div
-        className={className}
-        style={{ position: "relative", width: COMBOBOX_WIDTH }}
-      >
-        <button
-          type="button"
+      <div style={{ position: "relative", width: WIDTH }}>
+        <div
           style={{
             alignItems: "center",
-            background: theme.background,
-            border: `1px solid ${theme.input}`,
+            background: trigger.background,
+            border: `1px solid ${trigger.borderColor}`,
             borderRadius: theme.radius,
-            color: value ? theme.foreground : theme.mutedForeground,
-            cursor: "pointer",
+            boxShadow: `0 0 0 ${trigger.ringWidth}px ${trigger.ringColor}`,
+            boxSizing: "border-box",
             display: "flex",
-            fontSize: 14,
-            fontWeight: 500,
+            fontSize: 15,
             height: 40,
-            justifyContent: "space-between",
             letterSpacing: "-0.01em",
-            padding: "0 12px",
-            width: "100%",
+            padding: "0 14px",
+            position: "relative",
+            width: WIDTH,
           }}
         >
-          <span>{value ?? placeholder}</span>
-          <svg
-            width={14}
-            height={14}
-            viewBox="0 0 24 24"
-            fill="none"
-            style={{ transform: isOpen ? "rotate(180deg)" : undefined }}
-          >
-            <path
-              d="M6 9l6 6 6-6"
-              stroke={theme.mutedForeground}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        {isOpen && (
-          <div
+          <span
             style={{
-              animation: hasAnimation
-                ? `${anim.panelOpacity}, ${anim.panelTransform}`
-                : undefined,
-              background: theme.popover,
-              border: `1px solid ${theme.border}`,
-              borderRadius: theme.radius,
-              boxShadow:
-                "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
-              display: "flex",
-              flexDirection: "column",
-              left: 0,
-              opacity: v.panelOpacity,
-              overflow: "hidden",
-              padding: 4,
+              color: ctx.triggerCtx.mutedForeground,
+              left: 14,
+              opacity: trigger.valueReveal > 0 ? 0 : trigger.placeholderOpacity,
+              pointerEvents: "none",
               position: "absolute",
-              top: 44,
-              transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
-              transformOrigin: "top",
-              width: "100%",
-              zIndex: 50,
+              whiteSpace: "nowrap",
             }}
           >
-            {options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                style={{
-                  alignItems: "center",
-                  background: option === value ? theme.accent : "transparent",
-                  border: "none",
-                  borderRadius: theme.radius,
-                  color:
-                    option === value ? theme.foreground : theme.mutedForeground,
-                  cursor: "pointer",
-                  display: "flex",
-                  fontSize: 14,
-                  fontWeight: option === value ? 500 : 400,
-                  height: ITEM_HEIGHT,
-                  justifyContent: "flex-start",
-                  letterSpacing: "-0.01em",
-                  padding: "0 8px",
-                  textAlign: "left",
-                  width: "100%",
-                }}
-              >
-                {option}
-              </button>
-            ))}
+            {placeholder}
+          </span>
+
+          <div style={{ alignItems: "center", display: "flex", minWidth: 0 }}>
+            <span
+              style={{
+                color: ctx.triggerCtx.foreground,
+                display: "inline-block",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                width: valueWidth * trigger.valueReveal,
+              }}
+            >
+              {visibleQuery}
+            </span>
+            <span
+              style={{
+                background: ctx.triggerCtx.foreground,
+                borderRadius: 1,
+                flexShrink: 0,
+                height: 17,
+                opacity: trigger.caretOpacity,
+                width: 2,
+              }}
+            />
           </div>
-        )}
+        </div>
+
+        <div
+          style={{
+            background: ctx.panelBg,
+            border: `1px solid ${ctx.panelBorder}`,
+            borderRadius: ctx.radius,
+            boxShadow: "0 16px 32px -12px rgba(0,0,0,0.25)",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            left: 0,
+            opacity: v.panelOpacity,
+            padding: 4,
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
+            transformOrigin: "top",
+            width: WIDTH,
+          }}
+        >
+          {filtered.length === 0 ? (
+            <div
+              style={{
+                color: ctx.mutedFg,
+                fontSize: 14,
+                padding: "12px",
+                textAlign: "center",
+              }}
+            >
+              No results found.
+            </div>
+          ) : (
+            filtered.map((item, i) => {
+              const override = itemStyles?.[i];
+              return (
+                <SelectItemRow
+                  key={item}
+                  style={
+                    override ??
+                    selectItemStyle(
+                      rowState(
+                        i,
+                        selectedIndex,
+                        highlightedIndex,
+                        pressedIndex
+                      ),
+                      ctx.itemCtx
+                    )
+                  }
+                  ctx={ctx.itemCtx}
+                  label={item}
+                  width={WIDTH - 8}
+                  radius={theme.radius}
+                  check={ctx.itemCtx.check}
+                />
+              );
+            })
+          )}
+        </div>
       </div>
     </div>
   );

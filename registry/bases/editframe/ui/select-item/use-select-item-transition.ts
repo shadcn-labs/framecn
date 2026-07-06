@@ -1,6 +1,16 @@
 "use client";
 
-import { mixOklch } from "@/lib/framecn-ui";
+import {
+  easings,
+  mixOklch,
+  useFramecnTheme,
+  useStateTransition,
+} from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  selectItemStyle,
+  selectItemStyleContext,
+} from "@/registry/bases/editframe/ui/select-item";
 import type {
   SelectItemState,
   SelectItemStyle,
@@ -19,51 +29,35 @@ export const tweenSelectItemStyle = (
   scale: a.scale + (b.scale - a.scale) * t,
 });
 
-export const selectItemKeyframes = (
-  fromStyle: SelectItemStyle,
-  toStyle: SelectItemStyle
-): string => {
-  const dCheckOpacity = toStyle.checkOpacity - fromStyle.checkOpacity;
-  const dScale = toStyle.scale - fromStyle.scale;
+export interface SelectItemTransitionOptions {
+  theme?: Partial<FramecnTheme>;
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-  return `
-    @keyframes framecn-select-item-bg {
-      0% { background: ${fromStyle.background}; color: ${fromStyle.labelColor}; }
-      100% { background: ${toStyle.background}; color: ${toStyle.labelColor}; }
-    }
-    @keyframes framecn-select-item-opacity {
-      0% { opacity: ${fromStyle.checkOpacity}; }
-      100% { opacity: calc(${fromStyle.checkOpacity} + ${dCheckOpacity} * var(--ef-progress)); }
-    }
-    @keyframes framecn-select-item-scale {
-      0% { transform: scale(${fromStyle.scale}); }
-      100% { transform: scale(calc(${fromStyle.scale} + ${dScale} * var(--ef-progress))); }
-    }
-  `;
-};
-
-export const selectItemAnimation = (
-  from: SelectItemState,
-  to: SelectItemState,
-  duration: string,
-  _fromStyle: SelectItemStyle,
-  _toStyle: SelectItemStyle
-): {
-  background: string;
-  checkOpacity: string;
-  scale: string;
-} => {
-  if (from === to) {
-    return { background: "none", checkOpacity: "none", scale: "none" };
-  }
-
-  const bgAnim = `${duration} framecn-select-item-bg cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  const checkOpacityAnim = `${duration} framecn-select-item-opacity cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  const scaleAnim = `${duration} framecn-select-item-scale cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-
-  return {
-    background: bgAnim,
-    checkOpacity: checkOpacityAnim,
-    scale: scaleAnim,
-  };
+export const useSelectItemTransition = (
+  steps: Step<SelectItemState>[],
+  opts: SelectItemTransitionOptions = {}
+): SelectItemStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = selectItemStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "idle",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenSelectItemStyle(
+    selectItemStyle(from, ctx),
+    selectItemStyle(to, ctx),
+    t
+  );
 };

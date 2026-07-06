@@ -1,5 +1,11 @@
 "use client";
 
+import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  contextMenuStyle,
+  contextMenuStyleContext,
+} from "@/registry/bases/editframe/ui/context-menu";
 import type {
   ContextMenuState,
   ContextMenuStyle,
@@ -17,52 +23,35 @@ export const tweenContextMenuStyle = (
   translateY: a.translateY + (b.translateY - a.translateY) * t,
 });
 
-export const contextMenuAnimation = (
-  from: ContextMenuState,
-  to: ContextMenuState,
-  duration: number = DEFAULT_DURATION
-): string => {
-  const fromStyle =
-    from === "opened"
-      ? { opacity: 1, scale: 1, translateY: 0 }
-      : { opacity: 0, scale: 0.95, translateY: -4 };
-  const toStyle =
-    to === "opened"
-      ? { opacity: 1, scale: 1, translateY: 0 }
-      : { opacity: 0, scale: 0.95, translateY: -4 };
+export interface ContextMenuTransitionOptions {
+  theme?: Partial<FramecnTheme>;
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-  const keyframes = `
-    @keyframes ef-context-menu-${from}-${to} {
-      0% {
-        opacity: ${fromStyle.opacity};
-        transform: translateY(${fromStyle.translateY}px) scale(${fromStyle.scale});
-      }
-      100% {
-        opacity: ${toStyle.opacity};
-        transform: translateY(${toStyle.translateY}px) scale(${toStyle.scale});
-      }
-    }
-  `;
-
-  const styleId = `ef-context-menu-keyframes-${from}-${to}`;
-  let styleEl = document.querySelector(`#${styleId}`);
-  if (!styleEl) {
-    styleEl = document.createElement("style");
-    styleEl.id = styleId;
-    styleEl.textContent = keyframes;
-    document.head.append(styleEl);
-  }
-
-  return `ef-context-menu-${from}-${to} ${duration}ms ease-out forwards`;
-};
-
-export const useContextMenuAnimation = (
-  from: ContextMenuState,
-  to: ContextMenuState
-): string | undefined => {
-  if (from === to) {
-    return undefined;
-  }
-
-  return contextMenuAnimation(from, to, DEFAULT_DURATION);
+export const useContextMenuTransition = (
+  steps: Step<ContextMenuState>[],
+  opts: ContextMenuTransitionOptions = {}
+): ContextMenuStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = contextMenuStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "closed",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenContextMenuStyle(
+    contextMenuStyle(from, ctx),
+    contextMenuStyle(to, ctx),
+    t
+  );
 };

@@ -3,6 +3,7 @@
 import type { CSSProperties, ReactNode } from "react";
 
 export type BlurInState = "hidden" | "revealed";
+
 export type BlurInDirection = "up" | "down" | "left" | "right";
 
 export interface BlurInStyle {

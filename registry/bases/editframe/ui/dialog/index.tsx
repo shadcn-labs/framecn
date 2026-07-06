@@ -2,24 +2,22 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  dialogKeyframes,
-  dialogAnimation,
-} from "@/registry/bases/editframe/ui/dialog/use-dialog-transition";
 
-export type DialogState = "open" | "closed";
+export type DialogState = "opened" | "closed";
 
 export interface DialogProps {
   state?: DialogState;
-  from?: DialogState;
+  style?: DialogStyle;
   title?: string;
   description?: string;
+  actionLabel?: string;
+  cancelLabel?: string;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
-const DIALOG_WIDTH = 420;
+const POPUP_WIDTH = 440;
+const MAX_OVERLAY_ALPHA = 0.5;
 
 export interface DialogStyle {
   overlayOpacity: number;
@@ -29,19 +27,27 @@ export interface DialogStyle {
 }
 
 export interface DialogStyleContext {
-  background: string;
+  popoverBg: string;
+  popoverFg: string;
+  mutedFg: string;
   border: string;
-  foreground: string;
-  mutedForeground: string;
+  radius: number;
+  actionBg: string;
+  actionFg: string;
+  cancelFg: string;
 }
 
 export const dialogStyleContext = (
   theme: FramecnTheme
 ): DialogStyleContext => ({
-  background: theme.popover,
+  actionBg: theme.primary,
+  actionFg: theme.primaryForeground,
   border: theme.border,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
+  cancelFg: theme.foreground,
+  mutedFg: theme.mutedForeground,
+  popoverBg: theme.popover,
+  popoverFg: theme.popoverForeground,
+  radius: theme.radius,
 });
 
 export const dialogStyle = (
@@ -49,9 +55,9 @@ export const dialogStyle = (
   _ctx: DialogStyleContext
 ): DialogStyle => {
   switch (state) {
-    case "open": {
+    case "opened": {
       return {
-        overlayOpacity: 0.6,
+        overlayOpacity: 1,
         popupOpacity: 1,
         popupScale: 1,
         popupTranslateY: 0,
@@ -61,7 +67,7 @@ export const dialogStyle = (
       return {
         overlayOpacity: 0,
         popupOpacity: 0,
-        popupScale: 0.96,
+        popupScale: 0.95,
         popupTranslateY: 8,
       };
     }
@@ -69,29 +75,34 @@ export const dialogStyle = (
 };
 
 export const Dialog = ({
-  state = "open",
-  from,
+  state = "closed",
+  style,
   title = "Edit profile",
-  description = "Make changes to your profile here.",
+  description = "Make changes to your profile here. Click save when you're done.",
+  actionLabel = "Save changes",
+  cancelLabel = "Cancel",
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: DialogProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = dialogStyleContext(theme);
-  const v = dialogStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? dialogStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? dialogAnimation(from, state, duration, fromStyle, v)
-    : { overlay: "none", popup: "none" };
-
+  const v = style ?? dialogStyle(state, ctx);
+  const buttonBase: React.CSSProperties = {
+    alignItems: "center",
+    borderRadius: ctx.radius,
+    cursor: "pointer",
+    display: "inline-flex",
+    fontSize: 15,
+    fontWeight: 500,
+    height: 40,
+    justifyContent: "center",
+    letterSpacing: "-0.01em",
+    padding: "0 20px",
+  };
   return (
     <div
       style={{
         alignItems: "center",
-        background: "transparent",
         display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
@@ -100,103 +111,102 @@ export const Dialog = ({
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{dialogKeyframes(fromStyle, v)}</style>}
       <div
         style={{
-          animation: hasAnimation ? anim.overlay : undefined,
-          background: "black",
-          borderRadius: 0,
-          height: "100%",
-          left: 0,
-          opacity: v.overlayOpacity,
+          background: `rgba(0, 0, 0, ${MAX_OVERLAY_ALPHA * v.overlayOpacity})`,
+          inset: 0,
           position: "absolute",
-          top: 0,
-          width: "100%",
         }}
       />
       <div
         className={className}
         style={{
-          animation: hasAnimation ? anim.popup : undefined,
-          background: ctx.background,
+          background: ctx.popoverBg,
           border: `1px solid ${ctx.border}`,
-          borderRadius: theme.radius,
-          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
+          borderRadius: ctx.radius + 6,
+          boxShadow: "0 24px 48px -12px rgba(0,0,0,0.25)",
+          color: ctx.popoverFg,
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          gap: 8,
           opacity: v.popupOpacity,
           padding: 24,
           position: "relative",
           transform: `translateY(${v.popupTranslateY}px) scale(${v.popupScale})`,
-          width: DIALOG_WIDTH,
-          zIndex: 1,
+          width: POPUP_WIDTH,
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span
-            style={{
-              color: ctx.foreground,
-              fontSize: 18,
-              fontWeight: 600,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {title}
-          </span>
-          <span
-            style={{
-              color: ctx.mutedForeground,
-              fontSize: 14,
-              lineHeight: 1.5,
-            }}
-          >
-            {description}
-          </span>
-        </div>
+        <button
+          type="button"
+          style={{
+            alignItems: "center",
+            background: "transparent",
+            border: "none",
+            borderRadius: ctx.radius,
+            color: ctx.mutedFg,
+            cursor: "pointer",
+            display: "inline-flex",
+            height: 28,
+            justifyContent: "center",
+            position: "absolute",
+            right: 16,
+            top: 16,
+            width: 28,
+          }}
+        >
+          <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 6 6 18 M6 6 18 18"
+              stroke={ctx.mutedFg}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
         <div
           style={{
-            background: theme.muted,
-            borderRadius: theme.radius,
-            height: 100,
+            fontSize: 18,
+            fontWeight: 500,
+            letterSpacing: "-0.01em",
+            paddingRight: 28,
           }}
-        />
+        >
+          {title}
+        </div>
+        <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: 1.5 }}>
+          {description}
+        </div>
         <div
           style={{
             display: "flex",
             gap: 8,
             justifyContent: "flex-end",
+            marginTop: 16,
           }}
         >
           <button
             type="button"
             style={{
+              ...buttonBase,
               background: "transparent",
               border: `1px solid ${ctx.border}`,
-              borderRadius: theme.radius,
-              color: ctx.foreground,
-              cursor: "pointer",
-              fontSize: 14,
-              fontWeight: 500,
-              padding: "8px 16px",
+              color: ctx.cancelFg,
             }}
           >
-            Cancel
+            {cancelLabel}
           </button>
+
           <button
             type="button"
             style={{
-              background: theme.primary,
-              border: "none",
-              borderRadius: theme.radius,
-              color: theme.primaryForeground,
-              cursor: "pointer",
-              fontSize: 14,
-              fontWeight: 500,
-              padding: "8px 16px",
+              ...buttonBase,
+              background: ctx.actionBg,
+              border: "1px solid transparent",
+              color: ctx.actionFg,
             }}
           >
-            Save changes
+            {actionLabel}
           </button>
         </div>
       </div>

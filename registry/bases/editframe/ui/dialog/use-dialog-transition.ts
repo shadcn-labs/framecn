@@ -1,5 +1,11 @@
 "use client";
 
+import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  dialogStyle,
+  dialogStyleContext,
+} from "@/registry/bases/editframe/ui/dialog";
 import type {
   DialogState,
   DialogStyle,
@@ -7,40 +13,43 @@ import type {
 
 export const DEFAULT_DURATION = 12;
 
-export const dialogKeyframes = (
-  fromStyle: DialogStyle,
-  toStyle: DialogStyle
-): string => {
-  const dOverlay = toStyle.overlayOpacity - fromStyle.overlayOpacity;
-  const dOpacity = toStyle.popupOpacity - fromStyle.popupOpacity;
-  const dScale = toStyle.popupScale - fromStyle.popupScale;
-  const dY = toStyle.popupTranslateY - fromStyle.popupTranslateY;
+export const tweenDialogStyle = (
+  a: DialogStyle,
+  b: DialogStyle,
+  t: number
+): DialogStyle => ({
+  overlayOpacity: a.overlayOpacity + (b.overlayOpacity - a.overlayOpacity) * t,
+  popupOpacity: a.popupOpacity + (b.popupOpacity - a.popupOpacity) * t,
+  popupScale: a.popupScale + (b.popupScale - a.popupScale) * t,
+  popupTranslateY:
+    a.popupTranslateY + (b.popupTranslateY - a.popupTranslateY) * t,
+});
 
-  return `
-    @keyframes framecn-dialog-overlay {
-      0% { opacity: ${fromStyle.overlayOpacity}; }
-      100% { opacity: calc(${fromStyle.overlayOpacity} + ${dOverlay} * var(--ef-progress)); }
-    }
-    @keyframes framecn-dialog-popup {
-      0% { opacity: ${fromStyle.popupOpacity}; transform: translateY(${fromStyle.popupTranslateY}px) scale(${fromStyle.popupScale}); }
-      100% { opacity: calc(${fromStyle.popupOpacity} + ${dOpacity} * var(--ef-progress)); transform: translateY(calc(${fromStyle.popupTranslateY}px + ${dY}px * var(--ef-progress))) scale(calc(${fromStyle.popupScale} + ${dScale} * var(--ef-progress))); }
-    }
-  `;
-};
+export interface DialogTransitionOptions {
+  theme?: Partial<FramecnTheme>;
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-export const dialogAnimation = (
-  from: DialogState,
-  to: DialogState,
-  duration: string,
-  _fromStyle: DialogStyle,
-  _toStyle: DialogStyle
-): { overlay: string; popup: string } => {
-  if (from === to) {
-    return { overlay: "none", popup: "none" };
-  }
-  const ease = "cubic-bezier(0.4, 0, 0.2, 1)";
-  return {
-    overlay: `${duration} framecn-dialog-overlay ${ease} forwards`,
-    popup: `${duration} framecn-dialog-popup ${ease} forwards`,
-  };
+export const useDialogTransition = (
+  steps: Step<DialogState>[],
+  opts: DialogTransitionOptions = {}
+): DialogStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = dialogStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "closed",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenDialogStyle(dialogStyle(from, ctx), dialogStyle(to, ctx), t);
 };

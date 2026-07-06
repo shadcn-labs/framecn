@@ -1,56 +1,46 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCurrentFrame, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 
 export interface SkeletonBlockProps {
-  width?: number;
+  width?: number | string;
   height?: number;
   radius?: number;
-  baseColor?: string;
   speed?: number;
+  baseColor?: string;
+  highlightColor?: string;
   flexShrink?: number;
   className?: string;
 }
-
+const SWEEP_FRAMES = 60;
 export const SkeletonBlock = ({
-  width = 200,
-  height = 20,
-  radius,
-  baseColor = "oklch(0.92 0 0)",
+  width = 120,
+  height = 16,
+  radius = 6,
   speed = 1,
-  flexShrink = 1,
+  baseColor,
+  highlightColor,
+  flexShrink,
   className,
 }: SkeletonBlockProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-    const duration = `${1.8 / speed}s`;
-    el.style.animation = `skeleton-shimmer ${duration} ease-in-out infinite`;
-  }, [speed]);
-
+  const theme = useFramecnTheme();
+  const base = baseColor ?? theme.muted;
+  const highlight = highlightColor ?? mixOklch(base, theme.foreground, 0.13);
+  const frame = useCurrentFrame() * speed;
+  const progress = (frame % SWEEP_FRAMES) / SWEEP_FRAMES;
+  const positionX = 100 - progress * 200;
   return (
-    <>
-      <style>{`
-        @keyframes skeleton-shimmer {
-          0%, 100% { opacity: 0.6; }
-          50% { opacity: 1; }
-        }
-      `}</style>
-      <div
-        ref={ref}
-        className={className}
-        style={{
-          background: baseColor,
-          borderRadius: radius ?? 6,
-          flexShrink,
-          height,
-          width,
-        }}
-      />
-    </>
+    <div
+      className={className}
+      style={{
+        background: `linear-gradient(90deg, ${base} 20%, ${highlight} 50%, ${base} 80%)`,
+        backgroundPosition: `${positionX}% 0`,
+        backgroundSize: "200% 100%",
+        borderRadius: radius,
+        flexShrink,
+        height,
+        width,
+      }}
+    />
   );
 };

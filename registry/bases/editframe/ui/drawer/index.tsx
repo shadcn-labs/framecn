@@ -2,22 +2,22 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  drawerKeyframes,
-  drawerAnimation,
-} from "@/registry/bases/editframe/ui/drawer/use-drawer-transition";
 
-export type DrawerState = "open" | "closed";
+export type DrawerState = "opened" | "closed";
 
 export interface DrawerProps {
   state?: DrawerState;
-  from?: DrawerState;
+  style?: DrawerStyle;
   title?: string;
   description?: string;
+  actionLabel?: string;
+  cancelLabel?: string;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
+
+const DRAWER_HEIGHT = 320;
+const MAX_OVERLAY_ALPHA = 0.5;
 
 export interface DrawerStyle {
   overlayOpacity: number;
@@ -26,20 +26,26 @@ export interface DrawerStyle {
 }
 
 export interface DrawerStyleContext {
-  background: string;
+  popoverBg: string;
+  popoverFg: string;
+  mutedFg: string;
   border: string;
-  foreground: string;
-  mutedForeground: string;
   radius: number;
+  actionBg: string;
+  actionFg: string;
+  cancelFg: string;
 }
 
 export const drawerStyleContext = (
   theme: FramecnTheme
 ): DrawerStyleContext => ({
-  background: theme.popover,
+  actionBg: theme.primary,
+  actionFg: theme.primaryForeground,
   border: theme.border,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
+  cancelFg: theme.foreground,
+  mutedFg: theme.mutedForeground,
+  popoverBg: theme.popover,
+  popoverFg: theme.popoverForeground,
   radius: theme.radius,
 });
 
@@ -48,147 +54,151 @@ export const drawerStyle = (
   _ctx: DrawerStyleContext
 ): DrawerStyle => {
   switch (state) {
-    case "open": {
-      return { overlayOpacity: 0.6, panelOpacity: 1, panelTranslateY: 0 };
+    case "opened": {
+      return {
+        overlayOpacity: 1,
+        panelOpacity: 1,
+        panelTranslateY: 0,
+      };
     }
     default: {
-      return { overlayOpacity: 0, panelOpacity: 0, panelTranslateY: 400 };
+      return {
+        overlayOpacity: 0,
+        panelOpacity: 0,
+        panelTranslateY: DRAWER_HEIGHT,
+      };
     }
   }
 };
 
 export const Drawer = ({
-  state = "open",
-  from,
-  title = "Move Goal",
-  description = "Set your daily activity goal.",
+  state = "closed",
+  style,
+  title = "Edit profile",
+  description = "Make changes to your profile here. Click save when you're done.",
+  actionLabel = "Save changes",
+  cancelLabel = "Cancel",
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: DrawerProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = drawerStyleContext(theme);
-  const v = drawerStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? drawerStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? drawerAnimation(from, state, duration, fromStyle, v)
-    : { overlay: "none", panel: "none" };
-
+  const v = style ?? drawerStyle(state, ctx);
+  const buttonBase: React.CSSProperties = {
+    alignItems: "center",
+    borderRadius: ctx.radius,
+    cursor: "pointer",
+    display: "inline-flex",
+    fontSize: 15,
+    fontWeight: 500,
+    height: 40,
+    justifyContent: "center",
+    letterSpacing: "-0.01em",
+    padding: "0 20px",
+  };
   return (
     <div
       style={{
-        alignItems: "center",
-        background: "transparent",
-        display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
         inset: 0,
-        justifyContent: "center",
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{drawerKeyframes(fromStyle, v)}</style>}
       <div
         style={{
-          animation: hasAnimation ? anim.overlay : undefined,
-          background: "black",
-          borderRadius: 0,
-          height: "100%",
-          left: 0,
-          opacity: v.overlayOpacity,
+          background: `rgba(0, 0, 0, ${MAX_OVERLAY_ALPHA * v.overlayOpacity})`,
+          inset: 0,
           position: "absolute",
-          top: 0,
-          width: "100%",
         }}
       />
+
       <div
         className={className}
         style={{
-          animation: hasAnimation ? anim.panel : undefined,
-          background: ctx.background,
-          borderBottomLeftRadius: ctx.radius,
-          borderBottomRightRadius: ctx.radius,
+          alignItems: "center",
+          background: ctx.popoverBg,
+          borderTop: `1px solid ${ctx.border}`,
+          borderTopLeftRadius: ctx.radius + 6,
+          borderTopRightRadius: ctx.radius + 6,
           bottom: 0,
-          boxShadow: "0 -4px 6px -1px rgba(0,0,0,0.1)",
+          boxShadow: "0 -24px 48px -12px rgba(0,0,0,0.25)",
+          color: ctx.popoverFg,
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          gap: 8,
+          height: DRAWER_HEIGHT,
           left: 0,
           opacity: v.panelOpacity,
           padding: 24,
           position: "absolute",
+          right: 0,
           transform: `translateY(${v.panelTranslateY}px)`,
-          width: "100%",
-          zIndex: 1,
         }}
       >
         <div
           style={{
-            borderRadius: 4,
-            height: 4,
-            left: "50%",
-            position: "absolute",
-            top: 8,
-            transform: "translateX(-50%)",
-            width: 32,
+            background: ctx.border,
+            borderRadius: 999,
+            height: 5,
+            marginBottom: 8,
+            width: 40,
           }}
         />
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+            maxWidth: 440,
+            width: "100%",
+          }}
+        >
+          <div
             style={{
-              color: ctx.foreground,
-              fontSize: 16,
-              fontWeight: 600,
+              fontSize: 18,
+              fontWeight: 500,
               letterSpacing: "-0.01em",
             }}
           >
             {title}
-          </span>
-          <span
-            style={{
-              color: ctx.mutedForeground,
-              fontSize: 14,
-              lineHeight: 1.5,
-            }}
-          >
+          </div>
+          <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: 1.5 }}>
             {description}
-          </span>
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button
-            type="button"
+          </div>
+          <div
             style={{
-              background: "transparent",
-              border: `1px solid ${ctx.border}`,
-              borderRadius: theme.radius,
-              color: ctx.foreground,
-              cursor: "pointer",
-              flex: 1,
-              fontSize: 14,
-              fontWeight: 500,
-              padding: "10px 0",
+              display: "flex",
+              gap: 8,
+              justifyContent: "flex-end",
+              marginTop: 16,
             }}
           >
-            Cancel
-          </button>
-          <button
-            type="button"
-            style={{
-              background: theme.primary,
-              border: "none",
-              borderRadius: theme.radius,
-              color: theme.primaryForeground,
-              cursor: "pointer",
-              flex: 1,
-              fontSize: 14,
-              fontWeight: 500,
-              padding: "10px 0",
-            }}
-          >
-            Submit
-          </button>
+            <button
+              type="button"
+              style={{
+                ...buttonBase,
+                background: "transparent",
+                border: `1px solid ${ctx.border}`,
+                color: ctx.cancelFg,
+              }}
+            >
+              {cancelLabel}
+            </button>
+
+            <button
+              type="button"
+              style={{
+                ...buttonBase,
+                background: ctx.actionBg,
+                border: "1px solid transparent",
+                color: ctx.actionFg,
+              }}
+            >
+              {actionLabel}
+            </button>
+          </div>
         </div>
       </div>
     </div>

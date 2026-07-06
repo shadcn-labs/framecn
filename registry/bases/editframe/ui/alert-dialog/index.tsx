@@ -2,26 +2,22 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  alertDialogKeyframes,
-  alertDialogAnimation,
-} from "@/registry/bases/editframe/ui/alert-dialog/use-alert-dialog-transition";
 
-export type AlertDialogState = "open" | "closed";
+export type AlertDialogState = "closed" | "opened";
 
 export interface AlertDialogProps {
   state?: AlertDialogState;
-  from?: AlertDialogState;
+  style?: AlertDialogStyle;
   title?: string;
   description?: string;
+  actionLabel?: string;
   cancelLabel?: string;
-  confirmLabel?: string;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
-const DIALOG_WIDTH = 420;
+const POPUP_WIDTH = 400;
+const MAX_OVERLAY_ALPHA = 0.5;
 
 export interface AlertDialogStyle {
   overlayOpacity: number;
@@ -31,19 +27,27 @@ export interface AlertDialogStyle {
 }
 
 export interface AlertDialogStyleContext {
-  background: string;
+  popoverBg: string;
+  popoverFg: string;
+  mutedFg: string;
   border: string;
-  foreground: string;
-  mutedForeground: string;
+  radius: number;
+  actionBg: string;
+  actionFg: string;
+  cancelFg: string;
 }
 
 export const alertDialogStyleContext = (
   theme: FramecnTheme
 ): AlertDialogStyleContext => ({
-  background: theme.popover,
+  actionBg: theme.destructive,
+  actionFg: theme.destructiveForeground,
   border: theme.border,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
+  cancelFg: theme.foreground,
+  mutedFg: theme.mutedForeground,
+  popoverBg: theme.popover,
+  popoverFg: theme.popoverForeground,
+  radius: theme.radius,
 });
 
 export const alertDialogStyle = (
@@ -51,9 +55,9 @@ export const alertDialogStyle = (
   _ctx: AlertDialogStyleContext
 ): AlertDialogStyle => {
   switch (state) {
-    case "open": {
+    case "opened": {
       return {
-        overlayOpacity: 0.6,
+        overlayOpacity: 1,
         popupOpacity: 1,
         popupScale: 1,
         popupTranslateY: 0,
@@ -63,7 +67,7 @@ export const alertDialogStyle = (
       return {
         overlayOpacity: 0,
         popupOpacity: 0,
-        popupScale: 0.96,
+        popupScale: 0.95,
         popupTranslateY: 8,
       };
     }
@@ -71,31 +75,34 @@ export const alertDialogStyle = (
 };
 
 export const AlertDialog = ({
-  state = "open",
-  from,
-  title = "Are you sure?",
-  description = "This action cannot be undone.",
+  state = "closed",
+  style,
+  title = "Delete account?",
+  description = "This action cannot be undone. This will permanently remove your data from our servers.",
+  actionLabel = "Delete",
   cancelLabel = "Cancel",
-  confirmLabel = "Continue",
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: AlertDialogProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = alertDialogStyleContext(theme);
-  const v = alertDialogStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? alertDialogStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? alertDialogAnimation(from, state, duration, fromStyle, v)
-    : { overlay: "none", popup: "none" };
-
+  const v = style ?? alertDialogStyle(state, ctx);
+  const buttonBase: React.CSSProperties = {
+    alignItems: "center",
+    borderRadius: ctx.radius,
+    cursor: "pointer",
+    display: "inline-flex",
+    fontSize: 15,
+    fontWeight: 500,
+    height: 40,
+    justifyContent: "center",
+    letterSpacing: "-0.01em",
+    padding: "0 20px",
+  };
   return (
     <div
       style={{
         alignItems: "center",
-        background: "transparent",
         display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
@@ -104,97 +111,69 @@ export const AlertDialog = ({
         position: "absolute",
       }}
     >
-      {hasAnimation && <style>{alertDialogKeyframes(fromStyle, v)}</style>}
       <div
         style={{
-          animation: hasAnimation ? anim.overlay : undefined,
-          background: "black",
-          borderRadius: 0,
-          height: "100%",
-          left: 0,
-          opacity: v.overlayOpacity,
+          background: `rgba(0, 0, 0, ${MAX_OVERLAY_ALPHA * v.overlayOpacity})`,
+          inset: 0,
           position: "absolute",
-          top: 0,
-          width: "100%",
         }}
       />
       <div
         className={className}
         style={{
-          animation: hasAnimation ? anim.popup : undefined,
-          background: ctx.background,
+          background: ctx.popoverBg,
           border: `1px solid ${ctx.border}`,
-          borderRadius: theme.radius,
-          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
+          borderRadius: ctx.radius + 6,
+          boxShadow: "0 24px 48px -12px rgba(0,0,0,0.25)",
+          color: ctx.popoverFg,
           display: "flex",
           flexDirection: "column",
-          gap: 12,
+          gap: 8,
           opacity: v.popupOpacity,
           padding: 24,
           position: "relative",
           transform: `translateY(${v.popupTranslateY}px) scale(${v.popupScale})`,
-          width: DIALOG_WIDTH,
-          zIndex: 1,
+          width: POPUP_WIDTH,
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span
-            style={{
-              color: ctx.foreground,
-              fontSize: 16,
-              fontWeight: 600,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {title}
-          </span>
-          <span
-            style={{
-              color: ctx.mutedForeground,
-              fontSize: 14,
-              lineHeight: 1.5,
-            }}
-          >
-            {description}
-          </span>
+        <div
+          style={{ fontSize: 18, fontWeight: 500, letterSpacing: "-0.01em" }}
+        >
+          {title}
+        </div>
+        <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: 1.5 }}>
+          {description}
         </div>
         <div
           style={{
             display: "flex",
             gap: 8,
             justifyContent: "flex-end",
-            marginTop: 8,
+            marginTop: 16,
           }}
         >
           <button
             type="button"
             style={{
+              ...buttonBase,
               background: "transparent",
               border: `1px solid ${ctx.border}`,
-              borderRadius: theme.radius,
-              color: ctx.foreground,
-              cursor: "pointer",
-              fontSize: 14,
-              fontWeight: 500,
-              padding: "8px 16px",
+              color: ctx.cancelFg,
             }}
           >
             {cancelLabel}
           </button>
+
           <button
             type="button"
             style={{
-              background: theme.destructive,
-              border: "none",
-              borderRadius: theme.radius,
-              color: theme.destructiveForeground,
-              cursor: "pointer",
-              fontSize: 14,
-              fontWeight: 500,
-              padding: "8px 16px",
+              ...buttonBase,
+              background: ctx.actionBg,
+              border: "1px solid transparent",
+              color: ctx.actionFg,
             }}
           >
-            {confirmLabel}
+            {actionLabel}
           </button>
         </div>
       </div>

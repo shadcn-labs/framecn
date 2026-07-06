@@ -96,7 +96,7 @@ const springCalculation = (
   const frameClamped = Math.max(0, frame);
   const unevenRest = frameClamped % 1;
 
-  for (let f = 0; f <= Math.floor(frameClamped); f++) {
+  for (let f = 0; f <= Math.floor(frameClamped); f += 1) {
     const step = f === Math.floor(frameClamped) ? f + unevenRest : f;
     animation = advanceSpring(animation, (step / fps) * 1000, merged);
   }
@@ -124,13 +124,12 @@ export const spring = ({
   }
 
   const result = springCalculation(frame, fps, config);
-  const inner = config.overshootClamping
-    ? (to >= from
-      ? Math.min(result.current, to)
-      : Math.max(result.current, to))
-    : result.current;
-
-  return from === 0 && to === 1
-    ? inner
-    : interpolate(inner, [0, 1], [from, to]);
+  let inner = result.current;
+  if (config.overshootClamping) {
+    inner = to >= from ? Math.min(inner, to) : Math.max(inner, to);
+  }
+  if (from === 0 && to === 1) {
+    return inner;
+  }
+  return interpolate(inner, [0, 1], [from, to]);
 };

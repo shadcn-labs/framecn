@@ -2,10 +2,6 @@
 
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  toastKeyframes,
-  toastAnimation,
-} from "@/registry/bases/editframe/ui/toast/use-toast-transition";
 
 export type ToastState = "hidden" | "visible";
 
@@ -13,14 +9,12 @@ export type ToastVariant = "default" | "success" | "error";
 
 export interface ToastProps {
   state?: ToastState;
-  from?: ToastState;
   style?: ToastStyle;
   title: string;
   description?: string;
   variant?: ToastVariant;
   theme?: Partial<FramecnTheme>;
   className?: string;
-  duration?: string;
 }
 
 const TOAST_WIDTH = 356;
@@ -105,34 +99,21 @@ const ToastIcon = ({
 
 export const Toast = ({
   state = "hidden",
-  from,
   style,
   title,
   description,
   variant = "default",
   theme: themeOverride,
   className,
-  duration = "12frames",
 }: ToastProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = toastStyleContext(variant, theme);
   const v = style ?? toastStyle(state);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? toastStyle(from) : v;
-  const anim = hasAnimation
-    ? toastAnimation(from, state, duration, fromStyle, v)
-    : { opacity: "none", transform: "none" };
-
   return (
     <div
       className={className}
       style={{
         alignItems: description ? "flex-start" : "center",
-
-        animation: hasAnimation
-          ? `${anim.opacity}, ${anim.transform}`
-          : undefined,
         background: theme.popover,
         border: `1px solid ${theme.border}`,
         borderRadius: theme.radius,
@@ -150,7 +131,6 @@ export const Toast = ({
         width: TOAST_WIDTH,
       }}
     >
-      <style>{hasAnimation ? toastKeyframes(fromStyle, v) : ""}</style>
       <span
         style={{
           alignItems: "center",

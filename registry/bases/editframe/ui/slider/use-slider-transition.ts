@@ -1,12 +1,12 @@
 "use client";
 
-import { clamp01, easings } from "@/lib/framecn-ui";
+import { clamp01, easings, useCurrentFrame } from "@/lib/framecn-ui";
 import type { EasingName } from "@/lib/framecn-ui";
+import { sliderThumbStyle } from "@/registry/bases/editframe/ui/slider";
 import type {
   SliderStyle,
   SliderThumbState,
 } from "@/registry/bases/editframe/ui/slider";
-import { sliderThumbStyle } from "@/registry/bases/editframe/ui/slider";
 
 export interface SliderStep {
   at: number;
@@ -48,7 +48,6 @@ const valueAt = (
   if (raw <= first.at) {
     return first.value;
   }
-
   let toIndex = valueSteps.length - 1;
   for (let i = 1; i < valueSteps.length; i += 1) {
     if (valueSteps[i].at > raw) {
@@ -56,30 +55,31 @@ const valueAt = (
       break;
     }
   }
-  const lastStep = valueSteps.at(-1);
-  if (!lastStep) {
+  const last = valueSteps.at(-1);
+  if (!last) {
     return first.value;
   }
-
-  const pastLast = raw >= lastStep.at;
-  const to = pastLast ? lastStep : valueSteps[toIndex];
-  const from = pastLast ? lastStep : valueSteps[toIndex - 1];
-
-  if (!to || !from) {
+  const pastLast = raw >= last.at;
+  const to = pastLast ? last : valueSteps[toIndex];
+  const from = pastLast ? last : valueSteps[toIndex - 1];
+  if (to === undefined || from === undefined) {
     return first.value;
   }
-
   const dur = to.duration ?? defaultDuration;
   const ease = easings[to.easing ?? "out"];
   const start = to.at - dur;
   const t = pastLast || dur <= 0 ? 1 : ease(clamp01((raw - start) / dur));
   return from.value + (to.value - from.value) * t;
 };
+
 const thumbAt = (
   steps: SliderStep[],
   raw: number,
   defaultDuration: number
-): { thumbScale: number; ringOpacity: number } => {
+): {
+  thumbScale: number;
+  ringOpacity: number;
+} => {
   const thumbSteps = steps.filter(
     (s): s is SliderStep & { thumbState: SliderThumbState } =>
       s.thumbState !== undefined
@@ -91,7 +91,6 @@ const thumbAt = (
   if (raw <= first.at) {
     return sliderThumbStyle(first.thumbState);
   }
-
   let toIndex = thumbSteps.length - 1;
   for (let i = 1; i < thumbSteps.length; i += 1) {
     if (thumbSteps[i].at > raw) {
@@ -99,24 +98,20 @@ const thumbAt = (
       break;
     }
   }
-  const lastStep = thumbSteps.at(-1);
-  if (!lastStep) {
-    return sliderThumbStyle("idle");
+  const last = thumbSteps.at(-1);
+  if (!last) {
+    return sliderThumbStyle(first.thumbState);
   }
-
-  const pastLast = raw >= lastStep.at;
-  const to = pastLast ? lastStep : thumbSteps[toIndex];
-  const from = pastLast ? lastStep : thumbSteps[toIndex - 1];
-
-  if (!to || !from) {
-    return sliderThumbStyle("idle");
+  const pastLast = raw >= last.at;
+  const to = pastLast ? last : thumbSteps[toIndex];
+  const from = pastLast ? last : thumbSteps[toIndex - 1];
+  if (to === undefined || from === undefined) {
+    return sliderThumbStyle(first.thumbState);
   }
-
   const dur = to.duration ?? defaultDuration;
   const ease = easings[to.easing ?? "out"];
   const start = to.at - dur;
   const t = pastLast || dur <= 0 ? 1 : ease(clamp01((raw - start) / dur));
-
   const a = sliderThumbStyle(from.thumbState);
   const b = sliderThumbStyle(to.thumbState);
   return {
@@ -142,10 +137,9 @@ export const sliderStyleAt = (
 
 export const useSliderTransition = (
   steps: SliderStep[],
-  frame = 0,
   opts: SliderTransitionOptions = {}
 ): SliderStyle => {
   const { speed = 1 } = opts;
-  const raw = frame * speed;
+  const raw = useCurrentFrame() * speed;
   return sliderStyleAt(steps, raw, opts);
 };

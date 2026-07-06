@@ -1,6 +1,6 @@
 ---
 title: "Caret"
-description: "A blinking text caret — a controlled vertical bar."
+description: "A blinking text caret — a controlled vertical bar or a self-animating blink."
 ---
 
 <ComponentPreview hideCode name="caret" />
@@ -38,10 +38,47 @@ npx shadcn@latest add @framecn/caret
 
 ## Usage
 
-```tsx
-import { Caret } from "@/components/ui/caret";
-```
+Controlled — the consumer decides visibility:
 
 ```tsx
-<Caret />
+import { Caret } from "@/components/ui/caret";
+
+<Caret color="#1F1E1D" height={24} opacity={typing ? 1 : 0} />;
 ```
+
+Standalone blink — a self-animating caret driven by `useCurrentFrame()`:
+
+```tsx
+import { Caret } from "@/components/ui/caret";
+
+<Caret blink blinkPerSecond={1} height={28} />;
+```
+
+The docs preview shows a blinking caret after placeholder text, matching remocn’s preview scene.
+
+## How blink works
+
+```
+visible = floor(frame × speed / halfPeriod) is even
+halfPeriod = fps / blinkPerSecond / 2
+```
+
+When `opacity` is provided it always wins; otherwise `blink` drives the bar, and with neither the caret stays solid.
+
+## API Reference
+
+### Caret
+
+| Prop             | Type            | Default               |
+| ---------------- | --------------- | --------------------- |
+| `color`          | `string`        | `"currentColor"`      |
+| `width`          | `number`        | `2`                   |
+| `height`         | `number`        | `18`                  |
+| `radius`         | `number`        | `1`                   |
+| `opacity`        | `number`        | `-` (overrides blink) |
+| `blink`          | `boolean`       | `false`               |
+| `blinkPerSecond` | `number`        | `1`                   |
+| `speed`          | `number`        | `1`                   |
+| `marginLeft`     | `number`        | `0`                   |
+| `className`      | `string`        | `-`                   |
+| `style`          | `CSSProperties` | `-`                   |

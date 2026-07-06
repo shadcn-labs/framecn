@@ -1,5 +1,11 @@
 "use client";
 
+import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  commandMenuStyle,
+  commandMenuStyleContext,
+} from "@/registry/bases/editframe/ui/command-menu";
 import type {
   CommandMenuState,
   CommandMenuStyle,
@@ -20,45 +26,35 @@ export const tweenCommandMenuStyle = (
     a.panelTranslateY + (b.panelTranslateY - a.panelTranslateY) * t,
 });
 
-export const commandMenuKeyframes = (
-  fromStyle: CommandMenuStyle,
-  toStyle: CommandMenuStyle
-): string => {
-  const deltaBackdropOpacity =
-    toStyle.backdropOpacity - fromStyle.backdropOpacity;
-  const deltaPanelOpacity = toStyle.panelOpacity - fromStyle.panelOpacity;
-  const deltaPanelScale = toStyle.panelScale - fromStyle.panelScale;
-  const deltaPanelTranslateY =
-    toStyle.panelTranslateY - fromStyle.panelTranslateY;
+export interface CommandMenuTransitionOptions {
+  theme?: Partial<FramecnTheme>;
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-  return `
-    @keyframes framecn-command-menu-backdrop {
-      0% { opacity: ${fromStyle.backdropOpacity}; }
-      100% { opacity: calc(${fromStyle.backdropOpacity} + ${deltaBackdropOpacity} * var(--ef-progress)); }
-    }
-    @keyframes framecn-command-menu-panel {
-      0% { opacity: ${fromStyle.panelOpacity}; transform: translateY(${fromStyle.panelTranslateY}px) scale(${fromStyle.panelScale}); }
-      100% { opacity: calc(${fromStyle.panelOpacity} + ${deltaPanelOpacity} * var(--ef-progress)); transform: translateY(calc(${fromStyle.panelTranslateY}px + ${deltaPanelTranslateY}px * var(--ef-progress))) scale(calc(${fromStyle.panelScale} + ${deltaPanelScale} * var(--ef-progress))); }
-    }
-  `;
-};
-
-export const commandMenuAnimation = (
-  from: CommandMenuState,
-  to: CommandMenuState,
-  duration: string,
-  _fromStyle: CommandMenuStyle,
-  _toStyle: CommandMenuStyle
-): {
-  backdrop: string;
-  panel: string;
-} => {
-  if (from === to) {
-    return { backdrop: "none", panel: "none" };
-  }
-
-  const backdropAnim = `${duration} framecn-command-menu-backdrop cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  const panelAnim = `${duration} framecn-command-menu-panel cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-
-  return { backdrop: backdropAnim, panel: panelAnim };
+export const useCommandMenuTransition = (
+  steps: Step<CommandMenuState>[],
+  opts: CommandMenuTransitionOptions = {}
+): CommandMenuStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = commandMenuStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "closed",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenCommandMenuStyle(
+    commandMenuStyle(from, ctx),
+    commandMenuStyle(to, ctx),
+    t
+  );
 };

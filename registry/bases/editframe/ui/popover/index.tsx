@@ -1,13 +1,25 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  popoverAnimation,
-  popoverKeyframes,
-} from "@/registry/bases/editframe/ui/popover/use-popover-transition";
 
-export type PopoverState = "open" | "closed";
+export type PopoverState = "opened" | "closed";
+
+export type PopoverSide = "top" | "bottom" | "left" | "right";
+
+export interface PopoverProps {
+  state?: PopoverState;
+  style?: PopoverStyle;
+  title?: string;
+  description?: string;
+  children?: ReactNode;
+  side?: PopoverSide;
+  width?: number;
+  theme?: Partial<FramecnTheme>;
+  className?: string;
+}
 
 export interface PopoverStyle {
   opacity: number;
@@ -15,125 +27,109 @@ export interface PopoverStyle {
   translate: number;
 }
 
-export interface PopoverStyleContext {
-  background: string;
-  border: string;
-  foreground: string;
-  mutedForeground: string;
-  shadow: string;
-}
-
-export interface PopoverProps {
-  state?: PopoverState;
-  from?: PopoverState;
-  title?: string;
-  content?: string;
-  theme?: Partial<FramecnTheme>;
-  className?: string;
-  duration?: string;
-}
-
-const POPOVER_WIDTH = 300;
-
-export const popoverStyleContext = (
-  theme: FramecnTheme
-): PopoverStyleContext => ({
-  background: theme.popover,
-  border: theme.border,
-  foreground: theme.foreground,
-  mutedForeground: theme.mutedForeground,
-  shadow: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
-});
-
-export const popoverStyle = (
-  state: PopoverState,
-  _ctx: PopoverStyleContext
-): PopoverStyle => {
+export const popoverStyle = (state: PopoverState): PopoverStyle => {
   switch (state) {
-    case "open": {
+    case "opened": {
       return { opacity: 1, scale: 1, translate: 0 };
     }
     default: {
-      return { opacity: 0, scale: 0.96, translate: -4 };
+      return { opacity: 0, scale: 0.97, translate: 6 };
+    }
+  }
+};
+
+const offsetFor = (
+  side: PopoverSide,
+  translate: number
+): {
+  x: number;
+  y: number;
+} => {
+  switch (side) {
+    case "bottom": {
+      return { x: 0, y: -translate };
+    }
+    case "left": {
+      return { x: translate, y: 0 };
+    }
+    case "right": {
+      return { x: -translate, y: 0 };
+    }
+    default: {
+      return { x: 0, y: translate };
     }
   }
 };
 
 export const Popover = ({
-  state = "open",
-  from,
-  title = "Hover Preview",
-  content = "This popover appears on hover with smooth animation.",
+  state = "closed",
+  style,
+  title,
+  description,
+  children,
+  side = "bottom",
+  width = 288,
   theme: themeOverride,
   className,
-  duration = "10frames",
 }: PopoverProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
-  const ctx = popoverStyleContext(theme);
-  const v = popoverStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? popoverStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? popoverAnimation(from, state, duration, fromStyle, v)
-    : { opacity: "none", transform: "none" };
-
+  const v = style ?? popoverStyle(state);
+  const { x, y } = offsetFor(side, v.translate);
+  const hasHeader = title !== undefined || description !== undefined;
   return (
     <div
+      className={className}
       style={{
-        alignItems: "center",
-        background: "transparent",
-        display: "flex",
+        display: "inline-flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        inset: 0,
-        justifyContent: "center",
-        position: "absolute",
+        opacity: v.opacity,
+        transform: `translate(${x}px, ${y}px) scale(${v.scale})`,
+        transformOrigin: "center",
       }}
     >
-      {hasAnimation && <style>{popoverKeyframes(fromStyle, v)}</style>}
       <div
-        className={className}
         style={{
-          animation: hasAnimation
-            ? `${anim.opacity}, ${anim.transform}`
-            : undefined,
-          background: ctx.background,
-          border: `1px solid ${ctx.border}`,
+          background: theme.popover,
+          border: `1px solid ${theme.border}`,
           borderRadius: theme.radius,
-          boxShadow: ctx.shadow,
+          boxShadow: "0 8px 24px -8px rgba(0,0,0,0.2)",
+          boxSizing: "border-box",
+          color: theme.popoverForeground,
           display: "flex",
           flexDirection: "column",
           gap: 8,
-          opacity: v.opacity,
           padding: 16,
-          transform: `translateY(${v.translate}px) scale(${v.scale})`,
-          transformOrigin: "bottom center",
-          width: POPOVER_WIDTH,
+          textAlign: "left",
+          width,
         }}
       >
         {title !== undefined && (
-          <span
+          <div
             style={{
-              color: ctx.foreground,
-              fontSize: 14,
-              fontWeight: 600,
+              fontSize: 15,
+              fontWeight: 500,
               letterSpacing: "-0.01em",
+              lineHeight: 1.3,
             }}
           >
             {title}
-          </span>
+          </div>
         )}
-        {content !== undefined && (
-          <span
+        {description !== undefined && (
+          <div
             style={{
-              color: ctx.mutedForeground,
+              color: theme.mutedForeground,
               fontSize: 13,
               lineHeight: 1.5,
             }}
           >
-            {content}
-          </span>
+            {description}
+          </div>
+        )}
+
+        {children !== undefined && (
+          <div style={{ marginTop: hasHeader ? 4 : 0 }}>{children}</div>
         )}
       </div>
     </div>

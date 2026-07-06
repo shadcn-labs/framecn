@@ -43,5 +43,37 @@ import { Progress } from "@/components/ui/progress";
 ```
 
 ```tsx
-<Progress />
+<Progress value={62} showLabel width={320} />
 ```
+
+## Smooth transitions
+
+The docs preview fills the bar from 0 → 62, stalls as if waiting on a slow operation, then resumes to 100 via `useProgressTransition`:
+
+```tsx
+import { Progress } from "@/components/framecn/progress";
+import { useProgressTransition } from "@/components/framecn/use-progress-transition";
+
+const progressStyle = useProgressTransition([
+  { at: 0, value: 0 },
+  { at: 40, value: 62, duration: 36 },
+  { at: 130, value: 100, duration: 30 },
+]);
+
+<Progress style={progressStyle} showLabel width={320} />;
+```
+
+`style` takes precedence over `value` when both are provided.
+
+## API Reference
+
+### Progress
+
+| Prop        | Type                    | Default                             |
+| ----------- | ----------------------- | ----------------------------------- |
+| `value`     | `number`                | `0`                                 |
+| `style`     | `ProgressStyle`         | `-` (takes precedence over `value`) |
+| `width`     | `number`                | `320`                               |
+| `showLabel` | `boolean`               | `false`                             |
+| `theme`     | `Partial<FramecnTheme>` | `-`                                 |
+| `className` | `string`                | `-`                                 |

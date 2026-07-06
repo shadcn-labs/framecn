@@ -1,5 +1,11 @@
 "use client";
 
+import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import type { FramecnTheme, Step } from "@/lib/framecn-ui";
+import {
+  selectStyle,
+  selectStyleContext,
+} from "@/registry/bases/editframe/ui/select";
 import type {
   SelectState,
   SelectStyle,
@@ -20,57 +26,31 @@ export const tweenSelectStyle = (
     a.panelTranslateY + (b.panelTranslateY - a.panelTranslateY) * t,
 });
 
-export const selectKeyframes = (
-  fromStyle: SelectStyle,
-  toStyle: SelectStyle
-): string => {
-  const dOpacity = toStyle.panelOpacity - fromStyle.panelOpacity;
-  const dScale = toStyle.panelScale - fromStyle.panelScale;
-  const dTranslateY = toStyle.panelTranslateY - fromStyle.panelTranslateY;
-  const dRotation = toStyle.chevronRotation - fromStyle.chevronRotation;
+export interface SelectTransitionOptions {
+  theme?: Partial<FramecnTheme>;
+  mode?: "light" | "dark";
+  speed?: number;
+  defaultDuration?: number;
+}
 
-  return `
-    @keyframes framecn-select-opacity {
-      0% { opacity: ${fromStyle.panelOpacity}; }
-      100% { opacity: calc(${fromStyle.panelOpacity} + ${dOpacity} * var(--ef-progress)); }
-    }
-    @keyframes framecn-select-panel {
-      0% { transform: translateY(${fromStyle.panelTranslateY}px) scale(${fromStyle.panelScale}); }
-      100% { transform: translateY(calc(${fromStyle.panelTranslateY}px + ${dTranslateY}px * var(--ef-progress))) scale(calc(${fromStyle.panelScale} + ${dScale} * var(--ef-progress))); }
-    }
-    @keyframes framecn-select-chevron {
-      0% { transform: rotate(${fromStyle.chevronRotation}deg); }
-      100% { transform: rotate(calc(${fromStyle.chevronRotation}deg + ${dRotation}deg * var(--ef-progress))); }
-    }
-  `;
-};
-
-export const selectAnimation = (
-  from: SelectState,
-  to: SelectState,
-  duration: string,
-  _fromStyle: SelectStyle,
-  _toStyle: SelectStyle
-): {
-  panelOpacity: string;
-  panelTransform: string;
-  chevronTransform: string;
-} => {
-  if (from === to) {
-    return {
-      chevronTransform: "none",
-      panelOpacity: "none",
-      panelTransform: "none",
-    };
-  }
-
-  const panelOpacityAnim = `${duration} framecn-select-opacity cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  const panelTransformAnim = `${duration} framecn-select-panel cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-  const chevronTransformAnim = `${duration} framecn-select-chevron cubic-bezier(0.4, 0, 0.2, 1) forwards`;
-
-  return {
-    chevronTransform: chevronTransformAnim,
-    panelOpacity: panelOpacityAnim,
-    panelTransform: panelTransformAnim,
-  };
+export const useSelectTransition = (
+  steps: Step<SelectState>[],
+  opts: SelectTransitionOptions = {}
+): SelectStyle => {
+  const {
+    theme: themeOverride,
+    mode,
+    speed = 1,
+    defaultDuration = DEFAULT_DURATION,
+  } = opts;
+  const theme = useFramecnTheme(themeOverride, mode);
+  const ctx = selectStyleContext(theme);
+  const { from, to, progress } = useStateTransition(
+    steps,
+    "closed",
+    speed,
+    defaultDuration
+  );
+  const t = easings.out(progress);
+  return tweenSelectStyle(selectStyle(from, ctx), selectStyle(to, ctx), t);
 };

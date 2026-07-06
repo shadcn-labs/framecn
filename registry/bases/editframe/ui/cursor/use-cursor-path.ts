@@ -1,6 +1,6 @@
 "use client";
 
-import { clamp01, easings } from "@/lib/framecn-ui";
+import { clamp01, easings, useCurrentFrame } from "@/lib/framecn-ui";
 import type { EasingName } from "@/lib/framecn-ui";
 import type { CursorStyle } from "@/registry/bases/editframe/ui/cursor";
 
@@ -24,7 +24,38 @@ export interface CursorPathOptions {
   speed?: number;
   defaultDuration?: number;
 }
+
 const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
+
+const idleStyle = (x: number, y: number): CursorStyle => ({
+  pressScale: 1,
+  rippleOpacity: 0,
+  rippleScale: 0,
+  scale: 1,
+  x,
+  y,
+});
+
+const findToIndex = (waypoints: CursorWaypoint[], raw: number): number => {
+  let toIndex = waypoints.length - 1;
+  for (let i = 1; i < waypoints.length; i += 1) {
+    if (waypoints[i].at > raw) {
+      toIndex = i;
+      break;
+    }
+  }
+  return toIndex;
+};
+
+const lastClickAt = (waypoints: CursorWaypoint[], raw: number): number => {
+  let clickAt = -Infinity;
+  for (const wp of waypoints) {
+    if (wp.click && wp.at <= raw && wp.at > clickAt) {
+      clickAt = wp.at;
+    }
+  }
+  return clickAt;
+};
 
 export const ripplePhase = (
   framesSinceClick: number
@@ -54,70 +85,31 @@ export const clickPress = (framesSinceClick: number): number => {
   return 1 - clamp01(p);
 };
 
-// eslint-disable-next-line complexity
 export const cursorPathAt = (
   waypoints: CursorWaypoint[],
   raw: number,
   opts: CursorPathOptions = {}
 ): CursorStyle => {
   const { defaultDuration = DEFAULT_DURATION } = opts;
-
   if (waypoints.length === 0) {
-    return {
-      pressScale: 1,
-      rippleOpacity: 0,
-      rippleScale: 0,
-      scale: 1,
-      x: 0,
-      y: 0,
-    };
+    return idleStyle(0, 0);
   }
-
   const [first] = waypoints;
-
   if (raw <= first.at) {
-    return {
-      pressScale: 1,
-      rippleOpacity: 0,
-      rippleScale: 0,
-      scale: 1,
-      x: first.x,
-      y: first.y,
-    };
+    return idleStyle(first.x, first.y);
   }
 
-  let toIndex = waypoints.length - 1;
-  for (let i = 1; i < waypoints.length; i += 1) {
-    if (waypoints[i].at > raw) {
-      toIndex = i;
-      break;
-    }
-  }
+  const toIndex = findToIndex(waypoints, raw);
   const lastWp = waypoints.at(-1);
   if (!lastWp) {
-    return {
-      pressScale: 1,
-      rippleOpacity: 0,
-      rippleScale: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-    };
+    return idleStyle(0, 0);
   }
 
   const pastLast = raw >= lastWp.at;
   const to = pastLast ? lastWp : waypoints[toIndex];
   const from = pastLast ? lastWp : waypoints[toIndex - 1];
-
   if (!to || !from) {
-    return {
-      pressScale: 1,
-      rippleOpacity: 0,
-      rippleScale: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-    };
+    return idleStyle(first.x, first.y);
   }
 
   const dur = to.duration ?? defaultDuration;
@@ -127,19 +119,12 @@ export const cursorPathAt = (
   const x = lerp(from.x, to.x, t);
   const y = lerp(from.y, to.y, t);
 
-  let lastClickAt = -Infinity;
-  for (const wp of waypoints) {
-    if (wp.click && wp.at <= raw && wp.at > lastClickAt) {
-      lastClickAt = wp.at;
-    }
-  }
-  const sinceClick = lastClickAt === -Infinity ? -1 : raw - lastClickAt;
+  const clickAt = lastClickAt(waypoints, raw);
+  const sinceClick = clickAt === -Infinity ? -1 : raw - clickAt;
   const ripple = ripplePhase(sinceClick);
   const clickDip = clickPress(sinceClick);
-
   const holdWp = pastLast ? lastWp : from;
-  const heldPress = holdWp?.press ? 0 : 1;
-
+  const heldPress = holdWp.press ? 0 : 1;
   const pressScale = Math.min(clickDip, heldPress);
 
   return {
@@ -154,10 +139,9 @@ export const cursorPathAt = (
 
 export const useCursorPath = (
   waypoints: CursorWaypoint[],
-  frame = 0,
   opts: CursorPathOptions = {}
 ): CursorStyle => {
   const { speed = 1 } = opts;
-  const raw = frame * speed;
+  const raw = useCurrentFrame() * speed;
   return cursorPathAt(waypoints, raw, opts);
 };

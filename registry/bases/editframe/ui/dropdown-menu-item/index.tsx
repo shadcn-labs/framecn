@@ -2,10 +2,6 @@
 
 import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
-import {
-  dropdownMenuItemKeyframes,
-  dropdownMenuItemAnimation,
-} from "@/registry/bases/editframe/ui/dropdown-menu-item/use-dropdown-menu-item-transition";
 
 export type DropdownMenuItemState = "idle" | "hover" | "press";
 
@@ -53,39 +49,25 @@ const ROW_WIDTH = 240;
 export interface DropdownMenuItemRowProps {
   style?: DropdownMenuItemStyle;
   state?: DropdownMenuItemState;
-  from?: DropdownMenuItemState;
   label?: string;
   width?: number;
   theme?: Partial<FramecnTheme>;
-  duration?: string;
 }
 
 export const DropdownMenuItemRow = ({
   style,
   state = "idle",
-  from,
   label = "Profile",
   width = ROW_WIDTH,
   theme: themeOverride,
-  duration = "8frames",
 }: DropdownMenuItemRowProps) => {
   const theme = useFramecnTheme(themeOverride, "light");
   const ctx = dropdownMenuItemStyleContext(theme);
   const v = style ?? dropdownMenuItemStyle(state, ctx);
-
-  const hasAnimation = from && from !== state;
-  const fromStyle = hasAnimation ? dropdownMenuItemStyle(from, ctx) : v;
-  const anim = hasAnimation
-    ? dropdownMenuItemAnimation(from, state, duration, fromStyle, v)
-    : { background: "none", scale: "none" };
-
   return (
     <div
       style={{
         alignItems: "center",
-        animation: hasAnimation
-          ? `${anim.background}, ${anim.scale}`
-          : undefined,
         background: v.background,
         borderRadius: theme.radius,
         boxSizing: "border-box",
@@ -98,7 +80,6 @@ export const DropdownMenuItemRow = ({
         width,
       }}
     >
-      {hasAnimation && <style>{dropdownMenuItemKeyframes(fromStyle, v)}</style>}
       <span>{label}</span>
     </div>
   );
@@ -111,12 +92,10 @@ export interface DropdownMenuItemProps extends DropdownMenuItemRowProps {
 export const DropdownMenuItem = ({
   style,
   state = "idle",
-  from,
   label = "Profile",
   width = ROW_WIDTH,
   theme: themeOverride,
   className,
-  duration = "8frames",
 }: DropdownMenuItemProps) => (
   <div
     className={className}
@@ -134,11 +113,9 @@ export const DropdownMenuItem = ({
     <DropdownMenuItemRow
       style={style}
       state={state}
-      from={from}
       label={label}
       width={width}
       theme={themeOverride}
-      duration={duration}
     />
   </div>
 );
