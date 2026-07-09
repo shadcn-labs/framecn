@@ -15,6 +15,7 @@ export interface MaskRevealUpProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const MaskRevealUp = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: MaskRevealUpProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -49,7 +51,7 @@ export const MaskRevealUp = ({
       style={
         {
           alignItems: "center",
-          background: "white",
+          background,
           display: "flex",
           inset: 0,
           justifyContent: "center",

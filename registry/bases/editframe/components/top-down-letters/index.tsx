@@ -16,6 +16,7 @@ export interface TopDownLettersProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -29,6 +30,7 @@ export const TopDownLetters = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: TopDownLettersProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -42,7 +44,7 @@ export const TopDownLetters = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     inset: 0,
     justifyContent: "center",

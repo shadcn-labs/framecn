@@ -14,6 +14,7 @@ export interface InlineHighlightProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -28,6 +29,7 @@ export const InlineHighlight = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: InlineHighlightProps) => {
   const safeSpeed = Math.max(0.01, speed);
@@ -37,7 +39,7 @@ export const InlineHighlight = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     height: 500,
     justifyContent: "center",

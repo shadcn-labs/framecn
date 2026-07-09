@@ -15,6 +15,7 @@ export interface MatrixDecodeProps {
   durationInFrames?: number;
   width?: number;
   height?: number;
+  background?: string;
   className?: string;
 }
 
@@ -42,6 +43,7 @@ export const MatrixDecode = ({
   durationInFrames = 90,
   width = 1280,
   height = 720,
+  background = "white",
   className,
 }: MatrixDecodeProps) => {
   const safeSpeed = Math.max(0.01, speed);
@@ -51,7 +53,7 @@ export const MatrixDecode = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     fontFamily:
       "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace",
