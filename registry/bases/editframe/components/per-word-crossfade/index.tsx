@@ -15,6 +15,7 @@ export interface PerWordCrossfadeProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const PerWordCrossfade = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: PerWordCrossfadeProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -67,7 +69,7 @@ export const PerWordCrossfade = ({
       style={
         {
           alignItems: "center",
-          background: "white",
+          background,
           display: "flex",
           inset: 0,
           justifyContent: "center",

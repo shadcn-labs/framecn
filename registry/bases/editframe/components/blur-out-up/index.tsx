@@ -15,6 +15,7 @@ export interface BlurOutUpProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const BlurOutUp = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: BlurOutUpProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -45,7 +47,7 @@ export const BlurOutUp = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     inset: 0,
     justifyContent: "center",

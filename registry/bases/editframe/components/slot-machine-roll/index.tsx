@@ -12,6 +12,7 @@ export interface SlotMachineRollProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -24,6 +25,7 @@ export const SlotMachineRoll = ({
   speed = 1,
   fps = 30,
   durationInFrames = 45,
+  background = "white",
   className,
 }: SlotMachineRollProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -35,7 +37,7 @@ export const SlotMachineRoll = ({
 
   const containerStyle = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     height: "100%",
     justifyContent: "center",

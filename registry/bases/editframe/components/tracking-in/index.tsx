@@ -13,6 +13,7 @@ export interface TrackingInProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -26,6 +27,7 @@ export const TrackingIn = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: TrackingInProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -35,7 +37,7 @@ export const TrackingIn = ({
   const mainAnimationDurationMs = durationMs / speed;
 
   const style = {
-    background: "white",
+    background,
     display: "block",
     height: "100%",
     position: "relative",

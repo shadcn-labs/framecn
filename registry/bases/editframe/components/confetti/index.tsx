@@ -17,6 +17,7 @@ export interface ConfettiProps {
   durationInFrames?: number;
   width?: number;
   height?: number;
+  background?: string;
   className?: string;
   speed?: number;
 }
@@ -40,6 +41,7 @@ export const Confetti = ({
   size = 13,
   seed = 1,
   colors = ["#1d9bf0", "#ff5da2", "#ffd23f", "#22c55e", "#a855f7", "#ff7a45"],
+  background = "white",
   fps = 30,
   durationInFrames = 180,
   width = 1280,
@@ -97,7 +99,7 @@ export const Confetti = ({
       mode="fixed"
       style={
         {
-          background: "white",
+          background,
           inset: 0,
           overflow: "hidden",
           position: "absolute",
