@@ -4,7 +4,7 @@
   "title": "Text Fade Replace",
   "description": "Cross-fades between two strings on the same line without layout shift.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

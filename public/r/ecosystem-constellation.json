@@ -4,7 +4,7 @@
   "title": "Ecosystem Constellation",
   "description": "A central logo orbited by integration satellites with pulsing data lines.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

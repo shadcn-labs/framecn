@@ -1,0 +1,108 @@
+---
+title: "Dropdown Menu"
+description: "A dropdown menu with panel fade, scale, and lift."
+---
+
+<ComponentPreview hideCode name="dropdown-menu" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/dropdown-menu
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+```
+
+```tsx
+<DropdownMenu label="Options" state="opened" />
+```
+
+## Smooth transitions
+
+The docs preview animates an outline trigger press, opens the panel, walks row 1 through hover → press → idle, then closes. Drive the trigger with `useButtonTransition`, the panel with `useDropdownMenuTransition`, and row states with `useDropdownMenuItemTransition`:
+
+```tsx
+import { useCurrentState } from "@/lib/framecn-ui";
+import { DropdownMenu } from "@/components/framecn/dropdown-menu";
+import { useDropdownMenuTransition } from "@/components/framecn/use-dropdown-menu-transition";
+import { useDropdownMenuItemTransition } from "@/components/framecn/use-dropdown-menu-item-transition";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+
+const triggerStyle = useButtonTransition(
+  [
+    { at: 14, state: "hover" },
+    { at: 26, state: "press" },
+  ],
+  { variant: "outline" }
+);
+
+const menu = useDropdownMenuTransition([
+  { at: 32, state: "opened", duration: 16 },
+  { at: 96, state: "closed", duration: 12 },
+]);
+
+const rowState = useCurrentState(
+  [
+    { at: 52, state: "hover" },
+    { at: 70, state: "press" },
+    { at: 82, state: "idle" },
+  ],
+  "idle"
+);
+const row = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
+
+<DropdownMenu
+  label="Options"
+  style={menu}
+  triggerStyle={triggerStyle}
+  itemStyles={[undefined, row, undefined, undefined]}
+/>;
+```
+
+`style` takes precedence over `state` when both are provided. `itemStyles` is indexed by row.
+
+## API Reference
+
+### DropdownMenu
+
+| Prop               | Type                                     | Default                                         |
+| ------------------ | ---------------------------------------- | ----------------------------------------------- |
+| `state`            | `"opened" \| "closed"`                   | `"closed"`                                      |
+| `style`            | `DropdownMenuStyle`                      | `-` (takes precedence over `state`)             |
+| `label`            | `string`                                 | `"Options"`                                     |
+| `items`            | `string[]`                               | `["Profile", "Billing", "Settings", "Log out"]` |
+| `highlightedIndex` | `number`                                 | `-1`                                            |
+| `pressedIndex`     | `number`                                 | `-1`                                            |
+| `itemStyles`       | `(DropdownMenuItemStyle \| undefined)[]` | `-` (per-row override, indexed by row)          |
+| `triggerStyle`     | `ButtonStyle`                            | `-`                                             |
+| `theme`            | `Partial<FramecnTheme>`                  | `-`                                             |
+| `className`        | `string`                                 | `-`                                             |

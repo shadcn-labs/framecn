@@ -1,0 +1,82 @@
+---
+title: "Switch"
+description: "A switch with track fill and sliding thumb animations."
+---
+
+<ComponentPreview hideCode name="switch" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/switch
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="switch" title="components/ui/switch.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/ui/switch";
+```
+
+```tsx
+<Switch label="Enable notifications" state="checked" />
+```
+
+## Smooth transitions
+
+The docs preview animates checked → unchecked via `useSwitchTransition`. Forward `primary` into the hook when using `style` so the track fill tracks the color prop:
+
+```tsx
+import { Switch } from "@/components/framecn/switch";
+import { useSwitchTransition } from "@/components/framecn/use-switch-transition";
+
+const style = useSwitchTransition(
+  [
+    { at: 18, state: "checked", duration: 14 },
+    { at: 78, state: "unchecked", duration: 12 },
+  ],
+  { primary: "#171717" }
+);
+
+<Switch label="Enable notifications" style={style} />;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Switch
+
+| Prop        | Type                        | Default                             |
+| ----------- | --------------------------- | ----------------------------------- |
+| `state`     | `"unchecked" \| "checked"`  | `"unchecked"`                       |
+| `style`     | `SwitchStyle`               | `-` (takes precedence over `state`) |
+| `label`     | `string`                    | `-`                                 |
+| `size`      | `"sm" \| "default" \| "lg"` | `"default"`                         |
+| `theme`     | `Partial<FramecnTheme>`     | `-`                                 |
+| `primary`   | `string`                    | `-`                                 |
+| `className` | `string`                    | `-`                                 |

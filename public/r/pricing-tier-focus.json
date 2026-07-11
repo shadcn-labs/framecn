@@ -4,7 +4,7 @@
   "title": "Pricing Tier Focus",
   "description": "Three pricing cards where the focused tier rises and brightens while siblings dim and blur.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

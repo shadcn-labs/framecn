@@ -4,7 +4,7 @@
   "title": "Pulsing Indicator",
   "description": "Continuous pulsing dot with ping ring for loading or live states.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

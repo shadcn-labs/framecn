@@ -1,3 +1,5 @@
+import type { BackdropFill } from "@/registry/bases/editframe/components/backdrop";
+
 export type ControlType =
   | { type: "text"; default: string; label: string }
   | {
@@ -22,6 +24,8 @@ export interface ComponentConfig {
   compositionHeight: number;
   importPath: string;
   componentName: string;
+  snippet?: (values: Record<string, unknown>) => string;
+  previewBackdrop?: BackdropFill;
 }
 
 export const FPS = 30;

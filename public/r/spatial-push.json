@@ -4,7 +4,7 @@
   "title": "Spatial Push",
   "description": "A new scene physically presses the old one back into the frame.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

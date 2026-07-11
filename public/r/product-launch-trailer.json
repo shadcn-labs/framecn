@@ -4,7 +4,7 @@
   "title": "Product Launch Trailer",
   "description": "Cinematic Product Hunt teaser: pulsing logo, zoom-through transition, 3D bento fly-over, and a confetti version drop.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

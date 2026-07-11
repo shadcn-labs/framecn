@@ -54,6 +54,8 @@ export const ComponentSource = async ({
   } else if (name) {
     const guessedPaths = [
       `registry/bases/editframe/components/${name}/index.tsx`,
+      `registry/bases/editframe/ui/${name}/index.tsx`,
+      `registry/bases/editframe/ui/${name}.tsx`,
       `registry/bases/editframe/${name}/index.tsx`,
     ];
 

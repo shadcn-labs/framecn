@@ -4,7 +4,7 @@
   "title": "Toast Notification",
   "description": "System-style toast pops in, holds, then slides out.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

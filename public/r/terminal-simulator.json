@@ -4,7 +4,7 @@
   "title": "Terminal Simulator",
   "description": "Terminal window that types out commands and rolls old lines off the top.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

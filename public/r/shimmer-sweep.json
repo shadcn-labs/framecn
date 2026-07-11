@@ -4,7 +4,7 @@
   "title": "Shimmer Sweep",
   "description": "Light shine sweeps across muted text via background-clip:text.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

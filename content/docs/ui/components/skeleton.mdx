@@ -1,0 +1,88 @@
+---
+title: "Skeleton"
+description: "A skeleton-to-content crossfade with shimmer placeholder."
+---
+
+<ComponentPreview hideCode name="skeleton" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/skeleton
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="skeleton" title="components/ui/skeleton.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton";
+```
+
+```tsx
+<Skeleton layout="card" state="loading">
+  {/* real content revealed on loaded */}
+</Skeleton>
+```
+
+Pass `children` for the loaded content and optionally `placeholder` to override the default shimmer layout.
+
+## Smooth transitions
+
+The docs preview shimmers for ~3 sweep cycles, then crossfades to real content via `useSkeletonTransition`:
+
+```tsx
+import { Skeleton } from "@/components/framecn/skeleton";
+import { useSkeletonTransition } from "@/components/framecn/use-skeleton-transition";
+
+const skeletonStyle = useSkeletonTransition([
+  { at: 180, state: "loaded", duration: 16 },
+]);
+
+<Skeleton style={skeletonStyle} layout="card">
+  {/* Real content — defines the box size; revealed on crossfade. */}
+  <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+    {/* avatar + text lines */}
+  </div>
+</Skeleton>;
+```
+
+`style` takes precedence over `state` when both are provided. The shimmer block is bundled with `@framecn/skeleton`.
+
+## API Reference
+
+### Skeleton
+
+| Prop          | Type                    | Default                             |
+| ------------- | ----------------------- | ----------------------------------- |
+| `state`       | `"loading" \| "loaded"` | `"loading"`                         |
+| `style`       | `SkeletonStyle`         | `-` (takes precedence over `state`) |
+| `children`    | `React.ReactNode`       | `-`                                 |
+| `placeholder` | `React.ReactNode`       | `-`                                 |
+| `layout`      | `"lines" \| "card"`     | `"lines"`                           |
+| `speed`       | `number`                | `-`                                 |
+| `theme`       | `Partial<FramecnTheme>` | `-`                                 |
+| `className`   | `string`                | `-`                                 |

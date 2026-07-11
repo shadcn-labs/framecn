@@ -1,0 +1,92 @@
+---
+title: "Blur In"
+description: "A wrapper that reveals a child with blur, opacity, and a directional offset."
+---
+
+<ComponentPreview hideCode name="blur-in" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/blur-in
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="blur-in" title="components/ui/blur-in.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BlurIn } from "@/components/ui/blur-in";
+```
+
+```tsx
+<BlurIn state="revealed">
+  <YourElement />
+</BlurIn>
+```
+
+Unlike most UI atoms, `BlurIn` is theme-independent: it carries no colors and has no `theme` prop. Its inputs are the motion knobs — `blur`, `direction`, and `distance`.
+
+## Smooth transitions
+
+The docs preview animates hidden → revealed via `useBlurInTransition`. Pass the resolved style to `BlurIn`:
+
+```tsx
+import { BlurIn } from "@/components/framecn/blur-in";
+import { useBlurInTransition } from "@/components/framecn/use-blur-in-transition";
+
+const style = useBlurInTransition(
+  [
+    { at: 0, state: "hidden" },
+    { at: 8, state: "revealed", duration: 18 },
+  ],
+  { direction: "up", blur: 8, distance: 12 }
+);
+
+<BlurIn style={style}>
+  <YourElement />
+</BlurIn>;
+```
+
+`direction` is the way the child travels into place: `up` starts below, `down` starts above, `left` starts to the right, `right` starts to the left.
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### BlurIn
+
+| Prop        | Type                                  | Default                             |
+| ----------- | ------------------------------------- | ----------------------------------- |
+| `state`     | `"hidden" \| "revealed"`              | `"hidden"`                          |
+| `style`     | `BlurInStyle`                         | `-` (takes precedence over `state`) |
+| `blur`      | `number`                              | `8`                                 |
+| `direction` | `"up" \| "down" \| "left" \| "right"` | `"up"`                              |
+| `distance`  | `number`                              | `12`                                |
+| `display`   | `CSSProperties["display"]`            | `"inline-block"`                    |
+| `className` | `string`                              | `-`                                 |
+
+Wrap a single child element. The child is the content that blurs in.

@@ -4,7 +4,7 @@
   "title": "Browser Flow",
   "description": "Full Safari/Chrome simulation: typed URL, progress bar, page render, scroll, and a virtual cursor click.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

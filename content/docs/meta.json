@@ -1,4 +1,4 @@
 {
   "root": true,
-  "pages": ["(root)", "components", "shaders"]
+  "pages": ["(root)", "components", "ui", "shaders"]
 }

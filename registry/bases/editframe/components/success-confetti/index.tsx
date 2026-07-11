@@ -20,7 +20,7 @@ export interface SuccessConfettiProps {
   className?: string;
 }
 
-// Seed-based PRNG (mulberry32) to replace Remotion's random
+// Seed-based PRNG (mulberry32) for deterministic per-frame variation
 // eslint-disable-next-line no-bitwise
 const mulberry32 = (seed: number) => {
   let a = Math.trunc(seed);

@@ -1,0 +1,111 @@
+---
+title: "Cursor"
+description: "An animated cursor that moves between waypoints and clicks."
+---
+
+<ComponentPreview hideCode name="cursor" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/cursor
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="cursor" title="components/ui/cursor.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Cursor } from "@/components/ui/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+
+const style = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 40, x: 280, y: 160, duration: 28 },
+  { at: 72, x: 280, y: 160, click: true, duration: 0 },
+]);
+
+<Cursor style={style} variant="pointer" />;
+```
+
+The cursor is value-channel driven: `useCursorPath` reads the frame and returns a `CursorStyle`; `<Cursor>` itself stays pure.
+
+## Smooth transitions
+
+The docs preview eases the cursor onto a Continue button, clicks, and frame-syncs the button hover → press → loading → success timeline:
+
+```tsx
+import { H, W } from "@/lib/customizer-config";
+import { Cursor } from "@/components/framecn/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+import { Button } from "@/components/framecn/button";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+
+const BTN_X = W / 2;
+const BTN_Y = H / 2;
+
+const cursorStyle = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 40, x: BTN_X, y: BTN_Y, duration: 28 },
+  { at: 72, x: BTN_X, y: BTN_Y, click: true, duration: 0 },
+]);
+
+const buttonStyle = useButtonTransition([
+  { at: 40, state: "hover", duration: 16 },
+  { at: 68, state: "press", duration: 8 },
+  { at: 76, state: "loading", duration: 6 },
+  { at: 108, state: "success", duration: 16 },
+]);
+
+<div style={{ position: "relative", width: "100%", height: "100%" }}>
+  <div
+    style={{
+      position: "absolute",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+    }}
+  >
+    <Button label="Continue" style={buttonStyle} />
+  </div>
+  <Cursor style={cursorStyle} variant="arrow" />
+</div>;
+```
+
+A `click: true` waypoint fires a ripple and brief press dip at its `at` frame. Schedule paired component states a few frames earlier so the click lands on an already-reacting target.
+
+## API Reference
+
+### Cursor
+
+| Prop          | Type                    | Default   |
+| ------------- | ----------------------- | --------- |
+| `style`       | `CursorStyle`           | `-`       |
+| `variant`     | `"arrow" \| "pointer"`  | `"arrow"` |
+| `size`        | `number`                | `28`      |
+| `rippleColor` | `string`                | `-`       |
+| `theme`       | `Partial<FramecnTheme>` | `-`       |
+| `className`   | `string`                | `-`       |

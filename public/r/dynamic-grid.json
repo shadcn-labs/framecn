@@ -4,7 +4,7 @@
   "title": "Dynamic Grid",
   "description": "Subtle moving grid background with configurable cell size and direction.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

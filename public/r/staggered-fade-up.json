@@ -4,7 +4,7 @@
   "title": "Staggered Fade Up",
   "description": "Words fade in and slide up one after another with a configurable delay.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

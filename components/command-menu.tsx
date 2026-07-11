@@ -39,6 +39,7 @@ import {
   EXCLUDED_SECTIONS,
   isComponentsFolder,
   isShadersFolder,
+  isUiFolder,
 } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
 import {
@@ -193,7 +194,7 @@ export const CommandMenu = ({
         continue;
       }
 
-      if (isComponentsFolder(item)) {
+      if (isComponentsFolder(item) || isUiFolder(item)) {
         for (const category of getFoldersFromFolder(item)) {
           const pages = getPagesFromFolder(category, false).map((p) => ({
             name: typeof p.name === "string" ? p.name : String(p.name),

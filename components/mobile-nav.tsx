@@ -20,13 +20,26 @@ import {
   getDocsSidebarPanel,
   isComponentsFolder,
   isShadersFolder,
+  isUiFolder,
 } from "@/lib/docs";
 import {
   getCatalogSubfolder,
   getFoldersFromFolder,
   getPagesFromFolder,
 } from "@/lib/page-tree";
+import type { PageTreeFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
+
+const getUiCategoryFolder = (
+  uiFolder: PageTreeFolder,
+  category: "components" | "blocks"
+) =>
+  getFoldersFromFolder(uiFolder).find(
+    (folder) =>
+      folder.$id === `ui/${category}` ||
+      String(folder.$id ?? "").endsWith(`/${category}`) ||
+      folder.name?.toString().toLowerCase() === category
+  );
 
 const MobileLink = ({
   href,
@@ -86,6 +99,98 @@ const MobileNavGroup = ({
   );
 };
 
+const ComponentsMobilePanel = ({
+  tree,
+  setOpen,
+}: {
+  tree: PageTreeRoot;
+  setOpen: (open: boolean) => void;
+}) => {
+  const componentsFolder = tree.children.find(
+    (item): item is PageTreeFolder =>
+      item.type === "folder" && isComponentsFolder(item)
+  );
+
+  if (!componentsFolder) {
+    return null;
+  }
+
+  return getFoldersFromFolder(componentsFolder).map((category) => (
+    <MobileNavGroup
+      key={category.$id}
+      label={category.name}
+      pages={getPagesFromFolder(category, false)}
+      setOpen={setOpen}
+    />
+  ));
+};
+
+const UiMobilePanel = ({
+  tree,
+  setOpen,
+}: {
+  tree: PageTreeRoot;
+  setOpen: (open: boolean) => void;
+}) => {
+  const uiFolder = tree.children.find(
+    (item): item is PageTreeFolder => item.type === "folder" && isUiFolder(item)
+  );
+
+  if (!uiFolder) {
+    return null;
+  }
+
+  const componentsFolder = getUiCategoryFolder(uiFolder, "components");
+  const blocksFolder = getUiCategoryFolder(uiFolder, "blocks");
+
+  return (
+    <>
+      {componentsFolder ? (
+        <MobileNavGroup
+          label="Components"
+          pages={getPagesFromFolder(componentsFolder, false)}
+          setOpen={setOpen}
+        />
+      ) : null}
+      {blocksFolder ? (
+        <MobileNavGroup
+          label="Blocks"
+          pages={getPagesFromFolder(blocksFolder, false)}
+          setOpen={setOpen}
+        />
+      ) : null}
+    </>
+  );
+};
+
+const ShadersMobilePanel = ({
+  tree,
+  setOpen,
+}: {
+  tree: PageTreeRoot;
+  setOpen: (open: boolean) => void;
+}) => {
+  const shadersFolder = tree.children.find(
+    (item): item is PageTreeFolder =>
+      item.type === "folder" && isShadersFolder(item)
+  );
+
+  if (!shadersFolder) {
+    return null;
+  }
+
+  const shaderPagesFolder =
+    getCatalogSubfolder(shadersFolder, "components") ?? shadersFolder;
+
+  return (
+    <MobileNavGroup
+      label="Shaders"
+      pages={getPagesFromFolder(shaderPagesFolder, false)}
+      setOpen={setOpen}
+    />
+  );
+};
+
 export const MobileNav = ({
   items,
   tree,
@@ -97,7 +202,22 @@ export const MobileNav = ({
 }) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const panel = getDocsSidebarPanel(pathname ?? "");
+  const panel = pathname.startsWith(ROUTES.DOCS)
+    ? getDocsSidebarPanel(pathname)
+    : null;
+
+  const renderPanel = () => {
+    if (!panel) {
+      return null;
+    }
+    if (panel === "components") {
+      return <ComponentsMobilePanel tree={tree} setOpen={setOpen} />;
+    }
+    if (panel === "ui") {
+      return <UiMobilePanel tree={tree} setOpen={setOpen} />;
+    }
+    return <ShadersMobilePanel tree={tree} setOpen={setOpen} />;
+  };
 
   return (
     <Popover sounds open={open} onOpenChange={setOpen}>
@@ -170,44 +290,7 @@ export const MobileNav = ({
               ))}
             </div>
           </div>
-          {panel === "components"
-            ? tree.children.map((item) => {
-                if (item.type !== "folder") {
-                  return null;
-                }
-                if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
-                  return null;
-                }
-                if (!isComponentsFolder(item)) {
-                  return null;
-                }
-
-                return getFoldersFromFolder(item).map((category) => (
-                  <MobileNavGroup
-                    key={category.$id}
-                    label={category.name}
-                    pages={getPagesFromFolder(category, false)}
-                    setOpen={setOpen}
-                  />
-                ));
-              })
-            : tree.children.map((item) => {
-                if (item.type !== "folder" || !isShadersFolder(item)) {
-                  return null;
-                }
-
-                const shaderPagesFolder =
-                  getCatalogSubfolder(item, "components") ?? item;
-
-                return (
-                  <MobileNavGroup
-                    key={item.$id}
-                    label="Shaders"
-                    pages={getPagesFromFolder(shaderPagesFolder, false)}
-                    setOpen={setOpen}
-                  />
-                );
-              })}
+          {renderPanel()}
           {tree.children.map((item) => {
             if (item.type !== "folder") {
               return null;
@@ -215,7 +298,11 @@ export const MobileNav = ({
             if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
               return null;
             }
-            if (isComponentsFolder(item) || isShadersFolder(item)) {
+            if (
+              isComponentsFolder(item) ||
+              isUiFolder(item) ||
+              isShadersFolder(item)
+            ) {
               return null;
             }
 

@@ -1,0 +1,98 @@
+---
+title: "Dialog"
+description: "A modal dialog with backdrop dim and popup zoom."
+---
+
+<ComponentPreview hideCode name="dialog" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/dialog
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="dialog" title="components/ui/dialog.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Dialog } from "@/components/ui/dialog";
+```
+
+```tsx
+<Dialog state="opened" />
+```
+
+Dialog is a modal layer meant to compose over another scene — pair it with a trigger button or other content in your composition.
+
+## Smooth transitions
+
+The docs preview animates an Edit profile trigger press, then opens and closes the dialog via `useDialogTransition`. Pair it with `useButtonTransition` on the trigger:
+
+```tsx
+import { Dialog } from "@/components/framecn/dialog";
+import { useDialogTransition } from "@/components/framecn/use-dialog-transition";
+import { Button } from "@/components/framecn/button";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+
+const trigger = useButtonTransition([
+  { at: 14, state: "hover" },
+  { at: 26, state: "press" },
+]);
+
+const dialog = useDialogTransition([
+  { at: 32, state: "opened", duration: 16 },
+  { at: 92, state: "closed", duration: 12 },
+]);
+
+<>
+  <Button label="Edit profile" style={trigger} />
+  <Dialog
+    title="Edit profile"
+    description="Make changes to your profile here. Click save when you're done."
+    actionLabel="Save changes"
+    cancelLabel="Cancel"
+    style={dialog}
+  />
+</>;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Dialog
+
+| Prop          | Type                    | Default                                                             |
+| ------------- | ----------------------- | ------------------------------------------------------------------- |
+| `state`       | `"opened" \| "closed"`  | `"closed"`                                                          |
+| `style`       | `DialogStyle`           | `-` (takes precedence over `state`)                                 |
+| `title`       | `string`                | `"Edit profile"`                                                    |
+| `description` | `string`                | `"Make changes to your profile here. Click save when you're done."` |
+| `actionLabel` | `string`                | `"Save changes"`                                                    |
+| `cancelLabel` | `string`                | `"Cancel"`                                                          |
+| `theme`       | `Partial<FramecnTheme>` | `-`                                                                 |
+| `className`   | `string`                | `-`                                                                 |

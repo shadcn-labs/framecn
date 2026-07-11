@@ -4,7 +4,7 @@
   "title": "RGB Glitch Text",
   "description": "Three RGB-offset text copies jitter for a brief glitch window.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

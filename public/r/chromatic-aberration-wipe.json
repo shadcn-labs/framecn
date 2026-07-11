@@ -4,7 +4,7 @@
   "title": "Chromatic Aberration Wipe",
   "description": "An ultra-fast slide transition with an RGB glitch on the peak frames.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

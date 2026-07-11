@@ -59,6 +59,7 @@ export const TOP_LEVEL_SECTIONS = [
   { href: ROUTES.DOCS, name: "Introduction" },
   { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
   { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
+  { href: ROUTES.DOCS_UI, name: "UI" },
   { href: ROUTES.DOCS_SHADERS, name: "Shaders" },
   { href: ROUTES.DOCS_MCP, name: "MCP" },
   { href: ROUTES.DOCS_REGISTRY, name: "Registry" },

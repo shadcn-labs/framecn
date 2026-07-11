@@ -1,0 +1,120 @@
+---
+title: "Message Bubble"
+description: "A chat message bubble with rise-in animation."
+---
+
+<ComponentPreview hideCode name="message-bubble" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/message-bubble
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="message-bubble"
+  title="components/ui/message-bubble.tsx"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MessageBubble } from "@/components/ui/message-bubble";
+```
+
+```tsx
+<MessageBubble variant="incoming" state="visible">
+  Yep, pushing it live now
+</MessageBubble>
+```
+
+## Smooth transitions
+
+The docs preview reveals the bubble with `useMessageBubbleTransition`, then pops in a reaction badge with a spring-driven `reactionStyle`:
+
+```tsx
+import {
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "@/lib/framecn-ui";
+import { MessageBubble } from "@/components/framecn/message-bubble";
+import { useMessageBubbleTransition } from "@/components/framecn/use-message-bubble-transition";
+
+const REVEAL_AT = 16;
+const REACT_AT = 44;
+
+export const Scene = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const bubbleStyle = useMessageBubbleTransition([
+    { at: REVEAL_AT, state: "visible", duration: 14 },
+  ]);
+
+  const reactionStyle = {
+    opacity: interpolate(frame, [REACT_AT, REACT_AT + 5], [0, 1], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    }),
+    scale: spring({
+      fps,
+      frame: frame - REACT_AT,
+      config: { damping: 11, stiffness: 220, mass: 0.6 },
+    }),
+  };
+
+  return (
+    <MessageBubble
+      variant="incoming"
+      style={bubbleStyle}
+      reaction="🔥"
+      reactionStyle={reactionStyle}
+    >
+      Yep, pushing it live now
+    </MessageBubble>
+  );
+};
+```
+
+`style` takes precedence over `state` when both are provided. Drive `reactionStyle` separately to animate the emoji badge independently from the bubble body.
+
+## API Reference
+
+### MessageBubble
+
+| Prop            | Type                         | Default                             |
+| --------------- | ---------------------------- | ----------------------------------- |
+| `state`         | `"hidden" \| "visible"`      | `"hidden"`                          |
+| `style`         | `MessageBubbleStyle`         | `-` (takes precedence over `state`) |
+| `variant`       | `"incoming" \| "outgoing"`   | `"incoming"`                        |
+| `children`      | `React.ReactNode`            | `-`                                 |
+| `reaction`      | `string`                     | `-`                                 |
+| `reactionStyle` | `MessageBubbleReactionStyle` | `-`                                 |
+| `maxWidth`      | `number \| string`           | `460`                               |
+| `theme`         | `Partial<FramecnTheme>`      | `-`                                 |
+| `className`     | `string`                     | `-`                                 |

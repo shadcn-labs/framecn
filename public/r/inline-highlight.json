@@ -4,7 +4,7 @@
   "title": "Inline Highlight",
   "description": "Animates one word inside a sentence from a base color to a brand color.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

@@ -26,7 +26,7 @@ const FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
 
 const DEFAULT_ITEMS: BentoItem[] = [
-  { body: "Built on Remotion", span: 2, title: "Fast" },
+  { body: "Built on Editframe", span: 2, title: "Fast" },
   { body: "Spring physics", title: "Animated" },
   { body: "Drop-in blocks", title: "Composable" },
   { body: "Tailwind ready", title: "Themed" },

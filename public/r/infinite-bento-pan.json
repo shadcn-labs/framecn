@@ -4,7 +4,7 @@
   "title": "Infinite Bento Pan",
   "description": "A camera diagonally drifts across an oversized bento grid behind a soft vignette.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

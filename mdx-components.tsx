@@ -99,6 +99,7 @@ export const mdxComponents = {
       {...props}
     />
   ),
+
   Step: ({ className, children, ...props }: React.ComponentProps<"h3">) => (
     <h3
       className={cn(

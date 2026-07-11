@@ -4,7 +4,7 @@
   "title": "Per Character Rise",
   "description": "Characters rise from below with a smooth spring-like easing, staggered one frame apart.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

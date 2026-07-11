@@ -1,0 +1,91 @@
+---
+title: "Button"
+description: "A button whose idle/hover/press/loading/success state is a pure function of the timeline."
+---
+
+<ComponentPreview hideCode name="button" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/button
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="button" title="components/ui/button.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+```
+
+```tsx
+<Button label="Continue" state="idle" />
+```
+
+Installing `button` also pulls in `spinner` via registry dependencies.
+
+## Smooth transitions
+
+The docs preview animates hover → press → loading → success via `useButtonTransition`. Pass the resolved style to `Button`:
+
+```tsx
+import { Button } from "@/components/framecn/button";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+
+const style = useButtonTransition(
+  [
+    { at: 12, state: "hover" },
+    { at: 30, state: "press" },
+    { at: 48, state: "loading", duration: 6 },
+    { at: 96, state: "success", duration: 16 },
+  ],
+  { variant: "default", primary: "#171717" }
+);
+
+<Button label="Continue" style={style} />;
+```
+
+Forward `variant` and `primary` into the hook when using `style` so the interpolated background tracks those props.
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Button
+
+| Prop        | Type                                                                | Default                             |
+| ----------- | ------------------------------------------------------------------- | ----------------------------------- |
+| `state`     | `"idle" \| "hover" \| "press" \| "loading" \| "success"`            | `"idle"`                            |
+| `style`     | `ButtonStyle`                                                       | `-` (takes precedence over `state`) |
+| `label`     | `string`                                                            | `"Continue"`                        |
+| `variant`   | `"default" \| "secondary" \| "destructive" \| "outline" \| "ghost"` | `"default"`                         |
+| `size`      | `"sm" \| "default" \| "lg"`                                         | `"default"`                         |
+| `theme`     | `Partial<FramecnTheme>`                                             | `-`                                 |
+| `primary`   | `string`                                                            | `-`                                 |
+| `speed`     | `number`                                                            | `1`                                 |
+| `align`     | `"start" \| "center" \| "end"`                                      | `"center"`                          |
+| `className` | `string`                                                            | `-`                                 |

@@ -1,0 +1,94 @@
+---
+title: "Input"
+description: "A text input with focus ring, border, caret, and value reveal."
+---
+
+<ComponentPreview hideCode name="input" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/input
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="input" title="components/ui/input.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input";
+```
+
+```tsx
+<Input
+  placeholder="you@example.com"
+  value="remotion@remocn.dev"
+  state="typing"
+/>
+```
+
+## Smooth transitions
+
+The docs preview animates hover → active → typing → invalid via `useInputTransition`. Forward `primary` into the hook when using `style` so the focus ring tracks the color prop:
+
+```tsx
+import { Input } from "@/components/framecn/input";
+import { useInputTransition } from "@/components/framecn/use-input-transition";
+
+const style = useInputTransition(
+  [
+    { at: 10, state: "hover", duration: 8 },
+    { at: 24, state: "active", duration: 10 },
+    { at: 40, state: "typing", duration: 22 },
+    { at: 78, state: "invalid", duration: 12 },
+  ],
+  { primary: "#171717" }
+);
+
+<Input
+  placeholder="you@example.com"
+  value="remotion@remocn.dev"
+  style={style}
+/>;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Input
+
+| Prop          | Type                                                               | Default                             |
+| ------------- | ------------------------------------------------------------------ | ----------------------------------- |
+| `state`       | `"idle" \| "hover" \| "active" \| "typing" \| "blur" \| "invalid"` | `"idle"`                            |
+| `style`       | `InputStyle`                                                       | `-` (takes precedence over `state`) |
+| `placeholder` | `string`                                                           | `"you@example.com"`                 |
+| `value`       | `string`                                                           | `"remotion@remocn.dev"`             |
+| `size`        | `"sm" \| "default" \| "lg"`                                        | `"default"`                         |
+| `primary`     | `string`                                                           | `-`                                 |
+| `fullWidth`   | `boolean`                                                          | `-`                                 |
+| `theme`       | `Partial<FramecnTheme>`                                            | `-`                                 |
+| `className`   | `string`                                                           | `-`                                 |
