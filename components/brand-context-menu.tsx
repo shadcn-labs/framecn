@@ -1,20 +1,16 @@
 "use client";
 
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon, SquareDashedIcon, TypeIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { toast } from "sonner";
 
-import {
-  LogoMark,
-  LogoType,
-  getLogoMarkSVG,
-  getLogoTypeSVG,
-} from "@/components/logo";
+import { LogoMark, getLogoMarkSVG, getLogoTypeSVG } from "@/components/logo";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
@@ -27,73 +23,57 @@ export const BrandContextMenu = ({
   const { resolvedTheme } = useTheme();
   const { copyToClipboard } = useCopyToClipboard();
 
-  const logoColor = resolvedTheme === "light" ? "#000" : "#fff";
+  const color = resolvedTheme === "light" ? "#000" : "#fff";
+  const logoMarkSvgString = getLogoMarkSVG(color);
+  const logoTypeSvgString = getLogoTypeSVG(color);
 
-  const logoMarkSvgString = useMemo(
-    () => getLogoMarkSVG(logoColor),
-    [logoColor]
-  );
-  const logoTypeSvgString = useMemo(
-    () => getLogoTypeSVG(logoColor),
-    [logoColor]
-  );
+  const handleCopyLogomark = useCallback(() => {
+    copyToClipboard(logoMarkSvgString);
+    toast.success("Logomark as SVG copied");
+  }, [logoMarkSvgString, copyToClipboard]);
 
-  const handleCopy = useCallback(
-    (svg: string, message: string) => {
-      copyToClipboard(svg);
-      toast.success(message);
-    },
-    [copyToClipboard]
-  );
-
-  const handleDownload = useCallback((svg: string, fileName: string) => {
-    const blob = new Blob([svg], {
-      type: "image/svg+xml;charset=utf-8",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success(`${fileName} downloaded`);
-  }, []);
+  const handleCopyLogotype = useCallback(() => {
+    copyToClipboard(logoTypeSvgString);
+    toast.success("Logotype as SVG copied");
+  }, [logoTypeSvgString, copyToClipboard]);
 
   return (
-    <ContextMenu sounds>
+    <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
 
       <ContextMenuContent>
-        <ContextMenuItem
-          sound="copy"
-          onClick={() => handleCopy(logoMarkSvgString, "Icon as SVG copied")}
-        >
-          <LogoMark className="mr-2 size-4 shrink-0" />
-          Copy icon as SVG
+        <ContextMenuItem onClick={handleCopyLogomark}>
+          <LogoMark />
+          Copy Logomark as SVG
         </ContextMenuItem>
 
-        <ContextMenuItem
-          sound="copy"
-          onClick={() =>
-            handleCopy(logoTypeSvgString, "Wordmark as SVG copied")
-          }
-        >
-          <LogoType className="mr-2 h-4 w-auto shrink-0" />
-          Copy wordmark as SVG
+        <ContextMenuItem onClick={handleCopyLogotype}>
+          <TypeIcon />
+          Copy Logotype as SVG
         </ContextMenuItem>
 
-        <ContextMenuItem
-          sound="click"
-          onClick={() => handleDownload(logoMarkSvgString, "icon.svg")}
-        >
-          <DownloadIcon className="mr-2 size-4" /> Download icon as SVG
+        <ContextMenuSeparator />
+
+        <ContextMenuItem asChild>
+          <a
+            href="https://shadcn-labs.com/brand"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SquareDashedIcon />
+            Brand Guidelines
+          </a>
         </ContextMenuItem>
 
-        <ContextMenuItem
-          sound="click"
-          onClick={() => handleDownload(logoTypeSvgString, "wordmark.svg")}
-        >
-          <DownloadIcon className="mr-2 size-4" /> Download wordmark as SVG
+        <ContextMenuItem asChild>
+          <a
+            href="https://shadcn-labs.com/shadcn-labs-brand.zip"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <DownloadIcon />
+            Download Brand Assets
+          </a>
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
