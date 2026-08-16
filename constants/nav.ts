@@ -13,7 +13,7 @@ export const LABS_LATEST = {
 } as const satisfies LabsNavLink;
 
 export const LABS_REGISTRIES = [
-  { href: "https://framecn.dev", name: "framecn" },
+  { href: "https://termcn.dev", name: "termcn" },
   { href: "https://ogimagecn.com", name: "ogimagecn" },
   { href: "https://agentcn.run", name: "agentcn" },
   { href: "https://mcpcn.dev", name: "mcpcn" },
