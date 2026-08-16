@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { BrandContextMenu } from "@/components/brand-context-menu";
 import { CommandMenu } from "@/components/command-menu";
+import { LabsNav } from "@/components/labs-nav";
 import { LogoMark } from "@/components/logo";
 import { MainNav } from "@/components/main-nav";
 import { MobileNav } from "@/components/mobile-nav";
@@ -46,6 +47,7 @@ export const SiteHeader = () => (
             </Link>
           </Button>
         </BrandContextMenu>
+        <LabsNav />
         <MainNav items={navItems} className="hidden lg:flex" />
         <div className="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
           <div className="hidden w-full flex-1 md:flex md:w-auto md:flex-none">

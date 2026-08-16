@@ -14,7 +14,7 @@ import { PageTransition } from "@/components/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { formatTitleFromSlug } from "@/lib/docs";
-import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
+import { getPageMarkdownUrl, source } from "@/lib/source";
 import { absoluteUrl } from "@/lib/utils";
 import { mdxComponents } from "@/mdx-components";
 import { BreadcrumbJsonLd } from "@/seo/json-ld";
@@ -37,11 +37,9 @@ export const generateMetadata = async (props: {
   }
 
   const doc = page.data;
-  const ogImage = getPageImage(page).url;
 
   return createPageMetadata({
     description: doc.description,
-    ogImage,
     ogType: "article",
     path: page.url,
     title: doc.title,
