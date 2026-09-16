@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
+import { DocsAds } from "@/components/docs-ads";
 import { DocsCopyPage } from "@/components/docs-copy-page";
 import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
 import { DocsNavLink } from "@/components/docs-nav-link";
@@ -219,6 +220,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
               </div>
             ) : null}
             <DocsTocFooter docId={page.path} className="mx-8" />
+            <DocsAds slot="sidebar" className="mx-8 shrink-0" />
           </div>
         </div>
       </PageTransition>
