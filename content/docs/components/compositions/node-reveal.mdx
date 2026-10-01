@@ -1,0 +1,128 @@
+---
+title: "Node Reveal"
+description: "A wordmark splits apart as a design node scales up from nothing between the two words."
+---
+
+<ComponentPreview name="node-reveal" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/node-reveal
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="node-reveal" title="components/ui/node-reveal.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { NodeReveal } from "@/components/framecn/node-reveal";
+```
+
+```tsx
+<NodeReveal />
+```
+
+The two words read as one line, then a node grows between them and drives them
+apart. Nothing animates the text — its position is a consequence of the node's
+size.
+
+```tsx
+<NodeReveal src="/logo.png" lead="SHADCN" trail="LABS" size={520} />
+```
+
+## API Reference
+
+### NodeReveal
+
+| Prop               | Type                             | Default       |
+| ------------------ | -------------------------------- | ------------- |
+| `src`              | `string`                         | `DEFAULT_SRC` |
+| `lead`             | `string`                         | `"Baseline"`  |
+| `trail`            | `string`                         | `"Studio"`    |
+| `size`             | `number`                         | `440`         |
+| `ratio`            | `string`                         | `"1:1"`       |
+| `fit`              | `"cover" \| "contain" \| "fill"` | `"cover"`     |
+| `nodeBackground`   | `string`                         | `"#000000"`   |
+| `radius`           | `number`                         | `0`           |
+| `handles`          | `boolean`                        | `true`        |
+| `handleSize`       | `number`                         | `10`          |
+| `handleColor`      | `string`                         | `"#111111"`   |
+| `openAt`           | `number`                         | `0.12`        |
+| `landAt`           | `number`                         | `0.55`        |
+| `gapFrom`          | `number`                         | `6`           |
+| `gapTo`            | `number`                         | `56`          |
+| `easing`           | `string`                         | `"expo"`      |
+| `fontSize`         | `number`                         | `56`          |
+| `fontWeight`       | `number \| string`               | `500`         |
+| `color`            | `string`                         | `"#111111"`   |
+| `background`       | `string`                         | `"#ffffff"`   |
+| `speed`            | `number`                         | `1`           |
+| `fps`              | `number`                         | `30`          |
+| `durationInFrames` | `number`                         | `120`         |
+| `width`            | `number`                         | `1280`        |
+| `height`           | `number`                         | `720`         |
+| `className`        | `string`                         | `-`           |
+
+### REVEAL_EASINGS
+
+The node enters from nothing rather than morphing in place, so every preset is
+from the ease-out family, sorted weak to strong.
+
+| Name     | Value                                  |
+| -------- | -------------------------------------- |
+| `quad`   | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` |
+| `cubic`  | `cubic-bezier(0.215, 0.61, 0.355, 1)`  |
+| `quart`  | `cubic-bezier(0.165, 0.84, 0.44, 1)`   |
+| `quint`  | `cubic-bezier(0.23, 1, 0.32, 1)`       |
+| `circ`   | `cubic-bezier(0.075, 0.82, 0.165, 1)`  |
+| `expo`   | `cubic-bezier(0.19, 1, 0.22, 1)`       |
+| `linear` | `linear`                               |
+
+`easing` also accepts any raw CSS easing value. Try
+`easing="cubic-bezier(0.34, 1.56, 0.64, 1)"` to let the node overshoot its
+final size before settling.
+
+## Notes
+
+<Callout title="Scale cannot push siblings">
+  The node animates `width` and `height`, not `transform: scale()`. A scaled
+  element does not affect layout, so it would never displace the words. Growing
+  the grid column is what moves them, and the artwork scales with its box.
+</Callout>
+
+<Callout title="The handles do not scale">
+  Corner marks keep a constant `handleSize` while the frame grows, the way a
+  real selection handle behaves. They sit outside the clipped artwork layer so
+  the growing frame never crops them, and fade in as the node lands.
+</Callout>
+
+<Callout title="gapFrom sets the word spacing" variant="destructive">
+  At rest the two words must read as one line. `gapFrom` applies on both sides
+  of the node, so the initial separation is `gapFrom * 2` plus two pixels. Raise
+  `fontSize` and you will need to raise `gapFrom` with it.
+</Callout>

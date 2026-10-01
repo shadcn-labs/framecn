@@ -64,38 +64,38 @@ wordmark:
 
 ### FormatMorph
 
-| Prop               | Type                 | Default                                                                       |
-| ------------------ | -------------------- | ----------------------------------------------------------------------------- |
-| `src`              | `string`             | `DEFAULT_SRC`                                                                 |
-| `gradient`         | `string`             | `DEFAULT_GRADIENT`                                                            |
-| `lead`             | `string`             | `"FRA"`                                                                       |
-| `trail`            | `string`             | `"MECN"`                                                                      |
-| `stages`           | `FormatMorphStage[]` | `DEFAULT_STAGES`                                                              |
-| `maxWidth`         | `number`             | `460`                                                                         |
-| `maxHeight`        | `number`             | `440`                                                                         |
-| `fontSize`         | `number`             | `128`                                                                         |
-| `fontWeight`       | `number \| string`   | `500`                                                                         |
-| `color`            | `string`             | `"#ffffff"`                                                                   |
-| `background`       | `string`             | `"#4e4e50"`                                                                   |
-| `radiusRatio`      | `number`             | `0.08`                                                                        |
-| `holdRatio`        | `number`             | `0.45`                                                                        |
-| `easing`           | `string`             | `"quint"`                                                                     |
-| `lagMs`            | `number`             | `40`                                                                          |
-| `gap`              | `number`             | `20`                                                                          |
-| `shadow`           | `string`             | `"0 40px 100px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06)"`     |
-| `speed`            | `number`             | `1`                                                                           |
-| `fps`              | `number`             | `30`                                                                          |
-| `durationInFrames` | `number`             | `180`                                                                         |
-| `width`            | `number`             | `1280`                                                                        |
-| `height`           | `number`             | `720`                                                                         |
-| `className`        | `string`             | `-`                                                                           |
+| Prop               | Type                 | Default                                                                   |
+| ------------------ | -------------------- | ------------------------------------------------------------------------- |
+| `src`              | `string`             | `DEFAULT_SRC`                                                             |
+| `gradient`         | `string`             | `DEFAULT_GRADIENT`                                                        |
+| `lead`             | `string`             | `"FRA"`                                                                   |
+| `trail`            | `string`             | `"MECN"`                                                                  |
+| `stages`           | `FormatMorphStage[]` | `DEFAULT_STAGES`                                                          |
+| `maxWidth`         | `number`             | `460`                                                                     |
+| `maxHeight`        | `number`             | `440`                                                                     |
+| `fontSize`         | `number`             | `128`                                                                     |
+| `fontWeight`       | `number \| string`   | `500`                                                                     |
+| `color`            | `string`             | `"#ffffff"`                                                               |
+| `background`       | `string`             | `"#4e4e50"`                                                               |
+| `radiusRatio`      | `number`             | `0.08`                                                                    |
+| `holdRatio`        | `number`             | `0.45`                                                                    |
+| `easing`           | `string`             | `"quint"`                                                                 |
+| `lagMs`            | `number`             | `40`                                                                      |
+| `gap`              | `number`             | `20`                                                                      |
+| `shadow`           | `string`             | `"0 40px 100px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06)"` |
+| `speed`            | `number`             | `1`                                                                       |
+| `fps`              | `number`             | `30`                                                                      |
+| `durationInFrames` | `number`             | `180`                                                                     |
+| `width`            | `number`             | `1280`                                                                    |
+| `height`           | `number`             | `720`                                                                     |
+| `className`        | `string`             | `-`                                                                       |
 
 ### FormatMorphStage
 
-| Prop       | Type     | Default                                 |
-| ---------- | -------- | --------------------------------------- |
-| `ratio`    | `string` | `-`                                     |
-| `rotate`   | `number` | `0`                                     |
+| Prop       | Type     | Default                                  |
+| ---------- | -------- | ---------------------------------------- |
+| `ratio`    | `string` | `-`                                      |
+| `rotate`   | `number` | `0`                                      |
 | `fontSize` | `number` | Derived from the stage's resolved height |
 
 ### MORPH_EASINGS
@@ -119,10 +119,10 @@ on screen and changing shape, so every preset is from the ease-in-out family.
 ## Notes
 
 <Callout title="Remote images need CORS">
-  The asset renders as an `<img crossOrigin="anonymous" />`, because a CSS
-  background cannot carry a CORS request. Hosts that do not send
-  `access-control-allow-origin` will fail to load and fall back to `gradient`.
-  For production renders, serve the asset from your own origin.
+  The asset renders as an `<img crossOrigin="anonymous" />
+  `, because a CSS background cannot carry a CORS request. Hosts that do not
+  send `access-control-allow-origin` will fail to load and fall back to
+  `gradient`. For production renders, serve the asset from your own origin.
 </Callout>
 
 <Callout title="Timing is split three ways">

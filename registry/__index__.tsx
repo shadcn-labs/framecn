@@ -65,6 +65,7 @@ import { matrixDecodeConfig } from "@/registry/bases/editframe/components/matrix
 import { meshGradientBgConfig } from "@/registry/bases/editframe/components/mesh-gradient-bg/config";
 import { microScaleFadeConfig } from "@/registry/bases/editframe/components/micro-scale-fade/config";
 import { morphingModalConfig } from "@/registry/bases/editframe/components/morphing-modal/config";
+import { nodeRevealConfig } from "@/registry/bases/editframe/components/node-reveal/config";
 import { perCharacterRiseConfig } from "@/registry/bases/editframe/components/per-character-rise/config";
 import { perWordCrossfadeConfig } from "@/registry/bases/editframe/components/per-word-crossfade/config";
 import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/components/perspective-marquee/config";
@@ -758,6 +759,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: MorphingModal };
     }),
     config: morphingModalConfig,
+  },
+  "node-reveal": {
+    Component: lazy(async () => {
+      const { NodeReveal } =
+        await import("@/registry/bases/editframe/components/node-reveal");
+      return { default: NodeReveal };
+    }),
+    config: nodeRevealConfig,
   },
   "onboarding-stepper-flow": {
     Component: OnboardingStepperFlow,

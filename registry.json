@@ -802,6 +802,20 @@
       ]
     },
     {
+      "name": "node-reveal",
+      "type": "registry:component",
+      "title": "Node Reveal",
+      "description": "A wordmark splits apart as a design node scales up from nothing between the two words.",
+      "dependencies": ["@editframe/react"],
+      "files": [
+        {
+          "path": "registry/bases/editframe/components/node-reveal/index.tsx",
+          "type": "registry:component",
+          "target": "components/framecn/node-reveal.tsx"
+        }
+      ]
+    },
+    {
       "name": "format-morph",
       "type": "registry:component",
       "title": "Format Morph",
