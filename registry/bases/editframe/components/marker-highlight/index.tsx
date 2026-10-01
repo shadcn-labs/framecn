@@ -17,6 +17,7 @@ export interface MarkerHighlightProps {
   durationInFrames?: number;
   width?: number;
   height?: number;
+  background?: string;
   className?: string;
 }
 
@@ -34,6 +35,7 @@ export const MarkerHighlight = ({
   durationInFrames = 90,
   width = 1280,
   height = 720,
+  background = "white",
   className,
 }: MarkerHighlightProps) => {
   const safeSpeed = Math.max(0.01, speed);
@@ -44,7 +46,7 @@ export const MarkerHighlight = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     fontFamily:
       "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",

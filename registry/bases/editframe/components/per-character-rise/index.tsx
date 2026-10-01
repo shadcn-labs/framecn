@@ -15,6 +15,7 @@ export interface PerCharacterRiseProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const PerCharacterRise = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: PerCharacterRiseProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -40,7 +42,7 @@ export const PerCharacterRise = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     inset: 0,
     justifyContent: "center",

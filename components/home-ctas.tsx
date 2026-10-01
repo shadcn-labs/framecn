@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useRef } from "react";
 
 import { ArrowRightIcon } from "@/components/animated-icons/arrow-right";
 import type { ArrowRightIconHandle } from "@/components/animated-icons/arrow-right";
@@ -9,26 +8,23 @@ import { ComponentIcon } from "@/components/animated-icons/component";
 import type { ComponentIconHandle } from "@/components/animated-icons/component";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
+import { useIconAnimation } from "@/hooks/use-icon-animation";
 import { cn } from "@/lib/utils";
 
 const GetStartedButton = () => {
-  const arrowRightRef = useRef<ArrowRightIconHandle>(null);
-
-  const handleMouseEnter = useCallback(() => {
-    arrowRightRef.current?.startAnimation();
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    arrowRightRef.current?.stopAnimation();
-  }, []);
+  const {
+    iconRef: arrowRightRef,
+    onMouseEnter,
+    onMouseLeave,
+  } = useIconAnimation<ArrowRightIconHandle>();
 
   return (
     <Button
       asChild
       sound="click"
       className="px-4"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <Link href={ROUTES.DOCS_INSTALLATION} transitionTypes={["nav-forward"]}>
         Get Started
@@ -39,15 +35,11 @@ const GetStartedButton = () => {
 };
 
 const BrowseComponentsButton = () => {
-  const componentIconRef = useRef<ComponentIconHandle>(null);
-
-  const handleMouseEnter = useCallback(() => {
-    componentIconRef.current?.startAnimation();
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    componentIconRef.current?.stopAnimation();
-  }, []);
+  const {
+    iconRef: componentIconRef,
+    onMouseEnter,
+    onMouseLeave,
+  } = useIconAnimation<ComponentIconHandle>();
 
   return (
     <Button
@@ -55,8 +47,8 @@ const BrowseComponentsButton = () => {
       variant="outline"
       sound="click"
       className="px-4"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <Link href={ROUTES.DOCS_COMPONENTS} transitionTypes={["nav-forward"]}>
         <ComponentIcon

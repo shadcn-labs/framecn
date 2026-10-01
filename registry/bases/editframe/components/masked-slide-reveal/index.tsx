@@ -14,6 +14,7 @@ export interface MaskedSlideRevealProps {
   durationInFrames?: number;
   width?: number;
   height?: number;
+  background?: string;
   className?: string;
 }
 
@@ -28,6 +29,7 @@ export const MaskedSlideReveal = ({
   durationInFrames = 90,
   width = 1280,
   height = 720,
+  background = "white",
   className,
 }: MaskedSlideRevealProps) => {
   const safeSpeed = Math.max(0.01, speed);
@@ -37,7 +39,7 @@ export const MaskedSlideReveal = ({
   const words = text.split(" ");
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     fontFamily:
       "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",

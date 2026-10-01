@@ -12,6 +12,7 @@ export interface TextFadeReplaceProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const TextFadeReplace = ({
   speed = 1,
   fps = FPS,
   durationInFrames = DURATION_IN_FRAMES,
+  background = "white",
   className,
 }: TextFadeReplaceProps) => {
   const safeSpeed = Math.max(0.01, speed);
@@ -52,7 +54,7 @@ export const TextFadeReplace = ({
       style={
         {
           alignItems: "center",
-          background: "white",
+          background,
           display: "flex",
           inset: 0,
           justifyContent: "center",

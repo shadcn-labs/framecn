@@ -16,6 +16,7 @@ export interface ShortSlideRightProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -29,6 +30,7 @@ export const ShortSlideRight = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: ShortSlideRightProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -49,7 +51,7 @@ export const ShortSlideRight = ({
       style={
         {
           alignItems: "center",
-          background: "white",
+          background,
           display: "flex",
           inset: 0,
           justifyContent: "center",

@@ -13,6 +13,7 @@ export interface StaggeredFadeUpProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -29,6 +30,7 @@ export const StaggeredFadeUp = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: StaggeredFadeUpProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -38,7 +40,7 @@ export const StaggeredFadeUp = ({
 
   const containerStyle = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     inset: 0,
     justifyContent: "center",

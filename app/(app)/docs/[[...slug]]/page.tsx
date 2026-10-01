@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
+import { DocsAds } from "@/components/docs-ads";
 import { DocsCopyPage } from "@/components/docs-copy-page";
 import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
 import { DocsNavLink } from "@/components/docs-nav-link";
@@ -14,7 +15,7 @@ import { PageTransition } from "@/components/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { formatTitleFromSlug } from "@/lib/docs";
-import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
+import { getPageMarkdownUrl, source } from "@/lib/source";
 import { absoluteUrl } from "@/lib/utils";
 import { mdxComponents } from "@/mdx-components";
 import { BreadcrumbJsonLd } from "@/seo/json-ld";
@@ -37,11 +38,9 @@ export const generateMetadata = async (props: {
   }
 
   const doc = page.data;
-  const ogImage = getPageImage(page).url;
 
   return createPageMetadata({
     description: doc.description,
-    ogImage,
     ogType: "article",
     path: page.url,
     title: doc.title,
@@ -221,6 +220,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
               </div>
             ) : null}
             <DocsTocFooter docId={page.path} className="mx-8" />
+            <DocsAds slot="sidebar" className="mx-8 shrink-0" />
           </div>
         </div>
       </PageTransition>

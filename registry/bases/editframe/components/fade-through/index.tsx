@@ -15,6 +15,7 @@ export interface FadeThroughProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const FadeThrough = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: FadeThroughProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -60,7 +62,7 @@ export const FadeThrough = ({
       style={
         {
           alignItems: "center",
-          background: "white",
+          background,
           display: "flex",
           inset: 0,
           justifyContent: "center",

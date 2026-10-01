@@ -15,6 +15,7 @@ export interface SharedAxisZProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const SharedAxisZ = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: SharedAxisZProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -60,7 +62,7 @@ export const SharedAxisZ = ({
       style={
         {
           alignItems: "center",
-          background: "white",
+          background,
           display: "flex",
           inset: 0,
           justifyContent: "center",

@@ -12,6 +12,7 @@ export interface ShimmerSweepProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -24,6 +25,7 @@ export const ShimmerSweep = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: ShimmerSweepProps) => {
   const safeSpeed = Math.max(0.01, speed);
@@ -70,7 +72,7 @@ export const ShimmerSweep = ({
         <div
           style={{
             alignItems: "center",
-            background: "white",
+            background,
             display: "flex",
             inset: 0,
             justifyContent: "center",

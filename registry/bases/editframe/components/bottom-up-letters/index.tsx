@@ -16,6 +16,7 @@ export interface BottomUpLettersProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -29,6 +30,7 @@ export const BottomUpLetters = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: BottomUpLettersProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -42,7 +44,7 @@ export const BottomUpLetters = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     inset: 0,
     justifyContent: "center",

@@ -1,10 +1,11 @@
 export const GITHUB = {
   branch: "main",
+  org: "shadcn-labs",
   repo: "framecn",
   user: "shadcn-labs",
 } as const;
 
-const githubUrl = `https://github.com/${GITHUB.user}/${GITHUB.repo}`;
+const githubUrl = `https://github.com/${GITHUB.org}/${GITHUB.repo}`;
 
 export const LINK = {
   DISCORD: "https://discord.gg/N6G36KhYK4",

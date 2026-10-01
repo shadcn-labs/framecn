@@ -6,6 +6,7 @@ import type { CSSProperties } from "react";
 export interface BrowserFlowProps {
   url?: string;
   speed?: number;
+  background?: string;
   className?: string;
   fps?: number;
   durationInFrames?: number;
@@ -38,6 +39,7 @@ const MacDots = ({ size = 12 }: { size?: number }) => (
 export const BrowserFlow = ({
   url = "framecn.dev",
   speed = 1,
+  background = "white",
   className,
   fps = 30,
   durationInFrames = 270,
@@ -342,7 +344,7 @@ export const BrowserFlow = ({
                     type="button"
                     style={{
                       animation: `framecn-browser-btn-click 300ms cubic-bezier(0.16, 1, 0.3, 1) ${clickMs}ms backwards`,
-                      background: "white",
+                      background,
                       border: "none",
                       borderRadius: 12,
                       boxShadow: "0 10px 30px rgba(255,255,255,0.1)",

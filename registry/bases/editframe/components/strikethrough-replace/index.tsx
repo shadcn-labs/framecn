@@ -13,6 +13,7 @@ export interface StrikethroughReplaceProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -29,6 +30,7 @@ export const StrikethroughReplace = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: StrikethroughReplaceProps) => {
   const safeSpeed = Math.max(0.01, speed);
@@ -39,7 +41,7 @@ export const StrikethroughReplace = ({
 
   const containerStyle = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     inset: 0,
     justifyContent: "center",

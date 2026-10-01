@@ -15,6 +15,7 @@ export interface MicroScaleFadeProps {
   speed?: number;
   fps?: number;
   durationInFrames?: number;
+  background?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const MicroScaleFade = ({
   speed = 1,
   fps = 30,
   durationInFrames = 90,
+  background = "white",
   className,
 }: MicroScaleFadeProps) => {
   const durationMs = (durationInFrames / fps) * 1000;
@@ -38,7 +40,7 @@ export const MicroScaleFade = ({
 
   const containerStyle: CSSProperties = {
     alignItems: "center",
-    background: "white",
+    background,
     display: "flex",
     inset: 0,
     justifyContent: "center",
