@@ -4,7 +4,7 @@
   "title": "Scale Down Fade",
   "description": "Text enters scaling down into place with a fade, then shrinks and fades out.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

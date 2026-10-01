@@ -2,7 +2,7 @@
 import type { Node as PageTreeNode } from "fumadocs-core/page-tree";
 
 import { ROUTES } from "@/constants/routes";
-import { isComponentsFolder } from "@/lib/docs";
+import { isCatalogFolder } from "@/lib/docs";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import type { PageTreeFolder } from "@/lib/page-tree";
 import { absoluteUrl } from "@/lib/utils";
@@ -69,7 +69,7 @@ const componentListMarkdown = (
   }
 
   const pages = (
-    isComponentsFolder(folder)
+    isCatalogFolder(folder)
       ? getAllPagesFromFolder(folder)
       : getPagesFromFolder(folder)
   ).filter((page) => page.url !== ROUTES.DOCS_COMPONENTS);

@@ -1,0 +1,78 @@
+---
+title: "Accordion"
+description: "A disclosure whose opened/closed state is a pure function of the timeline."
+---
+
+<ComponentPreview hideCode name="accordion" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/accordion
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="accordion" title="components/ui/accordion.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Accordion } from "@/components/ui/accordion";
+```
+
+```tsx
+<Accordion />
+```
+
+## Smooth transitions
+
+The docs preview animates open → close via `useAccordionTransition`. In your composition, drive the same hook and pass `style`:
+
+```tsx
+import { Accordion } from "@/components/framecn/accordion";
+import { useAccordionTransition } from "@/components/framecn/use-accordion-transition";
+
+const style = useAccordionTransition([
+  { at: 18, state: "opened", duration: 16 },
+  { at: 78, state: "closed", duration: 12 },
+]);
+
+<Accordion style={style} />;
+```
+
+## API Reference
+
+### Accordion
+
+| Prop            | Type                    | Default                             |
+| --------------- | ----------------------- | ----------------------------------- |
+| `state`         | `"opened" \| "closed"`  | `"closed"`                          |
+| `style`         | `AccordionStyle`        | `-` (takes precedence over `state`) |
+| `title`         | `string`                | `"Is it accessible?"`               |
+| `content`       | `string`                | WAI-ARIA default copy               |
+| `contentHeight` | `number`                | `64`                                |
+| `variant`       | `"default" \| "ghost"`  | `"default"`                         |
+| `theme`         | `Partial<FramecnTheme>` | `-`                                 |

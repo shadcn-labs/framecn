@@ -1,0 +1,79 @@
+---
+title: "Stepper"
+description: "A horizontal onboarding stepper with progress animation."
+---
+
+<ComponentPreview hideCode name="stepper" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/stepper
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="stepper" title="components/ui/stepper.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Stepper } from "@/components/ui/stepper";
+```
+
+```tsx
+<Stepper steps={["Account", "Plan", "Done"]} activeIndex={1} />
+```
+
+## Smooth transitions
+
+The docs preview advances through three steps — Account → Plan → Done — via `useStepperTransition`:
+
+```tsx
+import { Stepper } from "@/components/framecn/stepper";
+import { useStepperTransition } from "@/components/framecn/use-stepper-transition";
+
+const stepperStyle = useStepperTransition([
+  { at: 0, index: 0 },
+  { at: 50, index: 1, duration: 24 },
+  { at: 110, index: 2, duration: 24 },
+]);
+
+<Stepper style={stepperStyle} steps={["Account", "Plan", "Done"]} />;
+```
+
+Start explicitly at index 0 so the timeline holds the first step before it fires. Each step ease completes in 24 frames. `style` takes precedence over `activeIndex` when both are provided.
+
+## API Reference
+
+### Stepper
+
+| Prop          | Type                         | Default                                   |
+| ------------- | ---------------------------- | ----------------------------------------- |
+| `steps`       | `string[]`                   | `["Account", "Plan", "Done"]`             |
+| `activeIndex` | `number`                     | `0`                                       |
+| `style`       | `StepperStyle`               | `-` (takes precedence over `activeIndex`) |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"`                            |
+| `theme`       | `Partial<FramecnTheme>`      | `-`                                       |
+| `className`   | `string`                     | `-`                                       |

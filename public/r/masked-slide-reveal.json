@@ -4,7 +4,7 @@
   "title": "Masked Slide Reveal",
   "description": "Words slide up out of an invisible horizontal mask, one after another.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

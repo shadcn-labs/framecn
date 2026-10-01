@@ -4,7 +4,7 @@
   "title": "Landing Code Showcase",
   "description": "Magical split-screen: code types itself on the left while the preview reactively re-renders on the right with sparks and tactile bounce.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

@@ -1,0 +1,83 @@
+---
+title: "Checkbox"
+description: "A checkbox whose checked/unchecked state is a pure function of the timeline."
+---
+
+<ComponentPreview hideCode name="checkbox" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/checkbox
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="checkbox" title="components/ui/checkbox.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox";
+```
+
+```tsx
+<Checkbox label="Accept terms and conditions" state="checked" />
+```
+
+## Smooth transitions
+
+The docs preview animates checked → unchecked via `useCheckboxTransition`. Forward `primary` into the hook when using `style` so the fill tracks the color prop:
+
+```tsx
+import { Checkbox } from "@/components/framecn/checkbox";
+import { useCheckboxTransition } from "@/components/framecn/use-checkbox-transition";
+
+const style = useCheckboxTransition(
+  [
+    { at: 18, state: "checked", duration: 14 },
+    { at: 78, state: "unchecked", duration: 12 },
+  ],
+  { primary: "#171717" }
+);
+
+<Checkbox label="Accept terms and conditions" style={style} />;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Checkbox
+
+| Prop        | Type                           | Default                             |
+| ----------- | ------------------------------ | ----------------------------------- |
+| `state`     | `"unchecked" \| "checked"`     | `"unchecked"`                       |
+| `style`     | `CheckboxStyle`                | `-` (takes precedence over `state`) |
+| `label`     | `string`                       | `-`                                 |
+| `size`      | `"sm" \| "default" \| "lg"`    | `"default"`                         |
+| `theme`     | `Partial<FramecnTheme>`        | `-`                                 |
+| `primary`   | `string`                       | `-`                                 |
+| `align`     | `"start" \| "center" \| "end"` | `"center"`                          |
+| `className` | `string`                       | `-`                                 |

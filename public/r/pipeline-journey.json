@@ -4,7 +4,7 @@
   "title": "Pipeline Journey",
   "description": "A Kanban ticket arcs across columns triggering landings and a final confetti burst.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

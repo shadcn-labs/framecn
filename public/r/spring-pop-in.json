@@ -4,7 +4,7 @@
   "title": "Spring Pop In",
   "description": "Elastic spring-driven scale-in wrapper for any child element.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

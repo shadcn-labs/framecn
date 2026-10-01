@@ -4,7 +4,7 @@
   "title": "Hero Device Assemble",
   "description": "Floating device layers spring together into a laptop or phone mockup, then the screen wakes with a shimmer.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

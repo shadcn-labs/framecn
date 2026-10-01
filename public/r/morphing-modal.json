@@ -4,7 +4,7 @@
   "title": "Morphing Modal",
   "description": "A bento card lifts off the grid and blooms into a full-screen modal driven by a single heavy spring.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

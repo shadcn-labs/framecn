@@ -4,7 +4,7 @@
   "title": "Strikethrough Replace",
   "description": "Draws a strike line across old text then reveals new text in its place.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

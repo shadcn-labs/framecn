@@ -4,7 +4,7 @@
   "title": "Blur Reveal",
   "description": "Text fades in from a heavy blur into sharp focus.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

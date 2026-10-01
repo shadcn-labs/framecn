@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress",
+  "title": "Progress",
+  "description": "",
+  "files": [
+    {
+      "path": "registry/bases/editframe/ui/progress/index.tsx",
+      "content": "\"use client\";\n\nimport { useFramecnTheme } from \"@/lib/framecn-ui\";\nimport type { FramecnTheme } from \"@/lib/framecn-ui\";\n\nexport interface ProgressStyle {\n  value: number;\n}\n\nexport interface ProgressStyleContext {\n  trackBg: string;\n  fillBg: string;\n}\n\nexport interface ProgressProps {\n  value?: number;\n  theme?: Partial<FramecnTheme>;\n  className?: string;\n}\n\nconst PROGRESS_WIDTH = 320;\nconst PROGRESS_HEIGHT = 8;\n\nexport const progressStyleContext = (\n  theme: FramecnTheme\n): ProgressStyleContext => ({\n  fillBg: theme.primary,\n  trackBg: theme.muted,\n});\n\nexport const progressStyle = (\n  value: number,\n  _ctx: ProgressStyleContext\n): ProgressStyle => ({\n  value: Math.max(0, Math.min(1, value)),\n});\n\nexport const Progress = ({\n  value = 0.6,\n  theme: themeOverride,\n  className,\n}: ProgressProps) => {\n  const theme = useFramecnTheme(themeOverride, \"light\");\n  const ctx = progressStyleContext(theme);\n  const v = progressStyle(value, ctx);\n\n  return (\n    <div\n      style={{\n        alignItems: \"center\",\n        background: \"transparent\",\n        display: \"flex\",\n        fontFamily:\n          \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\",\n        inset: 0,\n        justifyContent: \"center\",\n        position: \"absolute\",\n      }}\n    >\n      <div\n        className={className}\n        style={{\n          background: ctx.trackBg,\n          borderRadius: theme.radius,\n          height: PROGRESS_HEIGHT,\n          overflow: \"hidden\",\n          width: PROGRESS_WIDTH,\n        }}\n      >\n        <div\n          style={{\n            background: ctx.fillBg,\n            borderRadius: theme.radius,\n            height: \"100%\",\n            transition: \"width 80ms linear\",\n            width: `${v.value * 100}%`,\n          }}\n        />\n      </div>\n    </div>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

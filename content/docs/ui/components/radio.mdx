@@ -1,0 +1,82 @@
+---
+title: "Radio"
+description: "A radio whose checked/unchecked state is a pure function of the timeline."
+---
+
+<ComponentPreview hideCode name="radio" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/radio
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="radio" title="components/ui/radio.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Radio } from "@/components/ui/radio";
+```
+
+```tsx
+<Radio label="Subscribe to updates" state="checked" />
+```
+
+## Smooth transitions
+
+The docs preview animates checked → unchecked via `useRadioTransition`. Forward `primary` into the hook when using `style` so the fill tracks the color prop:
+
+```tsx
+import { Radio } from "@/components/framecn/radio";
+import { useRadioTransition } from "@/components/framecn/use-radio-transition";
+
+const style = useRadioTransition(
+  [
+    { at: 18, state: "checked", duration: 14 },
+    { at: 78, state: "unchecked", duration: 12 },
+  ],
+  { primary: "#171717" }
+);
+
+<Radio label="Subscribe to updates" style={style} />;
+```
+
+`style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Radio
+
+| Prop        | Type                        | Default                             |
+| ----------- | --------------------------- | ----------------------------------- |
+| `state`     | `"unchecked" \| "checked"`  | `"unchecked"`                       |
+| `style`     | `RadioStyle`                | `-` (takes precedence over `state`) |
+| `label`     | `string`                    | `-`                                 |
+| `size`      | `"sm" \| "default" \| "lg"` | `"default"`                         |
+| `theme`     | `Partial<FramecnTheme>`     | `-`                                 |
+| `primary`   | `string`                    | `-`                                 |
+| `className` | `string`                    | `-`                                 |

@@ -1,0 +1,119 @@
+---
+title: "Popover"
+description: "A popover/hover-card with fade, scale, and translate."
+---
+
+<ComponentPreview hideCode name="popover" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/popover
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="popover" title="components/ui/popover.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Popover } from "@/components/ui/popover";
+```
+
+```tsx
+<div style={{ position: "relative", display: "inline-block" }}>
+  <button>@alexsmith</button>
+  <div
+    style={{
+      position: "absolute",
+      bottom: "calc(100% + 12px)",
+      left: "50%",
+      transform: "translateX(-50%)",
+    }}
+  >
+    <Popover state="opened" side="top" width={240}>
+      Hover-card content
+    </Popover>
+  </div>
+</div>
+```
+
+Popover has no built-in trigger — position it relative to your anchor and supply `children` for custom content.
+
+## Smooth transitions
+
+The docs preview eases a cursor onto an @username chip, opens a hover-card above it via `usePopoverTransition`, then closes as the cursor leaves:
+
+```tsx
+import { H, W } from "@/lib/customizer-config";
+import { Cursor } from "@/components/framecn/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+import { Popover } from "@/components/framecn/popover";
+import { usePopoverTransition } from "@/components/framecn/use-popover-transition";
+
+const CHIP_X = W / 2;
+const CHIP_Y = H / 2;
+const AWAY_X = W / 2 - 440;
+const AWAY_Y = H / 2 - 260;
+
+const cursorStyle = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 28, x: CHIP_X, y: CHIP_Y, duration: 24 },
+  { at: 110, x: AWAY_X, y: AWAY_Y, duration: 20 },
+]);
+
+const popoverStyle = usePopoverTransition([
+  { at: 36, state: "opened", duration: 10 },
+  { at: 100, state: "closed", duration: 10 },
+]);
+
+<div style={{ position: "relative", display: "inline-block" }}>
+  @alexsmith
+  <div style={{ position: "absolute", bottom: "calc(100% + 12px)", left: "50%", transform: "translateX(-50%)" }}>
+    <Popover style={popoverStyle} side="top" width={240}>
+      {/* hover-card content */}
+    </Popover>
+  </div>
+</div>
+<Cursor style={cursorStyle} variant="pointer" />;
+```
+
+Schedule the popover's `opened` step shortly after the cursor arrives on the anchor. `style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Popover
+
+| Prop          | Type                                     | Default                             |
+| ------------- | ---------------------------------------- | ----------------------------------- |
+| `state`       | `"opened" \| "closed"`                   | `"closed"`                          |
+| `style`       | `PopoverStyle`                           | `-` (takes precedence over `state`) |
+| `title`       | `string`                                 | `-`                                 |
+| `description` | `string`                                 | `-`                                 |
+| `children`    | `React.ReactNode`                        | `-`                                 |
+| `side`        | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"`                          |
+| `width`       | `number`                                 | `288`                               |
+| `theme`       | `Partial<FramecnTheme>`                  | `-`                                 |
+| `className`   | `string`                                 | `-`                                 |

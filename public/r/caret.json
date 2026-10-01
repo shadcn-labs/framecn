@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "caret",
+  "title": "Caret",
+  "description": "",
+  "files": [
+    {
+      "path": "registry/bases/editframe/ui/caret/index.tsx",
+      "content": "\"use client\";\n\nimport type { CSSProperties } from \"react\";\n\nexport interface CaretProps {\n  color?: string;\n  width?: number;\n  height?: number;\n  radius?: number;\n  opacity?: number;\n  blink?: boolean;\n  blinkPerSecond?: number;\n  speed?: number;\n  marginLeft?: number;\n  className?: string;\n  style?: CSSProperties;\n}\n\nexport const caretBlinkOpacity = (\n  frame: number,\n  opts: { fps: number; blinkPerSecond: number; speed: number }\n): number => {\n  const cycles = opts.blinkPerSecond <= 0 ? 1 : opts.blinkPerSecond;\n  const halfPeriod = opts.fps / cycles / 2;\n  if (halfPeriod <= 0) {\n    return 1;\n  }\n  return Math.floor((frame * opts.speed) / halfPeriod) % 2 === 0 ? 1 : 0;\n};\n\nexport const Caret = ({\n  color = \"currentColor\",\n  width = 2,\n  height = 18,\n  radius = 1,\n  opacity,\n  blink = false,\n  blinkPerSecond = 1,\n  speed = 1,\n  marginLeft = 0,\n  className,\n  style,\n}: CaretProps) => {\n  const blinkDuration = `${1 / (blinkPerSecond * speed)}s`;\n  const blinkStyle = blink\n    ? { animation: `editframe-blink ${blinkDuration} step-end infinite` }\n    : {};\n\n  let resolvedOpacity: number | undefined;\n  if (opacity === undefined) {\n    resolvedOpacity = blink ? undefined : 1;\n  } else {\n    resolvedOpacity = opacity;\n  }\n\n  return (\n    <>\n      <style>{`@keyframes editframe-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }`}</style>\n      <span\n        className={className}\n        style={{\n          background: color,\n          borderRadius: radius,\n          display: \"inline-block\",\n          flexShrink: 0,\n          height,\n          marginLeft,\n          opacity: resolvedOpacity,\n          width,\n          ...blinkStyle,\n          ...style,\n        }}\n      />\n    </>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

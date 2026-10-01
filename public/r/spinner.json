@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "",
+  "files": [
+    {
+      "path": "registry/bases/editframe/ui/spinner/index.tsx",
+      "content": "\"use client\";\n\nexport interface SpinnerProps {\n  color?: string;\n  size?: number;\n  speed?: number;\n  className?: string;\n}\n\nexport const Spinner = ({\n  color = \"currentColor\",\n  size = 16,\n  speed = 1,\n  className,\n}: SpinnerProps) => {\n  const duration = `${1 / speed}s`;\n\n  return (\n    <>\n      <style>{`\n        @keyframes spinner-rotate {\n          0% { transform: rotate(0deg); }\n          100% { transform: rotate(360deg); }\n        }\n      `}</style>\n      <svg\n        className={className}\n        width={size}\n        height={size}\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        style={{ animation: `spinner-rotate ${duration} linear infinite` }}\n      >\n        <circle\n          cx=\"12\"\n          cy=\"12\"\n          r=\"9\"\n          stroke={color}\n          strokeWidth=\"2.5\"\n          strokeLinecap=\"round\"\n          strokeDasharray=\"40 14\"\n          opacity=\"0.3\"\n        />\n      </svg>\n    </>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

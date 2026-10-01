@@ -1,0 +1,114 @@
+---
+title: "Context Menu"
+description: "A right-click context menu with scale-from-corner animation."
+---
+
+<ComponentPreview hideCode name="context-menu" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/context-menu
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="context-menu" title="components/ui/context-menu.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ContextMenu } from "@/components/ui/context-menu";
+```
+
+```tsx
+<div style={{ position: "absolute", left: 400, top: 280 }}>
+  <ContextMenu state="opened" />
+</div>
+```
+
+Unlike dropdown menus, context menus have no built-in trigger — position the panel at the right-click point yourself.
+
+## Smooth transitions
+
+The docs preview right-clicks a file card, opens the menu at the cursor, animates row 1 (Reload) hover → press → idle, then closes. Drive the panel with `useContextMenuTransition`, cursor motion with `useCursorPath`, and row states with `useDropdownMenuItemTransition`:
+
+```tsx
+import { H, W } from "@/lib/customizer-config";
+import { useCurrentState } from "@/lib/framecn-ui";
+import { Cursor } from "@/components/framecn/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+import { ContextMenu } from "@/components/framecn/context-menu";
+import { useContextMenuTransition } from "@/components/framecn/use-context-menu-transition";
+import { useDropdownMenuItemTransition } from "@/components/framecn/use-dropdown-menu-item-transition";
+
+const CLICK_X = W / 2 + 20;
+const CLICK_Y = H / 2 + 25;
+
+const cursorStyle = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 30, x: CLICK_X, y: CLICK_Y, duration: 26 },
+  { at: 42, x: CLICK_X, y: CLICK_Y, click: true, duration: 0 },
+]);
+
+const menuStyle = useContextMenuTransition([
+  { at: 44, state: "opened", duration: 10 },
+  { at: 92, state: "closed", duration: 10 },
+]);
+
+const rowState = useCurrentState(
+  [
+    { at: 60, state: "hover" },
+    { at: 72, state: "press" },
+    { at: 82, state: "idle" },
+  ],
+  "idle"
+);
+const rowStyle = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
+
+<div style={{ position: "absolute", left: CLICK_X, top: CLICK_Y }}>
+  <ContextMenu
+    style={menuStyle}
+    itemStyles={[undefined, rowStyle, undefined, undefined]}
+  />
+</div>
+<Cursor style={cursorStyle} variant="pointer" />;
+```
+
+Schedule the menu's `opened` step 1–2 frames after the cursor's `click: true` waypoint so the ripple leads the reveal. `style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### ContextMenu
+
+| Prop               | Type                                     | Default                                     |
+| ------------------ | ---------------------------------------- | ------------------------------------------- |
+| `state`            | `"opened" \| "closed"`                   | `"closed"`                                  |
+| `style`            | `ContextMenuStyle`                       | `-` (takes precedence over `state`)         |
+| `items`            | `string[]`                               | `["Back", "Reload", "Save As…", "Inspect"]` |
+| `highlightedIndex` | `number`                                 | `-1`                                        |
+| `pressedIndex`     | `number`                                 | `-1`                                        |
+| `itemStyles`       | `(DropdownMenuItemStyle \| undefined)[]` | `-` (per-row override, indexed by row)      |
+| `theme`            | `Partial<FramecnTheme>`                  | `-`                                         |
+| `className`        | `string`                                 | `-`                                         |

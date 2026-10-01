@@ -1,0 +1,103 @@
+---
+title: "Tooltip"
+description: "A tooltip with show/hide transition and arrow placement."
+---
+
+<ComponentPreview hideCode name="tooltip" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/tooltip
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Tooltip } from "@/components/ui/tooltip";
+```
+
+```tsx
+<Tooltip label="Add to library" side="top" state="visible" />
+```
+
+## Smooth transitions
+
+The docs preview hovers a cursor over a button, fades the tooltip in, then dismisses it as the cursor leaves via `useTooltipTransition`. Pair it with `useCursorPath` and `useButtonTransition`:
+
+```tsx
+import { H, W } from "@/lib/customizer-config";
+import { Cursor } from "@/components/framecn/cursor";
+import { useCursorPath } from "@/components/framecn/use-cursor-path";
+import { Button } from "@/components/framecn/button";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
+import { Tooltip } from "@/components/framecn/tooltip";
+import { useTooltipTransition } from "@/components/framecn/use-tooltip-transition";
+
+const BTN_X = W / 2;
+const BTN_Y = H / 2;
+const AWAY_X = W / 2 - 440;
+const AWAY_Y = H / 2 - 260;
+
+const cursorStyle = useCursorPath([
+  { at: 0, x: 80, y: 60 },
+  { at: 28, x: BTN_X, y: BTN_Y, duration: 24 },
+  { at: 110, x: AWAY_X, y: AWAY_Y, duration: 20 },
+]);
+
+const buttonStyle = useButtonTransition([
+  { at: 28, state: "hover", duration: 8 },
+  { at: 100, state: "idle", duration: 8 },
+]);
+
+const tooltipStyle = useTooltipTransition([
+  { at: 36, state: "visible", duration: 8 },
+  { at: 100, state: "hidden", duration: 8 },
+]);
+
+<>
+  <Button label="Hover me" style={buttonStyle} />
+  <Tooltip label="Add to library" side="top" style={tooltipStyle} />
+  <Cursor style={cursorStyle} variant="pointer" />
+</>;
+```
+
+Position the tooltip relative to its anchor — the component does not auto-place itself. `style` takes precedence over `state` when both are provided.
+
+## API Reference
+
+### Tooltip
+
+| Prop        | Type                                     | Default                             |
+| ----------- | ---------------------------------------- | ----------------------------------- |
+| `state`     | `"hidden" \| "visible"`                  | `"hidden"`                          |
+| `style`     | `TooltipStyle`                           | `-` (takes precedence over `state`) |
+| `label`     | `string`                                 | required                            |
+| `side`      | `"top" \| "bottom" \| "left" \| "right"` | `"top"`                             |
+| `theme`     | `Partial<FramecnTheme>`                  | `-`                                 |
+| `className` | `string`                                 | `-`                                 |

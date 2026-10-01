@@ -4,7 +4,7 @@
   "title": "AI Generate Overlay",
   "description": "Source image blurs under a shimmering dot grid and a pulsing 'Generating…' pill before a new image fades in.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

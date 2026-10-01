@@ -4,7 +4,7 @@
   "title": "Swipe Transition Wipe",
   "description": "Two scenes laid out side-by-side flick across the screen with a parallax background and a darkening outgoing layer.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

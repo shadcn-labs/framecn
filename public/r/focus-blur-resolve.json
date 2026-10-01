@@ -4,7 +4,7 @@
   "title": "Focus Blur Resolve",
   "description": "Text resolves into focus from a blurred, shifted state, then blurs back out on exit.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

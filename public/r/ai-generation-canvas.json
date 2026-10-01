@@ -4,7 +4,7 @@
   "title": "AI Generation Canvas",
   "description": "A prompt input transforms into a header, then a skeleton dashboard flips into populated cards.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

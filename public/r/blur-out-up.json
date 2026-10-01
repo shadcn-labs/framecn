@@ -4,7 +4,7 @@
   "title": "Blur Out Up",
   "description": "Words blur and drift upward while fading out, staggered per word.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

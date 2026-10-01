@@ -4,7 +4,7 @@
   "title": "Bounding Box Selector",
   "description": "Figma-style selection rectangle appears around any element.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {

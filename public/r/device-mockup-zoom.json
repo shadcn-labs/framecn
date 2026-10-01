@@ -4,7 +4,7 @@
   "title": "Device Mockup Zoom",
   "description": "Pull back from a UI to reveal it inside a device frame.",
   "dependencies": [
-    "remotion"
+    "@editframe/react"
   ],
   "files": [
     {
