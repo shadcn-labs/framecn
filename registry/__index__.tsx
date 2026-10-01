@@ -44,6 +44,7 @@ import { dynamicGridConfig } from "@/registry/bases/editframe/components/dynamic
 import { ecosystemConstellationConfig } from "@/registry/bases/editframe/components/ecosystem-constellation/config";
 import { fadeThroughConfig } from "@/registry/bases/editframe/components/fade-through/config";
 import { focusBlurResolveConfig } from "@/registry/bases/editframe/components/focus-blur-resolve/config";
+import { formatMorphConfig } from "@/registry/bases/editframe/components/format-morph/config";
 import { frostedGlassWipeConfig } from "@/registry/bases/editframe/components/frosted-glass-wipe/config";
 import { glassCodeBlockConfig } from "@/registry/bases/editframe/components/glass-code-block/config";
 import { gridPixelateWipeConfig } from "@/registry/bases/editframe/components/grid-pixelate-wipe/config";
@@ -578,6 +579,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: FocusBlurResolve };
     }),
     config: focusBlurResolveConfig,
+  },
+  "format-morph": {
+    Component: lazy(async () => {
+      const { FormatMorph } =
+        await import("@/registry/bases/editframe/components/format-morph");
+      return { default: FormatMorph };
+    }),
+    config: formatMorphConfig,
   },
   "frosted-glass-wipe": {
     Component: lazy(async () => {
