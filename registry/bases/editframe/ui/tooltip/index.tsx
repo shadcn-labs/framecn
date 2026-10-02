@@ -30,7 +30,7 @@ export const tooltipStyle = (state: TooltipState): TooltipStyle => {
       return { opacity: 1, scale: 1, translate: 0 };
     }
     default: {
-      return { opacity: 0, scale: 0.96, translate: 4 };
+      return { opacity: 0, scale: 0.95, translate: 8 };
     }
   }
 };
@@ -66,7 +66,7 @@ export const Tooltip = ({
   theme: themeOverride,
   className,
 }: TooltipProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const v = style ?? tooltipStyle(state);
   const bg = theme.foreground;
   const fg = theme.background;
@@ -116,13 +116,11 @@ export const Tooltip = ({
       <div
         style={{
           background: bg,
-          borderRadius: theme.radius + 4,
-          boxShadow: "0 4px 12px -4px rgba(0,0,0,0.25)",
+          borderRadius: Math.max(0, theme.radius - 2),
           color: fg,
           fontSize: 12,
-          fontWeight: 500,
-          letterSpacing: "-0.005em",
-          lineHeight: 1.3,
+          fontWeight: 400,
+          lineHeight: "16px",
           padding: "6px 12px",
           position: "relative",
           whiteSpace: "nowrap",

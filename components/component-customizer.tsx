@@ -80,6 +80,7 @@ export const ComponentCustomizer = ({
 
           {ctrl.type === "select" && (
             <NativeSelect
+              id={id}
               value={values[key] as string}
               onChange={(e) => onChange(key, e.target.value)}
             >

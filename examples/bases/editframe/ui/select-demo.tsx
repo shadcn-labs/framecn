@@ -1,5 +1,6 @@
 "use client";
 
+import { useCurrentFrame } from "@/lib/framecn-ui";
 import { useButtonTransition } from "@/registry/bases/editframe/ui/button/use-button-transition";
 import { Select } from "@/registry/bases/editframe/ui/select";
 import { useSelectItemTransition } from "@/registry/bases/editframe/ui/select-item/use-select-item-transition";
@@ -12,6 +13,7 @@ export interface SelectDemoProps {
 }
 
 export const SelectDemoScene = (p: SelectDemoProps = {}) => {
+  const frame = useCurrentFrame();
   // The trigger: idle → hover → press, the press lands just before the panel
   // opens (the "click" that triggers it). Fed to the Select via `triggerStyle`.
   const triggerStyle = useButtonTransition(
@@ -37,6 +39,7 @@ export const SelectDemoScene = (p: SelectDemoProps = {}) => {
       style={panel}
       label={p.label ?? "Select a fruit"}
       triggerStyle={triggerStyle}
+      selectedIndex={frame >= 72 ? 1 : -1}
       itemStyles={[undefined, row, undefined, undefined]}
     />
   );
@@ -56,12 +59,14 @@ export const selectDemoCode = (
   const optsStr = "";
   const triggerOptsStr = `, { variant: "outline" }`;
 
-  return `import { useButtonTransition } from "@/components/framecn/use-button-transition";
+  return `import { useCurrentFrame } from "@/lib/framecn-ui";
+import { useButtonTransition } from "@/components/framecn/use-button-transition";
 import { Select } from "@/components/framecn/select";
 import { useSelectTransition } from "@/components/framecn/use-select-transition";
 import { useSelectItemTransition } from "@/components/framecn/use-select-item-transition";
 
 export const Scene = () => {
+  const frame = useCurrentFrame();
   const triggerStyle = useButtonTransition(
     [
       { at: 14, state: "hover" },
@@ -86,6 +91,7 @@ export const Scene = () => {
     <Select${extraProps}
       style={panel}
       triggerStyle={triggerStyle}
+      selectedIndex={frame >= 72 ? 1 : -1}
       itemStyles={[undefined, row, undefined, undefined]}
     />
   );

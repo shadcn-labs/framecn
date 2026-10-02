@@ -30,7 +30,7 @@ export const InputDemoScene = (p: InputDemoProps = {}) => {
   return (
     <Input
       placeholder={p.placeholder ?? "you@example.com"}
-      value={p.value ?? "remotion@remocn.dev"}
+      value={p.value ?? "hello@framecn.dev"}
       size={p.size ?? "default"}
       primary={p.primary}
       style={style}
@@ -48,7 +48,7 @@ export const inputDemoCode = (values: Record<string, unknown> = {}): string => {
   if (placeholder !== undefined && placeholder !== "you@example.com") {
     props.push(`placeholder="${placeholder}"`);
   }
-  if (value !== undefined && value !== "remotion@remocn.dev") {
+  if (value !== undefined && value !== "hello@framecn.dev") {
     props.push(`value="${value}"`);
   }
   if (size !== undefined && size !== "default") {

@@ -16,7 +16,7 @@ export interface AlertDialogProps {
   className?: string;
 }
 
-const POPUP_WIDTH = 400;
+const POPUP_WIDTH = 512;
 const MAX_OVERLAY_ALPHA = 0.5;
 
 export interface AlertDialogStyle {
@@ -40,13 +40,13 @@ export interface AlertDialogStyleContext {
 export const alertDialogStyleContext = (
   theme: FramecnTheme
 ): AlertDialogStyleContext => ({
-  actionBg: theme.destructive,
-  actionFg: theme.destructiveForeground,
+  actionBg: theme.primary,
+  actionFg: theme.primaryForeground,
   border: theme.border,
   cancelFg: theme.foreground,
   mutedFg: theme.mutedForeground,
-  popoverBg: theme.popover,
-  popoverFg: theme.popoverForeground,
+  popoverBg: theme.background,
+  popoverFg: theme.foreground,
   radius: theme.radius,
 });
 
@@ -84,20 +84,20 @@ export const AlertDialog = ({
   theme: themeOverride,
   className,
 }: AlertDialogProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = alertDialogStyleContext(theme);
   const v = style ?? alertDialogStyle(state, ctx);
   const buttonBase: React.CSSProperties = {
     alignItems: "center",
-    borderRadius: ctx.radius,
+    borderRadius: Math.max(0, ctx.radius - 2),
     cursor: "pointer",
     display: "inline-flex",
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 500,
-    height: 40,
+    height: 36,
     justifyContent: "center",
-    letterSpacing: "-0.01em",
-    padding: "0 20px",
+    lineHeight: "20px",
+    padding: "0 16px",
   };
   return (
     <div
@@ -123,12 +123,15 @@ export const AlertDialog = ({
         style={{
           background: ctx.popoverBg,
           border: `1px solid ${ctx.border}`,
-          borderRadius: ctx.radius + 6,
-          boxShadow: "0 24px 48px -12px rgba(0,0,0,0.25)",
+          borderRadius: ctx.radius,
+          boxShadow:
+            "0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%)",
+          boxSizing: "border-box",
           color: ctx.popoverFg,
           display: "flex",
           flexDirection: "column",
-          gap: 8,
+          gap: 6,
+          maxWidth: "calc(100% - 32px)",
           opacity: v.popupOpacity,
           padding: 24,
           position: "relative",
@@ -136,12 +139,10 @@ export const AlertDialog = ({
           width: POPUP_WIDTH,
         }}
       >
-        <div
-          style={{ fontSize: 18, fontWeight: 500, letterSpacing: "-0.01em" }}
-        >
+        <div style={{ fontSize: 18, fontWeight: 600, lineHeight: "28px" }}>
           {title}
         </div>
-        <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: 1.5 }}>
+        <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: "20px" }}>
           {description}
         </div>
         <div
@@ -149,14 +150,14 @@ export const AlertDialog = ({
             display: "flex",
             gap: 8,
             justifyContent: "flex-end",
-            marginTop: 16,
+            marginTop: 10,
           }}
         >
           <button
             type="button"
             style={{
               ...buttonBase,
-              background: "transparent",
+              background: ctx.popoverBg,
               border: `1px solid ${ctx.border}`,
               color: ctx.cancelFg,
             }}

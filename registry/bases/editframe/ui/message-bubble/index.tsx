@@ -98,7 +98,7 @@ export const MessageBubble = ({
   theme: themeOverride,
   className,
 }: MessageBubbleProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = messageBubbleStyleContext(variant, theme);
   const v = style ?? messageBubbleStyle(state);
   const reaction_ = reactionStyle ?? messageBubbleReactionStyle(state);
@@ -120,7 +120,7 @@ export const MessageBubble = ({
           style={{
             background: ctx.background,
             border: "1px solid transparent",
-            borderRadius: 24,
+            borderRadius: Math.max(0, theme.radius + 4),
             color: ctx.color,
             display: "inline-block",
             fontFamily:
@@ -129,7 +129,7 @@ export const MessageBubble = ({
             lineHeight: 1.625,
             maxWidth: "100%",
             overflowWrap: "break-word",
-            padding: "10px 14px",
+            padding: "8px 12px",
             wordBreak: "break-word",
           }}
         >

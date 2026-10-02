@@ -16,7 +16,7 @@ const SWEEP_FRAMES = 60;
 export const SkeletonBlock = ({
   width = 120,
   height = 16,
-  radius = 6,
+  radius,
   speed = 1,
   baseColor,
   highlightColor,
@@ -24,7 +24,7 @@ export const SkeletonBlock = ({
   className,
 }: SkeletonBlockProps) => {
   const theme = useFramecnTheme();
-  const base = baseColor ?? theme.muted;
+  const base = baseColor ?? theme.accent;
   const highlight = highlightColor ?? mixOklch(base, theme.foreground, 0.13);
   const frame = useCurrentFrame() * speed;
   const progress = (frame % SWEEP_FRAMES) / SWEEP_FRAMES;
@@ -36,7 +36,7 @@ export const SkeletonBlock = ({
         background: `linear-gradient(90deg, ${base} 20%, ${highlight} 50%, ${base} 80%)`,
         backgroundPosition: `${positionX}% 0`,
         backgroundSize: "200% 100%",
-        borderRadius: radius,
+        borderRadius: radius ?? Math.max(0, theme.radius - 2),
         flexShrink,
         height,
         width,

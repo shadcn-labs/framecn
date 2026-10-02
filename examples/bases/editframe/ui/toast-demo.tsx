@@ -1,6 +1,6 @@
 "use client";
 
-import { atCenter, parkTopLeft } from "@/lib/ui-demo-cursor";
+import { atCenter, useUiDemoCursorStart } from "@/lib/ui-demo-cursor";
 import { Button } from "@/registry/bases/editframe/ui/button";
 import { useButtonTransition } from "@/registry/bases/editframe/ui/button/use-button-transition";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
@@ -20,7 +20,7 @@ export interface ToastDemoProps {
 
 export const ToastDemoScene = (p: ToastDemoProps = {}) => {
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 40, duration: 28, ...BTN },
     { at: 68, click: true, duration: 0, ...BTN },
   ]);
@@ -74,23 +74,11 @@ export const toastDemoCode = (values: Record<string, unknown> = {}): string => {
   const description = values.description as string | undefined;
   const variant = values.variant as string | undefined;
 
-  const toastProps: string[] = [];
-  if (title !== undefined && title !== "Changes saved") {
-    toastProps.push(`title="${title}"`);
-  }
-  if (
-    description !== undefined &&
-    description !== "Your profile has been updated."
-  ) {
-    toastProps.push(`description="${description}"`);
-  }
-  if (variant !== undefined && variant !== "success") {
-    toastProps.push(`variant="${variant}"`);
-  }
-
-  const toastPropsStr = toastProps.length
-    ? `\n          ${toastProps.join("\n          ")}\n        `
-    : "";
+  const toastPropsStr = `
+          title={${JSON.stringify(title ?? "Changes saved")}}
+          description={${JSON.stringify(description ?? "Your profile has been updated.")}}
+          variant={${JSON.stringify(variant ?? "success")}}
+          `;
 
   return `import { H, W } from "@/lib/customizer-config";
 import { Cursor } from "@/components/framecn/cursor";
@@ -134,7 +122,7 @@ export const Scene = () => {
         <Button label="Show toast" style={buttonStyle} />
       </div>
       <div style={{ position: "absolute", right: 24, bottom: 24 }}>
-        <Toast${toastPropsStr === "" ? '\n          title="Changes saved"\n          description="Your profile has been updated."\n          variant="success"\n        ' : toastPropsStr}style={toastStyle} />
+        <Toast${toastPropsStr}style={toastStyle} />
       </div>
       <Cursor style={cursorStyle} variant="pointer" />
     </div>

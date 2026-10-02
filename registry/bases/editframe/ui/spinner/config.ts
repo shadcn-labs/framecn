@@ -7,7 +7,7 @@ export const spinnerConfig: ComponentConfig = {
   compositionWidth: W,
   controls: {
     size: {
-      default: 20,
+      default: 16,
       label: "Size",
       max: 64,
       min: 8,
@@ -15,7 +15,7 @@ export const spinnerConfig: ComponentConfig = {
       type: "number",
     },
     strokeWidth: {
-      default: 2.5,
+      default: 2,
       label: "Stroke width",
       max: 6,
       min: 1,

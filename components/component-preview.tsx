@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckIcon, LinkIcon, RotateCcwIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -21,6 +22,10 @@ import { useFeedback } from "@/hooks/use-feedback";
 import { usePreviewId } from "@/hooks/use-preview-id";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { trackEvent } from "@/lib/events";
+import {
+  UI_APPEARANCE_CONTROLS,
+  UI_COMPONENT_NAMES,
+} from "@/lib/ui-customization";
 import {
   getUiDemo,
   hasUiDemo,
@@ -82,7 +87,7 @@ const ResetButton = ({ ...props }: React.ComponentProps<typeof Button>) => (
 
 type RegistryComponent = React.ComponentType<Record<string, unknown>>;
 
-const ComponentPreviewInner = ({
+const ComponentPreviewInnerClient = ({
   name,
   config,
   Component,
@@ -150,14 +155,35 @@ const ComponentPreviewInner = ({
       return config.controls;
     }
     return Object.fromEntries(
-      Object.entries(config.controls).filter(([key]) => honored.includes(key))
+      Object.entries(config.controls).filter(
+        ([key]) => honored.includes(key) || key in UI_APPEARANCE_CONTROLS
+      )
     ) as ComponentConfig["controls"];
   }, [config.controls, honored]);
 
   const previewComponent = useDemo ? demo.Component : Component;
-  const previewProps = useDemo
-    ? pickHonoredProps(name, values as Record<string, unknown>)
+  const sceneValues = Object.fromEntries(
+    Object.entries(values).filter(
+      ([key, value]) =>
+        !(
+          config.controls[key]?.type === "color" &&
+          value === config.controls[key]?.default
+        )
+    )
+  );
+  const componentPreviewProps = UI_COMPONENT_NAMES[name]
+    ? sceneValues
     : componentProps;
+  const previewProps = useDemo
+    ? {
+        ...pickHonoredProps(name, sceneValues),
+        ...Object.fromEntries(
+          Object.entries(sceneValues).filter(
+            ([key]) => key in UI_APPEARANCE_CONTROLS
+          )
+        ),
+      }
+    : componentPreviewProps;
   const previewDuration = useDemo
     ? demo.durationInFrames
     : config.durationInFrames;
@@ -171,9 +197,18 @@ const ComponentPreviewInner = ({
       previewId={previewId}
       Component={previewComponent}
       componentProps={previewProps}
+      appearance={UI_COMPONENT_NAMES[name] ? previewProps : undefined}
       durationInFrames={previewDuration}
       fps={previewFps}
       previewBackdrop={previewBackdrop}
+      previewScale={
+        UI_COMPONENT_NAMES[name] &&
+        !name.endsWith("-flow") &&
+        name !== "drawer" &&
+        name !== "sheet"
+          ? 1.5
+          : 1
+      }
     />
   );
 
@@ -222,6 +257,13 @@ const ComponentPreviewInner = ({
   );
 };
 
+// Mount query-dependent controls together: SSR defaults otherwise leave
+// native select values and the Reset button out of sync with shared URLs.
+const ComponentPreviewInner = dynamic(
+  () => Promise.resolve(ComponentPreviewInnerClient),
+  { ssr: false }
+);
+
 export const ComponentPreview = ({
   name,
   hideCode = false,
@@ -244,7 +286,23 @@ export const ComponentPreview = ({
     );
   }
 
-  if (!entry.config) {
+  const isUi = UI_COMPONENT_NAMES[name] === true;
+  const config = isUi
+    ? {
+        ...(entry.config ?? {
+          componentName: name,
+          compositionHeight: 720,
+          compositionWidth: 1280,
+          controls: {},
+          durationInFrames: getPreviewDurationInFrames(name),
+          fps: 30,
+          importPath: `@/components/framecn/${name}`,
+        }),
+        controls: { ...entry.config?.controls, ...UI_APPEARANCE_CONTROLS },
+      }
+    : entry.config;
+
+  if (!config) {
     return (
       <div className={cn("not-prose flex flex-col gap-4", className)}>
         <VideoPreview
@@ -260,7 +318,7 @@ export const ComponentPreview = ({
   return (
     <ComponentPreviewInner
       name={name}
-      config={entry.config}
+      config={config}
       Component={entry.Component}
       hideCode={hideCode}
       hideCustomizer={hideCustomizer}

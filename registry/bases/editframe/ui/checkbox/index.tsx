@@ -1,6 +1,11 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import {
+  FramecnIcon,
+  mixOklch,
+  useFramecnMode,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type CheckboxState = "unchecked" | "checked";
@@ -27,7 +32,6 @@ const justify = (align: "start" | "center" | "end"): string => {
   return "center";
 };
 
-const CHECK_PATH_LENGTH = 14;
 const SIZE_STYLES: Record<
   CheckboxSize,
   {
@@ -36,9 +40,9 @@ const SIZE_STYLES: Record<
     gap: number;
   }
 > = {
-  default: { box: 20, fontSize: 15, gap: 10 },
-  lg: { box: 24, fontSize: 17, gap: 12 },
-  sm: { box: 16, fontSize: 13, gap: 8 },
+  default: { box: 16, fontSize: 14, gap: 8 },
+  lg: { box: 20, fontSize: 14, gap: 8 },
+  sm: { box: 14, fontSize: 12, gap: 8 },
 };
 
 export interface CheckboxStyle {
@@ -58,13 +62,15 @@ export interface CheckboxStyleContext {
 }
 
 export const checkboxStyleContext = (
-  theme: FramecnTheme
+  theme: FramecnTheme,
+  mode: "light" | "dark" = "light"
 ): CheckboxStyleContext => ({
   checkColor: theme.primaryForeground,
   checkedBg: theme.primary,
   checkedBorder: theme.primary,
-  uncheckedBg: theme.background,
-  uncheckedBorder: theme.border,
+  uncheckedBg:
+    mode === "dark" ? mixOklch(theme.input, "transparent", 0.7) : "transparent",
+  uncheckedBorder: theme.input,
 });
 
 export const checkboxStyle = (
@@ -103,12 +109,13 @@ export const Checkbox = ({
   align = "center",
   className,
 }: CheckboxProps) => {
-  const theme = useFramecnTheme(
-    { ...themeOverride, ...(primary ? { primary } : {}) },
-    "light"
-  );
+  const theme = useFramecnTheme({
+    ...themeOverride,
+    ...(primary ? { primary } : {}),
+  });
+  const mode = useFramecnMode();
   const sizeStyle = SIZE_STYLES[size];
-  const ctx = checkboxStyleContext(theme);
+  const ctx = checkboxStyleContext(theme, mode);
   const v = style ?? checkboxStyle(state, ctx);
   const boxSize = sizeStyle.box;
   return (
@@ -137,34 +144,25 @@ export const Checkbox = ({
             alignItems: "center",
             background: v.boxBackground,
             border: `1px solid ${v.boxBorderColor}`,
-            borderRadius: Math.round(boxSize * 0.28),
+            borderRadius: Math.max(0, theme.radius - 6),
+            boxShadow: "0 1px 2px rgb(0 0 0 / 5%)",
+            boxSizing: "border-box",
             display: "flex",
             height: boxSize,
             justifyContent: "center",
             width: boxSize,
           }}
         >
-          <svg
-            width={boxSize}
-            height={boxSize}
-            viewBox="0 0 24 24"
-            fill="none"
+          <FramecnIcon
+            name="Check"
+            size={boxSize - 2}
+            color={ctx.checkColor}
             style={{
+              clipPath: `inset(0 ${(1 - v.checkDraw) * 100}% 0 0)`,
               opacity: v.checkOpacity,
               transform: `scale(${v.checkScale})`,
             }}
-          >
-            <path
-              d="M5 12.5l4.5 4.5L19 7"
-              stroke={ctx.checkColor}
-              strokeWidth="2.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={CHECK_PATH_LENGTH}
-              strokeDasharray={CHECK_PATH_LENGTH}
-              strokeDashoffset={CHECK_PATH_LENGTH * (1 - v.checkDraw)}
-            />
-          </svg>
+          />
         </span>
         {label !== undefined && (
           <span
@@ -172,7 +170,7 @@ export const Checkbox = ({
               color: theme.foreground,
               fontSize: sizeStyle.fontSize,
               fontWeight: 500,
-              letterSpacing: "-0.01em",
+              lineHeight: "20px",
             }}
           >
             {label}

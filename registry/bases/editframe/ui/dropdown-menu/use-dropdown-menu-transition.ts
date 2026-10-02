@@ -1,6 +1,11 @@
 "use client";
 
-import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import {
+  easings,
+  useFramecnMode,
+  useFramecnTheme,
+  useStateTransition,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme, Step } from "@/lib/framecn-ui";
 import {
   dropdownMenuStyle,
@@ -49,7 +54,7 @@ export const useDropdownMenuTransition = (
     { ...themeOverride, ...(primary ? { primary } : {}) },
     mode
   );
-  const ctx = dropdownMenuStyleContext(theme);
+  const ctx = dropdownMenuStyleContext(theme, useFramecnMode(mode));
   const { from, to, progress } = useStateTransition(
     steps,
     "closed",

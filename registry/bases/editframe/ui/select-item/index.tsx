@@ -1,6 +1,6 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type SelectItemState = "idle" | "hover" | "press" | "selected";
@@ -29,6 +29,7 @@ export interface SelectItemStyleContext {
   pressBg: string;
   selectedBg: string;
   idleFg: string;
+  hoverFg: string;
   selectedFg: string;
   check: string;
 }
@@ -36,13 +37,14 @@ export interface SelectItemStyleContext {
 export const selectItemStyleContext = (
   theme: FramecnTheme
 ): SelectItemStyleContext => ({
-  check: theme.primary,
+  check: theme.popoverForeground,
   hoverBg: theme.accent,
+  hoverFg: theme.accentForeground,
   idleBg: theme.popover,
   idleFg: theme.popoverForeground,
   pressBg: mixOklch(theme.accent, theme.foreground, 0.08),
-  selectedBg: theme.accent,
-  selectedFg: theme.accentForeground,
+  selectedBg: theme.popover,
+  selectedFg: theme.popoverForeground,
 });
 
 export const selectItemStyle = (
@@ -54,7 +56,7 @@ export const selectItemStyle = (
       return {
         background: ctx.hoverBg,
         checkOpacity: 0,
-        labelColor: ctx.idleFg,
+        labelColor: ctx.hoverFg,
         scale: 1,
       };
     }
@@ -62,7 +64,7 @@ export const selectItemStyle = (
       return {
         background: ctx.pressBg,
         checkOpacity: 0,
-        labelColor: ctx.idleFg,
+        labelColor: ctx.hoverFg,
         scale: 0.98,
       };
     }
@@ -90,7 +92,7 @@ export interface SelectItemRowProps {
   state?: SelectItemState;
   ctx: SelectItemStyleContext;
   label: string;
-  width: number;
+  width: number | string;
   radius: number;
   check: string;
 }
@@ -111,35 +113,26 @@ export const SelectItemRow = ({
       style={{
         alignItems: "center",
         background: v.background,
-        borderRadius: radius,
+        borderRadius: Math.max(0, radius - 4),
         boxSizing: "border-box",
         color: v.labelColor,
         display: "flex",
         fontSize: 14,
-        gap: 12,
-        justifyContent: "space-between",
-        letterSpacing: "-0.01em",
-        padding: "8px 12px",
+        gap: 8,
+        lineHeight: "20px",
+        padding: "6px 32px 6px 8px",
+        position: "relative",
         transform: `scale(${v.scale})`,
         width,
       }}
     >
       <span>{label}</span>
-      <svg
-        width={16}
-        height={16}
-        viewBox="0 0 24 24"
-        fill="none"
-        style={{ flexShrink: 0, opacity: v.checkOpacity }}
-      >
-        <path
-          d="M5 12.5l4.5 4.5L19 7"
-          stroke={check}
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <FramecnIcon
+        name="Check"
+        size={16}
+        color={check}
+        style={{ opacity: v.checkOpacity, position: "absolute", right: 8 }}
+      />
     </div>
   );
 };
@@ -152,7 +145,7 @@ export const SelectItem = ({
   theme: themeOverride,
   className,
 }: SelectItemProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = selectItemStyleContext(theme);
   return (
     <div

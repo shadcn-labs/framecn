@@ -50,7 +50,7 @@ export const Cursor = ({
   rippleColor,
   className,
 }: CursorProps) => {
-  const mode = typeof themeOverride === "string" ? themeOverride : "light";
+  const mode = typeof themeOverride === "string" ? themeOverride : undefined;
   const theme = useFramecnTheme(
     typeof themeOverride === "string" ? undefined : themeOverride,
     mode

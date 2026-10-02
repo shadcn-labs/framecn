@@ -1,6 +1,11 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import {
+  FramecnIcon,
+  mixOklch,
+  useFramecnMode,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type RadioState = "unchecked" | "checked";
@@ -24,9 +29,9 @@ const SIZE_STYLES: Record<
     gap: number;
   }
 > = {
-  default: { box: 20, fontSize: 15, gap: 10 },
-  lg: { box: 24, fontSize: 17, gap: 12 },
-  sm: { box: 16, fontSize: 13, gap: 8 },
+  default: { box: 16, fontSize: 14, gap: 8 },
+  lg: { box: 20, fontSize: 14, gap: 8 },
+  sm: { box: 14, fontSize: 12, gap: 8 },
 };
 
 export interface RadioStyle {
@@ -42,9 +47,9 @@ export interface RadioStyleContext {
 }
 
 export const radioStyleContext = (theme: FramecnTheme): RadioStyleContext => ({
-  checkedBorder: theme.primary,
+  checkedBorder: theme.input,
   dotColor: theme.primary,
-  uncheckedBorder: theme.border,
+  uncheckedBorder: theme.input,
 });
 
 export const radioStyle = (
@@ -78,10 +83,11 @@ export const Radio = ({
   primary,
   className,
 }: RadioProps) => {
-  const theme = useFramecnTheme(
-    { ...themeOverride, ...(primary ? { primary } : {}) },
-    "light"
-  );
+  const theme = useFramecnTheme({
+    ...themeOverride,
+    ...(primary ? { primary } : {}),
+  });
+  const mode = useFramecnMode();
   const sizeStyle = SIZE_STYLES[size];
   const ctx = radioStyleContext(theme);
   const v = style ?? radioStyle(state, ctx);
@@ -110,23 +116,28 @@ export const Radio = ({
         <span
           style={{
             alignItems: "center",
-            background: theme.background,
+            background:
+              mode === "dark"
+                ? mixOklch(theme.input, "transparent", 0.7)
+                : "transparent",
             border: `1px solid ${v.ringBorderColor}`,
             borderRadius: "50%",
+            boxShadow: "0 1px 2px rgb(0 0 0 / 5%)",
+            boxSizing: "border-box",
             display: "flex",
             height: boxSize,
             justifyContent: "center",
             width: boxSize,
           }}
         >
-          <span
+          <FramecnIcon
+            name="Circle"
+            size={boxSize / 2}
+            color={ctx.dotColor}
             style={{
-              background: ctx.dotColor,
-              borderRadius: "50%",
-              height: Math.round(boxSize * 0.45),
+              fill: ctx.dotColor,
               opacity: v.dotOpacity,
               transform: `scale(${v.dotScale})`,
-              width: Math.round(boxSize * 0.45),
             }}
           />
         </span>
@@ -136,7 +147,7 @@ export const Radio = ({
               color: theme.foreground,
               fontSize: sizeStyle.fontSize,
               fontWeight: 500,
-              letterSpacing: "-0.01em",
+              lineHeight: "20px",
             }}
           >
             {label}

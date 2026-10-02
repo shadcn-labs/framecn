@@ -26,7 +26,7 @@ npx shadcn@latest add @framecn/button
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="button" title="components/ui/button.tsx" />
+<ComponentSource name="button" title="components/framecn/button.tsx" />
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -39,7 +39,7 @@ npx shadcn@latest add @framecn/button
 ## Usage
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/framecn/button";
 ```
 
 ```tsx
@@ -72,6 +72,8 @@ const style = useButtonTransition(
 Forward `variant` and `primary` into the hook when using `style` so the interpolated background tracks those props.
 
 `style` takes precedence over `state` when both are provided.
+
+Button heights follow the official shadcn baseline: 32px (`sm`), 36px (`default`), and 40px (`lg`). Theme colors and loading/success icons inherit the [UI provider](/docs/ui#themes-and-icons), including during transitions.
 
 ## API Reference
 

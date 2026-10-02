@@ -6,8 +6,8 @@ import { telegramChatFlowDuration } from "@/registry/bases/editframe/ui/telegram
 export const DEFAULT_UI_PREVIEW_DURATION_FRAMES = 90;
 
 /**
- * Preview timeline lengths aligned with remocn-ui example scenes — each value
- * is the last meaningful frame plus a short settle before loop.
+ * Preview timeline lengths use the last meaningful frame of each example scene
+ * plus a short settle before loop.
  */
 const UI_PREVIEW_DURATION_FRAMES: Record<string, number> = {
   accordion: 100,

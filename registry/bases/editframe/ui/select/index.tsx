@@ -1,6 +1,6 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, useFramecnMode, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
   buttonStyle,
@@ -57,14 +57,15 @@ export interface SelectStyleContext {
 }
 
 export const selectStyleContext = (
-  theme: FramecnTheme
+  theme: FramecnTheme,
+  mode: "light" | "dark" = "light"
 ): SelectStyleContext => ({
   itemCtx: selectItemStyleContext(theme),
   mutedFg: theme.mutedForeground,
   panelBg: theme.popover,
   panelBorder: theme.border,
   radius: theme.radius,
-  triggerCtx: buttonStyleContext("outline", theme),
+  triggerCtx: buttonStyleContext("outline", theme, mode),
   triggerFg: theme.foreground,
 });
 
@@ -75,7 +76,7 @@ export const selectStyle = (
   switch (state) {
     case "opened": {
       return {
-        chevronRotation: 180,
+        chevronRotation: 0,
         panelOpacity: 1,
         panelScale: 1,
         panelTranslateY: 0,
@@ -85,8 +86,8 @@ export const selectStyle = (
       return {
         chevronRotation: 0,
         panelOpacity: 0,
-        panelScale: 0.96,
-        panelTranslateY: -4,
+        panelScale: 0.95,
+        panelTranslateY: -8,
       };
     }
   }
@@ -123,11 +124,16 @@ export const Select = ({
   theme: themeOverride,
   className,
 }: SelectProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
-  const ctx = selectStyleContext(theme);
+  const theme = useFramecnTheme(themeOverride);
+  const mode = useFramecnMode();
+  const ctx = selectStyleContext(theme, mode);
   const v = style ?? selectStyle(state, ctx);
   const trigger: ButtonStyle =
     triggerStyle ?? buttonStyle("idle", ctx.triggerCtx);
+  const idleBackground =
+    mode === "dark"
+      ? `color-mix(in oklab, ${theme.input} 30%, transparent)`
+      : "transparent";
   return (
     <div
       className={className}
@@ -146,59 +152,53 @@ export const Select = ({
         <div
           style={{
             alignItems: "center",
-            background: trigger.background,
-            border: `1px solid ${ctx.panelBorder}`,
-            borderRadius: ctx.radius,
+            background: triggerStyle ? trigger.background : idleBackground,
+            border: `1px solid ${theme.input}`,
+            borderRadius: Math.max(0, ctx.radius - 2),
+            boxShadow: "0 1px 2px 0 rgb(0 0 0 / 5%)",
             boxSizing: "border-box",
-            color: ctx.triggerFg,
+            color: selectedIndex < 0 ? ctx.mutedFg : ctx.triggerFg,
             display: "flex",
-            fontSize: 15,
-            fontWeight: 500,
+            fontSize: 14,
+            fontWeight: 400,
             gap: 8,
-            height: 40,
+            height: 36,
             justifyContent: "space-between",
-            letterSpacing: "-0.01em",
-            padding: "0 16px",
+            lineHeight: "20px",
+            padding: "0 12px",
             transform: `translateY(${trigger.translateY}px) scale(${trigger.scale})`,
             width: WIDTH,
           }}
         >
-          <span>{label}</span>
-          <svg
-            width={16}
-            height={16}
-            viewBox="0 0 24 24"
-            fill="none"
+          <span>{items[selectedIndex] ?? label}</span>
+          <FramecnIcon
+            name="ChevronDown"
+            size={16}
+            color={ctx.mutedFg}
             style={{
               flexShrink: 0,
+              opacity: 0.5,
               transform: `rotate(${v.chevronRotation}deg)`,
             }}
-          >
-            <path
-              d="M6 9l6 6 6-6"
-              stroke={ctx.mutedFg}
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          />
         </div>
 
         <div
           style={{
             background: ctx.panelBg,
             border: `1px solid ${ctx.panelBorder}`,
-            borderRadius: ctx.radius,
-            boxShadow: "0 16px 32px -12px rgba(0,0,0,0.25)",
+            borderRadius: Math.max(0, ctx.radius - 2),
+            boxShadow:
+              "0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%)",
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 0,
             left: 0,
             opacity: v.panelOpacity,
             padding: 4,
             position: "absolute",
-            top: "calc(100% + 6px)",
+            top: "calc(100% + 4px)",
             transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
             transformOrigin: "top",
             width: WIDTH,
@@ -218,7 +218,7 @@ export const Select = ({
                 }
                 ctx={ctx.itemCtx}
                 label={item}
-                width={WIDTH - 8}
+                width="100%"
                 radius={theme.radius}
                 check={ctx.itemCtx.check}
               />

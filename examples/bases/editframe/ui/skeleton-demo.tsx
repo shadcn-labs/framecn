@@ -1,5 +1,6 @@
 "use client";
 
+import { useFramecnTheme } from "@/lib/framecn-ui";
 import { Skeleton } from "@/registry/bases/editframe/ui/skeleton";
 import type { SkeletonLayout } from "@/registry/bases/editframe/ui/skeleton";
 import { useSkeletonTransition } from "@/registry/bases/editframe/ui/skeleton/use-skeleton-transition";
@@ -11,6 +12,7 @@ export interface SkeletonDemoProps {
 export const skeletonDemoControls = ["layout"] as const;
 
 export const SkeletonDemoScene = (p: SkeletonDemoProps = {}) => {
+  const theme = useFramecnTheme();
   // Shimmer for ~3 full sweep cycles (180 frames) as if waiting on data, then
   // crossfade to real content.
   const skeletonStyle = useSkeletonTransition([
@@ -32,7 +34,7 @@ export const SkeletonDemoScene = (p: SkeletonDemoProps = {}) => {
         <div style={{ alignItems: "center", display: "flex", gap: 14 }}>
           <div
             style={{
-              background: "oklch(0.92 0 0)",
+              background: theme.secondary,
               borderRadius: 24,
               flexShrink: 0,
               height: 48,
@@ -42,16 +44,16 @@ export const SkeletonDemoScene = (p: SkeletonDemoProps = {}) => {
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <div
               style={{
-                background: "oklch(0.85 0 0)",
-                borderRadius: 6,
+                background: theme.foreground,
+                borderRadius: Math.max(0, theme.radius - 2),
                 height: 14,
                 width: 180,
               }}
             />
             <div
               style={{
-                background: "oklch(0.9 0 0)",
-                borderRadius: 6,
+                background: theme.mutedForeground,
+                borderRadius: Math.max(0, theme.radius - 2),
                 height: 14,
                 width: 120,
               }}
@@ -80,8 +82,10 @@ export const skeletonDemoCode = (
 
   return `import { Skeleton } from "@/components/framecn/skeleton";
 import { useSkeletonTransition } from "@/components/framecn/use-skeleton-transition";
+import { useFramecnTheme } from "@/lib/framecn-ui";
 
 export const Scene = () => {
+  const theme = useFramecnTheme();
   // Shimmer for ~3 full sweep cycles (180 frames) as if waiting on data, then
   // crossfade to real content.
   const skeletonStyle = useSkeletonTransition([
@@ -106,7 +110,7 @@ export const Scene = () => {
               width: 48,
               height: 48,
               borderRadius: 24,
-              background: "oklch(0.92 0 0)",
+              background: theme.secondary,
               flexShrink: 0,
             }}
           />
@@ -115,16 +119,16 @@ export const Scene = () => {
               style={{
                 width: 180,
                 height: 14,
-                borderRadius: 6,
-                background: "oklch(0.85 0 0)",
+                borderRadius: Math.max(0, theme.radius - 2),
+                background: theme.foreground,
               }}
             />
             <div
               style={{
                 width: 120,
                 height: 14,
-                borderRadius: 6,
-                background: "oklch(0.9 0 0)",
+                borderRadius: Math.max(0, theme.radius - 2),
+                background: theme.mutedForeground,
               }}
             />
           </div>

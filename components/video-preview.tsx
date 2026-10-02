@@ -10,11 +10,19 @@ import {
   TogglePlay,
 } from "@editframe/react";
 import { PauseIcon, PlayIcon, Repeat1Icon, RepeatIcon } from "lucide-react";
+import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { FPS, H, W } from "@/lib/customizer-config";
-import { FrameProvider } from "@/lib/framecn-ui";
+import {
+  FrameProvider,
+  FramecnUIProvider,
+  resolveFramecnTheme,
+} from "@/lib/framecn-ui";
+import type { BaseColorName, ThemeName, IconLibrary } from "@/lib/framecn-ui";
+import { UiPreviewScaleContext } from "@/lib/ui-demo-cursor";
 import { DEFAULT_UI_PREVIEW_DURATION_FRAMES } from "@/lib/ui-preview-durations";
 import type { BackdropFill } from "@/registry/bases/editframe/components/backdrop";
 
@@ -130,13 +138,22 @@ export const PreviewControls = ({ previewId }: { previewId: string }) => {
   );
 };
 
-export const VideoPreview = ({
+export interface VideoAppearance {
+  mode?: "system" | "light" | "dark";
+  baseColor?: BaseColorName;
+  themeName?: ThemeName | "base";
+  iconLibrary?: IconLibrary;
+}
+
+const VideoPreviewClient = ({
   previewId,
   Component,
   componentProps,
   durationInFrames = DEFAULT_UI_PREVIEW_DURATION_FRAMES,
   fps = FPS,
   previewBackdrop,
+  previewScale = 1,
+  appearance,
 }: {
   previewId: string;
   Component: RegistryComponent;
@@ -144,10 +161,25 @@ export const VideoPreview = ({
   durationInFrames?: number;
   fps?: number;
   previewBackdrop?: BackdropFill;
+  previewScale?: number;
+  appearance?: VideoAppearance;
 }) => {
-  const Scene = previewBackdrop
-    ? withBackdrop(Component, previewBackdrop)
-    : Component;
+  const Scene =
+    previewBackdrop && !(previewBackdrop.type === "color" && appearance)
+      ? withBackdrop(Component, previewBackdrop)
+      : Component;
+  const { resolvedTheme } = useTheme();
+  const systemMode = resolvedTheme === "dark" ? "dark" : "light";
+  const mode =
+    appearance?.mode === "dark" || appearance?.mode === "light"
+      ? appearance.mode
+      : systemMode;
+  const baseColor = appearance?.baseColor ?? "neutral";
+  const themeName =
+    appearance?.themeName === "base"
+      ? baseColor
+      : (appearance?.themeName ?? baseColor);
+  const colors = resolveFramecnTheme(mode, baseColor, themeName);
 
   return (
     <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
@@ -156,9 +188,40 @@ export const VideoPreview = ({
           <FrameProvider
             durationMs={(durationInFrames / fps) * 1000}
             fps={fps}
-            style={{ height: H, width: W }}
+            style={{
+              height: H,
+              overflow: "hidden",
+              width: W,
+            }}
           >
-            <Scene {...componentProps} />
+            {appearance ? (
+              <FramecnUIProvider
+                mode={mode}
+                baseColor={baseColor}
+                themeName={themeName}
+                iconLibrary={appearance.iconLibrary}
+              >
+                <div
+                  style={{
+                    alignItems: "center",
+                    background: colors.background,
+                    color: colors.foreground,
+                    display: "flex",
+                    inset: 0,
+                    justifyContent: "center",
+                    position: "absolute",
+                    transform:
+                      previewScale === 1 ? undefined : `scale(${previewScale})`,
+                  }}
+                >
+                  <UiPreviewScaleContext value={previewScale}>
+                    <Scene {...componentProps} />
+                  </UiPreviewScaleContext>
+                </div>
+              </FramecnUIProvider>
+            ) : (
+              <Scene {...componentProps} />
+            )}
           </FrameProvider>
         </FitScale>
       </Preview>
@@ -166,3 +229,18 @@ export const VideoPreview = ({
     </div>
   );
 };
+
+// Editframe GUI elements upgrade their DOM before React hydration; mount the
+// player client-side so shared query-state icons and browser-only timing agree.
+export const VideoPreview = dynamic(() => Promise.resolve(VideoPreviewClient), {
+  loading: () => (
+    <div
+      className="overflow-hidden rounded-lg bg-code px-1 pt-1"
+      aria-label="Loading video preview"
+    >
+      <div className="aspect-video rounded-md bg-muted" />
+      <div className="h-11" />
+    </div>
+  ),
+  ssr: false,
+});

@@ -1,6 +1,6 @@
 "use client";
 
-import { parkTopLeft, sliderThumbAt } from "@/lib/ui-demo-cursor";
+import { sliderThumbAt, useUiDemoCursorStart } from "@/lib/ui-demo-cursor";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
 import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
 import { Slider } from "@/registry/bases/editframe/ui/slider";
@@ -18,7 +18,7 @@ export interface SliderDemoProps {
 
 export const SliderDemoScene = (p: SliderDemoProps = {}) => {
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 30, duration: 26, ...THUMB_START },
     { at: 44, duration: 0, press: true, ...THUMB_START },
     { at: 100, duration: 56, press: true, ...THUMB_END },

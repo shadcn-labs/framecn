@@ -22,7 +22,7 @@ export interface CaretDemoProps {
 }
 
 export const CaretDemoScene = (p: CaretDemoProps = {}) => {
-  const theme = useFramecnTheme(undefined, "light");
+  const theme = useFramecnTheme();
 
   return (
     <div

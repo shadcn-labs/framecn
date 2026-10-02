@@ -1,6 +1,10 @@
 "use client";
 
-import { useCurrentFrame } from "@/lib/framecn-ui";
+import {
+  FramecnIcon,
+  useCurrentFrame,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 
 export interface SpinnerProps {
   size?: number;
@@ -11,32 +15,23 @@ export interface SpinnerProps {
 }
 
 export const Spinner = ({
-  size = 20,
-  color = "currentColor",
+  size = 16,
+  color,
   speed = 1,
-  strokeWidth = 2.5,
+  strokeWidth = 2,
   className,
 }: SpinnerProps) => {
   const rotation = useCurrentFrame() * speed * 6;
+  const theme = useFramecnTheme();
   return (
-    <svg
-      className={className}
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      style={{ transform: `rotate(${rotation}deg)` }}
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r="9"
-        stroke={color}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        strokeDasharray="44"
-        strokeDashoffset="33"
+    <span role="status" aria-label="Loading" style={{ display: "inline-flex" }}>
+      <FramecnIcon
+        name="LoaderCircle"
+        className={className}
+        size={size}
+        color={color ?? theme.foreground}
+        style={{ strokeWidth, transform: `rotate(${rotation}deg)` }}
       />
-    </svg>
+    </span>
   );
 };

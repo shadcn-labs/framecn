@@ -11,7 +11,7 @@ export interface FieldGroupProps {
   style?: CSSProperties;
 }
 
-export const FieldGroup = ({ children, gap = 16, style }: FieldGroupProps) => (
+export const FieldGroup = ({ children, gap = 28, style }: FieldGroupProps) => (
   <div style={{ display: "flex", flexDirection: "column", gap, ...style }}>
     {children}
   </div>
@@ -23,7 +23,7 @@ export interface FieldProps {
   style?: CSSProperties;
 }
 
-export const Field = ({ children, gap = 6, style }: FieldProps) => (
+export const Field = ({ children, gap = 12, style }: FieldProps) => (
   <div style={{ display: "flex", flexDirection: "column", gap, ...style }}>
     {children}
   </div>
@@ -36,15 +36,14 @@ export interface FieldLabelProps {
 }
 
 export const FieldLabel = ({ children, theme, style }: FieldLabelProps) => {
-  const t = useFramecnTheme(theme, "light");
+  const t = useFramecnTheme(theme);
   return (
     <div
       style={{
         color: t.foreground,
-        fontSize: 13,
+        fontSize: 14,
         fontWeight: 500,
-        letterSpacing: "-0.01em",
-        lineHeight: "18px",
+        lineHeight: 1.375,
         ...style,
       }}
     >
@@ -66,13 +65,13 @@ export const FieldDescription = ({
   theme,
   style,
 }: FieldDescriptionProps) => {
-  const t = useFramecnTheme(theme, "light");
+  const t = useFramecnTheme(theme);
   return (
     <div
       style={{
         color: t.mutedForeground,
-        fontSize: 12,
-        lineHeight: "16px",
+        fontSize: 14,
+        lineHeight: 1.5,
         textAlign: align === "center" ? "center" : "left",
         ...style,
       }}
@@ -90,7 +89,7 @@ export interface FieldControlProps {
 
 export const FieldControl = ({
   children,
-  height = 40,
+  height = 36,
   style,
 }: FieldControlProps) => (
   <div style={{ height, position: "relative", ...style }}>{children}</div>

@@ -1,7 +1,11 @@
 "use client";
 
-import { useCurrentState } from "@/lib/framecn-ui";
-import { contextMenuTargets, parkTopLeft } from "@/lib/ui-demo-cursor";
+import {
+  FramecnIcon,
+  useCurrentState,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
+import { contextMenuTargets, useUiDemoCursorStart } from "@/lib/ui-demo-cursor";
 import { ContextMenu } from "@/registry/bases/editframe/ui/context-menu";
 import { useContextMenuTransition } from "@/registry/bases/editframe/ui/context-menu/use-context-menu-transition";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
@@ -17,8 +21,9 @@ export interface ContextMenuDemoProps {
 export const contextMenuDemoControls = ["items"] as const;
 
 export const ContextMenuDemoScene = (p: ContextMenuDemoProps = {}) => {
+  const theme = useFramecnTheme();
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 30, duration: 26, ...MENU.click },
     { at: 42, click: true, duration: 0, ...MENU.click },
     { at: 58, duration: 14, ...MENU.row1 },
@@ -51,9 +56,9 @@ export const ContextMenuDemoScene = (p: ContextMenuDemoProps = {}) => {
       <div
         style={{
           alignItems: "center",
-          background: "oklch(0.97 0 0)",
-          border: "1px solid oklch(0.9 0 0)",
-          borderRadius: 10,
+          background: theme.muted,
+          border: `1px solid ${theme.border}`,
+          borderRadius: theme.radius,
           display: "flex",
           fontFamily:
             "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
@@ -66,24 +71,9 @@ export const ContextMenuDemoScene = (p: ContextMenuDemoProps = {}) => {
           width: 200,
         }}
       >
-        <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
-          <path
-            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-            stroke="oklch(0.55 0 0)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M14 2v6h6"
-            stroke="oklch(0.55 0 0)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <FramecnIcon name="File" size={20} color={theme.mutedForeground} />
         <span
-          style={{ color: "oklch(0.3 0 0)", fontSize: 14, fontWeight: 500 }}
+          style={{ color: theme.foreground, fontSize: 14, fontWeight: 500 }}
         >
           report.pdf
         </span>
@@ -128,14 +118,15 @@ import { useCursorPath } from "@/components/framecn/use-cursor-path";
 import { ContextMenu } from "@/components/framecn/context-menu";
 import { useContextMenuTransition } from "@/components/framecn/use-context-menu-transition";
 import { useDropdownMenuItemTransition } from "@/components/framecn/use-dropdown-menu-item-transition";
-import { useCurrentState } from "@/lib/framecn-ui";
+import { useCurrentState, useFramecnTheme } from "@/lib/framecn-ui";
 
 const CLICK_X = W / 2 + 20;
 const CLICK_Y = H / 2 + 25;
 const ROW1_X = CLICK_X + 70;
-const ROW1_Y = CLICK_Y + 60;
+const ROW1_Y = CLICK_Y + 53;
 
 export const Scene = () => {
+  const theme = useFramecnTheme();
   const cursorStyle = useCursorPath([
     { at: 0,   x: 80,      y: 60      },
     { at: 30,  x: CLICK_X, y: CLICK_Y, duration: 26 },
@@ -173,9 +164,10 @@ export const Scene = () => {
           transform: "translate(-50%, -50%)",
           width: 200,
           padding: "16px 20px",
-          background: "oklch(0.97 0 0)",
-          border: "1px solid oklch(0.9 0 0)",
-          borderRadius: 10,
+          background: theme.muted,
+          border: \`1px solid \${theme.border}\`,
+          borderRadius: theme.radius,
+          color: theme.foreground,
         }}
       >
         report.pdf

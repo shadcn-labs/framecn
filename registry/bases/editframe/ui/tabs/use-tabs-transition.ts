@@ -1,6 +1,11 @@
 "use client";
 
-import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import {
+  easings,
+  useFramecnMode,
+  useFramecnTheme,
+  useStateTransition,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme, Step } from "@/lib/framecn-ui";
 import {
   tabsStyle,
@@ -43,7 +48,8 @@ export const useTabsTransition = (
     defaultDuration = DEFAULT_DURATION,
   } = opts;
   const theme = useFramecnTheme(themeOverride, mode);
-  const ctx = tabsStyleContext(items, variant, theme);
+  const resolvedMode = useFramecnMode(mode);
+  const ctx = tabsStyleContext(items, variant, theme, resolvedMode);
   const { from, to, progress } = useStateTransition(
     steps,
     items[0],

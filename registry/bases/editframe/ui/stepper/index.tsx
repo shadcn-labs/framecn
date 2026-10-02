@@ -1,6 +1,11 @@
 "use client";
 
-import { clamp01, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import {
+  FramecnIcon,
+  clamp01,
+  mixOklch,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export interface StepperStyle {
@@ -19,8 +24,7 @@ export interface StepperProps {
 }
 
 const DEFAULT_STEPS = ["Account", "Plan", "Done"];
-const CIRCLE = 36;
-const CHECK_PATH_LENGTH = 14;
+const CIRCLE = 32;
 
 export interface StepperStyleContext {
   primary: string;
@@ -71,7 +75,7 @@ export const Stepper = ({
   theme: themeOverride,
   className,
 }: StepperProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = stepperStyleContext(theme);
   const v = style ?? stepperStyle(activeIndex);
   const { position } = v;
@@ -117,7 +121,7 @@ export const Stepper = ({
                   style={{
                     alignItems: "center",
                     background: circleBg,
-                    border: `2px solid ${active ? ctx.primary : circleBorder}`,
+                    border: `1px solid ${active ? ctx.primary : circleBorder}`,
                     borderRadius: "50%",
                     boxSizing: "border-box",
                     display: "flex",
@@ -131,7 +135,7 @@ export const Stepper = ({
                     style={{
                       color: numberColor,
                       fontSize: 14,
-                      fontWeight: 600,
+                      fontWeight: 500,
                       opacity: numberOpacity,
                       position: "absolute",
                     }}
@@ -139,30 +143,22 @@ export const Stepper = ({
                     {i + 1}
                   </span>
 
-                  <svg
-                    width={CIRCLE}
-                    height={CIRCLE}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 12.5l4.5 4.5L19 7"
-                      stroke={ctx.primaryFg}
-                      strokeWidth="2.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      pathLength={CHECK_PATH_LENGTH}
-                      strokeDasharray={CHECK_PATH_LENGTH}
-                      strokeDashoffset={CHECK_PATH_LENGTH * (1 - checkDraw)}
-                    />
-                  </svg>
+                  <FramecnIcon
+                    name="Check"
+                    size={16}
+                    color={ctx.primaryFg}
+                    style={{
+                      clipPath: `inset(0 ${(1 - checkDraw) * 100}% 0 0)`,
+                      opacity: checkDraw,
+                    }}
+                  />
                 </div>
                 <span
                   style={{
                     color: active || completed ? ctx.foreground : ctx.mutedFg,
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: 500,
-                    letterSpacing: "-0.01em",
+                    lineHeight: "20px",
                     whiteSpace: "nowrap",
                   }}
                 >

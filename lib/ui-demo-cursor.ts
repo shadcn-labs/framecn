@@ -1,3 +1,7 @@
+"use client";
+
+import { createContext, useContext, useMemo } from "react";
+
 import { H, W } from "@/lib/customizer-config";
 
 export { H, W };
@@ -6,7 +10,19 @@ export { H, W };
 export const centerX = W / 2;
 export const centerY = H / 2;
 
-export const parkTopLeft = { x: 80, y: 60 } as const;
+export const UiPreviewScaleContext = createContext(1);
+
+/** Keep the cursor start 80px/60px inside the visible canvas after zoom. */
+export const useUiDemoCursorStart = () => {
+  const scale = useContext(UiPreviewScaleContext);
+  return useMemo(
+    () => ({
+      x: centerX + (80 - centerX) / scale,
+      y: centerY + (60 - centerY) / scale,
+    }),
+    [scale]
+  );
+};
 
 export const atCenter = (dx = 0, dy = 0) => ({
   x: centerX + dx,
@@ -49,6 +65,6 @@ export const contextMenuTargets = (offsetX = 20, offsetY = 25) => {
   return {
     click,
     leave: { x: click.x + 180, y: click.y + 80 },
-    row1: { x: click.x + 70, y: click.y + 60 },
+    row1: { x: click.x + 70, y: click.y + 53 },
   };
 };

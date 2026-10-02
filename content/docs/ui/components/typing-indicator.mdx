@@ -28,7 +28,7 @@ npx shadcn@latest add @framecn/typing-indicator
 
 <ComponentSource
   name="typing-indicator"
-  title="components/ui/typing-indicator.tsx"
+  title="components/framecn/typing-indicator.tsx"
 />
 
 <Step>Update the import paths to match your project setup.</Step>
@@ -44,8 +44,8 @@ npx shadcn@latest add @framecn/typing-indicator
 Place `TypingIndicator` inside a message bubble (or any container) to show the typing state before a reply enters:
 
 ```tsx
-import { MessageBubble } from "@/components/ui/message-bubble";
-import { TypingIndicator } from "@/components/ui/typing-indicator";
+import { MessageBubble } from "@/components/framecn/message-bubble";
+import { TypingIndicator } from "@/components/framecn/typing-indicator";
 
 <MessageBubble variant="incoming" state="visible">
   <TypingIndicator dotCount={3} size={8} amplitude={5} />

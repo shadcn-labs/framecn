@@ -3,7 +3,7 @@
 import { Timegroup } from "@editframe/react";
 import { useEffect, useRef, useState } from "react";
 
-import { mixOklch, revealedText, useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, revealedText, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Caret } from "@/registry/bases/editframe/ui/caret";
 import { MessageBubble } from "@/registry/bases/editframe/ui/message-bubble";
@@ -204,30 +204,6 @@ const Avatar = ({
   );
 };
 
-const SendIcon = ({ color }: { color: string }) => (
-  <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 19V5M12 5l-6 6M12 5l6 6"
-      stroke={color}
-      strokeWidth={2.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const PlusIcon = ({ color }: { color: string }) => (
-  <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 5v14M5 12h14"
-      stroke={color}
-      strokeWidth={2.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
 const ChatRow = ({
   item,
   eff,
@@ -321,7 +297,7 @@ export const ChatFlow = ({
     ...themeOverride,
     ...(accentColor ? { primary: accentColor } : {}),
   };
-  const resolved = useFramecnTheme(themeProp, "light");
+  const resolved = useFramecnTheme(themeProp);
 
   const { items, duration: rawDuration } = chatFlowSchedule(messages);
   const totalDuration =
@@ -376,12 +352,6 @@ export const ChatFlow = ({
   const sendScale = 1 - 0.16 * sendPulse(items, eff);
   const present = items.filter((item) => eff >= item.presenceStart);
 
-  const composerBackground = mixOklch(
-    resolved.background,
-    resolved.muted,
-    0.55
-  );
-
   return (
     <Timegroup
       className={className}
@@ -429,7 +399,13 @@ export const ChatFlow = ({
         >
           <div
             style={{
+              background: resolved.card,
+              border: `1px solid ${resolved.border}`,
+              borderRadius: resolved.radius + 4,
+              boxShadow:
+                "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
               boxSizing: "border-box",
+              color: resolved.cardForeground,
               display: "flex",
               flexDirection: "column",
               height: "100%",
@@ -455,7 +431,7 @@ export const ChatFlow = ({
                 >
                   <span
                     style={{
-                      color: resolved.foreground,
+                      color: resolved.cardForeground,
                       fontSize: 15,
                       fontWeight: 600,
                       letterSpacing: "-0.01em",
@@ -467,7 +443,7 @@ export const ChatFlow = ({
                   <span
                     style={{
                       alignItems: "center",
-                      color: "oklch(0.62 0.17 150)",
+                      color: resolved.mutedForeground,
                       display: "flex",
                       fontSize: 12,
                       gap: 5,
@@ -476,7 +452,7 @@ export const ChatFlow = ({
                   >
                     <span
                       style={{
-                        background: "oklch(0.62 0.17 150)",
+                        background: resolved.primary,
                         borderRadius: "50%",
                         height: 6,
                         width: 6,
@@ -502,6 +478,7 @@ export const ChatFlow = ({
             >
               <div
                 style={{
+                  boxSizing: "border-box",
                   display: "flex",
                   flexDirection: "column",
                   gap: 20,
@@ -526,9 +503,10 @@ export const ChatFlow = ({
 
             <div
               style={{
-                background: composerBackground,
-                border: `1px solid ${resolved.border}`,
-                borderRadius: 24,
+                background: resolved.background,
+                border: `1px solid ${resolved.input}`,
+                borderRadius: Math.max(0, resolved.radius - 2),
+                boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 10,
@@ -576,30 +554,34 @@ export const ChatFlow = ({
                     alignItems: "center",
                     background: "transparent",
                     border: `1px solid ${resolved.border}`,
-                    borderRadius: "50%",
+                    borderRadius: Math.max(0, resolved.radius - 2),
                     display: "flex",
-                    height: 38,
+                    height: 36,
                     justifyContent: "center",
-                    width: 38,
+                    width: 36,
                   }}
                 >
-                  <PlusIcon color={resolved.mutedForeground} />
+                  <FramecnIcon
+                    name="Plus"
+                    size={16}
+                    color={resolved.foreground}
+                  />
                 </div>
                 <div
                   style={{
                     alignItems: "center",
-                    background: sendActive
-                      ? resolved.primary
-                      : mixOklch(resolved.background, resolved.muted, 0.6),
-                    borderRadius: "50%",
+                    background: sendActive ? resolved.primary : resolved.muted,
+                    borderRadius: Math.max(0, resolved.radius - 2),
                     display: "flex",
-                    height: 38,
+                    height: 36,
                     justifyContent: "center",
                     transform: `scale(${sendScale})`,
-                    width: 38,
+                    width: 36,
                   }}
                 >
-                  <SendIcon
+                  <FramecnIcon
+                    name="ArrowUp"
+                    size={16}
                     color={
                       sendActive
                         ? resolved.primaryForeground

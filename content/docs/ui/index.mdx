@@ -4,3 +4,58 @@ description: Timeline-driven UI primitives — foundational components and multi
 ---
 
 <ComponentsList folderName="UI" />
+
+## shadcn styling
+
+UI primitives use the official shadcn/ui New York (Radix) visual baseline. They are frame-driven video components: states and transitions come from the timeline, not user interaction. Custom blocks share the same tokens; iMessage and Telegram retain their branded message surfaces.
+
+Installed video controls live in `components/framecn`, so they do not overwrite interactive shadcn components in `components/ui`. The registry installs their transition hooks, shared UI core, and dependencies together.
+
+## Preview sizing
+
+Previews use a **1280 × 720** canvas. Standalone UI demos are enlarged **1.5×** for readability; the component and its animated cursor scale together. Full-layout blocks, drawers, and sheets remain at native scale to preserve their frame-edge layouts. This is a docs-preview adjustment only: installed component dimensions and generated usage code stay unchanged.
+
+Demo cursors start inside the visible top-left corner: **80px from the left and 60px from the top** of the canvas. Their starting waypoint compensates for preview zoom; click and drag targets remain unchanged.
+
+## Themes and icons
+
+Use the preview's **Base color**, **Theme**, **Color mode**, and **Icon library** controls. Selections are included in the copied URL and cleared by **Reset to defaults**. Unchanged per-component color controls inherit the selected theme; explicit color overrides take precedence.
+
+The docs player and its query-dependent controls mount client-side. Editframe's interactive GUI is browser-only; mounting the controls alongside it keeps shared theme/icon URLs, native selections, and Reset state consistent during page hydration.
+
+Wrap your composition with `FramecnUIProvider` to use the same appearance in renders:
+
+```tsx
+import { FramecnUIProvider } from "@/lib/framecn-ui";
+import { SignupFlow } from "@/components/framecn/signup-flow";
+
+export const Scene = () => (
+  <FramecnUIProvider
+    mode="dark"
+    baseColor="zinc"
+    themeName="blue"
+    iconLibrary="hugeicons"
+  >
+    <SignupFlow />
+  </FramecnUIProvider>
+);
+```
+
+- **Base colors:** neutral, stone, zinc, mauve, olive, mist, taupe.
+- **Themes:** the seven base palettes plus amber, blue, cyan, emerald, fuchsia, green, indigo, lime, orange, pink, purple, red, rose, sky, teal, violet, yellow. Omitting `themeName` uses the base palette.
+- **Icon libraries:** lucide (default), tabler, hugeicons, phosphor, remixicon. Utility icons switch across primitives and blocks; brand artwork and the cursor pointer do not.
+- **Modes:** light (default) or dark. The docs preview also offers system mode, following the site's resolved color mode.
+
+Provider appearance applies to both components and their transition hooks. A component's `theme` or color prop overrides provider tokens. Use concrete hex, RGB, or OKLCH values for animated colors; CSS variables cannot be resolved by deterministic color interpolation.
+
+```tsx
+<FramecnUIProvider
+  mode="dark"
+  themeName="rose"
+  theme={{ radius: 14, primary: "#be123c" }}
+>
+  <SignupFlow />
+</FramecnUIProvider>
+```
+
+Theme tokens are sourced from the [official shadcn theme registry](https://github.com/shadcn-ui/ui/blob/main/apps/v4/registry/themes.ts); icon sets match the [official CLI icon-library configuration](https://github.com/shadcn-ui/ui/blob/main/packages/shadcn/src/icons/templates.ts).

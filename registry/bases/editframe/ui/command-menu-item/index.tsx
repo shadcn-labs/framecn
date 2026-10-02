@@ -1,6 +1,6 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type CommandMenuItemState = "idle" | "hover" | "press" | "selected";
@@ -36,9 +36,7 @@ export interface CommandMenuItemStyleContext {
   selectedFg: string;
   idleIcon: string;
   selectedIcon: string;
-  kbdBg: string;
   kbdFg: string;
-  kbdBorder: string;
 }
 
 export const commandMenuItemStyleContext = (
@@ -48,13 +46,11 @@ export const commandMenuItemStyleContext = (
   idleBg: theme.popover,
   idleFg: theme.popoverForeground,
   idleIcon: theme.mutedForeground,
-  kbdBg: theme.muted,
-  kbdBorder: theme.border,
   kbdFg: theme.mutedForeground,
   pressBg: mixOklch(theme.accent, theme.foreground, 0.08),
   selectedBg: theme.accent,
   selectedFg: theme.accentForeground,
-  selectedIcon: theme.foreground,
+  selectedIcon: theme.mutedForeground,
 });
 
 export const commandMenuItemStyle = (
@@ -66,7 +62,7 @@ export const commandMenuItemStyle = (
       return {
         background: ctx.hoverBg,
         iconColor: ctx.selectedIcon,
-        labelColor: ctx.idleFg,
+        labelColor: ctx.selectedFg,
         scale: 1,
       };
     }
@@ -74,7 +70,7 @@ export const commandMenuItemStyle = (
       return {
         background: ctx.pressBg,
         iconColor: ctx.selectedIcon,
-        labelColor: ctx.idleFg,
+        labelColor: ctx.selectedFg,
         scale: 0.98,
       };
     }
@@ -97,31 +93,12 @@ export const commandMenuItemStyle = (
   }
 };
 
-const ICON_PATHS: Record<CommandMenuIcon, string> = {
-  file: "M7 3h7l4 4v14H7ZM14 3v4h4",
-  search: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM20 20l-3.5-3.5",
-  settings:
-    "M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM12 2v3 M12 19v3 M4.2 4.2l2.1 2.1 M17.7 17.7l2.1 2.1 M2 12h3 M19 12h3 M4.2 19.8l2.1-2.1 M17.7 6.3l2.1-2.1",
-  user: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM5 20a7 7 0 0 1 14 0",
-};
-
-const CommandMenuItemIcon = ({
-  icon,
-  color,
-}: {
-  icon: CommandMenuIcon;
-  color: string;
-}) => (
-  <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
-    <path
-      d={ICON_PATHS[icon]}
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+const ICON_NAMES = {
+  file: "File",
+  search: "Search",
+  settings: "Settings",
+  user: "User",
+} as const;
 
 export interface CommandMenuItemRowProps {
   style?: CommandMenuItemStyle;
@@ -130,8 +107,9 @@ export interface CommandMenuItemRowProps {
   label: string;
   icon?: CommandMenuIcon;
   shortcut?: string;
-  width: number;
+  width: number | string;
   radius: number;
+  dialog?: boolean;
 }
 
 export const CommandMenuItemRow = ({
@@ -143,6 +121,7 @@ export const CommandMenuItemRow = ({
   shortcut,
   width,
   radius,
+  dialog = false,
 }: CommandMenuItemRowProps) => {
   const v = style ?? commandMenuItemStyle(state, ctx);
   return (
@@ -150,15 +129,15 @@ export const CommandMenuItemRow = ({
       style={{
         alignItems: "center",
         background: v.background,
-        borderRadius: radius,
+        borderRadius: Math.max(0, radius - 4),
         boxSizing: "border-box",
         color: v.labelColor,
         display: "flex",
         fontSize: 14,
-        gap: 12,
+        gap: 8,
         justifyContent: "space-between",
-        letterSpacing: "-0.01em",
-        padding: "8px 12px",
+        lineHeight: "20px",
+        padding: dialog ? "12px 8px" : "6px 8px",
         transform: `scale(${v.scale})`,
         width,
       }}
@@ -167,13 +146,17 @@ export const CommandMenuItemRow = ({
         style={{
           alignItems: "center",
           display: "flex",
-          gap: 10,
+          gap: 8,
           minWidth: 0,
         }}
       >
         {icon !== undefined && (
           <span style={{ display: "flex", flexShrink: 0 }}>
-            <CommandMenuItemIcon icon={icon} color={v.iconColor} />
+            <FramecnIcon
+              name={ICON_NAMES[icon]}
+              size={dialog ? 20 : 16}
+              color={v.iconColor}
+            />
           </span>
         )}
         <span
@@ -187,25 +170,19 @@ export const CommandMenuItemRow = ({
         </span>
       </span>
       {shortcut !== undefined && (
-        <kbd
+        <span
           style={{
-            alignItems: "center",
-            background: ctx.kbdBg,
-            border: `1px solid ${ctx.kbdBorder}`,
-            borderRadius: Math.max(4, radius - 4),
             color: ctx.kbdFg,
-            display: "inline-flex",
+            display: "inline-block",
             flexShrink: 0,
             fontFamily: "inherit",
             fontSize: 12,
-            gap: 2,
-            height: 20,
-            letterSpacing: "0.05em",
-            padding: "0 6px",
+            letterSpacing: "0.1em",
+            marginLeft: "auto",
           }}
         >
           {shortcut}
-        </kbd>
+        </span>
       )}
     </div>
   );
@@ -221,7 +198,7 @@ export const CommandMenuItem = ({
   theme: themeOverride,
   className,
 }: CommandMenuItemProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = commandMenuItemStyleContext(theme);
   return (
     <div

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch, useFramecnMode, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type SwitchState = "unchecked" | "checked";
@@ -27,9 +27,16 @@ const SIZE_STYLES: Record<
     gap: number;
   }
 > = {
-  default: { fontSize: 15, gap: 10, pad: 2, thumb: 20, trackH: 24, trackW: 44 },
-  lg: { fontSize: 17, gap: 12, pad: 2, thumb: 24, trackH: 28, trackW: 52 },
-  sm: { fontSize: 13, gap: 8, pad: 2, thumb: 16, trackH: 20, trackW: 36 },
+  default: {
+    fontSize: 14,
+    gap: 8,
+    pad: 1,
+    thumb: 16,
+    trackH: 18.4,
+    trackW: 32,
+  },
+  lg: { fontSize: 14, gap: 8, pad: 1, thumb: 20, trackH: 22, trackW: 40 },
+  sm: { fontSize: 12, gap: 8, pad: 1, thumb: 12, trackH: 14, trackW: 24 },
 };
 
 export interface SwitchStyle {
@@ -44,11 +51,13 @@ export interface SwitchStyleContext {
 }
 
 export const switchStyleContext = (
-  theme: FramecnTheme
+  theme: FramecnTheme,
+  mode: "light" | "dark" = "light"
 ): SwitchStyleContext => ({
   checkedTrack: theme.primary,
   thumbColor: theme.background,
-  uncheckedTrack: theme.input,
+  uncheckedTrack:
+    mode === "dark" ? mixOklch(theme.input, "transparent", 0.2) : theme.input,
 });
 
 export const switchStyle = (
@@ -80,12 +89,13 @@ export const Switch = ({
   primary,
   className,
 }: SwitchProps) => {
-  const theme = useFramecnTheme(
-    { ...themeOverride, ...(primary ? { primary } : {}) },
-    "light"
-  );
+  const theme = useFramecnTheme({
+    ...themeOverride,
+    ...(primary ? { primary } : {}),
+  });
+  const mode = useFramecnMode();
   const sizeStyle = SIZE_STYLES[size];
-  const ctx = switchStyleContext(theme);
+  const ctx = switchStyleContext(theme, mode);
   const v = style ?? switchStyle(state, ctx);
   const travel = sizeStyle.trackW - sizeStyle.thumb - sizeStyle.pad * 2;
   return (
@@ -114,6 +124,7 @@ export const Switch = ({
             alignItems: "center",
             background: v.trackBackground,
             borderRadius: sizeStyle.trackH / 2,
+            boxShadow: "0 1px 2px rgb(0 0 0 / 5%)",
             display: "flex",
             height: sizeStyle.trackH,
             position: "relative",
@@ -122,9 +133,16 @@ export const Switch = ({
         >
           <span
             style={{
-              background: ctx.thumbColor,
+              background:
+                mode === "dark"
+                  ? mixOklch(
+                      theme.foreground,
+                      theme.primaryForeground,
+                      v.thumbOffset
+                    )
+                  : ctx.thumbColor,
               borderRadius: "50%",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.15)",
+              boxShadow: "none",
               height: sizeStyle.thumb,
               left: sizeStyle.pad,
               position: "absolute",
@@ -139,7 +157,7 @@ export const Switch = ({
               color: theme.foreground,
               fontSize: sizeStyle.fontSize,
               fontWeight: 500,
-              letterSpacing: "-0.01em",
+              lineHeight: "20px",
             }}
           >
             {label}

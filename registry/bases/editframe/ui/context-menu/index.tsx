@@ -59,7 +59,7 @@ export const contextMenuStyle = (
       return { opacity: 1, scale: 1, translateY: 0 };
     }
     default: {
-      return { opacity: 0, scale: 0.95, translateY: -4 };
+      return { opacity: 0, scale: 0.95, translateY: -8 };
     }
   }
 };
@@ -88,7 +88,7 @@ export const ContextMenu = ({
   theme: themeOverride,
   className,
 }: ContextMenuProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = contextMenuStyleContext(theme);
   const v = style ?? contextMenuStyle(state, ctx);
   return (
@@ -97,14 +97,15 @@ export const ContextMenu = ({
       style={{
         background: ctx.panelBg,
         border: `1px solid ${ctx.panelBorder}`,
-        borderRadius: ctx.radius + 2,
-        boxShadow: "0 12px 32px -8px rgba(0,0,0,0.18)",
+        borderRadius: Math.max(0, ctx.radius - 2),
+        boxShadow:
+          "0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%)",
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        gap: 2,
+        gap: 0,
         opacity: v.opacity,
         padding: 4,
         transform: `translateY(${v.translateY}px) scale(${v.scale})`,
@@ -125,7 +126,7 @@ export const ContextMenu = ({
             key={item}
             style={rowStyle}
             label={item}
-            width={WIDTH - 8}
+            width="100%"
             theme={themeOverride}
           />
         );

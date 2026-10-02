@@ -1,6 +1,6 @@
 "use client";
 
-import { atCenter, parkTopLeft } from "@/lib/ui-demo-cursor";
+import { atCenter, useUiDemoCursorStart } from "@/lib/ui-demo-cursor";
 import { Button } from "@/registry/bases/editframe/ui/button";
 import { useButtonTransition } from "@/registry/bases/editframe/ui/button/use-button-transition";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
@@ -19,7 +19,7 @@ export interface TooltipDemoProps {
 
 export const TooltipDemoScene = (p: TooltipDemoProps = {}) => {
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 28, duration: 24, ...BTN },
     { at: 110, duration: 20, ...AWAY },
   ]);
@@ -48,7 +48,7 @@ export const TooltipDemoScene = (p: TooltipDemoProps = {}) => {
 
         <div
           style={{
-            bottom: "calc(100% + 32px)",
+            bottom: "calc(100% + 5px)",
             left: "50%",
             position: "absolute",
             transform: "translateX(-50%)",
@@ -117,7 +117,7 @@ export const Scene = () => {
         <div
           style={{
             position: "absolute",
-            bottom: "calc(100% + 32px)",
+            bottom: "calc(100% + 5px)",
             left: "50%",
             transform: "translateX(-50%)",
           }}

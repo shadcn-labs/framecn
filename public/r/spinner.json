@@ -2,12 +2,16 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spinner",
   "title": "Spinner",
-  "description": "",
+  "description": "Timeline-driven spinner.",
+  "registryDependencies": [
+    "@framecn/framecn-ui"
+  ],
   "files": [
     {
       "path": "registry/bases/editframe/ui/spinner/index.tsx",
-      "content": "\"use client\";\n\nexport interface SpinnerProps {\n  color?: string;\n  size?: number;\n  speed?: number;\n  className?: string;\n}\n\nexport const Spinner = ({\n  color = \"currentColor\",\n  size = 16,\n  speed = 1,\n  className,\n}: SpinnerProps) => {\n  const duration = `${1 / speed}s`;\n\n  return (\n    <>\n      <style>{`\n        @keyframes spinner-rotate {\n          0% { transform: rotate(0deg); }\n          100% { transform: rotate(360deg); }\n        }\n      `}</style>\n      <svg\n        className={className}\n        width={size}\n        height={size}\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        style={{ animation: `spinner-rotate ${duration} linear infinite` }}\n      >\n        <circle\n          cx=\"12\"\n          cy=\"12\"\n          r=\"9\"\n          stroke={color}\n          strokeWidth=\"2.5\"\n          strokeLinecap=\"round\"\n          strokeDasharray=\"40 14\"\n          opacity=\"0.3\"\n        />\n      </svg>\n    </>\n  );\n};\n",
-      "type": "registry:ui"
+      "content": "\"use client\";\n\nimport {\n  FramecnIcon,\n  useCurrentFrame,\n  useFramecnTheme,\n} from \"@/lib/framecn-ui\";\n\nexport interface SpinnerProps {\n  size?: number;\n  color?: string;\n  speed?: number;\n  strokeWidth?: number;\n  className?: string;\n}\n\nexport const Spinner = ({\n  size = 16,\n  color,\n  speed = 1,\n  strokeWidth = 2,\n  className,\n}: SpinnerProps) => {\n  const rotation = useCurrentFrame() * speed * 6;\n  const theme = useFramecnTheme();\n  return (\n    <span role=\"status\" aria-label=\"Loading\" style={{ display: \"inline-flex\" }}>\n      <FramecnIcon\n        name=\"LoaderCircle\"\n        className={className}\n        size={size}\n        color={color ?? theme.foreground}\n        style={{ strokeWidth, transform: `rotate(${rotation}deg)` }}\n      />\n    </span>\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/framecn/spinner.tsx"
     }
   ],
   "type": "registry:ui"

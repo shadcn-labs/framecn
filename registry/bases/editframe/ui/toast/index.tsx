@@ -1,6 +1,6 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type ToastState = "hidden" | "visible";
@@ -25,23 +25,6 @@ export interface ToastStyle {
   scale: number;
 }
 
-export interface ToastStyleContext {
-  iconColor: string;
-}
-
-export const toastStyleContext = (
-  variant: ToastVariant,
-  theme: FramecnTheme
-): ToastStyleContext => {
-  if (variant === "success") {
-    return { iconColor: "oklch(0.6 0.17 150)" };
-  }
-  if (variant === "error") {
-    return { iconColor: theme.destructive };
-  }
-  return { iconColor: theme.mutedForeground };
-};
-
 export const toastStyle = (state: ToastState): ToastStyle => {
   switch (state) {
     case "visible": {
@@ -53,50 +36,6 @@ export const toastStyle = (state: ToastState): ToastStyle => {
   }
 };
 
-const ToastIcon = ({
-  variant,
-  color,
-}: {
-  variant: ToastVariant;
-  color: string;
-}) => {
-  if (variant === "success") {
-    return (
-      <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="2" />
-        <path
-          d="M8 12.5l2.6 2.6L16 9"
-          stroke={color}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-  }
-  if (variant === "error") {
-    return (
-      <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="2" />
-        <path
-          d="M12 7.5v5"
-          stroke={color}
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <circle cx="12" cy="16" r="1.1" fill={color} />
-      </svg>
-    );
-  }
-  return (
-    <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="2" />
-      <path d="M12 11v5" stroke={color} strokeWidth="2" strokeLinecap="round" />
-      <circle cx="12" cy="8" r="1.1" fill={color} />
-    </svg>
-  );
-};
-
 export const Toast = ({
   state = "hidden",
   style,
@@ -106,24 +45,23 @@ export const Toast = ({
   theme: themeOverride,
   className,
 }: ToastProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
-  const ctx = toastStyleContext(variant, theme);
+  const theme = useFramecnTheme(themeOverride);
   const v = style ?? toastStyle(state);
   return (
     <div
       className={className}
       style={{
-        alignItems: description ? "flex-start" : "center",
+        alignItems: "center",
         background: theme.popover,
         border: `1px solid ${theme.border}`,
         borderRadius: theme.radius,
-        boxShadow:
-          "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
+        boxShadow: "0 4px 12px rgb(0 0 0 / 10%)",
+        boxSizing: "border-box",
         color: theme.popoverForeground,
         display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-        gap: 12,
+        gap: 10,
         opacity: v.opacity,
         padding: "16px",
         transform: `translateY(${v.translateY}px) scale(${v.scale})`,
@@ -131,30 +69,37 @@ export const Toast = ({
         width: TOAST_WIDTH,
       }}
     >
-      <span
-        style={{
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "center",
-          marginTop: description ? 1 : 0,
-        }}
-      >
-        <ToastIcon variant={variant} color={ctx.iconColor} />
-      </span>
+      {variant !== "default" && (
+        <span
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexShrink: 0,
+            justifyContent: "center",
+            marginLeft: -3,
+          }}
+        >
+          <FramecnIcon
+            name={variant === "success" ? "CircleCheck" : "OctagonX"}
+            size={16}
+            color={theme.popoverForeground}
+            style={{ marginLeft: -1 }}
+          />
+        </span>
+      )}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 4,
+          gap: 2,
           minWidth: 0,
         }}
       >
         <span
           style={{
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: 500,
-            letterSpacing: "-0.01em",
-            lineHeight: 1.3,
+            lineHeight: "19.5px",
           }}
         >
           {title}
@@ -164,7 +109,7 @@ export const Toast = ({
             style={{
               color: theme.mutedForeground,
               fontSize: 13,
-              lineHeight: 1.4,
+              lineHeight: "18.2px",
             }}
           >
             {description}

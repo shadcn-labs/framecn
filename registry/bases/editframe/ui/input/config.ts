@@ -25,7 +25,7 @@ export const inputConfig: ComponentConfig = {
       options: ["idle", "hover", "active", "typing", "blur", "invalid"],
       type: "select",
     },
-    value: { default: "remotion@remocn.dev", label: "Value", type: "text" },
+    value: { default: "hello@framecn.dev", label: "Value", type: "text" },
   },
   durationInFrames: 120,
   fps: FPS,
@@ -41,7 +41,7 @@ export const inputConfig: ComponentConfig = {
     if (placeholder !== undefined && placeholder !== "you@example.com") {
       props.push(`  placeholder="${placeholder}"`);
     }
-    if (value !== undefined && value !== "remotion@remocn.dev") {
+    if (value !== undefined && value !== "hello@framecn.dev") {
       props.push(`  value="${value}"`);
     }
     if (size !== undefined && size !== "default") {

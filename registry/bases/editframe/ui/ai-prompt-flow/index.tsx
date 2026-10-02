@@ -1,6 +1,6 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Button } from "@/registry/bases/editframe/ui/button";
 import { useButtonTransition } from "@/registry/bases/editframe/ui/button/use-button-transition";
@@ -141,7 +141,13 @@ export const AiPromptFlow = ({
                   key={i}
                   width={i === answerLines.length - 1 ? "70%" : "100%"}
                   height={18}
-                  baseColor={resolved.muted}
+                  baseColor={resolved.accent}
+                  highlightColor={mixOklch(
+                    resolved.accent,
+                    resolved.foreground,
+                    0.13
+                  )}
+                  radius={Math.max(0, resolved.radius - 2)}
                 />
               ))}
             </div>
@@ -154,10 +160,9 @@ export const AiPromptFlow = ({
               flexDirection: "column",
               fontFamily:
                 "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-              fontSize: 18,
+              fontSize: 14,
               gap: 8,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.45,
+              lineHeight: 1.5,
               width: ANSWER_W,
             }}
           >

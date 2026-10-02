@@ -25,10 +25,16 @@ export {
   defaultLightTheme,
   FramecnUIProvider,
   useFramecnTheme,
+  useFramecnMode,
+  resolveFramecnTheme,
+  BASE_COLOR_NAMES,
+  THEME_NAMES,
 } from "@/registry/bases/editframe/lib/theme";
 export type {
   FramecnTheme,
   FramecnUIProviderProps,
+  BaseColorName,
+  ThemeName,
 } from "@/registry/bases/editframe/lib/theme";
 export { easings, springs } from "@/registry/bases/editframe/lib/motion";
 export type {
@@ -44,3 +50,12 @@ export {
   useVideoConfig,
 } from "@/registry/bases/editframe/lib/frame";
 export type { FrameProviderProps } from "@/registry/bases/editframe/lib/frame";
+export {
+  FramecnIcon,
+  ICON_LIBRARIES,
+} from "@/registry/bases/editframe/lib/icons";
+export type {
+  FramecnIconName,
+  FramecnIconProps,
+  IconLibrary,
+} from "@/registry/bases/editframe/lib/icons";

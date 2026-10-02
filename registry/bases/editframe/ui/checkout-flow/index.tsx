@@ -140,12 +140,13 @@ export const CheckoutFlow = ({
     >
       <div
         style={{
-          background: resolved.background,
+          background: resolved.card,
           border: `1px solid ${resolved.border}`,
-          borderRadius: 14,
+          borderRadius: resolved.radius + 4,
           boxShadow:
-            "0 10px 30px -12px rgba(0,0,0,0.22), 0 2px 8px -3px rgba(0,0,0,0.10)",
+            "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
           boxSizing: "border-box",
+          color: resolved.cardForeground,
           display: "flex",
           filter: cardEnter.blur > 0 ? `blur(${cardEnter.blur}px)` : "none",
           flexDirection: "column",
@@ -160,14 +161,13 @@ export const CheckoutFlow = ({
         }}
       >
         <BlurIn display="block" style={enterHeader}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <div
               style={{
                 color: resolved.cardForeground,
-                fontSize: 22,
+                fontSize: 16,
                 fontWeight: 600,
-                letterSpacing: "-0.02em",
-                lineHeight: "28px",
+                lineHeight: 1,
               }}
             >
               {title}

@@ -27,6 +27,8 @@ Install a UI component using the namespace and the item `name` (same as the JSON
 npx shadcn@latest add @framecn/cursor-flow
 ```
 
+UI primitives and blocks also install `@framecn/framecn-ui`, their transition hooks, and any composed controls. Video controls use `components/framecn/*`; your interactive shadcn controls in `components/ui/*` remain separate. Configure the installed UI core's `FramecnUIProvider` for [official themes and icon libraries](/docs/ui#themes-and-icons).
+
 Without a registry alias, use the full URL (as on each docs page):
 
 ```bash

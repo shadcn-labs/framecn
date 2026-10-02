@@ -1,6 +1,10 @@
 "use client";
 
-import { useCurrentFrame, useVideoConfig } from "@/lib/framecn-ui";
+import {
+  useCurrentFrame,
+  useFramecnTheme,
+  useVideoConfig,
+} from "@/lib/framecn-ui";
 
 export interface TypingIndicatorProps {
   dotCount?: number;
@@ -43,7 +47,7 @@ export const typingDotOffset = (
 
 export const TypingIndicator = ({
   dotCount = 3,
-  color = "currentColor",
+  color,
   size = 8,
   gap = 5,
   amplitude = 5,
@@ -53,6 +57,7 @@ export const TypingIndicator = ({
 }: TypingIndicatorProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const theme = useFramecnTheme();
   const opts: TypingDotOptions = {
     amplitude,
     cyclesPerSecond,
@@ -76,7 +81,7 @@ export const TypingIndicator = ({
           <span
             key={i}
             style={{
-              background: color,
+              background: color ?? theme.mutedForeground,
               borderRadius: "50%",
               display: "inline-block",
               height: size,

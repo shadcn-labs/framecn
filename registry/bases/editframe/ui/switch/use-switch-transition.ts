@@ -3,6 +3,7 @@
 import {
   easings,
   mixOklch,
+  useFramecnMode,
   useFramecnTheme,
   useStateTransition,
 } from "@/lib/framecn-ui";
@@ -50,7 +51,8 @@ export const useSwitchTransition = (
     { ...themeOverride, ...(primary ? { primary } : {}) },
     mode
   );
-  const ctx = switchStyleContext(theme);
+  const resolvedMode = useFramecnMode(mode);
+  const ctx = switchStyleContext(theme, resolvedMode);
   const { from, to, progress } = useStateTransition(
     steps,
     "unchecked",

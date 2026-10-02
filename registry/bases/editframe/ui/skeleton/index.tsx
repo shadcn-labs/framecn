@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { SkeletonBlock } from "@/registry/bases/editframe/ui/skeleton-block";
 
@@ -40,22 +40,27 @@ export const skeletonStyle = (state: SkeletonState): SkeletonStyle => {
 const LayoutPlaceholder = ({
   layout,
   speed,
-  baseColor,
+  theme,
 }: {
   layout: SkeletonLayout;
   speed?: number;
-  baseColor: string;
+  theme: FramecnTheme;
 }) => {
-  const shimmer = { baseColor, speed };
+  const shimmer = {
+    baseColor: theme.accent,
+    highlightColor: mixOklch(theme.accent, theme.foreground, 0.13),
+    radius: Math.max(0, theme.radius - 2),
+    speed,
+  };
   if (layout === "card") {
     return (
       <div style={{ alignItems: "center", display: "flex", gap: 14 }}>
         <SkeletonBlock
           width={48}
           height={48}
-          radius={24}
           flexShrink={0}
           {...shimmer}
+          radius={24}
         />
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <SkeletonBlock width={180} height={14} {...shimmer} />
@@ -83,10 +88,10 @@ export const Skeleton = ({
   theme: themeOverride,
   className,
 }: SkeletonProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const v = style ?? skeletonStyle(state);
   const placeholderLayer = placeholder ?? (
-    <LayoutPlaceholder layout={layout} speed={speed} baseColor={theme.muted} />
+    <LayoutPlaceholder layout={layout} speed={speed} theme={theme} />
   );
   return (
     <div

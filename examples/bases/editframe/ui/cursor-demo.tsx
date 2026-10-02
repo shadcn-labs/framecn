@@ -1,6 +1,6 @@
 "use client";
 
-import { atCenter, parkTopLeft } from "@/lib/ui-demo-cursor";
+import { atCenter, useUiDemoCursorStart } from "@/lib/ui-demo-cursor";
 import { Button } from "@/registry/bases/editframe/ui/button";
 import { useButtonTransition } from "@/registry/bases/editframe/ui/button/use-button-transition";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
@@ -18,7 +18,7 @@ export const cursorDemoControls = ["variant", "size", "rippleColor"] as const;
 
 export const CursorDemoScene = (p: CursorDemoProps = {}) => {
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 40, duration: 28, ...BTN },
     { at: 72, click: true, duration: 0, ...BTN },
   ]);

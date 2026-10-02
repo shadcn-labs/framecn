@@ -1,13 +1,16 @@
 "use client";
 
-import { parkTopLeft, toggleSegmentCenter } from "@/lib/ui-demo-cursor";
+import {
+  toggleSegmentCenter,
+  useUiDemoCursorStart,
+} from "@/lib/ui-demo-cursor";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
 import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
 import { ToggleGroup } from "@/registry/bases/editframe/ui/toggle-group";
 import { useToggleGroupTransition } from "@/registry/bases/editframe/ui/toggle-group/use-toggle-group-transition";
 
-const MONTHLY = toggleSegmentCenter(0);
-const YEARLY = toggleSegmentCenter(1);
+const MONTHLY = toggleSegmentCenter(0, 88, 0);
+const YEARLY = toggleSegmentCenter(1, 88, 0);
 
 export type ToggleGroupDemoProps = Record<string, never>;
 
@@ -15,7 +18,7 @@ export const toggleGroupDemoControls = [] as const;
 
 export const ToggleGroupDemoScene = (_p: ToggleGroupDemoProps = {}) => {
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 32, duration: 28, ...YEARLY },
     { at: 44, click: true, duration: 0, ...YEARLY },
     { at: 80, duration: 20, ...MONTHLY },
@@ -44,7 +47,7 @@ import { ToggleGroup } from "@/components/framecn/toggle-group";
 import { useToggleGroupTransition } from "@/components/framecn/use-toggle-group-transition";
 
 const SEG_W = 88;
-const PAD = 4;
+const PAD = 0;
 const TRACK_W = PAD * 2 + SEG_W * 2;
 const TRACK_LEFT = W / 2 - TRACK_W / 2;
 const MONTHLY_X = TRACK_LEFT + PAD + SEG_W / 2;

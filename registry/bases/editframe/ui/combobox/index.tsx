@@ -1,6 +1,11 @@
 "use client";
 
-import { revealedText, useFramecnTheme } from "@/lib/framecn-ui";
+import {
+  FramecnIcon,
+  revealedText,
+  useFramecnMode,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
   inputStyle,
@@ -73,14 +78,15 @@ export interface ComboboxStyleContext {
 }
 
 export const comboboxStyleContext = (
-  theme: FramecnTheme
+  theme: FramecnTheme,
+  mode: "light" | "dark" = "light"
 ): ComboboxStyleContext => ({
   itemCtx: selectItemStyleContext(theme),
   mutedFg: theme.mutedForeground,
   panelBg: theme.popover,
   panelBorder: theme.border,
   radius: theme.radius,
-  triggerCtx: inputStyleContext(theme),
+  triggerCtx: inputStyleContext(theme, mode),
 });
 
 export const comboboxStyle = (
@@ -92,7 +98,7 @@ export const comboboxStyle = (
       return { panelOpacity: 1, panelScale: 1, panelTranslateY: 0 };
     }
     default: {
-      return { panelOpacity: 0, panelScale: 0.96, panelTranslateY: -4 };
+      return { panelOpacity: 0, panelScale: 0.95, panelTranslateY: -8 };
     }
   }
 };
@@ -130,8 +136,9 @@ export const Combobox = ({
   theme: themeOverride,
   className,
 }: ComboboxProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
-  const ctx = comboboxStyleContext(theme);
+  const theme = useFramecnTheme(themeOverride);
+  const mode = useFramecnMode();
+  const ctx = comboboxStyleContext(theme, mode);
   const v = style ?? comboboxStyle(state, ctx);
   const visibleQuery =
     revealCount === undefined ? query : revealedText(query, revealCount);
@@ -160,14 +167,14 @@ export const Combobox = ({
             alignItems: "center",
             background: trigger.background,
             border: `1px solid ${trigger.borderColor}`,
-            borderRadius: theme.radius,
-            boxShadow: `0 0 0 ${trigger.ringWidth}px ${trigger.ringColor}`,
+            borderRadius: Math.max(0, theme.radius - 2),
+            boxShadow: `0 1px 2px 0 rgb(0 0 0 / 5%), 0 0 0 ${trigger.ringWidth}px ${trigger.ringColor}`,
             boxSizing: "border-box",
             display: "flex",
-            fontSize: 15,
-            height: 40,
-            letterSpacing: "-0.01em",
-            padding: "0 14px",
+            fontSize: 14,
+            height: 36,
+            lineHeight: "20px",
+            padding: "0 12px",
             position: "relative",
             width: WIDTH,
           }}
@@ -175,7 +182,7 @@ export const Combobox = ({
           <span
             style={{
               color: ctx.triggerCtx.mutedForeground,
-              left: 14,
+              left: 12,
               opacity: trigger.valueReveal > 0 ? 0 : trigger.placeholderOpacity,
               pointerEvents: "none",
               position: "absolute",
@@ -208,18 +215,25 @@ export const Combobox = ({
               }}
             />
           </div>
+          <FramecnIcon
+            name="ChevronDown"
+            size={16}
+            color={ctx.mutedFg}
+            style={{ marginLeft: "auto" }}
+          />
         </div>
 
         <div
           style={{
             background: ctx.panelBg,
             border: `1px solid ${ctx.panelBorder}`,
-            borderRadius: ctx.radius,
-            boxShadow: "0 16px 32px -12px rgba(0,0,0,0.25)",
+            borderRadius: Math.max(0, ctx.radius - 2),
+            boxShadow:
+              "0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%)",
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 0,
             left: 0,
             opacity: v.panelOpacity,
             padding: 4,
@@ -235,7 +249,7 @@ export const Combobox = ({
               style={{
                 color: ctx.mutedFg,
                 fontSize: 14,
-                padding: "12px",
+                padding: "8px",
                 textAlign: "center",
               }}
             >
@@ -261,7 +275,7 @@ export const Combobox = ({
                   }
                   ctx={ctx.itemCtx}
                   label={item}
-                  width={WIDTH - 8}
+                  width="100%"
                   radius={theme.radius}
                   check={ctx.itemCtx.check}
                 />

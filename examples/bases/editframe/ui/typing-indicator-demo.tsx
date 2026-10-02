@@ -16,7 +16,7 @@ export interface TypingIndicatorDemoProps {
 }
 
 export const TypingIndicatorDemoScene = (p: TypingIndicatorDemoProps = {}) => {
-  const theme = useFramecnTheme(undefined, "light");
+  const theme = useFramecnTheme();
 
   return (
     <div
@@ -33,10 +33,10 @@ export const TypingIndicatorDemoScene = (p: TypingIndicatorDemoProps = {}) => {
         style={{
           alignItems: "center",
           background: theme.muted,
-          borderRadius: 18,
+          borderRadius: Math.max(0, theme.radius + 4),
           color: theme.mutedForeground,
           display: "inline-flex",
-          padding: "18px 22px",
+          padding: "8px 12px",
         }}
       >
         <TypingIndicator

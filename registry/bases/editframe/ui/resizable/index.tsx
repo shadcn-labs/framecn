@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type ResizableHandleState = "idle" | "hover" | "press";
@@ -31,8 +31,8 @@ export interface ResizableProps {
 }
 
 const DIVIDER = 1;
-const GRIP_LONG = 24;
-const GRIP_SHORT = 4;
+const GRIP_LONG = 16;
+const GRIP_SHORT = 12;
 const RING_WIDTH = 4;
 
 const clampRatio = (
@@ -75,10 +75,10 @@ export const resizableStyleContext = (
   border: theme.border,
   containerBg: theme.background,
   grip: theme.border,
-  panelBg: theme.muted,
-  placeholderFg: theme.mutedForeground,
+  panelBg: theme.background,
+  placeholderFg: theme.foreground,
   radius: theme.radius,
-  ring: mixOklch(theme.ring, theme.background, 0.6),
+  ring: mixOklch(theme.ring, "transparent", 0.5),
 });
 
 export const resizableStyle = (
@@ -99,11 +99,11 @@ const Placeholder = ({ label, color }: { label: string; color: string }) => (
       alignItems: "center",
       color,
       display: "flex",
-      fontSize: 13,
+      fontSize: 14,
       fontWeight: 500,
       height: "100%",
       justifyContent: "center",
-      letterSpacing: "-0.01em",
+      lineHeight: "20px",
       width: "100%",
     }}
   >
@@ -125,7 +125,7 @@ export const Resizable = ({
   theme: themeOverride,
   className,
 }: ResizableProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = resizableStyleContext(theme);
   const v = style ?? resizableStyle(ratio, handleState);
   const pct = clampRatio(v.ratio, minRatio, maxRatio) * 100;
@@ -195,16 +195,28 @@ export const Resizable = ({
 
           <div
             style={{
+              alignItems: "center",
               background: ctx.grip,
-              borderRadius: 999,
+              border: `1px solid ${ctx.border}`,
+              borderRadius: Math.max(0, theme.radius - 8),
+              boxSizing: "border-box",
+              color: theme.foreground,
+              display: "flex",
               height: gripH,
+              justifyContent: "center",
               left: "50%",
               position: "absolute",
               top: "50%",
               transform: `translate(-50%, -50%) scale(${v.handleScale})`,
               width: gripW,
             }}
-          />
+          >
+            <FramecnIcon
+              name="GripVertical"
+              size={10}
+              style={{ transform: isHorizontal ? undefined : "rotate(90deg)" }}
+            />
+          </div>
         </div>
 
         <div

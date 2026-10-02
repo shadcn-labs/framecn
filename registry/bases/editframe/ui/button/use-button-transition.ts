@@ -3,6 +3,7 @@
 import {
   easings,
   mixOklch,
+  useFramecnMode,
   useFramecnTheme,
   useStateTransition,
 } from "@/lib/framecn-ui";
@@ -25,6 +26,9 @@ export const tweenButtonStyle = (
 ): ButtonStyle => ({
   background: mixOklch(a.background, b.background, t),
   checkOpacity: a.checkOpacity + (b.checkOpacity - a.checkOpacity) * t,
+  hoverProgress:
+    (a.hoverProgress ?? 0) +
+    ((b.hoverProgress ?? 0) - (a.hoverProgress ?? 0)) * t,
   labelOpacity: a.labelOpacity + (b.labelOpacity - a.labelOpacity) * t,
   scale: a.scale + (b.scale - a.scale) * t,
   spinnerOpacity: a.spinnerOpacity + (b.spinnerOpacity - a.spinnerOpacity) * t,
@@ -56,7 +60,8 @@ export const useButtonTransition = (
     { ...themeOverride, ...(primary ? { primary } : {}) },
     mode
   );
-  const ctx = buttonStyleContext(variant, theme);
+  const resolvedMode = useFramecnMode(mode);
+  const ctx = buttonStyleContext(variant, theme, resolvedMode);
   const { from, to, progress } = useStateTransition(
     steps,
     "idle",

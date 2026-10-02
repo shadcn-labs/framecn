@@ -1,6 +1,6 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type AccordionState = "opened" | "closed";
@@ -26,20 +26,17 @@ interface VariantTokens {
   openBg: string;
 }
 
-const variantTokens = (
-  variant: AccordionVariant,
-  theme: FramecnTheme
-): VariantTokens => {
+const variantTokens = (variant: AccordionVariant): VariantTokens => {
   const variants = {
     default: {
       bordered: true,
-      closedBg: theme.background,
-      openBg: mixOklch(theme.background, theme.muted, 0.5),
+      closedBg: "transparent",
+      openBg: "transparent",
     },
     ghost: {
       bordered: false,
-      closedBg: theme.background,
-      openBg: mixOklch(theme.background, theme.muted, 0.25),
+      closedBg: "transparent",
+      openBg: "transparent",
     },
   };
 
@@ -66,7 +63,7 @@ export const accordionStyleContext = (
   variant: AccordionVariant,
   theme: FramecnTheme
 ): AccordionStyleContext => {
-  const tokens = variantTokens(variant, theme);
+  const tokens = variantTokens(variant);
   return {
     border: theme.border,
     bordered: tokens.bordered,
@@ -111,7 +108,7 @@ export const Accordion = ({
   theme: themeOverride,
   className,
 }: AccordionProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = accordionStyleContext(variant, theme);
   const v = style ?? accordionStyle(state, ctx);
   return (
@@ -131,46 +128,34 @@ export const Accordion = ({
         className={className}
         style={{
           background: v.background,
-          border: ctx.bordered
-            ? `1px solid ${ctx.border}`
-            : "1px solid transparent",
-          borderRadius: theme.radius,
+          borderBottom: ctx.bordered ? `1px solid ${ctx.border}` : undefined,
           overflow: "hidden",
           width: CARD_WIDTH,
         }}
       >
         <div
           style={{
-            alignItems: "center",
+            alignItems: "flex-start",
             color: ctx.foreground,
             display: "flex",
-            fontSize: 15,
+            fontSize: 14,
             fontWeight: 500,
-            gap: 24,
+            gap: 16,
             justifyContent: "space-between",
-            letterSpacing: "-0.01em",
-            padding: 16,
+            lineHeight: "20px",
+            padding: "16px 0",
           }}
         >
           <span>{title}</span>
-          <svg
-            width={16}
-            height={16}
-            viewBox="0 0 24 24"
-            fill="none"
+          <FramecnIcon
+            name="ChevronDown"
+            size={16}
+            color={ctx.mutedForeground}
             style={{
               flexShrink: 0,
-              transform: `rotate(${v.chevronRotation}deg)`,
+              transform: `translateY(2px) rotate(${v.chevronRotation}deg)`,
             }}
-          >
-            <path
-              d="M6 9l6 6 6-6"
-              stroke={ctx.mutedForeground}
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          />
         </div>
 
         <div
@@ -182,10 +167,10 @@ export const Accordion = ({
         >
           <div
             style={{
-              color: ctx.mutedForeground,
+              color: ctx.foreground,
               fontSize: 14,
               lineHeight: 1.5,
-              padding: "0 16px 16px",
+              padding: "0 0 16px",
             }}
           >
             {content}

@@ -48,8 +48,8 @@ const SIZE_STYLES: Record<
     gap: number;
   }
 > = {
-  default: { fontSize: 14, gap: 8, height: 36, pad: 4, segMinWidth: 88 },
-  sm: { fontSize: 13, gap: 6, height: 32, pad: 3, segMinWidth: 72 },
+  default: { fontSize: 14, gap: 8, height: 36, pad: 0, segMinWidth: 88 },
+  sm: { fontSize: 14, gap: 8, height: 32, pad: 0, segMinWidth: 72 },
 };
 
 export interface ToggleGroupStyle {
@@ -69,12 +69,12 @@ export const toggleGroupStyleContext = (
   items: ToggleGroupItem[],
   theme: FramecnTheme
 ): ToggleGroupStyleContext => ({
-  activeFg: theme.foreground,
-  inactiveFg: theme.mutedForeground,
+  activeFg: theme.accentForeground,
+  inactiveFg: theme.foreground,
   items,
-  radius: theme.radius,
-  thumbBg: theme.background,
-  trackBg: theme.muted,
+  radius: Math.max(0, theme.radius - 2),
+  thumbBg: theme.accent,
+  trackBg: "transparent",
 });
 
 export const toggleGroupStyle = (
@@ -94,7 +94,7 @@ export const ToggleGroup = ({
   align = "center",
   className,
 }: ToggleGroupProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = toggleGroupStyleContext(items, theme);
   const v = style ?? toggleGroupStyle(state, ctx);
   const sizeStyle = SIZE_STYLES[size];
@@ -129,8 +129,7 @@ export const ToggleGroup = ({
         <div
           style={{
             background: ctx.thumbBg,
-            borderRadius: Math.max(2, ctx.radius - 3),
-            boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+            borderRadius: ctx.radius,
             height: sizeStyle.height - pad * 2,
             left: thumbX,
             position: "absolute",
@@ -152,7 +151,7 @@ export const ToggleGroup = ({
                 fontWeight: 500,
                 gap: sizeStyle.gap,
                 justifyContent: "center",
-                letterSpacing: "-0.01em",
+                lineHeight: "20px",
                 position: "relative",
                 width: segmentWidth,
               }}

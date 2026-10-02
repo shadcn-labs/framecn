@@ -26,7 +26,7 @@ npx shadcn@latest add @framecn/spinner
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="spinner" title="components/ui/spinner.tsx" />
+<ComponentSource name="spinner" title="components/framecn/spinner.tsx" />
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -39,9 +39,11 @@ npx shadcn@latest add @framecn/spinner
 ## Usage
 
 ```tsx
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from "@/components/framecn/spinner";
 ```
 
 ```tsx
 <Spinner />
 ```
+
+The default is a 16px icon with a 2px stroke. Rotation follows the frame timeline. The icon shape and foreground color inherit the [UI provider's icon library and theme](/docs/ui#themes-and-icons).

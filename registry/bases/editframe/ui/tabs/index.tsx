@@ -1,6 +1,6 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import { mixOklch, useFramecnMode, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type TabsState = string;
@@ -45,18 +45,28 @@ export interface TabsStyleContext {
 export const tabsStyleContext = (
   items: string[],
   variant: TabsVariant,
-  theme: FramecnTheme
-): TabsStyleContext => ({
-  activeFg: theme.foreground,
-  border: theme.border,
-  inactiveFg: theme.mutedForeground,
-  indicatorBg: variant === "underline" ? theme.primary : theme.background,
-  items,
-  panelFg: theme.mutedForeground,
-  radius: theme.radius,
-  trackBg: theme.muted,
-  variant,
-});
+  theme: FramecnTheme,
+  mode: "light" | "dark" = "light"
+): TabsStyleContext => {
+  const pillBackground =
+    mode === "dark"
+      ? mixOklch(theme.input, "transparent", 0.7)
+      : theme.background;
+  return {
+    activeFg: theme.foreground,
+    border: theme.border,
+    inactiveFg:
+      mode === "dark"
+        ? theme.mutedForeground
+        : mixOklch(theme.foreground, "transparent", 0.4),
+    indicatorBg: variant === "underline" ? theme.foreground : pillBackground,
+    items,
+    panelFg: theme.foreground,
+    radius: theme.radius,
+    trackBg: theme.muted,
+    variant,
+  };
+};
 
 export const tabsStyle = (
   state: TabsState,
@@ -76,14 +86,15 @@ export const Tabs = ({
   theme: themeOverride,
   className,
 }: TabsProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
-  const ctx = tabsStyleContext(items, variant, theme);
+  const theme = useFramecnTheme(themeOverride);
+  const mode = useFramecnMode();
+  const ctx = tabsStyleContext(items, variant, theme, mode);
   const v = style ?? tabsStyle(state, ctx);
   const isPill = ctx.variant === "pill";
-  const trackPad = isPill ? 4 : 0;
+  const trackPad = isPill ? 3 : 0;
   const innerWidth = WIDTH - trackPad * 2;
   const segmentWidth = innerWidth / items.length;
-  const rowHeight = 40;
+  const rowHeight = 36;
   const indicatorX = trackPad + v.indicatorOffset * segmentWidth;
   return (
     <div
@@ -103,7 +114,6 @@ export const Tabs = ({
         <div
           style={{
             background: isPill ? ctx.trackBg : "transparent",
-            borderBottom: isPill ? undefined : `1px solid ${ctx.border}`,
             borderRadius: isPill ? ctx.radius : 0,
             boxSizing: "border-box",
             display: "flex",
@@ -117,8 +127,11 @@ export const Tabs = ({
               isPill
                 ? {
                     background: ctx.indicatorBg,
-                    borderRadius: ctx.radius - 3,
-                    boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                    border: `1px solid ${mode === "dark" ? theme.input : "transparent"}`,
+                    borderRadius: Math.max(0, ctx.radius - 2),
+                    boxShadow:
+                      "0 1px 3px rgb(0 0 0 / 10%), 0 1px 2px rgb(0 0 0 / 10%)",
+                    boxSizing: "border-box",
                     height: rowHeight - trackPad * 2,
                     left: indicatorX,
                     position: "absolute",
@@ -148,7 +161,7 @@ export const Tabs = ({
                   fontSize: 14,
                   fontWeight: 500,
                   justifyContent: "center",
-                  letterSpacing: "-0.01em",
+                  lineHeight: "20px",
                   position: "relative",
                   width: segmentWidth,
                 }}
@@ -162,7 +175,7 @@ export const Tabs = ({
         <div
           style={{
             height: contentHeight,
-            marginTop: 16,
+            marginTop: 8,
             position: "relative",
           }}
         >

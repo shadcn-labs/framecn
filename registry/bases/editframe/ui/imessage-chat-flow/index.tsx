@@ -1,10 +1,9 @@
 "use client";
 
 import { Timegroup } from "@editframe/react";
-import { ArrowUp, ChevronLeft, Plus, Video } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { revealedText } from "@/lib/framecn-ui";
+import { FramecnIcon, revealedText, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Caret } from "@/registry/bases/editframe/ui/caret";
 import { TypingIndicator } from "@/registry/bases/editframe/ui/typing-indicator";
@@ -47,11 +46,7 @@ const TAIL = 28;
 const PRESS_WINDOW = 7;
 
 const IMESSAGE_BLUE = "#0a7cff";
-const SYSTEM_BLUE = "#007aff";
-const INCOMING_BG = "#e9e9eb";
-const INCOMING_FG = "#000000";
 const OUTGOING_FG = "#ffffff";
-const META_GRAY = "#8e8e93";
 
 const DEFAULT_MESSAGES: ImessageMessage[] = [
   { from: "me", text: "Hey — ready for the demo?" },
@@ -243,12 +238,14 @@ const ImessageRow = ({
   contact,
   accent,
   showDelivered,
+  theme,
 }: {
   item: ScheduledMessage;
   eff: number;
   contact?: ImessageContact;
   accent: string;
   showDelivered: boolean;
+  theme: FramecnTheme;
 }) => {
   const outgoing = item.from === "me";
   const showTyping =
@@ -278,8 +275,8 @@ const ImessageRow = ({
     reactionOpacity = clamp((eff - item.reactAt) / 5, 0, 1);
   }
 
-  const bg = outgoing ? accent : INCOMING_BG;
-  const fg = outgoing ? OUTGOING_FG : INCOMING_FG;
+  const bg = outgoing ? accent : theme.muted;
+  const fg = outgoing ? OUTGOING_FG : theme.foreground;
   const delivered =
     showDelivered && !showTyping && eff > item.revealAt + REVEAL;
 
@@ -299,7 +296,7 @@ const ImessageRow = ({
       }}
     >
       {showTyping ? (
-        <TypingIndicator color={META_GRAY} />
+        <TypingIndicator color={theme.mutedForeground} />
       ) : (
         <span style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
           {item.text}
@@ -312,7 +309,7 @@ const ImessageRow = ({
         <div
           style={{
             alignItems: "center",
-            background: INCOMING_BG,
+            background: theme.muted,
             borderRadius: "50%",
             boxShadow: "0 1px 2px rgba(0,0,0,0.12)",
             display: "flex",
@@ -365,7 +362,7 @@ const ImessageRow = ({
       {delivered && (
         <span
           style={{
-            color: META_GRAY,
+            color: theme.mutedForeground,
             fontSize: 11,
             paddingRight: 4,
           }}
@@ -385,11 +382,13 @@ export const ImessageChatFlow = ({
   speed = 1,
   fps = 30,
   durationInFrames,
+  theme,
   className,
 }: ImessageChatFlowProps) => {
   const [eff, setEff] = useState(0);
   const startRef = useRef<number | null>(null);
   const accent = accentColor ?? IMESSAGE_BLUE;
+  const resolved = useFramecnTheme(theme);
 
   const { items, duration: rawDuration } = imessageChatFlowSchedule(messages);
   const totalDuration =
@@ -491,7 +490,9 @@ export const ImessageChatFlow = ({
         >
           <div
             style={{
+              background: resolved.background,
               boxSizing: "border-box",
+              color: resolved.foreground,
               display: "flex",
               flexDirection: "column",
               height: "100%",
@@ -503,14 +504,18 @@ export const ImessageChatFlow = ({
               style={{
                 alignItems: "center",
                 backdropFilter: "blur(12px)",
-                background: "rgba(255,255,255,0.82)",
-                borderBottom: "1px solid rgba(0,0,0,0.08)",
+                background: resolved.card,
+                borderBottom: `1px solid ${resolved.border}`,
                 display: "flex",
                 gap: 6,
                 padding: "10px 12px",
               }}
             >
-              <ChevronLeft size={28} color={SYSTEM_BLUE} strokeWidth={2.25} />
+              <FramecnIcon
+                name="ChevronLeft"
+                size={28}
+                color={resolved.foreground}
+              />
               <div
                 style={{
                   alignItems: "center",
@@ -525,7 +530,7 @@ export const ImessageChatFlow = ({
                 )}
                 <span
                   style={{
-                    color: "#000000",
+                    color: resolved.cardForeground,
                     fontSize: 12,
                     fontWeight: 600,
                   }}
@@ -533,7 +538,7 @@ export const ImessageChatFlow = ({
                   {contact?.name ?? "Chat"}
                 </span>
               </div>
-              <Video size={24} color={SYSTEM_BLUE} strokeWidth={2} />
+              <FramecnIcon name="Video" size={24} color={resolved.foreground} />
             </div>
 
             <div
@@ -546,6 +551,7 @@ export const ImessageChatFlow = ({
             >
               <div
                 style={{
+                  boxSizing: "border-box",
                   display: "flex",
                   flexDirection: "column",
                   gap: 18,
@@ -562,6 +568,7 @@ export const ImessageChatFlow = ({
                     contact={contact}
                     accent={accent}
                     showDelivered={item.index === deliveredIndex}
+                    theme={resolved}
                   />
                 ))}
               </div>
@@ -578,7 +585,7 @@ export const ImessageChatFlow = ({
               <div
                 style={{
                   alignItems: "center",
-                  background: "#e9e9eb",
+                  background: resolved.muted,
                   borderRadius: "50%",
                   display: "flex",
                   height: 34,
@@ -586,13 +593,17 @@ export const ImessageChatFlow = ({
                   width: 34,
                 }}
               >
-                <Plus size={22} color="#3c3c43" strokeWidth={2} />
+                <FramecnIcon
+                  name="Plus"
+                  size={22}
+                  color={resolved.mutedForeground}
+                />
               </div>
               <div
                 style={{
                   alignItems: "center",
-                  background: "#ffffff",
-                  border: "1px solid #d1d1d6",
+                  background: resolved.background,
+                  border: `1px solid ${resolved.input}`,
                   borderRadius: 18,
                   display: "flex",
                   flex: 1,
@@ -604,7 +615,9 @@ export const ImessageChatFlow = ({
                 <div
                   style={{
                     alignItems: "center",
-                    color: sendActive ? "#000000" : "#9b9ba1",
+                    color: sendActive
+                      ? resolved.foreground
+                      : resolved.mutedForeground,
                     display: "flex",
                     flex: 1,
                     fontSize: 16,
@@ -628,7 +641,7 @@ export const ImessageChatFlow = ({
                 <div
                   style={{
                     alignItems: "center",
-                    background: sendActive ? accent : "#c6c6cc",
+                    background: sendActive ? accent : resolved.muted,
                     borderRadius: "50%",
                     display: "flex",
                     flexShrink: 0,
@@ -638,7 +651,11 @@ export const ImessageChatFlow = ({
                     width: 28,
                   }}
                 >
-                  <ArrowUp size={20} color="#ffffff" strokeWidth={2.75} />
+                  <FramecnIcon
+                    name="ArrowUp"
+                    size={20}
+                    color={sendActive ? OUTGOING_FG : resolved.mutedForeground}
+                  />
                 </div>
               </div>
             </div>

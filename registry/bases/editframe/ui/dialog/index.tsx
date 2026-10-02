@@ -1,6 +1,6 @@
 "use client";
 
-import { useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export type DialogState = "opened" | "closed";
@@ -16,7 +16,7 @@ export interface DialogProps {
   className?: string;
 }
 
-const POPUP_WIDTH = 440;
+const POPUP_WIDTH = 512;
 const MAX_OVERLAY_ALPHA = 0.5;
 
 export interface DialogStyle {
@@ -45,8 +45,8 @@ export const dialogStyleContext = (
   border: theme.border,
   cancelFg: theme.foreground,
   mutedFg: theme.mutedForeground,
-  popoverBg: theme.popover,
-  popoverFg: theme.popoverForeground,
+  popoverBg: theme.background,
+  popoverFg: theme.foreground,
   radius: theme.radius,
 });
 
@@ -84,20 +84,20 @@ export const Dialog = ({
   theme: themeOverride,
   className,
 }: DialogProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = dialogStyleContext(theme);
   const v = style ?? dialogStyle(state, ctx);
   const buttonBase: React.CSSProperties = {
     alignItems: "center",
-    borderRadius: ctx.radius,
+    borderRadius: Math.max(0, ctx.radius - 2),
     cursor: "pointer",
     display: "inline-flex",
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 500,
-    height: 40,
+    height: 36,
     justifyContent: "center",
-    letterSpacing: "-0.01em",
-    padding: "0 20px",
+    lineHeight: "20px",
+    padding: "0 16px",
   };
   return (
     <div
@@ -123,12 +123,15 @@ export const Dialog = ({
         style={{
           background: ctx.popoverBg,
           border: `1px solid ${ctx.border}`,
-          borderRadius: ctx.radius + 6,
-          boxShadow: "0 24px 48px -12px rgba(0,0,0,0.25)",
+          borderRadius: ctx.radius,
+          boxShadow:
+            "0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%)",
+          boxSizing: "border-box",
           color: ctx.popoverFg,
           display: "flex",
           flexDirection: "column",
           gap: 8,
+          maxWidth: "calc(100% - 32px)",
           opacity: v.popupOpacity,
           padding: 24,
           position: "relative",
@@ -138,43 +141,38 @@ export const Dialog = ({
       >
         <button
           type="button"
+          aria-label="Close"
           style={{
             alignItems: "center",
             background: "transparent",
             border: "none",
-            borderRadius: ctx.radius,
-            color: ctx.mutedFg,
+            borderRadius: 2,
+            color: ctx.popoverFg,
             cursor: "pointer",
             display: "inline-flex",
-            height: 28,
+            height: 16,
             justifyContent: "center",
+            opacity: 0.7,
+            padding: 0,
             position: "absolute",
             right: 16,
             top: 16,
-            width: 28,
+            width: 16,
           }}
         >
-          <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
-            <path
-              d="M18 6 6 18 M6 6 18 18"
-              stroke={ctx.mutedFg}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <FramecnIcon name="X" size={16} />
         </button>
         <div
           style={{
             fontSize: 18,
-            fontWeight: 500,
-            letterSpacing: "-0.01em",
+            fontWeight: 600,
+            lineHeight: 1,
             paddingRight: 28,
           }}
         >
           {title}
         </div>
-        <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: 1.5 }}>
+        <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: "20px" }}>
           {description}
         </div>
         <div
@@ -182,14 +180,14 @@ export const Dialog = ({
             display: "flex",
             gap: 8,
             justifyContent: "flex-end",
-            marginTop: 16,
+            marginTop: 8,
           }}
         >
           <button
             type="button"
             style={{
               ...buttonBase,
-              background: "transparent",
+              background: ctx.popoverBg,
               border: `1px solid ${ctx.border}`,
               color: ctx.cancelFg,
             }}

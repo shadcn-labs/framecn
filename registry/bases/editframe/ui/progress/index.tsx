@@ -1,6 +1,6 @@
 "use client";
 
-import { clamp01, useFramecnTheme } from "@/lib/framecn-ui";
+import { clamp01, mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 
 export interface ProgressStyle {
@@ -16,7 +16,7 @@ export interface ProgressProps {
   className?: string;
 }
 
-const TRACK_HEIGHT = 12;
+const TRACK_HEIGHT = 8;
 
 const clampValue = (value: number): number => clamp01(value / 100) * 100;
 
@@ -28,9 +28,9 @@ export const Progress = ({
   theme: themeOverride,
   className,
 }: ProgressProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const v = clampValue(style ? style.value : value);
-  const track = theme.muted;
+  const track = mixOklch(theme.primary, "transparent", 0.8);
   const indicator = theme.primary;
   return (
     <div

@@ -1,6 +1,6 @@
 "use client";
 
-import { parkTopLeft, resizableHandleAt } from "@/lib/ui-demo-cursor";
+import { resizableHandleAt, useUiDemoCursorStart } from "@/lib/ui-demo-cursor";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
 import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
 import { Resizable } from "@/registry/bases/editframe/ui/resizable";
@@ -20,7 +20,7 @@ export const resizableDemoControls = ["direction"] as const;
 
 export const ResizableDemoScene = (p: ResizableDemoProps = {}) => {
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 32, duration: 28, ...HANDLE_CENTER },
     { at: 44, duration: 0, press: true, ...HANDLE_CENTER },
     { at: 84, duration: 40, press: true, ...HANDLE_RIGHT },

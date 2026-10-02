@@ -1,6 +1,11 @@
 "use client";
 
-import { mixOklch, useFramecnTheme } from "@/lib/framecn-ui";
+import {
+  FramecnIcon,
+  mixOklch,
+  useFramecnMode,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Spinner } from "@/registry/bases/editframe/ui/spinner";
 
@@ -37,8 +42,6 @@ const justify = (align: "start" | "center" | "end"): string => {
   return "center";
 };
 
-const CHECK_PATH_LENGTH = 14;
-
 const SIZE_STYLES: Record<
   ButtonSize,
   {
@@ -48,9 +51,9 @@ const SIZE_STYLES: Record<
     gap: number;
   }
 > = {
-  default: { fontSize: 15, gap: 8, height: 40, padding: "0 20px" },
-  lg: { fontSize: 17, gap: 10, height: 48, padding: "0 28px" },
-  sm: { fontSize: 13, gap: 6, height: 32, padding: "0 12px" },
+  default: { fontSize: 14, gap: 8, height: 36, padding: "0 16px" },
+  lg: { fontSize: 14, gap: 8, height: 40, padding: "0 24px" },
+  sm: { fontSize: 14, gap: 6, height: 32, padding: "0 12px" },
 };
 
 interface VariantTokens {
@@ -61,38 +64,51 @@ interface VariantTokens {
 }
 const variantTokens = (
   variant: ButtonVariant,
-  theme: FramecnTheme
+  theme: FramecnTheme,
+  mode: "light" | "dark"
 ): VariantTokens => {
   const variants = {
     default: {
       bg: theme.primary,
       border: "transparent",
       fg: theme.primaryForeground,
-      hoverBg: mixOklch(theme.primary, theme.foreground, 0.1),
+      hoverBg: mixOklch(theme.primary, "transparent", 0.1),
     },
     destructive: {
-      bg: theme.destructive,
+      bg:
+        mode === "dark"
+          ? mixOklch(theme.destructive, "transparent", 0.4)
+          : theme.destructive,
       border: "transparent",
       fg: theme.destructiveForeground,
-      hoverBg: mixOklch(theme.destructive, theme.foreground, 0.12),
+      hoverBg: mixOklch(theme.destructive, "transparent", 0.1),
     },
     ghost: {
       bg: "transparent",
       border: "transparent",
       fg: theme.foreground,
-      hoverBg: theme.accent,
+      hoverBg:
+        mode === "dark"
+          ? mixOklch(theme.accent, "transparent", 0.5)
+          : theme.accent,
     },
     outline: {
-      bg: "transparent",
-      border: theme.border,
+      bg:
+        mode === "dark"
+          ? mixOklch(theme.input, "transparent", 0.7)
+          : theme.background,
+      border: mode === "dark" ? theme.input : theme.border,
       fg: theme.foreground,
-      hoverBg: theme.accent,
+      hoverBg:
+        mode === "dark"
+          ? mixOklch(theme.input, "transparent", 0.5)
+          : theme.accent,
     },
     secondary: {
       bg: theme.secondary,
       border: "transparent",
       fg: theme.secondaryForeground,
-      hoverBg: mixOklch(theme.secondary, theme.muted, 1),
+      hoverBg: mixOklch(theme.secondary, "transparent", 0.2),
     },
   };
 
@@ -106,6 +122,7 @@ export interface ButtonStyle {
   labelOpacity: number;
   spinnerOpacity: number;
   checkOpacity: number;
+  hoverProgress?: number;
 }
 
 export interface ButtonStyleContext {
@@ -117,17 +134,18 @@ export interface ButtonStyleContext {
 
 export const buttonStyleContext = (
   variant: ButtonVariant,
-  theme: FramecnTheme
+  theme: FramecnTheme,
+  mode: "light" | "dark" = "light"
 ): ButtonStyleContext => {
-  const tokens = variantTokens(variant, theme);
-  const restBg = tokens.bg === "transparent" ? theme.background : tokens.bg;
+  const tokens = variantTokens(variant, theme, mode);
+  const restBg = tokens.bg;
   return {
     hoverBg: tokens.hoverBg,
     pressBg:
       tokens.bg === "transparent"
         ? tokens.hoverBg
         : mixOklch(tokens.hoverBg, theme.foreground, 0.08),
-    primary: theme.primary,
+    primary: tokens.bg,
     restBg,
   };
 };
@@ -141,6 +159,7 @@ export const buttonStyle = (
       return {
         background: ctx.hoverBg,
         checkOpacity: 0,
+        hoverProgress: 1,
         labelOpacity: 1,
         scale: 1,
         spinnerOpacity: 0,
@@ -151,6 +170,7 @@ export const buttonStyle = (
       return {
         background: ctx.pressBg,
         checkOpacity: 0,
+        hoverProgress: 1,
         labelOpacity: 1,
         scale: 0.97,
         spinnerOpacity: 0,
@@ -161,6 +181,7 @@ export const buttonStyle = (
       return {
         background: ctx.hoverBg,
         checkOpacity: 0,
+        hoverProgress: 1,
         labelOpacity: 0,
         scale: 1,
         spinnerOpacity: 1,
@@ -171,6 +192,7 @@ export const buttonStyle = (
       return {
         background: ctx.primary,
         checkOpacity: 1,
+        hoverProgress: 0,
         labelOpacity: 0,
         scale: 1,
         spinnerOpacity: 0,
@@ -181,6 +203,7 @@ export const buttonStyle = (
       return {
         background: ctx.restBg,
         checkOpacity: 0,
+        hoverProgress: 0,
         labelOpacity: 1,
         scale: 1,
         spinnerOpacity: 0,
@@ -202,15 +225,20 @@ export const Button = ({
   align = "center",
   className,
 }: ButtonProps) => {
-  const theme = useFramecnTheme(
-    { ...themeOverride, ...(primary ? { primary } : {}) },
-    "light"
-  );
+  const theme = useFramecnTheme({
+    ...themeOverride,
+    ...(primary ? { primary } : {}),
+  });
+  const mode = useFramecnMode();
   const sizeStyle = SIZE_STYLES[size];
-  const tokens = variantTokens(variant, theme);
-  const ctx = buttonStyleContext(variant, theme);
+  const tokens = variantTokens(variant, theme, mode);
+  const ctx = buttonStyleContext(variant, theme, mode);
   const v = style ?? buttonStyle(state, ctx);
-  const iconSize = Math.round(sizeStyle.fontSize * 1.1);
+  const foreground =
+    variant === "outline" || variant === "ghost"
+      ? mixOklch(tokens.fg, theme.accentForeground, v.hoverProgress ?? 0)
+      : tokens.fg;
+  const iconSize = 16;
   return (
     <div
       style={{
@@ -234,19 +262,24 @@ export const Button = ({
             variant === "outline"
               ? `1px solid ${tokens.border}`
               : "1px solid transparent",
-          borderRadius: theme.radius,
-          color: tokens.fg,
+          borderRadius: Math.max(0, theme.radius - 2),
+          boxShadow:
+            variant === "outline" ? "0 1px 2px rgb(0 0 0 / 5%)" : undefined,
+          boxSizing: "border-box",
+          color: foreground,
           cursor: "pointer",
           display: "inline-flex",
+          flexShrink: 0,
           fontSize: sizeStyle.fontSize,
           fontWeight: 500,
           gap: sizeStyle.gap,
           height: sizeStyle.height,
           justifyContent: "center",
-          letterSpacing: "-0.01em",
+          lineHeight: "20px",
           padding: sizeStyle.padding,
           position: "relative",
           transform: `translateY(${v.translateY}px) scale(${v.scale})`,
+          whiteSpace: "nowrap",
         }}
       >
         <span style={{ display: "inline-flex", position: "relative" }}>
@@ -261,7 +294,7 @@ export const Button = ({
               position: "absolute",
             }}
           >
-            <Spinner color={tokens.fg} speed={speed} size={iconSize} />
+            <Spinner color={foreground} speed={speed} size={iconSize} />
           </span>
           <span
             style={{
@@ -273,23 +306,7 @@ export const Button = ({
               position: "absolute",
             }}
           >
-            <svg
-              width={iconSize}
-              height={iconSize}
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M5 12.5l4.5 4.5L19 7"
-                stroke={tokens.fg}
-                strokeWidth="2.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeDasharray={CHECK_PATH_LENGTH}
-                strokeDashoffset={0}
-                pathLength={CHECK_PATH_LENGTH}
-              />
-            </svg>
+            <FramecnIcon name="Check" size={iconSize} color={foreground} />
           </span>
         </span>
       </button>

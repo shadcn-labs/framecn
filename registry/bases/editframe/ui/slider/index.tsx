@@ -21,9 +21,9 @@ export interface SliderProps {
   className?: string;
 }
 
-const TRACK_HEIGHT = 8;
+const TRACK_HEIGHT = 6;
 const THUMB_HEIGHT = 16;
-const THUMB_WIDTH = 24;
+const THUMB_WIDTH = 16;
 const THUMB_RADIUS = THUMB_HEIGHT / 2;
 const RING_WIDTH = 4;
 
@@ -61,10 +61,10 @@ export const sliderStyleContext = (
   theme: FramecnTheme
 ): SliderStyleContext => ({
   range: theme.primary,
-  ring: mixOklch(theme.ring, theme.background, 0.7),
-  thumbBg: "oklch(1 0 0)",
-  thumbRing: "rgba(0, 0, 0, 0.1)",
-  track: mixOklch(theme.input, theme.background, 0.1),
+  ring: mixOklch(theme.ring, "transparent", 0.5),
+  thumbBg: theme.background,
+  thumbRing: theme.primary,
+  track: theme.muted,
   valueText: theme.foreground,
 });
 
@@ -77,7 +77,7 @@ export const Slider = ({
   theme: themeOverride,
   className,
 }: SliderProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = sliderStyleContext(theme);
   const thumb = sliderThumbStyle(thumbState);
   const v: SliderStyle = style ?? {
@@ -146,8 +146,10 @@ export const Slider = ({
         <div
           style={{
             background: ctx.thumbBg,
+            border: `1px solid ${ctx.thumbRing}`,
             borderRadius: THUMB_RADIUS,
-            boxShadow: `0 0 0 1px ${ctx.thumbRing}, 0 2px 4px rgba(0,0,0,0.18)`,
+            boxShadow: "0 1px 3px rgb(0 0 0 / 10%), 0 1px 2px rgb(0 0 0 / 10%)",
+            boxSizing: "border-box",
             height: THUMB_HEIGHT,
             position: "relative",
             width: THUMB_WIDTH,

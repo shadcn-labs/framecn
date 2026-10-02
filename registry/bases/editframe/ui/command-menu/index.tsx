@@ -1,6 +1,6 @@
 "use client";
 
-import { revealedText, useFramecnTheme } from "@/lib/framecn-ui";
+import { FramecnIcon, revealedText, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import {
   CommandMenuItemRow,
@@ -36,8 +36,7 @@ export interface CommandMenuProps {
   className?: string;
 }
 
-const PANEL_WIDTH = 440;
-const CONTENT_WIDTH = PANEL_WIDTH - 16;
+const PANEL_WIDTH = 512;
 const MAX_OVERLAY_ALPHA = 0.5;
 
 export const filterCommandItems = (
@@ -106,7 +105,7 @@ export const commandMenuStyle = (
       return {
         backdropOpacity: 0,
         panelOpacity: 0,
-        panelScale: 0.96,
+        panelScale: 0.95,
         panelTranslateY: 8,
       };
     }
@@ -149,7 +148,7 @@ export const CommandMenu = ({
   theme: themeOverride,
   className,
 }: CommandMenuProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = commandMenuStyleContext(theme);
   const v = style ?? commandMenuStyle(state, ctx);
   const visibleQuery =
@@ -158,13 +157,12 @@ export const CommandMenu = ({
   return (
     <div
       style={{
-        alignItems: "flex-start",
+        alignItems: "center",
         display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
         inset: 0,
         justifyContent: "center",
-        paddingTop: "18%",
         position: "absolute",
       }}
     >
@@ -180,13 +178,15 @@ export const CommandMenu = ({
         style={{
           background: ctx.panelBg,
           border: `1px solid ${ctx.panelBorder}`,
-          borderRadius: ctx.radius + 6,
-          boxShadow: "0 24px 48px -12px rgba(0,0,0,0.25)",
+          borderRadius: ctx.radius,
+          boxShadow:
+            "0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%)",
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
+          maxWidth: "calc(100% - 32px)",
           opacity: v.panelOpacity,
-          padding: 8,
+          overflow: "hidden",
           position: "relative",
           transform: `translateY(${v.panelTranslateY}px) scale(${v.panelScale})`,
           transformOrigin: "top",
@@ -197,26 +197,24 @@ export const CommandMenu = ({
           style={{
             alignItems: "center",
             display: "flex",
-            gap: 10,
-            padding: "8px 10px",
+            gap: 8,
+            height: 48,
+            padding: "0 40px 0 12px",
           }}
         >
-          <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
-            <path
-              d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM20 20l-3.5-3.5"
-              stroke={ctx.mutedFg}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <FramecnIcon
+            name="Search"
+            size={20}
+            color={ctx.inputFg}
+            style={{ opacity: 0.5 }}
+          />
           <span
             style={{
               alignItems: "center",
               color: visibleQuery ? ctx.inputFg : ctx.placeholderFg,
               display: "flex",
-              fontSize: 15,
-              letterSpacing: "-0.01em",
+              fontSize: 14,
+              lineHeight: "20px",
             }}
           >
             {visibleQuery || "Type a command or search…"}
@@ -231,13 +229,31 @@ export const CommandMenu = ({
               }}
             />
           </span>
+          <button
+            aria-label="Close"
+            type="button"
+            style={{
+              background: "transparent",
+              border: "none",
+              borderRadius: 2,
+              color: ctx.inputFg,
+              display: "flex",
+              opacity: 0.7,
+              padding: 0,
+              position: "absolute",
+              right: 16,
+              top: 16,
+            }}
+          >
+            <FramecnIcon name="X" size={16} />
+          </button>
         </div>
 
         <div
           style={{
             background: ctx.divider,
             height: 1,
-            margin: "4px 0",
+            margin: 0,
           }}
         />
 
@@ -245,8 +261,10 @@ export const CommandMenu = ({
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 2,
-            padding: "4px 0",
+            gap: 0,
+            maxHeight: 300,
+            overflowY: "auto",
+            padding: 8,
           }}
         >
           {filtered.length === 0 ? (
@@ -254,7 +272,7 @@ export const CommandMenu = ({
               style={{
                 color: ctx.mutedFg,
                 fontSize: 14,
-                padding: "20px 12px",
+                padding: "24px 8px",
                 textAlign: "center",
               }}
             >
@@ -282,8 +300,9 @@ export const CommandMenu = ({
                   label={item.label}
                   icon={item.icon}
                   shortcut={item.shortcut}
-                  width={CONTENT_WIDTH}
+                  width="100%"
                   radius={theme.radius}
+                  dialog
                 />
               );
             })

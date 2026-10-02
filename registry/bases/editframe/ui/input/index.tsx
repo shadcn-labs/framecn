@@ -1,6 +1,11 @@
 "use client";
 
-import { mixOklch, revealedText, useFramecnTheme } from "@/lib/framecn-ui";
+import {
+  mixOklch,
+  revealedText,
+  useFramecnMode,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Caret } from "@/registry/bases/editframe/ui/caret";
 
@@ -36,9 +41,9 @@ const SIZE_STYLES: Record<
     fontSize: number;
   }
 > = {
-  default: { fontSize: 15, height: 40, padding: 14 },
-  lg: { fontSize: 17, height: 48, padding: 16 },
-  sm: { fontSize: 13, height: 36, padding: 12 },
+  default: { fontSize: 14, height: 36, padding: 12 },
+  lg: { fontSize: 14, height: 40, padding: 12 },
+  sm: { fontSize: 12, height: 32, padding: 10 },
 };
 
 export interface InputStyle {
@@ -64,17 +69,26 @@ export interface InputStyleContext {
   mutedForeground: string;
 }
 
-export const inputStyleContext = (theme: FramecnTheme): InputStyleContext => ({
+export const inputStyleContext = (
+  theme: FramecnTheme,
+  mode: "light" | "dark" = "light"
+): InputStyleContext => ({
   activeBorder: theme.ring,
-  background: theme.background,
+  background:
+    mode === "dark" ? mixOklch(theme.input, "transparent", 0.7) : "transparent",
   foreground: theme.foreground,
-  hoverBackground: mixOklch(theme.background, theme.muted, 0.4),
-  hoverBorder: mixOklch(theme.input, theme.foreground, 0.18),
+  hoverBackground:
+    mode === "dark" ? mixOklch(theme.input, "transparent", 0.7) : "transparent",
+  hoverBorder: theme.input,
   idleBorder: theme.input,
   invalidBorder: theme.destructive,
-  invalidRing: mixOklch(theme.background, theme.destructive, 0.4),
+  invalidRing: mixOklch(
+    theme.destructive,
+    "transparent",
+    mode === "dark" ? 0.6 : 0.8
+  ),
   mutedForeground: theme.mutedForeground,
-  ring: mixOklch(theme.background, theme.ring, 0.5),
+  ring: mixOklch(theme.ring, "transparent", 0.5),
 });
 
 export const inputStyle = (
@@ -155,19 +169,20 @@ export const Input = ({
   state = "idle",
   style,
   placeholder = "you@example.com",
-  value = "remotion@remocn.dev",
+  value = "hello@framecn.dev",
   size = "default",
   theme: themeOverride,
   primary,
   fullWidth = false,
   className,
 }: InputProps) => {
-  const theme = useFramecnTheme(
-    { ...themeOverride, ...(primary ? { primary } : {}) },
-    "light"
-  );
+  const theme = useFramecnTheme({
+    ...themeOverride,
+    ...(primary ? { primary } : {}),
+  });
+  const mode = useFramecnMode();
   const sizeStyle = SIZE_STYLES[size];
-  const ctx = inputStyleContext(theme);
+  const ctx = inputStyleContext(theme, mode);
   const v = style ?? inputStyle(state, ctx);
   const revealed = revealedText(
     value,
@@ -192,12 +207,13 @@ export const Input = ({
           alignItems: "center",
           background: v.background,
           border: `1px solid ${v.borderColor}`,
-          borderRadius: theme.radius,
-          boxShadow: `0 0 0 ${v.ringWidth}px ${v.ringColor}`,
+          borderRadius: Math.max(0, theme.radius - 2),
+          boxShadow: `0 1px 2px rgb(0 0 0 / 5%), 0 0 0 ${v.ringWidth}px ${v.ringColor}`,
+          boxSizing: "border-box",
           display: "flex",
           fontSize: sizeStyle.fontSize,
           height: sizeStyle.height,
-          letterSpacing: "-0.01em",
+          lineHeight: "20px",
           padding: `0 ${sizeStyle.padding}px`,
           position: "relative",
           width: fullWidth ? "100%" : FIELD_WIDTH,

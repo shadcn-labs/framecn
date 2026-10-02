@@ -2,7 +2,11 @@
 
 import type { CSSProperties } from "react";
 
-import { useCurrentFrame, useVideoConfig } from "@/lib/framecn-ui";
+import {
+  useCurrentFrame,
+  useFramecnTheme,
+  useVideoConfig,
+} from "@/lib/framecn-ui";
 
 export interface CaretProps {
   color?: string;
@@ -35,7 +39,7 @@ export const caretBlinkOpacity = (
 };
 
 export const Caret = ({
-  color = "currentColor",
+  color,
   width = 2,
   height = 18,
   radius = 1,
@@ -49,6 +53,7 @@ export const Caret = ({
 }: CaretProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const theme = useFramecnTheme();
   const resolvedOpacity = (() => {
     if (opacity !== undefined) {
       return opacity;
@@ -62,7 +67,7 @@ export const Caret = ({
     <span
       className={className}
       style={{
-        background: color,
+        background: color ?? theme.foreground,
         borderRadius: radius,
         display: "inline-block",
         flexShrink: 0,

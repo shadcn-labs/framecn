@@ -1,6 +1,7 @@
 "use client";
 
-import { atCenter, parkTopLeft } from "@/lib/ui-demo-cursor";
+import { useFramecnTheme } from "@/lib/framecn-ui";
+import { atCenter, useUiDemoCursorStart } from "@/lib/ui-demo-cursor";
 import { Cursor } from "@/registry/bases/editframe/ui/cursor";
 import { useCursorPath } from "@/registry/bases/editframe/ui/cursor/use-cursor-path";
 import { Popover } from "@/registry/bases/editframe/ui/popover";
@@ -14,8 +15,9 @@ export const popoverDemoControls = [] as const;
 export type PopoverDemoProps = Record<string, never>;
 
 export const PopoverDemoScene = (_p: PopoverDemoProps = {}) => {
+  const theme = useFramecnTheme();
   const cursorStyle = useCursorPath([
-    { at: 0, ...parkTopLeft },
+    { at: 0, ...useUiDemoCursorStart() },
     { at: 28, duration: 24, ...CHIP },
     { at: 110, duration: 20, ...AWAY },
   ]);
@@ -42,10 +44,10 @@ export const PopoverDemoScene = (_p: PopoverDemoProps = {}) => {
         <div
           style={{
             alignItems: "center",
-            background: "oklch(0.94 0 0)",
-            border: "1px solid oklch(0.87 0 0)",
+            background: theme.secondary,
+            border: `1px solid ${theme.border}`,
             borderRadius: 999,
-            color: "oklch(0.3 0 0)",
+            color: theme.secondaryForeground,
             cursor: "default",
             display: "inline-flex",
             fontFamily:
@@ -62,7 +64,7 @@ export const PopoverDemoScene = (_p: PopoverDemoProps = {}) => {
         {/* Popover anchored above the chip, centered horizontally. */}
         <div
           style={{
-            bottom: "calc(100% + 12px)",
+            bottom: "calc(100% + 4px)",
             left: "50%",
             position: "absolute",
             transform: "translateX(-50%)",
@@ -74,7 +76,7 @@ export const PopoverDemoScene = (_p: PopoverDemoProps = {}) => {
               {/* Avatar placeholder */}
               <div
                 style={{
-                  background: "oklch(0.75 0.08 260)",
+                  background: theme.muted,
                   borderRadius: 20,
                   flexShrink: 0,
                   height: 40,
@@ -95,7 +97,7 @@ export const PopoverDemoScene = (_p: PopoverDemoProps = {}) => {
                 </span>
                 <span
                   style={{
-                    color: "oklch(0.55 0 0)",
+                    color: theme.mutedForeground,
                     fontFamily:
                       "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
                     fontSize: 12,
@@ -105,7 +107,7 @@ export const PopoverDemoScene = (_p: PopoverDemoProps = {}) => {
                 </span>
                 <span
                   style={{
-                    color: "oklch(0.4 0 0)",
+                    color: theme.popoverForeground,
                     fontFamily:
                       "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
                     fontSize: 13,
@@ -129,6 +131,7 @@ export const PopoverDemoScene = (_p: PopoverDemoProps = {}) => {
 export const popoverDemoCode = (
   _values: Record<string, unknown> = {}
 ): string => `import { H, W } from "@/lib/customizer-config";
+import { useFramecnTheme } from "@/lib/framecn-ui";
 import { Cursor } from "@/components/framecn/cursor";
 import { useCursorPath } from "@/components/framecn/use-cursor-path";
 import { Popover } from "@/components/framecn/popover";
@@ -140,6 +143,7 @@ const AWAY_X = W / 2 - 440;
 const AWAY_Y = H / 2 - 260;
 
 export const Scene = () => {
+  const theme = useFramecnTheme();
   const cursorStyle = useCursorPath([
     { at: 0,   x: 80,     y: 60     },
     { at: 28,  x: CHIP_X, y: CHIP_Y, duration: 24 },
@@ -170,8 +174,9 @@ export const Scene = () => {
             alignItems: "center",
             padding: "4px 10px",
             borderRadius: 999,
-            background: "oklch(0.94 0 0)",
-            border: "1px solid oklch(0.87 0 0)",
+            background: theme.secondary,
+            border: \`1px solid \${theme.border}\`,
+            color: theme.secondaryForeground,
             fontSize: 14,
             fontWeight: 500,
           }}
@@ -183,7 +188,7 @@ export const Scene = () => {
         <div
           style={{
             position: "absolute",
-            bottom: "calc(100% + 12px)",
+            bottom: "calc(100% + 4px)",
             left: "50%",
             transform: "translateX(-50%)",
           }}
@@ -195,14 +200,14 @@ export const Scene = () => {
                   width: 40,
                   height: 40,
                   borderRadius: 20,
-                  background: "oklch(0.75 0.08 260)",
+                  background: theme.muted,
                   flexShrink: 0,
                 }}
               />
               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 <span style={{ fontSize: 14, fontWeight: 600 }}>Alex Smith</span>
-                <span style={{ fontSize: 12, color: "oklch(0.55 0 0)" }}>@alexsmith</span>
-                <span style={{ fontSize: 13, lineHeight: 1.4, color: "oklch(0.4 0 0)", marginTop: 4 }}>
+                <span style={{ fontSize: 12, color: theme.mutedForeground }}>@alexsmith</span>
+                <span style={{ fontSize: 13, lineHeight: 1.4, color: theme.popoverForeground, marginTop: 4 }}>
                   Product designer. Building in public.
                 </span>
               </div>

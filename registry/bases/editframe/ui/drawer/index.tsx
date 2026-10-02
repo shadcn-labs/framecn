@@ -31,6 +31,7 @@ export interface DrawerStyleContext {
   mutedFg: string;
   border: string;
   radius: number;
+  muted: string;
   actionBg: string;
   actionFg: string;
   cancelFg: string;
@@ -43,9 +44,10 @@ export const drawerStyleContext = (
   actionFg: theme.primaryForeground,
   border: theme.border,
   cancelFg: theme.foreground,
+  muted: theme.muted,
   mutedFg: theme.mutedForeground,
-  popoverBg: theme.popover,
-  popoverFg: theme.popoverForeground,
+  popoverBg: theme.background,
+  popoverFg: theme.foreground,
   radius: theme.radius,
 });
 
@@ -81,20 +83,20 @@ export const Drawer = ({
   theme: themeOverride,
   className,
 }: DrawerProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = drawerStyleContext(theme);
   const v = style ?? drawerStyle(state, ctx);
   const buttonBase: React.CSSProperties = {
     alignItems: "center",
-    borderRadius: ctx.radius,
+    borderRadius: Math.max(0, ctx.radius - 2),
     cursor: "pointer",
     display: "inline-flex",
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 500,
-    height: 40,
+    height: 36,
     justifyContent: "center",
-    letterSpacing: "-0.01em",
-    padding: "0 20px",
+    lineHeight: "20px",
+    padding: "0 16px",
   };
   return (
     <div
@@ -119,18 +121,19 @@ export const Drawer = ({
           alignItems: "center",
           background: ctx.popoverBg,
           borderTop: `1px solid ${ctx.border}`,
-          borderTopLeftRadius: ctx.radius + 6,
-          borderTopRightRadius: ctx.radius + 6,
+          borderTopLeftRadius: ctx.radius,
+          borderTopRightRadius: ctx.radius,
           bottom: 0,
-          boxShadow: "0 -24px 48px -12px rgba(0,0,0,0.25)",
+          boxSizing: "border-box",
           color: ctx.popoverFg,
           display: "flex",
           flexDirection: "column",
           gap: 8,
           height: DRAWER_HEIGHT,
           left: 0,
+          maxHeight: "80%",
           opacity: v.panelOpacity,
-          padding: 24,
+          padding: 16,
           position: "absolute",
           right: 0,
           transform: `translateY(${v.panelTranslateY}px)`,
@@ -138,48 +141,49 @@ export const Drawer = ({
       >
         <div
           style={{
-            background: ctx.border,
+            background: ctx.muted,
             borderRadius: 999,
-            height: 5,
+            height: 8,
             marginBottom: 8,
-            width: 40,
+            width: 100,
           }}
         />
 
         <div
           style={{
             display: "flex",
+            flex: 1,
             flexDirection: "column",
-            gap: 8,
-            maxWidth: 440,
+            gap: 6,
             width: "100%",
           }}
         >
           <div
             style={{
-              fontSize: 18,
-              fontWeight: 500,
-              letterSpacing: "-0.01em",
+              fontSize: 16,
+              fontWeight: 600,
+              lineHeight: "24px",
             }}
           >
             {title}
           </div>
-          <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: 1.5 }}>
+          <div style={{ color: ctx.mutedFg, fontSize: 14, lineHeight: "20px" }}>
             {description}
           </div>
           <div
             style={{
               display: "flex",
+              flexDirection: "column-reverse",
               gap: 8,
               justifyContent: "flex-end",
-              marginTop: 16,
+              marginTop: "auto",
             }}
           >
             <button
               type="button"
               style={{
                 ...buttonBase,
-                background: "transparent",
+                background: ctx.popoverBg,
                 border: `1px solid ${ctx.border}`,
                 color: ctx.cancelFg,
               }}

@@ -26,7 +26,7 @@ npx shadcn@latest add @framecn/caret
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="caret" title="components/ui/caret.tsx" />
+<ComponentSource name="caret" title="components/framecn/caret.tsx" />
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -41,7 +41,7 @@ npx shadcn@latest add @framecn/caret
 Controlled — the consumer decides visibility:
 
 ```tsx
-import { Caret } from "@/components/ui/caret";
+import { Caret } from "@/components/framecn/caret";
 
 <Caret color="#1F1E1D" height={24} opacity={typing ? 1 : 0} />;
 ```
@@ -49,12 +49,12 @@ import { Caret } from "@/components/ui/caret";
 Standalone blink — a self-animating caret driven by `useCurrentFrame()`:
 
 ```tsx
-import { Caret } from "@/components/ui/caret";
+import { Caret } from "@/components/framecn/caret";
 
 <Caret blink blinkPerSecond={1} height={28} />;
 ```
 
-The docs preview shows a blinking caret after placeholder text, matching remocn’s preview scene.
+The docs preview shows a blinking caret after placeholder text.
 
 ## How blink works
 

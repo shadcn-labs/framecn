@@ -16,12 +16,14 @@ export interface DropdownMenuItemStyleContext {
   hoverBg: string;
   pressBg: string;
   idleFg: string;
+  hoverFg: string;
 }
 
 export const dropdownMenuItemStyleContext = (
   theme: FramecnTheme
 ): DropdownMenuItemStyleContext => ({
   hoverBg: theme.accent,
+  hoverFg: theme.accentForeground,
   idleBg: theme.popover,
   idleFg: theme.popoverForeground,
   pressBg: mixOklch(theme.accent, theme.foreground, 0.08),
@@ -33,10 +35,10 @@ export const dropdownMenuItemStyle = (
 ): DropdownMenuItemStyle => {
   switch (state) {
     case "hover": {
-      return { background: ctx.hoverBg, labelColor: ctx.idleFg, scale: 1 };
+      return { background: ctx.hoverBg, labelColor: ctx.hoverFg, scale: 1 };
     }
     case "press": {
-      return { background: ctx.pressBg, labelColor: ctx.idleFg, scale: 0.98 };
+      return { background: ctx.pressBg, labelColor: ctx.hoverFg, scale: 0.98 };
     }
     default: {
       return { background: ctx.idleBg, labelColor: ctx.idleFg, scale: 1 };
@@ -50,7 +52,7 @@ export interface DropdownMenuItemRowProps {
   style?: DropdownMenuItemStyle;
   state?: DropdownMenuItemState;
   label?: string;
-  width?: number;
+  width?: number | string;
   theme?: Partial<FramecnTheme>;
 }
 
@@ -61,7 +63,7 @@ export const DropdownMenuItemRow = ({
   width = ROW_WIDTH,
   theme: themeOverride,
 }: DropdownMenuItemRowProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const ctx = dropdownMenuItemStyleContext(theme);
   const v = style ?? dropdownMenuItemStyle(state, ctx);
   return (
@@ -69,13 +71,14 @@ export const DropdownMenuItemRow = ({
       style={{
         alignItems: "center",
         background: v.background,
-        borderRadius: theme.radius,
+        borderRadius: Math.max(0, theme.radius - 4),
         boxSizing: "border-box",
         color: v.labelColor,
         display: "flex",
         fontSize: 14,
-        letterSpacing: "-0.01em",
-        padding: "8px 12px",
+        gap: 8,
+        lineHeight: "20px",
+        padding: "6px 8px",
         transform: `scale(${v.scale})`,
         width,
       }}

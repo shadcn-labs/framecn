@@ -33,7 +33,7 @@ export const popoverStyle = (state: PopoverState): PopoverStyle => {
       return { opacity: 1, scale: 1, translate: 0 };
     }
     default: {
-      return { opacity: 0, scale: 0.97, translate: 6 };
+      return { opacity: 0, scale: 0.95, translate: 8 };
     }
   }
 };
@@ -72,7 +72,7 @@ export const Popover = ({
   theme: themeOverride,
   className,
 }: PopoverProps) => {
-  const theme = useFramecnTheme(themeOverride, "light");
+  const theme = useFramecnTheme(themeOverride);
   const v = style ?? popoverStyle(state);
   const { x, y } = offsetFor(side, v.translate);
   const hasHeader = title !== undefined || description !== undefined;
@@ -92,13 +92,14 @@ export const Popover = ({
         style={{
           background: theme.popover,
           border: `1px solid ${theme.border}`,
-          borderRadius: theme.radius,
-          boxShadow: "0 8px 24px -8px rgba(0,0,0,0.2)",
+          borderRadius: Math.max(0, theme.radius - 2),
+          boxShadow:
+            "0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%)",
           boxSizing: "border-box",
           color: theme.popoverForeground,
           display: "flex",
           flexDirection: "column",
-          gap: 8,
+          gap: 4,
           padding: 16,
           textAlign: "left",
           width,
@@ -107,10 +108,9 @@ export const Popover = ({
         {title !== undefined && (
           <div
             style={{
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: 500,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.3,
+              lineHeight: "20px",
             }}
           >
             {title}
@@ -120,8 +120,8 @@ export const Popover = ({
           <div
             style={{
               color: theme.mutedForeground,
-              fontSize: 13,
-              lineHeight: 1.5,
+              fontSize: 14,
+              lineHeight: "20px",
             }}
           >
             {description}

@@ -3,6 +3,14 @@
 import { createContext, createElement, useContext } from "react";
 import type { ReactNode } from "react";
 
+import { FramecnIconProvider } from "./icons";
+import type { IconLibrary } from "./icons";
+import { themePresets } from "./theme-presets";
+import type { BaseColorName, ThemeName } from "./theme-presets";
+
+export { BASE_COLOR_NAMES, THEME_NAMES } from "./theme-presets";
+export type { BaseColorName, ThemeName } from "./theme-presets";
+
 export interface FramecnTheme {
   background: string;
   foreground: string;
@@ -75,6 +83,8 @@ export const defaultDarkTheme: FramecnTheme = {
 interface FramecnThemeContextValue {
   theme?: Partial<FramecnTheme>;
   mode?: "light" | "dark";
+  baseColor?: BaseColorName;
+  themeName?: ThemeName;
 }
 
 const FramecnThemeContext = createContext<FramecnThemeContextValue>({});
@@ -82,26 +92,46 @@ const FramecnThemeContext = createContext<FramecnThemeContextValue>({});
 export interface FramecnUIProviderProps {
   theme?: Partial<FramecnTheme>;
   mode?: "light" | "dark";
+  baseColor?: BaseColorName;
+  themeName?: ThemeName;
+  iconLibrary?: IconLibrary;
   children: ReactNode;
 }
 
 export const FramecnUIProvider = ({
   theme,
   mode,
+  baseColor,
+  themeName,
+  iconLibrary = "lucide",
   children,
 }: FramecnUIProviderProps) =>
   createElement(
     FramecnThemeContext.Provider,
-    { value: { mode, theme } },
-    children
+    { value: { baseColor, mode, theme, themeName } },
+    createElement(FramecnIconProvider, { library: iconLibrary }, children)
   );
+
+export const useFramecnMode = (
+  fallback: "light" | "dark" = "light"
+): "light" | "dark" => useContext(FramecnThemeContext).mode ?? fallback;
+
+export const resolveFramecnTheme = (
+  mode: "light" | "dark",
+  baseColor: BaseColorName = "neutral",
+  themeName: ThemeName = baseColor
+): FramecnTheme => ({
+  ...(mode === "dark" ? defaultDarkTheme : defaultLightTheme),
+  ...themePresets[baseColor][mode],
+  ...themePresets[themeName][mode],
+});
 
 export const useFramecnTheme = (
   override?: Partial<FramecnTheme>,
   modeOverride?: "light" | "dark"
 ): FramecnTheme => {
   const ctx = useContext(FramecnThemeContext);
-  const mode = modeOverride ?? ctx.mode ?? "light";
-  const base = mode === "dark" ? defaultDarkTheme : defaultLightTheme;
+  const mode = ctx.mode ?? modeOverride ?? "light";
+  const base = resolveFramecnTheme(mode, ctx.baseColor, ctx.themeName);
   return { ...base, ...ctx.theme, ...override };
 };

@@ -1,6 +1,9 @@
 import { clampChroma, converter, formatRgb, interpolate, parse } from "culori";
 import type { Oklch, Rgb } from "culori";
 
+// React bundlers replace NODE_ENV; this module does not require Node ambient types.
+declare const process: { env: { NODE_ENV?: string } };
+
 const toRgb = converter("rgb");
 const toOklch = converter("oklch");
 

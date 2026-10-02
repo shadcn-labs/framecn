@@ -1,5 +1,6 @@
 "use client";
 
+import { useFramecnTheme } from "@/lib/framecn-ui";
 import { BlurIn } from "@/registry/bases/editframe/ui/blur-in";
 import { useBlurInTransition } from "@/registry/bases/editframe/ui/blur-in/use-blur-in-transition";
 
@@ -12,6 +13,7 @@ export interface BlurInDemoProps {
 }
 
 export const BlurInDemoScene = (p: BlurInDemoProps = {}) => {
+  const theme = useFramecnTheme();
   const style = useBlurInTransition(
     [
       { at: 0, state: "hidden" },
@@ -27,7 +29,7 @@ export const BlurInDemoScene = (p: BlurInDemoProps = {}) => {
     <div
       style={{
         alignItems: "center",
-        background: "#ffffff",
+        background: theme.background,
         display: "flex",
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
@@ -40,16 +42,15 @@ export const BlurInDemoScene = (p: BlurInDemoProps = {}) => {
         <div
           style={{
             alignItems: "center",
-            background: "#fafafa",
-            border: "1px solid #e5e5e5",
-            borderRadius: 16,
-            color: "#171717",
+            background: theme.card,
+            border: `1px solid ${theme.border}`,
+            borderRadius: Math.max(0, theme.radius + 4),
+            color: theme.cardForeground,
             display: "flex",
-            fontSize: 18,
+            fontSize: 14,
             fontWeight: 500,
             height: 120,
             justifyContent: "center",
-            letterSpacing: "-0.01em",
             width: 200,
           }}
         >

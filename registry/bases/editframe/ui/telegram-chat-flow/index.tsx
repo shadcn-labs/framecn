@@ -3,7 +3,12 @@
 import { Timegroup } from "@editframe/react";
 import { useEffect, useRef, useState } from "react";
 
-import { revealedText } from "@/lib/framecn-ui";
+import {
+  FramecnIcon,
+  mixOklch,
+  revealedText,
+  useFramecnTheme,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Caret } from "@/registry/bases/editframe/ui/caret";
 
@@ -46,9 +51,6 @@ const TAIL = 28;
 const PRESS_WINDOW = 7;
 
 const TELEGRAM_BLUE = "#3390ec";
-const INCOMING_BG = "#ffffff";
-const INCOMING_FG = "#0f1419";
-const INCOMING_META = "#8a99a5";
 const OUTGOING_FG = "#ffffff";
 const OUTGOING_META = "rgba(255,255,255,0.82)";
 
@@ -220,120 +222,6 @@ const Avatar = ({
   );
 };
 
-const DoubleCheck = ({ color }: { color: string }) => (
-  <svg
-    width={16}
-    height={16}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M18 6 7 17l-5-5" />
-    <path d="m22 10-7.5 7.5L13 16" />
-  </svg>
-);
-
-const PaperPlane = ({ color }: { color: string }) => (
-  <svg
-    width={20}
-    height={20}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
-    <path d="m21.854 2.147-10.94 10.939" />
-  </svg>
-);
-
-const MicIcon = ({ color }: { color: string }) => (
-  <svg
-    width={22}
-    height={22}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M12 19v3" />
-    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-    <rect x={9} y={2} width={6} height={13} rx={3} />
-  </svg>
-);
-
-const SmileIcon = ({ color }: { color: string }) => (
-  <svg
-    width={22}
-    height={22}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx={12} cy={12} r={10} />
-    <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-    <line x1={9} x2={9.01} y1={9} y2={9} />
-    <line x1={15} x2={15.01} y1={9} y2={9} />
-  </svg>
-);
-
-const AttachIcon = ({ color }: { color: string }) => (
-  <svg
-    width={22}
-    height={22}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551" />
-  </svg>
-);
-
-const PhoneIcon = ({ color }: { color: string }) => (
-  <svg
-    width={22}
-    height={22}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
-  </svg>
-);
-
-const MoreIcon = ({ color }: { color: string }) => (
-  <svg
-    width={22}
-    height={22}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx={12} cy={12} r={1} />
-    <circle cx={12} cy={5} r={1} />
-    <circle cx={12} cy={19} r={1} />
-  </svg>
-);
-
 const BubbleTail = ({
   side,
   color,
@@ -368,11 +256,13 @@ const TelegramRow = ({
   eff,
   contact,
   accent,
+  theme,
 }: {
   item: ScheduledMessage;
   eff: number;
   contact?: TelegramContact;
   accent: string;
+  theme: FramecnTheme;
 }) => {
   const outgoing = item.from === "me";
 
@@ -397,10 +287,10 @@ const TelegramRow = ({
     reactionOpacity = clamp((eff - item.reactAt) / 5, 0, 1);
   }
 
-  const bg = outgoing ? accent : INCOMING_BG;
-  const fg = outgoing ? OUTGOING_FG : INCOMING_FG;
-  const metaColor = outgoing ? OUTGOING_META : INCOMING_META;
-  const tailColor = outgoing ? accent : INCOMING_BG;
+  const bg = outgoing ? accent : theme.card;
+  const fg = outgoing ? OUTGOING_FG : theme.cardForeground;
+  const metaColor = outgoing ? OUTGOING_META : theme.mutedForeground;
+  const tailColor = bg;
 
   const bubble = (
     <div
@@ -435,11 +325,13 @@ const TelegramRow = ({
           <span
             style={{
               alignItems: "center",
-              background: outgoing
-                ? "rgba(255,255,255,0.22)"
-                : "rgba(51,144,236,0.12)",
+              background: mixOklch(
+                bg,
+                outgoing ? OUTGOING_FG : accent,
+                outgoing ? 0.22 : 0.12
+              ),
               borderRadius: 11,
-              color: outgoing ? "#ffffff" : accent,
+              color: outgoing ? OUTGOING_FG : accent,
               display: "inline-flex",
               fontSize: 13,
               fontWeight: 600,
@@ -464,7 +356,9 @@ const TelegramRow = ({
           }}
         >
           {item.time ?? "9:41"}
-          {outgoing && <DoubleCheck color={metaColor} />}
+          {outgoing && (
+            <FramecnIcon name="CheckCheck" size={16} color={metaColor} />
+          )}
         </span>
       </div>
       <BubbleTail side={outgoing ? "right" : "left"} color={tailColor} />
@@ -499,11 +393,13 @@ export const TelegramChatFlow = ({
   speed = 1,
   fps = 30,
   durationInFrames,
+  theme,
   className,
 }: TelegramChatFlowProps) => {
   const [eff, setEff] = useState(0);
   const startRef = useRef<number | null>(null);
   const accent = accentColor ?? TELEGRAM_BLUE;
+  const resolved = useFramecnTheme(theme);
 
   const { items, duration: rawDuration } = telegramChatFlowSchedule(messages);
   const totalDuration =
@@ -605,7 +501,9 @@ export const TelegramChatFlow = ({
         >
           <div
             style={{
+              background: resolved.background,
               boxSizing: "border-box",
+              color: resolved.foreground,
               display: "flex",
               flexDirection: "column",
               height: "100%",
@@ -616,8 +514,8 @@ export const TelegramChatFlow = ({
             <div
               style={{
                 alignItems: "center",
-                background: "#ffffff",
-                boxShadow: "0 1px 0 rgba(0,0,0,0.06)",
+                background: resolved.card,
+                borderBottom: `1px solid ${resolved.border}`,
                 display: "flex",
                 gap: 12,
                 padding: "12px 14px",
@@ -634,7 +532,7 @@ export const TelegramChatFlow = ({
               >
                 <span
                   style={{
-                    color: "#0f1419",
+                    color: resolved.cardForeground,
                     fontSize: 15,
                     fontWeight: 600,
                     letterSpacing: "-0.01em",
@@ -655,8 +553,16 @@ export const TelegramChatFlow = ({
                 </span>
               </div>
               <div style={{ alignItems: "center", display: "flex", gap: 18 }}>
-                <PhoneIcon color="#8a99a5" />
-                <MoreIcon color="#8a99a5" />
+                <FramecnIcon
+                  name="Phone"
+                  size={22}
+                  color={resolved.mutedForeground}
+                />
+                <FramecnIcon
+                  name="EllipsisVertical"
+                  size={22}
+                  color={resolved.mutedForeground}
+                />
               </div>
             </div>
 
@@ -670,6 +576,7 @@ export const TelegramChatFlow = ({
             >
               <div
                 style={{
+                  boxSizing: "border-box",
                   display: "flex",
                   flexDirection: "column",
                   gap: 4,
@@ -687,9 +594,9 @@ export const TelegramChatFlow = ({
                 >
                   <span
                     style={{
-                      background: "rgba(0,0,0,0.18)",
-                      borderRadius: 14,
-                      color: "#ffffff",
+                      background: resolved.muted,
+                      borderRadius: resolved.radius,
+                      color: resolved.mutedForeground,
                       fontSize: 12,
                       fontWeight: 500,
                       padding: "3px 11px",
@@ -705,6 +612,7 @@ export const TelegramChatFlow = ({
                     eff={eff}
                     contact={contact}
                     accent={accent}
+                    theme={resolved}
                   />
                 ))}
               </div>
@@ -713,8 +621,8 @@ export const TelegramChatFlow = ({
             <div
               style={{
                 alignItems: "flex-end",
-                background: "#ffffff",
-                boxShadow: "0 -1px 0 rgba(0,0,0,0.06)",
+                background: resolved.card,
+                borderTop: `1px solid ${resolved.border}`,
                 display: "flex",
                 gap: 8,
                 padding: "8px 10px 12px",
@@ -723,8 +631,10 @@ export const TelegramChatFlow = ({
               <div
                 style={{
                   alignItems: "center",
-                  background: "#f1f3f5",
-                  borderRadius: 22,
+                  background: resolved.background,
+                  border: `1px solid ${resolved.input}`,
+                  borderRadius: Math.max(0, resolved.radius - 2),
+                  boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
                   display: "flex",
                   flex: 1,
                   gap: 8,
@@ -732,11 +642,17 @@ export const TelegramChatFlow = ({
                   padding: "0 12px",
                 }}
               >
-                <SmileIcon color="#8a99a5" />
+                <FramecnIcon
+                  name="Smile"
+                  size={22}
+                  color={resolved.mutedForeground}
+                />
                 <div
                   style={{
                     alignItems: "center",
-                    color: sendActive ? "#0f1419" : "#8a99a5",
+                    color: sendActive
+                      ? resolved.foreground
+                      : resolved.mutedForeground,
                     display: "flex",
                     flex: 1,
                     fontSize: 15,
@@ -757,7 +673,11 @@ export const TelegramChatFlow = ({
                     />
                   )}
                 </div>
-                <AttachIcon color="#8a99a5" />
+                <FramecnIcon
+                  name="Paperclip"
+                  size={22}
+                  color={resolved.mutedForeground}
+                />
               </div>
               <div
                 style={{
@@ -773,9 +693,9 @@ export const TelegramChatFlow = ({
                 }}
               >
                 {sendActive ? (
-                  <PaperPlane color="#ffffff" />
+                  <FramecnIcon name="Send" size={20} color={OUTGOING_FG} />
                 ) : (
-                  <MicIcon color="#ffffff" />
+                  <FramecnIcon name="Mic" size={22} color={OUTGOING_FG} />
                 )}
               </div>
             </div>

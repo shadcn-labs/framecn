@@ -1,6 +1,11 @@
 "use client";
 
-import { easings, useFramecnTheme, useStateTransition } from "@/lib/framecn-ui";
+import {
+  easings,
+  useFramecnMode,
+  useFramecnTheme,
+  useStateTransition,
+} from "@/lib/framecn-ui";
 import type { FramecnTheme, Step } from "@/lib/framecn-ui";
 import {
   selectStyle,
@@ -44,7 +49,7 @@ export const useSelectTransition = (
     defaultDuration = DEFAULT_DURATION,
   } = opts;
   const theme = useFramecnTheme(themeOverride, mode);
-  const ctx = selectStyleContext(theme);
+  const ctx = selectStyleContext(theme, useFramecnMode(mode));
   const { from, to, progress } = useStateTransition(
     steps,
     "closed",

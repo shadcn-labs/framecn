@@ -1,6 +1,6 @@
 "use client";
 
-import { clamp01 } from "@/lib/framecn-ui";
+import { clamp01, useFramecnTheme } from "@/lib/framecn-ui";
 import type { FramecnTheme } from "@/lib/framecn-ui";
 import { Button } from "@/registry/bases/editframe/ui/button";
 import { useButtonTransition } from "@/registry/bases/editframe/ui/button/use-button-transition";
@@ -35,6 +35,7 @@ export const OnboardingStepperFlow = ({
   finishLabel = "Finish",
   theme,
 }: OnboardingStepperFlowProps) => {
+  const resolved = useFramecnTheme(theme);
   const opts = { theme };
   const stepperStyle = useStepperTransition([
     { at: 0, index: 0 },
@@ -71,7 +72,16 @@ export const OnboardingStepperFlow = ({
   const panelOpacity = (i: number) => clamp01(1 - Math.abs(position - i));
   const navLabel = position >= steps.length - 1 ? finishLabel : nextLabel;
   return (
-    <div style={{ height: "100%", position: "relative", width: "100%" }}>
+    <div
+      style={{
+        color: resolved.foreground,
+        fontFamily:
+          "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
+        height: "100%",
+        position: "relative",
+        width: "100%",
+      }}
+    >
       <div
         style={{
           height: 100,
