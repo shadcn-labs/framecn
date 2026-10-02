@@ -1,0 +1,139 @@
+---
+title: "Format Morph"
+description: "One asset reframes itself through every aspect ratio while the headline stretches and compresses around it."
+---
+
+<ComponentPreview name="format-morph" hideCode />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+<TabsTrigger value="cli">Command</TabsTrigger>
+<TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @framecn/format-morph
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="format-morph" title="components/ui/format-morph.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { FormatMorph } from "@/components/framecn/format-morph";
+```
+
+```tsx
+<FormatMorph />
+```
+
+The media sits in the middle column of a `1fr auto 1fr` grid, so resizing it
+physically displaces the type on either side. Give it your own asset and
+wordmark:
+
+```tsx
+<FormatMorph
+  src="/product.png"
+  lead="SHIP"
+  trail="IT"
+  stages={[{ ratio: "9:16" }, { ratio: "16:9" }, { ratio: "1:1" }]}
+/>
+```
+
+## API Reference
+
+### FormatMorph
+
+| Prop               | Type                 | Default                                                                   |
+| ------------------ | -------------------- | ------------------------------------------------------------------------- |
+| `src`              | `string`             | `DEFAULT_SRC`                                                             |
+| `gradient`         | `string`             | `DEFAULT_GRADIENT`                                                        |
+| `lead`             | `string`             | `"FRA"`                                                                   |
+| `trail`            | `string`             | `"MECN"`                                                                  |
+| `stages`           | `FormatMorphStage[]` | `DEFAULT_STAGES`                                                          |
+| `maxWidth`         | `number`             | `460`                                                                     |
+| `maxHeight`        | `number`             | `440`                                                                     |
+| `fontSize`         | `number`             | `128`                                                                     |
+| `fontWeight`       | `number \| string`   | `500`                                                                     |
+| `color`            | `string`             | `"#ffffff"`                                                               |
+| `background`       | `string`             | `"#4e4e50"`                                                               |
+| `radiusRatio`      | `number`             | `0.08`                                                                    |
+| `holdRatio`        | `number`             | `0.45`                                                                    |
+| `easing`           | `string`             | `"quint"`                                                                 |
+| `lagMs`            | `number`             | `40`                                                                      |
+| `gap`              | `number`             | `20`                                                                      |
+| `shadow`           | `string`             | `"0 40px 100px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06)"` |
+| `speed`            | `number`             | `1`                                                                       |
+| `fps`              | `number`             | `30`                                                                      |
+| `durationInFrames` | `number`             | `180`                                                                     |
+| `width`            | `number`             | `1280`                                                                    |
+| `height`           | `number`             | `720`                                                                     |
+| `className`        | `string`             | `-`                                                                       |
+
+### FormatMorphStage
+
+| Prop       | Type     | Default                                  |
+| ---------- | -------- | ---------------------------------------- |
+| `ratio`    | `string` | `-`                                      |
+| `rotate`   | `number` | `0`                                      |
+| `fontSize` | `number` | Derived from the stage's resolved height |
+
+### MORPH_EASINGS
+
+Named curves accepted by `easing`, sorted weak to strong. The media is already
+on screen and changing shape, so every preset is from the ease-in-out family.
+
+| Name     | Value                                     |
+| -------- | ----------------------------------------- |
+| `quad`   | `cubic-bezier(0.455, 0.03, 0.515, 0.955)` |
+| `cubic`  | `cubic-bezier(0.645, 0.045, 0.355, 1)`    |
+| `quart`  | `cubic-bezier(0.77, 0, 0.175, 1)`         |
+| `quint`  | `cubic-bezier(0.86, 0, 0.07, 1)`          |
+| `circ`   | `cubic-bezier(0.785, 0.135, 0.15, 0.86)`  |
+| `expo`   | `cubic-bezier(1, 0, 0, 1)`                |
+| `linear` | `linear`                                  |
+
+`easing` also accepts any raw CSS easing value, so
+`easing="cubic-bezier(0.34, 1.56, 0.64, 1)"` gives the morph an overshoot.
+
+## Notes
+
+<Callout title="Remote images need CORS">
+  The asset renders as an `<img crossOrigin="anonymous" />
+  `, because a CSS background cannot carry a CORS request. Hosts that do not
+  send `access-control-allow-origin` will fail to load and fall back to
+  `gradient`. For production renders, serve the asset from your own origin.
+</Callout>
+
+<Callout title="Timing is split three ways">
+  `speed` scales the whole cycle. `holdRatio` splits each stage between sitting
+  still and morphing — raise it for a snappier morph at the same overall pace.
+  `lagMs` is how far the type trails the media, and it is doing most of the
+  perceived quality. Set it to `0` to hear the difference.
+</Callout>
+
+<Callout title="Long words fight the image" variant="destructive">
+  `lead` and `trail` share the two `1fr` columns. Long words shrink the space
+  available to the media and can overflow the frame. Keep them short, or lower
+  `fontSize` and `maxWidth` together.
+</Callout>

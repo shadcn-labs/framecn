@@ -44,6 +44,7 @@ import { dynamicGridConfig } from "@/registry/bases/editframe/components/dynamic
 import { ecosystemConstellationConfig } from "@/registry/bases/editframe/components/ecosystem-constellation/config";
 import { fadeThroughConfig } from "@/registry/bases/editframe/components/fade-through/config";
 import { focusBlurResolveConfig } from "@/registry/bases/editframe/components/focus-blur-resolve/config";
+import { formatMorphConfig } from "@/registry/bases/editframe/components/format-morph/config";
 import { frostedGlassWipeConfig } from "@/registry/bases/editframe/components/frosted-glass-wipe/config";
 import { glassCodeBlockConfig } from "@/registry/bases/editframe/components/glass-code-block/config";
 import { gridPixelateWipeConfig } from "@/registry/bases/editframe/components/grid-pixelate-wipe/config";
@@ -64,6 +65,7 @@ import { matrixDecodeConfig } from "@/registry/bases/editframe/components/matrix
 import { meshGradientBgConfig } from "@/registry/bases/editframe/components/mesh-gradient-bg/config";
 import { microScaleFadeConfig } from "@/registry/bases/editframe/components/micro-scale-fade/config";
 import { morphingModalConfig } from "@/registry/bases/editframe/components/morphing-modal/config";
+import { nodeRevealConfig } from "@/registry/bases/editframe/components/node-reveal/config";
 import { perCharacterRiseConfig } from "@/registry/bases/editframe/components/per-character-rise/config";
 import { perWordCrossfadeConfig } from "@/registry/bases/editframe/components/per-word-crossfade/config";
 import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/components/perspective-marquee/config";
@@ -579,6 +581,14 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: focusBlurResolveConfig,
   },
+  "format-morph": {
+    Component: lazy(async () => {
+      const { FormatMorph } =
+        await import("@/registry/bases/editframe/components/format-morph");
+      return { default: FormatMorph };
+    }),
+    config: formatMorphConfig,
+  },
   "frosted-glass-wipe": {
     Component: lazy(async () => {
       const { FrostedGlassWipe } =
@@ -749,6 +759,14 @@ const registry: Record<string, RegistryEntry> = {
       return { default: MorphingModal };
     }),
     config: morphingModalConfig,
+  },
+  "node-reveal": {
+    Component: lazy(async () => {
+      const { NodeReveal } =
+        await import("@/registry/bases/editframe/components/node-reveal");
+      return { default: NodeReveal };
+    }),
+    config: nodeRevealConfig,
   },
   "onboarding-stepper-flow": {
     Component: OnboardingStepperFlow,
