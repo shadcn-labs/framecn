@@ -84,7 +84,7 @@ const PRODUCTS = [
     description: `${SUMMARY} Early-bird price. One-time payment; nothing renews.`,
     key: "DODO_PRODUCT_PRO_LIFETIME_EARLY",
     name: "framecn Pro — Lifetime (Early bird)",
-    price: oneTimePrice(20_000),
+    price: oneTimePrice(19_900),
   },
   {
     description: `${SUMMARY} Lifetime license for up to 10 team members sharing one team API key. One-time payment; nothing renews.`,

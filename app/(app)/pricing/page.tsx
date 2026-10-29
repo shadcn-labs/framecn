@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata = {
   description:
-    "framecn is free to use. Pro is $179 a year or $249 lifetime, with early-bird pricing of $149 a year or $200 lifetime for the first 50 buyers. Team is $499 lifetime for up to 10 people.",
+    "framecn is free to use. Pro is $179 a year or $249 lifetime, with early-bird pricing of $149 a year or $199 lifetime for the first 50 buyers. Team is $499 lifetime for up to 10 people.",
   title: "Pricing — framecn",
 };
 
@@ -105,6 +105,33 @@ const Feature = ({
   </li>
 );
 
+const PLAN_CTA: Record<PlanSlug, (price: string) => string> = {
+  annual: (price) => `Lock in ${price}/year`,
+  lifetime: (price) => `Own it for ${price}`,
+  team: () => "Get it for your team",
+};
+
+/**
+ * Pins the CTA to the card bottom. The helper line is absolutely positioned in
+ * a reserved strip, so every card's button sits at the same height.
+ */
+const PlanCta = ({
+  children,
+  helper,
+}: {
+  children: React.ReactNode;
+  helper?: React.ReactNode;
+}) => (
+  <div className="relative mt-auto pt-8 pb-6">
+    {children}
+    {helper ? (
+      <p className="text-muted-foreground absolute inset-x-0 bottom-0 text-center text-xs">
+        {helper}
+      </p>
+    ) : null}
+  </div>
+);
+
 export default async function PricingPage() {
   const session = await getSession();
   const pro = await getProAccess();
@@ -150,19 +177,21 @@ export default async function PricingPage() {
             <p className="text-muted-foreground mt-1 text-xs">
               Free forever. No card required.
             </p>
-            <Button
-              nativeButton={false}
-              render={<Link href="/components" />}
-              variant="outline"
-              className="mt-6 w-full"
-            >
-              Browse components
-            </Button>
             <ul className="mt-6 space-y-2.5 text-sm">
               {FREE_FEATURES.map((item) => (
                 <Feature key={item}>{item}</Feature>
               ))}
             </ul>
+            <PlanCta>
+              <Button
+                nativeButton={false}
+                render={<Link href="/components" />}
+                variant="outline"
+                className="w-full"
+              >
+                Start free
+              </Button>
+            </PlanCta>
           </Card>
         </Frame>
         {PLANS.map((plan) => {
@@ -170,6 +199,16 @@ export default async function PricingPage() {
           const missingProduct = !process.env[plan.env];
           const offer = offers[plan.slug];
           const features = PLAN_FEATURES[plan.slug];
+          let helper: React.ReactNode = null;
+          if (!configurationError && missingProduct) {
+            helper = (
+              <span className="text-destructive">
+                This plan's Dodo product is not configured.
+              </span>
+            );
+          } else if (offer.earlyBirdLeft !== null) {
+            helper = `${offer.earlyBirdLeft} of ${EARLY_BIRD_LIMIT} left at this price`;
+          }
           return (
             <Frame
               key={plan.slug}
@@ -210,13 +249,13 @@ export default async function PricingPage() {
                 <p className="text-muted-foreground mt-1 text-xs">
                   {plan.note}
                 </p>
-                {offer.earlyBirdLeft === null ? null : (
-                  <Badge variant="brand" className="mt-3">
-                    Early bird · {offer.earlyBirdLeft} of {EARLY_BIRD_LIMIT}{" "}
-                    left
-                  </Badge>
-                )}
-                <div className="mt-6">
+                <ul className="mt-6 space-y-2.5 text-sm">
+                  <Feature className="font-medium">{features.heading}</Feature>
+                  {features.items.map((item) => (
+                    <Feature key={item}>{item}</Feature>
+                  ))}
+                </ul>
+                <PlanCta helper={helper}>
                   <BillingButton
                     plan={plan.slug}
                     highlight={highlight}
@@ -224,20 +263,11 @@ export default async function PricingPage() {
                       configurationError || missingProduct || pro
                     )}
                   >
-                    {pro ? "Pro access active" : `Get ${plan.name}`}
+                    {pro
+                      ? "Pro access active"
+                      : PLAN_CTA[plan.slug](offer.price)}
                   </BillingButton>
-                  {!configurationError && missingProduct ? (
-                    <p className="text-destructive mt-2 text-xs">
-                      This plan's Dodo product is not configured.
-                    </p>
-                  ) : null}
-                </div>
-                <ul className="mt-6 space-y-2.5 text-sm">
-                  <Feature className="font-medium">{features.heading}</Feature>
-                  {features.items.map((item) => (
-                    <Feature key={item}>{item}</Feature>
-                  ))}
-                </ul>
+                </PlanCta>
               </Card>
             </Frame>
           );

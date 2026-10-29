@@ -11,7 +11,7 @@ export const PLANS = [
     slug: "annual",
   },
   {
-    earlyBird: { env: "DODO_PRODUCT_PRO_LIFETIME_EARLY", price: "$200" },
+    earlyBird: { env: "DODO_PRODUCT_PRO_LIFETIME_EARLY", price: "$199" },
     env: "DODO_PRODUCT_PRO_LIFETIME",
     interval: "once",
     kind: "one_time",

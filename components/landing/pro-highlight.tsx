@@ -70,7 +70,7 @@ export const ProHighlight = () => {
           </div>
           <p className="text-muted-foreground mt-4 text-xs">
             From $179 a year, or $249 once for lifetime access. Early birds pay
-            $149 or $200.
+            $149 or $199.
           </p>
         </FrameContent>
         <Link

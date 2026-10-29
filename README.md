@@ -71,12 +71,12 @@ Set `FRAMECN_PRO_GITHUB_TOKEN` in `.env.local` and your deployment's server secr
 
 ## Pro billing
 
-Pro costs $179/year, $249 once for lifetime access, or $499 once for a lifetime Team license (up to 10 members sharing a team API key). The first 50 buyers of Annual and of Lifetime get the early-bird price ($149/year, kept on renewal, or $200 once): checkout uses the `*_EARLY` product until 50 unrefunded early-bird purchases exist. Dodo Payments handles hosted checkout, invoices, and the customer portal. Subscription access expires with the paid period; lifetime access does not renew.
+Pro costs $179/year, $249 once for lifetime access, or $499 once for a lifetime Team license (up to 10 members sharing a team API key). The first 50 buyers of Annual and of Lifetime get the early-bird price ($149/year, kept on renewal, or $199 once): checkout uses the `*_EARLY` product until 50 unrefunded early-bird purchases exist. Dodo Payments handles hosted checkout, invoices, and the customer portal. Subscription access expires with the paid period; lifetime access does not renew.
 
 Anyone can check out without an account: Dodo collects the email (signed-in buyers have theirs preset). Pro belongs to that email. After paying, `/checkout/return` looks the payment up at Dodo, emails a sign-in code to the purchase email, and signs the buyer in; anyone who later signs in with that email (verified by code or OAuth) has Pro. Sign-up is open: an email code creates an account without a purchase.
 
 ```sh
-# Create/reuse a separate framecn test brand and three products.
+# Create/reuse a separate framecn test brand and the five products (stale ones are archived).
 pnpm dodo:setup
 
 # Create/reuse the live catalog without activating live checkout locally.

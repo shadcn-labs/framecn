@@ -30,7 +30,7 @@ const FAQ = [
   },
   {
     answer:
-      "Pro unlocks the Node Reveal composition source and future Pro compositions. It is $179 a year, $249 once for lifetime access, or $499 once for a team of up to 10 sharing one API key. The first 50 Annual and 50 Lifetime buyers pay the early-bird price of $149 a year or $200 once. Payments are handled by Dodo Payments.",
+      "Pro unlocks the Node Reveal composition source and future Pro compositions. It is $179 a year, $249 once for lifetime access, or $499 once for a team of up to 10 sharing one API key. The first 50 Annual and 50 Lifetime buyers pay the early-bird price of $149 a year or $199 once. Payments are handled by Dodo Payments.",
     question: "What does Pro include, and what does it cost?",
   },
   {
