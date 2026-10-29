@@ -21,18 +21,26 @@ const ComponentCode = ({
   language: string;
   title: string | undefined;
 }) => (
-  <figure data-rehype-pretty-code-figure="" className="[&>pre]:max-h-96">
+  <figure data-rehype-pretty-code-figure="" className="mx-0! [&>pre]:max-h-96">
     {title ? (
       <figcaption
-        className="flex items-center gap-2 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:opacity-70"
+        className="flex items-center gap-2 font-normal [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-muted-foreground"
         data-language={language}
         data-rehype-pretty-code-title=""
       >
         {getIconForLanguageExtension(language)}
-        <span className="truncate">{title}</span>
+        <span className="truncate font-normal">{title}</span>
       </figcaption>
     ) : null}
-    <CopyButton event="copy_primitive_code" tooltip="Copy code" value={code} />
+    <CopyButton
+      className={cn(
+        title &&
+          "text-muted-foreground right-2.5 bg-transparent opacity-70 hover:bg-muted hover:opacity-100 focus-visible:bg-muted focus-visible:opacity-100"
+      )}
+      event="copy_primitive_code"
+      tooltip="Copy code"
+      value={code}
+    />
     <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
   </figure>
 );

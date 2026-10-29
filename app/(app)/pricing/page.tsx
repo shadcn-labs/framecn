@@ -156,7 +156,7 @@ export default async function PricingPage() {
       </div>
       {pro ? (
         <Frame className="mb-6">
-          <Card className="flex-row flex-wrap items-center justify-between gap-4 rounded-lg p-5 shadow-none">
+          <Card className="flex-row flex-wrap items-center justify-between gap-4 rounded-[var(--frame-inner-radius)] p-5 shadow-none">
             <div>
               <p className="font-medium">
                 You're a Pro. Make something lovely.
@@ -178,7 +178,7 @@ export default async function PricingPage() {
       ) : null}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Frame className="flex">
-          <Card className="flex-1 gap-0 rounded-lg p-6 shadow-none">
+          <Card className="flex-1 gap-0 rounded-[var(--frame-inner-radius)] p-6 shadow-none">
             <h2 className="font-medium">Free</h2>
             <p className="mt-6">
               <span className="text-4xl font-semibold tracking-tight">$0</span>
@@ -237,7 +237,7 @@ export default async function PricingPage() {
               ) : null}
               <Card
                 className={cn(
-                  "flex-1 gap-0 rounded-lg p-6 shadow-none",
+                  "flex-1 gap-0 rounded-[var(--frame-inner-radius)] p-6 shadow-none",
                   highlight && "border-brand/40"
                 )}
               >

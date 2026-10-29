@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { BrandContextMenu } from "@/components/brand-context-menu";
+import { CarbonAds } from "@/components/carbon-ads";
 import { XIcon } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
 import { ProBadge } from "@/components/pro-badge";
@@ -80,18 +81,18 @@ const TreeList = ({
   items: TreeItem[];
   onNavigate: () => void;
 }) => (
-  <SidebarMenuSub className="mx-0 ml-3 gap-px px-0 py-0.5 pl-2">
+  <SidebarMenuSub className="mx-0 ml-3 gap-0.5 px-0 py-0 pl-1">
     {items.map((item) => (
       <SidebarMenuSubItem key={item.href}>
         {item.active && (
           <span
             aria-hidden
-            className="bg-sidebar-primary absolute top-1/2 -left-[9.5px] h-4 w-0.5 -translate-y-1/2 rounded-full"
+            className="bg-sidebar-primary absolute top-1/2 -left-[5.5px] h-4 w-0.5 -translate-y-1/2 rounded-full"
           />
         )}
         <SidebarMenuSubButton
           isActive={item.active}
-          className={`${ROW_TONE} px-2.5 text-[13px]`}
+          className={`${ROW_TONE} h-8 px-2.5 text-sm`}
           render={
             <Link
               href={item.href}
@@ -130,7 +131,7 @@ const CatalogList = ({ onNavigate }: { onNavigate: () => void }) => {
           <section key={category} aria-label={CATEGORY_LABELS[category]}>
             {/* Label sits on the guide line; the count lines up with the Pro badges. */}
             <SidebarGroupLabel
-              className="hover:text-sidebar-foreground ml-3 h-7 gap-2 pt-1 pr-2.5 pl-0"
+              className="hover:text-sidebar-foreground mb-0.5 ml-3 h-7 gap-2 pr-2.5 pl-0 text-xs"
               render={
                 <Link
                   href={href}
@@ -221,7 +222,7 @@ const MainView = ({
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu aria-label="Primary" className="gap-px">
+          <SidebarMenu aria-label="Primary" className="gap-0.5">
             {APP_NAV.map((item) => {
               const active = isActive(item.href);
               const expandable = EXPANDABLE.has(item.href);
@@ -340,7 +341,7 @@ const ProjectsView = ({ onBack }: { onBack: () => void }) => (
       {LABS_NAV_SECTIONS.map((section) => (
         <SidebarGroup key={section.id} className="py-0">
           <SidebarGroupLabel>{section.title}</SidebarGroupLabel>
-          <SidebarMenu className="gap-px">
+          <SidebarMenu className="gap-0.5">
             {section.items.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
@@ -380,7 +381,10 @@ export const AppSidebar = ({
       ) : (
         <ProjectsView onBack={() => setView("main")} />
       )}
-      <SidebarFooter className="h-12 flex-row items-center justify-between py-0 pr-0 pl-2.5">
+      <SidebarGroup aria-label="Advertisement" className="shrink-0 pt-0">
+        <CarbonAds serve="CWBI423W" placement="wwwframecndev" />
+      </SidebarGroup>
+      <SidebarFooter className="h-12 shrink-0 flex-row items-center justify-between py-0 pr-0 pl-2.5">
         <span className="text-muted-foreground truncate text-xs">
           © {new Date().getFullYear()}
         </span>

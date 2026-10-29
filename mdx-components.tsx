@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Children, isValidElement } from "react";
 
 import { Callout } from "@/components/callout";
 import { CodeBlockCommand } from "@/components/code-block-command";
@@ -10,6 +9,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { ComponentSource } from "@/components/component-source";
 import { CopyButton } from "@/components/copy-button";
 import { getIconForLanguageExtension } from "@/components/icons";
+import { Step, Steps } from "@/components/steps";
 import {
   Accordion,
   AccordionContent,
@@ -100,23 +100,8 @@ export const mdxComponents = {
     />
   ),
 
-  Step: ({ className, children, ...props }: React.ComponentProps<"h3">) => (
-    <h3
-      className={cn(
-        "mt-8 scroll-m-32 font-heading text-lg font-medium tracking-tight",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </h3>
-  ),
-  Steps: ({ ...props }) => (
-    <div
-      className="steps [counter-reset:step] md:ml-4 md:border-l md:pl-8 [&>h3]:step"
-      {...props}
-    />
-  ),
+  Step,
+  Steps,
   Tab: ({ className, ...props }: React.ComponentProps<"div">) => (
     <div className={cn(className)} {...props} />
   ),
@@ -141,7 +126,7 @@ export const mdxComponents = {
   }: React.ComponentProps<typeof TabsList>) => (
     <TabsList
       className={cn(
-        "justify-start gap-4 rounded-none border-0 bg-transparent px-0",
+        "justify-start gap-4 bg-transparent px-0 [--tabs-radius:0px] [--tabs-padding:0px] [--tabs-border-width:0px]",
         className
       )}
       {...props}
@@ -222,6 +207,7 @@ export const mdxComponents = {
       <>
         {__raw__ && (
           <CopyButton
+            className="bg-card top-[calc(var(--spacing)*3+3px)] opacity-70 hover:bg-muted hover:opacity-100 focus-visible:bg-muted focus-visible:opacity-100"
             value={__raw__}
             src={__src__}
             event="copy_usage_code"
@@ -255,51 +241,9 @@ export const mdxComponents = {
       </figcaption>
     );
   },
-  // Every code figure gets a header row on the shell (like install commands), so the copy button never sits on code.
-  figure: ({
-    className,
-    children,
-    ...props
-  }: React.ComponentProps<"figure">) => {
-    const nodes = Children.toArray(children);
-    const hasCaption = nodes.some(
-      (node) =>
-        isValidElement<Record<string, unknown>>(node) &&
-        "data-rehype-pretty-code-title" in node.props
-    );
-    const pre = nodes.find(
-      (node): node is React.ReactElement<Record<string, unknown>> =>
-        isValidElement<Record<string, unknown>>(node) &&
-        "data-language" in node.props
-    );
-    const code =
-      pre && isValidElement<Record<string, unknown>>(pre.props.children)
-        ? pre.props.children
-        : null;
-    const isCommand = Boolean(code?.props.__npm__);
-    const language =
-      typeof pre?.props["data-language"] === "string"
-        ? pre.props["data-language"]
-        : null;
-    return (
-      <figure className={cn(className)} {...props}>
-        {!hasCaption &&
-        !isCommand &&
-        language &&
-        "data-rehype-pretty-code-figure" in props ? (
-          <figcaption
-            data-rehype-pretty-code-title=""
-            data-language={language}
-            className="[&_svg]:text-muted-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:opacity-70"
-          >
-            {getIconForLanguageExtension(language)}
-            {language}
-          </figcaption>
-        ) : null}
-        {children}
-      </figure>
-    );
-  },
+  figure: ({ className, ...props }: React.ComponentProps<"figure">) => (
+    <figure className={cn(className)} {...props} />
+  ),
   h1: ({ className, children, ...props }: React.ComponentProps<"h1">) => (
     <h1
       className={cn(
@@ -413,8 +357,8 @@ export const mdxComponents = {
           "w-full border-separate border-spacing-0 text-sm",
           "[&_tbody_td]:bg-card [&_tbody_td]:border-t",
           "[&_tbody_td:first-child]:border-l [&_tbody_td:last-child]:border-r [&_tbody_tr:last-child_td]:border-b",
-          "[&_tbody_tr:first-child_td:first-child]:rounded-tl-xl [&_tbody_tr:first-child_td:last-child]:rounded-tr-xl",
-          "[&_tbody_tr:last-child_td:first-child]:rounded-bl-xl [&_tbody_tr:last-child_td:last-child]:rounded-br-xl",
+          "[&_tbody_tr:first-child_td:first-child]:rounded-tl-[var(--frame-inner-radius)] [&_tbody_tr:first-child_td:last-child]:rounded-tr-[var(--frame-inner-radius)]",
+          "[&_tbody_tr:last-child_td:first-child]:rounded-bl-[var(--frame-inner-radius)] [&_tbody_tr:last-child_td:last-child]:rounded-br-[var(--frame-inner-radius)]",
           className
         )}
         {...props}
@@ -433,7 +377,7 @@ export const mdxComponents = {
   th: ({ className, ...props }: React.ComponentProps<"th">) => (
     <th
       className={cn(
-        "text-muted-foreground px-3 py-2 text-left text-xs font-medium [[align=center]]:text-center [[align=right]]:text-right",
+        "text-muted-foreground px-3 py-2 text-left text-sm font-medium [[align=center]]:text-center [[align=right]]:text-right",
         className
       )}
       {...props}

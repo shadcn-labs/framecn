@@ -49,14 +49,14 @@ export const CodeBlockCommand = ({
   );
 
   return (
-    <Frame className={cn("text-sm", className)}>
+    <Frame className={cn("px-0.5 pt-0 pb-0.5 text-sm", className)}>
       <Tabs
         className="gap-0"
         onValueChange={handlePackageManagerChange}
         value={packageManager}
       >
-        <FrameHeader className="px-1.5 pr-1">
-          <TabsList className="rounded-none border-0 bg-transparent p-0 [&_svg]:ms-1.5 [&_svg]:me-2 [&_svg]:size-4 [&_svg]:text-muted-foreground">
+        <FrameHeader className="h-10 min-h-0 px-2 py-0">
+          <TabsList className="bg-transparent [--tabs-radius:0px] [--tabs-padding:0px] [--tabs-border-width:0px] [--tabs-item-radius:var(--radius-md)] [&_svg]:me-2 [&_svg]:size-4 [&_svg]:text-muted-foreground">
             {getIconForPackageManager(packageManager)}
 
             {Object.entries(commandTabs).map(([key]) => (
@@ -71,7 +71,7 @@ export const CodeBlockCommand = ({
             ))}
           </TabsList>
           <CopyButton
-            className="static ms-auto size-7 bg-transparent"
+            className="static ms-auto size-7 bg-transparent opacity-70 hover:bg-muted hover:opacity-100 focus-visible:bg-muted focus-visible:opacity-100"
             value={copyValue}
             event={copyEvent}
             tooltip="Copy install command"

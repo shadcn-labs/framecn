@@ -9,7 +9,6 @@ export const ROUTES = {
   CONTACT: "/contact",
   DOCS: "/docs",
   DOCS_CHANGELOG: "/docs/changelog",
-  DOCS_CONCEPTS: "/docs/concepts",
   DOCS_INSTALLATION: "/docs/installation",
   DOCS_MCP: "/docs/mcp",
   DOCS_REGISTRY: "/docs/registry",

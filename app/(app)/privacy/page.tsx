@@ -10,7 +10,7 @@ import { createPageMetadata } from "@/seo/metadata";
 export const dynamic = "force-static";
 
 export const metadata = createPageMetadata({
-  description: `What ${SITE.NAME} collects, why, and who processes it. No ad trackers, no cookie banners.`,
+  description: `What ${SITE.NAME} collects, why, and who processes it.`,
   path: ROUTES.PRIVACY,
   title: "Privacy Policy",
 });
@@ -20,13 +20,13 @@ export default function PrivacyPage() {
     <LegalPage
       path={ROUTES.PRIVACY}
       title="Privacy Policy"
-      updated="Oct 29, 2026"
+      updated="Oct 30, 2026"
       intro={
         <p>
           {SITE.NAME} is operated by Aniket Pawar as Shadcn Labs. We collect as
           little as we can: browsing the site and installing free components
-          needs no account and sets no tracking cookies. This page explains what
-          we do collect and why.
+          needs no account. This page explains what we collect and which
+          providers receive information when you use the site.
         </p>
       }
     >
@@ -47,11 +47,45 @@ export default function PrivacyPage() {
         </p>
       </LegalSection>
 
+      <LegalSection title="Advertising">
+        <p>
+          The sidebar displays{" "}
+          <a
+            href="https://www.carbonads.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={proseLinkClass}
+          >
+            Carbon Ads
+          </a>
+          . Loading an ad connects your browser to Carbon&apos;s network, which
+          receives request information such as your IP address and browser
+          headers. We do not send your account information to Carbon.
+        </p>
+      </LegalSection>
+
       <LegalSection title="Hosting logs">
         <p>
           The site is hosted on Vercel. Like any web host, Vercel processes
           request data such as your IP address and user agent to serve pages and
           protect against abuse, and keeps short-lived logs of those requests.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Contact form">
+        <p>
+          When you submit the contact form, your name, email, inquiry type,
+          subject, message, and email preference are sent to Shadcn Labs through{" "}
+          <a
+            href="https://formsubmit.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={proseLinkClass}
+          >
+            FormSubmit
+          </a>
+          . We use these details to respond to your inquiry and respect your
+          email preference.
         </p>
       </LegalSection>
 

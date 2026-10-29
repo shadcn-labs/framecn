@@ -28,7 +28,7 @@ export const CodeCollapsibleWrapper = ({
       open={isOpened}
       onOpenChange={setIsOpened}
       className={cn(
-        "group/collapsible relative md:-mx-1",
+        "group/collapsible relative [--frame-radius:var(--radius-xl)] [--frame-inset:calc(var(--spacing)*0.5+1px)] [--frame-inner-radius:max(0px,calc(var(--frame-radius)-var(--frame-inset)))]",
         isOpened && "[&_[data-rehype-pretty-code-title]]:pr-32",
         className
       )}
@@ -39,7 +39,7 @@ export const CodeCollapsibleWrapper = ({
         render={
           <div
             className={cn(
-              "absolute top-1.5 right-9 z-10 flex items-center",
+              "absolute top-[calc(1px+var(--spacing)*1.5)] right-9.5 z-10 flex items-center",
               !isOpened && "hidden",
               navTriggerClassName
             )}
@@ -63,12 +63,7 @@ export const CodeCollapsibleWrapper = ({
         {children}
       </CollapsibleContent>
 
-      <div
-        className={cn(
-          "absolute inset-x-0 bottom-[3px] mx-[3px] flex h-20 items-center justify-center rounded-b-lg bg-linear-to-b from-card/70 to-card",
-          isOpened && "hidden"
-        )}
-      >
+      <div className="absolute inset-x-[var(--frame-inset)] bottom-[var(--frame-inset)] flex h-20 items-center justify-center rounded-b-[var(--frame-inner-radius)] bg-linear-to-b from-transparent via-50% to-background group-data-open/collapsible:hidden">
         <CollapsibleTrigger render={<Button variant="outline" size="sm" />}>
           Expand
         </CollapsibleTrigger>

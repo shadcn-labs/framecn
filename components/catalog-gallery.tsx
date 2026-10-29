@@ -50,7 +50,7 @@ const CatalogCard = ({
       scroll={false}
       onFocus={() => onActiveChange(true)}
       onBlur={() => onActiveChange(false)}
-      className="block outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
+      className="block outline-none after:absolute after:inset-0 after:rounded-[var(--frame-radius)] focus-visible:after:ring-2 focus-visible:after:ring-ring"
     >
       <FrameContent
         className="relative overflow-hidden"

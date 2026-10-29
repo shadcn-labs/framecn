@@ -81,7 +81,7 @@ export const ProHighlight = () => {
           onPointerLeave={() => setActive(false)}
           onFocus={() => setActive(true)}
           onBlur={() => setActive(false)}
-          className="bg-card focus-visible:ring-ring block self-stretch overflow-hidden rounded-lg border outline-none focus-visible:ring-2 md:flex md:items-center"
+          className="bg-card focus-visible:ring-ring block self-stretch overflow-hidden rounded-[var(--frame-inner-radius)] border outline-none focus-visible:ring-2 md:flex md:items-center"
         >
           <div className="w-full">
             <CatalogPreview name="node-reveal" active={active} />

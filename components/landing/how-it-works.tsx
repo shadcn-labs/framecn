@@ -71,10 +71,17 @@ export const HowItWorks = async () => {
               data-rehype-pretty-code-figure=""
               className="mx-0 mt-5 flex flex-col md:mx-0 [&>div]:flex-1 [&>div>pre]:h-full"
             >
-              <figcaption data-rehype-pretty-code-title="">
-                {step.file}
+              <figcaption
+                data-rehype-pretty-code-title=""
+                className="flex items-center justify-between gap-2 pr-2"
+              >
+                <span className="truncate font-normal">{step.file}</span>
+                <CopyButton
+                  value={step.code}
+                  tooltip="Copy code"
+                  className="text-muted-foreground static size-7 bg-transparent opacity-70 hover:bg-muted hover:opacity-100 focus-visible:bg-muted focus-visible:opacity-100"
+                />
               </figcaption>
-              <CopyButton value={step.code} tooltip="Copy code" />
               <div dangerouslySetInnerHTML={{ __html: highlighted[index] }} />
             </figure>
           </li>

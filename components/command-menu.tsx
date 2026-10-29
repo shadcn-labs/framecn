@@ -50,7 +50,7 @@ import { cn } from "@/lib/utils";
 type DocUrlKind = { kind: "component"; slug: string } | { kind: "page" };
 
 const GROUP_HEADING_CLS =
-  "!p-0 [&_[cmdk-group-heading]]:scroll-mt-16 [&_[cmdk-group-heading]]:!p-3 [&_[cmdk-group-heading]]:!pb-1";
+  "[--command-group-padding:0px] !p-0 [&_[cmdk-group-heading]]:scroll-mt-16 [&_[cmdk-group-heading]]:!p-3 [&_[cmdk-group-heading]]:!pb-1";
 
 const parseDocPageUrl = (url: string): DocUrlKind => {
   const item = findCatalogItemByPath(url);
@@ -100,7 +100,7 @@ const CommandMenuItem = ({
     <CommandItem
       ref={ref}
       className={cn(
-        "data-[selected=true]:border-input data-[selected=true]:bg-input/50 h-9 rounded-md border border-transparent px-3! font-medium",
+        "data-[selected=true]:border-input data-[selected=true]:bg-input/50 h-9 rounded-[var(--command-item-radius)] border border-transparent px-3! font-medium",
         className
       )}
       {...props}
@@ -292,13 +292,16 @@ export const CommandMenu = ({
       >
         <SearchIcon />
       </DialogTrigger>
-      <DialogContent showCloseButton={false} className="p-2 pb-11">
+      <DialogContent
+        showCloseButton={false}
+        className="[--command-dialog-radius:var(--radius-xl)] rounded-[var(--command-dialog-radius)] p-2 pb-11"
+      >
         <DialogHeader className="sr-only">
           <DialogTitle>Search documentation...</DialogTitle>
           <DialogDescription>Search for a command to run...</DialogDescription>
         </DialogHeader>
         <Command
-          className="**:data-[slot=command-input-wrapper]:bg-input/50 **:data-[slot=command-input-wrapper]:border-input rounded-none bg-transparent **:data-[slot=command-input]:h-9! **:data-[slot=command-input]:py-0 **:data-[slot=command-input-wrapper]:mb-0 **:data-[slot=command-input-wrapper]:h-9! **:data-[slot=command-input-wrapper]:rounded-md **:data-[slot=command-input-wrapper]:border"
+          className="[--command-radius:max(0px,calc(var(--command-dialog-radius)-var(--spacing)*2))] **:data-[slot=command-input-wrapper]:bg-input/50 **:data-[slot=command-input-wrapper]:border-input rounded-none bg-transparent **:data-[slot=command-input]:h-9! **:data-[slot=command-input]:py-0 **:data-[slot=command-input-wrapper]:mb-0 **:data-[slot=command-input-wrapper]:h-9! **:data-[slot=command-input-wrapper]:rounded-[var(--command-radius)] **:data-[slot=command-input-wrapper]:border"
           filter={handleFilter}
         >
           <CommandInput placeholder="Search documentation..." />
@@ -338,7 +341,7 @@ export const CommandMenu = ({
             ))}
           </CommandList>
         </Command>
-        <div className="text-muted-foreground bg-muted absolute inset-x-0 bottom-0 z-20 flex h-10 items-center gap-2 overflow-hidden rounded-b-xl border-t px-4 text-xs font-medium">
+        <div className="text-muted-foreground bg-muted absolute inset-x-0 bottom-0 z-20 flex h-10 items-center gap-2 overflow-hidden rounded-b-[var(--command-dialog-radius)] border-t px-4 text-xs font-medium">
           <div className="flex items-center gap-2 shrink-0">
             <Kbd className="shrink-0">
               <CornerDownLeftIcon />

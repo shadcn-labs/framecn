@@ -9,7 +9,7 @@ import { SectionHeading } from "@/components/landing/section-heading";
 import { ProBadge } from "@/components/pro-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FrameContent } from "@/components/ui/frame";
+import { Frame, FrameContent } from "@/components/ui/frame";
 import { ROUTES } from "@/constants/routes";
 import { CATALOG, CATEGORY_LABELS, catalogItemHref } from "@/lib/catalog";
 
@@ -52,17 +52,21 @@ export const Showcase = () => {
       </SectionHeading>
       <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {ITEMS.map((item) => (
-          <li
+          <Frame
             key={item.id}
-            className="group/card bg-muted/60 hover:border-foreground/15 focus-within:border-foreground/25 relative rounded-xl border p-0.5 transition-colors"
-            onPointerEnter={() => setActive(item.id)}
-            onPointerLeave={() => setActive(null)}
+            className="group/card hover:border-foreground/15 focus-within:border-foreground/25 relative transition-colors"
+            render={
+              <li
+                onPointerEnter={() => setActive(item.id)}
+                onPointerLeave={() => setActive(null)}
+              />
+            }
           >
             <Link
               href={catalogItemHref(item)}
               onFocus={() => setActive(item.id)}
               onBlur={() => setActive(null)}
-              className="focus-visible:after:ring-ring block outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2"
+              className="focus-visible:after:ring-ring block outline-none after:absolute after:inset-0 after:rounded-[var(--frame-radius)] focus-visible:after:ring-2"
             >
               <FrameContent className="relative overflow-hidden">
                 <CatalogPreview name={item.id} active={active === item.id} />
@@ -83,7 +87,7 @@ export const Showcase = () => {
                 </p>
               </div>
             </Link>
-          </li>
+          </Frame>
         ))}
       </ul>
     </section>

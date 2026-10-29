@@ -1,221 +1,376 @@
-import { ExternalLink, Heart, Plus, Star } from "lucide-react";
-import type { Metadata } from "next";
+import {
+  ArrowUpRightIcon,
+  CircleCheckIcon,
+  HeartIcon,
+  PlusIcon,
+} from "lucide-react";
 import Image from "next/image";
 
 import { ExternalLinkButton } from "@/components/external-link-button";
 import { PageHeader } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Frame, FrameContent } from "@/components/ui/frame";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
-import { getStargazers } from "@/lib/github";
-import { tiers } from "@/lib/sponsors";
+import { CATALOG } from "@/lib/catalog";
+import { getStargazerCount } from "@/lib/github";
+import {
+  ONE_TIME_SPONSOR_TIERS,
+  SPONSORS,
+  SPONSOR_TIERS,
+} from "@/lib/sponsors";
 import { createPageMetadata } from "@/seo/metadata";
 
-export const metadata: Metadata = createPageMetadata({
+export const metadata = createPageMetadata({
   description:
-    "Support framecn — free & open-source video components for React. Sponsor tiers, stargazers, and how to contribute.",
+    "Support framecn through GitHub Sponsors. Meet the audience and current sponsors, compare the published tiers, and choose monthly or one-time support.",
   path: ROUTES.SPONSOR,
   title: "Sponsor",
 });
 
-const SponsorPage = async () => {
-  const stargazers = await getStargazers();
+const SECTIONS = [
+  { id: "audience", title: "Audience" },
+  { id: "placements", title: "Placements" },
+  { id: "sponsors", title: "Sponsors" },
+  { id: "plans", title: "Plans" },
+  { id: "questions", title: "Questions" },
+  { id: "faqs", title: "FAQs" },
+];
+
+const FAQ = [
+  {
+    answer:
+      "Sponsorship supports Aniket Pawar's ongoing open-source work, including framecn's free caption components, documentation, maintenance, and developer tooling.",
+    question: "What does my sponsorship support?",
+  },
+  {
+    answer:
+      "No. GitHub sponsorship and framecn Pro are separate. Sponsorship provides the benefits listed on the selected GitHub tier; it does not activate a Pro license or unlock Pro source code.",
+    question: "Does sponsorship include framecn Pro?",
+  },
+  {
+    answer:
+      "The published monthly tiers include Bronze, Silver, or Gold recognition on the sponsors pages of the maintainer's major projects. Individuals can be represented by their name and avatar; companies can use their name and logo, with a link of their choice. No homepage, README, or sidebar advertising placement is included here.",
+    question: "Where will my name or logo appear?",
+  },
+  {
+    answer:
+      "Yes. GitHub currently offers a $10 Coffee tier and a $100 Dinner tier, as well as custom amounts. These are one-time contributions, not monthly subscriptions. Sponsor-page recognition is a benefit of the monthly tiers.",
+    question: "Can I make a one-time contribution?",
+  },
+  {
+    answer:
+      "Payments and sponsorship settings are handled by GitHub Sponsors. Manage your monthly sponsorship, billing, and cancellation from your GitHub account. There is no separate sponsorship checkout on framecn.",
+    question: "How do I manage or cancel a sponsorship?",
+  },
+  {
+    answer:
+      "Yes. GitHub lets you choose whether your sponsorship is public. Private sponsors are not identified on this page, and public sponsorships are not assigned to a tier here when that information is not public.",
+    question: "Can I sponsor privately?",
+  },
+];
+
+export default async function SponsorPage() {
+  const stars = await getStargazerCount();
+  const freeComponents = CATALOG.filter((item) => !item.pro).length;
+  const audience = [
+    ...(stars > 0 ? [{ label: "GitHub stars", value: stars }] : []),
+    { label: "Catalog components", value: CATALOG.length },
+    { label: "Free caption components", value: freeComponents },
+  ];
 
   return (
     <PageTransition>
-      <section className="container-wrapper relative">
-        <div className="container max-w-2xl py-12 md:py-16">
-          <PageHeader
-            title="Support the project"
-            description="framecn is a collection of beautifully designed, and customizable video components for React. Every component is free and that's not changing."
+      <article className="container-page py-12 md:py-16">
+        <PageHeader
+          title="Sponsor framecn"
+          description="Support the work behind the components, documentation, and tools you use to make video with React."
+        >
+          <ExternalLinkButton href={LINK.SPONSOR} sound="heart">
+            <HeartIcon aria-hidden />
+            Sponsor on GitHub
+            <ArrowUpRightIcon aria-hidden />
+          </ExternalLinkButton>
+        </PageHeader>
+
+        <nav
+          aria-label="On this page"
+          className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm"
+        >
+          {SECTIONS.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {section.title}
+            </a>
+          ))}
+        </nav>
+
+        <section
+          id="audience"
+          aria-labelledby="audience-title"
+          className="mt-12 scroll-mt-20"
+        >
+          <h2
+            id="audience-title"
+            className="text-2xl font-medium tracking-tight"
           >
-            <ExternalLinkButton sound="heart" size="lg" href={LINK.SPONSOR}>
-              <Heart />
-              Sponsor on GitHub
-              <ExternalLink className="size-3.5 opacity-60" />
-            </ExternalLinkButton>
-          </PageHeader>
-          <div className="text-muted-foreground mt-8 space-y-4 text-[15px] leading-7">
-            <p>
-              I&apos;m not going to paywall features or gate components behind a
-              sponsorship tier. But if framecn made your project better, or you
-              just like that this exists in the open, sponsoring is a nice way
-              to say so. It helps me justify spending real time on it instead of
-              treating it like a side-of-desk thing.
-            </p>
-            <p>
-              Any amount is genuinely appreciated. And if money&apos;s not your
-              thing, starring the repo or sharing something you liked works too.
-            </p>
-          </div>
-        </div>
-      </section>
+            Audience
+          </h2>
+          <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
+            React developers building captions, product videos, and motion-rich
+            compositions. They discover components in the catalog, install them
+            with the shadcn CLI, and customize them in their own projects.
+          </p>
+          <Frame className="mt-6">
+            <FrameContent
+              render={<dl />}
+              className="grid divide-y overflow-hidden sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+            >
+              {audience.map((stat) => (
+                <div key={stat.label} className="px-5 py-5">
+                  <dt className="text-muted-foreground text-sm">
+                    {stat.label}
+                  </dt>
+                  <dd className="mt-2 font-mono text-3xl font-medium tabular-nums">
+                    {stat.value.toLocaleString("en-US")}
+                  </dd>
+                </div>
+              ))}
+            </FrameContent>
+          </Frame>
+          <p className="text-muted-foreground mt-3 text-xs leading-5">
+            Public repository and catalog metrics, not estimated traffic or
+            guaranteed advertising reach.
+          </p>
+        </section>
 
-      <section className="container-wrapper relative">
-        <div className="container max-w-2xl flex flex-col">
-          {tiers.map((tier) => {
-            const filled = tier.sponsors.length;
-            const empty = tier.slots - filled;
+        <section
+          id="placements"
+          aria-labelledby="placements-title"
+          className="mt-14 scroll-mt-20 border-t pt-10"
+        >
+          <h2
+            id="placements-title"
+            className="text-2xl font-medium tracking-tight"
+          >
+            Placements
+          </h2>
+          <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
+            The monthly tiers currently promise sponsor-page recognition. We
+            keep the placement details aligned with the benefits published on
+            GitHub.
+          </p>
+          <Frame className="mt-6">
+            <FrameContent className="p-5 sm:p-6">
+              <p className="text-muted-foreground text-xs font-medium uppercase tracking-wide">
+                Sponsor-page listing
+              </p>
+              <h3 className="mt-2 text-lg font-medium">
+                Your name or logo, with a link of your choice
+              </h3>
+              <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-6">
+                Bronze, Silver, and Gold recognition follows your monthly GitHub
+                tier. Individuals can use a name and avatar; companies can use a
+                company name and logo. Other placements are not bundled into
+                these plans.
+              </p>
+            </FrameContent>
+          </Frame>
+        </section>
 
-            return (
-              <div
-                key={tier.name}
-                className="flex flex-col gap-3 py-6 first-of-type:pt-0"
+        <section
+          id="sponsors"
+          aria-labelledby="sponsors-title"
+          className="mt-14 scroll-mt-20 border-t pt-10"
+        >
+          <h2
+            id="sponsors-title"
+            className="text-2xl font-medium tracking-tight"
+          >
+            Sponsors
+          </h2>
+          <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
+            Thank you to the public GitHub sponsors supporting Aniket&apos;s
+            open-source work. Private sponsors and non-public tier details are
+            not shown.
+          </p>
+          <ul className="mt-6 grid gap-3 sm:grid-cols-3">
+            {SPONSORS.map((sponsor) => (
+              <Frame key={sponsor.login} render={<li />}>
+                <FrameContent className="flex h-full items-center gap-3 p-5">
+                  <Image
+                    src={sponsor.avatar}
+                    alt={`@${sponsor.login}`}
+                    width={40}
+                    height={40}
+                    className="size-10 shrink-0 rounded-full"
+                    unoptimized
+                  />
+                  <span className="min-w-0 truncate text-sm font-medium">
+                    @{sponsor.login}
+                  </span>
+                </FrameContent>
+              </Frame>
+            ))}
+            <li>
+              <a
+                href={LINK.SPONSOR}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground hover:border-foreground/30 flex h-full min-h-20 items-center justify-center gap-2 rounded-xl border border-dashed p-5 text-sm transition-colors"
               >
-                <div
-                  className="relative flex items-center justify-center rounded-md px-8 py-2.5"
-                  style={{
-                    background: tier.colors.bg,
-                    boxShadow:
-                      "inset 0 1px 1px rgba(255,255,255,0.35), inset 0 -1px 2px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.12)",
-                  }}
-                >
-                  {[
-                    "left-2.5 top-1/2 -translate-y-1/2",
-                    "right-2.5 top-1/2 -translate-y-1/2",
-                  ].map((pos) => (
-                    <span
-                      key={pos}
-                      className={`absolute size-2 rounded-full ${pos}`}
-                      style={{
-                        background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5), transparent 50%), ${tier.colors.bg}`,
-                        border: "1px solid rgba(0,0,0,0.15)",
-                        boxShadow:
-                          "inset 0 1px 2px rgba(0,0,0,0.3), inset 0 -1px 1px rgba(255,255,255,0.2), 0 1px 1px rgba(255,255,255,0.15)",
-                      }}
-                    />
-                  ))}
-                  <h3
-                    className="text-xs font-extrabold uppercase tracking-[0.2em]"
-                    style={{ color: tier.colors.text }}
-                  >
-                    {tier.name}
-                  </h3>
-                </div>
+                <PlusIcon className="size-4" aria-hidden />
+                Become a sponsor
+              </a>
+            </li>
+          </ul>
+          <a
+            href={LINK.SPONSOR}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground mt-4 inline-flex items-center gap-1 text-sm underline underline-offset-4"
+          >
+            See the latest sponsor list on GitHub{" "}
+            <ArrowUpRightIcon className="size-3.5" aria-hidden />
+          </a>
+        </section>
 
-                <div
-                  className="grid gap-2 max-sm:grid-cols-[repeat(1,1fr)]! max-lg:grid-cols-[repeat(2,1fr)]!"
-                  style={{
-                    gridTemplateColumns: `repeat(${Math.min(tier.slots, 4)}, 1fr)`,
-                  }}
-                >
-                  {tier.sponsors.map((sponsor) => (
-                    <a
-                      key={sponsor.name}
-                      href={sponsor.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center justify-center rounded-md border p-6 transition-all hover:scale-[1.02]"
-                      style={{
-                        backgroundColor: tier.colors.slotBg,
-                        borderColor: tier.colors.slotBorder,
-                      }}
-                    >
-                      {sponsor.logo ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={sponsor.logo}
-                          alt={sponsor.name}
-                          className="h-8 w-auto opacity-60 transition-opacity group-hover:opacity-100"
+        <section
+          id="plans"
+          aria-labelledby="plans-title"
+          className="mt-14 scroll-mt-20 border-t pt-10"
+        >
+          <h2 id="plans-title" className="text-2xl font-medium tracking-tight">
+            Plans
+          </h2>
+          <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
+            These are the published GitHub Sponsors tiers. Choose a monthly plan
+            or make a one-time contribution. Every sponsorship is completed on
+            GitHub.
+          </p>
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            {SPONSOR_TIERS.map((tier) => (
+              <Frame key={tier.slug} className="flex">
+                <FrameContent className="flex flex-1 flex-col p-5">
+                  <h3 className="font-medium">{tier.name}</h3>
+                  <p className="mt-4">
+                    <span className="text-3xl font-semibold tracking-tight">
+                      ${tier.price}
+                    </span>
+                    <span className="text-muted-foreground ml-1 text-sm">
+                      per month
+                    </span>
+                  </p>
+                  <p className="text-muted-foreground mt-3 text-sm leading-6">
+                    {tier.description}
+                  </p>
+                  <ul className="mt-5 space-y-3 text-sm">
+                    {[
+                      `${tier.name} sponsor-page recognition`,
+                      "Name and avatar, or company logo",
+                      "Link to your website or profile",
+                    ].map((benefit) => (
+                      <li key={benefit} className="flex gap-2">
+                        <CircleCheckIcon
+                          className="text-muted-foreground mt-0.5 size-4 shrink-0"
+                          aria-hidden
                         />
-                      ) : (
-                        <span className="text-sm font-medium text-foreground">
-                          {sponsor.name}
-                        </span>
-                      )}
-                    </a>
-                  ))}
-
-                  {Array.from({ length: empty }).map((_, i) => (
-                    <a
-                      key={`empty-${tier.name}-${i}`}
-                      href={LINK.SPONSOR}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center rounded-md border border-dashed p-8 transition-all hover:scale-[1.02]"
-                      style={{ borderColor: tier.colors.slotBorder }}
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-6">
+                    <ExternalLinkButton
+                      href={`${LINK.SPONSOR}/sponsorships?tier_id=${tier.tierId}`}
+                      variant="outline"
+                      className="w-full"
                     >
-                      <Plus
-                        className="size-5"
-                        style={{ color: tier.colors.border, opacity: 0.5 }}
-                      />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {stargazers.length > 0 && (
-        <section className="container-wrapper relative">
-          <div className="container max-w-2xl pt-6">
-            <Card className="shadow-none gap-4 py-4">
-              <CardHeader className="flex items-center gap-3 px-4">
-                <h3 className="text-xs font-bold uppercase tracking-wide text-foreground">
-                  Stargazers
-                </h3>
-                <span className="text-xs tabular-nums text-muted-foreground">
-                  {stargazers.length}
-                </span>
-              </CardHeader>
-              <CardContent className="flex flex-wrap justify-center gap-0 px-4">
-                {stargazers.map((user) => (
-                  <a
-                    key={user.login}
-                    href={`https://github.com/${user.login}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={user.login}
-                    className="group relative p-1.5 transition-colors hover:bg-accent/50"
+                      Choose {tier.name} <ArrowUpRightIcon aria-hidden />
+                    </ExternalLinkButton>
+                  </div>
+                </FrameContent>
+              </Frame>
+            ))}
+          </div>
+          <h3 className="mt-8 text-lg font-medium">One-time support</h3>
+          <p className="text-muted-foreground mt-2 text-sm leading-6">
+            A one-time thank-you, without a monthly subscription.
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {ONE_TIME_SPONSOR_TIERS.map((tier) => (
+              <Frame key={tier.tierId}>
+                <FrameContent className="flex flex-wrap items-center justify-between gap-4 p-5">
+                  <div>
+                    <h4 className="font-medium">{tier.name}</h4>
+                    <p className="text-muted-foreground mt-1 text-sm">
+                      ${tier.price} once
+                    </p>
+                  </div>
+                  <ExternalLinkButton
+                    href={`${LINK.SPONSOR}/sponsorships?tier_id=${tier.tierId}`}
+                    variant="outline"
+                    size="sm"
                   >
-                    <Image
-                      src={user.avatar_url}
-                      alt={user.login}
-                      width={36}
-                      height={36}
-                      className="rounded-full ring-1 ring-border transition-all group-hover:ring-foreground/30 group-hover:scale-110"
-                      unoptimized
-                    />
-                  </a>
-                ))}
-              </CardContent>
-            </Card>
+                    Give ${tier.price} <ArrowUpRightIcon aria-hidden />
+                  </ExternalLinkButton>
+                </FrameContent>
+              </Frame>
+            ))}
           </div>
         </section>
-      )}
 
-      <section className="container-wrapper relative">
-        <div className="container flex flex-col items-center gap-4 py-16 md:py-20 lg:py-24">
-          <div className="flex flex-col items-center gap-2 text-center">
-            <h2 className="text-lg font-bold tracking-tight">
-              Want to back the project?
-            </h2>
-            <p className="max-w-sm text-sm text-muted-foreground">
-              Every bit helps — whether it&apos;s a sponsorship, a star, or
-              sharing something you found useful.
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <ExternalLinkButton sound="heart" href={LINK.SPONSOR}>
-              <Heart />
-              Become a Sponsor
-            </ExternalLinkButton>
-            <ExternalLinkButton
-              sound="star"
-              variant="outline"
-              href={LINK.GITHUB}
-            >
-              <Star />
-              Star on GitHub
-            </ExternalLinkButton>
-          </div>
-        </div>
-      </section>
+        <section
+          id="questions"
+          aria-labelledby="questions-title"
+          className="mt-14 scroll-mt-20 border-t pt-10"
+        >
+          <h2
+            id="questions-title"
+            className="text-2xl font-medium tracking-tight"
+          >
+            Questions
+          </h2>
+          <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
+            Not sure which tier to choose? Review the current benefits, choose a
+            custom amount, and manage your sponsorship directly on GitHub.
+            Sponsorship is separate from a framecn Pro purchase.
+          </p>
+          <ExternalLinkButton
+            href={LINK.SPONSOR}
+            className="mt-5"
+            variant="outline"
+          >
+            Explore options on GitHub <ArrowUpRightIcon aria-hidden />
+          </ExternalLinkButton>
+        </section>
+
+        <section
+          id="faqs"
+          aria-labelledby="faqs-title"
+          className="mt-14 scroll-mt-20 border-t pt-10"
+        >
+          <h2 id="faqs-title" className="text-2xl font-medium tracking-tight">
+            FAQs
+          </h2>
+          <Accordion className="mt-6">
+            {FAQ.map((item) => (
+              <AccordionItem key={item.question} value={item.question}>
+                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionContent>{item.answer}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
+      </article>
     </PageTransition>
   );
-};
-
-export default SponsorPage;
+}

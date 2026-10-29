@@ -35,6 +35,7 @@ import {
 } from "@/components/icons";
 import { ProBadge } from "@/components/pro-badge";
 import { ProUnlockDialog } from "@/components/pro-unlock-dialog";
+import { Step, Steps } from "@/components/steps";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -446,22 +447,20 @@ const Installation = ({
           </p>
         )}
       </TabsContent>
-      <TabsContent value="manual" className="space-y-3 text-xs leading-5">
-        <p className="text-muted-foreground">Install the dependency:</p>
-        <CodeBlockCommand
-          __bun__="bun add @editframe/react"
-          __npm__="npm install @editframe/react"
-          __pnpm__="pnpm add @editframe/react"
-          __yarn__="yarn add @editframe/react"
-        />
-        <p className="text-muted-foreground">
-          Copy the source into your project and update the import paths:
-        </p>
-        {canAccess ? (
-          <div className="[&_figure]:my-0">{source}</div>
-        ) : (
-          <LockedCode onUnlock={onUnlock} />
-        )}
+      <TabsContent value="manual" className="[&_h3.font-heading]:text-base">
+        <Steps compact className="mt-6">
+          <Step>Install the following dependency:</Step>
+          <CodeBlockCommand
+            className="mt-6"
+            __bun__="bun add @editframe/react"
+            __npm__="npm install @editframe/react"
+            __pnpm__="pnpm add @editframe/react"
+            __yarn__="yarn add @editframe/react"
+          />
+          <Step>Copy and paste the following code into your project.</Step>
+          {canAccess ? source : <LockedCode onUnlock={onUnlock} />}
+          <Step>Update the import paths to match your project setup.</Step>
+        </Steps>
       </TabsContent>
     </Tabs>
   </section>
@@ -656,6 +655,14 @@ export const ComponentDetail = ({
       ) {
         return;
       }
+      if (event.key.toLowerCase() === "m" && !event.repeat) {
+        event.preventDefault();
+        window.open(
+          `${catalogItemHref(item)}.md`,
+          "_blank",
+          "noopener,noreferrer"
+        );
+      }
       if (event.key === "ArrowLeft") {
         go(previous);
       }
@@ -665,7 +672,7 @@ export const ComponentDetail = ({
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [go, next, previous]);
+  }, [go, item, next, previous]);
 
   // Pro sources that are not synced still get a panel, with a locked preview.
   if (!(synced || item.pro)) {
@@ -757,6 +764,8 @@ export const ComponentDetail = ({
               </NavTooltipButton>
               <NavTooltipButton
                 label="View as Markdown"
+                shortcut="M"
+                aria-keyshortcuts="M"
                 nativeButton={false}
                 render={
                   // oxlint-disable-next-line jsx-a11y/anchor-has-content -- render template; content comes from the trigger.
@@ -773,7 +782,7 @@ export const ComponentDetail = ({
             <Tooltip handle={navTooltip}>
               {({ payload }) =>
                 payload ? (
-                  <TooltipContent className="flex items-center gap-2">
+                  <TooltipContent>
                     {payload.label}
                     {payload.shortcut && <Kbd>{payload.shortcut}</Kbd>}
                   </TooltipContent>
@@ -783,8 +792,7 @@ export const ComponentDetail = ({
           </TooltipProvider>
         </div>
 
-        {/* Fade content out at the bottom so text never gets sliced by the panel's rounded edge mid-scroll. */}
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-12 [mask-image:linear-gradient(to_bottom,black_calc(100%-3rem),transparent)]">
+        <div className="no-scrollbar scroll-fade-y min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-12">
           <header className="pt-4 pb-5">
             <div className="flex items-center gap-2">
               <h2
@@ -874,7 +882,7 @@ export const ComponentDetail = ({
           </div>
           {customizing && hasControls && (
             // Bottom sheet: spans the preview area edge to edge, only the top corners rounded, capped at ~a third.
-            <Frame className="animate-in slide-in-from-bottom fade-in-0 flex max-h-[34%] shrink-0 flex-col rounded-b-none border-x-0 border-b-0 duration-300">
+            <Frame className="animate-in slide-in-from-bottom fade-in-0 flex max-h-[34%] shrink-0 flex-col rounded-b-none border-x-0 border-b-0 duration-300 [--frame-inset:calc(var(--spacing)*0.5)]">
               <FrameHeader className="text-foreground text-sm font-medium">
                 Customize
                 {customizeActions}

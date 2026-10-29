@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 /* tw-animate exits default to animation-fill-mode: none, so an element whose fade-out finishes
    before Base UI unmounts it snaps back to full opacity for a frame (dialog/sheet backdrops blink).
@@ -283,9 +284,15 @@
   }
 
   [data-rehype-pretty-code-figure] {
+    --frame-radius: var(--radius-xl);
+    --frame-inset: calc(var(--spacing) * 0.5 + 1px);
+    --frame-inner-radius: max(
+      0px,
+      calc(var(--frame-radius) - var(--frame-inset))
+    );
     background-color: color-mix(in oklab, var(--muted) 60%, transparent);
     color: var(--color-code-foreground);
-    border-radius: var(--radius-xl);
+    border-radius: var(--frame-radius);
     border-width: 1px;
     border-color: var(--border);
     padding: calc(var(--spacing) * 0.5);
@@ -300,7 +307,7 @@
     > div > pre {
       background-color: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      border-radius: var(--frame-inner-radius);
     }
 
     [data-slot="copy-button"] {
@@ -311,6 +318,10 @@
       top: calc(var(--spacing) * 1.5) !important;
       background-color: transparent;
     }
+  }
+
+  [data-rehype-pretty-code-figure]:has([data-rehype-pretty-code-title]) {
+    padding-top: 0;
   }
 
   /* MDX `pre` blocks rendered as an install command already draw their own Frame; drop the outer shell. */
@@ -328,11 +339,11 @@
   }
 
   [data-rehype-pretty-code-title] {
-    min-height: calc(var(--spacing) * 9);
-    padding-block: calc(var(--spacing) * 2);
-    padding-inline: calc(var(--spacing) * 3);
+    height: calc(var(--spacing) * 10);
+    padding-block: 0;
+    padding-inline: calc(var(--spacing) * 2);
     padding-right: calc(var(--spacing) * 10);
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     font-family: var(--font-mono);
     color: var(--muted-foreground);
   }

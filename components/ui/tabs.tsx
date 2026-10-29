@@ -18,7 +18,7 @@ const TabsList = ({ className, ...props }: TabsPrimitive.List.Props) => (
   <TabsPrimitive.List
     data-slot="tabs-list"
     className={cn(
-      "bg-muted/60 text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg border p-0.5",
+      "bg-muted/60 text-muted-foreground inline-flex h-9 w-fit items-center justify-center [--tabs-radius:var(--radius-lg)] [--tabs-padding:calc(var(--spacing)*0.5)] [--tabs-border-width:1px] [--tabs-item-radius:max(0px,calc(var(--tabs-radius)-var(--tabs-padding)-var(--tabs-border-width)))] rounded-[var(--tabs-radius)] border-[length:var(--tabs-border-width)] p-[var(--tabs-padding)]",
       className
     )}
     {...props}
@@ -47,7 +47,7 @@ const TabsTrigger = ({
       data-slot="tabs-trigger"
       onClick={handleClick}
       className={cn(
-        "data-active:bg-card data-active:border-border data-active:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring text-muted-foreground hover:text-foreground inline-flex h-full flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-active:shadow-xs [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-active:bg-card data-active:border-border data-active:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring text-muted-foreground hover:text-foreground inline-flex h-full flex-1 items-center justify-center gap-1.5 rounded-[var(--tabs-item-radius)] border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-active:shadow-xs [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}

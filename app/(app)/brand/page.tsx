@@ -99,7 +99,7 @@ export default function BrandPage() {
             spacing. Total height is 7x.
           </p>
           <Frame className="mt-4">
-            <Card className="items-center justify-center rounded-lg py-12 shadow-none">
+            <Card className="items-center justify-center rounded-[var(--frame-inner-radius)] py-12 shadow-none">
               <div className="flex items-center gap-2.5">
                 <LogoMark className="size-7" />
                 <span className="text-[28px] leading-none font-medium tracking-[-0.03em]">
@@ -143,7 +143,7 @@ export default function BrandPage() {
             Typography
           </h2>
           <Frame className="mt-4">
-            <Card className="gap-2 rounded-lg px-6 shadow-none">
+            <Card className="gap-2 rounded-[var(--frame-inner-radius)] px-6 shadow-none">
               <p className="text-3xl font-medium tracking-[-0.03em]">
                 Beautiful videos, made simple
               </p>

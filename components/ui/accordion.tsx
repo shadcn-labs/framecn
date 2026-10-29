@@ -1,7 +1,7 @@
 "use client";
 
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
-import { ChevronDownIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 
 import type { FeedbackType } from "@/hooks/use-feedback";
 import { useFeedback } from "@/hooks/use-feedback";
@@ -20,7 +20,7 @@ const Accordion = ({
     data-slot="accordion"
     hiddenUntilFound={hiddenUntilFound}
     className={cn(
-      "bg-muted/60 grid gap-0.5 rounded-xl border p-0.5",
+      "bg-muted/60 grid gap-0.5 rounded-[var(--accordion-radius)] border p-0.5 [--accordion-radius:var(--radius-xl)] [--accordion-item-radius:max(0px,calc(var(--accordion-radius)-var(--spacing)*0.5-1px))]",
       className
     )}
     {...props}
@@ -33,7 +33,10 @@ const AccordionItem = ({
 }: AccordionPrimitive.Item.Props) => (
   <AccordionPrimitive.Item
     data-slot="accordion-item"
-    className={cn("bg-card rounded-lg border", className)}
+    className={cn(
+      "bg-card rounded-[var(--accordion-item-radius)] border",
+      className
+    )}
     {...props}
   />
 );
@@ -61,14 +64,17 @@ const AccordionTrigger = ({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "focus-visible:ring-ring/50 flex flex-1 items-center justify-between gap-4 rounded-lg px-4 py-3.5 text-left text-[15px] font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[data-panel-open]>svg]:rotate-180",
+          "focus-visible:ring-ring/50 flex flex-1 items-center justify-between gap-4 rounded-[max(0px,calc(var(--accordion-item-radius)-1px))] px-4 py-3.5 text-left text-[15px] font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[data-panel-open]>svg]:rotate-45",
           className
         )}
         onClick={handleClick}
         {...props}
       >
         {children}
-        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 transition-transform duration-200 motion-reduce:transition-none" />
+        <PlusIcon
+          aria-hidden
+          className="text-muted-foreground pointer-events-none size-4 shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none"
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );

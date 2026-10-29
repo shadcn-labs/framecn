@@ -21,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Frame } from "@/components/ui/frame";
 import {
   Popover,
   PopoverContent,
@@ -170,7 +171,7 @@ export const DocsCopyPage = ({
     <Button
       variant="ghost"
       size="sm"
-      className="peer size-7 rounded-md md:size-6 md:text-[0.8rem]"
+      className="peer size-7 rounded-[var(--frame-inner-radius)] md:size-6 md:text-[0.8rem]"
     >
       <ChevronDownIcon className="rotate-180 sm:rotate-0" />
     </Button>
@@ -178,17 +179,17 @@ export const DocsCopyPage = ({
 
   return (
     <Popover sounds>
-      <div
+      <Frame
         ref={groupRef}
         // Card UI: muted shell (with the chevron on it); only the Copy Page action is the white card.
-        className="group/buttons bg-muted/60 relative flex items-center gap-0.5 rounded-lg border p-0.5 *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10"
+        className="group/buttons relative flex items-center gap-0.5 [--frame-radius:var(--radius-lg)] *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10"
       >
         <CopyButton
           value={copyValue}
           showTooltip={false}
           sound="copy"
           variant="ghost"
-          className="bg-card hover:bg-card/80 h-7 rounded-md border shadow-xs md:h-6 md:text-[0.8rem]"
+          className="bg-card hover:bg-card/80 h-7 rounded-[var(--frame-inner-radius)] border shadow-xs md:h-6 md:text-[0.8rem]"
         >
           Copy Page
         </CopyButton>
@@ -196,7 +197,7 @@ export const DocsCopyPage = ({
           <DropdownMenuTrigger render={trigger} className="hidden sm:flex" />
           <DropdownMenuContent
             align="end"
-            className="animate-none! rounded-lg shadow-none"
+            className="animate-none! [--menu-radius:var(--radius-lg)] shadow-none"
           >
             {MENU_ITEMS.map(([key, render]) => (
               <DropdownMenuItem key={key} render={render(url)} sound="click" />
@@ -206,7 +207,7 @@ export const DocsCopyPage = ({
         <PopoverTrigger render={trigger} className="flex sm:hidden" />
         <PopoverContent
           anchor={groupRef}
-          className="w-52 origin-center! rounded-lg bg-background/70 p-1 shadow-none backdrop-blur-sm dark:bg-background/60"
+          className="w-52 origin-center! [--copy-menu-radius:var(--radius-lg)] [--copy-menu-inset:calc(var(--spacing)+1px)] rounded-[var(--copy-menu-radius)] bg-background/70 p-1 shadow-none backdrop-blur-sm dark:bg-background/60"
           align="start"
         >
           {MENU_ITEMS.map(([key, render]) => (
@@ -217,11 +218,11 @@ export const DocsCopyPage = ({
               render={render(url)}
               key={key}
               sound="click"
-              className="w-full justify-start text-base font-normal *:[svg]:text-muted-foreground"
+              className="w-full justify-start rounded-[max(0px,calc(var(--copy-menu-radius)-var(--copy-menu-inset)))] text-base font-normal *:[svg]:text-muted-foreground"
             />
           ))}
         </PopoverContent>
-      </div>
+      </Frame>
     </Popover>
   );
 };

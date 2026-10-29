@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { SectionHeading } from "@/components/landing/section-heading";
-import { FrameContent } from "@/components/ui/frame";
+import { Frame, FrameContent } from "@/components/ui/frame";
 import { ROUTES } from "@/constants/routes";
 import { CATALOG, COMPONENT_CATEGORIES, categoryHref } from "@/lib/catalog";
 import type { CatalogCategory } from "@/lib/catalog";
@@ -65,7 +65,7 @@ const TILES = [
 }[];
 
 const tileClass =
-  "bg-muted/60 hover:border-foreground/15 focus-visible:ring-ring flex h-full rounded-xl border p-0.5 outline-none transition-colors focus-visible:ring-2";
+  "hover:border-foreground/15 focus-visible:ring-ring flex h-full outline-none transition-colors focus-visible:ring-2";
 
 const tileContentClass = "flex flex-1 flex-col p-5";
 
@@ -87,7 +87,7 @@ export const Categories = () => {
       <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {TILES.map((tile) => (
           <li key={tile.category}>
-            <Link href={tile.href} className={tileClass}>
+            <Frame render={<Link href={tile.href} />} className={tileClass}>
               <FrameContent className={tileContentClass}>
                 <span className="text-4xl font-medium tracking-[-0.04em] tabular-nums">
                   {
@@ -100,11 +100,14 @@ export const Categories = () => {
                   {tile.blurb}
                 </span>
               </FrameContent>
-            </Link>
+            </Frame>
           </li>
         ))}
         <li className="sm:col-span-2 lg:col-span-1">
-          <Link href={ROUTES.COMPONENTS} className={tileClass}>
+          <Frame
+            render={<Link href={ROUTES.COMPONENTS} />}
+            className={tileClass}
+          >
             <FrameContent className={cn(tileContentClass, "justify-between")}>
               <span className="text-muted-foreground text-sm leading-6">
                 Captions are free under the MIT license; everything else is Pro.
@@ -115,7 +118,7 @@ export const Categories = () => {
                 <ArrowRightIcon className="size-4" />
               </span>
             </FrameContent>
-          </Link>
+          </Frame>
         </li>
       </ul>
     </section>
