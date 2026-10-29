@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* tw-animate exits default to animation-fill-mode: none, so an element whose fade-out finishes
+   before Base UI unmounts it snaps back to full opacity for a frame (dialog/sheet backdrops blink).
+   Closing elements (Base UI `data-closed`, vaul `data-state=closed`) hold their final keyframe. */
+[data-closed],
+[data-state="closed"] {
+  --tw-animation-fill-mode: forwards;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @custom-variant fixed (&:is(.layout-fixed *));

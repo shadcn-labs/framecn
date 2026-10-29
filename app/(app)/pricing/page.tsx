@@ -96,12 +96,20 @@ const FAQ = [
 const Feature = ({
   children,
   className,
+  accent = false,
 }: {
   children: React.ReactNode;
   className?: string;
+  /** Featured plan: brand-coloured check. */
+  accent?: boolean;
 }) => (
   <li className={cn("flex gap-2", className)}>
-    <CircleCheckIcon className="text-muted-foreground mt-0.5 size-4 shrink-0" />
+    <CircleCheckIcon
+      className={cn(
+        "mt-0.5 size-4 shrink-0",
+        accent ? "text-brand" : "text-muted-foreground"
+      )}
+    />
     {children}
   </li>
 );
@@ -215,8 +223,8 @@ export default async function PricingPage() {
               key={plan.slug}
               className={cn(
                 "relative flex",
-                // Featured plan: pink outer shell, pink-tinted inner card, pink inner border.
-                highlight && "border-brand bg-brand/10"
+                // Featured plan: pink-tinted shell between two matching pink borders.
+                highlight && "border-brand/40 bg-brand/10"
               )}
             >
               {highlight ? (
@@ -251,9 +259,13 @@ export default async function PricingPage() {
                   {plan.note}
                 </p>
                 <ul className="mt-6 space-y-2.5 text-sm">
-                  <Feature className="font-medium">{features.heading}</Feature>
+                  <Feature accent={highlight} className="font-medium">
+                    {features.heading}
+                  </Feature>
                   {features.items.map((item) => (
-                    <Feature key={item}>{item}</Feature>
+                    <Feature key={item} accent={highlight}>
+                      {item}
+                    </Feature>
                   ))}
                 </ul>
                 <PlanCta helper={helper}>

@@ -114,7 +114,8 @@ const DialogContent = ({
       data-slot="dialog-content"
       className={cn(
         // Same surface as the search dialog: popover fill with a soft 4px ring instead of a hard border.
-        "bg-popover ring-border/60 data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl bg-clip-padding p-6 shadow-2xl ring-4 duration-200 sm:max-w-lg",
+        // Dark (as on ui.shadcn.com): the ring is a solid grey a step lighter than the fill, which is what defines the edge.
+        "bg-popover ring-border/60 data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl bg-clip-padding p-6 shadow-2xl ring-4 duration-200 sm:max-w-lg dark:ring-input",
         className
       )}
       {...props}
