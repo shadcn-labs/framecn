@@ -47,7 +47,14 @@ import {
 } from "@/constants/nav";
 import { ROUTES } from "@/constants/routes";
 import { SITE, UTM_PARAMS } from "@/constants/site";
-import { CATALOG, catalogItemHref, findCatalogItemByPath } from "@/lib/catalog";
+import {
+  CATALOG,
+  CATEGORY_LABELS,
+  catalogItemHref,
+  categoryHref,
+  COMPONENT_CATEGORIES,
+  findCatalogItemByPath,
+} from "@/lib/catalog";
 import { addQueryParams } from "@/lib/url";
 
 const SHADCN_LABS_URL = addQueryParams("https://shadcn-labs.com", UTM_PARAMS);
@@ -106,7 +113,7 @@ const TreeList = ({
   </SidebarMenuSub>
 );
 
-/** Every catalog entry; keeps the open entry scrolled into view. */
+/** Every catalog entry, grouped by category; keeps the open entry scrolled into view. */
 const CatalogList = ({ onNavigate }: { onNavigate: () => void }) => {
   const pathname = usePathname();
   const container = useRef<HTMLDivElement>(null);
@@ -117,18 +124,42 @@ const CatalogList = ({ onNavigate }: { onNavigate: () => void }) => {
   }, [pathname]);
   return (
     <div ref={container}>
-      <TreeList
-        onNavigate={onNavigate}
-        items={CATALOG.map((item) => {
-          const href = catalogItemHref(item);
-          return {
-            active: pathname === href,
-            href,
-            name: item.name,
-            pro: item.pro,
-          };
-        })}
-      />
+      {COMPONENT_CATEGORIES.map((category) => {
+        const items = CATALOG.filter((item) => item.category === category);
+        if (items.length === 0) {
+          return null;
+        }
+        const href = categoryHref(category);
+        return (
+          <section key={category} aria-label={CATEGORY_LABELS[category]}>
+            <SidebarGroupLabel
+              className="hover:text-sidebar-foreground ml-3 h-7 px-2.5 pt-1"
+              render={
+                <Link
+                  href={href}
+                  scroll={false}
+                  aria-current={pathname === href ? "page" : undefined}
+                  onClick={onNavigate}
+                />
+              }
+            >
+              {CATEGORY_LABELS[category]}
+            </SidebarGroupLabel>
+            <TreeList
+              onNavigate={onNavigate}
+              items={items.map((item) => {
+                const itemHref = catalogItemHref(item);
+                return {
+                  active: pathname === itemHref,
+                  href: itemHref,
+                  name: item.name,
+                  pro: item.pro,
+                };
+              })}
+            />
+          </section>
+        );
+      })}
     </div>
   );
 };

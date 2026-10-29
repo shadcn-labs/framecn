@@ -37,6 +37,7 @@ jobs:
 
       - name: Build
         env:
+          FRAMECN_PRO_GITHUB_TOKEN: ${{ secrets.FRAMECN_PRO_GITHUB_TOKEN }}
           NEXT_TELEMETRY_DISABLED: 1
         run: pnpm build
 

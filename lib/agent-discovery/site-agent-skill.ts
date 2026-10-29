@@ -3,13 +3,26 @@ import { createHash } from "node:crypto";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
+import { CATALOG, CATEGORY_LABELS, PRO_COUNT } from "@/lib/catalog";
+import type { CatalogCategory } from "@/lib/catalog";
 import { componentContentRoute } from "@/lib/docs";
+
+const freeCount = (category: CatalogCategory) =>
+  CATALOG.filter((item) => item.category === category && !item.pro).length;
+
+const proCategories = [
+  ...new Set(
+    CATALOG.filter((item) => item.pro).map((item) =>
+      CATEGORY_LABELS[item.category].toLowerCase()
+    )
+  ),
+].join(", ");
 
 export const SITE_AGENT_SKILL_MD = `# ${SITE.NAME}
 
 ## Summary
 
-Help users discover, preview, and install framecn video components. The public catalog includes 27 typography components, 14 transitions, and 15 captions. Node Reveal is the only Pro composition.
+Help users discover, preview, and install framecn video components. The public catalog includes ${freeCount("typography")} typography components, ${freeCount("transitions")} transitions, and ${freeCount("captions")} captions. ${PRO_COUNT} Pro components (${proCategories}) have public previews; their source requires Pro.
 
 ## Registry
 
@@ -18,7 +31,7 @@ Help users discover, preview, and install framecn video components. The public c
 - Component markdown (install command, source, usage, API): ${componentContentRoute}/<id>/content.md
 - Compositions: /components/compositions (detail pages at /components/compositions/<id>)
 - Docs: ${ROUTES.DOCS}
-- Node Reveal preview: /components/compositions/node-reveal. Its source requires a signed-in account with Pro access and is not included in the public registry or markdown exports.
+- Pro previews: any item marked Pro, e.g. /components/compositions/node-reveal. Pro source requires a signed-in account with Pro access and is not included in the public registry or markdown exports.
 
 ## MCP
 

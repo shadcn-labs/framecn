@@ -28,6 +28,36 @@ const TILES = [
     label: "Captions",
   },
   {
+    blurb: "Covers and photos that spin, cascade, orbit, and trail.",
+    category: "carousels",
+    href: categoryHref("carousels"),
+    label: "Carousels",
+  },
+  {
+    blurb: "Rotating globes with flight routes, pins, and hub networks.",
+    category: "globes",
+    href: categoryHref("globes"),
+    label: "3D & Globes",
+  },
+  {
+    blurb: "Photo grids, stacks, and spotlights that assemble in time.",
+    category: "collages",
+    href: categoryHref("collages"),
+    label: "Collages",
+  },
+  {
+    blurb: "Area, bar, funnel, and radar charts with a moving camera.",
+    category: "charts",
+    href: categoryHref("charts"),
+    label: "Charts",
+  },
+  {
+    blurb: "Galleries and story stacks that scroll and zoom through frames.",
+    category: "scroll-animations",
+    href: categoryHref("scroll-animations"),
+    label: "Scroll Animations",
+  },
+  {
     blurb: "Complete compositions you re-skin with your own copy and brand.",
     category: "compositions",
     href: categoryHref("compositions"),
@@ -79,11 +109,12 @@ export const Categories = () => {
             </Link>
           </li>
         ))}
-        <li className="sm:col-span-2 lg:col-span-1">
+        <li>
           <Link href={ROUTES.COMPONENTS} className={tileClass}>
             <FrameContent className={cn(tileContentClass, "justify-between")}>
               <span className="text-muted-foreground text-sm leading-6">
-                Free under the MIT license. Copy the source, own the code.
+                Free under the MIT license, plus Pro. Copy the source, own the
+                code.
               </span>
               <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium">
                 All {componentCount} components

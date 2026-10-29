@@ -9,12 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Frame, FrameContent } from "@/components/ui/frame";
 import { ROUTES } from "@/constants/routes";
+import { PRO_COUNT } from "@/lib/catalog";
 
 const NODE_REVEAL = `${ROUTES.COMPONENTS}/compositions/node-reveal`;
 
 const FEATURES = [
-  "Full Node Reveal composition source",
-  "Every future Pro composition",
+  `Full source for all ${PRO_COUNT} Pro components`,
+  "Every future Pro component",
   "CLI install with your Pro API key",
   "Personal and client projects",
 ];

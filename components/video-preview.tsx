@@ -139,6 +139,8 @@ const VideoPreviewClient = ({
   durationInFrames = 90,
   fps = FPS,
   previewBackdrop,
+  width = W,
+  height = H,
   compact = false,
   autoPlay = false,
 }: {
@@ -148,6 +150,9 @@ const VideoPreviewClient = ({
   durationInFrames?: number;
   fps?: number;
   previewBackdrop?: BackdropFill;
+  /** Composition size in pixels; the stage keeps its aspect ratio. */
+  width?: number;
+  height?: number;
   compact?: boolean;
   autoPlay?: boolean;
 }) => {
@@ -193,56 +198,39 @@ const VideoPreviewClient = ({
     };
   }, [autoPlay, durationInFrames, fps, motionAllowed]);
 
+  const stage = (
+    <FitScale>
+      <Timegroup
+        ref={rootRef}
+        duration={`${(durationInFrames / fps) * 1000}ms`}
+        mode="fixed"
+        style={{
+          height,
+          overflow: "hidden",
+          position: "relative",
+          width,
+        }}
+      >
+        <FrameProvider durationMs={(durationInFrames / fps) * 1000} fps={fps}>
+          <Scene {...componentProps} />
+        </FrameProvider>
+      </Timegroup>
+    </FitScale>
+  );
+
   return compact ? (
+    // Gallery cards stay 16:9; other formats letterbox inside them.
     <div className="overflow-hidden">
       <Preview id={previewId} className="aspect-video">
-        <FitScale>
-          <Timegroup
-            ref={rootRef}
-            duration={`${(durationInFrames / fps) * 1000}ms`}
-            mode="fixed"
-            style={{
-              height: H,
-              overflow: "hidden",
-              position: "relative",
-              width: W,
-            }}
-          >
-            <FrameProvider
-              durationMs={(durationInFrames / fps) * 1000}
-              fps={fps}
-            >
-              <Scene {...componentProps} />
-            </FrameProvider>
-          </Timegroup>
-        </FitScale>
+        {stage}
       </Preview>
     </div>
   ) : (
     // Card look: only the video sits on white; the player controls live on the muted shell.
     <Frame>
       <FrameContent className="overflow-hidden">
-        <Preview id={previewId} className="aspect-video">
-          <FitScale>
-            <Timegroup
-              ref={rootRef}
-              duration={`${(durationInFrames / fps) * 1000}ms`}
-              mode="fixed"
-              style={{
-                height: H,
-                overflow: "hidden",
-                position: "relative",
-                width: W,
-              }}
-            >
-              <FrameProvider
-                durationMs={(durationInFrames / fps) * 1000}
-                fps={fps}
-              >
-                <Scene {...componentProps} />
-              </FrameProvider>
-            </Timegroup>
-          </FitScale>
+        <Preview id={previewId} style={{ aspectRatio: `${width} / ${height}` }}>
+          {stage}
         </Preview>
       </FrameContent>
       <PreviewControls previewId={previewId} />

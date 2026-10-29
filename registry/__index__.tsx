@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 import { SHARED_CONTROLS } from "@/lib/customizer-config";
-import type { ComponentConfig } from "@/lib/customizer-config";
+import type { RegistryComponent, RegistryEntry } from "@/lib/registry-types";
 import { blurOutUpConfig } from "@/registry/bases/editframe/components/blur-out-up/config";
 import { blurRevealConfig } from "@/registry/bases/editframe/components/blur-reveal/config";
 import { bottomUpLettersConfig } from "@/registry/bases/editframe/components/bottom-up-letters/config";
@@ -61,19 +61,15 @@ import { topDownLettersConfig } from "@/registry/bases/editframe/components/top-
 import { trackingInConfig } from "@/registry/bases/editframe/components/tracking-in/config";
 import { typewriterConfig } from "@/registry/bases/editframe/components/typewriter/config";
 import { zoomThroughTransitionConfig } from "@/registry/bases/editframe/components/zoom-through-transition/config";
+import proRegistry from "@/registry/pro/__index__";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyComponent = React.ComponentType<any>;
-
-export interface RegistryEntry {
-  Component: AnyComponent;
-  config?: ComponentConfig;
-}
-
-const lazy = (loader: () => Promise<{ default: AnyComponent }>) =>
+const lazy = (loader: () => Promise<{ default: RegistryComponent }>) =>
   dynamic(loader, { ssr: false });
 
 const registry: Record<string, RegistryEntry> = {
+  // framecn Pro previews, synced from the private repo by scripts/sync-pro.mjs
+  // into the gitignored registry/pro/ (empty without access).
+  ...proRegistry,
   "blur-out-up": {
     Component: lazy(async () => {
       const { BlurOutUp } =
@@ -532,9 +528,10 @@ const registry: Record<string, RegistryEntry> = {
   },
 };
 
-// Keep shared controls available for every preview customizer.
+// Keep shared controls available for every preview customizer, unless a
+// component opts out because it cannot honour them.
 for (const entry of Object.values(registry)) {
-  if (entry.config) {
+  if (entry.config && !entry.config.omitSharedControls) {
     entry.config.controls = { ...entry.config.controls, ...SHARED_CONTROLS };
   }
 }

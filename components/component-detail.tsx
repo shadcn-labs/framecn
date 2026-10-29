@@ -21,6 +21,7 @@ import {
 } from "react";
 
 import { ApiKeyField } from "@/components/api-key-field";
+import { LockedPreview } from "@/components/catalog-preview";
 import { CodeBlockCommand } from "@/components/code-block-command";
 import { ComponentCustomizer } from "@/components/component-customizer";
 import { PANEL_EXIT_MS, usePanel } from "@/components/component-panel-shell";
@@ -66,13 +67,15 @@ import { usePreviewId } from "@/hooks/use-preview-id";
 import { CATALOG, CATEGORY_LABELS, catalogItemHref } from "@/lib/catalog";
 import type { CatalogItem } from "@/lib/catalog";
 import { componentPrompt } from "@/lib/component-prompt";
-import type { ComponentConfig } from "@/lib/customizer-config";
+import { resolveComposition } from "@/lib/customizer-config";
+import type { ComponentConfig, Composition } from "@/lib/customizer-config";
 import type { PlanOffers } from "@/lib/plans";
 import {
   PRO_API_KEY_ENV,
   PRO_REGISTRY_NAMESPACE,
   proRegistryConfig,
 } from "@/lib/pro-install";
+import type { RegistryEntry } from "@/lib/registry-types";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
 
@@ -97,6 +100,70 @@ const EMPTY_CONFIG: ComponentConfig = {
   fps: 30,
   importPath: "",
 };
+
+/** How the copied prompt tells an agent to render the component. */
+const usageHint = (
+  config: ComponentConfig | undefined,
+  values: Record<string, unknown>
+) => {
+  if (config?.snippet) {
+    return `Render it inside an Editframe composition like this:\n\n\`\`\`tsx\n${config.snippet(values)}\n\`\`\``;
+  }
+  if (config) {
+    return `Import it from "${config.importPath}" and render <${config.componentName} /> inside an Editframe composition.`;
+  }
+  return "Install it with the shadcn CLI and render it inside an Editframe composition.";
+};
+
+/** Category plus, once the preview is available, its length and frame. */
+const panelFacts = (
+  item: CatalogItem,
+  config: ComponentConfig | undefined,
+  composition: Composition
+) => [
+  ["Category", CATEGORY_LABELS[item.category]],
+  ...(config
+    ? [
+        [
+          "Duration",
+          `${(composition.durationInFrames / config.fps).toFixed(1)}s`,
+        ],
+        ["Resolution", `${composition.width} × ${composition.height}`],
+        ["Frame rate", `${config.fps} fps`],
+      ]
+    : []),
+];
+
+/** The large preview, or a locked placeholder while Pro sources are not synced. */
+const PanelPreview = ({
+  entry,
+  previewId,
+  componentProps,
+  composition,
+}: {
+  entry: RegistryEntry | undefined;
+  previewId: string;
+  componentProps: Record<string, unknown>;
+  composition: Composition;
+}) =>
+  entry?.config ? (
+    <VideoPreview
+      previewId={previewId}
+      Component={entry.Component}
+      componentProps={componentProps}
+      durationInFrames={composition.durationInFrames}
+      fps={entry.config.fps}
+      previewBackdrop={entry.config.previewBackdrop}
+      width={composition.width}
+      height={composition.height}
+    />
+  ) : (
+    <Frame>
+      <FrameContent className="aspect-video">
+        <LockedPreview />
+      </FrameContent>
+    </Frame>
+  );
 
 /** The gallery card preview this panel morphs from/to, if it is on screen. */
 const findCardPreview = (id: string) =>
@@ -464,10 +531,13 @@ export const ComponentDetail = ({
   const previewRef = useRef<HTMLDivElement>(null);
   const [customizing, setCustomizing] = useState(false);
   const [unlockOpen, setUnlockOpen] = useState(false);
-  const config = registry[item.id]?.config as ComponentConfig | undefined;
+  const entry = registry[item.id];
+  const synced = entry?.config;
+  // EMPTY_CONFIG only for Pro items whose sources are not synced (forks).
+  const config = synced ?? EMPTY_CONFIG;
   const { componentProps, values, setValues, isDefault } = useCustomizer(
     item.id,
-    config ?? EMPTY_CONFIG
+    config
   );
   const previewId = usePreviewId(item.id);
   const { previous, next } = getSiblings(item);
@@ -597,27 +667,21 @@ export const ComponentDetail = ({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [go, next, previous]);
 
-  if (!config) {
+  // Pro sources that are not synced still get a panel, with a locked preview.
+  if (!(synced || item.pro)) {
     return null;
   }
 
-  const seconds = (config.durationInFrames / config.fps).toFixed(1);
-  const prompt = componentPrompt(
-    item,
-    config.snippet
-      ? `Render it inside an Editframe composition like this:\n\n\`\`\`tsx\n${config.snippet(values)}\n\`\`\``
-      : `Import it from "${config.importPath}" and render <${config.componentName} /> inside an Editframe composition.`
-  );
+  const composition = resolveComposition(config, values);
+  const prompt = componentPrompt(item, usageHint(synced, values));
   const hasControls = Object.keys(config.controls).length > 0;
 
   const preview = (
-    <VideoPreview
+    <PanelPreview
+      entry={entry}
       previewId={previewId}
-      Component={registry[item.id].Component}
       componentProps={componentProps}
-      durationInFrames={config.durationInFrames}
-      fps={config.fps}
-      previewBackdrop={config.previewBackdrop}
+      composition={composition}
     />
   );
 
@@ -762,15 +826,7 @@ export const ComponentDetail = ({
 
           <Frame className="mt-6">
             <FrameContent render={<dl />} className="divide-y text-sm">
-              {[
-                ["Category", CATEGORY_LABELS[item.category]],
-                ["Duration", `${seconds}s`],
-                [
-                  "Resolution",
-                  `${config.compositionWidth} × ${config.compositionHeight}`,
-                ],
-                ["Frame rate", `${config.fps} fps`],
-              ].map(([label, value]) => (
+              {panelFacts(item, synced, composition).map(([label, value]) => (
                 <div
                   key={label}
                   className="flex items-center justify-between gap-4 px-3 py-2"
@@ -815,7 +871,10 @@ export const ComponentDetail = ({
             {/* VideoPreview draws the card itself (white video, controls on the shell); 3rem leaves room for the controls row. */}
             <div
               ref={previewRef}
-              className="w-[min(100%,calc((100cqh-3rem)*16/9))] origin-top-left rounded-xl shadow-2xl"
+              className="origin-top-left rounded-xl shadow-2xl"
+              style={{
+                width: `min(100%, calc((100cqh - 3rem) * ${composition.width} / ${composition.height}))`,
+              }}
             >
               {preview}
             </div>

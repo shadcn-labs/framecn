@@ -6,12 +6,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SITE } from "@/constants/site";
+import { PRO_COUNT } from "@/lib/catalog";
 import { FaqJsonLd } from "@/seo/json-ld";
 
 const FAQ = [
   {
     answer:
-      "Yes. Every typography, transition, and caption component is free and open source under the MIT license. No account is needed to browse, customize, or install them.",
+      "Yes. Every typography, transition, and caption component without a Pro badge is free and open source under the MIT license. No account is needed to browse, customize, or install them.",
     question: "Is framecn free?",
   },
   {
@@ -29,8 +30,7 @@ const FAQ = [
     question: "How do I render a video?",
   },
   {
-    answer:
-      "Pro unlocks the Node Reveal composition source and future Pro compositions. It is $179 a year, $249 once for lifetime access, or $499 once for a team of up to 10 sharing one API key. The first 50 Annual and 50 Lifetime buyers pay the early-bird price of $149 a year or $199 once. Payments are handled by Dodo Payments.",
+    answer: `Pro unlocks the source of all ${PRO_COUNT} Pro components — animated text, carousels, 3D globes, collages, charts, scroll animations, and full compositions — plus future Pro components. It is $179 a year, $249 once for lifetime access, or $499 once for a team of up to 10 sharing one API key. The first 50 Annual and 50 Lifetime buyers pay the early-bird price of $149 a year or $199 once. Payments are handled by Dodo Payments.`,
     question: "What does Pro include, and what does it cost?",
   },
   {

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { VideoPreview } from "@/components/video-preview";
 import { useCustomizer } from "@/hooks/use-customizer";
 import { usePreviewId } from "@/hooks/use-preview-id";
+import { resolveComposition } from "@/lib/customizer-config";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
@@ -28,15 +29,21 @@ const ConfiguredPreview = ({
     config
   );
   const previewId = usePreviewId(name);
+  const { durationInFrames, height, width } = resolveComposition(
+    config,
+    values
+  );
   return (
     <div className={cn("not-prose flex flex-col gap-4", className)}>
       <VideoPreview
         previewId={previewId}
         Component={registry[name].Component}
         componentProps={componentProps}
-        durationInFrames={config.durationInFrames}
+        durationInFrames={durationInFrames}
         fps={config.fps}
         previewBackdrop={config.previewBackdrop}
+        width={width}
+        height={height}
       />
       {!hideCustomizer && Object.keys(config.controls).length > 0 && (
         <section className="rounded-xl border p-5">

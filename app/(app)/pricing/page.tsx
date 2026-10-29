@@ -19,6 +19,7 @@ import {
   getBillingConfigurationError,
   getPlanOffers,
 } from "@/lib/billing";
+import { PRO_COUNT } from "@/lib/catalog";
 import { EARLY_BIRD_LIMIT, PLANS } from "@/lib/plans";
 import type { PlanSlug } from "@/lib/plans";
 import { cn } from "@/lib/utils";
@@ -41,8 +42,8 @@ const PLAN_FEATURES: Record<PlanSlug, { heading: string; items: string[] }> = {
   annual: {
     heading: "Everything in Free",
     items: [
-      "Node Reveal composition source",
-      "Future Pro compositions while subscribed",
+      `Source for all ${PRO_COUNT} Pro components`,
+      "Future Pro components while subscribed",
       "CLI install with your Pro API key",
       "Personal & client projects",
     ],
@@ -51,7 +52,7 @@ const PLAN_FEATURES: Record<PlanSlug, { heading: string; items: string[] }> = {
     heading: "Everything in Pro Annual",
     items: [
       "Pro access that never expires",
-      "All future Pro compositions",
+      "All future Pro components",
       "No renewals",
     ],
   },
@@ -67,11 +68,11 @@ const PLAN_FEATURES: Record<PlanSlug, { heading: string; items: string[] }> = {
 
 const FAQ = [
   {
-    a: "Every typography, transition, and caption component is free under the MIT license. Install them with the shadcn CLI, customize them, and use the copy prompt and AI-ready docs — no account needed.",
+    a: "Every typography, transition, and caption component without a Pro badge is free under the MIT license. Install them with the shadcn CLI, customize them, and use the copy prompt and AI-ready docs — no account needed.",
     q: "What's free?",
   },
   {
-    a: "Pro unlocks the Node Reveal composition source today, plus future Pro compositions as they ship. Pro components install through the shadcn CLI using your Pro API key.",
+    a: `Pro unlocks the source of all ${PRO_COUNT} Pro components today — animated text, carousels, 3D globes, collages, charts, scroll animations, and full compositions — plus future Pro components as they ship. Pro components install through the shadcn CLI using your Pro API key.`,
     q: "What does Pro include?",
   },
   {

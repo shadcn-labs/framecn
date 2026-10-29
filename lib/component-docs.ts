@@ -57,24 +57,25 @@ export const getComponentMarkdown = async (
 ): Promise<string | undefined> => {
   const item = CATALOG.find((entry) => entry.id === id);
   const page = componentSource.getPage([id]);
-  if (!item || !page) {
+  // Pro items need no MDX page: their markdown is the public catalog metadata.
+  if (!item || (!page && !item.pro)) {
     return undefined;
   }
 
   const [source, body] = await Promise.all([
     item.pro ? "" : componentSourceMarkdown(id),
     // Pro usage, API reference and notes are part of the paid product, like the source.
-    item.pro ? "" : page.data.getText("raw").then(processMdxForLLMs),
+    item.pro || !page ? "" : page.data.getText("raw").then(processMdxForLLMs),
   ]);
 
   const sections = [
-    page.data.description ?? item.description,
+    page?.data.description ?? item.description,
     installMarkdown(id, item.pro),
     source && `## Source\n\n${source}`,
     body,
   ].filter(Boolean);
 
-  return `# ${page.data.title}
+  return `# ${page?.data.title ?? item.name}
 
 ${sections.join("\n\n")}
 `;

@@ -17,9 +17,9 @@ export const GET = async (
   const id = name.endsWith(".json")
     ? name.slice(0, -".json".length)
     : undefined;
-  const item = id
-    ? CATALOG.find((component) => component.id === id && component.pro)
-    : undefined;
+  const isComponent =
+    id !== undefined &&
+    CATALOG.some((component) => component.id === id && component.pro);
 
   const token = request.headers
     .get("authorization")
@@ -39,15 +39,14 @@ export const GET = async (
       { headers, status: 403 }
     );
   }
-  if (!item) {
-    return Response.json(
-      { error: "Pro component not found." },
-      { headers, status: 404 }
-    );
-  }
 
   try {
-    return Response.json(await getProRegistryItem(item.id), { headers });
+    const item = id ? await getProRegistryItem(id) : undefined;
+    // Besides catalog components, serve the shared libraries they depend on.
+    if (!(item && (isComponent || item.type === "registry:lib"))) {
+      throw new ProRegistryError("Pro component not found.", 404);
+    }
+    return Response.json(item, { headers });
   } catch (error) {
     if (error instanceof ProRegistryError) {
       return Response.json(

@@ -48,3 +48,5 @@ next-env.d.ts
 .contentlayer
 .content-collections
 .source
+# framecn Pro sources, synced by scripts/sync-pro.mjs (never commit)
+/registry/pro/

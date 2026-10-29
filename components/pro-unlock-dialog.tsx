@@ -13,11 +13,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ROUTES } from "@/constants/routes";
-import { CATALOG } from "@/lib/catalog";
+import { PRO_COUNT } from "@/lib/catalog";
 import type { CatalogItem } from "@/lib/catalog";
 import type { PlanOffers } from "@/lib/plans";
-
-const PRO_ITEM_COUNT = CATALOG.filter((item) => item.pro).length;
 
 const FEATURES = [
   "Full source, installed with the CLI or MCP",
@@ -50,10 +48,10 @@ export const ProUnlockDialog = ({
           </DialogDescription>
         </DialogHeader>
         <p className="mt-8 text-6xl font-semibold tracking-[-0.04em] tabular-nums">
-          {PRO_ITEM_COUNT}
+          {PRO_COUNT}
         </p>
         <p className="text-muted-foreground mt-1 text-sm">
-          Pro {PRO_ITEM_COUNT === 1 ? "item" : "items"}, {item.name} included
+          Pro {PRO_COUNT === 1 ? "item" : "items"}, {item.name} included
         </p>
         <ul className="mx-auto mt-8 grid w-fit gap-2.5 text-left text-sm">
           {FEATURES.map((feature) => (

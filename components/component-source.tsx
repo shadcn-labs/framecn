@@ -65,7 +65,7 @@ export const ComponentSource = async ({
       <p className="rounded-lg border p-4 text-sm">
         This source is included with framecn Pro.{" "}
         <Link href="/pricing" className="underline underline-offset-4">
-          Unlock Node Reveal →
+          Unlock {catalogItem.name} →
         </Link>
       </p>
     );

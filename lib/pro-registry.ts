@@ -1,6 +1,8 @@
 import "server-only";
 import { z } from "zod";
 
+import { PRO_REGISTRY_NAMESPACE } from "@/lib/pro-install";
+
 const manifestSchema = z.object({
   items: z.array(
     z.object({
@@ -96,10 +98,18 @@ export const getProRegistryItem = async (
         content: await readPrivateFile(file.path),
       }))
     );
+    // Shared Pro libraries (text-lib, chart-lib, …) live in this registry too;
+    // bare names would resolve against the shadcn/ui registry.
+    const registryDependencies = item.registryDependencies?.map((dependency) =>
+      manifest.items.some((entry) => entry.name === dependency)
+        ? `${PRO_REGISTRY_NAMESPACE}/${dependency}`
+        : dependency
+    );
     return {
       $schema: "https://ui.shadcn.com/schema/registry-item.json",
       ...item,
       files,
+      registryDependencies,
     };
   } catch (error) {
     if (error instanceof ProRegistryError) {

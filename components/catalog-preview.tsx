@@ -1,10 +1,19 @@
 "use client";
 
+import { LockIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { VideoPreview } from "@/components/video-preview";
-import { getDefaults } from "@/lib/customizer-config";
+import { getDefaults, resolveComposition } from "@/lib/customizer-config";
 import registry from "@/registry/__index__";
+
+/** Shown instead of a preview when Pro sources are not synced (e.g. forks). */
+export const LockedPreview = () => (
+  <div className="text-muted-foreground flex size-full flex-col items-center justify-center gap-2 text-xs">
+    <LockIcon className="size-4" />
+    framecn Pro
+  </div>
+);
 
 export const CatalogPreview = ({
   name,
@@ -28,29 +37,38 @@ export const CatalogPreview = ({
   const entry = registry[name];
   const config = entry?.config;
   const defaults = config ? getDefaults(config.controls) : {};
+  const { durationInFrames, height, width } = config
+    ? resolveComposition(config, defaults)
+    : { durationInFrames: 90, height: 720, width: 1280 };
   return (
     <div
       ref={container}
       className="pointer-events-none aspect-video overflow-hidden bg-card"
       aria-hidden="true"
     >
-      {visible && entry && (
-        <VideoPreview
-          previewId={`gallery-${name}`}
-          Component={entry.Component}
-          componentProps={{
-            ...defaults,
-            durationInFrames: config?.durationInFrames ?? 90,
-            fps: config?.fps ?? 30,
-            height: 720,
-            width: 1280,
-          }}
-          durationInFrames={config?.durationInFrames}
-          fps={config?.fps}
-          previewBackdrop={config?.previewBackdrop}
-          compact
-          autoPlay={active}
-        />
+      {entry ? (
+        visible && (
+          <VideoPreview
+            previewId={`gallery-${name}`}
+            Component={entry.Component}
+            componentProps={{
+              ...defaults,
+              durationInFrames,
+              fps: config?.fps ?? 30,
+              height,
+              width,
+            }}
+            durationInFrames={durationInFrames}
+            fps={config?.fps}
+            previewBackdrop={config?.previewBackdrop}
+            width={width}
+            height={height}
+            compact
+            autoPlay={active}
+          />
+        )
+      ) : (
+        <LockedPreview />
       )}
     </div>
   );

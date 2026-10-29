@@ -1,7 +1,14 @@
+import { PRO_CATALOG } from "./pro-catalog";
+
 export type CatalogCategory =
   | "typography"
   | "transitions"
   | "captions"
+  | "carousels"
+  | "globes"
+  | "collages"
+  | "charts"
+  | "scroll-animations"
   | "compositions";
 
 export interface CatalogItem {
@@ -14,7 +21,12 @@ export interface CatalogItem {
 
 export const CATEGORY_LABELS: Record<CatalogCategory, string> = {
   captions: "Captions",
+  carousels: "Carousels",
+  charts: "Charts",
+  collages: "Collages",
   compositions: "Compositions",
+  globes: "3D & Globes",
+  "scroll-animations": "Scroll Animations",
   transitions: "Transitions",
   typography: "Typography",
 };
@@ -23,10 +35,15 @@ export const COMPONENT_CATEGORIES: CatalogCategory[] = [
   "typography",
   "transitions",
   "captions",
+  "carousels",
+  "globes",
+  "collages",
+  "charts",
+  "scroll-animations",
   "compositions",
 ];
 
-export const CATALOG: CatalogItem[] = [
+const CORE_CATALOG: CatalogItem[] = [
   {
     category: "typography",
     description: "Text fades in from a heavy blur into sharp focus.",
@@ -471,6 +488,19 @@ export const CATALOG: CatalogItem[] = [
     pro: true,
   },
 ];
+
+/** Free components and Node Reveal, then the generated framecn Pro items, grouped by category. */
+export const CATALOG: CatalogItem[] = [
+  ...CORE_CATALOG,
+  ...PRO_CATALOG,
+].toSorted(
+  (a, b) =>
+    COMPONENT_CATEGORIES.indexOf(a.category) -
+    COMPONENT_CATEGORIES.indexOf(b.category)
+);
+
+/** Number of Pro components, for copy that describes what Pro unlocks. */
+export const PRO_COUNT = CATALOG.filter((item) => item.pro).length;
 
 /** Gallery URL for a category. */
 export const categoryHref = (category: CatalogCategory) =>
