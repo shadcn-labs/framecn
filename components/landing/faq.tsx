@@ -12,7 +12,7 @@ import { FaqJsonLd } from "@/seo/json-ld";
 const FAQ = [
   {
     answer:
-      "Yes. Every typography, transition, and caption component without a Pro badge is free and open source under the MIT license. No account is needed to browse, customize, or install them.",
+      "The caption components are free and open source under the MIT license. No account is needed to browse, customize, or install them. Every other component is part of framecn Pro, with a free live preview.",
     question: "Is framecn free?",
   },
   {

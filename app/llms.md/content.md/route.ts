@@ -20,7 +20,8 @@ ${AGENT_DOCS_DIRECTIVE_MARKDOWN}
 ## Quick links
 
 - [Get started](${base}${ROUTES.DOCS_INSTALLATION}.md)
-- [Browse free components](${base}/components)
+- [Browse components](${base}/components)
+- [Browse free captions](${base}/components/captions)
 - [Browse compositions](${base}/components/compositions)
 - [Node Reveal Pro preview](${base}/components/compositions/node-reveal)
 - [Documentation](${base}${ROUTES.DOCS}.md)

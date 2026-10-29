@@ -1,6 +1,6 @@
 ---
 title: "Installation"
-description: "Install typography, transition, and caption components with the shadcn CLI."
+description: "Install free caption components and framecn Pro components with the shadcn CLI."
 ---
 
 ## Prerequisites
@@ -12,22 +12,22 @@ A React project with [Editframe](https://editframe.com/) set up. Components use 
 Browse the [component gallery](/components), then add a component through the shadcn CLI:
 
 ```bash
-npx shadcn@latest add @framecn/blur-reveal
+npx shadcn@latest add @framecn/caption-highlight
 ```
 
 If you have not configured the registry namespace, use the full URL:
 
 ```bash
-npx shadcn@latest add https://framecn.dev/r/blur-reveal.json
+npx shadcn@latest add https://framecn.dev/r/caption-highlight.json
 ```
 
 Import and use the copied component:
 
 ```tsx
-import { BlurReveal } from "@/components/framecn/blur-reveal";
+import { CaptionHighlight } from "@/components/framecn/caption-highlight";
 
 export function DemoVideo() {
-  return <BlurReveal text="Made for motion" />;
+  return <CaptionHighlight highlightColor="#f06292" />;
 }
 ```
 

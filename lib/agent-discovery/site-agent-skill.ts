@@ -4,11 +4,7 @@ import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 import { CATALOG, CATEGORY_LABELS, PRO_COUNT } from "@/lib/catalog";
-import type { CatalogCategory } from "@/lib/catalog";
 import { componentContentRoute } from "@/lib/docs";
-
-const freeCount = (category: CatalogCategory) =>
-  CATALOG.filter((item) => item.category === category && !item.pro).length;
 
 const proCategories = [
   ...new Set(
@@ -22,7 +18,7 @@ export const SITE_AGENT_SKILL_MD = `# ${SITE.NAME}
 
 ## Summary
 
-Help users discover, preview, and install framecn video components. The public catalog includes ${freeCount("typography")} typography components, ${freeCount("transitions")} transitions, and ${freeCount("captions")} captions. ${PRO_COUNT} Pro components (${proCategories}) have public previews; their source requires Pro.
+Help users discover, preview, and install framecn video components. The free public registry has ${CATALOG.length - PRO_COUNT} caption components. ${PRO_COUNT} Pro components (${proCategories}) have public previews; their source requires Pro.
 
 ## Registry
 
@@ -40,7 +36,7 @@ This site is a shadcn-compatible registry. For MCP workflows, use the maintained
 ## Install
 
 \`\`\`bash
-npx shadcn@latest add ${SITE.URL}/r/blur-reveal.json
+npx shadcn@latest add ${SITE.URL}/r/caption-highlight.json
 \`\`\`
 
 Prefer following the on-site installation guide: ${ROUTES.DOCS_INSTALLATION}

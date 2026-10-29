@@ -4,7 +4,7 @@ import type { CatalogItem } from "@/lib/catalog";
 
 export const PRO_CATALOG: CatalogItem[] = [
   {
-    category: "typography",
+    category: "text",
     description:
       "A line of type writes itself a character at a time with the caret riding the last one, holds while the caret blinks, then backspaces, clears, fades or cuts away.",
     id: "typewriter-text",
@@ -12,7 +12,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "A headline whose lines rise out of masks cut to their own words, one after another, then leave the way they came or shutter closed.",
     id: "mask-reveal-text",
@@ -20,7 +20,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "Knockout type with a photograph showing through the letterforms, the aperture closing onto the headline and then opening past the frame until the picture is all that is left.",
     id: "image-reveal-text",
@@ -28,7 +28,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "A sentence with photographs set into it, arriving one piece at a time — each word and picture growing into the line and shoving the pieces already there aside.",
     id: "collage-text",
@@ -36,7 +36,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "A headline on a bad signal: the colour channels pull apart, bands of it tear sideways, and some of them show the wrong rows entirely.",
     id: "glitch-text",
@@ -44,7 +44,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "One line that stays and one word in it that keeps changing, turning on a wheel inside a slot sized to the longest of them.",
     id: "word-wheel-text",
@@ -52,7 +52,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "One script, cut into the frames it is spoken in: `|` breaks a scene and `*stars*` mark the words that carry it — set large, coloured, and riding a wave while the rest stands still.",
     id: "kinetic-text",
@@ -60,7 +60,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "Noise that resolves into a sentence one character at a time — each cell sized by the glyph that will be there, so the line never dances while it decrypts.",
     id: "scramble-text",
@@ -68,7 +68,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "One photograph and a short caption on its horizon that keeps changing its mind: each caption cuts in small and grows toward the viewer while the photo pushes in behind it, its foreground out of focus.",
     id: "caption-cycle-text",
@@ -76,7 +76,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "A sentence with a pile of photos dealt into the middle of it, shot like a product film — the words whip in, the deal speeds up like a riffled deck with every card landing hard, and the camera dives into the top card to find the next sentence inside it.",
     id: "inline-stack-text",
@@ -84,7 +84,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "A phrase put together one word at a time: each word blurs in beside the last in the accent colour and cools to ink as the next one lands, the line re-centring as it grows — then the gaps open out and it cuts.",
     id: "word-build-text",
@@ -92,7 +92,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "A sentence that condenses out of a haze and goes back into it — every glyph soft, offset and faint, drawing into focus a few at a time.",
     id: "diffuse-text",
@@ -100,7 +100,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "A figure counting up on wheels, where each wheel sits at the value over its own power of ten — so the carry is the arithmetic rather than a schedule.",
     id: "odometer-text",
@@ -108,7 +108,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "One word melting into the next: a blur throws the letters into soft fields and a hard alpha threshold cannot tell two overlapping fields apart, so they come out as one shape.",
     id: "gooey-text",
@@ -116,7 +116,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "Type shot on twos: every value reads a slower clock than the composition's, and each glyph is redrawn a little out of register on every hold.",
     id: "stop-motion-text",
@@ -124,7 +124,7 @@ export const PRO_CATALOG: CatalogItem[] = [
     pro: true,
   },
   {
-    category: "typography",
+    category: "text",
     description:
       "Words painted on the sides of a box and turned toward the viewer one at a time — four panels whatever the script says, shaded by the angle they are facing.",
     id: "cube-text",
@@ -473,6 +473,14 @@ export const PRO_CATALOG: CatalogItem[] = [
       "A title card flies in along a curved path, scaling up and unwinding its tilt as it settles at centre.",
     id: "arc-enter",
     name: "Arc Enter",
+    pro: true,
+  },
+  {
+    category: "compositions",
+    description:
+      "A wordmark splits apart as a design node scales up from nothing between the two words.",
+    id: "node-reveal",
+    name: "Node Reveal",
     pro: true,
   },
   {

@@ -10,16 +10,10 @@ import { cn } from "@/lib/utils";
 
 const TILES = [
   {
-    blurb: "Headlines that blur, type, roll, and glitch into place.",
-    category: "typography",
-    href: categoryHref("typography"),
-    label: "Typography",
-  },
-  {
-    blurb: "Wipes, pushes, and zooms that bridge one scene to the next.",
-    category: "transitions",
-    href: categoryHref("transitions"),
-    label: "Transitions",
+    blurb: "Headlines that type, scramble, wheel, and glitch into place.",
+    category: "text",
+    href: categoryHref("text"),
+    label: "Text",
   },
   {
     blurb: "Word-timed subtitles with karaoke, emoji, and emphasis styles.",
@@ -90,7 +84,7 @@ export const Categories = () => {
         title="What you get"
         description="Self-contained, time-based scenes for every part of a video. Combine them on one Editframe timeline."
       />
-      <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {TILES.map((tile) => (
           <li key={tile.category}>
             <Link href={tile.href} className={tileClass}>
@@ -109,12 +103,12 @@ export const Categories = () => {
             </Link>
           </li>
         ))}
-        <li>
+        <li className="sm:col-span-2 lg:col-span-1">
           <Link href={ROUTES.COMPONENTS} className={tileClass}>
             <FrameContent className={cn(tileContentClass, "justify-between")}>
               <span className="text-muted-foreground text-sm leading-6">
-                Free under the MIT license, plus Pro. Copy the source, own the
-                code.
+                Captions are free under the MIT license; everything else is Pro.
+                Copy the source, own the code.
               </span>
               <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium">
                 All {componentCount} components

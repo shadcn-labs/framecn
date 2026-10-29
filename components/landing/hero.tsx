@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 
-const INSTALL = `npx shadcn@latest add ${SITE.REGISTRY}/blur-reveal`;
+const INSTALL = `npx shadcn@latest add ${SITE.REGISTRY}/caption-highlight`;
 
 export const Hero = () => (
   <section

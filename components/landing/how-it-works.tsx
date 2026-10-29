@@ -5,7 +5,7 @@ import { highlightCode } from "@/lib/highlight-code";
 
 const STEPS = [
   {
-    code: `npx shadcn@latest add ${SITE.REGISTRY}/blur-reveal`,
+    code: `npx shadcn@latest add ${SITE.REGISTRY}/caption-highlight`,
     description:
       "Add any component from the registry. The source lands in components/framecn, so you own every line.",
     file: "Terminal",
@@ -13,14 +13,14 @@ const STEPS = [
     title: "Install with the shadcn CLI",
   },
   {
-    code: `import { BlurReveal } from "@/components/framecn/blur-reveal";
+    code: `import { CaptionHighlight } from "@/components/framecn/caption-highlight";
 
-export function Intro() {
-  return <BlurReveal text="Made for motion" blur={24} speed={1.2} />;
+export function Subtitles() {
+  return <CaptionHighlight highlightColor="#f06292" wordsPerGroup={4} />;
 }`,
     description:
-      "Tune text, timing, and color live in the browser. Copy prompt hands your AI agent the install command and your exact props.",
-    file: "intro.tsx",
+      "Tune words, timing, and color live in the browser. Copy prompt hands your AI agent the install command and your exact props.",
+    file: "subtitles.tsx",
     language: "tsx",
     title: "Customize props live",
   },

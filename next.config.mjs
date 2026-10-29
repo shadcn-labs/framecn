@@ -8,9 +8,12 @@ const { ROUTES } = await jiti.import("./constants/routes");
 const { CATALOG, catalogItemHref, categoryHref } =
   await jiti.import("./lib/catalog");
 
+const ALL_COMPONENTS = "/components";
+
 /**
  * Legacy `/docs/components/<category>/<slug>` pages, now served at their
- * catalog detail URL. Caption ids are prefixed with `caption-`.
+ * catalog detail URL (or the gallery when the component was removed).
+ * Caption ids are prefixed with `caption-`.
  */
 const LEGACY_COMPONENT_DOCS = {
   captions: [
@@ -78,61 +81,91 @@ const LEGACY_COMPONENT_DOCS = {
   ],
 };
 
+/**
+ * Free typography and transition components that were removed; their URLs
+ * (and the former `/components/transitions` gallery) go to the gallery.
+ */
+const REMOVED_COMPONENTS = {
+  transitions: LEGACY_COMPONENT_DOCS.transitions,
+  typography: LEGACY_COMPONENT_DOCS.typography,
+};
+
+const withMarkdown = ({ destination, source }) => [
+  { destination, permanent: true, source },
+  {
+    destination:
+      destination === ALL_COMPONENTS ? destination : `${destination}.md`,
+    permanent: true,
+    source: `${source}.md`,
+  },
+];
+
 const legacyComponentDocRedirects = Object.entries(
   LEGACY_COMPONENT_DOCS
 ).flatMap(([category, slugs]) =>
   slugs.flatMap((slug) => {
     const id = category === "captions" ? `caption-${slug}` : slug;
     const item = CATALOG.find((entry) => entry.id === id);
-    const destination = item ? catalogItemHref(item) : categoryHref(category);
-    const source = `/docs/components/${category}/${slug}`;
-
-    return [
-      { destination, permanent: true, source },
-      {
-        destination: item ? `${destination}.md` : destination,
-        permanent: true,
-        source: `${source}.md`,
-      },
-    ];
+    return withMarkdown({
+      destination: item ? catalogItemHref(item) : ALL_COMPONENTS,
+      source: `/docs/components/${category}/${slug}`,
+    });
   })
 );
 
+const removedComponentRedirects = [
+  {
+    destination: ALL_COMPONENTS,
+    permanent: true,
+    source: `${ALL_COMPONENTS}/transitions/:path*`,
+  },
+  ...Object.entries(REMOVED_COMPONENTS).flatMap(([category, ids]) =>
+    ids.flatMap((id) => [
+      ...withMarkdown({
+        destination: ALL_COMPONENTS,
+        source: `${ALL_COMPONENTS}/${category}/${id}`,
+      }),
+      ...withMarkdown({
+        destination: ALL_COMPONENTS,
+        source: `${ALL_COMPONENTS}/${id}`,
+      }),
+    ])
+  ),
+  // The Typography category is now Text.
+  {
+    destination: categoryHref("text"),
+    permanent: true,
+    source: `${ALL_COMPONENTS}/typography`,
+  },
+  {
+    destination: `${categoryHref("text")}/:id`,
+    permanent: true,
+    source: `${ALL_COMPONENTS}/typography/:id`,
+  },
+];
+
 /** Previous canonical `/components/<id>` detail URLs, one explicit entry per item. */
-const previousComponentRedirects = CATALOG.flatMap((item) => [
-  {
+const previousComponentRedirects = CATALOG.flatMap((item) =>
+  withMarkdown({
     destination: catalogItemHref(item),
-    permanent: true,
     source: `${ROUTES.COMPONENTS}/${item.id}`,
-  },
-  {
-    destination: `${catalogItemHref(item)}.md`,
-    permanent: true,
-    source: `${ROUTES.COMPONENTS}/${item.id}.md`,
-  },
-]);
+  })
+);
 
 /** The former Templates section and its `/templates/<id>` detail URLs; compositions now live under /components. */
 const LEGACY_TEMPLATES = "/templates";
 const previousTemplateRedirects = [
   {
-    destination: "/components/compositions",
+    destination: categoryHref("compositions"),
     permanent: true,
     source: LEGACY_TEMPLATES,
   },
   ...CATALOG.filter((item) => item.category === "compositions").flatMap(
-    (item) => [
-      {
+    (item) =>
+      withMarkdown({
         destination: catalogItemHref(item),
-        permanent: true,
         source: `${LEGACY_TEMPLATES}/${item.id}`,
-      },
-      {
-        destination: `${catalogItemHref(item)}.md`,
-        permanent: true,
-        source: `${LEGACY_TEMPLATES}/${item.id}.md`,
-      },
-    ]
+      })
   ),
 ];
 
@@ -168,25 +201,26 @@ const nextConfig = {
   redirects() {
     return [
       {
-        destination: "/components",
+        destination: ALL_COMPONENTS,
         permanent: true,
         source: "/docs/components",
       },
-      ...["typography", "transitions", "captions"].map((category) => ({
-        destination: categoryHref(category),
+      ...[
+        ["typography", categoryHref("text")],
+        ["transitions", ALL_COMPONENTS],
+        ["captions", categoryHref("captions")],
+        ["compositions", categoryHref("compositions")],
+      ].map(([category, destination]) => ({
+        destination,
         permanent: true,
         source: `/docs/components/${category}`,
       })),
-      {
-        destination: categoryHref("compositions"),
-        permanent: true,
-        source: "/docs/components/compositions",
-      },
       ...previousTemplateRedirects,
       ...legacyComponentDocRedirects,
+      ...removedComponentRedirects,
       ...previousComponentRedirects,
       {
-        destination: "/components",
+        destination: ALL_COMPONENTS,
         permanent: true,
         source: "/docs/components/:path*",
       },

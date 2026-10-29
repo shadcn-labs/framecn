@@ -58,9 +58,10 @@ export default function AboutPage() {
           <div className="text-muted-foreground mt-8 space-y-5 text-[15px] leading-7">
             <p>
               {SITE.NAME} is a collection of beautifully designed, customizable
-              video components for React. Typography, transitions, captions, and
-              complete compositions you can preview in the browser, tweak with
-              live controls, and drop into your project with the shadcn CLI.
+              video components for React. Animated text, captions, carousels, 3D
+              globes, charts, and complete compositions you can preview in the
+              browser, tweak with live controls, and drop into your project with
+              the shadcn CLI.
             </p>
             <p>
               Every component is real React code built on{" "}
@@ -80,7 +81,7 @@ export default function AboutPage() {
           <dl className="mt-10 grid grid-cols-3 divide-x rounded-xl border">
             {[
               [String(free), "Free components"],
-              [String(CATALOG.length - free), "Pro compositions"],
+              [String(CATALOG.length - free), "Pro components"],
               ["MIT", "License"],
             ].map(([value, label]) => (
               <div key={label} className="p-4">

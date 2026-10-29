@@ -1,9 +1,9 @@
 ---
 title: Registry
-description: Install free framecn video components with the shadcn CLI.
+description: Install free framecn caption components and Pro components with the shadcn CLI.
 ---
 
-The framecn public registry contains typography, transitions, and captions built with Editframe. [Node Reveal](/components/compositions/node-reveal), the only Pro composition, is installed from the authenticated `@framecn-pro` registry (see [framecn Pro](#framecn-pro)).
+The framecn public registry contains the free caption components built with Editframe. Pro components, such as [Node Reveal](/components/compositions/node-reveal), are installed from the authenticated `@framecn-pro` registry (see [framecn Pro](#framecn-pro)).
 
 ## Setup
 
@@ -22,13 +22,13 @@ Add this namespace to your `components.json` registries:
 Install a free component by its registry name:
 
 ```bash
-npx shadcn@latest add @framecn/blur-reveal
+npx shadcn@latest add @framecn/caption-highlight
 ```
 
 Without a registry alias, use the full URL:
 
 ```bash
-npx shadcn@latest add https://framecn.dev/r/blur-reveal.json
+npx shadcn@latest add https://framecn.dev/r/caption-highlight.json
 ```
 
 Components install into `components/framecn/` and depend on `@editframe/react`. Browse the [component gallery](/components) for previews and installation details.

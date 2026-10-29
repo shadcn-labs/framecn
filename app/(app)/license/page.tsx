@@ -41,7 +41,7 @@ export default async function LicensePage() {
       <LegalSection title="Free components">
         <div className="flex items-center gap-2">
           <Badge variant="secondary">MIT</Badge>
-          <span>Typography, transitions, captions, and everything free.</span>
+          <span>Every caption component, and anything not marked Pro.</span>
         </div>
         <p>
           Use, copy, modify, and ship them anywhere, including commercial and
@@ -71,7 +71,7 @@ export default async function LicensePage() {
         </div>
         <p>You can:</p>
         <ul>
-          <li>Use Pro compositions in personal projects.</li>
+          <li>Use Pro components in personal projects.</li>
           <li>
             Use them in commercial products and in work you build for clients.
           </li>
@@ -103,8 +103,7 @@ export default async function LicensePage() {
           </li>
           <li>
             <span className="text-foreground">Lifetime</span> is for one person,
-            with Pro access that never expires, including future Pro
-            compositions.
+            with Pro access that never expires, including future Pro components.
           </li>
           <li>
             <span className="text-foreground">Team</span> is a Lifetime license

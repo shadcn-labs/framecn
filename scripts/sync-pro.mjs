@@ -42,20 +42,8 @@ const CATEGORY_BY_GROUP = {
   creative: "compositions",
   "full-composition": "compositions",
   "scroll-animations": "scroll-animations",
-  text: "typography",
+  text: "text",
 };
-
-const CATEGORY_ORDER = [
-  "typography",
-  "transitions",
-  "captions",
-  "carousels",
-  "globes",
-  "collages",
-  "charts",
-  "scroll-animations",
-  "compositions",
-];
 
 const log = (message) => console.log(`[sync-pro] ${message}`);
 
@@ -212,14 +200,20 @@ const loadProCatalog = async () => {
   return PRO_CATALOG;
 };
 
-const loadPublicCatalogIds = async (proCatalog) => {
+/** Free catalog ids (Pro ids that collide are skipped) and the category order. */
+const loadCatalog = async (proCatalog) => {
   const { createJiti } = await import("jiti");
   const jiti = createJiti(import.meta.url, { alias: { "@": root } });
-  const { CATALOG } = await jiti.import(join(root, "lib", "catalog.ts"));
-  const synced = new Set(proCatalog.map((item) => item.id));
-  return new Set(
-    CATALOG.filter((item) => !synced.has(item.id)).map((item) => item.id)
+  const { CATALOG, COMPONENT_CATEGORIES } = await jiti.import(
+    join(root, "lib", "catalog.ts")
   );
+  const synced = new Set(proCatalog.map((item) => item.id));
+  return {
+    categories: COMPONENT_CATEGORIES,
+    freeIds: new Set(
+      CATALOG.filter((item) => !synced.has(item.id)).map((item) => item.id)
+    ),
+  };
 };
 
 const componentItems = (manifest) =>
@@ -230,11 +224,11 @@ const groupOf = (item) =>
   item.files[0].path.slice(SOURCE_PREFIX.length).split("/")[0];
 
 const generateCatalog = async (manifest) => {
-  const publicIds = await loadPublicCatalogIds(await loadProCatalog());
+  const { categories, freeIds } = await loadCatalog(await loadProCatalog());
   const skipped = [];
   const items = [];
   for (const item of componentItems(manifest)) {
-    if (publicIds.has(item.name)) {
+    if (freeIds.has(item.name)) {
       skipped.push(item.name);
       continue;
     }
@@ -253,8 +247,7 @@ const generateCatalog = async (manifest) => {
     });
   }
   items.sort(
-    (a, b) =>
-      CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category)
+    (a, b) => categories.indexOf(a.category) - categories.indexOf(b.category)
   );
   const body = items
     .map(

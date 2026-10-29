@@ -13,11 +13,11 @@ import { ROUTES } from "@/constants/routes";
 import { CATALOG, CATEGORY_LABELS, catalogItemHref } from "@/lib/catalog";
 
 const FEATURED = [
-  "blur-reveal",
+  "kinetic-text",
   "caption-pill-karaoke",
-  "chromatic-aberration-wipe",
-  "matrix-decode",
-  "device-mockup-zoom",
+  "album-carousel",
+  "route-globe",
+  "bar-chart",
   "node-reveal",
 ];
 

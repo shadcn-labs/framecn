@@ -102,7 +102,7 @@ export const WebMcpTools = () => {
 
     register({
       description:
-        "Fetch the markdown documentation (install command, source, usage, API) for a framecn component by id (e.g. blur-reveal).",
+        "Fetch the markdown documentation (install command, source, usage, API) for a framecn component by id (e.g. caption-highlight).",
       execute: async (input, { signal }) => {
         const id =
           typeof input === "object" &&

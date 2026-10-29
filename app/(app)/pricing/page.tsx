@@ -31,7 +31,7 @@ export const metadata = {
 };
 
 const FREE_FEATURES = [
-  "All free components: typography, transitions, captions",
+  "All caption components",
   "Install with the shadcn CLI",
   "MIT license",
   "Customization controls",
@@ -68,7 +68,7 @@ const PLAN_FEATURES: Record<PlanSlug, { heading: string; items: string[] }> = {
 
 const FAQ = [
   {
-    a: "Every typography, transition, and caption component without a Pro badge is free under the MIT license. Install them with the shadcn CLI, customize them, and use the copy prompt and AI-ready docs — no account needed.",
+    a: "Every caption component is free under the MIT license. Install them with the shadcn CLI, customize them, and use the copy prompt and AI-ready docs — no account needed. Pro components can be previewed and customized for free too.",
     q: "What's free?",
   },
   {
