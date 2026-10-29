@@ -40,7 +40,6 @@ export const InlineHighlight = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     height: 500,
     justifyContent: "center",
     position: "relative",
@@ -49,22 +48,22 @@ export const InlineHighlight = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-inline-highlight {
-            from {
-              color: ${baseColor};
-            }
-            to {
-              color: ${highlightColor};
-            }
+        @keyframes framecn-inline-highlight {
+          from {
+            color: ${baseColor};
           }
-        `}</style>
+          to {
+            color: ${highlightColor};
+          }
+        }
+      `}</style>
         <span
           style={{
             animation: `framecn-inline-highlight ${highlightDurationMs}ms ease-out ${durationMs - highlightDurationMs}ms forwards`,

@@ -1,9 +1,9 @@
-import { AlertTriangleIcon, InfoIcon } from "lucide-react";
+import { AlertTriangleIcon, CircleAlertIcon, InfoIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 
-type CalloutVariant = "default" | "warning";
+type CalloutVariant = "default" | "warning" | "destructive";
 
 type CalloutProps = React.ComponentProps<typeof Alert> & {
   icon?: React.ReactNode;
@@ -12,6 +12,7 @@ type CalloutProps = React.ComponentProps<typeof Alert> & {
 
 const ICONS: Record<CalloutVariant, React.ReactNode> = {
   default: <InfoIcon />,
+  destructive: <CircleAlertIcon />,
   warning: <AlertTriangleIcon />,
 };
 
@@ -23,22 +24,17 @@ export const Callout = ({
   variant = "default",
   ...props
 }: CalloutProps) => {
-  const Icon = icon || ICONS[variant as keyof typeof ICONS];
+  const Icon = icon || ICONS[variant];
 
   return (
     <Alert
-      className={cn(
-        "bg-surface text-surface-foreground mt-6 w-auto border-none md:-mx-1",
-        className
-      )}
+      className={cn("mt-6 w-auto md:-mx-1 [&+&]:mt-3", className)}
       variant={variant}
       {...props}
     >
       {Icon}
       {title && <AlertTitle>{title}</AlertTitle>}
-      <AlertDescription className="text-card-foreground/80">
-        {children}
-      </AlertDescription>
+      <AlertDescription>{children}</AlertDescription>
     </Alert>
   );
 };

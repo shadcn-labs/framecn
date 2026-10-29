@@ -1,0 +1,15 @@
+// Only used to apply ./drizzle migrations to Cloudflare D1
+// (`pnpm db:migrate:remote`). The app itself runs on Vercel and reaches D1
+// over its REST API.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "framecn",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "framecn",
+      "database_id": "725e6947-8895-4834-90f5-54841a38c211",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}

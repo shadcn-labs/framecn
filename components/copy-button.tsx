@@ -38,6 +38,8 @@ export interface CopyButtonProps extends Omit<
   src?: string;
   event?: Event["name"];
   showTooltip?: boolean;
+  /** What is being copied, e.g. "Copy install command". */
+  tooltip?: string;
 }
 
 export const CopyButton = ({
@@ -47,6 +49,7 @@ export const CopyButton = ({
   event,
   children,
   showTooltip = true,
+  tooltip = "Copy",
   ...props
 }: CopyButtonProps) => {
   const getValue = useCallback(() => {
@@ -112,10 +115,8 @@ export const CopyButton = ({
 
   return (
     <Tooltip>
-      <TooltipTrigger asChild>{copyButton}</TooltipTrigger>
-      <TooltipContent>
-        {isCopied ? "Copied" : "Copy to Clipboard"}
-      </TooltipContent>
+      <TooltipTrigger render={copyButton} />
+      <TooltipContent>{isCopied ? "Copied" : tooltip}</TooltipContent>
     </Tooltip>
   );
 };

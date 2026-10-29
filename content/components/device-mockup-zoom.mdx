@@ -1,0 +1,32 @@
+---
+title: "Device Mockup Zoom"
+description: "Pull back from a UI to reveal it inside a phone or laptop frame."
+---
+
+## Usage
+
+```tsx
+import { DeviceMockupZoom } from "@/components/framecn/device-mockup-zoom";
+```
+
+```tsx
+<DeviceMockupZoom />
+```
+
+## API Reference
+
+### DeviceMockupZoom
+
+| Prop               | Type                  | Default     |
+| ------------------ | --------------------- | ----------- |
+| `children`         | `ReactNode`           | `-`         |
+| `device`           | `"laptop" \| "phone"` | `"laptop"`  |
+| `frameColor`       | `string`              | `"#1f1f1f"` |
+| `screenColor`      | `string`              | `"#0a0a0a"` |
+| `background`       | `string`              | `"#fafafa"` |
+| `speed`            | `number`              | `1`         |
+| `fps`              | `number`              | `30`        |
+| `durationInFrames` | `number`              | `120`       |
+| `width`            | `number`              | `1280`      |
+| `height`           | `number`              | `720`       |
+| `className`        | `string`              | `-`         |

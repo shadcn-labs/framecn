@@ -40,7 +40,6 @@ export const MaskedSlideReveal = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     fontFamily:
       "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
     height,
@@ -52,18 +51,18 @@ export const MaskedSlideReveal = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-masked-slide {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-          }
-        `}</style>
+        @keyframes framecn-masked-slide {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
+        }
+      `}</style>
         <span
           style={{
             color,

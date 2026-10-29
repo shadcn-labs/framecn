@@ -43,7 +43,6 @@ export const PerCharacterRise = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     inset: 0,
     justifyContent: "center",
     position: "absolute",
@@ -51,18 +50,18 @@ export const PerCharacterRise = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-pcr-in {
-            from { opacity: 0; transform: translateY(${distance}px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
+        @keyframes framecn-pcr-in {
+          from { opacity: 0; transform: translateY(${distance}px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
         <span
           style={{
             color,

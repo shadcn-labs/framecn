@@ -1,35 +1,11 @@
 import { ROUTES } from "@/constants/routes";
 
-import type { PageTreeFolder } from "./page-tree";
 import { formatLabelFromSlug } from "./utils";
 
 export const DOCS_DIR = `content${ROUTES.DOCS}`;
+export const COMPONENT_DOCS_DIR = `content${ROUTES.COMPONENTS}`;
 
 export const EXCLUDED_SECTIONS = new Set(["installation", "(root)"]);
-
-export const isComponentsFolder = (folder: PageTreeFolder) =>
-  folder.$id === "components" || folder.name === "Components";
-
-export const isUiFolder = (folder: PageTreeFolder) =>
-  folder.$id === "ui" || folder.name === "UI";
-
-export const isShadersFolder = (folder: PageTreeFolder) =>
-  folder.$id === "shaders" || folder.name === "Shaders";
-
-export const isCatalogFolder = (folder: PageTreeFolder) =>
-  isComponentsFolder(folder) || isUiFolder(folder) || isShadersFolder(folder);
-
-export type DocsSidebarPanel = "components" | "ui" | "shaders";
-
-export const getDocsSidebarPanel = (pathname: string): DocsSidebarPanel => {
-  if (pathname.startsWith(ROUTES.DOCS_UI)) {
-    return "ui";
-  }
-  if (pathname.startsWith(ROUTES.DOCS_SHADERS)) {
-    return "shaders";
-  }
-  return "components";
-};
 
 const TITLE_OVERRIDES: Record<string, string> = {
   json: "JSON",
@@ -41,24 +17,9 @@ export const formatTitleFromSlug = (slug: string): string =>
 
 export const homeContentRoute = `${ROUTES.LLMS_MD}/content.md`;
 export const docsContentRoute = `${ROUTES.LLMS_MD}${ROUTES.DOCS}`;
+export const componentContentRoute = `${ROUTES.LLMS_MD}${ROUTES.COMPONENTS}`;
 
-export const PAGES_NEW: string[] = [
-  ROUTES.DOCS_CHANGELOG,
-  ROUTES.DOCS_SHADERS,
-  `${ROUTES.DOCS_COMPONENTS}/transitions/fade-through`,
-  `${ROUTES.DOCS_COMPONENTS}/transitions/per-word-crossfade`,
-  `${ROUTES.DOCS_COMPONENTS}/transitions/shared-axis-y`,
-  `${ROUTES.DOCS_COMPONENTS}/transitions/shared-axis-z`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/blur-out-up`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/bottom-up-letters`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/focus-blur-resolve`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/line-by-line-slide`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/mask-reveal-up`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/micro-scale-fade`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/per-character-rise`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/scale-down-fade`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/short-slide-right`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/soft-blur-in`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/spring-scale-in`,
-  `${ROUTES.DOCS_COMPONENTS}/typography/top-down-letters`,
-];
+export const componentMarkdownUrl = (id: string) =>
+  `${componentContentRoute}/${id}/content.md`;
+
+export const PAGES_NEW: string[] = [ROUTES.DOCS_CHANGELOG];

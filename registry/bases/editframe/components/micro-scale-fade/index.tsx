@@ -41,7 +41,6 @@ export const MicroScaleFade = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     inset: 0,
     justifyContent: "center",
     position: "absolute",
@@ -49,18 +48,18 @@ export const MicroScaleFade = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes ${keyframeName} {
-            from { opacity: 0; transform: scale(${scaleFrom}); }
-            to { opacity: 1; transform: scale(1); }
-          }
-        `}</style>
+        @keyframes ${keyframeName} {
+          from { opacity: 0; transform: scale(${scaleFrom}); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
         <span
           style={{
             animation: `${keyframeName} ${enterMs}ms cubic-bezier(0.22,1,0.36,1) 0ms backwards`,

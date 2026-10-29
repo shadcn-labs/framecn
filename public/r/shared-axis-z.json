@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shared-axis-z",
+  "title": "Shared Axis Z",
+  "description": "Text scales up and fades out while new text scales in from small, simulating depth on the Z axis.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/components/shared-axis-z/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface SharedAxisZProps {\n  fromText?: string;\n  toText?: string;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  background?: string;\n  className?: string;\n}\n\nexport const SharedAxisZ = ({\n  fromText = \"Hello world\",\n  toText = \"New world\",\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  background = \"white\",\n  className,\n}: SharedAxisZProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const exitMs = (11 * frameMs) / safeSpeed;\n  const enterMs = (16 * frameMs) / safeSpeed;\n  const enterStartMs = exitMs - (2 * frameMs) / safeSpeed;\n\n  const exitAnimation = `framecn-saz-exit ${exitMs}ms ease-in 0ms forwards`;\n  const enterAnimation = `framecn-saz-enter ${enterMs}ms cubic-bezier(0.22,1,0.36,1) ${enterStartMs}ms backwards`;\n\n  const textStyle: CSSProperties = {\n    color,\n    fontFamily: FONT_FAMILY,\n    fontSize,\n    fontWeight,\n    left: \"50%\",\n    letterSpacing: \"-0.03em\",\n    position: \"absolute\",\n    top: \"50%\",\n    whiteSpace: \"nowrap\",\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={\n        {\n          alignItems: \"center\",\n          background,\n          display: \"flex\",\n          inset: 0,\n          justifyContent: \"center\",\n          position: \"absolute\",\n        } as CSSProperties\n      }\n    >\n      <>\n        <style>{`\n          @keyframes framecn-saz-exit {\n            from { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }\n            to { opacity: 0; transform: translate(-50%, -50%) scale(1.06); filter: blur(1px); }\n          }\n          @keyframes framecn-saz-enter {\n            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(2px); }\n            to { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }\n          }\n        `}</style>\n        <div style={{ height: 0, position: \"relative\", width: 0 }}>\n          <span style={{ ...textStyle, animation: exitAnimation }}>\n            {fromText}\n          </span>\n          <span style={{ ...textStyle, animation: enterAnimation }}>\n            {toText}\n          </span>\n        </div>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/shared-axis-z.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

@@ -1,74 +1,38 @@
 ---
 title: "Installation"
-description: "Install video components and UI primitives from the registry."
+description: "Install typography, transition, and caption components with the shadcn CLI."
 ---
 
 ## Prerequisites
 
-A project with [Editframe](https://editframe.com/) set up.
+A React project with [Editframe](https://editframe.com/) set up. Components use `@editframe/react`.
 
-## Video components
+## Install a free component
 
-Run the following command to add any video component:
+Browse the [component gallery](/components), then add a component through the shadcn CLI:
 
 ```bash
-npx shadcn@latest add @framecn/cursor-flow
+npx shadcn@latest add @framecn/blur-reveal
 ```
 
-Import and use the component:
+If you have not configured the registry namespace, use the full URL:
+
+```bash
+npx shadcn@latest add https://framecn.dev/r/blur-reveal.json
+```
+
+Import and use the copied component:
 
 ```tsx
-import { CursorFlow } from "@/components/framecn/cursor-flow";
+import { BlurReveal } from "@/components/framecn/blur-reveal";
 
 export function DemoVideo() {
-  return <CursorFlow />;
+  return <BlurReveal text="Made for motion" />;
 }
 ```
 
-## UI primitives
+Files are copied to `components/framecn/<name>.tsx`. You own the code and can customize its text, timing, colors, and layout. Each component detail page includes its preview, controls, and source.
 
-UI components and blocks install the same way. The shared `framecn-ui` core installs automatically as a `registryDependencies` entry — you do not need to install it separately.
+## Node Reveal Pro
 
-```bash
-npx shadcn@latest add @framecn/button
-```
-
-Blocks pull in nested primitives automatically:
-
-```bash
-npx shadcn@latest add @framecn/chat-flow
-```
-
-### What gets written
-
-| Path                                          | Contents                                                               |
-| --------------------------------------------- | ---------------------------------------------------------------------- |
-| `components/framecn/<name>.tsx`               | The component or block                                                 |
-| `components/framecn/use-<name>-transition.ts` | Transition hook for smooth motion (UI components)                      |
-| `lib/framecn-ui/`                             | Shared core — timeline helpers, theme, color utilities, motion helpers |
-
-All files are copied into your project. You own the code — edit any file freely to suit your video.
-
-### UI usage
-
-Import and wrap in a `Timegroup`:
-
-```tsx
-import { Timegroup } from "@editframe/react";
-import { Button } from "@/components/framecn/button";
-
-export function Scene() {
-  return (
-    <Timegroup duration="3s" mode="fixed">
-      <Button
-        from="idle"
-        state="success"
-        duration="24frames"
-        label="Continue"
-      />
-    </Timegroup>
-  );
-}
-```
-
-See [Concepts](/docs/concepts) for the UI mental model.
+[Node Reveal](/components/compositions/node-reveal) is the only Pro item. Its preview is public, but source access requires signing in with an active Pro Annual, Lifetime, or Team plan. It is not included in the public registry; Pro subscribers install it with `npx shadcn@latest add @framecn-pro/node-reveal` after configuring an API key as described in [Registry](/docs/registry#framecn-pro).

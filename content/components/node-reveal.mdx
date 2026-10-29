@@ -1,0 +1,61 @@
+---
+title: "Node Reveal"
+description: "A wordmark splits apart as a design node scales up from nothing between the two words."
+---
+
+## Usage
+
+```tsx
+import { NodeReveal } from "@/components/framecn/node-reveal";
+```
+
+```tsx
+<NodeReveal lead="SHADCN" trail="LABS" src="/your-artwork.png" />
+```
+
+## API Reference
+
+### NodeReveal
+
+| Prop               | Type                             | Default      |
+| ------------------ | -------------------------------- | ------------ |
+| `lead`             | `string`                         | `"SHADCN"`   |
+| `trail`            | `string`                         | `"LABS"`     |
+| `src`              | `string`                         | framecn artwork |
+| `size`             | `number`                         | `440`        |
+| `ratio`            | `string`                         | `"1:1"`      |
+| `fit`              | `"cover" \| "contain" \| "fill"` | `"cover"`    |
+| `nodeBackground`   | `string`                         | `"#000000"`  |
+| `radius`           | `number`                         | `0`          |
+| `handles`          | `boolean`                        | `true`       |
+| `handleSize`       | `number`                         | `10`         |
+| `handleColor`      | `string`                         | `"#ffffff"`  |
+| `openAt`           | `number`                         | `0.12`       |
+| `landAt`           | `number`                         | `0.55`       |
+| `gapFrom`          | `number`                         | `6`          |
+| `gapTo`            | `number`                         | `56`         |
+| `easing`           | `string`                         | `"expo"`     |
+| `fontSize`         | `number`                         | `56`         |
+| `fontWeight`       | `number \| string`               | `500`        |
+| `color`            | `string`                         | `"#ffffff"`  |
+| `background`       | `string`                         | `"#4e4e50"`  |
+| `speed`            | `number`                         | `1`          |
+| `className`        | `string`                         | `-`          |
+| `fps`              | `number`                         | `30`         |
+| `durationInFrames` | `number`                         | `120`        |
+| `width`            | `number`                         | `1280`       |
+| `height`           | `number`                         | `720`        |
+
+## Notes
+
+<Callout title="Timing is a fraction of the duration">
+  `openAt` and `landAt` are fractions of the composition length: the node
+  starts growing at `openAt` (clamped to 0–0.9) and settles at `landAt`, which
+  always lands at least 0.05 after `openAt` and never past 1.
+</Callout>
+
+<Callout title="Use a square-ish ratio for logos">
+  `size` is the longest edge of the node. Wide ratios such as `16:9` make the
+  node shorter, so pair them with a larger `gapTo` to keep the words clear of
+  the artwork.
+</Callout>

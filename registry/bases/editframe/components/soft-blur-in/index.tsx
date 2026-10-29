@@ -44,7 +44,6 @@ export const SoftBlurIn = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     inset: 0,
     justifyContent: "center",
     position: "absolute",
@@ -52,18 +51,18 @@ export const SoftBlurIn = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes ${keyframeName} {
-            from { opacity: 0; transform: translateY(16px); filter: blur(${blur}px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-          }
-        `}</style>
+        @keyframes ${keyframeName} {
+          from { opacity: 0; transform: translateY(16px); filter: blur(${blur}px); }
+          to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+      `}</style>
         <span
           style={{
             color,

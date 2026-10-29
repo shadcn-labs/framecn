@@ -1,0 +1,39 @@
+---
+title: "Masked Slide Reveal"
+description: "Lines grow out from behind an invisible horizontal mask."
+---
+
+## Usage
+
+```tsx
+import { MaskedSlideReveal } from "@/components/framecn/masked-slide-reveal";
+```
+
+```tsx
+<MaskedSlideReveal />
+```
+
+## API Reference
+
+### MaskedSlideReveal
+
+| Prop               | Type     | Default                 |
+| ------------------ | -------- | ----------------------- |
+| `text`             | `string` | `"Ship to production."` |
+| `staggerDelay`     | `number` | `3`                     |
+| `fontSize`         | `number` | `72`                    |
+| `color`            | `string` | `"#171717"`             |
+| `fontWeight`       | `number` | `700`                   |
+| `speed`            | `number` | `1`                     |
+| `fps`              | `number` | `30`                    |
+| `durationInFrames` | `number` | `90`                    |
+| `width`            | `number` | `1280`                  |
+| `height`           | `number` | `720`                   |
+| `className`        | `string` | `-`                     |
+
+## Notes
+
+<Callout title="Uses clip-path for reveal">
+  The masked reveal uses CSS clip-path. The mask expands horizontally to reveal
+  the text underneath.
+</Callout>

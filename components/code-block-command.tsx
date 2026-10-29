@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 
 import { CopyButton } from "@/components/copy-button";
 import { getIconForPackageManager } from "@/components/icons";
+import { Frame, FrameContent, FrameHeader } from "@/components/ui/frame";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import type { PackageManager } from "@/hooks/use-package-manager";
 import { usePackageManager } from "@/hooks/use-package-manager";
@@ -48,25 +49,20 @@ export const CodeBlockCommand = ({
   );
 
   return (
-    <div
-      className={cn(
-        "bg-code text-code-foreground relative overflow-hidden rounded-lg text-sm",
-        className
-      )}
-    >
+    <Frame className={cn("text-sm", className)}>
       <Tabs
         className="gap-0"
         onValueChange={handlePackageManagerChange}
         value={packageManager}
       >
-        <div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
-          <TabsList className="rounded-none bg-transparent p-0 [&_svg]:me-2 [&_svg]:size-4 [&_svg]:text-muted-foreground">
+        <FrameHeader className="px-1.5 pr-1">
+          <TabsList className="rounded-none border-0 bg-transparent p-0 [&_svg]:ms-1.5 [&_svg]:me-2 [&_svg]:size-4 [&_svg]:text-muted-foreground">
             {getIconForPackageManager(packageManager)}
 
             {Object.entries(commandTabs).map(([key]) => (
               <TabsTrigger
                 key={key}
-                className="data-[state=active]:border-input h-7 border border-transparent pt-0.5 data-[state=active]:shadow-none"
+                className="data-active:border-input data-active:bg-card h-7 border border-transparent pt-0.5 data-active:shadow-none"
                 sound="tabSwitch"
                 value={key}
               >
@@ -74,8 +70,14 @@ export const CodeBlockCommand = ({
               </TabsTrigger>
             ))}
           </TabsList>
-        </div>
-        <div className="no-scrollbar overflow-x-auto">
+          <CopyButton
+            className="static ms-auto size-7 bg-transparent"
+            value={copyValue}
+            event={copyEvent}
+            tooltip="Copy install command"
+          />
+        </FrameHeader>
+        <FrameContent className="no-scrollbar overflow-x-auto">
           {Object.entries(commandTabs).map(([key, value]) => (
             <TabsContent key={key} className="mt-0 px-4 py-3.5" value={key}>
               <pre>
@@ -84,19 +86,14 @@ export const CodeBlockCommand = ({
                   data-language="bash"
                   className="font-mono text-sm/none"
                 >
-                  <span className="select-none">$ </span>
+                  <span className="text-muted-foreground select-none">$ </span>
                   {value}
                 </code>
               </pre>
             </TabsContent>
           ))}
-        </div>
+        </FrameContent>
       </Tabs>
-      <CopyButton
-        className="absolute top-2 right-2 z-10 size-7 opacity-70 hover:opacity-100 focus-visible:opacity-100"
-        value={copyValue}
-        event={copyEvent}
-      />
-    </div>
+    </Frame>
   );
 };

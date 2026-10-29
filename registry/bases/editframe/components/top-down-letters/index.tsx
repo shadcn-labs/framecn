@@ -45,7 +45,6 @@ export const TopDownLetters = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     inset: 0,
     justifyContent: "center",
     position: "absolute",
@@ -53,18 +52,18 @@ export const TopDownLetters = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-tdl-in {
-            from { opacity: 0; transform: translateY(-${distance}px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
+        @keyframes framecn-tdl-in {
+          from { opacity: 0; transform: translateY(-${distance}px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
         <span
           style={{
             color,

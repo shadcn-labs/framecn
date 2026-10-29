@@ -10,18 +10,6 @@ export const getFoldersFromFolder = (
     (child): child is PageTreeFolder => child.type === "folder"
   );
 
-export const getCatalogSubfolder = (
-  folder: PageTreeFolder,
-  category: string
-): PageTreeFolder | undefined =>
-  getFoldersFromFolder(folder).find(
-    (cat) =>
-      cat.$id === category ||
-      String(cat.$id ?? "").endsWith(`/${category}`) ||
-      (typeof cat.name === "string" &&
-        cat.name.toLowerCase() === category.toLowerCase())
-  );
-
 export const getPagesFromFolder = (
   folder: PageTreeFolder,
   includeRoot = true
@@ -33,20 +21,4 @@ export const getPagesFromFolder = (
     return pages;
   }
   return pages.filter((page) => page.$id !== `${folder.$id}/index.mdx`);
-};
-
-export const getAllPagesFromFolder = (
-  folder: PageTreeFolder
-): PageTreePage[] => {
-  const pages: PageTreePage[] = [];
-
-  for (const child of folder.children) {
-    if (child.type === "page") {
-      pages.push(child);
-    } else if (child.type === "folder") {
-      pages.push(...getAllPagesFromFolder(child));
-    }
-  }
-
-  return pages;
 };

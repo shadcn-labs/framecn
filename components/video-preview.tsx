@@ -6,25 +6,19 @@ import {
   Preview,
   Scrubber,
   TimeDisplay,
+  Timegroup,
   ToggleLoop,
   TogglePlay,
 } from "@editframe/react";
 import { PauseIcon, PlayIcon, Repeat1Icon, RepeatIcon } from "lucide-react";
-import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Frame, FrameContent } from "@/components/ui/frame";
 import { FPS, H, W } from "@/lib/customizer-config";
-import {
-  FrameProvider,
-  FramecnUIProvider,
-  resolveFramecnTheme,
-} from "@/lib/framecn-ui";
-import type { BaseColorName, ThemeName, IconLibrary } from "@/lib/framecn-ui";
-import { UiPreviewScaleContext } from "@/lib/ui-demo-cursor";
-import { DEFAULT_UI_PREVIEW_DURATION_FRAMES } from "@/lib/ui-preview-durations";
-import type { BackdropFill } from "@/registry/bases/editframe/components/backdrop";
+import type { BackdropFill } from "@/lib/customizer-config";
+import { FrameProvider } from "@/registry/bases/editframe/lib/frame";
 
 type RegistryComponent = React.ComponentType<Record<string, unknown>>;
 
@@ -138,22 +132,15 @@ export const PreviewControls = ({ previewId }: { previewId: string }) => {
   );
 };
 
-export interface VideoAppearance {
-  mode?: "system" | "light" | "dark";
-  baseColor?: BaseColorName;
-  themeName?: ThemeName | "base";
-  iconLibrary?: IconLibrary;
-}
-
 const VideoPreviewClient = ({
   previewId,
   Component,
   componentProps,
-  durationInFrames = DEFAULT_UI_PREVIEW_DURATION_FRAMES,
+  durationInFrames = 90,
   fps = FPS,
   previewBackdrop,
-  previewScale = 1,
-  appearance,
+  compact = false,
+  autoPlay = false,
 }: {
   previewId: string;
   Component: RegistryComponent;
@@ -161,72 +148,105 @@ const VideoPreviewClient = ({
   durationInFrames?: number;
   fps?: number;
   previewBackdrop?: BackdropFill;
-  previewScale?: number;
-  appearance?: VideoAppearance;
+  compact?: boolean;
+  autoPlay?: boolean;
 }) => {
-  const Scene =
-    previewBackdrop && !(previewBackdrop.type === "color" && appearance)
-      ? withBackdrop(Component, previewBackdrop)
-      : Component;
-  const { resolvedTheme } = useTheme();
-  const systemMode = resolvedTheme === "dark" ? "dark" : "light";
-  const mode =
-    appearance?.mode === "dark" || appearance?.mode === "light"
-      ? appearance.mode
-      : systemMode;
-  const baseColor = appearance?.baseColor ?? "neutral";
-  const themeName =
-    appearance?.themeName === "base"
-      ? baseColor
-      : (appearance?.themeName ?? baseColor);
-  const colors = resolveFramecnTheme(mode, baseColor, themeName);
+  const Scene = useMemo(
+    () =>
+      previewBackdrop ? withBackdrop(Component, previewBackdrop) : Component,
+    [Component, previewBackdrop]
+  );
+  const rootRef = useRef<React.ComponentRef<typeof Timegroup>>(null);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setMotionAllowed(!media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) {
+      return;
+    }
+    let cancelled = false;
+    const sync = async () => {
+      await root.updateComplete;
+      if (cancelled || !root.isConnected) {
+        return;
+      }
+      root.loop = autoPlay;
+      root.currentTimeMs = (durationInFrames / fps) * 500;
+      if (autoPlay && motionAllowed) {
+        root.play();
+      } else {
+        root.pause();
+      }
+    };
+    void sync();
+    return () => {
+      cancelled = true;
+      if (root.isConnected) {
+        root.pause();
+      }
+    };
+  }, [autoPlay, durationInFrames, fps, motionAllowed]);
 
-  return (
-    <div className="overflow-hidden rounded-lg bg-code px-1 pt-1">
+  return compact ? (
+    <div className="overflow-hidden">
       <Preview id={previewId} className="aspect-video">
-        <FitScale className="rounded-md">
-          <FrameProvider
-            durationMs={(durationInFrames / fps) * 1000}
-            fps={fps}
+        <FitScale>
+          <Timegroup
+            ref={rootRef}
+            duration={`${(durationInFrames / fps) * 1000}ms`}
+            mode="fixed"
             style={{
               height: H,
               overflow: "hidden",
+              position: "relative",
               width: W,
             }}
           >
-            {appearance ? (
-              <FramecnUIProvider
-                mode={mode}
-                baseColor={baseColor}
-                themeName={themeName}
-                iconLibrary={appearance.iconLibrary}
-              >
-                <div
-                  style={{
-                    alignItems: "center",
-                    background: colors.background,
-                    color: colors.foreground,
-                    display: "flex",
-                    inset: 0,
-                    justifyContent: "center",
-                    position: "absolute",
-                    transform:
-                      previewScale === 1 ? undefined : `scale(${previewScale})`,
-                  }}
-                >
-                  <UiPreviewScaleContext value={previewScale}>
-                    <Scene {...componentProps} />
-                  </UiPreviewScaleContext>
-                </div>
-              </FramecnUIProvider>
-            ) : (
+            <FrameProvider
+              durationMs={(durationInFrames / fps) * 1000}
+              fps={fps}
+            >
               <Scene {...componentProps} />
-            )}
-          </FrameProvider>
+            </FrameProvider>
+          </Timegroup>
         </FitScale>
       </Preview>
-      <PreviewControls previewId={previewId} />
     </div>
+  ) : (
+    // Card look: only the video sits on white; the player controls live on the muted shell.
+    <Frame>
+      <FrameContent className="overflow-hidden">
+        <Preview id={previewId} className="aspect-video">
+          <FitScale>
+            <Timegroup
+              ref={rootRef}
+              duration={`${(durationInFrames / fps) * 1000}ms`}
+              mode="fixed"
+              style={{
+                height: H,
+                overflow: "hidden",
+                position: "relative",
+                width: W,
+              }}
+            >
+              <FrameProvider
+                durationMs={(durationInFrames / fps) * 1000}
+                fps={fps}
+              >
+                <Scene {...componentProps} />
+              </FrameProvider>
+            </Timegroup>
+          </FitScale>
+        </Preview>
+      </FrameContent>
+      <PreviewControls previewId={previewId} />
+    </Frame>
   );
 };
 
@@ -234,13 +254,10 @@ const VideoPreviewClient = ({
 // player client-side so shared query-state icons and browser-only timing agree.
 export const VideoPreview = dynamic(() => Promise.resolve(VideoPreviewClient), {
   loading: () => (
-    <div
-      className="overflow-hidden rounded-lg bg-code px-1 pt-1"
-      aria-label="Loading video preview"
-    >
-      <div className="aspect-video rounded-md bg-muted" />
+    <Frame aria-label="Loading video preview">
+      <FrameContent className="bg-muted aspect-video" />
       <div className="h-11" />
-    </div>
+    </Frame>
   ),
   ssr: false,
 });

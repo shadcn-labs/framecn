@@ -94,6 +94,24 @@ export const BreadcrumbJsonLd = ({
   />
 );
 
+export const FaqJsonLd = ({
+  items,
+}: {
+  items: { question: string; answer: string }[];
+}) => (
+  <JsonLdScript
+    data={{
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: items.map((item) => ({
+        "@type": "Question",
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+        name: item.question,
+      })),
+    }}
+  />
+);
+
 export const JsonLdScripts = () => (
   <>
     <WebsiteJsonLd />

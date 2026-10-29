@@ -62,7 +62,6 @@ export const DeviceMockupZoom = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     height,
     justifyContent: "center",
     overflow: "hidden",
@@ -72,18 +71,18 @@ export const DeviceMockupZoom = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-device-zoom {
-            from { transform: scale(2); }
-            to { transform: scale(1); }
-          }
-        `}</style>
+        @keyframes framecn-device-zoom {
+          from { transform: scale(2); }
+          to { transform: scale(1); }
+        }
+      `}</style>
         <div
           style={{
             animation: `framecn-device-zoom ${scaleDurationMs}ms cubic-bezier(0.22, 1, 0.36, 1) backwards`,

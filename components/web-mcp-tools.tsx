@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { ROUTES } from "@/constants/routes";
+import { componentMarkdownUrl } from "@/lib/docs";
 
 type ToolExecute = (
   input: unknown,
@@ -53,7 +54,9 @@ export const WebMcpTools = () => {
       inputSchema: Record<string, unknown>;
       name: string;
     }) => {
-      const maybeCleanup = registerTool(def, { signal: ac.signal });
+      const maybeCleanup = registerTool.call(modelContext, def, {
+        signal: ac.signal,
+      });
       if (typeof maybeCleanup === "function") {
         cleanups.push(maybeCleanup);
       }
@@ -95,6 +98,40 @@ export const WebMcpTools = () => {
       },
       inputSchema: { properties: {}, type: "object" },
       name: "framecn_fetch_registry",
+    });
+
+    register({
+      description:
+        "Fetch the markdown documentation (install command, source, usage, API) for a framecn component by id (e.g. blur-reveal).",
+      execute: async (input, { signal }) => {
+        const id =
+          typeof input === "object" &&
+          input !== null &&
+          "id" in input &&
+          typeof input.id === "string"
+            ? input.id
+            : "";
+        const res = await fetch(
+          `${window.location.origin}${componentMarkdownUrl(encodeURIComponent(id))}`,
+          { signal }
+        );
+        if (!res.ok) {
+          return { ok: false, status: res.status };
+        }
+
+        return { markdown: await res.text(), ok: true };
+      },
+      inputSchema: {
+        properties: {
+          id: {
+            description: "Component id, as in /components/<category>/<id>",
+            type: "string",
+          },
+        },
+        required: ["id"],
+        type: "object",
+      },
+      name: "framecn_fetch_component_docs",
     });
 
     register({

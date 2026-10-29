@@ -4,16 +4,9 @@ import dynamic from "next/dynamic";
 
 import { SHARED_CONTROLS } from "@/lib/customizer-config";
 import type { ComponentConfig } from "@/lib/customizer-config";
-import { aiGenerateOverlayConfig } from "@/registry/bases/editframe/components/ai-generate-overlay/config";
-import { aiGenerationCanvasConfig } from "@/registry/bases/editframe/components/ai-generation-canvas/config";
-import { animatedBarChartConfig } from "@/registry/bases/editframe/components/animated-bar-chart/config";
-import { animatedLineChartConfig } from "@/registry/bases/editframe/components/animated-line-chart/config";
-import { backdropConfig } from "@/registry/bases/editframe/components/backdrop/config";
 import { blurOutUpConfig } from "@/registry/bases/editframe/components/blur-out-up/config";
 import { blurRevealConfig } from "@/registry/bases/editframe/components/blur-reveal/config";
 import { bottomUpLettersConfig } from "@/registry/bases/editframe/components/bottom-up-letters/config";
-import { boundingBoxSelectorConfig } from "@/registry/bases/editframe/components/bounding-box-selector/config";
-import { browserFlowConfig } from "@/registry/bases/editframe/components/browser-flow/config";
 import { captionClipWipeConfig } from "@/registry/bases/editframe/components/caption-clip-wipe/config";
 import { captionEditorialEmphasisConfig } from "@/registry/bases/editframe/components/caption-editorial-emphasis/config";
 import { captionEmojiPopConfig } from "@/registry/bases/editframe/components/caption-emoji-pop/config";
@@ -29,164 +22,45 @@ import { captionParticleBurstConfig } from "@/registry/bases/editframe/component
 import { captionPillKaraokeConfig } from "@/registry/bases/editframe/components/caption-pill-karaoke/config";
 import { captionTextureConfig } from "@/registry/bases/editframe/components/caption-texture/config";
 import { captionWeightShiftConfig } from "@/registry/bases/editframe/components/caption-weight-shift/config";
-import { chatToPreviewLayoutConfig } from "@/registry/bases/editframe/components/chat-to-preview-layout/config";
 import { chromaticAberrationWipeConfig } from "@/registry/bases/editframe/components/chromatic-aberration-wipe/config";
-import { codeAccordionConfig } from "@/registry/bases/editframe/components/code-accordion/config";
-import { codeDiffWipeConfig } from "@/registry/bases/editframe/components/code-diff-wipe/config";
-import { confettiConfig } from "@/registry/bases/editframe/components/confetti/config";
-import { cursorFlowConfig } from "@/registry/bases/editframe/components/cursor-flow/config";
-import { dashboardPopulateConfig } from "@/registry/bases/editframe/components/dashboard-populate/config";
-import { dataFlowPipesConfig } from "@/registry/bases/editframe/components/data-flow-pipes/config";
 import { deviceMockupZoomConfig } from "@/registry/bases/editframe/components/device-mockup-zoom/config";
 import { directionalWipeConfig } from "@/registry/bases/editframe/components/directional-wipe/config";
-import { dragAndDropFlowConfig } from "@/registry/bases/editframe/components/drag-and-drop-flow/config";
-import { dynamicGridConfig } from "@/registry/bases/editframe/components/dynamic-grid/config";
-import { ecosystemConstellationConfig } from "@/registry/bases/editframe/components/ecosystem-constellation/config";
 import { fadeThroughConfig } from "@/registry/bases/editframe/components/fade-through/config";
 import { focusBlurResolveConfig } from "@/registry/bases/editframe/components/focus-blur-resolve/config";
-import { formatMorphConfig } from "@/registry/bases/editframe/components/format-morph/config";
 import { frostedGlassWipeConfig } from "@/registry/bases/editframe/components/frosted-glass-wipe/config";
-import { glassCodeBlockConfig } from "@/registry/bases/editframe/components/glass-code-block/config";
 import { gridPixelateWipeConfig } from "@/registry/bases/editframe/components/grid-pixelate-wipe/config";
-import { heroDeviceAssembleConfig } from "@/registry/bases/editframe/components/hero-device-assemble/config";
-import { imageExpandToFullscreenConfig } from "@/registry/bases/editframe/components/image-expand-to-fullscreen/config";
-import { infiniteBentoPanConfig } from "@/registry/bases/editframe/components/infinite-bento-pan/config";
 import { infiniteMarqueeConfig } from "@/registry/bases/editframe/components/infinite-marquee/config";
 import { inlineHighlightConfig } from "@/registry/bases/editframe/components/inline-highlight/config";
 import { kineticTypeMaskConfig } from "@/registry/bases/editframe/components/kinetic-type-mask/config";
-import { landingCodeShowcaseConfig } from "@/registry/bases/editframe/components/landing-code-showcase/config";
 import { lineByLineSlideConfig } from "@/registry/bases/editframe/components/line-by-line-slide/config";
-import { liveCodeCompilationConfig } from "@/registry/bases/editframe/components/live-code-compilation/config";
-import { logoEnterConfig } from "@/registry/bases/editframe/components/logo-enter/config";
 import { markerHighlightConfig } from "@/registry/bases/editframe/components/marker-highlight/config";
 import { maskRevealUpConfig } from "@/registry/bases/editframe/components/mask-reveal-up/config";
 import { maskedSlideRevealConfig } from "@/registry/bases/editframe/components/masked-slide-reveal/config";
 import { matrixDecodeConfig } from "@/registry/bases/editframe/components/matrix-decode/config";
-import { meshGradientBgConfig } from "@/registry/bases/editframe/components/mesh-gradient-bg/config";
 import { microScaleFadeConfig } from "@/registry/bases/editframe/components/micro-scale-fade/config";
 import { morphingModalConfig } from "@/registry/bases/editframe/components/morphing-modal/config";
 import { nodeRevealConfig } from "@/registry/bases/editframe/components/node-reveal/config";
 import { perCharacterRiseConfig } from "@/registry/bases/editframe/components/per-character-rise/config";
 import { perWordCrossfadeConfig } from "@/registry/bases/editframe/components/per-word-crossfade/config";
 import { perspectiveMarqueeConfig } from "@/registry/bases/editframe/components/perspective-marquee/config";
-import { pipelineJourneyConfig } from "@/registry/bases/editframe/components/pipeline-journey/config";
-import { pricingTierFocusConfig } from "@/registry/bases/editframe/components/pricing-tier-focus/config";
-import { productLaunchTrailerConfig } from "@/registry/bases/editframe/components/product-launch-trailer/config";
-import { progressStepsConfig } from "@/registry/bases/editframe/components/progress-steps/config";
-import { pulsingIndicatorConfig } from "@/registry/bases/editframe/components/pulsing-indicator/config";
 import { rgbGlitchTextConfig } from "@/registry/bases/editframe/components/rgb-glitch-text/config";
 import { scaleDownFadeConfig } from "@/registry/bases/editframe/components/scale-down-fade/config";
-import { shaderColorPanelsConfig } from "@/registry/bases/editframe/components/shader-color-panels/config";
-import { shaderDitheringConfig } from "@/registry/bases/editframe/components/shader-dithering/config";
-import { shaderDotOrbitConfig } from "@/registry/bases/editframe/components/shader-dot-orbit/config";
-import { shaderGodRaysConfig } from "@/registry/bases/editframe/components/shader-god-rays/config";
-import { shaderGrainGradientConfig } from "@/registry/bases/editframe/components/shader-grain-gradient/config";
-import { shaderLiquidMetalConfig } from "@/registry/bases/editframe/components/shader-liquid-metal/config";
-import { shaderMeshGradientConfig } from "@/registry/bases/editframe/components/shader-mesh-gradient/config";
-import { shaderMetaballsConfig } from "@/registry/bases/editframe/components/shader-metaballs/config";
-import { shaderNeuroNoiseConfig } from "@/registry/bases/editframe/components/shader-neuro-noise/config";
-import { shaderPerlinNoiseConfig } from "@/registry/bases/editframe/components/shader-perlin-noise/config";
-import { shaderPulsingBorderConfig } from "@/registry/bases/editframe/components/shader-pulsing-border/config";
-import { shaderSimplexNoiseConfig } from "@/registry/bases/editframe/components/shader-simplex-noise/config";
-import { shaderSmokeRingConfig } from "@/registry/bases/editframe/components/shader-smoke-ring/config";
-import { shaderSpiralConfig } from "@/registry/bases/editframe/components/shader-spiral/config";
-import { shaderSwirlConfig } from "@/registry/bases/editframe/components/shader-swirl/config";
-import { shaderVoronoiConfig } from "@/registry/bases/editframe/components/shader-voronoi/config";
-import { shaderWarpConfig } from "@/registry/bases/editframe/components/shader-warp/config";
-import { shaderWaterConfig } from "@/registry/bases/editframe/components/shader-water/config";
 import { sharedAxisYConfig } from "@/registry/bases/editframe/components/shared-axis-y/config";
 import { sharedAxisZConfig } from "@/registry/bases/editframe/components/shared-axis-z/config";
 import { shimmerSweepConfig } from "@/registry/bases/editframe/components/shimmer-sweep/config";
 import { shortSlideRightConfig } from "@/registry/bases/editframe/components/short-slide-right/config";
-import { simulatedCursorConfig } from "@/registry/bases/editframe/components/simulated-cursor/config";
 import { slotMachineRollConfig } from "@/registry/bases/editframe/components/slot-machine-roll/config";
 import { softBlurInConfig } from "@/registry/bases/editframe/components/soft-blur-in/config";
 import { spatialPushConfig } from "@/registry/bases/editframe/components/spatial-push/config";
-import { spotlightCardConfig } from "@/registry/bases/editframe/components/spotlight-card/config";
-import { springPopInConfig } from "@/registry/bases/editframe/components/spring-pop-in/config";
 import { springScaleInConfig } from "@/registry/bases/editframe/components/spring-scale-in/config";
-import { staggeredBentoGridConfig } from "@/registry/bases/editframe/components/staggered-bento-grid/config";
 import { staggeredFadeUpConfig } from "@/registry/bases/editframe/components/staggered-fade-up/config";
 import { strikethroughReplaceConfig } from "@/registry/bases/editframe/components/strikethrough-replace/config";
-import { successConfettiConfig } from "@/registry/bases/editframe/components/success-confetti/config";
 import { swipeTransitionWipeConfig } from "@/registry/bases/editframe/components/swipe-transition-wipe/config";
-import { terminalSimulatorConfig } from "@/registry/bases/editframe/components/terminal-simulator/config";
-import { terminalToBrowserDeployConfig } from "@/registry/bases/editframe/components/terminal-to-browser-deploy/config";
 import { textFadeReplaceConfig } from "@/registry/bases/editframe/components/text-fade-replace/config";
-import { toastNotificationConfig } from "@/registry/bases/editframe/components/toast-notification/config";
 import { topDownLettersConfig } from "@/registry/bases/editframe/components/top-down-letters/config";
 import { trackingInConfig } from "@/registry/bases/editframe/components/tracking-in/config";
 import { typewriterConfig } from "@/registry/bases/editframe/components/typewriter/config";
 import { zoomThroughTransitionConfig } from "@/registry/bases/editframe/components/zoom-through-transition/config";
-import { Accordion } from "@/registry/bases/editframe/ui/accordion";
-import { accordionConfig } from "@/registry/bases/editframe/ui/accordion/config";
-import { AiPromptFlow } from "@/registry/bases/editframe/ui/ai-prompt-flow";
-import { AlertDialog } from "@/registry/bases/editframe/ui/alert-dialog";
-import { alertDialogConfig } from "@/registry/bases/editframe/ui/alert-dialog/config";
-import { BlurIn } from "@/registry/bases/editframe/ui/blur-in";
-import { blurInConfig } from "@/registry/bases/editframe/ui/blur-in/config";
-import { Button } from "@/registry/bases/editframe/ui/button";
-import { buttonConfig } from "@/registry/bases/editframe/ui/button/config";
-import { Caret } from "@/registry/bases/editframe/ui/caret";
-import { caretConfig } from "@/registry/bases/editframe/ui/caret/config";
-import { ChatFlow } from "@/registry/bases/editframe/ui/chat-flow";
-import { Checkbox } from "@/registry/bases/editframe/ui/checkbox";
-import { checkboxConfig } from "@/registry/bases/editframe/ui/checkbox/config";
-import { CheckoutFlow } from "@/registry/bases/editframe/ui/checkout-flow";
-import { Combobox } from "@/registry/bases/editframe/ui/combobox";
-import { comboboxConfig } from "@/registry/bases/editframe/ui/combobox/config";
-import { CommandMenu } from "@/registry/bases/editframe/ui/command-menu";
-import { commandMenuConfig } from "@/registry/bases/editframe/ui/command-menu/config";
-import { ContextMenu } from "@/registry/bases/editframe/ui/context-menu";
-import { contextMenuConfig } from "@/registry/bases/editframe/ui/context-menu/config";
-import { Cursor } from "@/registry/bases/editframe/ui/cursor";
-import { cursorConfig } from "@/registry/bases/editframe/ui/cursor/config";
-import { Dialog } from "@/registry/bases/editframe/ui/dialog";
-import { dialogConfig } from "@/registry/bases/editframe/ui/dialog/config";
-import { Drawer } from "@/registry/bases/editframe/ui/drawer";
-import { drawerConfig } from "@/registry/bases/editframe/ui/drawer/config";
-import { DropdownMenu } from "@/registry/bases/editframe/ui/dropdown-menu";
-import { dropdownMenuConfig } from "@/registry/bases/editframe/ui/dropdown-menu/config";
-import { ImessageChatFlow } from "@/registry/bases/editframe/ui/imessage-chat-flow";
-import { Input } from "@/registry/bases/editframe/ui/input";
-import { inputConfig } from "@/registry/bases/editframe/ui/input/config";
-import { MessageBubble } from "@/registry/bases/editframe/ui/message-bubble";
-import { messageBubbleConfig } from "@/registry/bases/editframe/ui/message-bubble/config";
-import { OnboardingStepperFlow } from "@/registry/bases/editframe/ui/onboarding-stepper-flow";
-import { Popover } from "@/registry/bases/editframe/ui/popover";
-import { popoverConfig } from "@/registry/bases/editframe/ui/popover/config";
-import { Progress } from "@/registry/bases/editframe/ui/progress";
-import { progressConfig } from "@/registry/bases/editframe/ui/progress/config";
-import { Radio } from "@/registry/bases/editframe/ui/radio";
-import { radioConfig } from "@/registry/bases/editframe/ui/radio/config";
-import { Resizable } from "@/registry/bases/editframe/ui/resizable";
-import { resizableConfig } from "@/registry/bases/editframe/ui/resizable/config";
-import { Select } from "@/registry/bases/editframe/ui/select";
-import { selectConfig } from "@/registry/bases/editframe/ui/select/config";
-import { SettingsToggleFlow } from "@/registry/bases/editframe/ui/settings-toggle-flow";
-import { Sheet } from "@/registry/bases/editframe/ui/sheet";
-import { sheetConfig } from "@/registry/bases/editframe/ui/sheet/config";
-import { SignupFlow } from "@/registry/bases/editframe/ui/signup-flow";
-import { Skeleton } from "@/registry/bases/editframe/ui/skeleton";
-import { skeletonConfig } from "@/registry/bases/editframe/ui/skeleton/config";
-import { Slider } from "@/registry/bases/editframe/ui/slider";
-import { sliderConfig } from "@/registry/bases/editframe/ui/slider/config";
-import { Spinner } from "@/registry/bases/editframe/ui/spinner";
-import { Stepper } from "@/registry/bases/editframe/ui/stepper";
-import { stepperConfig } from "@/registry/bases/editframe/ui/stepper/config";
-import { Switch } from "@/registry/bases/editframe/ui/switch";
-import { switchConfig } from "@/registry/bases/editframe/ui/switch/config";
-import { Tabs } from "@/registry/bases/editframe/ui/tabs";
-import { tabsConfig } from "@/registry/bases/editframe/ui/tabs/config";
-import { TelegramChatFlow } from "@/registry/bases/editframe/ui/telegram-chat-flow";
-import { Toast } from "@/registry/bases/editframe/ui/toast";
-import { toastConfig } from "@/registry/bases/editframe/ui/toast/config";
-import { ToggleGroup } from "@/registry/bases/editframe/ui/toggle-group";
-import { toggleGroupConfig } from "@/registry/bases/editframe/ui/toggle-group/config";
-import { Tooltip } from "@/registry/bases/editframe/ui/tooltip";
-import { tooltipConfig } from "@/registry/bases/editframe/ui/tooltip/config";
-import { TypingIndicator } from "@/registry/bases/editframe/ui/typing-indicator";
-import { typingIndicatorConfig } from "@/registry/bases/editframe/ui/typing-indicator/config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyComponent = React.ComponentType<any>;
@@ -200,61 +74,6 @@ const lazy = (loader: () => Promise<{ default: AnyComponent }>) =>
   dynamic(loader, { ssr: false });
 
 const registry: Record<string, RegistryEntry> = {
-  accordion: {
-    Component: Accordion,
-    config: accordionConfig,
-  },
-  "ai-generate-overlay": {
-    Component: lazy(async () => {
-      const { AIGenerateOverlay } =
-        await import("@/registry/bases/editframe/components/ai-generate-overlay");
-      return { default: AIGenerateOverlay };
-    }),
-    config: aiGenerateOverlayConfig,
-  },
-  "ai-generation-canvas": {
-    Component: lazy(async () => {
-      const { AIGenerationCanvas } =
-        await import("@/registry/bases/editframe/components/ai-generation-canvas");
-      return { default: AIGenerationCanvas };
-    }),
-    config: aiGenerationCanvasConfig,
-  },
-  "ai-prompt-flow": {
-    Component: AiPromptFlow,
-  },
-  "alert-dialog": {
-    Component: AlertDialog,
-    config: alertDialogConfig,
-  },
-  "animated-bar-chart": {
-    Component: lazy(async () => {
-      const { AnimatedBarChart } =
-        await import("@/registry/bases/editframe/components/animated-bar-chart");
-      return { default: AnimatedBarChart };
-    }),
-    config: animatedBarChartConfig,
-  },
-  "animated-line-chart": {
-    Component: lazy(async () => {
-      const { AnimatedLineChart } =
-        await import("@/registry/bases/editframe/components/animated-line-chart");
-      return { default: AnimatedLineChart };
-    }),
-    config: animatedLineChartConfig,
-  },
-  backdrop: {
-    Component: lazy(async () => {
-      const { Backdrop } =
-        await import("@/registry/bases/editframe/components/backdrop");
-      return { default: Backdrop };
-    }),
-    config: backdropConfig,
-  },
-  "blur-in": {
-    Component: BlurIn,
-    config: blurInConfig,
-  },
   "blur-out-up": {
     Component: lazy(async () => {
       const { BlurOutUp } =
@@ -278,26 +97,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: BottomUpLetters };
     }),
     config: bottomUpLettersConfig,
-  },
-  "bounding-box-selector": {
-    Component: lazy(async () => {
-      const { BoundingBoxSelector } =
-        await import("@/registry/bases/editframe/components/bounding-box-selector");
-      return { default: BoundingBoxSelector };
-    }),
-    config: boundingBoxSelectorConfig,
-  },
-  "browser-flow": {
-    Component: lazy(async () => {
-      const { BrowserFlow } =
-        await import("@/registry/bases/editframe/components/browser-flow");
-      return { default: BrowserFlow };
-    }),
-    config: browserFlowConfig,
-  },
-  button: {
-    Component: Button,
-    config: buttonConfig,
   },
   "caption-clip-wipe": {
     Component: lazy(async () => {
@@ -419,28 +218,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: captionWeightShiftConfig,
   },
-  caret: {
-    Component: Caret,
-    config: caretConfig,
-  },
-  "chat-flow": {
-    Component: ChatFlow,
-  },
-  "chat-to-preview-layout": {
-    Component: lazy(async () => {
-      const { ChatToPreviewLayout } =
-        await import("@/registry/bases/editframe/components/chat-to-preview-layout");
-      return { default: ChatToPreviewLayout };
-    }),
-    config: chatToPreviewLayoutConfig,
-  },
-  checkbox: {
-    Component: Checkbox,
-    config: checkboxConfig,
-  },
-  "checkout-flow": {
-    Component: CheckoutFlow,
-  },
   "chromatic-aberration-wipe": {
     Component: lazy(async () => {
       const { ChromaticAberrationWipe } =
@@ -448,70 +225,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: ChromaticAberrationWipe };
     }),
     config: chromaticAberrationWipeConfig,
-  },
-  "code-accordion": {
-    Component: lazy(async () => {
-      const { CodeAccordion } =
-        await import("@/registry/bases/editframe/components/code-accordion");
-      return { default: CodeAccordion };
-    }),
-    config: codeAccordionConfig,
-  },
-  "code-diff-wipe": {
-    Component: lazy(async () => {
-      const { CodeDiffWipe } =
-        await import("@/registry/bases/editframe/components/code-diff-wipe");
-      return { default: CodeDiffWipe };
-    }),
-    config: codeDiffWipeConfig,
-  },
-  combobox: {
-    Component: Combobox,
-    config: comboboxConfig,
-  },
-  "command-menu": {
-    Component: CommandMenu,
-    config: commandMenuConfig,
-  },
-  confetti: {
-    Component: lazy(async () => {
-      const { Confetti } =
-        await import("@/registry/bases/editframe/components/confetti");
-      return { default: Confetti };
-    }),
-    config: confettiConfig,
-  },
-  "context-menu": {
-    Component: ContextMenu,
-    config: contextMenuConfig,
-  },
-  cursor: {
-    Component: Cursor,
-    config: cursorConfig,
-  },
-  "cursor-flow": {
-    Component: lazy(async () => {
-      const { CursorFlow } =
-        await import("@/registry/bases/editframe/components/cursor-flow");
-      return { default: CursorFlow };
-    }),
-    config: cursorFlowConfig,
-  },
-  "dashboard-populate": {
-    Component: lazy(async () => {
-      const { DashboardPopulate } =
-        await import("@/registry/bases/editframe/components/dashboard-populate");
-      return { default: DashboardPopulate };
-    }),
-    config: dashboardPopulateConfig,
-  },
-  "data-flow-pipes": {
-    Component: lazy(async () => {
-      const { DataFlowPipes } =
-        await import("@/registry/bases/editframe/components/data-flow-pipes");
-      return { default: DataFlowPipes };
-    }),
-    config: dataFlowPipesConfig,
   },
   "device-mockup-zoom": {
     Component: lazy(async () => {
@@ -521,10 +234,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: deviceMockupZoomConfig,
   },
-  dialog: {
-    Component: Dialog,
-    config: dialogConfig,
-  },
   "directional-wipe": {
     Component: lazy(async () => {
       const { DirectionalWipe } =
@@ -532,38 +241,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: DirectionalWipe };
     }),
     config: directionalWipeConfig,
-  },
-  "drag-and-drop-flow": {
-    Component: lazy(async () => {
-      const { DragAndDropFlow } =
-        await import("@/registry/bases/editframe/components/drag-and-drop-flow");
-      return { default: DragAndDropFlow };
-    }),
-    config: dragAndDropFlowConfig,
-  },
-  drawer: {
-    Component: Drawer,
-    config: drawerConfig,
-  },
-  "dropdown-menu": {
-    Component: DropdownMenu,
-    config: dropdownMenuConfig,
-  },
-  "dynamic-grid": {
-    Component: lazy(async () => {
-      const { DynamicGrid } =
-        await import("@/registry/bases/editframe/components/dynamic-grid");
-      return { default: DynamicGrid };
-    }),
-    config: dynamicGridConfig,
-  },
-  "ecosystem-constellation": {
-    Component: lazy(async () => {
-      const { EcosystemConstellation } =
-        await import("@/registry/bases/editframe/components/ecosystem-constellation");
-      return { default: EcosystemConstellation };
-    }),
-    config: ecosystemConstellationConfig,
   },
   "fade-through": {
     Component: lazy(async () => {
@@ -581,14 +258,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: focusBlurResolveConfig,
   },
-  "format-morph": {
-    Component: lazy(async () => {
-      const { FormatMorph } =
-        await import("@/registry/bases/editframe/components/format-morph");
-      return { default: FormatMorph };
-    }),
-    config: formatMorphConfig,
-  },
   "frosted-glass-wipe": {
     Component: lazy(async () => {
       const { FrostedGlassWipe } =
@@ -597,14 +266,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: frostedGlassWipeConfig,
   },
-  "glass-code-block": {
-    Component: lazy(async () => {
-      const { GlassCodeBlock } =
-        await import("@/registry/bases/editframe/components/glass-code-block");
-      return { default: GlassCodeBlock };
-    }),
-    config: glassCodeBlockConfig,
-  },
   "grid-pixelate-wipe": {
     Component: lazy(async () => {
       const { GridPixelateWipe } =
@@ -612,33 +273,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: GridPixelateWipe };
     }),
     config: gridPixelateWipeConfig,
-  },
-  "hero-device-assemble": {
-    Component: lazy(async () => {
-      const { HeroDeviceAssemble } =
-        await import("@/registry/bases/editframe/components/hero-device-assemble");
-      return { default: HeroDeviceAssemble };
-    }),
-    config: heroDeviceAssembleConfig,
-  },
-  "image-expand-to-fullscreen": {
-    Component: lazy(async () => {
-      const { ImageExpandToFullscreen } =
-        await import("@/registry/bases/editframe/components/image-expand-to-fullscreen");
-      return { default: ImageExpandToFullscreen };
-    }),
-    config: imageExpandToFullscreenConfig,
-  },
-  "imessage-chat-flow": {
-    Component: ImessageChatFlow,
-  },
-  "infinite-bento-pan": {
-    Component: lazy(async () => {
-      const { InfiniteBentoPan } =
-        await import("@/registry/bases/editframe/components/infinite-bento-pan");
-      return { default: InfiniteBentoPan };
-    }),
-    config: infiniteBentoPanConfig,
   },
   "infinite-marquee": {
     Component: lazy(async () => {
@@ -656,10 +290,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: inlineHighlightConfig,
   },
-  input: {
-    Component: Input,
-    config: inputConfig,
-  },
   "kinetic-type-mask": {
     Component: lazy(async () => {
       const { KineticTypeMask } =
@@ -668,14 +298,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: kineticTypeMaskConfig,
   },
-  "landing-code-showcase": {
-    Component: lazy(async () => {
-      const { LandingCodeShowcase } =
-        await import("@/registry/bases/editframe/components/landing-code-showcase");
-      return { default: LandingCodeShowcase };
-    }),
-    config: landingCodeShowcaseConfig,
-  },
   "line-by-line-slide": {
     Component: lazy(async () => {
       const { LineByLineSlide } =
@@ -683,22 +305,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: LineByLineSlide };
     }),
     config: lineByLineSlideConfig,
-  },
-  "live-code-compilation": {
-    Component: lazy(async () => {
-      const { LiveCodeCompilation } =
-        await import("@/registry/bases/editframe/components/live-code-compilation");
-      return { default: LiveCodeCompilation };
-    }),
-    config: liveCodeCompilationConfig,
-  },
-  "logo-enter": {
-    Component: lazy(async () => {
-      const { LogoEnter } =
-        await import("@/registry/bases/editframe/components/logo-enter");
-      return { default: LogoEnter };
-    }),
-    config: logoEnterConfig,
   },
   "marker-highlight": {
     Component: lazy(async () => {
@@ -732,18 +338,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: matrixDecodeConfig,
   },
-  "mesh-gradient-bg": {
-    Component: lazy(async () => {
-      const { MeshGradientBg } =
-        await import("@/registry/bases/editframe/components/mesh-gradient-bg");
-      return { default: MeshGradientBg };
-    }),
-    config: meshGradientBgConfig,
-  },
-  "message-bubble": {
-    Component: MessageBubble,
-    config: messageBubbleConfig,
-  },
   "micro-scale-fade": {
     Component: lazy(async () => {
       const { MicroScaleFade } =
@@ -767,9 +361,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: NodeReveal };
     }),
     config: nodeRevealConfig,
-  },
-  "onboarding-stepper-flow": {
-    Component: OnboardingStepperFlow,
   },
   "per-character-rise": {
     Component: lazy(async () => {
@@ -795,63 +386,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: perspectiveMarqueeConfig,
   },
-  "pipeline-journey": {
-    Component: lazy(async () => {
-      const { PipelineJourney } =
-        await import("@/registry/bases/editframe/components/pipeline-journey");
-      return { default: PipelineJourney };
-    }),
-    config: pipelineJourneyConfig,
-  },
-  popover: {
-    Component: Popover,
-    config: popoverConfig,
-  },
-  "pricing-tier-focus": {
-    Component: lazy(async () => {
-      const { PricingTierFocus } =
-        await import("@/registry/bases/editframe/components/pricing-tier-focus");
-      return { default: PricingTierFocus };
-    }),
-    config: pricingTierFocusConfig,
-  },
-  "product-launch-trailer": {
-    Component: lazy(async () => {
-      const { ProductLaunchTrailer } =
-        await import("@/registry/bases/editframe/components/product-launch-trailer");
-      return { default: ProductLaunchTrailer };
-    }),
-    config: productLaunchTrailerConfig,
-  },
-  progress: {
-    Component: Progress,
-    config: progressConfig,
-  },
-  "progress-steps": {
-    Component: lazy(async () => {
-      const { ProgressSteps } =
-        await import("@/registry/bases/editframe/components/progress-steps");
-      return { default: ProgressSteps };
-    }),
-    config: progressStepsConfig,
-  },
-
-  "pulsing-indicator": {
-    Component: lazy(async () => {
-      const { PulsingIndicator } =
-        await import("@/registry/bases/editframe/components/pulsing-indicator");
-      return { default: PulsingIndicator };
-    }),
-    config: pulsingIndicatorConfig,
-  },
-  radio: {
-    Component: Radio,
-    config: radioConfig,
-  },
-  resizable: {
-    Component: Resizable,
-    config: resizableConfig,
-  },
   "rgb-glitch-text": {
     Component: lazy(async () => {
       const { RGBGlitchText } =
@@ -867,157 +401,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: ScaleDownFade };
     }),
     config: scaleDownFadeConfig,
-  },
-  select: {
-    Component: Select,
-    config: selectConfig,
-  },
-  "settings-toggle-flow": {
-    Component: SettingsToggleFlow,
-  },
-  "shader-color-panels": {
-    Component: lazy(async () => {
-      const { ShaderColorPanels } =
-        await import("@/registry/bases/editframe/components/shader-color-panels");
-      return { default: ShaderColorPanels };
-    }),
-    config: shaderColorPanelsConfig,
-  },
-  "shader-dithering": {
-    Component: lazy(async () => {
-      const { ShaderDithering } =
-        await import("@/registry/bases/editframe/components/shader-dithering");
-      return { default: ShaderDithering };
-    }),
-    config: shaderDitheringConfig,
-  },
-  "shader-dot-orbit": {
-    Component: lazy(async () => {
-      const { ShaderDotOrbit } =
-        await import("@/registry/bases/editframe/components/shader-dot-orbit");
-      return { default: ShaderDotOrbit };
-    }),
-    config: shaderDotOrbitConfig,
-  },
-  "shader-god-rays": {
-    Component: lazy(async () => {
-      const { ShaderGodRays } =
-        await import("@/registry/bases/editframe/components/shader-god-rays");
-      return { default: ShaderGodRays };
-    }),
-    config: shaderGodRaysConfig,
-  },
-  "shader-grain-gradient": {
-    Component: lazy(async () => {
-      const { ShaderGrainGradient } =
-        await import("@/registry/bases/editframe/components/shader-grain-gradient");
-      return { default: ShaderGrainGradient };
-    }),
-    config: shaderGrainGradientConfig,
-  },
-  "shader-liquid-metal": {
-    Component: lazy(async () => {
-      const { ShaderLiquidMetal } =
-        await import("@/registry/bases/editframe/components/shader-liquid-metal");
-      return { default: ShaderLiquidMetal };
-    }),
-    config: shaderLiquidMetalConfig,
-  },
-  "shader-mesh-gradient": {
-    Component: lazy(async () => {
-      const { ShaderMeshGradient } =
-        await import("@/registry/bases/editframe/components/shader-mesh-gradient");
-      return { default: ShaderMeshGradient };
-    }),
-    config: shaderMeshGradientConfig,
-  },
-  "shader-metaballs": {
-    Component: lazy(async () => {
-      const { ShaderMetaballs } =
-        await import("@/registry/bases/editframe/components/shader-metaballs");
-      return { default: ShaderMetaballs };
-    }),
-    config: shaderMetaballsConfig,
-  },
-  "shader-neuro-noise": {
-    Component: lazy(async () => {
-      const { ShaderNeuroNoise } =
-        await import("@/registry/bases/editframe/components/shader-neuro-noise");
-      return { default: ShaderNeuroNoise };
-    }),
-    config: shaderNeuroNoiseConfig,
-  },
-  "shader-perlin-noise": {
-    Component: lazy(async () => {
-      const { ShaderPerlinNoise } =
-        await import("@/registry/bases/editframe/components/shader-perlin-noise");
-      return { default: ShaderPerlinNoise };
-    }),
-    config: shaderPerlinNoiseConfig,
-  },
-  "shader-pulsing-border": {
-    Component: lazy(async () => {
-      const { ShaderPulsingBorder } =
-        await import("@/registry/bases/editframe/components/shader-pulsing-border");
-      return { default: ShaderPulsingBorder };
-    }),
-    config: shaderPulsingBorderConfig,
-  },
-  "shader-simplex-noise": {
-    Component: lazy(async () => {
-      const { ShaderSimplexNoise } =
-        await import("@/registry/bases/editframe/components/shader-simplex-noise");
-      return { default: ShaderSimplexNoise };
-    }),
-    config: shaderSimplexNoiseConfig,
-  },
-  "shader-smoke-ring": {
-    Component: lazy(async () => {
-      const { ShaderSmokeRing } =
-        await import("@/registry/bases/editframe/components/shader-smoke-ring");
-      return { default: ShaderSmokeRing };
-    }),
-    config: shaderSmokeRingConfig,
-  },
-  "shader-spiral": {
-    Component: lazy(async () => {
-      const { ShaderSpiral } =
-        await import("@/registry/bases/editframe/components/shader-spiral");
-      return { default: ShaderSpiral };
-    }),
-    config: shaderSpiralConfig,
-  },
-  "shader-swirl": {
-    Component: lazy(async () => {
-      const { ShaderSwirl } =
-        await import("@/registry/bases/editframe/components/shader-swirl");
-      return { default: ShaderSwirl };
-    }),
-    config: shaderSwirlConfig,
-  },
-  "shader-voronoi": {
-    Component: lazy(async () => {
-      const { ShaderVoronoi } =
-        await import("@/registry/bases/editframe/components/shader-voronoi");
-      return { default: ShaderVoronoi };
-    }),
-    config: shaderVoronoiConfig,
-  },
-  "shader-warp": {
-    Component: lazy(async () => {
-      const { ShaderWarp } =
-        await import("@/registry/bases/editframe/components/shader-warp");
-      return { default: ShaderWarp };
-    }),
-    config: shaderWarpConfig,
-  },
-  "shader-water": {
-    Component: lazy(async () => {
-      const { ShaderWater } =
-        await import("@/registry/bases/editframe/components/shader-water");
-      return { default: ShaderWater };
-    }),
-    config: shaderWaterConfig,
   },
   "shared-axis-y": {
     Component: lazy(async () => {
@@ -1035,10 +418,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: sharedAxisZConfig,
   },
-  sheet: {
-    Component: Sheet,
-    config: sheetConfig,
-  },
   "shimmer-sweep": {
     Component: lazy(async () => {
       const { ShimmerSweep } =
@@ -1054,25 +433,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: ShortSlideRight };
     }),
     config: shortSlideRightConfig,
-  },
-  "signup-flow": {
-    Component: SignupFlow,
-  },
-  "simulated-cursor": {
-    Component: lazy(async () => {
-      const { SimulatedCursor } =
-        await import("@/registry/bases/editframe/components/simulated-cursor");
-      return { default: SimulatedCursor };
-    }),
-    config: simulatedCursorConfig,
-  },
-  skeleton: {
-    Component: Skeleton,
-    config: skeletonConfig,
-  },
-  slider: {
-    Component: Slider,
-    config: sliderConfig,
   },
   "slot-machine-roll": {
     Component: lazy(async () => {
@@ -1098,25 +458,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: spatialPushConfig,
   },
-  spinner: {
-    Component: Spinner,
-  },
-  "spotlight-card": {
-    Component: lazy(async () => {
-      const { SpotlightCard } =
-        await import("@/registry/bases/editframe/components/spotlight-card");
-      return { default: SpotlightCard };
-    }),
-    config: spotlightCardConfig,
-  },
-  "spring-pop-in": {
-    Component: lazy(async () => {
-      const { SpringPopIn } =
-        await import("@/registry/bases/editframe/components/spring-pop-in");
-      return { default: SpringPopIn };
-    }),
-    config: springPopInConfig,
-  },
   "spring-scale-in": {
     Component: lazy(async () => {
       const { SpringScaleIn } =
@@ -1124,14 +465,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: SpringScaleIn };
     }),
     config: springScaleInConfig,
-  },
-  "staggered-bento-grid": {
-    Component: lazy(async () => {
-      const { StaggeredBentoGrid } =
-        await import("@/registry/bases/editframe/components/staggered-bento-grid");
-      return { default: StaggeredBentoGrid };
-    }),
-    config: staggeredBentoGridConfig,
   },
   "staggered-fade-up": {
     Component: lazy(async () => {
@@ -1141,10 +474,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: staggeredFadeUpConfig,
   },
-  stepper: {
-    Component: Stepper,
-    config: stepperConfig,
-  },
   "strikethrough-replace": {
     Component: lazy(async () => {
       const { StrikethroughReplace } =
@@ -1152,14 +481,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: StrikethroughReplace };
     }),
     config: strikethroughReplaceConfig,
-  },
-  "success-confetti": {
-    Component: lazy(async () => {
-      const { SuccessConfetti } =
-        await import("@/registry/bases/editframe/components/success-confetti");
-      return { default: SuccessConfetti };
-    }),
-    config: successConfettiConfig,
   },
   "swipe-transition-wipe": {
     Component: lazy(async () => {
@@ -1169,33 +490,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: swipeTransitionWipeConfig,
   },
-  switch: {
-    Component: Switch,
-    config: switchConfig,
-  },
-  tabs: {
-    Component: Tabs,
-    config: tabsConfig,
-  },
-  "telegram-chat-flow": {
-    Component: TelegramChatFlow,
-  },
-  "terminal-simulator": {
-    Component: lazy(async () => {
-      const { TerminalSimulator } =
-        await import("@/registry/bases/editframe/components/terminal-simulator");
-      return { default: TerminalSimulator };
-    }),
-    config: terminalSimulatorConfig,
-  },
-  "terminal-to-browser-deploy": {
-    Component: lazy(async () => {
-      const { TerminalToBrowserDeploy } =
-        await import("@/registry/bases/editframe/components/terminal-to-browser-deploy");
-      return { default: TerminalToBrowserDeploy };
-    }),
-    config: terminalToBrowserDeployConfig,
-  },
   "text-fade-replace": {
     Component: lazy(async () => {
       const { TextFadeReplace } =
@@ -1203,26 +497,6 @@ const registry: Record<string, RegistryEntry> = {
       return { default: TextFadeReplace };
     }),
     config: textFadeReplaceConfig,
-  },
-  toast: {
-    Component: Toast,
-    config: toastConfig,
-  },
-  "toast-notification": {
-    Component: lazy(async () => {
-      const { ToastNotification } =
-        await import("@/registry/bases/editframe/components/toast-notification");
-      return { default: ToastNotification };
-    }),
-    config: toastNotificationConfig,
-  },
-  "toggle-group": {
-    Component: ToggleGroup,
-    config: toggleGroupConfig,
-  },
-  tooltip: {
-    Component: Tooltip,
-    config: tooltipConfig,
   },
   "top-down-letters": {
     Component: lazy(async () => {
@@ -1248,10 +522,6 @@ const registry: Record<string, RegistryEntry> = {
     }),
     config: typewriterConfig,
   },
-  "typing-indicator": {
-    Component: TypingIndicator,
-    config: typingIndicatorConfig,
-  },
   "zoom-through-transition": {
     Component: lazy(async () => {
       const { ZoomThroughTransition } =
@@ -1262,8 +532,7 @@ const registry: Record<string, RegistryEntry> = {
   },
 };
 
-// Append the shared controls (e.g. `speed`) to every component config so
-// every animation in the customizer exposes the same baseline knobs.
+// Keep shared controls available for every preview customizer.
 for (const entry of Object.values(registry)) {
   if (entry.config) {
     entry.config.controls = { ...entry.config.controls, ...SHARED_CONTROLS };

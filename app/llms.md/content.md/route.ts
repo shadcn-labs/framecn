@@ -3,6 +3,8 @@ import { SITE } from "@/constants/site";
 import { AGENT_DOCS_DIRECTIVE_MARKDOWN } from "@/lib/agent-discovery/directive";
 import { requestOrigin } from "@/lib/agent-discovery/request-origin";
 import { markdownResponse } from "@/lib/api";
+import { CATALOG } from "@/lib/catalog";
+import { componentMarkdownUrl } from "@/lib/docs";
 
 export const revalidate = false;
 
@@ -11,19 +13,27 @@ const homepageMarkdown = (origin: string): string => {
 
   return `# ${SITE.NAME}
 
-${SITE.DESCRIPTION.LONG}
+Beautiful videos, made simple
 
 ${AGENT_DOCS_DIRECTIVE_MARKDOWN}
 
 ## Quick links
 
 - [Get started](${base}${ROUTES.DOCS_INSTALLATION}.md)
-- [Browse components](${base}${ROUTES.DOCS_COMPONENTS}.md)
+- [Browse free components](${base}/components)
+- [Browse compositions](${base}/components/compositions)
+- [Node Reveal Pro preview](${base}/components/compositions/node-reveal)
 - [Documentation](${base}${ROUTES.DOCS}.md)
 - [LLM index (llms.txt)](${base}${ROUTES.LLMS})
 - [API catalog](${base}${ROUTES.API_CATALOG})
 - [OpenAPI description](${base}${ROUTES.OPENAPI})
 - [Agent skills index](${base}${ROUTES.AGENT_SKILLS_INDEX})
+
+## Components
+
+${CATALOG.map(
+  (item) => `- [${item.name}](${base}${componentMarkdownUrl(item.id)})`
+).join("\n")}
 `;
 };
 

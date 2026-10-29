@@ -1,13 +1,13 @@
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Children, isValidElement } from "react";
 
 import { Callout } from "@/components/callout";
 import { CodeBlockCommand } from "@/components/code-block-command";
 import { CodeTabs } from "@/components/code-tabs";
 import { ComponentPreview } from "@/components/component-preview";
 import { ComponentSource } from "@/components/component-source";
-import { ComponentsList } from "@/components/components-list";
 import { CopyButton } from "@/components/copy-button";
 import { getIconForLanguageExtension } from "@/components/icons";
 import {
@@ -20,6 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Frame } from "@/components/ui/frame";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +40,6 @@ export const mdxComponents = {
   CodeTabs,
   ComponentPreview,
   ComponentSource,
-  ComponentsList,
   FeatureCard: ({
     icon: Icon,
     title,
@@ -141,7 +141,7 @@ export const mdxComponents = {
   }: React.ComponentProps<typeof TabsList>) => (
     <TabsList
       className={cn(
-        "justify-start gap-4 rounded-none bg-transparent px-0",
+        "justify-start gap-4 rounded-none border-0 bg-transparent px-0",
         className
       )}
       {...props}
@@ -154,7 +154,7 @@ export const mdxComponents = {
     <TabsTrigger
       sound="tabSwitch"
       className={cn(
-        "text-muted-foreground data-[state=active]:text-foreground data-[state=active]:border-primary dark:data-[state=active]:border-primary hover:text-primary rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base data-[state=active]:bg-transparent data-[state=active]:shadow-none dark:data-[state=active]:bg-transparent",
+        "text-muted-foreground data-active:text-foreground data-active:border-primary dark:data-active:border-primary hover:text-primary rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base data-active:bg-transparent data-active:shadow-none dark:data-active:bg-transparent",
         className
       )}
       {...props}
@@ -221,7 +221,12 @@ export const mdxComponents = {
     return (
       <>
         {__raw__ && (
-          <CopyButton value={__raw__} src={__src__} event="copy_usage_code" />
+          <CopyButton
+            value={__raw__}
+            src={__src__}
+            event="copy_usage_code"
+            tooltip="Copy code"
+          />
         )}
         <code {...props} />
       </>
@@ -240,7 +245,7 @@ export const mdxComponents = {
     return (
       <figcaption
         className={cn(
-          "text-code-foreground [&_svg]:text-code-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:opacity-70",
+          "[&_svg]:text-muted-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:opacity-70",
           className
         )}
         {...props}
@@ -250,9 +255,51 @@ export const mdxComponents = {
       </figcaption>
     );
   },
-  figure: ({ className, ...props }: React.ComponentProps<"figure">) => (
-    <figure className={cn(className)} {...props} />
-  ),
+  // Every code figure gets a header row on the shell (like install commands), so the copy button never sits on code.
+  figure: ({
+    className,
+    children,
+    ...props
+  }: React.ComponentProps<"figure">) => {
+    const nodes = Children.toArray(children);
+    const hasCaption = nodes.some(
+      (node) =>
+        isValidElement<Record<string, unknown>>(node) &&
+        "data-rehype-pretty-code-title" in node.props
+    );
+    const pre = nodes.find(
+      (node): node is React.ReactElement<Record<string, unknown>> =>
+        isValidElement<Record<string, unknown>>(node) &&
+        "data-language" in node.props
+    );
+    const code =
+      pre && isValidElement<Record<string, unknown>>(pre.props.children)
+        ? pre.props.children
+        : null;
+    const isCommand = Boolean(code?.props.__npm__);
+    const language =
+      typeof pre?.props["data-language"] === "string"
+        ? pre.props["data-language"]
+        : null;
+    return (
+      <figure className={cn(className)} {...props}>
+        {!hasCaption &&
+        !isCommand &&
+        language &&
+        "data-rehype-pretty-code-figure" in props ? (
+          <figcaption
+            data-rehype-pretty-code-title=""
+            data-language={language}
+            className="[&_svg]:text-muted-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:opacity-70"
+          >
+            {getIconForLanguageExtension(language)}
+            {language}
+          </figcaption>
+        ) : null}
+        {children}
+      </figure>
+    );
+  },
   h1: ({ className, children, ...props }: React.ComponentProps<"h1">) => (
     <h1
       className={cn(
@@ -358,21 +405,26 @@ export const mdxComponents = {
   strong: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <strong className={cn("font-medium", className)} {...props} />
   ),
+  // Frame look: header row sits on the muted shell, body rows form one white card with row separators.
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
-    <div className="my-6 no-scrollbar w-full overflow-y-auto rounded-xl border">
+    <Frame className="no-scrollbar my-6 w-full overflow-x-auto">
       <table
         className={cn(
-          "relative w-full overflow-hidden border-none text-sm [&_tbody_tr:last-child]:border-b-0",
+          "w-full border-separate border-spacing-0 text-sm",
+          "[&_tbody_td]:bg-card [&_tbody_td]:border-t",
+          "[&_tbody_td:first-child]:border-l [&_tbody_td:last-child]:border-r [&_tbody_tr:last-child_td]:border-b",
+          "[&_tbody_tr:first-child_td:first-child]:rounded-tl-xl [&_tbody_tr:first-child_td:last-child]:rounded-tr-xl",
+          "[&_tbody_tr:last-child_td:first-child]:rounded-bl-xl [&_tbody_tr:last-child_td:last-child]:rounded-br-xl",
           className
         )}
         {...props}
       />
-    </div>
+    </Frame>
   ),
   td: ({ className, ...props }: React.ComponentProps<"td">) => (
     <td
       className={cn(
-        "px-4 py-2 text-left whitespace-nowrap [[align=center]]:text-center [[align=right]]:text-right",
+        "px-3 py-2 text-left whitespace-nowrap [[align=center]]:text-center [[align=right]]:text-right",
         className
       )}
       {...props}
@@ -381,14 +433,14 @@ export const mdxComponents = {
   th: ({ className, ...props }: React.ComponentProps<"th">) => (
     <th
       className={cn(
-        "px-4 py-2 text-left font-bold [[align=center]]:text-center [[align=right]]:text-right",
+        "text-muted-foreground px-3 py-2 text-left text-xs font-medium [[align=center]]:text-center [[align=right]]:text-right",
         className
       )}
       {...props}
     />
   ),
   tr: ({ className, ...props }: React.ComponentProps<"tr">) => (
-    <tr className={cn("m-0 border-b", className)} {...props} />
+    <tr className={cn("m-0", className)} {...props} />
   ),
   ul: ({ className, ...props }: React.ComponentProps<"ul">) => (
     <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />

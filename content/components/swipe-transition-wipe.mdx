@@ -1,0 +1,45 @@
+---
+title: "Swipe Transition Wipe"
+description: "Quick swipe transition between scenes."
+---
+
+## Usage
+
+```tsx
+import { SwipeTransitionWipe } from "@/components/framecn/swipe-transition-wipe";
+```
+
+```tsx
+<SwipeTransitionWipe />
+```
+
+## API Reference
+
+### SwipeTransitionWipe
+
+| Prop               | Type                | Default     |
+| ------------------ | ------------------- | ----------- |
+| `sceneA`           | `ReactNode`         | `-`         |
+| `sceneB`           | `ReactNode`         | `-`         |
+| `labelA`           | `string`            | `"First"`   |
+| `labelB`           | `string`            | `"Second"`  |
+| `colorA1`          | `string`            | `"#0ea5e9"` |
+| `colorA2`          | `string`            | `"#1e3a8a"` |
+| `colorB1`          | `string`            | `"#f97316"` |
+| `colorB2`          | `string`            | `"#9333ea"` |
+| `background`       | `string`            | `"#050505"` |
+| `direction`        | `"left" \| "right"` | `"left"`    |
+| `swipeAt`          | `number`            | `30`        |
+| `parallaxFactor`   | `number`            | `0.6`       |
+| `dimStrength`      | `number`            | `0.4`       |
+| `speed`            | `number`            | `1`         |
+| `fps`              | `number`            | `30`        |
+| `durationInFrames` | `number`            | `90`        |
+| `className`        | `string`            | `-`         |
+
+## Notes
+
+<Callout title="Quick directional swipe">
+  The transition uses a quick swipe in the specified direction. Duration is
+  typically shorter for a snappier feel.
+</Callout>

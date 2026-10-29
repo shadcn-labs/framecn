@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { ExternalLinkButton } from "@/components/external-link-button";
+import { PageHeader } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LINK } from "@/constants/links";
@@ -24,36 +25,30 @@ const SponsorPage = async () => {
   return (
     <PageTransition>
       <section className="container-wrapper relative">
-        <div className="container max-w-2xl flex flex-col items-center gap-4 py-16 text-center md:py-20 lg:py-24">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl from-foreground via-foreground to-foreground/65 bg-linear-to-b bg-clip-text text-transparent">
-            Support the project
-          </h1>
-          <p className="text-base text-muted-foreground text-balance">
-            framecn is a collection of beautifully designed, and customizable
-            video components for React. Every component is free and that&apos;s
-            not changing.
-          </p>
-          <p className="text-sm text-muted-foreground text-balance">
-            I&apos;m not going to paywall features or gate components behind a
-            sponsorship tier. But if framecn made your project better, or you
-            just like that this exists in the open, sponsoring is a nice way to
-            say so. It helps me justify spending real time on it instead of
-            treating it like a side-of-desk thing.
-          </p>
-          <p className="text-sm text-muted-foreground text-balance">
-            Any amount is genuinely appreciated. And if money&apos;s not your
-            thing, starring the repo or sharing something you liked works too.
-          </p>
-          <ExternalLinkButton
-            sound="heart"
-            size="lg"
-            className="mt-4"
-            href={LINK.SPONSOR}
+        <div className="container max-w-2xl py-12 md:py-16">
+          <PageHeader
+            title="Support the project"
+            description="framecn is a collection of beautifully designed, and customizable video components for React. Every component is free and that's not changing."
           >
-            <Heart />
-            Sponsor on GitHub
-            <ExternalLink className="size-3.5 opacity-60" />
-          </ExternalLinkButton>
+            <ExternalLinkButton sound="heart" size="lg" href={LINK.SPONSOR}>
+              <Heart />
+              Sponsor on GitHub
+              <ExternalLink className="size-3.5 opacity-60" />
+            </ExternalLinkButton>
+          </PageHeader>
+          <div className="text-muted-foreground mt-8 space-y-4 text-[15px] leading-7">
+            <p>
+              I&apos;m not going to paywall features or gate components behind a
+              sponsorship tier. But if framecn made your project better, or you
+              just like that this exists in the open, sponsoring is a nice way
+              to say so. It helps me justify spending real time on it instead of
+              treating it like a side-of-desk thing.
+            </p>
+            <p>
+              Any amount is genuinely appreciated. And if money&apos;s not your
+              thing, starring the repo or sharing something you liked works too.
+            </p>
+          </div>
         </div>
       </section>
 

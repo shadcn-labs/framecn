@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { ROUTES } from "@/constants/routes";
-import { docsContentRoute, homeContentRoute } from "@/lib/docs";
+import { findCatalogItemByPath } from "@/lib/catalog";
+import {
+  componentContentRoute,
+  docsContentRoute,
+  homeContentRoute,
+} from "@/lib/docs";
 
 const { rewrite: rewriteDocs } = rewritePath(
   `${ROUTES.DOCS}{/*path}`,
@@ -13,6 +18,12 @@ const { rewrite: rewriteSuffix } = rewritePath(
   `${ROUTES.DOCS}{/*path}.md`,
   `${docsContentRoute}{/*path}/content.md`
 );
+
+/** Serves a catalog detail page (/components/<category>/<id>) as markdown. */
+const rewriteCatalogItem = (request: NextRequest) => {
+  const item = findCatalogItemByPath(request.nextUrl.pathname);
+  return item ? `${componentContentRoute}/${item.id}/content.md` : undefined;
+};
 
 const proxy = (request: NextRequest) => {
   if (
@@ -32,7 +43,8 @@ const proxy = (request: NextRequest) => {
   }
 
   if (isMarkdownPreferred(request)) {
-    const result2 = rewriteDocs(request.nextUrl.pathname);
+    const result2 =
+      rewriteDocs(request.nextUrl.pathname) || rewriteCatalogItem(request);
 
     if (result2) {
       return NextResponse.rewrite(new URL(result2, request.nextUrl));

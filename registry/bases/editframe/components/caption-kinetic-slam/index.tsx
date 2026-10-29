@@ -64,7 +64,6 @@ export const CaptionKineticSlam = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     height,
     justifyContent: "center",
     overflow: "hidden",
@@ -74,23 +73,23 @@ export const CaptionKineticSlam = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-ks-in {
-            0%   { opacity: 0; transform: translateY(-56px) scale(1.45); }
-            60%  { opacity: 1; }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-          }
-          @keyframes framecn-ks-out {
-            from { opacity: 1; transform: scale(1); }
-            to   { opacity: 0; transform: scale(0.82); }
-          }
-        `}</style>
+        @keyframes framecn-ks-in {
+          0%   { opacity: 0; transform: translateY(-56px) scale(1.45); }
+          60%  { opacity: 1; }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes framecn-ks-out {
+          from { opacity: 1; transform: scale(1); }
+          to   { opacity: 0; transform: scale(0.82); }
+        }
+      `}</style>
         {words.map((word, i) => {
           const startMs = (word.start * 1000) / safeSpeed;
           const endMs = (word.end * 1000) / safeSpeed;

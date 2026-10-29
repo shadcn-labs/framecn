@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fade-through",
+  "title": "Fade Through",
+  "description": "One text fades out while a new one fades in with a slight blur and motion offset.",
+  "dependencies": [
+    "@editframe/react"
+  ],
+  "files": [
+    {
+      "path": "registry/bases/editframe/components/fade-through/index.tsx",
+      "content": "\"use client\";\n\nimport { Timegroup } from \"@editframe/react\";\nimport type { CSSProperties } from \"react\";\n\nconst FONT_FAMILY =\n  \"var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif\";\n\nexport interface FadeThroughProps {\n  fromText?: string;\n  toText?: string;\n  fontSize?: number;\n  color?: string;\n  fontWeight?: number;\n  speed?: number;\n  fps?: number;\n  durationInFrames?: number;\n  background?: string;\n  className?: string;\n}\n\nexport const FadeThrough = ({\n  fromText = \"Hello world\",\n  toText = \"New world\",\n  fontSize = 72,\n  color = \"#171717\",\n  fontWeight = 600,\n  speed = 1,\n  fps = 30,\n  durationInFrames = 90,\n  background = \"white\",\n  className,\n}: FadeThroughProps) => {\n  const durationMs = (durationInFrames / fps) * 1000;\n  const safeSpeed = Math.max(0.01, speed);\n  const frameMs = 1000 / fps;\n\n  const exitMs = (8 * frameMs) / safeSpeed;\n  const enterMs = (13 * frameMs) / safeSpeed;\n  const enterStartMs = exitMs + (1 * frameMs) / safeSpeed;\n\n  const exitAnimation = `framecn-ft-exit ${exitMs}ms ease-out 0ms forwards`;\n  const enterAnimation = `framecn-ft-enter ${enterMs}ms cubic-bezier(0.22,1,0.36,1) ${enterStartMs}ms backwards`;\n\n  const textStyle: CSSProperties = {\n    color,\n    fontFamily: FONT_FAMILY,\n    fontSize,\n    fontWeight,\n    left: \"50%\",\n    letterSpacing: \"-0.03em\",\n    position: \"absolute\",\n    top: \"50%\",\n    whiteSpace: \"nowrap\",\n  };\n\n  return (\n    <Timegroup\n      className={className}\n      duration={`${durationMs}ms`}\n      mode=\"fixed\"\n      style={\n        {\n          alignItems: \"center\",\n          background,\n          display: \"flex\",\n          inset: 0,\n          justifyContent: \"center\",\n          position: \"absolute\",\n        } as CSSProperties\n      }\n    >\n      <>\n        <style>{`\n          @keyframes framecn-ft-exit {\n            from { opacity: 1; transform: translate(-50%, -50%) translateY(0); }\n            to { opacity: 0; transform: translate(-50%, -50%) translateY(-4px); }\n          }\n          @keyframes framecn-ft-enter {\n            from { opacity: 0; transform: translate(-50%, -50%) translateY(6px) scale(0.99); filter: blur(2px); }\n            to { opacity: 1; transform: translate(-50%, -50%) translateY(0) scale(1); filter: blur(0); }\n          }\n        `}</style>\n        <div style={{ height: 0, position: \"relative\", width: 0 }}>\n          <span style={{ ...textStyle, animation: exitAnimation }}>\n            {fromText}\n          </span>\n          <span style={{ ...textStyle, animation: enterAnimation }}>\n            {toText}\n          </span>\n        </div>\n      </>\n    </Timegroup>\n  );\n};\n",
+      "type": "registry:component",
+      "target": "components/framecn/fade-through.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

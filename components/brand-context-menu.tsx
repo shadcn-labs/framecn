@@ -18,7 +18,7 @@ import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 export const BrandContextMenu = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactElement;
 }) => {
   const { resolvedTheme } = useTheme();
   const { copyToClipboard } = useCopyToClipboard();
@@ -39,7 +39,7 @@ export const BrandContextMenu = ({
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+      <ContextMenuTrigger render={children} />
 
       <ContextMenuContent>
         <ContextMenuItem onClick={handleCopyLogomark}>
@@ -54,26 +54,30 @@ export const BrandContextMenu = ({
 
         <ContextMenuSeparator />
 
-        <ContextMenuItem asChild>
-          <a
-            href="https://shadcn-labs.com/brand"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <SquareDashedIcon />
-            Brand Guidelines
-          </a>
+        <ContextMenuItem
+          render={
+            <a
+              href="https://shadcn-labs.com/brand"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <SquareDashedIcon />
+          Brand Guidelines
         </ContextMenuItem>
 
-        <ContextMenuItem asChild>
-          <a
-            href="https://shadcn-labs.com/shadcn-labs-brand.zip"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <DownloadIcon />
-            Download Brand Assets
-          </a>
+        <ContextMenuItem
+          render={
+            <a
+              href="https://shadcn-labs.com/shadcn-labs-brand.zip"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <DownloadIcon />
+          Download Brand Assets
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

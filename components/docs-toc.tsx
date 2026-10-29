@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, TextAlignStartIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -86,14 +86,16 @@ export const DocsTableOfContents = ({
   if (variant === "dropdown") {
     return (
       <DropdownMenu open={open} onOpenChange={setOpen} sounds>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className={cn("h-8 md:h-7", className)}
-          >
-            <MenuIcon /> On This Page
-          </Button>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className={cn("h-8 md:h-7", className)}
+            />
+          }
+        >
+          <MenuIcon /> On This Page
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="start"
@@ -102,13 +104,13 @@ export const DocsTableOfContents = ({
           {toc.map((item) => (
             <DropdownMenuItem
               key={item.url}
-              asChild
+              render={<a href={item.url} />}
               sound="click"
               onClick={handleClose}
               data-depth={item.depth}
               className="data-[depth=3]:pl-6 data-[depth=4]:pl-8"
             >
-              <a href={item.url}>{item.title}</a>
+              {item.title}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
@@ -117,15 +119,17 @@ export const DocsTableOfContents = ({
   }
 
   return (
-    <div className={cn("flex flex-col gap-2 p-4 pt-0 text-sm", className)}>
-      <p className="text-muted-foreground bg-background sticky top-0 h-6 text-xs">
+    // No horizontal padding: the label icon lines up with the footer link icons below (same x, size and gap).
+    <div className={cn("flex flex-col gap-2 pb-4 text-sm", className)}>
+      <p className="text-muted-foreground bg-card sticky top-0 flex h-6 items-center gap-1.5 text-[0.8rem] [&_svg]:size-3">
+        <TextAlignStartIcon aria-hidden />
         On This Page
       </p>
       {toc.map((item) => (
         <a
           key={item.url}
           href={item.url}
-          className="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] data-[active=true]:font-medium no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+          className="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] data-[active=true]:font-medium no-underline transition-colors pl-[18px] data-[depth=3]:pl-[34px] data-[depth=4]:pl-[50px]"
           data-active={item.url === `#${activeHeading}`}
           data-depth={item.depth}
           onClick={playTick}

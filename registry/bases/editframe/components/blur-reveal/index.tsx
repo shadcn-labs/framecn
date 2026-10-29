@@ -40,7 +40,6 @@ export const BlurReveal = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     height,
     justifyContent: "center",
     overflow: "hidden",
@@ -50,24 +49,24 @@ export const BlurReveal = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-blur-reveal {
-            from {
-              opacity: 0;
-              filter: blur(${blur}px);
-            }
-            to {
-              opacity: 1;
-              filter: blur(0px);
-            }
+        @keyframes framecn-blur-reveal {
+          from {
+            opacity: 0;
+            filter: blur(${blur}px);
           }
-        `}</style>
+          to {
+            opacity: 1;
+            filter: blur(0px);
+          }
+        }
+      `}</style>
         <span
           style={{
             animation: `framecn-blur-reveal ${revealDurationMs}ms cubic-bezier(0.16, 1, 0.3, 1) backwards`,

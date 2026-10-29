@@ -22,10 +22,7 @@ export const getPageMarkdownUrl = (page: InferPageType<typeof source>) => {
 };
 
 export const getLLMText = async (page: InferPageType<typeof source>) => {
-  const processed = await processMdxForLLMs(
-    await page.data.getText("raw"),
-    source.pageTree
-  );
+  const processed = await processMdxForLLMs(await page.data.getText("raw"));
   const sections = [
     page.data.description,
     AGENT_DOCS_DIRECTIVE_MARKDOWN,

@@ -45,23 +45,25 @@ export const DocsShareMenu = ({
 
   return (
     <DropdownMenu sounds>
-      <DropdownMenuTrigger asChild>
-        <Button
-          className="hidden sm:flex size-7 border-none active:scale-none"
-          variant="secondary"
-          size="icon-sm"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        >
-          <ShareIcon ref={shareIconRef} />
-        </Button>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            className="hidden sm:flex size-7 border-none active:scale-none"
+            variant="secondary"
+            size="icon-sm"
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          />
+        }
+      >
+        <ShareIcon ref={shareIconRef} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         className="w-fit"
         alignOffset={-6}
         collisionPadding={8}
-        onCloseAutoFocus={(e) => e.preventDefault()}
+        finalFocus={false}
       >
         <DropdownMenuItem
           sound="copy"
@@ -74,26 +76,32 @@ export const DocsShareMenu = ({
           Copy link
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild sound="click">
-          <a
-            href={`https://x.com/intent/tweet?url=${urlEncoded}`}
-            target="_blank"
-            rel="noopener"
-          >
-            <XIcon />
-            Share on X
-          </a>
+        <DropdownMenuItem
+          sound="click"
+          render={
+            <a
+              href={`https://x.com/intent/tweet?url=${urlEncoded}`}
+              target="_blank"
+              rel="noopener"
+            />
+          }
+        >
+          <XIcon />
+          Share on X
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild sound="click">
-          <a
-            href={`https://www.linkedin.com/sharing/share-offsite?url=${urlEncoded}`}
-            target="_blank"
-            rel="noopener"
-          >
-            <LinkedInIcon />
-            Share on LinkedIn
-          </a>
+        <DropdownMenuItem
+          sound="click"
+          render={
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite?url=${urlEncoded}`}
+              target="_blank"
+              rel="noopener"
+            />
+          }
+        >
+          <LinkedInIcon />
+          Share on LinkedIn
         </DropdownMenuItem>
 
         {typeof navigator !== "undefined" && "share" in navigator && (

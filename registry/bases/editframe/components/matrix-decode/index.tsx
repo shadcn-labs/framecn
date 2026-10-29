@@ -54,7 +54,6 @@ export const MatrixDecode = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     fontFamily:
       "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace",
     height,
@@ -79,19 +78,19 @@ export const MatrixDecode = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-matrix-reveal {
-            to {
-              transform: translateY(-${charset.length * 100}%);
-            }
+        @keyframes framecn-matrix-reveal {
+          to {
+            transform: translateY(-${charset.length * 100}%);
           }
-        `}</style>
+        }
+      `}</style>
         <div
           style={{
             color,

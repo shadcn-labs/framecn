@@ -62,7 +62,6 @@ export const PerspectiveMarquee = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     fontFamily: FONT_FAMILY,
     height,
     justifyContent: "center",
@@ -74,18 +73,18 @@ export const PerspectiveMarquee = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-perspective-marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-${approxItemWidth}px); }
-          }
-        `}</style>
+        @keyframes framecn-perspective-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-${approxItemWidth}px); }
+        }
+      `}</style>
         <div
           style={{
             animation: `framecn-perspective-marquee ${scrollMs}ms linear infinite`,

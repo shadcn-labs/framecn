@@ -47,7 +47,6 @@ export const MarkerHighlight = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     fontFamily:
       "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
     height,
@@ -59,22 +58,22 @@ export const MarkerHighlight = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-marker-grow {
-            from { transform: scaleX(0); }
-            to { transform: scaleX(1); }
-          }
-          @keyframes framecn-marker-fade {
-            from { color: ${baseColor}; }
-            to { color: ${highlightedTextColor}; }
-          }
-        `}</style>
+        @keyframes framecn-marker-grow {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+        @keyframes framecn-marker-fade {
+          from { color: ${baseColor}; }
+          to { color: ${highlightedTextColor}; }
+        }
+      `}</style>
         <span
           style={{
             color: baseColor,

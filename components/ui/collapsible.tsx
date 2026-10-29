@@ -1,6 +1,6 @@
 "use client";
 
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
+import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible";
 import { useCallback, useEffect, useRef } from "react";
 
 import { collapse, expand } from "@/audio/core";
@@ -10,7 +10,7 @@ const Collapsible = ({
   onOpenChange,
   sounds = false,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
+}: CollapsiblePrimitive.Root.Props & {
   sounds?: boolean;
 }) => {
   const playExpand = useFeedback({ soundDef: expand });
@@ -43,10 +43,12 @@ const Collapsible = ({
     playStateSound(props.open ?? false);
   }, [isControlled, playStateSound, props.open]);
 
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
+  const handleOpenChange = useCallback<
+    NonNullable<CollapsiblePrimitive.Root.Props["onOpenChange"]>
+  >(
+    (open, eventDetails) => {
       playStateSound(open);
-      onOpenChange?.(open);
+      onOpenChange?.(open, eventDetails);
     },
     [onOpenChange, playStateSound]
   );
@@ -72,20 +74,12 @@ const Collapsible = ({
 
 const CollapsibleTrigger = ({
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) => (
-  <CollapsiblePrimitive.CollapsibleTrigger
-    data-slot="collapsible-trigger"
-    {...props}
-  />
+}: CollapsiblePrimitive.Trigger.Props) => (
+  <CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" {...props} />
 );
 
-const CollapsibleContent = ({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) => (
-  <CollapsiblePrimitive.CollapsibleContent
-    data-slot="collapsible-content"
-    {...props}
-  />
+const CollapsibleContent = ({ ...props }: CollapsiblePrimitive.Panel.Props) => (
+  <CollapsiblePrimitive.Panel data-slot="collapsible-content" {...props} />
 );
 
 export { Collapsible, CollapsibleContent, CollapsibleTrigger };

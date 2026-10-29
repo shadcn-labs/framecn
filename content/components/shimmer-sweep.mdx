@@ -1,0 +1,37 @@
+---
+title: "Shimmer Sweep"
+description: "Bright gradient sweeps across dim text, lighting it up."
+---
+
+## Usage
+
+```tsx
+import { ShimmerSweep } from "@/components/framecn/shimmer-sweep";
+```
+
+```tsx
+<ShimmerSweep text="value" />
+```
+
+## API Reference
+
+### ShimmerSweep
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `text`             | `string` | `-`         |
+| `baseColor`        | `string` | `"#3f3f46"` |
+| `shineColor`       | `string` | `"#fafafa"` |
+| `fontSize`         | `number` | `96`        |
+| `fontWeight`       | `number` | `700`       |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `90`        |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Gradient direction is left-to-right">
+  The shimmer effect sweeps from left to right. You can reverse this by swapping
+  the gradient colors or using a custom gradient direction.
+</Callout>

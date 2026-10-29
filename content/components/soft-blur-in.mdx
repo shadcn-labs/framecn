@@ -1,0 +1,38 @@
+---
+title: "Soft Blur In"
+description: "Characters fade in through a soft blur and upward drift, staggered one frame apart."
+---
+
+## Usage
+
+```tsx
+import { SoftBlurIn } from "@/components/framecn/soft-blur-in";
+```
+
+```tsx
+<SoftBlurIn text="Soft blur letters" />
+```
+
+## API Reference
+
+### SoftBlurIn
+
+| Prop               | Type     | Default               |
+| ------------------ | -------- | --------------------- |
+| `text`             | `string` | `"Soft blur letters"` |
+| `blur`             | `number` | `12`                  |
+| `fontSize`         | `number` | `72`                  |
+| `color`            | `string` | `"#171717"`           |
+| `fontWeight`       | `number` | `600`                 |
+| `speed`            | `number` | `1`                   |
+| `fps`              | `number` | `30`                  |
+| `durationInFrames` | `number` | `90`                  |
+| `className`        | `string` | `-`                   |
+
+## Notes
+
+<Callout title="Dynamic blur keyframe">
+  The `blur` prop directly controls the starting blur amount. Each blur value
+  generates a uniquely named keyframe, so multiple instances with different blur
+  values can coexist on the same page without conflict.
+</Callout>

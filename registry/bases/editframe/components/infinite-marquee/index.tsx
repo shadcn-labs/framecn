@@ -46,7 +46,6 @@ export const InfiniteMarquee = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     height,
     justifyContent: "center",
     overflow: "hidden",
@@ -67,18 +66,18 @@ export const InfiniteMarquee = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-${approxWidth}px); }
-          }
-        `}</style>
+        @keyframes framecn-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-${approxWidth}px); }
+        }
+      `}</style>
         <div
           style={{
             animation: `framecn-marquee ${scrollDurationMs}ms linear infinite`,

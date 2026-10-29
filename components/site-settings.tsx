@@ -94,11 +94,11 @@ export const SiteSettings = () => {
         </Drawer>
       ) : (
         <Popover open={isOpen} onOpenChange={setIsOpen} sounds>
-          <PopoverTrigger asChild>{trigger}</PopoverTrigger>
+          <PopoverTrigger render={trigger} />
           <PopoverContent
             align="end"
-            className="w-56 p-2 data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-100 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-100 dark:bg-black"
-            onOpenAutoFocus={(event) => event.preventDefault()}
+            className="w-56 p-2 data-closed:fade-out-0 data-closed:zoom-out-100 data-open:fade-in-0 data-open:zoom-in-100 dark:bg-black"
+            initialFocus={false}
           >
             {content}
           </PopoverContent>

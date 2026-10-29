@@ -29,12 +29,12 @@ export const ComponentCustomizer = ({
           <div className="flex items-center justify-between gap-2">
             <Label
               htmlFor={id}
-              className="text-xs font-medium text-fd-muted-foreground"
+              className="text-xs font-medium text-muted-foreground"
             >
               {ctrl.label}
             </Label>
             {ctrl.type === "number" && (
-              <span className="font-mono text-xs tabular-nums text-fd-muted-foreground">
+              <span className="font-mono text-xs tabular-nums text-muted-foreground">
                 {values[key] as number}
               </span>
             )}
@@ -55,8 +55,10 @@ export const ComponentCustomizer = ({
               min={ctrl.min}
               max={ctrl.max}
               step={ctrl.step}
-              value={[values[key] as number]}
-              onValueChange={(v) => onChange(key, v[0] as number)}
+              value={values[key] as number}
+              onValueChange={(v) =>
+                onChange(key, Array.isArray(v) ? (v[0] as number) : v)
+              }
             />
           )}
 
@@ -67,10 +69,11 @@ export const ComponentCustomizer = ({
                 type="color"
                 value={values[key] as string}
                 onChange={(e) => onChange(key, e.target.value)}
-                className="size-9 shrink-0 cursor-pointer rounded-md border border-fd-border bg-transparent p-0.5"
+                className="size-9 shrink-0 cursor-pointer rounded-md border bg-transparent p-0.5"
               />
               <Input
                 type="text"
+                aria-label={`${ctrl.label} hex value`}
                 value={values[key] as string}
                 onChange={(e) => onChange(key, e.target.value)}
                 className="font-mono text-xs"

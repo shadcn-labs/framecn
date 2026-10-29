@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDownIcon } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 import {
   ChatGptIcon,
@@ -23,11 +23,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Popover,
-  PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
 
 import { CopyButton } from "./copy-button";
 
@@ -38,7 +36,7 @@ Help me understand how to use it. Be ready to explain concepts, give examples, o
 `
   )}`;
 
-const MENU_ITEMS: [string, (url: string) => React.ReactNode][] = [
+const MENU_ITEMS: [string, (url: string) => React.ReactElement][] = [
   [
     "markdown",
     (url) => (
@@ -162,6 +160,7 @@ export const DocsCopyPage = ({
   markdownUrl: string;
   url: string;
 }) => {
+  const groupRef = useRef<HTMLDivElement>(null);
   const copyValue = useCallback(async () => {
     const response = await fetch(markdownUrl);
     return response.text();
@@ -169,9 +168,9 @@ export const DocsCopyPage = ({
 
   const trigger = (
     <Button
-      variant="secondary"
+      variant="ghost"
       size="sm"
-      className="peer -ml-0.5 size-8 md:size-7 md:text-[0.8rem]"
+      className="peer size-7 rounded-md md:size-6 md:text-[0.8rem]"
     >
       <ChevronDownIcon className="rotate-180 sm:rotate-0" />
     </Button>
@@ -179,40 +178,34 @@ export const DocsCopyPage = ({
 
   return (
     <Popover sounds>
-      <div className="group/buttons relative flex rounded-lg bg-secondary *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10">
-        <PopoverAnchor />
+      <div
+        ref={groupRef}
+        // Card UI: muted shell (with the chevron on it); only the Copy Page action is the white card.
+        className="group/buttons bg-muted/60 relative flex items-center gap-0.5 rounded-lg border p-0.5 *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10"
+      >
         <CopyButton
           value={copyValue}
           showTooltip={false}
           sound="copy"
-          variant="secondary"
-          className="md:h-7 md:text-[0.8rem]"
+          variant="ghost"
+          className="bg-card hover:bg-card/80 h-7 rounded-md border shadow-xs md:h-6 md:text-[0.8rem]"
         >
           Copy Page
         </CopyButton>
         <DropdownMenu sounds>
-          <DropdownMenuTrigger asChild className="hidden sm:flex">
-            {trigger}
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger render={trigger} className="hidden sm:flex" />
           <DropdownMenuContent
             align="end"
             className="animate-none! rounded-lg shadow-none"
           >
             {MENU_ITEMS.map(([key, render]) => (
-              <DropdownMenuItem key={key} asChild sound="click">
-                {render(url)}
-              </DropdownMenuItem>
+              <DropdownMenuItem key={key} render={render(url)} sound="click" />
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Separator
-          orientation="vertical"
-          className="absolute top-1 right-8 z-0 h-6! bg-foreground/5! peer-focus-visible:opacity-0 sm:right-7 sm:h-5!"
-        />
-        <PopoverTrigger asChild className="flex sm:hidden">
-          {trigger}
-        </PopoverTrigger>
+        <PopoverTrigger render={trigger} className="flex sm:hidden" />
         <PopoverContent
+          anchor={groupRef}
           className="w-52 origin-center! rounded-lg bg-background/70 p-1 shadow-none backdrop-blur-sm dark:bg-background/60"
           align="start"
         >
@@ -220,13 +213,12 @@ export const DocsCopyPage = ({
             <Button
               variant="ghost"
               size="lg"
-              asChild
+              nativeButton={false}
+              render={render(url)}
               key={key}
               sound="click"
               className="w-full justify-start text-base font-normal *:[svg]:text-muted-foreground"
-            >
-              {render(url)}
-            </Button>
+            />
           ))}
         </PopoverContent>
       </div>

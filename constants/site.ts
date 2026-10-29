@@ -45,8 +45,8 @@ export const SITE = {
 };
 
 export const META_THEME_COLORS = {
-  dark: "#09090b",
-  light: "#ffffff",
+  dark: "#171612",
+  light: "#f5f4ef",
 };
 
 export const UTM_PARAMS = {

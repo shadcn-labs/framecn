@@ -3,11 +3,11 @@ import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
-import { DocsAds } from "@/components/docs-ads";
 import { DocsCopyPage } from "@/components/docs-copy-page";
 import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
 import { DocsNavLink } from "@/components/docs-nav-link";
+import { DocsPager } from "@/components/docs-pager";
+import type { DocsPagerItem } from "@/components/docs-pager";
 import { DocsShareMenu } from "@/components/docs-share-menu";
 import { DocsTableOfContents } from "@/components/docs-toc";
 import { DocsTocFooter } from "@/components/docs-toc-footer";
@@ -71,6 +71,20 @@ const buildBreadcrumbs = (
   return items;
 };
 
+const toPagerItem = (
+  node: { url: string; name: React.ReactNode } | undefined
+): DocsPagerItem | undefined => {
+  if (!node) {
+    return undefined;
+  }
+  const target = source.getPages().find((p) => p.url === node.url);
+  return {
+    description: target?.data.description,
+    title: target?.data.title ?? String(node.name),
+    url: node.url,
+  };
+};
+
 const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
   const params = await props.params;
   const page = source.getPage(params.slug);
@@ -103,7 +117,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
         >
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="h-(--top-spacing) shrink-0" />
-            <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-1 flex-col gap-8 px-4 py-6 text-neutral-800 md:px-0 lg:py-8 dark:text-neutral-300">
+            <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-6 py-8 md:px-10 lg:py-12">
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
@@ -160,68 +174,57 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                 {links ? (
                   <div className="flex items-center space-x-2 pt-4">
                     {links?.doc && (
-                      <Badge asChild variant="secondary">
-                        <Link href={links.doc} target="_blank" rel="noreferrer">
-                          Docs <ArrowUpRightIcon />
-                        </Link>
+                      <Badge
+                        variant="secondary"
+                        render={
+                          <Link
+                            href={links.doc}
+                            target="_blank"
+                            rel="noreferrer"
+                          />
+                        }
+                      >
+                        Docs <ArrowUpRightIcon />
                       </Badge>
                     )}
                     {links?.api && (
-                      <Badge asChild variant="secondary">
-                        <Link href={links.api} target="_blank" rel="noreferrer">
-                          API Reference <ArrowUpRightIcon />
-                        </Link>
+                      <Badge
+                        variant="secondary"
+                        render={
+                          <Link
+                            href={links.api}
+                            target="_blank"
+                            rel="noreferrer"
+                          />
+                        }
+                      >
+                        API Reference <ArrowUpRightIcon />
                       </Badge>
                     )}
                   </div>
                 ) : null}
               </div>
               <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
-                {/* {params.slug &&
-                params.slug[0] === "components" &&
-                params.slug[1] &&
-                params.slug[2] && (
-                  <DocsBaseSwitcher
-                    base={params.slug[1]}
-                    component={params.slug.slice(2).join("/")}
-                    className="mb-4"
-                  />
-                )} */}
                 <MdxContent components={mdxComponents} />
               </div>
             </div>
-            <div className="mx-auto hidden h-16 w-full max-w-2xl items-center gap-2 px-4 sm:flex md:px-0">
-              {neighbours.previous && (
-                <DocsNavLink
-                  href={neighbours.previous.url}
-                  transitionTypes={["nav-back"]}
-                  size="sm"
-                >
-                  {neighbours.previous.name}
-                </DocsNavLink>
-              )}
-              {neighbours.next && (
-                <DocsNavLink
-                  href={neighbours.next.url}
-                  transitionTypes={["nav-forward"]}
-                  className="ml-auto"
-                  size="sm"
-                >
-                  {neighbours.next.name}
-                </DocsNavLink>
-              )}
+            <div className="mx-auto w-full max-w-3xl px-6 pb-24 md:px-10">
+              <DocsPager
+                previous={toPagerItem(neighbours.previous)}
+                next={toPagerItem(neighbours.next)}
+              />
             </div>
           </div>
-          <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--footer-height)+2rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
-            <div className="h-(--top-spacing) shrink-0" />
-            {doc.toc?.length ? (
-              <div className="no-scrollbar overflow-y-auto mx-8 border-b">
+          {doc.toc.length > 0 && (
+            <div className="sticky top-14 z-30 ml-auto hidden h-[calc(100svh-4rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+              {/* Lines "On This Page" up with the top of the page title (header 56px + this spacer + the column gap = the title top). */}
+              <div className="h-8 shrink-0" />
+              <div className="no-scrollbar mx-8 overflow-y-auto border-b">
                 <DocsTableOfContents toc={doc.toc} />
               </div>
-            ) : null}
-            <DocsTocFooter docId={page.path} className="mx-8" />
-            <DocsAds slot="sidebar" className="mx-8 shrink-0" />
-          </div>
+              <DocsTocFooter docId={page.path} className="mx-8" />
+            </div>
+          )}
         </div>
       </PageTransition>
     </>

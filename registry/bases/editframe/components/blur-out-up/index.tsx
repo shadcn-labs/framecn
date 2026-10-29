@@ -48,7 +48,6 @@ export const BlurOutUp = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     inset: 0,
     justifyContent: "center",
     position: "absolute",
@@ -56,22 +55,22 @@ export const BlurOutUp = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-bou-in {
-            from { opacity: 0; transform: translateY(10px); filter: blur(6px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-          }
-          @keyframes framecn-bou-out {
-            from { opacity: 1; transform: translateY(0); filter: blur(0); }
-            to { opacity: 0; transform: translateY(-14px); filter: blur(8px); }
-          }
-        `}</style>
+        @keyframes framecn-bou-in {
+          from { opacity: 0; transform: translateY(10px); filter: blur(6px); }
+          to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        @keyframes framecn-bou-out {
+          from { opacity: 1; transform: translateY(0); filter: blur(0); }
+          to { opacity: 0; transform: translateY(-14px); filter: blur(8px); }
+        }
+      `}</style>
         <span
           style={{
             color,

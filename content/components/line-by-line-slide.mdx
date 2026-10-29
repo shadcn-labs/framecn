@@ -1,0 +1,37 @@
+---
+title: "Line by Line Slide"
+description: "Multi-line text slides in from the left line by line, then slides out to the right."
+---
+
+## Usage
+
+```tsx
+import { LineByLineSlide } from "@/components/framecn/line-by-line-slide";
+```
+
+```tsx
+<LineByLineSlide text={"First line\nSecond line"} />
+```
+
+## API Reference
+
+### LineByLineSlide
+
+| Prop               | Type     | Default                     |
+| ------------------ | -------- | --------------------------- |
+| `text`             | `string` | `"First line\nSecond line"` |
+| `distance`         | `number` | `48`                        |
+| `fontSize`         | `number` | `72`                        |
+| `color`            | `string` | `"#171717"`                 |
+| `fontWeight`       | `number` | `600`                       |
+| `speed`            | `number` | `1`                         |
+| `fps`              | `number` | `30`                        |
+| `durationInFrames` | `number` | `90`                        |
+| `className`        | `string` | `-`                         |
+
+## Notes
+
+<Callout title="Newline-delimited lines">
+  Split your text with `\n` to define each line. Lines slide in with a cascading
+  stagger and exit in the same order.
+</Callout>

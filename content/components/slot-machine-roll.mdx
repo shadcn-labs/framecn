@@ -1,0 +1,37 @@
+---
+title: "Slot Machine Roll"
+description: "Numbers and characters roll into place like a casino reel."
+---
+
+## Usage
+
+```tsx
+import { SlotMachineRoll } from "@/components/framecn/slot-machine-roll";
+```
+
+```tsx
+<SlotMachineRoll />
+```
+
+## API Reference
+
+### SlotMachineRoll
+
+| Prop               | Type     | Default     |
+| ------------------ | -------- | ----------- |
+| `from`             | `string` | `"$99"`     |
+| `to`               | `string` | `"$199"`    |
+| `fontSize`         | `number` | `120`       |
+| `color`            | `string` | `"#171717"` |
+| `fontWeight`       | `number` | `700`       |
+| `speed`            | `number` | `1`         |
+| `fps`              | `number` | `30`        |
+| `durationInFrames` | `number` | `45`        |
+| `className`        | `string` | `-`         |
+
+## Notes
+
+<Callout title="Each character rolls independently">
+  Characters roll in sequence with slight delays between each roll. The duration
+  controls how long each character takes to settle.
+</Callout>

@@ -1,4 +1,7 @@
-import type { BackdropFill } from "@/registry/bases/editframe/components/backdrop";
+export type BackdropFill =
+  | { type: "color"; value: string }
+  | { type: "gradient"; value: string }
+  | { type: "image"; src: string; fit?: "cover" | "contain" };
 
 export type ControlType =
   | { type: "text"; default: string; label: string }

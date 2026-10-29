@@ -1,0 +1,38 @@
+---
+title: "Tracking In"
+description: "Letter-spacing collapses from wide to normal with a spring snap."
+---
+
+## Usage
+
+```tsx
+import { TrackingIn } from "@/components/framecn/tracking-in";
+```
+
+```tsx
+<TrackingIn />
+```
+
+## API Reference
+
+### TrackingIn
+
+| Prop               | Type     | Default         |
+| ------------------ | -------- | --------------- |
+| `text`             | `string` | `"Tracking In"` |
+| `startTracking`    | `number` | `0.5`           |
+| `startBlur`        | `number` | `12`            |
+| `fontSize`         | `number` | `96`            |
+| `color`            | `string` | `"#171717"`     |
+| `fontWeight`       | `number` | `700`           |
+| `speed`            | `number` | `1`             |
+| `fps`              | `number` | `30`            |
+| `durationInFrames` | `number` | `90`            |
+| `className`        | `string` | `-`             |
+
+## Notes
+
+<Callout title="Spring-based collapse">
+  The letter-spacing uses a spring animation for a natural snap effect. The
+  duration controls the spring configuration.
+</Callout>

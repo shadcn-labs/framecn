@@ -35,22 +35,27 @@ export default function ChangelogPage() {
       >
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="h-(--top-spacing) shrink-0" />
-          <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-1 flex-col gap-8 px-4 py-6 text-neutral-800 md:px-0 lg:py-8 dark:text-neutral-300">
+          <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-1 flex-col gap-8 px-4 pt-6 pb-24 text-neutral-800 md:px-0 lg:pt-8 dark:text-neutral-300">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
                     Changelog
                   </h1>
-                  <Button variant="secondary" size="sm" asChild>
-                    <a
-                      href={ROUTES.RSS}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <RssIcon />
-                      RSS
-                    </a>
+                  <Button
+                    nativeButton={false}
+                    variant="secondary"
+                    size="sm"
+                    render={
+                      <a
+                        href={ROUTES.RSS}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
+                    }
+                  >
+                    <RssIcon />
+                    RSS
                   </Button>
                 </div>
                 <p className="text-muted-foreground text-[1.05rem] text-balance sm:text-base">
@@ -75,7 +80,7 @@ export default function ChangelogPage() {
                 );
               })}
               {olderPages.length > 0 && (
-                <div id="more-updates" className="mb-24 scroll-mt-24">
+                <div id="more-updates" className="scroll-mt-24">
                   <h2 className="mb-6 font-heading text-xl font-semibold tracking-tight">
                     More Updates
                   </h2>
@@ -103,11 +108,12 @@ export default function ChangelogPage() {
             </div>
           </div>
         </div>
-        <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--footer-height)+2rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
-          <div className="h-(--top-spacing) shrink-0" />
+        <div className="sticky top-14 z-30 ml-auto hidden h-[calc(100svh-4rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+          {/* Lines "On This Page" up with the top of the page title (header 56px + this spacer + the column gap = the title top). */}
+          <div className="h-4 shrink-0" />
           <div className="no-scrollbar overflow-y-auto mx-8 border-b">
             <div className="flex flex-col gap-2 p-4 pt-0 text-sm">
-              <p className="sticky top-0 h-6 bg-background text-xs font-medium text-muted-foreground">
+              <p className="sticky top-0 h-6 bg-card text-xs font-medium text-muted-foreground">
                 On This Page
               </p>
               {latestPages.map((page) => {

@@ -1,0 +1,40 @@
+---
+title: "Blur Reveal"
+description: "Text fades in from a heavy blur into sharp focus."
+---
+
+## Usage
+
+```tsx
+import { BlurReveal } from "@/components/framecn/blur-reveal";
+```
+
+```tsx
+<BlurReveal />
+```
+
+## API Reference
+
+### BlurReveal
+
+| Prop               | Type     | Default        |
+| ------------------ | -------- | -------------- |
+| `text`             | `string` | `"BlurReveal"` |
+| `className`        | `string` | `-`            |
+| `blur`             | `number` | `10`           |
+| `fontSize`         | `number` | `48`           |
+| `color`            | `string` | `"#171717"`    |
+| `fontWeight`       | `number` | `600`          |
+| `speed`            | `number` | `1`            |
+| `fps`              | `number` | `30`           |
+| `durationInFrames` | `number` | `90`           |
+| `width`            | `number` | `1000`         |
+| `height`           | `number` | `500`          |
+| `background`       | `string` | `"white"`      |
+
+## Notes
+
+<Callout title="Blur uses backdrop-filter">
+  The blur effect uses CSS backdrop-filter which may not be supported in all
+  browsers. Consider providing a fallback for older browsers.
+</Callout>

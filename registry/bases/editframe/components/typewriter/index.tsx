@@ -43,7 +43,6 @@ export const Typewriter = ({
   const containerStyle: CSSProperties = {
     alignItems: "center",
     background,
-    display: "flex",
     height,
     justifyContent: "center",
     overflow: "hidden",
@@ -75,32 +74,32 @@ export const Typewriter = ({
 
   return (
     <Timegroup
-      className={className}
+      className={`flex ${className ?? ""}`}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
       <>
         <style>{`
-          @keyframes framecn-typewriter-reveal {
-            from {
-              width: 0;
-              opacity: 0.8;
-            }
-            to {
-              width: 100%;
-              opacity: 1;
-            }
+        @keyframes framecn-typewriter-reveal {
+          from {
+            width: 0;
+            opacity: 0.8;
           }
-          @keyframes framecn-typewriter-cursor {
-            0%, 50% {
-              opacity: 1;
-            }
-            50.01%, 100% {
-              opacity: 0;
-            }
+          to {
+            width: 100%;
+            opacity: 1;
           }
-        `}</style>
+        }
+        @keyframes framecn-typewriter-cursor {
+          0%, 50% {
+            opacity: 1;
+          }
+          50.01%, 100% {
+            opacity: 0;
+          }
+        }
+      `}</style>
         <span style={textStyle}>
           {text}
           {cursor ? <span style={cursorSpanStyle} /> : null}

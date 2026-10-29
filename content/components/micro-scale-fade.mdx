@@ -1,0 +1,38 @@
+---
+title: "Micro Scale Fade"
+description: "The entire text scales in from a subtle size with a smooth fade, perfect for clean entrances."
+---
+
+## Usage
+
+```tsx
+import { MicroScaleFade } from "@/components/framecn/micro-scale-fade";
+```
+
+```tsx
+<MicroScaleFade text="Scale fade in" />
+```
+
+## API Reference
+
+### MicroScaleFade
+
+| Prop               | Type     | Default           |
+| ------------------ | -------- | ----------------- |
+| `text`             | `string` | `"Scale fade in"` |
+| `scaleFrom`        | `number` | `0.96`            |
+| `fontSize`         | `number` | `72`              |
+| `color`            | `string` | `"#171717"`       |
+| `fontWeight`       | `number` | `600`             |
+| `speed`            | `number` | `1`               |
+| `fps`              | `number` | `30`              |
+| `durationInFrames` | `number` | `90`              |
+| `className`        | `string` | `-`               |
+
+## Notes
+
+<Callout title="Single-element animation">
+  Unlike character-stagger components, `MicroScaleFade` animates the entire text
+  as one element. A subtle `scaleFrom` value near `1.0` (like the default
+  `0.96`) creates an elegant entrance without feeling exaggerated.
+</Callout>
