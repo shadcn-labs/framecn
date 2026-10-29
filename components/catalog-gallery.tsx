@@ -6,6 +6,7 @@ import { useState } from "react";
 import { CatalogPreview } from "@/components/catalog-preview";
 import { useGalleryPath } from "@/components/component-panel-shell";
 import { CopyButton } from "@/components/copy-button";
+import { ProBadge } from "@/components/pro-badge";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Frame, FrameContent } from "@/components/ui/frame";
@@ -59,19 +60,12 @@ const CatalogCard = ({
         {showCategory && (
           <Badge
             variant="outline"
-            className="bg-background/90 absolute top-2.5 left-2.5 rounded-md px-1.5 text-[11px] backdrop-blur"
+            className="bg-background/90 absolute top-2.5 left-2.5 h-4 rounded px-1.5 py-0 text-[10px] backdrop-blur"
           >
             {CATEGORY_LABELS[item.category]}
           </Badge>
         )}
-        {item.pro && (
-          <Badge
-            variant="brand"
-            className="absolute top-2.5 right-2.5 rounded-md px-1.5 text-[11px] font-semibold"
-          >
-            Pro
-          </Badge>
-        )}
+        {item.pro && <ProBadge className="absolute top-2.5 right-2.5" />}
       </FrameContent>
       <div className="py-2 pr-12 pl-2.5">
         <h2 className="truncate text-sm font-medium">{item.name}</h2>

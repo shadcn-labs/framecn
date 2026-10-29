@@ -12,8 +12,8 @@ import { useEffect, useRef, useState } from "react";
 import { BrandContextMenu } from "@/components/brand-context-menu";
 import { XIcon } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
+import { ProBadge } from "@/components/pro-badge";
 import { SiteSettings } from "@/components/site-settings";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import {
@@ -102,11 +102,7 @@ const TreeList = ({
           }
         >
           <span className="truncate">{item.name}</span>
-          {item.pro && (
-            <Badge className="ml-auto rounded px-1.5 py-0 text-[10px]">
-              Pro
-            </Badge>
-          )}
+          {item.pro && <ProBadge className="ml-auto" />}
         </SidebarMenuSubButton>
       </SidebarMenuSubItem>
     ))}
@@ -132,8 +128,9 @@ const CatalogList = ({ onNavigate }: { onNavigate: () => void }) => {
         const href = categoryHref(category);
         return (
           <section key={category} aria-label={CATEGORY_LABELS[category]}>
+            {/* Label sits on the guide line; the count lines up with the Pro badges. */}
             <SidebarGroupLabel
-              className="hover:text-sidebar-foreground ml-3 h-7 px-2.5 pt-1"
+              className="hover:text-sidebar-foreground ml-3 h-7 gap-2 pt-1 pr-2.5 pl-0"
               render={
                 <Link
                   href={href}
@@ -144,6 +141,9 @@ const CatalogList = ({ onNavigate }: { onNavigate: () => void }) => {
               }
             >
               {CATEGORY_LABELS[category]}
+              <span className="text-muted-foreground ml-auto font-mono text-[11px] tabular-nums">
+                {items.length}
+              </span>
             </SidebarGroupLabel>
             <TreeList
               onNavigate={onNavigate}

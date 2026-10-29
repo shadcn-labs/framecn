@@ -33,8 +33,8 @@ import {
   MarkdownDocIcon,
   V0Icon,
 } from "@/components/icons";
+import { ProBadge } from "@/components/pro-badge";
 import { ProUnlockDialog } from "@/components/pro-unlock-dialog";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -793,14 +793,7 @@ export const ComponentDetail = ({
               >
                 {item.name}
               </h2>
-              {item.pro && (
-                <Badge
-                  variant="brand"
-                  className="rounded-md px-1.5 text-[11px] font-semibold"
-                >
-                  Pro
-                </Badge>
-              )}
+              {item.pro && <ProBadge />}
             </div>
             <div className="mt-2">
               <Description text={item.description} />

@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { CatalogPreview } from "@/components/catalog-preview";
 import { SectionHeading } from "@/components/landing/section-heading";
+import { ProBadge } from "@/components/pro-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FrameContent } from "@/components/ui/frame";
@@ -67,17 +68,12 @@ export const Showcase = () => {
                 <CatalogPreview name={item.id} active={active === item.id} />
                 <Badge
                   variant="outline"
-                  className="bg-background/90 absolute top-2.5 left-2.5 rounded-md px-1.5 text-[11px] backdrop-blur"
+                  className="bg-background/90 absolute top-2.5 left-2.5 h-4 rounded px-1.5 py-0 text-[10px] backdrop-blur"
                 >
                   {CATEGORY_LABELS[item.category]}
                 </Badge>
                 {item.pro && (
-                  <Badge
-                    variant="brand"
-                    className="absolute top-2.5 right-2.5 rounded-md px-1.5 text-[11px] font-semibold"
-                  >
-                    Pro
-                  </Badge>
+                  <ProBadge className="absolute top-2.5 right-2.5" />
                 )}
               </FrameContent>
               <div className="px-2.5 pt-2 pb-1.5">
