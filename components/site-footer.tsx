@@ -64,7 +64,7 @@ export const SiteFooter = () => (
         <Button
           nativeButton={false}
           variant="link"
-          className="text-foreground h-auto p-0"
+          className="text-foreground h-auto p-0 text-xs"
           render={
             <a
               href={addQueryParams(LINK.PORTFOLIO, UTM_PARAMS)}
@@ -81,7 +81,7 @@ export const SiteFooter = () => (
         <Button
           nativeButton={false}
           variant="link"
-          className="text-foreground h-auto p-0"
+          className="text-foreground h-auto p-0 text-xs"
           render={
             <a
               href={addQueryParams(LINK.SHADCN_LABS, UTM_PARAMS)}

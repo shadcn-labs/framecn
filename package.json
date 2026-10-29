@@ -11,6 +11,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "node --env-file-if-exists=.env.local scripts/db-migrate-local.mjs",
     "db:migrate:remote": "wrangler d1 migrations apply framecn --remote",
+    "db:migrate:preview": "wrangler d1 migrations apply framecn-preview --remote --env preview",
     "registry:build": "shadcn build registry.json --output ./public/r",
     "postinstall": "fumadocs-mdx",
     "check": "ultracite check",

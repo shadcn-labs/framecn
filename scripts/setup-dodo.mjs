@@ -277,9 +277,13 @@ async function setup() {
         "Webhook URL must be HTTPS with path /api/webhooks/dodo and no credentials, query, or fragment."
       );
     }
+    // Protected Vercel previews need the project's automation bypass secret on every request.
+    const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const bypassHeaders = bypass ? { "x-vercel-protection-bypass": bypass } : {};
     let response;
     try {
       response = await fetch(url, {
+        headers: bypassHeaders,
         redirect: "error",
         signal: AbortSignal.timeout(10_000),
       });
@@ -323,6 +327,9 @@ async function setup() {
         filter_types: WEBHOOK_EVENTS,
         url: url.href,
       });
+    }
+    if (bypass) {
+      await dodo.webhooks.headers.update(hook.id, { headers: bypassHeaders });
     }
     const { secret } = await dodo.webhooks.retrieveSecret(hook.id);
     values[webhookKeyName] = secret;

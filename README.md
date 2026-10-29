@@ -36,10 +36,11 @@
 ## framecn v2
 
 - App shell: a 16rem left sidebar (Shadcn Labs project switcher, search, Components, Pricing, Docs, and every component listed directly), a 48px page header aligned with the sidebar header, and a site footer (Site, Docs, Company, Legal, Other products).
+- Sidebar social links: GitHub stars and Follow on X use standard tooltips under one shared tooltip provider. Tooltip styles honor Base UI's `data-instant` state so switching between adjacent triggers does not replay entry animations.
 - `/`: landing page — hero with install command, live showcase, categories, how it works, Node Reveal Pro, FAQ.
 - `/components` and `/components/<category>`: gallery with category pills (All, Typography, Transitions, Captions, Compositions). Includes 27 typography components, 14 transitions, 15 captions, and Node Reveal, the only Pro composition. Cards show a category badge, Pro badge, description, and a copy-prompt button.
 - `/components/<category>/<id>`: a shareable detail panel that slides out from the sidebar edge while the card preview morphs into the large preview (and back on close). It has Copy prompt (with Cursor/Claude/ChatGPT/v0/MCP options), Customize (a sheet under the preview), Install, Code (locked behind a Pro unlock dialog for Pro items), and usage docs. Old `/components/<id>` and `/templates/<id>` URLs redirect.
-- `/docs`: documentation pages; component docs live in the detail panel.
+- `/docs`: documentation pages; component docs live in the detail panel. Docs and changelog pages share the same contents sidebar. GitHub edit, Shadcn Labs follow, and community links remain available in the desktop sidebar even when a page has no headings.
 - Shadcn Labs identity: Geist, warm off-white, a black primary, and bubblegum `#f06292` reserved for brand highlights (Get Pro, Pro badges).
 
 Free components remain in the public shadcn registry. Node Reveal source and customization require a signed-in account with active Pro access. Its preview remains public. Gating new downloads does not revoke the MIT rights of already published copies; browser-rendered previews are not a source-code secrecy boundary.

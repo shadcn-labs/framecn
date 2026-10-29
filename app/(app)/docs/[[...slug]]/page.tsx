@@ -9,12 +9,11 @@ import { DocsNavLink } from "@/components/docs-nav-link";
 import { DocsPager } from "@/components/docs-pager";
 import type { DocsPagerItem } from "@/components/docs-pager";
 import { DocsShareMenu } from "@/components/docs-share-menu";
-import { DocsTableOfContents } from "@/components/docs-toc";
-import { DocsTocFooter } from "@/components/docs-toc-footer";
+import { DocsSidebar } from "@/components/docs-sidebar";
 import { PageTransition } from "@/components/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
-import { formatTitleFromSlug } from "@/lib/docs";
+import { DOCS_DIR, formatTitleFromSlug } from "@/lib/docs";
 import { getPageMarkdownUrl, source } from "@/lib/source";
 import { absoluteUrl } from "@/lib/utils";
 import { mdxComponents } from "@/mdx-components";
@@ -120,11 +119,11 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
             <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-6 py-8 md:px-10 lg:py-12">
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-start justify-between gap-4">
                     <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
                       {doc.title}
                     </h1>
-                    <div className="docs-nav flex items-center gap-2">
+                    <div className="docs-nav -mt-0.5 flex shrink-0 items-start gap-2">
                       <div className="hidden sm:block">
                         <DocsCopyPage
                           markdownUrl={absoluteUrl(markdownUrl)}
@@ -215,16 +214,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
               />
             </div>
           </div>
-          {doc.toc.length > 0 && (
-            <div className="sticky top-14 z-30 ml-auto hidden h-[calc(100svh-4rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
-              {/* Lines "On This Page" up with the top of the page title (header 56px + this spacer + the column gap = the title top). */}
-              <div className="h-8 shrink-0" />
-              <div className="no-scrollbar mx-8 overflow-y-auto border-b">
-                <DocsTableOfContents toc={doc.toc} />
-              </div>
-              <DocsTocFooter docId={page.path} className="mx-8" />
-            </div>
-          )}
+          <DocsSidebar toc={doc.toc} filePath={`${DOCS_DIR}/${page.path}`} />
         </div>
       </PageTransition>
     </>

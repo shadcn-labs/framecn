@@ -1,6 +1,6 @@
 "use client";
 
-import { SettingsIcon } from "lucide-react";
+import { EllipsisVerticalIcon } from "lucide-react";
 import { useState } from "react";
 
 import { HapticsSwitcher } from "@/components/haptics-switcher";
@@ -44,7 +44,7 @@ export const SiteSettings = () => {
       className="group/settings extend-touch-target size-8"
       aria-label="Settings"
     >
-      <SettingsIcon />
+      <EllipsisVerticalIcon />
     </Button>
   );
 

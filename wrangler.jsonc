@@ -11,5 +11,18 @@
       "database_id": "725e6947-8895-4834-90f5-54841a38c211",
       "migrations_dir": "drizzle"
     }
-  ]
+  ],
+  // Vercel preview deployments use a separate database (`pnpm db:migrate:preview`).
+  "env": {
+    "preview": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "framecn-preview",
+          "database_id": "c98539ed-1458-4248-a8ed-a6a851341b11",
+          "migrations_dir": "drizzle"
+        }
+      ]
+    }
+  }
 }

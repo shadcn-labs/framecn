@@ -1,4 +1,4 @@
-import { CheckIcon } from "lucide-react";
+import { CircleCheckIcon } from "lucide-react";
 import Link from "next/link";
 
 import { BillingButton } from "@/components/billing-button";
@@ -35,7 +35,7 @@ const FREE_FEATURES = [
 
 const PLAN_FEATURES: Record<PlanSlug, { heading: string; items: string[] }> = {
   annual: {
-    heading: "Everything in Free, plus:",
+    heading: "Everything in Free",
     items: [
       "Node Reveal composition source",
       "Future Pro compositions while subscribed",
@@ -44,7 +44,7 @@ const PLAN_FEATURES: Record<PlanSlug, { heading: string; items: string[] }> = {
     ],
   },
   lifetime: {
-    heading: "Everything in Pro Annual, plus:",
+    heading: "Everything in Pro Annual",
     items: [
       "Pro access that never expires",
       "All future Pro compositions",
@@ -52,7 +52,7 @@ const PLAN_FEATURES: Record<PlanSlug, { heading: string; items: string[] }> = {
     ],
   },
   team: {
-    heading: "Everything in Lifetime, plus:",
+    heading: "Everything in Lifetime",
     items: [
       "Covers up to 10 team members",
       "Shared team API key for CI & env",
@@ -88,9 +88,15 @@ const FAQ = [
   },
 ];
 
-const Feature = ({ children }: { children: React.ReactNode }) => (
-  <li className="flex gap-2">
-    <CheckIcon className="text-muted-foreground mt-0.5 size-4 shrink-0" />
+const Feature = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <li className={cn("flex gap-2", className)}>
+    <CircleCheckIcon className="text-muted-foreground mt-0.5 size-4 shrink-0" />
     {children}
   </li>
 );
@@ -105,10 +111,7 @@ export default async function PricingPage() {
   return (
     <section className="container-page flex-1 py-12 md:py-16">
       <div className="mb-10">
-        <PageHeader
-          title="Pricing"
-          description="The library is free. Go Pro for premium compositions and their full source."
-        />
+        <PageHeader title="Pricing" />
       </div>
       {pro ? (
         <Frame className="mb-6">
@@ -136,14 +139,11 @@ export default async function PricingPage() {
         <Frame className="flex">
           <Card className="flex-1 gap-0 rounded-lg p-6 shadow-none">
             <h2 className="font-medium">Free</h2>
-            <p className="text-muted-foreground mt-1 line-clamp-2 min-h-[2lh] text-sm">
-              The open library, free forever.
-            </p>
             <p className="mt-6">
               <span className="text-4xl font-semibold tracking-tight">$0</span>
             </p>
             <p className="text-muted-foreground mt-1 text-xs">
-              No account required.
+              Free forever. No card required.
             </p>
             <Button
               nativeButton={false}
@@ -188,9 +188,6 @@ export default async function PricingPage() {
                 )}
               >
                 <h2 className="font-medium">{plan.name}</h2>
-                <p className="text-muted-foreground mt-1 line-clamp-2 min-h-[2lh] text-sm">
-                  {plan.description}
-                </p>
                 <p className="mt-6">
                   <span className="text-4xl font-semibold tracking-tight">
                     {plan.price}
@@ -218,8 +215,8 @@ export default async function PricingPage() {
                     </p>
                   ) : null}
                 </div>
-                <p className="mt-6 text-sm font-medium">{features.heading}</p>
-                <ul className="mt-3 space-y-2.5 text-sm">
+                <ul className="mt-6 space-y-2.5 text-sm">
+                  <Feature className="font-medium">{features.heading}</Feature>
                   {features.items.map((item) => (
                     <Feature key={item}>{item}</Feature>
                   ))}

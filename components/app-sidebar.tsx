@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { BrandContextMenu } from "@/components/brand-context-menu";
+import { XIcon } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
 import { SiteSettings } from "@/components/site-settings";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +32,13 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { LINK } from "@/constants/links";
 import {
   APP_NAV,
   LABS_LATEST,
@@ -346,7 +354,32 @@ export const AppSidebar = ({
           © {new Date().getFullYear()}
         </span>
         <div className="flex items-center">
-          {github}
+          <TooltipProvider>
+            {github}
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    nativeButton={false}
+                    variant="ghost"
+                    size="icon"
+                    className="extend-touch-target size-8"
+                    aria-label="Follow on X"
+                    render={
+                      <a
+                        href={LINK.X_SHADCN_LABS}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
+                    }
+                  />
+                }
+              >
+                <XIcon />
+              </TooltipTrigger>
+              <TooltipContent>Follow on X</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <SiteSettings />
         </div>
       </SidebarFooter>
