@@ -69,10 +69,9 @@ Set `FRAMECN_PRO_GITHUB_TOKEN` in `.env.local` and your deployment's server secr
 
 `/api/components/[name]` checks sign-in and active Pro access before contacting GitHub. Private fetches and source responses are uncached; missing configuration returns 503, an unavailable upstream returns 502, and missing registry entries return 404. There is no local-source fallback. Free components still use this repository's public registry; `pnpm registry:build` does not publish private entries. Live previews still use the local preview implementation and are not a source-secrecy boundary.
 
-
 ## Pro billing
 
-Pro costs $129/year, $249 once for lifetime access, or $499 once for a lifetime Team license (up to 10 members sharing a team API key). Dodo Payments handles hosted checkout, invoices, and the customer portal. Subscription access expires with the paid period; lifetime access does not renew.
+Pro costs $179/year, $249 once for lifetime access, or $499 once for a lifetime Team license (up to 10 members sharing a team API key). The first 50 buyers of Annual and of Lifetime get the early-bird price ($149/year, kept on renewal, or $200 once): checkout uses the `*_EARLY` product until 50 unrefunded early-bird purchases exist. Dodo Payments handles hosted checkout, invoices, and the customer portal. Subscription access expires with the paid period; lifetime access does not renew.
 
 Anyone can check out without an account: Dodo collects the email (signed-in buyers have theirs preset). Pro belongs to that email. After paying, `/checkout/return` looks the payment up at Dodo, emails a sign-in code to the purchase email, and signs the buyer in; anyone who later signs in with that email (verified by code or OAuth) has Pro. Sign-up is open: an email code creates an account without a purchase.
 
@@ -91,7 +90,6 @@ pnpm dodo:setup --live --webhook-url=https://YOUR_HOST/api/webhooks/dodo
 Live credentials and product IDs are stored separately from active test values. For production, map the live values to the canonical `DODO_*` variables documented in `.env.example` and set `DODO_PAYMENTS_ENVIRONMENT=live_mode`. Never commit `.env.local`.
 
 Checkout remains unavailable until a real `DODO_PAYMENTS_WEBHOOK_KEY` is configured. Only signature-verified payment/subscription events grant access, recorded by lowercased purchase email; browser redirects never do. Refunds, disputes, cancellation, expiry, and duplicate event delivery are handled server-side. `FRAMECN_LOCAL_WEBHOOK_KEY` is restricted to local test-mode fixtures and does not enable checkout.
-
 
 ## Contributing
 

@@ -16,12 +16,14 @@
 // DODO_LIVE_BRAND_ID to DODO_BRAND_ID, DODO_LIVE_PRODUCT_* to DODO_PRODUCT_*,
 // and DODO_LIVE_PAYMENTS_WEBHOOK_KEY to DODO_PAYMENTS_WEBHOOK_KEY, and set
 // DODO_PAYMENTS_ENVIRONMENT=live_mode. Never publish .env.local.
+// Active "framecn Pro …" products outside PRODUCTS (or at another price) are
+// archived; existing purchases keep working because access is keyed by email.
 // No secrets or account IDs are printed; unrelated brands/products are untouched.
 import { chmodSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { parseEnv } from "node:util";
 
-import DodoPayments from "dodopayments";
+import DodoPayments, { APIError } from "dodopayments";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const ENV_FILE = `${ROOT}.env.local`;
@@ -31,9 +33,9 @@ const sameName = (a, b) =>
 
 const SITE_URL = "https://framecn.dev";
 const BRAND = {
-  name: "framecn",
   description:
     "framecn by Shadcn Labs: beautifully designed video components and compositions built on Editframe. framecn Pro unlocks the Node Reveal composition.",
+  name: "framecn",
   statement_descriptor: "FRAMECN",
   // Shadcn Labs' existing support inbox (shadcn-labs.com/src/constants/links.ts).
   support_email: "hello@shadcn-labs.com",
@@ -57,30 +59,44 @@ const oneTimePrice = (price) => ({
   tax_inclusive: false,
   type: "one_time_price",
 });
-// Product names carry a "(2026)" suffix: products from the earlier catalog
-// (including the retired recurring plan) keep their old names and prices, so the
-// "differs from expected price" guard below never trips on them and they are
-// never modified. Archive the old products in the Dodo dashboard once unused.
+// Keep in sync with lib/plans.ts. Early-bird products are sold to the first
+// buyers only (the app switches to the regular product once the cap is hit).
 const PRODUCTS = [
   {
     description: `${SUMMARY} Billed annually; cancel anytime.`,
     key: "DODO_PRODUCT_PRO_ANNUAL",
-    name: "framecn Pro — Annual (2026)",
-    price: recurringPrice(12900, "Year"),
+    name: "framecn Pro — Annual",
+    price: recurringPrice(17_900, "Year"),
+  },
+  {
+    description: `${SUMMARY} Early-bird price, billed annually and kept on renewal; cancel anytime.`,
+    key: "DODO_PRODUCT_PRO_ANNUAL_EARLY",
+    name: "framecn Pro — Annual (Early bird)",
+    price: recurringPrice(14_900, "Year"),
   },
   {
     description: `${SUMMARY} One-time payment; nothing renews.`,
     key: "DODO_PRODUCT_PRO_LIFETIME",
-    name: "framecn Pro — Lifetime (2026)",
-    price: oneTimePrice(24900),
+    name: "framecn Pro — Lifetime",
+    price: oneTimePrice(24_900),
+  },
+  {
+    description: `${SUMMARY} Early-bird price. One-time payment; nothing renews.`,
+    key: "DODO_PRODUCT_PRO_LIFETIME_EARLY",
+    name: "framecn Pro — Lifetime (Early bird)",
+    price: oneTimePrice(20_000),
   },
   {
     description: `${SUMMARY} Lifetime license for up to 10 team members sharing one team API key. One-time payment; nothing renews.`,
     key: "DODO_PRODUCT_PRO_TEAM",
-    name: "framecn Pro — Team (2026)",
-    price: oneTimePrice(49900),
+    name: "framecn Pro — Team",
+    price: oneTimePrice(49_900),
   },
 ];
+const samePrice = (product, spec) =>
+  Object.entries(spec.price).every(
+    ([key, value]) => product.price?.[key] === value
+  );
 const WEBHOOK_EVENTS = [
   "payment.succeeded",
   "refund.succeeded",
@@ -97,7 +113,9 @@ const WEBHOOK_EVENTS = [
   "subscription.expired",
   "subscription.failed",
 ];
-class SetupError extends Error {}
+class SetupError extends Error {
+  name = "SetupError";
+}
 const log = (message) => console.error(message);
 const readEnv = (path) =>
   existsSync(path) ? parseEnv(readFileSync(path, "utf-8")) : {};
@@ -105,11 +123,12 @@ const privateKey = (key, live) =>
   live ? key.replace(/^DODO_/u, "DODO_LIVE_") : key;
 
 // Re-read at write time so auth configuration added by another setup step survives.
-function saveEnv(values) {
+const saveEnv = (values) => {
   let content = existsSync(ENV_FILE) ? readFileSync(ENV_FILE, "utf-8") : "";
   for (const [key, value] of Object.entries(values)) {
-    if (!key.startsWith("DODO_"))
-      {throw new SetupError("Refusing non-Dodo env write.");}
+    if (!key.startsWith("DODO_")) {
+      throw new SetupError("Refusing non-Dodo env write.");
+    }
     const line = `${key}=${JSON.stringify(value)}`;
     const pattern = new RegExp(`^${key}=.*$`, "mu");
     content = pattern.test(content)
@@ -118,15 +137,16 @@ function saveEnv(values) {
   }
   writeFileSync(ENV_FILE, content, { mode: 0o600 });
   chmodSync(ENV_FILE, 0o600);
-}
+};
 
-async function setup() {
-  const args = process.argv.slice(2);
+const parseArgs = (args) => {
   const live = args.includes("--live");
   const credentialFiles = [];
   let webhookUrl;
   for (const arg of args) {
-    if (arg === "--live") {continue;}
+    if (arg === "--live") {
+      continue;
+    }
     if (arg.startsWith("--credentials-from=")) {
       credentialFiles.push(arg.slice("--credentials-from=".length));
     } else if (arg.startsWith("--webhook-url=")) {
@@ -137,13 +157,18 @@ async function setup() {
       );
     }
   }
+  return { credentialFiles, live, webhookUrl };
+};
+
+const resolveApiKey = (live, credentialFiles) => {
   const local = readEnv(ENV_FILE);
   const sources = [
     process.env,
     local,
     ...credentialFiles.map((path) => {
-      if (!existsSync(path))
-        {throw new SetupError("The supplied credentials file does not exist.");}
+      if (!existsSync(path)) {
+        throw new SetupError("The supplied credentials file does not exist.");
+      }
       return readEnv(path);
     }),
   ];
@@ -151,18 +176,19 @@ async function setup() {
     ? "DODO_PAYMENTS_LIVE_API_KEY"
     : "DODO_PAYMENTS_API_KEY";
   const apiKey = sources
-    .map((source) => {
-      if (source[apiKeyName]) {return source[apiKeyName];}
-      if (live && source.DODO_PAYMENTS_ENVIRONMENT === "live_mode") {
-        return source.DODO_PAYMENTS_API_KEY;
-      }
-      return;
-    })
+    .map(
+      (source) =>
+        source[apiKeyName] ||
+        (live && source.DODO_PAYMENTS_ENVIRONMENT === "live_mode"
+          ? source.DODO_PAYMENTS_API_KEY
+          : undefined)
+    )
     .find(Boolean);
-  if (!apiKey)
-    {throw new SetupError(
+  if (!apiKey) {
+    throw new SetupError(
       `Set ${apiKeyName} in .env.local or provide --credentials-from=<env file>.`
-    );}
+    );
+  }
   const environment = live ? "live_mode" : "test_mode";
   if (
     (!live && apiKey.startsWith("dodo_live_")) ||
@@ -181,16 +207,19 @@ async function setup() {
       "The active API key belongs to live mode; supply a test-mode key."
     );
   }
-  const dodo = new DodoPayments({ bearerToken: apiKey, environment });
-  log(`framecn Dodo setup (${environment}).`);
+  return { apiKey, apiKeyName, environment };
+};
+
+const ensureBrand = async (dodo) => {
   const { items: brands } = await dodo.brands.list();
   const matches = brands.filter(
     (brand) => sameName(brand.name, BRAND.name) && brand.url === SITE_URL
   );
-  if (matches.length > 1)
-    {throw new SetupError(
+  if (matches.length > 1) {
+    throw new SetupError(
       "Multiple framecn brands match; resolve the duplicate in Dodo before setup."
-    );}
+    );
+  }
   if (
     !matches.length &&
     brands.some((brand) => sameName(brand.name, BRAND.name))
@@ -203,44 +232,39 @@ async function setup() {
   log(
     `framecn brand ${matches.length ? "reused" : "created"}; enabled=${brand.enabled}; verification=${brand.verification_status}.`
   );
-  const values = {
-    [apiKeyName]: apiKey,
-    [privateKey("DODO_BRAND_ID", live)]: brand.brand_id,
-  };
-  if (!live) {values.DODO_PAYMENTS_ENVIRONMENT = "test_mode";}
-  // Persist successful provisioning before a later API call can fail.
-  saveEnv(values);
+  return brand;
+};
+
+const syncProducts = async (dodo, brand, live, values) => {
   const existing = [];
-  for await (const product of dodo.products.list({
-    archived: false,
-    brand_id: brand.brand_id,
-  })) {
+  for await (const product of dodo.products.list({ archived: false })) {
     existing.push(product);
   }
-  for (const spec of PRODUCTS) {
-    const candidates = existing.filter((product) =>
-      sameName(product.name, spec.name)
-    );
-    if (candidates.length > 1)
-      {throw new SetupError(
-        `Duplicate ${spec.name} products require dashboard review.`
-      );}
-    let product;
-    if (candidates.length) {
-      product = await dodo.products.retrieve(candidates[0].product_id);
-      if (product.brand_id !== brand.brand_id)
-        {throw new SetupError(
-          "Product brand isolation failed; no product was changed."
-        );}
-      const samePrice = Object.entries(spec.price).every(
-        ([key, value]) => product.price[key] === value
-      );
-      if (!samePrice || product.tax_category !== "digital_products") {
-        throw new SetupError(
-          `${spec.name} differs from the expected price/tax configuration; no existing product was changed.`
-        );
-      }
+  // Retire earlier catalogs (other names, prices, or brands) before provisioning.
+  // List items carry a flat price, so compare against the full product.
+  const reusable = new Map();
+  for (const item of existing) {
+    if (!/^framecn pro\b/iu.test(item.name ?? "")) {
+      continue;
+    }
+    const spec = PRODUCTS.find((entry) => sameName(item.name, entry.name));
+    const product = await dodo.products.retrieve(item.product_id);
+    const keep =
+      spec &&
+      !reusable.has(spec.key) &&
+      product.brand_id === brand.brand_id &&
+      product.tax_category === "digital_products" &&
+      samePrice(product, spec);
+    if (keep) {
+      reusable.set(spec.key, product);
     } else {
+      await dodo.products.archive(product.product_id);
+      log(`${product.name} archived.`);
+    }
+  }
+  for (const spec of PRODUCTS) {
+    let product = reusable.get(spec.key);
+    if (!product) {
       product = await dodo.products.create({
         brand_id: brand.brand_id,
         description: spec.description,
@@ -255,82 +279,115 @@ async function setup() {
     }
     values[privateKey(spec.key, live)] = product.product_id;
     saveEnv(values);
-    log(`${spec.name} ${candidates.length ? "reused" : "created"}.`);
+    log(`${spec.name} ${reusable.has(spec.key) ? "reused" : "created"}.`);
   }
+};
+
+const parseWebhookUrl = (webhookUrl) => {
+  let url;
+  try {
+    url = new URL(webhookUrl);
+  } catch {
+    throw new SetupError("Webhook URL must be an absolute HTTPS URL.");
+  }
+  if (
+    url.protocol !== "https:" ||
+    url.username ||
+    url.password ||
+    url.pathname !== "/api/webhooks/dodo" ||
+    url.search ||
+    url.hash
+  ) {
+    throw new SetupError(
+      "Webhook URL must be HTTPS with path /api/webhooks/dodo and no credentials, query, or fragment."
+    );
+  }
+  return url;
+};
+
+const registerWebhook = async (dodo, webhookUrl) => {
+  const url = parseWebhookUrl(webhookUrl);
+  // Protected Vercel previews need the project's automation bypass secret on every request.
+  const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+  const bypassHeaders = bypass ? { "x-vercel-protection-bypass": bypass } : {};
+  let response;
+  try {
+    response = await fetch(url, {
+      headers: bypassHeaders,
+      redirect: "error",
+      signal: AbortSignal.timeout(10_000),
+    });
+  } catch {
+    throw new SetupError(
+      "Webhook health check failed; deploy the route directly at the supplied HTTPS URL first."
+    );
+  }
+  if (!response.ok || response.headers.get("x-framecn-webhook") !== "dodo") {
+    throw new SetupError(
+      "Webhook route is not deployed: GET must succeed with x-framecn-webhook: dodo."
+    );
+  }
+  let hook;
+  for await (const candidate of dodo.webhooks.list()) {
+    if (candidate.url === url.href) {
+      if (!sameName(candidate.description, "framecn")) {
+        throw new SetupError(
+          "This URL belongs to a non-framecn webhook; refusing to modify it."
+        );
+      }
+      hook = candidate;
+    }
+  }
+  if (hook) {
+    const filter = hook.filter_types ?? [];
+    if (
+      hook.disabled ||
+      (filter.length && WEBHOOK_EVENTS.some((event) => !filter.includes(event)))
+    ) {
+      hook = await dodo.webhooks.update(hook.id, {
+        disabled: false,
+        filter_types: filter.length
+          ? [...new Set([...filter, ...WEBHOOK_EVENTS])]
+          : undefined,
+      });
+    }
+  } else {
+    hook = await dodo.webhooks.create({
+      description: "framecn",
+      filter_types: WEBHOOK_EVENTS,
+      url: url.href,
+    });
+  }
+  if (bypass) {
+    await dodo.webhooks.headers.update(hook.id, { headers: bypassHeaders });
+  }
+  return hook;
+};
+
+const setup = async () => {
+  const { credentialFiles, live, webhookUrl } = parseArgs(
+    process.argv.slice(2)
+  );
+  const { apiKey, apiKeyName, environment } = resolveApiKey(
+    live,
+    credentialFiles
+  );
+  const dodo = new DodoPayments({ bearerToken: apiKey, environment });
+  log(`framecn Dodo setup (${environment}).`);
+  const brand = await ensureBrand(dodo);
+  const values = {
+    [apiKeyName]: apiKey,
+    [privateKey("DODO_BRAND_ID", live)]: brand.brand_id,
+  };
+  if (!live) {
+    values.DODO_PAYMENTS_ENVIRONMENT = "test_mode";
+  }
+  // Persist successful provisioning before a later API call can fail.
+  saveEnv(values);
+  await syncProducts(dodo, brand, live, values);
   const webhookKeyName = privateKey("DODO_PAYMENTS_WEBHOOK_KEY", live);
   if (webhookUrl) {
-    let url;
-    try {
-      url = new URL(webhookUrl);
-    } catch {
-      throw new SetupError("Webhook URL must be an absolute HTTPS URL.");
-    }
-    if (
-      url.protocol !== "https:" ||
-      url.username ||
-      url.password ||
-      url.pathname !== "/api/webhooks/dodo" ||
-      url.search ||
-      url.hash
-    ) {
-      throw new SetupError(
-        "Webhook URL must be HTTPS with path /api/webhooks/dodo and no credentials, query, or fragment."
-      );
-    }
-    // Protected Vercel previews need the project's automation bypass secret on every request.
-    const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-    const bypassHeaders = bypass ? { "x-vercel-protection-bypass": bypass } : {};
-    let response;
-    try {
-      response = await fetch(url, {
-        headers: bypassHeaders,
-        redirect: "error",
-        signal: AbortSignal.timeout(10_000),
-      });
-    } catch {
-      throw new SetupError(
-        "Webhook health check failed; deploy the route directly at the supplied HTTPS URL first."
-      );
-    }
-    if (!response.ok || response.headers.get("x-framecn-webhook") !== "dodo") {
-      throw new SetupError(
-        "Webhook route is not deployed: GET must succeed with x-framecn-webhook: dodo."
-      );
-    }
-    let hook;
-    for await (const candidate of dodo.webhooks.list()) {
-      if (candidate.url === url.href) {
-        if (!sameName(candidate.description, "framecn"))
-          {throw new SetupError(
-            "This URL belongs to a non-framecn webhook; refusing to modify it."
-          );}
-        hook = candidate;
-      }
-    }
-    if (hook) {
-      const filter = hook.filter_types ?? [];
-      if (
-        hook.disabled ||
-        (filter.length &&
-          WEBHOOK_EVENTS.some((event) => !filter.includes(event)))
-      ) {
-        hook = await dodo.webhooks.update(hook.id, {
-          disabled: false,
-          filter_types: filter.length
-            ? [...new Set([...filter, ...WEBHOOK_EVENTS])]
-            : undefined,
-        });
-      }
-    } else {
-      hook = await dodo.webhooks.create({
-        description: "framecn",
-        filter_types: WEBHOOK_EVENTS,
-        url: url.href,
-      });
-    }
-    if (bypass) {
-      await dodo.webhooks.headers.update(hook.id, { headers: bypassHeaders });
-    }
+    const hook = await registerWebhook(dodo, webhookUrl);
     const { secret } = await dodo.webhooks.retrieveSecret(hook.id);
     values[webhookKeyName] = secret;
     values[privateKey("DODO_WEBHOOK_ID", live)] = hook.id;
@@ -347,17 +404,21 @@ async function setup() {
   log(
     `Saved ${live ? "inactive live" : "active test"} Dodo values privately to .env.local; non-Dodo variables preserved.`
   );
-}
+};
 
-setup().catch((error) => {
-  if (error instanceof SetupError) {log(error.message);}
-  else if (error instanceof DodoPayments.APIError)
-    {log(
+try {
+  await setup();
+} catch (error) {
+  if (error instanceof SetupError) {
+    log(error.message);
+  } else if (error instanceof APIError) {
+    log(
       `Dodo API request failed (HTTP ${error.status ?? "unknown"}); no API response or secrets printed.`
-    );}
-  else
-    {log(
+    );
+  } else {
+    log(
       "Dodo setup failed; inspect local configuration and network access. Error details suppressed to protect credentials."
-    );}
+    );
+  }
   process.exitCode = 1;
-});
+}

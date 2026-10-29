@@ -14,14 +14,18 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Frame } from "@/components/ui/frame";
 import { getProAccess, getSession } from "@/lib/auth";
-import { billingCustomerId, getBillingConfigurationError } from "@/lib/billing";
-import { PLANS } from "@/lib/plans";
+import {
+  billingCustomerId,
+  getBillingConfigurationError,
+  getPlanOffers,
+} from "@/lib/billing";
+import { EARLY_BIRD_LIMIT, PLANS } from "@/lib/plans";
 import type { PlanSlug } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
 export const metadata = {
   description:
-    "framecn is free to use. Pro is $129 a year, $249 lifetime, or $499 lifetime for teams of up to 10.",
+    "framecn is free to use. Pro is $179 a year or $249 lifetime, with early-bird pricing of $149 a year or $200 lifetime for the first 50 buyers. Team is $499 lifetime for up to 10 people.",
   title: "Pricing — framecn",
 };
 
@@ -108,6 +112,7 @@ export default async function PricingPage() {
     ? await billingCustomerId(session.user.email)
     : null;
   const configurationError = getBillingConfigurationError();
+  const offers = await getPlanOffers();
   return (
     <section className="container-page flex-1 py-12 md:py-16">
       <div className="mb-10">
@@ -163,6 +168,7 @@ export default async function PricingPage() {
         {PLANS.map((plan) => {
           const highlight = plan.slug === "lifetime";
           const missingProduct = !process.env[plan.env];
+          const offer = offers[plan.slug];
           const features = PLAN_FEATURES[plan.slug];
           return (
             <Frame
@@ -188,10 +194,15 @@ export default async function PricingPage() {
                 )}
               >
                 <h2 className="font-medium">{plan.name}</h2>
-                <p className="mt-6">
+                <p className="mt-6 flex items-baseline">
                   <span className="text-4xl font-semibold tracking-tight">
-                    {plan.price}
+                    {offer.price}
                   </span>
+                  {offer.earlyBirdLeft === null ? null : (
+                    <s className="text-muted-foreground ml-2 text-lg">
+                      {offer.regularPrice}
+                    </s>
+                  )}
                   <span className="text-muted-foreground ml-1.5 text-sm">
                     {plan.interval}
                   </span>
@@ -199,6 +210,12 @@ export default async function PricingPage() {
                 <p className="text-muted-foreground mt-1 text-xs">
                   {plan.note}
                 </p>
+                {offer.earlyBirdLeft === null ? null : (
+                  <Badge variant="brand" className="mt-3">
+                    Early bird · {offer.earlyBirdLeft} of {EARLY_BIRD_LIMIT}{" "}
+                    left
+                  </Badge>
+                )}
                 <div className="mt-6">
                   <BillingButton
                     plan={plan.slug}

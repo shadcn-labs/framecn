@@ -13,8 +13,6 @@
 
 ## Behavior changes
 
-
-
 ## Verify by hand
 
 - Toggle on/off: pressed styles + correct sound each time.

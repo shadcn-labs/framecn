@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { ComponentDetail } from "@/components/component-detail";
 import { ComponentSource } from "@/components/component-source";
 import { getProAccess } from "@/lib/auth";
+import { getPlanOffers } from "@/lib/billing";
 import { CATALOG } from "@/lib/catalog";
 import { getComponentDoc } from "@/lib/component-docs";
 import { mdxComponents } from "@/mdx-components";
@@ -15,6 +16,7 @@ export const ComponentDetailPage = async ({ name }: { name: string }) => {
   }
 
   const canAccess = !item.pro || (await getProAccess());
+  const offers = canAccess ? null : await getPlanOffers();
   const doc = getComponentDoc(item.id);
 
   return (
@@ -24,6 +26,7 @@ export const ComponentDetailPage = async ({ name }: { name: string }) => {
       <ComponentDetail
         item={item}
         canAccess={canAccess}
+        offers={offers}
         source={
           canAccess ? (
             <Suspense

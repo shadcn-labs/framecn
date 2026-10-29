@@ -15,7 +15,7 @@ import {
 import { ROUTES } from "@/constants/routes";
 import { CATALOG } from "@/lib/catalog";
 import type { CatalogItem } from "@/lib/catalog";
-import { findPlan } from "@/lib/plans";
+import type { PlanOffers } from "@/lib/plans";
 
 const PRO_ITEM_COUNT = CATALOG.filter((item) => item.pro).length;
 
@@ -27,16 +27,16 @@ const FEATURES = [
 
 export const ProUnlockDialog = ({
   item,
+  offers,
   open,
   onOpenChange,
 }: {
   item: CatalogItem;
+  offers: PlanOffers;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
-  const lifetime = findPlan("lifetime");
-  const team = findPlan("team");
-  const annual = findPlan("annual");
+  const { annual, lifetime, team } = offers;
   return (
     <Dialog open={open} onOpenChange={onOpenChange} sounds>
       <DialogContent className="gap-0 p-8 text-center sm:max-w-md">
@@ -65,22 +65,28 @@ export const ProUnlockDialog = ({
         </ul>
         <div className="mt-8">
           <BillingButton plan="lifetime" highlight>
-            Get lifetime access – {lifetime?.price}
+            Get lifetime access – {lifetime.price}
           </BillingButton>
+          {lifetime.earlyBirdLeft === null ? null : (
+            <p className="text-muted-foreground mt-2 text-xs">
+              Early-bird price, regularly <s>{lifetime.regularPrice}</s> ·{" "}
+              {lifetime.earlyBirdLeft} left
+            </p>
+          )}
         </div>
         <p className="text-muted-foreground mt-4 text-sm">
           <Link
             href={ROUTES.PRICING}
             className="underline-offset-4 hover:underline"
           >
-            Team · 10 seats {team?.price}
+            Team · 10 seats {team.price}
           </Link>
           {" · "}
           <Link
             href={ROUTES.PRICING}
             className="underline-offset-4 hover:underline"
           >
-            or {annual?.price}/year
+            or {annual.price}/year
           </Link>
         </p>
       </DialogContent>

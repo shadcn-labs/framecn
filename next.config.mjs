@@ -115,19 +115,25 @@ const previousComponentRedirects = CATALOG.flatMap((item) => [
 /** The former Templates section and its `/templates/<id>` detail URLs; compositions now live under /components. */
 const LEGACY_TEMPLATES = "/templates";
 const previousTemplateRedirects = [
-  { destination: "/components/compositions", permanent: true, source: LEGACY_TEMPLATES },
-  ...CATALOG.filter((item) => item.category === "compositions").flatMap((item) => [
-    {
-      destination: catalogItemHref(item),
-      permanent: true,
-      source: `${LEGACY_TEMPLATES}/${item.id}`,
-    },
-    {
-      destination: `${catalogItemHref(item)}.md`,
-      permanent: true,
-      source: `${LEGACY_TEMPLATES}/${item.id}.md`,
-    },
-  ]),
+  {
+    destination: "/components/compositions",
+    permanent: true,
+    source: LEGACY_TEMPLATES,
+  },
+  ...CATALOG.filter((item) => item.category === "compositions").flatMap(
+    (item) => [
+      {
+        destination: catalogItemHref(item),
+        permanent: true,
+        source: `${LEGACY_TEMPLATES}/${item.id}`,
+      },
+      {
+        destination: `${catalogItemHref(item)}.md`,
+        permanent: true,
+        source: `${LEGACY_TEMPLATES}/${item.id}.md`,
+      },
+    ]
+  ),
 ];
 
 /** @type {import('next').NextConfig} */

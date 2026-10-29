@@ -6,10 +6,12 @@ import type { Payment } from "dodopayments/resources/payments";
 import type { Subscription } from "dodopayments/resources/subscriptions";
 import {
   and,
+  count,
   desc,
   eq,
   gt,
   gte,
+  inArray,
   isNull,
   lte,
   notExists,
@@ -26,8 +28,69 @@ import {
   billingPayment,
   billingWebhook,
 } from "@/lib/db/schema";
-import { findPlan, PLANS } from "@/lib/plans";
-import type { PlanSlug } from "@/lib/plans";
+import { EARLY_BIRD_LIMIT, findPlan, PLANS } from "@/lib/plans";
+import type { Plan, PlanOffers, PlanSlug } from "@/lib/plans";
+
+/** Dodo product ids that sell these plans, regular and early bird. */
+const productIdsFor = (plans: readonly Plan[]) =>
+  plans
+    .flatMap((plan) =>
+      plan.earlyBird ? [plan.env, plan.earlyBird.env] : [plan.env]
+    )
+    .flatMap((name) => process.env[name] || []);
+
+/**
+ * Early-bird seats left per plan slug. A seat is used by every unrefunded
+ * early-bird purchase, including subscriptions that later lapsed. Checkouts in
+ * flight are not counted, so the last seats can oversell by a few.
+ */
+const earlyBirdSeatsLeft = async () => {
+  const products = new Map(
+    PLANS.flatMap((plan) => {
+      const id = plan.earlyBird && process.env[plan.earlyBird.env];
+      return id ? [[id, plan.slug] as const] : [];
+    })
+  );
+  const left = new Map<PlanSlug, number>();
+  if (products.size === 0) {
+    return left;
+  }
+  for (const slug of products.values()) {
+    left.set(slug, EARLY_BIRD_LIMIT);
+  }
+  const rows = await getDb()
+    .select({ productId: billingEntitlement.productId, sold: count() })
+    .from(billingEntitlement)
+    .where(
+      and(
+        inArray(billingEntitlement.productId, [...products.keys()]),
+        isNull(billingEntitlement.refundedAt)
+      )
+    )
+    .groupBy(billingEntitlement.productId);
+  for (const row of rows) {
+    const slug = products.get(row.productId);
+    if (slug) {
+      left.set(slug, Math.max(0, EARLY_BIRD_LIMIT - row.sold));
+    }
+  }
+  return left;
+};
+
+/** Current price of every plan, early bird while seats remain. */
+export const getPlanOffers = async (): Promise<PlanOffers> => {
+  const left = await earlyBirdSeatsLeft();
+  const offers = {} as PlanOffers;
+  for (const plan of PLANS) {
+    const seats = left.get(plan.slug) ?? 0;
+    offers[plan.slug] = {
+      earlyBirdLeft: plan.earlyBird && seats > 0 ? seats : null,
+      price: plan.earlyBird && seats > 0 ? plan.earlyBird.price : plan.price,
+      regularPrice: plan.price,
+    };
+  }
+  return offers;
+};
 
 /** Purchases are keyed by email; compare them case-insensitively. */
 export const normalizeEmail = (email: string) => email.trim().toLowerCase();
@@ -92,9 +155,16 @@ export const createCheckout = async (buyer: Buyer | null, slug: PlanSlug) => {
     throw new Error(error);
   }
   const plan = findPlan(slug);
-  const productId = plan ? process.env[plan.env] : undefined;
-  if (!(plan && productId)) {
-    throw new Error(`Billing is not configured: ${plan?.env} is missing.`);
+  if (!plan) {
+    throw new Error(`Unknown plan: ${slug}`);
+  }
+  const seatsLeft = await earlyBirdSeatsLeft();
+  const productId =
+    plan.earlyBird && (seatsLeft.get(plan.slug) ?? 0) > 0
+      ? process.env[plan.earlyBird.env]
+      : process.env[plan.env];
+  if (!productId) {
+    throw new Error(`Billing is not configured: ${plan.env} is missing.`);
   }
   const session = await getDodo().checkoutSessions.create(
     {
@@ -158,7 +228,7 @@ export const getCheckoutPayment = async (
     }
     throw error;
   }
-  const products = new Set(PLANS.map((plan) => process.env[plan.env]));
+  const products = new Set(productIdsFor(PLANS));
   let ours =
     payment.product_cart?.some((item) => products.has(item.product_id)) ??
     false;
@@ -252,12 +322,9 @@ const subscriptionStatus = (subscription: Subscription, disputed: boolean) => {
   if (disputed) {
     return "disputed";
   }
-  const plan = PLANS.find(
-    (item) =>
-      item.kind === "subscription" &&
-      process.env[item.env] &&
-      process.env[item.env] === subscription.product_id
-  );
+  const plan = productIdsFor(
+    PLANS.filter((item) => item.kind === "subscription")
+  ).includes(subscription.product_id);
   // A cancellation scheduled for the period end keeps access until then.
   const scheduledCancellation =
     subscription.status === "cancelled" &&
@@ -359,13 +426,11 @@ const writePayment = async (db: Db, payment: Payment, eventAt: number) => {
       target: billingPayment.paymentId,
     });
   // One-time plans (lifetime, team) grant access with no expiry.
-  const lifetime = PLANS.filter((plan) => plan.kind === "one_time")
-    .map((plan) => process.env[plan.env])
-    .find(
-      (productId) =>
-        productId &&
-        payment.product_cart?.some((item) => item.product_id === productId)
-    );
+  const lifetime = productIdsFor(
+    PLANS.filter((plan) => plan.kind === "one_time")
+  ).find((productId) =>
+    payment.product_cart?.some((item) => item.product_id === productId)
+  );
   if (!lifetime) {
     return;
   }

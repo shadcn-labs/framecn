@@ -67,6 +67,7 @@ import { CATALOG, CATEGORY_LABELS, catalogItemHref } from "@/lib/catalog";
 import type { CatalogItem } from "@/lib/catalog";
 import { componentPrompt } from "@/lib/component-prompt";
 import type { ComponentConfig } from "@/lib/customizer-config";
+import type { PlanOffers } from "@/lib/plans";
 import {
   PRO_API_KEY_ENV,
   PRO_REGISTRY_NAMESPACE,
@@ -446,11 +447,14 @@ export const ComponentDetail = ({
   canAccess,
   source,
   docs,
+  offers,
 }: {
   item: CatalogItem;
   canAccess: boolean;
   source: React.ReactNode;
   docs: React.ReactNode;
+  /** Current Pro prices; only set while the item is locked. */
+  offers: PlanOffers | null;
 }) => {
   const router = useRouter();
   const { close, phase, claimEnter } = usePanel();
@@ -845,9 +849,10 @@ export const ComponentDetail = ({
         </Drawer>
       )}
 
-      {item.pro && !canAccess && (
+      {offers && (
         <ProUnlockDialog
           item={item}
+          offers={offers}
           open={unlockOpen}
           onOpenChange={setUnlockOpen}
         />

@@ -13,8 +13,6 @@
 
 ## Behavior changes
 
-
-
 ## Verify by hand
 
 - Frame with `render={<Link/>}` keeps shell classes and navigates.
