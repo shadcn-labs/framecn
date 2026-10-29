@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import { useQueryStates } from "nuqs";
 import { useMemo } from "react";
 
-import { getDefaults } from "@/lib/customizer-config";
+import { getDefaults, resolveComposition } from "@/lib/customizer-config";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { buildParsers } from "@/lib/url";
 import { resolved, THEME } from "@/lib/video-theme";
@@ -57,14 +57,21 @@ export const useCustomizer = (
     const color =
       values.color ?? resolved(mode, THEME.text.light, THEME.text.dark);
 
+    // The resolved frame and length: components with a `format` control or
+    // timing controls read them from these props.
+    const { durationInFrames, height, width } = resolveComposition(
+      config,
+      values as Record<string, unknown>
+    );
+
     return {
       ...values,
       background,
       color,
-      durationInFrames: config.durationInFrames,
+      durationInFrames,
       fps: config.fps,
-      height: config.compositionHeight,
-      width: config.compositionWidth,
+      height,
+      width,
     };
   }, [values, config, resolvedTheme]);
 

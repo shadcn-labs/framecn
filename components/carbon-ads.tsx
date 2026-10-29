@@ -1,24 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
-
-declare global {
-  interface Window {
-    _carbonads?: {
-      refresh: () => void;
-    };
-  }
-}
 
 const SCRIPT_ID = "_carbonads_js";
 
 let host: HTMLDivElement | null = null;
 let blocked = false;
 let onBlocked: (() => void) | null = null;
-let lastPathname: string | null = null;
 
 const getHost = (src: string) => {
   if (host) {
@@ -54,7 +44,6 @@ export const CarbonAds = ({
   format = "responsive",
   className,
 }: CarbonAdsProps) => {
-  const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isBlocked, setIsBlocked] = useState(blocked);
 
@@ -77,13 +66,6 @@ export const CarbonAds = ({
       onBlocked = null;
     };
   }, [serve, placement, format]);
-
-  useEffect(() => {
-    if (lastPathname !== null && lastPathname !== pathname) {
-      window._carbonads?.refresh();
-    }
-    lastPathname = pathname;
-  }, [pathname]);
 
   if (isBlocked) {
     return null;

@@ -1,15 +1,7 @@
 /* eslint-disable no-inline-comments -- turbopackIgnore must annotate dynamic imports inline. */
-import type { Node as PageTreeNode } from "fumadocs-core/page-tree";
-
 import { ROUTES } from "@/constants/routes";
-import { isCatalogFolder } from "@/lib/docs";
-import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
-import type { PageTreeFolder } from "@/lib/page-tree";
+import { CATALOG } from "@/lib/catalog";
 import { absoluteUrl } from "@/lib/utils";
-
-interface DocsPageTree {
-  children: PageTreeNode[];
-}
 
 const CODE_FENCE_REGEX = /```[\s\S]*?```/g;
 const COMPONENT_PREVIEW_REGEX =
@@ -19,8 +11,6 @@ const IMPORT_REGEX = /^import\s.+$/gm;
 const JSX_WRAPPER_REGEX = /^<\/?[A-Z][^>]*>\s*$/gm;
 const MANY_BLANK_LINES_REGEX = /\n{3,}/g;
 const PROTECTED_CODE_FENCE_REGEX = /%%STARTERCN_CODE_FENCE_(\d+)%%/g;
-const SELF_CLOSING_COMPONENTS_LIST_REGEX =
-  /<ComponentsList(?:\s+folderName="([^"]+)")?\s*\/>/g;
 
 const removeFrontmatter = (content: string) =>
   content.replace(/^---\n[\s\S]*?\n---\n?/, "");
@@ -55,65 +45,35 @@ const normalizeDocsMarkdownLinks = (content: string) =>
       )
     : content;
 
-const componentListMarkdown = (
-  pageTree: DocsPageTree,
-  folderName = "Components"
-) => {
-  const folder = pageTree.children.find(
-    (node): node is PageTreeFolder =>
-      node.type === "folder" && node.name === folderName
-  );
-
-  if (!folder) {
-    return "";
-  }
-
-  const pages = (
-    isCatalogFolder(folder)
-      ? getAllPagesFromFolder(folder)
-      : getPagesFromFolder(folder)
-  ).filter((page) => page.url !== ROUTES.DOCS_COMPONENTS);
-
-  return pages
-    .map((page) => `- [${page.name}](${docsMarkdownUrl(page.url)})`)
-    .join("\n");
-};
-
-const componentSourceMarkdown = async (
+export const componentSourceMarkdown = async (
   name: string,
   src?: string,
   title?: string
 ) => {
-  const guessedPaths = src
-    ? [src]
-    : [
-        `registry/new-york/${name}.tsx`,
-        `components/${name}.tsx`,
-        `components/ui/${name}.tsx`,
-      ];
+  const item = CATALOG.find(
+    (entry) =>
+      entry.id === name ||
+      src === `registry/bases/editframe/components/${entry.id}/index.tsx`
+  );
+
+  if (!item || item.pro) {
+    return "";
+  }
+
+  const sourcePath = `registry/bases/editframe/components/${item.id}/index.tsx`;
 
   const [{ readFile }, path] = await Promise.all([
     import(/* turbopackIgnore: true */ "node:fs/promises"),
     import(/* turbopackIgnore: true */ "node:path"),
   ]);
 
-  for (const guessedPath of guessedPaths) {
-    try {
-      const code = await readFile(
-        path.join(process.cwd(), guessedPath),
-        "utf-8"
-      );
-      if (code) {
-        const lang =
-          title?.split(".").pop() ?? guessedPath.split(".").pop() ?? "tsx";
-        return `\`\`\`${lang}\n${code.trim()}\n\`\`\``;
-      }
-    } catch {
-      // Try the next source path.
-    }
+  try {
+    const code = await readFile(path.join(process.cwd(), sourcePath), "utf-8");
+    const lang = title?.split(".").pop() ?? "tsx";
+    return `\`\`\`${lang}\n${code.trim()}\n\`\`\``;
+  } catch {
+    return "";
   }
-
-  return "";
 };
 
 const previewAttrs = (attrs: string) => ({
@@ -122,16 +82,9 @@ const previewAttrs = (attrs: string) => ({
   title: attrs.match(/\stitle="([^"]+)"/)?.[1],
 });
 
-export const processMdxForLLMs = async (
-  raw: string,
-  pageTree: DocsPageTree
-) => {
+export const processMdxForLLMs = async (raw: string) => {
   const protectedFences = protectCodeFences(removeFrontmatter(raw));
-  let content = protectedFences.content
-    .replaceAll(IMPORT_REGEX, "")
-    .replaceAll(SELF_CLOSING_COMPONENTS_LIST_REGEX, (_, folderName) =>
-      componentListMarkdown(pageTree, folderName)
-    );
+  let content = protectedFences.content.replaceAll(IMPORT_REGEX, "");
 
   const previews = [...content.matchAll(COMPONENT_PREVIEW_REGEX)];
   if (previews.length > 0) {

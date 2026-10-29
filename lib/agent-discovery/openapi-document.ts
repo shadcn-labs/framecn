@@ -1,7 +1,7 @@
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-import { homeContentRoute } from "@/lib/docs";
+import { componentContentRoute, homeContentRoute } from "@/lib/docs";
 
 export const buildOpenApiDocument = (
   origin: string
@@ -115,6 +115,29 @@ export const buildOpenApiDocument = (
           summary: "shadcn/ui component registry index",
         },
       },
+      "/r/pro/{name}.json": {
+        get: {
+          parameters: [
+            {
+              in: "path",
+              name: "name",
+              required: true,
+              schema: { type: "string" },
+            },
+          ],
+          responses: {
+            "200": {
+              content: { "application/json": { schema: { type: "object" } } },
+              description: "shadcn registry item for a Pro component",
+            },
+            "401": { description: "Missing or invalid API key" },
+            "403": { description: "No active Pro plan" },
+            "404": { description: "Not a Pro component" },
+          },
+          summary:
+            "Authenticated framecn Pro registry item (Authorization: Bearer FRAMECN_API_KEY)",
+        },
+      },
       [ROUTES.DOCS]: {
         get: {
           responses: {
@@ -135,6 +158,23 @@ export const buildOpenApiDocument = (
             "200": { description: "Homepage markdown headers" },
           },
           summary: "Homepage markdown headers",
+        },
+      },
+      [`${componentContentRoute}/{name}/content.md`]: {
+        get: {
+          parameters: [
+            {
+              in: "path",
+              name: "name",
+              required: true,
+              schema: { type: "string" },
+            },
+          ],
+          responses: {
+            "200": { description: "Component documentation markdown" },
+            "404": { description: "Unknown component" },
+          },
+          summary: "Component documentation markdown export",
         },
       },
     },

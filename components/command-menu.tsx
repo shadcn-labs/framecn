@@ -5,7 +5,7 @@ import {
   ArrowRightIcon,
   CornerDownLeftIcon,
   CircleDashedIcon,
-  SquareDashedIcon,
+  SearchIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -36,54 +36,25 @@ import { useIsMac } from "@/hooks/use-is-mac";
 import { useMutationObserver } from "@/hooks/use-mutation-observer";
 import { usePackageManager } from "@/hooks/use-package-manager";
 import {
-  EXCLUDED_SECTIONS,
-  isComponentsFolder,
-  isShadersFolder,
-  isUiFolder,
-} from "@/lib/docs";
+  CATALOG,
+  CATEGORY_LABELS,
+  catalogItemHref,
+  findCatalogItemByPath,
+} from "@/lib/catalog";
+import { EXCLUDED_SECTIONS } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
-import {
-  getCatalogSubfolder,
-  getFoldersFromFolder,
-  getPagesFromFolder,
-} from "@/lib/page-tree";
+import { getPagesFromFolder } from "@/lib/page-tree";
+import { PRO_REGISTRY_NAMESPACE } from "@/lib/pro-install";
 import { cn } from "@/lib/utils";
 
-type DocUrlKind =
-  | { kind: "theme"; slug: string }
-  | { kind: "component"; slug: string }
-  | { kind: "template"; slug: string }
-  | { kind: "page" };
+type DocUrlKind = { kind: "component"; slug: string } | { kind: "page" };
 
 const GROUP_HEADING_CLS =
-  "!p-0 [&_[cmdk-group-heading]]:scroll-mt-16 [&_[cmdk-group-heading]]:!p-3 [&_[cmdk-group-heading]]:!pb-1";
+  "[--command-group-padding:0px] !p-0 [&_[cmdk-group-heading]]:scroll-mt-16 [&_[cmdk-group-heading]]:!p-3 [&_[cmdk-group-heading]]:!pb-1";
 
 const parseDocPageUrl = (url: string): DocUrlKind => {
-  const parts = url.split("/").filter(Boolean);
-  const themesIdx = parts.indexOf("themes");
-  if (themesIdx !== -1 && parts[themesIdx + 1]) {
-    return { kind: "theme", slug: parts[themesIdx + 1] };
-  }
-  const componentsIdx = parts.indexOf("components");
-  if (componentsIdx !== -1 && parts[componentsIdx + 1]) {
-    return { kind: "component", slug: parts.at(-1) ?? "" };
-  }
-  const shadersIdx = parts.indexOf("shaders");
-  if (shadersIdx !== -1 && parts[shadersIdx + 1]) {
-    return { kind: "component", slug: parts.at(-1) ?? "" };
-  }
-  const templatesIdx = parts.indexOf("templates");
-  if (templatesIdx !== -1 && parts[templatesIdx + 1]) {
-    return { kind: "template", slug: parts.at(-1) ?? "" };
-  }
-  return { kind: "page" };
-};
-
-const searchKeywordsFromUrl = (url: string) => {
-  const segments = url.split("/").filter(Boolean);
-  return segments.flatMap((segment) =>
-    segment.includes("-") ? [segment, ...segment.split("-")] : [segment]
-  );
+  const item = findCatalogItemByPath(url);
+  return item ? { kind: "component", slug: item.id } : { kind: "page" };
 };
 
 const buildDocPageKeywords = (
@@ -93,28 +64,13 @@ const buildDocPageKeywords = (
 ): string[] => [
   ...(parsed.kind === "page" ? [] : [parsed.kind]),
   ...breadcrumb.filter(Boolean).flatMap((s) => [s, s.toLowerCase()]),
-  ...searchKeywordsFromUrl(url),
+  ...url
+    .split("/")
+    .filter(Boolean)
+    .flatMap((segment) =>
+      segment.includes("-") ? [segment, ...segment.split("-")] : [segment]
+    ),
 ];
-
-const DocPageLeadingIcon = ({ parsed }: { parsed: DocUrlKind }) => {
-  // if (parsed.kind === "theme") {
-  //   const color = themePrimaryBySlug[parsed.slug];
-  //   return (
-  //     <span
-  //       className="border-border/60 size-4 shrink-0 rounded-sm border"
-  //       style={color ? { backgroundColor: color } : undefined}
-  //       aria-hidden
-  //     />
-  //   );
-  // }
-  if (parsed.kind === "component") {
-    return <CircleDashedIcon />;
-  }
-  if (parsed.kind === "template") {
-    return <SquareDashedIcon />;
-  }
-  return <ArrowRightIcon />;
-};
 
 const CommandMenuItem = ({
   children,
@@ -144,7 +100,7 @@ const CommandMenuItem = ({
     <CommandItem
       ref={ref}
       className={cn(
-        "data-[selected=true]:border-input data-[selected=true]:bg-input/50 h-9 rounded-md border border-transparent px-3! font-medium",
+        "data-[selected=true]:border-input data-[selected=true]:bg-input/50 h-9 rounded-[var(--command-item-radius)] border border-transparent px-3! font-medium",
         className
       )}
       {...props}
@@ -155,12 +111,10 @@ const CommandMenuItem = ({
 };
 
 export const CommandMenu = ({
-  blocks,
   navItems,
   tree,
   ...props
-}: React.ComponentProps<typeof Dialog> & {
-  blocks?: { name: string; description: string; categories: string[] }[];
+}: Omit<React.ComponentProps<typeof Dialog>, "children"> & {
   navItems: { href: string; label: string }[];
   tree: PageTreeRoot;
 }) => {
@@ -194,40 +148,6 @@ export const CommandMenu = ({
         continue;
       }
 
-      if (isComponentsFolder(item) || isUiFolder(item)) {
-        for (const category of getFoldersFromFolder(item)) {
-          const pages = getPagesFromFolder(category, false).map((p) => ({
-            name: typeof p.name === "string" ? p.name : String(p.name),
-            url: p.url,
-          }));
-          if (pages.length > 0) {
-            groups.push({
-              label:
-                typeof category.name === "string"
-                  ? category.name
-                  : String(category.name),
-              pages,
-            });
-          }
-        }
-        continue;
-      }
-
-      if (isShadersFolder(item)) {
-        const shaderPagesFolder =
-          getCatalogSubfolder(item, "components") ?? item;
-        const pages = getPagesFromFolder(shaderPagesFolder, false).map((p) => ({
-          name: typeof p.name === "string" ? p.name : String(p.name),
-          url: p.url,
-        }));
-        if (pages.length > 0) {
-          groups.push({
-            label: "Shaders",
-            pages,
-          });
-        }
-        continue;
-      }
       const pages = getPagesFromFolder(item).map((p) => ({
         name: typeof p.name === "string" ? p.name : String(p.name),
         url: p.url,
@@ -239,6 +159,17 @@ export const CommandMenu = ({
         });
       }
     }
+    for (const [category, label] of Object.entries(CATEGORY_LABELS)) {
+      const pages = CATALOG.filter((entry) => entry.category === category).map(
+        (entry) => ({
+          name: entry.name,
+          url: catalogItemHref(entry),
+        })
+      );
+      if (pages.length > 0) {
+        groups.push({ label, pages });
+      }
+    }
     return groups;
   }, [tree]);
 
@@ -246,21 +177,14 @@ export const CommandMenu = ({
     (item: { url: string; name?: string }) => {
       setShowGoToPage(true);
       const parsed = parseDocPageUrl(item.url);
-      if (parsed.kind === "component" || parsed.kind === "template") {
+      if (parsed.kind === "component") {
+        const pro = CATALOG.find((entry) => entry.id === parsed.slug)?.pro;
         setCopyPayload(
-          `${packageManager} dlx shadcn@latest add ${SITE.REGISTRY}/${parsed.slug}`
+          `${packageManager} dlx shadcn@latest add ${pro ? PRO_REGISTRY_NAMESPACE : SITE.REGISTRY}/${parsed.slug}`
         );
         return;
       }
       setCopyPayload("");
-    },
-    [packageManager]
-  );
-
-  const handleBlockHighlight = useCallback(
-    (block: { name: string; description: string; categories: string[] }) => {
-      setShowGoToPage(true);
-      setCopyPayload(`${packageManager} dlx shadcn@latest add ${block.name}`);
     },
     [packageManager]
   );
@@ -297,7 +221,11 @@ export const CommandMenu = ({
         onHighlight={() => handleDocPageHighlight({ name: title, url })}
         onSelect={() => runCommand(() => router.push(url))}
       >
-        <DocPageLeadingIcon parsed={parsed} />
+        {parsed.kind === "component" ? (
+          <CircleDashedIcon />
+        ) : (
+          <ArrowRightIcon />
+        )}
         {title}
       </CommandMenuItem>
     );
@@ -349,33 +277,31 @@ export const CommandMenu = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen} sounds>
-      <DialogTrigger asChild>
-        <Button
-          variant="secondary"
-          className={cn(
-            "bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64"
-          )}
-          onClick={handleOpenClick}
-          {...props}
-        >
-          <span className="hidden lg:inline-flex">Search documentation...</span>
-          <span className="inline-flex lg:hidden">Search...</span>
-          <div className="absolute top-1.5 right-1.5 hidden gap-1 sm:flex">
-            <Kbd>{isMac ? "⌘" : "Ctrl"}</Kbd>
-            <Kbd className="aspect-square">K</Kbd>
-          </div>
-        </Button>
+      <DialogTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Search"
+            title={`Search (${isMac ? "⌘" : "Ctrl"} K)`}
+            className="text-muted-foreground size-8"
+            onClick={handleOpenClick}
+            {...props}
+          />
+        }
+      >
+        <SearchIcon />
       </DialogTrigger>
       <DialogContent
         showCloseButton={false}
-        className="rounded-xl border-none bg-clip-padding p-2 pb-11 shadow-2xl ring-4 ring-neutral-200/80 dark:bg-neutral-900 dark:ring-neutral-800"
+        className="[--command-dialog-radius:var(--radius-xl)] rounded-[var(--command-dialog-radius)] p-2 pb-11"
       >
         <DialogHeader className="sr-only">
           <DialogTitle>Search documentation...</DialogTitle>
           <DialogDescription>Search for a command to run...</DialogDescription>
         </DialogHeader>
         <Command
-          className="**:data-[slot=command-input-wrapper]:bg-input/50 **:data-[slot=command-input-wrapper]:border-input rounded-none bg-transparent **:data-[slot=command-input]:h-9! **:data-[slot=command-input]:py-0 **:data-[slot=command-input-wrapper]:mb-0 **:data-[slot=command-input-wrapper]:h-9! **:data-[slot=command-input-wrapper]:rounded-md **:data-[slot=command-input-wrapper]:border"
+          className="[--command-radius:max(0px,calc(var(--command-dialog-radius)-var(--spacing)*2))] **:data-[slot=command-input-wrapper]:bg-input/50 **:data-[slot=command-input-wrapper]:border-input rounded-none bg-transparent **:data-[slot=command-input]:h-9! **:data-[slot=command-input]:py-0 **:data-[slot=command-input-wrapper]:mb-0 **:data-[slot=command-input-wrapper]:h-9! **:data-[slot=command-input-wrapper]:rounded-[var(--command-radius)] **:data-[slot=command-input-wrapper]:border"
           filter={handleFilter}
         >
           <CommandInput placeholder="Search documentation..." />
@@ -413,42 +339,9 @@ export const CommandMenu = ({
                 )}
               </CommandGroup>
             ))}
-            {blocks?.length ? (
-              <CommandGroup
-                heading="Blocks"
-                className="p-0! **:[[cmdk-group-heading]]:p-3!"
-              >
-                {blocks.map((block) => (
-                  <CommandMenuItem
-                    key={block.name}
-                    value={block.name}
-                    onHighlight={() => handleBlockHighlight(block)}
-                    keywords={[
-                      "block",
-                      block.name,
-                      block.description,
-                      ...block.categories,
-                    ]}
-                    onSelect={() =>
-                      runCommand(() =>
-                        router.push(
-                          `/blocks/${block.categories[0]}#${block.name}`
-                        )
-                      )
-                    }
-                  >
-                    <SquareDashedIcon />
-                    {block.description}
-                    <span className="text-muted-foreground ml-auto font-mono text-xs font-normal tabular-nums">
-                      {block.name}
-                    </span>
-                  </CommandMenuItem>
-                ))}
-              </CommandGroup>
-            ) : null}
           </CommandList>
         </Command>
-        <div className="text-muted-foreground absolute inset-x-0 bottom-0 z-20 flex h-10 items-center gap-2 overflow-hidden rounded-b-xl border-t border-t-neutral-100 bg-neutral-50 px-4 text-xs font-medium dark:border-t-neutral-700 dark:bg-neutral-800">
+        <div className="text-muted-foreground bg-muted absolute inset-x-0 bottom-0 z-20 flex h-10 items-center gap-2 overflow-hidden rounded-b-[var(--command-dialog-radius)] border-t px-4 text-xs font-medium">
           <div className="flex items-center gap-2 shrink-0">
             <Kbd className="shrink-0">
               <CornerDownLeftIcon />

@@ -1,13 +1,13 @@
 ---
 title: Registry
-description: Learn how to use the framecn registry with the shadcn CLI.
+description: Install free framecn caption components and Pro components with the shadcn CLI.
 ---
 
-The **framecn** registry ships Editframe-based video components and themes in the [shadcn registry format](https://ui.shadcn.com/docs/registry). Register the namespace once in `components.json`, then pull items by name with the CLI.
+The framecn public registry contains the free caption components built with Editframe. Pro components, such as [Node Reveal](/components/compositions/node-reveal), are installed from the authenticated `@framecn-pro` registry (see [framecn Pro](#framecn-pro)).
 
 ## Setup
 
-Add a **registries** entry for this site. See the [shadcn registry documentation](https://ui.shadcn.com/docs/registry) for all `components.json` fields and behaviors.
+Add this namespace to your `components.json` registries:
 
 ```json
 {
@@ -17,20 +17,53 @@ Add a **registries** entry for this site. See the [shadcn registry documentation
 }
 ```
 
-You can replace `@framecn` with another namespace; it only needs to match what you pass to `shadcn add`.
-
 ## Usage
 
-Install a UI component using the namespace and the item `name` (same as the JSON file under `/r/` without `.json`):
+Install a free component by its registry name:
 
 ```bash
-npx shadcn@latest add @framecn/cursor-flow
+npx shadcn@latest add @framecn/caption-highlight
 ```
 
-UI primitives and blocks also install `@framecn/framecn-ui`, their transition hooks, and any composed controls. Video controls use `components/framecn/*`; your interactive shadcn controls in `components/ui/*` remain separate. Configure the installed UI core's `FramecnUIProvider` for [official themes and icon libraries](/docs/ui#themes-and-icons).
-
-Without a registry alias, use the full URL (as on each docs page):
+Without a registry alias, use the full URL:
 
 ```bash
-npx shadcn@latest add https://framecn.dev/r/badge.json
+npx shadcn@latest add https://framecn.dev/r/caption-highlight.json
 ```
+
+Components install into `components/framecn/` and depend on `@editframe/react`. Browse the [component gallery](/components) for previews and installation details.
+
+## framecn Pro
+
+Pro subscribers can install any Pro component, such as [Node Reveal](/components/compositions/node-reveal), with the shadcn CLI using a personal API key.
+
+1. Open any Pro component panel while signed in and generate an API key. It is shown once — copy it.
+2. Add the key to your project's `.env`:
+
+```bash
+FRAMECN_API_KEY=fcn_...
+```
+
+3. Add the `@framecn-pro` registry to `components.json`:
+
+```json
+{
+  "registries": {
+    "@framecn": "https://framecn.dev/r/{name}.json",
+    "@framecn-pro": {
+      "url": "https://framecn.dev/r/pro/{name}.json",
+      "headers": {
+        "Authorization": "Bearer ${FRAMECN_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+4. Install:
+
+```bash
+npx shadcn@latest add @framecn-pro/node-reveal
+```
+
+Regenerating a key immediately invalidates the previous one. Requests fail with 401 for a missing or invalid key and 403 without an active Pro plan.

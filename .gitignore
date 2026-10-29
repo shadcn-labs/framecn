@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+/data/
+/.wrangler/
 
 # vercel
 .vercel
@@ -45,3 +48,5 @@ next-env.d.ts
 .contentlayer
 .content-collections
 .source
+# framecn Pro sources, synced by scripts/sync-pro.mjs (never commit)
+/registry/pro/

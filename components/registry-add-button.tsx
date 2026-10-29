@@ -79,7 +79,9 @@ export const RegistryAddButton = ({
     [registryName]
   );
 
-  const handleTriggerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTriggerClick: React.ComponentProps<typeof Button>["onClick"] = (
+    e
+  ) => {
     trackEvent({
       name: "click_registry_add_button",
       properties: {
@@ -136,7 +138,7 @@ export const RegistryAddButton = ({
         </Drawer>
       ) : (
         <Dialog open={isOpen} onOpenChange={setIsOpen} sounds>
-          <DialogTrigger asChild>{trigger}</DialogTrigger>
+          <DialogTrigger render={trigger} />
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
               <DialogTitle>{title}</DialogTitle>
@@ -152,9 +154,7 @@ export const RegistryAddButton = ({
               copyEvent="copy_registry_command"
             />
             <DialogFooter>
-              <DialogClose asChild>
-                <Button size="sm">Done</Button>
-              </DialogClose>
+              <DialogClose render={<Button size="sm" />}>Done</DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>

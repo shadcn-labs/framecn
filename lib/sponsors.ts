@@ -1,44 +1,41 @@
-interface Sponsor {
-  name: string;
-  href: string;
-  logo?: string;
-}
-
-export const tiers = [
+/** Published GitHub Sponsors tiers, verified against Aniket-508's listing on October 30, 2026. */
+export const SPONSOR_TIERS = [
   {
-    colors: {
-      bg: "linear-gradient(145deg, #d4a84b 0%, #f5d98a 30%, #c9952e 60%, #e8c55a 100%)",
-      border: "#c9952e",
-      slotBg: "rgba(212, 168, 75, 0.08)",
-      slotBorder: "rgba(201, 149, 46, 0.25)",
-      text: "#5c3d0e",
-    },
-    name: "Gold",
-    slots: 3,
-    sponsors: [] as Sponsor[],
-  },
-  {
-    colors: {
-      bg: "linear-gradient(145deg, #a8a8a8 0%, #d4d4d4 30%, #8a8a8a 60%, #c0c0c0 100%)",
-      border: "#8a8a8a",
-      slotBg: "rgba(168, 168, 168, 0.06)",
-      slotBorder: "rgba(138, 138, 138, 0.2)",
-      text: "#2a2a2a",
-    },
-    name: "Silver",
-    slots: 3,
-    sponsors: [] as Sponsor[],
-  },
-  {
-    colors: {
-      bg: "linear-gradient(145deg, #b5745a 0%, #d4956e 30%, #8c5a3e 60%, #c98a68 100%)",
-      border: "#8c5a3e",
-      slotBg: "rgba(181, 116, 90, 0.06)",
-      slotBorder: "rgba(140, 90, 62, 0.2)",
-      text: "#3d1e0e",
-    },
+    description: "Support the components and documentation you find useful.",
     name: "Bronze",
-    slots: 3,
-    sponsors: [] as Sponsor[],
+    price: 20,
+    slug: "bronze",
+    tierId: 585_115,
   },
-];
+  {
+    description: "Help cover hosting and keep open-source work moving.",
+    name: "Silver",
+    price: 50,
+    slug: "silver",
+    tierId: 585_116,
+  },
+  {
+    description: "Back ongoing maintenance, bug fixes, and new components.",
+    name: "Gold",
+    price: 100,
+    slug: "gold",
+    tierId: 654_510,
+  },
+] as const;
+
+export const ONE_TIME_SPONSOR_TIERS = [
+  { name: "Coffee", price: 10, tierId: 622_211 },
+  { name: "Dinner", price: 100, tierId: 622_212 },
+] as const;
+
+/** Public active sponsors verified on October 30, 2026; GitHub does not expose their tiers publicly. */
+export const SPONSORS = [
+  {
+    avatar: "https://avatars.githubusercontent.com/u/29006102?v=4",
+    login: "bokvi",
+  },
+  {
+    avatar: "https://avatars.githubusercontent.com/u/144938685?v=4",
+    login: "askadityapandey",
+  },
+] as const;

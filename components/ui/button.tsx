@@ -1,8 +1,8 @@
 "use client";
 
+import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
 
 import type { FeedbackType } from "@/hooks/use-feedback";
 import { useFeedback } from "@/hooks/use-feedback";
@@ -25,11 +25,13 @@ const buttonVariants = cva(
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
       },
       variant: {
+        // Highlight CTAs (Get Pro, unlock, featured plan); everyday actions stay on `default`.
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        gradient: "primary-gradient hover:brightness-105",
         link: "text-primary underline-offset-4 hover:underline",
         outline:
           "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
@@ -41,8 +43,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
+  extends ButtonPrimitive.Props, VariantProps<typeof buttonVariants> {
   sound?: FeedbackType;
   haptic?: boolean;
 }
@@ -51,7 +52,6 @@ const Button = ({
   className,
   variant,
   size,
-  asChild = false,
   sound,
   haptic,
   onClick,
@@ -59,15 +59,13 @@ const Button = ({
 }: ButtonProps) => {
   const play = useFeedback({ haptic, sound });
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick: ButtonPrimitive.Props["onClick"] = (e) => {
     play();
     onClick?.(e);
   };
 
-  const Comp = asChild ? Slot.Root : "button";
-
   return (
-    <Comp
+    <ButtonPrimitive
       data-slot="button"
       data-size={size}
       data-variant={variant}

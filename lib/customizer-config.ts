@@ -1,4 +1,7 @@
-import type { BackdropFill } from "@/registry/bases/editframe/components/backdrop";
+export type BackdropFill =
+  | { type: "color"; value: string }
+  | { type: "gradient"; value: string }
+  | { type: "image"; src: string; fit?: "cover" | "contain" };
 
 export type ControlType =
   | { type: "text"; default: string; label: string }
@@ -18,15 +21,57 @@ export type ControlConfig = Record<string, ControlType>;
 
 export interface ComponentConfig {
   controls: ControlConfig;
+  /**
+   * Skip `SHARED_CONTROLS` for this component, for one that cannot honour
+   * `speed` (it names its own rate prop instead).
+   */
+  omitSharedControls?: boolean;
   durationInFrames: number;
   fps: number;
   compositionWidth: number;
   compositionHeight: number;
+  /**
+   * Composition size for the current control values, for components whose
+   * frame changes with a control (e.g. a `format` select). Defaults to
+   * `compositionWidth` × `compositionHeight`.
+   */
+  compositionSize?: (values: Record<string, unknown>) => {
+    height: number;
+    width: number;
+  };
+  /**
+   * Composition length in frames for the current control values, for
+   * components whose controls are the timing. Defaults to `durationInFrames`.
+   */
+  compositionDuration?: (values: Record<string, unknown>) => number;
   importPath: string;
   componentName: string;
   snippet?: (values: Record<string, unknown>) => string;
   previewBackdrop?: BackdropFill;
 }
+
+/** A composition's frame and length, resolved for the current control values. */
+export interface Composition {
+  durationInFrames: number;
+  height: number;
+  width: number;
+}
+
+export const resolveComposition = (
+  config: ComponentConfig,
+  values: Record<string, unknown>
+): Composition => {
+  const { height, width } = config.compositionSize?.(values) ?? {
+    height: config.compositionHeight,
+    width: config.compositionWidth,
+  };
+  return {
+    durationInFrames:
+      config.compositionDuration?.(values) ?? config.durationInFrames,
+    height,
+    width,
+  };
+};
 
 export const FPS = 30;
 export const W = 1280;

@@ -3,17 +3,31 @@ import { createHash } from "node:crypto";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
+import { CATALOG, CATEGORY_LABELS, PRO_COUNT } from "@/lib/catalog";
+import { componentContentRoute } from "@/lib/docs";
+
+const proCategories = [
+  ...new Set(
+    CATALOG.filter((item) => item.pro).map((item) =>
+      CATEGORY_LABELS[item.category].toLowerCase()
+    )
+  ),
+].join(", ");
 
 export const SITE_AGENT_SKILL_MD = `# ${SITE.NAME}
 
 ## Summary
 
-Help users discover, inspect, and install components from this public shadcn registry starter and its documentation site.
+Help users discover, preview, and install framecn video components. The free public registry has ${CATALOG.length - PRO_COUNT} caption components. ${PRO_COUNT} Pro components (${proCategories}) have public previews; their source requires Pro.
 
 ## Registry
 
-- Registry JSON: \`${ROUTES.REGISTRY}\`
+- Free registry JSON: \`${ROUTES.REGISTRY}\`
+- Components: /components (category galleries at /components/<category>, detail pages at /components/<category>/<id>)
+- Component markdown (install command, source, usage, API): ${componentContentRoute}/<id>/content.md
+- Compositions: /components/compositions (detail pages at /components/compositions/<id>)
 - Docs: ${ROUTES.DOCS}
+- Pro previews: any item marked Pro, e.g. /components/compositions/node-reveal. Pro source requires a signed-in account with Pro access and is not included in the public registry or markdown exports.
 
 ## MCP
 
@@ -22,7 +36,7 @@ This site is a shadcn-compatible registry. For MCP workflows, use the maintained
 ## Install
 
 \`\`\`bash
-npx shadcn@latest add ${SITE.URL}/r/your-component.json
+npx shadcn@latest add ${SITE.URL}/r/caption-highlight.json
 \`\`\`
 
 Prefer following the on-site installation guide: ${ROUTES.DOCS_INSTALLATION}

@@ -17,7 +17,8 @@ export const SponsorLink = () => {
 
   return (
     <Button
-      asChild
+      nativeButton={false}
+      render={<Link href={ROUTES.SPONSOR} />}
       size="sm"
       variant="ghost"
       sound="click"
@@ -25,10 +26,8 @@ export const SponsorLink = () => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <Link href={ROUTES.SPONSOR}>
-        <HeartHandshakeIcon className="text-pink-500" ref={heartRef} />
-        <span className="max-sm:sr-only">Sponsor</span>
-      </Link>
+      <HeartHandshakeIcon className="text-pink-500" ref={heartRef} />
+      <span className="max-sm:sr-only">Sponsor</span>
     </Button>
   );
 };

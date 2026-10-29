@@ -47,9 +47,13 @@ export const transformers = [
   },
 ] as ShikiTransformer[];
 
-export const highlightCode = async (code: string, language = "tsx") => {
+export const highlightCode = async (
+  code: string,
+  language = "tsx",
+  { lineNumbers = true }: { lineNumbers?: boolean } = {}
+) => {
   const cacheKey = createHash("sha256")
-    .update(`${language}:${code}`)
+    .update(`${language}:${lineNumbers}:${code}`)
     .digest("hex");
 
   const cached = highlightCache.get(cacheKey);
@@ -66,14 +70,17 @@ export const highlightCode = async (code: string, language = "tsx") => {
     transformers: [
       {
         code(node) {
-          node.properties["data-line-numbers"] = "";
+          if (lineNumbers) {
+            node.properties["data-line-numbers"] = "";
+          }
         },
         line(node) {
           node.properties["data-line"] = "";
         },
         pre(node) {
+          // Shiki inlines the theme background; the code body uses the site's card surface instead.
           node.properties.class =
-            "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 has-[[data-slot=tabs]]:p-0 !bg-transparent";
+            "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 has-[[data-slot=tabs]]:p-0 !bg-card";
         },
       },
     ],

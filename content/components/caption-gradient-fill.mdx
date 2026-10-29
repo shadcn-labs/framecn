@@ -1,0 +1,39 @@
+---
+title: "Gradient Fill"
+description: "Siri-style gradient sweeps across text via background-clip on each word speaking window."
+---
+
+## Usage
+
+```tsx
+import { CaptionGradientFill } from "@/components/framecn/caption-gradient-fill";
+```
+
+```tsx
+<CaptionGradientFill />
+```
+
+## API Reference
+
+### CaptionGradientFill
+
+| Prop               | Type               | Default      |
+| ------------------ | ------------------ | ------------ |
+| `words`            | `CaptionWord[]`    | (demo words) |
+| `fromColor`        | `string`           | `"#fe9f1b"`  |
+| `midColor`         | `string`           | `"#ff2063"`  |
+| `toColor`          | `string`           | `"#ef7aff"`  |
+| `fontSize`         | `number`           | `80`         |
+| `fontWeight`       | `number \| string` | `900`        |
+| `speed`            | `number`           | `1`          |
+| `fps`              | `number`           | `30`         |
+| `durationInFrames` | `number`           | `180`        |
+| `width`            | `number`           | `1280`       |
+| `height`           | `number`           | `720`        |
+| `className`        | `string`           | `-`          |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>

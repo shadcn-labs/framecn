@@ -1,7 +1,12 @@
+import Link from "next/link";
+
 import { CodeCollapsibleWrapper } from "@/components/code-collapsible-wrapper";
 import { CopyButton } from "@/components/copy-button";
 import { getIconForLanguageExtension } from "@/components/icons";
+import { getProAccess } from "@/lib/auth";
+import { CATALOG } from "@/lib/catalog";
 import { highlightCode } from "@/lib/highlight-code";
+import { getProComponentSource, ProRegistryError } from "@/lib/pro-registry";
 import { readFileFromRoot } from "@/lib/read-file";
 import { cn } from "@/lib/utils";
 
@@ -16,18 +21,26 @@ const ComponentCode = ({
   language: string;
   title: string | undefined;
 }) => (
-  <figure data-rehype-pretty-code-figure="" className="[&>pre]:max-h-96">
+  <figure data-rehype-pretty-code-figure="" className="mx-0! [&>pre]:max-h-96">
     {title ? (
       <figcaption
-        className="text-code-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:opacity-70"
+        className="flex items-center gap-2 font-normal [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-muted-foreground"
         data-language={language}
         data-rehype-pretty-code-title=""
       >
         {getIconForLanguageExtension(language)}
-        {title}
+        <span className="truncate font-normal">{title}</span>
       </figcaption>
     ) : null}
-    <CopyButton event="copy_primitive_code" value={code} />
+    <CopyButton
+      className={cn(
+        title &&
+          "text-muted-foreground right-2.5 bg-transparent opacity-70 hover:bg-muted hover:opacity-100 focus-visible:bg-muted focus-visible:opacity-100"
+      )}
+      event="copy_primitive_code"
+      tooltip="Copy code"
+      value={code}
+    />
     <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
   </figure>
 );
@@ -47,28 +60,36 @@ export const ComponentSource = async ({
   className?: string;
   language?: string;
 }) => {
-  let code: string | null = null;
-
-  if (src) {
-    code = await readFileFromRoot(src);
-  } else if (name) {
-    const guessedPaths = [
-      `registry/bases/editframe/components/${name}/index.tsx`,
-      `registry/bases/editframe/ui/${name}/index.tsx`,
-      `registry/bases/editframe/ui/${name}.tsx`,
-      `registry/bases/editframe/${name}/index.tsx`,
-    ];
-
-    for (const guessedPath of guessedPaths) {
-      try {
-        code = await readFileFromRoot(guessedPath);
-        if (code) {
-          break;
-        }
-      } catch {
-        // Try next path.
-      }
+  const catalogItem = CATALOG.find((item) =>
+    src
+      ? src === `registry/bases/editframe/components/${item.id}/index.tsx`
+      : item.id === name
+  );
+  if (!catalogItem) {
+    return null;
+  }
+  if (catalogItem?.pro && !(await getProAccess())) {
+    return (
+      <p className="rounded-lg border p-4 text-sm">
+        This source is included with framecn Pro.{" "}
+        <Link href="/pricing" className="underline underline-offset-4">
+          Unlock {catalogItem.name} →
+        </Link>
+      </p>
+    );
+  }
+  let code: string;
+  try {
+    code = catalogItem.pro
+      ? await getProComponentSource(catalogItem.id)
+      : await readFileFromRoot(
+          `registry/bases/editframe/components/${catalogItem.id}/index.tsx`
+        );
+  } catch (error) {
+    if (error instanceof ProRegistryError) {
+      return <p className="rounded-lg border p-4 text-sm">{error.message}</p>;
     }
+    throw error;
   }
 
   if (!code) {

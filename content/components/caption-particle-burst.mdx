@@ -1,0 +1,38 @@
+---
+title: "Particle Burst"
+description: "Words dim at 40% opacity; a colored burst ring expands outward when each word is spoken."
+---
+
+## Usage
+
+```tsx
+import { CaptionParticleBurst } from "@/components/framecn/caption-particle-burst";
+```
+
+```tsx
+<CaptionParticleBurst />
+```
+
+## API Reference
+
+### CaptionParticleBurst
+
+| Prop               | Type               | Default      |
+| ------------------ | ------------------ | ------------ |
+| `words`            | `CaptionWord[]`    | (demo words) |
+| `color`            | `string`           | `"#ffffff"`  |
+| `burstColor`       | `string`           | `"#fbbf24"`  |
+| `fontSize`         | `number`           | `80`         |
+| `fontWeight`       | `number \| string` | `900`        |
+| `speed`            | `number`           | `1`          |
+| `fps`              | `number`           | `30`         |
+| `durationInFrames` | `number`           | `180`        |
+| `width`            | `number`           | `1280`       |
+| `height`           | `number`           | `720`        |
+| `className`        | `string`           | `-`          |
+
+## Notes
+
+<Callout title="Word timing is in seconds">
+  The `start` and `end` fields on each `CaptionWord` are in seconds.
+</Callout>
