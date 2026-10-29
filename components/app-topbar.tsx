@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { AccountButton } from "@/components/account-button";
-import { Button } from "@/components/ui/button";
+import { AppActions } from "@/components/app-actions";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
 import { findCategoryByPath } from "@/lib/catalog";
@@ -37,20 +35,9 @@ export const AppTopbar = () => {
           </p>
         </div>
       ) : null}
-      <div className="ml-auto flex shrink-0 items-center gap-2">
-        {/* Home and pricing already lead with their own Get Pro call to action. */}
-        {pathname !== ROUTES.HOME && pathname !== ROUTES.PRICING && (
-          <Button
-            size="sm"
-            variant="gradient"
-            className="rounded-full px-3.5"
-            nativeButton={false}
-            render={<Link href={ROUTES.PRICING} />}
-          >
-            Get Pro
-          </Button>
-        )}
-        <AccountButton />
+      {/* Desktop shows these in the card notch (AppActionsNotch). */}
+      <div className="ml-auto md:hidden">
+        <AppActions />
       </div>
     </header>
   );
