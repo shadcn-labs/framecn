@@ -172,6 +172,11 @@ const previousTemplateRedirects = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   devIndicators: false,
+  experimental: {
+    // Next 16.3 caches Turbopack builds in .next/cache, which Vercel restores
+    // between deployments; a stale cache shipped old CSS (missing new utilities).
+    turbopackFileSystemCacheForBuild: false,
+  },
   headers() {
     const link = [
       `<${ROUTES.API_CATALOG}>; rel="api-catalog"`,
