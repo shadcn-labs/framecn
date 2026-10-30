@@ -16,15 +16,19 @@ export const PlanCard = ({
   features,
   cta,
   highlight = false,
+  badge = "Most popular",
 }: {
   name: string;
   price: React.ReactNode;
-  blurb: React.ReactNode;
+  /** Optional; the row stays so features still line up across cards. */
+  blurb?: React.ReactNode;
   /** Sit the blurb on the row's bottom edge (Team's seat stepper). */
   blurbAtBottom?: boolean;
   features: React.ReactNode;
   cta: React.ReactNode;
   highlight?: boolean;
+  /** Label on the featured card. */
+  badge?: string;
 }) => (
   <Frame
     className={cn(
@@ -37,7 +41,7 @@ export const PlanCard = ({
         variant="brand"
         className="absolute -top-2.5 left-1/2 z-10 -translate-x-1/2"
       >
-        Most popular
+        {badge}
       </Badge>
     ) : null}
     <Card
@@ -50,7 +54,8 @@ export const PlanCard = ({
       <div className="mt-6">{price}</div>
       <div
         className={cn(
-          "text-muted-foreground mt-2 text-sm text-pretty",
+          "text-muted-foreground text-sm text-pretty",
+          blurb && "mt-2",
           blurbAtBottom && "self-end"
         )}
       >

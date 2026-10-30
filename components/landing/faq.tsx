@@ -58,7 +58,7 @@ export const Faq = () => (
     <FaqJsonLd items={FAQ} />
     <SectionHeading
       id="faq-title"
-      title="Questions, answered"
+      title="FAQs"
       description="Licensing, rendering, Pro, and working with AI agents."
       className="self-start"
     />

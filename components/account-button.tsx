@@ -26,7 +26,7 @@ export const AccountButton = () => {
       <Button
         nativeButton={false}
         render={<Link href={ROUTES.SIGN_IN} />}
-        variant="outline"
+        variant="secondary"
         size="sm"
         className="h-8 rounded-full px-3.5"
         aria-busy={isPending}
@@ -42,7 +42,7 @@ export const AccountButton = () => {
       <DropdownMenuTrigger
         render={
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             className="h-8 max-w-40 gap-2 rounded-full pr-3 pl-1"
           />

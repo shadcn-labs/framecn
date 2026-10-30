@@ -92,7 +92,6 @@ export const mdxComponents = {
       {...props}
     />
   ),
-
   Step,
   Steps,
   Tab: ({ className, ...props }: React.ComponentProps<"div">) => (

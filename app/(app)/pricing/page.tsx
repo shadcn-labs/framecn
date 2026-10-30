@@ -168,7 +168,7 @@ export default async function PricingPage() {
         className="container-page section-y grid gap-10 lg:grid-cols-[1fr_1.6fr]"
       >
         <h2 id="faq-title" className="heading-title">
-          Frequently asked questions
+          FAQs
         </h2>
         <Accordion>
           {FAQ.map((item) => (

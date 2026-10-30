@@ -33,6 +33,16 @@
 - 🎬 **Multi-layer composition** — Stack videos, images, text, and effects
 - 🤖 **AI-ready** — Perfect for generating videos programmatically
 
+## Sponsors
+
+framecn is backed by its sponsors. Gold sponsors get the largest logo here, then Silver and Bronze. [Become a sponsor](https://framecn.dev/sponsor#plans).
+
+<!-- Gold: largest logos. Silver: medium. Bronze: small. Keep in sync with PLACED_SPONSORS in lib/sponsors.ts. -->
+
+<p align="center">
+  <a href="https://framecn.dev/sponsor#plans">Your logo here</a>
+</p>
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

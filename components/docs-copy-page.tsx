@@ -16,12 +16,15 @@ import {
 } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Frame } from "@/components/ui/frame";
 import {
   Popover,
   PopoverContent,
@@ -169,9 +172,11 @@ export const DocsCopyPage = ({
 
   const trigger = (
     <Button
-      variant="ghost"
-      size="sm"
-      className="peer size-7 rounded-[var(--frame-inner-radius)] md:size-6 md:text-[0.8rem]"
+      variant="secondary"
+      size="icon-sm"
+      aria-label="More ways to use this page"
+      // Two triggers (desktop menu, mobile popover) share this; pin the end cap.
+      className="size-7 rounded-l-none! rounded-r-md! shadow-none"
     >
       <ChevronDownIcon className="rotate-180 sm:rotate-0" />
     </Button>
@@ -179,19 +184,18 @@ export const DocsCopyPage = ({
 
   return (
     <Popover>
-      <Frame
-        ref={groupRef}
-        // Card UI: muted shell (with the chevron on it); only the Copy Page action is the white card.
-        className="group/buttons relative flex items-center gap-0.5 [--frame-radius:var(--radius-lg)] *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10"
-      >
+      {/* Same secondary fill as the share and prev/next buttons beside it. */}
+      <ButtonGroup ref={groupRef} aria-label="Copy page actions">
         <CopyButton
           value={copyValue}
           showTooltip={false}
-          variant="ghost"
-          className="bg-card hover:bg-card/80 h-7 rounded-[var(--frame-inner-radius)] border shadow-xs md:h-6 md:text-[0.8rem]"
+          variant="secondary"
+          size="sm"
+          className="h-7 shadow-none md:text-[0.8rem]"
         >
           Copy Page
         </CopyButton>
+        <ButtonGroupSeparator className="bg-background" />
         <DropdownMenu>
           <DropdownMenuTrigger render={trigger} className="hidden sm:flex" />
           <DropdownMenuContent
@@ -220,7 +224,7 @@ export const DocsCopyPage = ({
             />
           ))}
         </PopoverContent>
-      </Frame>
+      </ButtonGroup>
     </Popover>
   );
 };

@@ -20,7 +20,6 @@ export const Hero = () => (
       <Button
         nativeButton={false}
         render={<Link href={ROUTES.COMPONENTS} />}
-        size="lg"
         variant="secondary"
         className="rounded-full"
       >
@@ -29,7 +28,6 @@ export const Hero = () => (
       <Button
         nativeButton={false}
         render={<Link href={ROUTES.PRICING} />}
-        size="lg"
         variant="gradient"
         className="rounded-full"
       >

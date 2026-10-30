@@ -19,6 +19,7 @@
   },
   "iconLibrary": "lucide",
   "registries": {
-    "@kobra": "https://kobra.systems/r/{name}.json"
+    "@kobra": "https://kobra.systems/r/{name}.json",
+    "@evilcharts": "https://evilcharts.com/r/{name}.json"
   }
 }
