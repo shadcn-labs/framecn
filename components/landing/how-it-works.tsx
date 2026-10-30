@@ -42,7 +42,10 @@ export const HowItWorks = async () => {
   );
 
   return (
-    <section aria-labelledby="how-title" className="container-page section-y">
+    <section
+      aria-labelledby="how-title"
+      className="container-page pt-16 md:pt-24"
+    >
       <SectionHeading id="how-title" title="How it works" />
       {/* Subgrid rows keep step numbers, titles, descriptions and code frames aligned across columns. */}
       <ol className="mt-10 grid gap-8 lg:grid-cols-3 lg:gap-x-4 lg:gap-y-0">

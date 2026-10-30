@@ -2,6 +2,7 @@
   "name": "framecn",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "predev": "node scripts/sync-pro.mjs",
     "dev": "next dev",

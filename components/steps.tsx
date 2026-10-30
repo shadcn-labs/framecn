@@ -1,13 +1,19 @@
 import { cn } from "@/lib/utils";
 
-export const Step = ({ className, ...props }: React.ComponentProps<"h3">) => (
+export const Step = ({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"h3">) => (
   <h3
     className={cn(
       "relative mt-8 scroll-m-32 font-heading text-lg font-medium tracking-tight",
       className
     )}
     {...props}
-  />
+  >
+    {children}
+  </h3>
 );
 
 export const Steps = ({

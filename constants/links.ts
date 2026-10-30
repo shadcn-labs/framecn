@@ -18,7 +18,7 @@ export const LINK = {
   SHADCN_LABS: "https://shadcn-labs.com",
   SHADCN_LABS_GITHUB: "https://github.com/shadcn-labs",
   SHADCN_MCP_DOCS: "https://ui.shadcn.com/docs/mcp",
-  SPONSOR: `https://github.com/sponsors/Aniket-508`,
+  SPONSOR: `https://github.com/sponsors/${GITHUB.org}`,
   X: "https://x.com/alaymanguy",
   X_SHADCN_LABS: "https://x.com/shadcnlabs",
 } as const;

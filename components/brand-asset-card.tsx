@@ -58,7 +58,13 @@ export const BrandAssetCard = ({ asset }: { asset: keyof typeof ASSETS }) => {
           <Button
             nativeButton={false}
             render={
-              <a href={download} download target="_blank" rel="noopener" />
+              <a
+                href={download}
+                aria-label={`Download ${label}`}
+                download
+                target="_blank"
+                rel="noopener"
+              />
             }
             size="sm"
             variant="outline"

@@ -61,8 +61,6 @@ import {
 } from "@/lib/catalog";
 import { addQueryParams } from "@/lib/url";
 
-const SHADCN_LABS_URL = addQueryParams("https://shadcn-labs.com", UTM_PARAMS);
-
 /** Muted rows; hover and active are tints of primary, active a step stronger than hover. */
 const ROW_TONE =
   "text-muted-foreground hover:bg-sidebar-primary/[0.05] hover:text-sidebar-foreground active:bg-sidebar-primary/[0.08] data-[active=true]:bg-sidebar-primary/[0.08] data-[active=true]:text-sidebar-foreground";
@@ -201,12 +199,7 @@ const MainView = ({
             size="icon"
             className="size-8"
             render={
-              <a
-                href={SHADCN_LABS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Shadcn Labs"
-              />
+              <Link href={ROUTES.HOME} aria-label={`${SITE.NAME} home`} />
             }
           >
             <LogoMark className="size-5" />
@@ -334,6 +327,7 @@ const ProjectsView = ({ onBack }: { onBack: () => void }) => (
               render={
                 <a
                   href={addQueryParams(LABS_LATEST.href, UTM_PARAMS)}
+                  aria-label={LABS_LATEST.name}
                   target="_blank"
                   rel="noopener"
                 />
@@ -361,6 +355,7 @@ const ProjectsView = ({ onBack }: { onBack: () => void }) => (
                   render={
                     <a
                       href={addQueryParams(item.href, UTM_PARAMS)}
+                      aria-label={item.name}
                       target="_blank"
                       rel="noopener"
                     />
@@ -420,6 +415,7 @@ export const AppSidebar = ({
                     render={
                       <a
                         href={LINK.X_SHADCN_LABS}
+                        aria-label="Follow on X"
                         target="_blank"
                         rel="noopener noreferrer"
                       />

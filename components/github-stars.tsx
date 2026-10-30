@@ -23,6 +23,7 @@ export const GitHubStars = ({
         <a
           className={cn(buttonVariants({ size: "sm", variant: "ghost" }))}
           href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}
+          aria-label={`Star on GitHub (${stargazersCount} stars)`}
           data-sound="success"
           rel="noopener"
           target="_blank"

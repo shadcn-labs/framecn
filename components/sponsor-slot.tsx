@@ -1,3 +1,4 @@
+import { HeartIcon, PlusIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -42,9 +43,17 @@ export const SponsorSlot = ({
       ) : (
         <Link
           href={`${ROUTES.SPONSOR}#plans`}
-          className="text-muted-foreground hover:text-foreground hover:border-foreground/30 flex h-12 items-center justify-center rounded-lg border border-dashed text-xs transition-colors"
+          aria-label="Take this spot: become a sponsor"
+          className="group/sponsor-slot text-muted-foreground hover:text-foreground hover:border-foreground/30 focus-visible:text-foreground focus-visible:border-foreground/30 flex h-12 items-center justify-center rounded-lg border border-dashed text-xs transition-colors"
         >
-          Your logo here
+          <span className="inline-flex items-center gap-1.5 group-hover/sponsor-slot:hidden group-focus-visible/sponsor-slot:hidden">
+            Your logo here
+            <PlusIcon aria-hidden className="size-3.5" />
+          </span>
+          <span className="hidden items-center gap-1.5 group-hover/sponsor-slot:inline-flex group-focus-visible/sponsor-slot:inline-flex">
+            Take this spot
+            <HeartIcon aria-hidden className="fill-brand text-brand size-3.5" />
+          </span>
         </Link>
       )}
     </div>

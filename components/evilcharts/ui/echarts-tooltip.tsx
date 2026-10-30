@@ -1,9 +1,7 @@
 import type { TooltipComponentOption } from "echarts/components";
 
-import {
-  indicatorBackground,
-  type ResolvedColors,
-} from "@/components/evilcharts/ui/echarts-chart";
+import { indicatorBackground } from "@/components/evilcharts/ui/echarts-chart";
+import type { ResolvedColors } from "@/components/evilcharts/ui/echarts-chart";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tooltip — the shared HTML shell/row primitives and the chart-agnostic option
@@ -20,9 +18,9 @@ export type TooltipRoundness = "sm" | "md" | "lg" | "xl";
 export type TooltipPosition = "fixed" | "variable";
 
 export const roundnessClass: Record<TooltipRoundness, string> = {
-  sm: "rounded-sm",
-  md: "rounded-md",
   lg: "rounded-lg",
+  md: "rounded-md",
+  sm: "rounded-sm",
   xl: "rounded-xl",
 };
 
@@ -34,28 +32,30 @@ export const tooltipVariantClass: Record<TooltipVariant, string> = {
 // ECharts inserts formatter strings as HTML. Encode plain text and quoted
 // attribute values at their interpolation sites, while keeping the chart's
 // own shell/row markup intact.
-export function escapeTooltipHtml(value: string): string {
-  return value
+export const escapeTooltipHtml = (value: string): string =>
+  value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
-}
 
 // The standard series indicator swatch — a rounded square filled with the
 // series' solid var or multi-stop gradient (indicatorBackground). A chart drops
 // this into a tooltipRow's `indicatorHtml`.
-export function tooltipIndicatorHtml(key: string, colorsCount: number): string {
+export const tooltipIndicatorHtml = (
+  key: string,
+  colorsCount: number
+): string => {
   const background = escapeTooltipHtml(indicatorBackground(key, colorsCount));
   return `<div class="h-2.5 w-2.5 shrink-0 rounded-[2px]" style="background:${background}"></div>`;
-}
+};
 
 // One tooltip row: indicator swatch + label/value pair. `dimmed` is a class
 // fragment (e.g. " opacity-30") appended to the row so the selection/hover dim
 // stays byte-identical to the inlined markup. `indicatorHtml` must be trusted
 // chart-generated markup; labelText and valueText are always treated as text.
-export function tooltipRow({
+export const tooltipRow = ({
   indicatorHtml,
   labelText,
   valueText,
@@ -65,20 +65,18 @@ export function tooltipRow({
   labelText: string;
   valueText: string;
   dimmed: string;
-}): string {
-  return `<div class="flex w-full flex-wrap items-center gap-2${escapeTooltipHtml(dimmed)}">
-          ${indicatorHtml}
-          <div class="flex flex-1 items-center justify-between gap-4 leading-none">
-            <span class="text-muted-foreground">${escapeTooltipHtml(labelText)}</span>
-            <span class="text-foreground font-mono font-medium tabular-nums">${escapeTooltipHtml(valueText)}</span>
-          </div>
-        </div>`;
-}
+}): string => `<div class="flex w-full flex-wrap items-center gap-2${escapeTooltipHtml(dimmed)}">
+        ${indicatorHtml}
+        <div class="flex flex-1 items-center justify-between gap-4 leading-none">
+          <span class="text-muted-foreground">${escapeTooltipHtml(labelText)}</span>
+          <span class="text-foreground font-mono font-medium tabular-nums">${escapeTooltipHtml(valueText)}</span>
+        </div>
+      </div>`;
 
 // The outer tooltip surface — border, padding, shadow, roundness + variant
 // classes — wrapping the axis label and the composed rows. `body` must be
 // trusted chart-generated markup (for example, composed tooltipRow results).
-export function tooltipShell({
+export const tooltipShell = ({
   label,
   body,
   roundness,
@@ -88,60 +86,60 @@ export function tooltipShell({
   body: string;
   roundness: TooltipRoundness;
   variant: TooltipVariant;
-}): string {
-  return `<div class="grid min-w-32 items-start gap-1.5 border border-border/50 px-2.5 py-1.5 text-xs shadow-xl ${roundnessClass[roundness]} ${tooltipVariantClass[variant]}">
-      <div class="font-medium text-primary">${escapeTooltipHtml(label)}</div>
-      <div class="grid gap-1.5">${body}</div>
-    </div>`;
-}
+}): string => `<div class="grid min-w-32 items-start gap-1.5 border border-border/50 px-2.5 py-1.5 text-xs shadow-xl ${roundnessClass[roundness]} ${tooltipVariantClass[variant]}">
+    <div class="font-medium text-primary">${escapeTooltipHtml(label)}</div>
+    <div class="grid gap-1.5">${body}</div>
+  </div>`;
 
 // Maps the TooltipPosition prop onto the ECharts tooltip `position` field.
 // "variable" → undefined (default follow-both-axes, current behavior); "fixed" →
 // a callback that centers the tooltip on the pointer's X but pins it near the
 // top (fixed Y).
-export function resolveTooltipPosition(
+export const resolveTooltipPosition = (
   position: TooltipPosition
-): TooltipComponentOption["position"] {
-  if (position === "variable") return undefined;
+): TooltipComponentOption["position"] => {
+  if (position === "variable") {
+    return undefined;
+  }
   return (point, _params, _dom, _rect, size) => [
     point[0] - size.contentSize[0] / 2,
     8,
   ];
-}
+};
 
 // The chart-agnostic tooltip option fields (show, trigger, confine,
 // background/border/padding/extraCssText, axisPointer, position). The chart
 // supplies only `formatter` and spreads this in. `axisPointerColor` is the
 // pre-resolved cursor-line color, so this helper needs no live token read.
-export function tooltipBaseOption(params: {
+export const tooltipBaseOption = (params: {
   present: boolean;
   cursor: boolean;
   tokens: ResolvedColors["tokens"];
   position: TooltipPosition;
   axisPointerColor: string;
   strokeWidth: number;
-}): TooltipComponentOption {
+}): TooltipComponentOption => {
   const { present, cursor, position, axisPointerColor, strokeWidth } = params;
 
   return {
-    show: present,
-    trigger: "axis",
-    confine: true,
-    displayTransition: false,
-    backgroundColor: "transparent",
-    borderWidth: 0,
-    padding: 0,
-    extraCssText: "box-shadow:none;",
     axisPointer: cursor
       ? {
-          type: "line",
           lineStyle: {
             color: axisPointerColor,
-            width: strokeWidth,
             type: [3, 3] as [number, number],
+            width: strokeWidth,
           },
+          type: "line",
         }
       : { type: "none" },
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    confine: true,
+    displayTransition: false,
+    extraCssText: "box-shadow:none;",
+    padding: 0,
     position: resolveTooltipPosition(position),
+    show: present,
+    trigger: "axis",
   };
-}
+};

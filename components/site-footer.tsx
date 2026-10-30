@@ -13,15 +13,20 @@ const linkClass =
 export const SiteFooter = () => (
   // No bottom padding: the last row is h-12 like the sidebar footer, and both sit 0.5rem above the viewport edge,
   // so at the end of the page "Created by" lines up with the sidebar's copyright row.
-  <footer className="px-4 pt-14 md:px-6">
+  <footer className="bg-sidebar px-4 pt-14 md:px-6">
     <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
       <div className="max-w-xs">
         <Link
           href="/"
-          className="inline-flex items-center gap-2.5 text-base font-medium tracking-tight"
+          className="inline-flex items-center gap-0.5 text-base font-medium tracking-tight"
         >
-          <LogoMark className="size-5" />
-          {SITE.NAME}
+          <span className="flex size-8 items-center justify-center">
+            <LogoMark className="size-5" />
+          </span>
+          <span aria-hidden className="text-muted-foreground/50 text-sm">
+            /
+          </span>
+          <span className="flex h-8 items-center pr-1 pl-1.5">{SITE.NAME}</span>
         </Link>
         <p className="text-muted-foreground mt-3 text-sm leading-6">
           {SITE.DESCRIPTION.LONG}
@@ -68,6 +73,7 @@ export const SiteFooter = () => (
           render={
             <a
               href={addQueryParams(LINK.PORTFOLIO, UTM_PARAMS)}
+              aria-label={SITE.AUTHOR.NAME}
               target="_blank"
               rel="noopener"
             />
@@ -85,6 +91,7 @@ export const SiteFooter = () => (
           render={
             <a
               href={addQueryParams(LINK.SHADCN_LABS, UTM_PARAMS)}
+              aria-label="Shadcn Labs"
               target="_blank"
               rel="noopener"
             />

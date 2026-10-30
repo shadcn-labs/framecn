@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  EChartsLineChart,
-  type ChartConfig,
-} from "@/components/evilcharts/charts/echarts-line-chart";
+import { EChartsLineChart } from "@/components/evilcharts/charts/echarts-line-chart";
+import type { ChartConfig } from "@/components/evilcharts/charts/echarts-line-chart";
 import type { Traffic } from "@/lib/vercel-analytics";
 
 const compact = new Intl.NumberFormat("en-US", {

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -68,11 +69,13 @@ export const ContactForm = ({ inquiry }: { inquiry?: string }) => {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {INQUIRY_TYPES.map(({ label, value }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
+            <SelectGroup>
+              {INQUIRY_TYPES.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
           </SelectContent>
         </Select>
       </div>

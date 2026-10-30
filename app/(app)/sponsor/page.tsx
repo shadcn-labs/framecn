@@ -1,6 +1,7 @@
 import {
   ArrowUpRightIcon,
   CircleCheckIcon,
+  HeartHandshakeIcon,
   HeartIcon,
   HouseIcon,
   LayoutPanelLeftIcon,
@@ -28,10 +29,10 @@ import { Button } from "@/components/ui/button";
 import { Frame, FrameContent } from "@/components/ui/frame";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
+import { SITE } from "@/constants/site";
 import { CATALOG } from "@/lib/catalog";
 import { getStargazerCount } from "@/lib/github";
 import {
-  ONE_TIME_SPONSOR_TIERS,
   PLACEMENTS,
   SPONSOR_TIERS,
   INDIVIDUAL_SPONSORS,
@@ -65,14 +66,14 @@ const PLACEMENT_ICON: Record<PlacementSlug, LucideIcon> = {
 
 /** Higher tiers get taller spots and larger logos. */
 const SPOT_HEIGHT: Record<SponsorTierSlug, string> = {
-  bronze: "h-20",
-  gold: "h-28",
-  silver: "h-24",
+  diamond: "h-28",
+  gold: "h-24",
+  silver: "h-20",
 };
 const LOGO_HEIGHT: Record<SponsorTierSlug, string> = {
-  bronze: "max-h-7",
-  gold: "max-h-12",
-  silver: "max-h-9",
+  diamond: "max-h-12",
+  gold: "max-h-9",
+  silver: "max-h-7",
 };
 
 const tiersWith = (placement: PlacementSlug) =>
@@ -83,27 +84,22 @@ const tiersWith = (placement: PlacementSlug) =>
 const FAQ = [
   {
     answer:
-      "Gold: the sidebar outside Carbon ad pages, plus the largest logo on the homepage, this page and the GitHub README. Silver: a logo on the homepage, this page and the README. Bronze: a logo on this page and the README. Docs and component pages stay ad-free apart from Carbon.",
+      "Diamond: the sidebar outside Carbon ad pages, plus the largest logo on the homepage, this page and the GitHub README. Gold: a larger logo on the homepage, this page and the README. Silver: a logo on this page and the README. Docs and component pages stay ad-free apart from Carbon.",
     question: "Where will my logo appear?",
   },
   {
     answer:
-      "After you sponsor on GitHub, email us a logo (SVG preferred, works on light and dark) and the link you want. It goes live within a few days and stays up while the sponsorship is active.",
+      "Choose a plan on GitHub or use “Not on GitHub? Sponsor here” to pay through Dodo Payments. Then email us your company name, logo (SVG preferred, works on light and dark), and website. Your placement goes live within a few days and stays up while the sponsorship is active.",
     question: "What do you need from me?",
   },
   {
     answer:
-      "No. GitHub sponsorship and framecn Pro are separate; sponsoring doesn't unlock Pro source.",
+      "No. Sponsorship and framecn Pro are separate; sponsoring doesn't unlock Pro source.",
     question: "Does sponsorship include framecn Pro?",
   },
   {
     answer:
-      "Yes: Coffee ($10) or Dinner ($100) once, or any custom amount on GitHub. One-time support doesn't include a placement.",
-    question: "Can I give once instead?",
-  },
-  {
-    answer:
-      "Payments run through GitHub Sponsors. Change or cancel from your GitHub account; the placement comes down at the end of the paid month.",
+      "For GitHub payments, change or cancel your sponsorship from your GitHub account. For Dodo payments, use the customer portal linked in your subscription emails. Your placement comes down at the end of the paid month.",
     question: "How do I change or cancel?",
   },
 ];
@@ -177,12 +173,22 @@ export default async function SponsorPage() {
       value: `${Math.floor(CATALOG.length / 10) * 10}+`,
     },
   ];
+  let trafficHelper =
+    "Page views and the traffic chart will appear once Vercel Web Analytics, our analytics platform, is configured.";
+  if (traffic) {
+    trafficHelper =
+      "Traffic over the last 30 days from Vercel Web Analytics, our analytics platform. Updated hourly.";
+  } else if (analyticsConfigured) {
+    trafficHelper =
+      "Traffic from Vercel Web Analytics, our analytics platform, is temporarily unavailable. Updates are requested hourly.";
+  }
 
   return (
     <PageTransition>
       <article className="container-page page-y">
         <PageHeader
           centered
+          display
           title="Sponsor framecn"
           description="Put your logo in front of React developers who make product videos, captions and motion with code."
         >
@@ -199,13 +205,13 @@ export default async function SponsorPage() {
             variant="secondary"
             className="rounded-full"
           >
-            <HeartIcon aria-hidden />
+            <HeartHandshakeIcon aria-hidden />
             GitHub Sponsors
           </ExternalLinkButton>
         </PageHeader>
 
         <section aria-labelledby="audience-title" className="mt-16">
-          <h2 id="audience-title" className="heading-subtitle text-center">
+          <h2 id="audience-title" className="heading-title text-center">
             Audience
           </h2>
           <dl className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -236,16 +242,12 @@ export default async function SponsorPage() {
             </FrameContent>
           </Frame>
           <p className="text-muted-foreground mt-3 text-center text-xs">
-            {traffic
-              ? "Traffic over the last 30 days from Vercel Web Analytics, our analytics platform. Updated hourly."
-              : analyticsConfigured
-                ? "Traffic from Vercel Web Analytics, our analytics platform, is temporarily unavailable. Updates are requested hourly."
-                : "Page views and the traffic chart will appear once Vercel Web Analytics, our analytics platform, is configured."}
+            {trafficHelper}
           </p>
         </section>
 
         <section aria-labelledby="placements-title" className="mt-16">
-          <h2 id="placements-title" className="heading-subtitle text-center">
+          <h2 id="placements-title" className="heading-title text-center">
             Placements
           </h2>
           <ul className="mt-6 grid gap-4 md:grid-cols-3">
@@ -269,7 +271,9 @@ export default async function SponsorPage() {
                       {tiersWith(placement.slug).map((tier) => (
                         <Badge
                           key={tier.slug}
-                          variant={tier.slug === "gold" ? "brand" : "secondary"}
+                          variant={
+                            tier.slug === "diamond" ? "brand" : "secondary"
+                          }
                         >
                           {tier.name}
                         </Badge>
@@ -283,7 +287,7 @@ export default async function SponsorPage() {
         </section>
 
         <section aria-labelledby="sponsors-title" className="mt-16">
-          <h2 id="sponsors-title" className="heading-subtitle text-center">
+          <h2 id="sponsors-title" className="heading-title text-center">
             Sponsors
           </h2>
           <div className="mt-6 grid w-full gap-4">
@@ -292,7 +296,10 @@ export default async function SponsorPage() {
                 (sponsor) => sponsor.tier === tier.slug
               );
               return (
-                <div key={tier.slug} className="grid gap-3 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6">
+                <div
+                  key={tier.slug}
+                  className="grid gap-3 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6"
+                >
                   <h3 className="text-center text-base font-medium sm:text-left">
                     {tier.name}
                   </h3>
@@ -349,33 +356,35 @@ export default async function SponsorPage() {
                 </div>
               );
             })}
-            <div className="grid gap-3 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6">
-              <h3 className="text-center text-base font-medium whitespace-nowrap sm:text-left">
-                Individual sponsors
-              </h3>
-              <ul className="flex min-w-0 flex-nowrap justify-start gap-2 overflow-x-auto">
-                {INDIVIDUAL_SPONSORS.map((sponsor) => (
-                  <li key={sponsor.login} className="shrink-0">
-                    <a
-                      href={`https://github.com/${sponsor.login}`}
-                      target="_blank"
-                      rel="noopener"
-                      className="bg-card hover:border-foreground/20 flex items-center gap-2 rounded-full border py-1 pr-3 pl-1 text-sm whitespace-nowrap transition-colors"
-                    >
-                      <Image
-                        src={sponsor.avatar}
-                        alt=""
-                        width={24}
-                        height={24}
-                        className="size-6 rounded-full"
-                        unoptimized
-                      />
-                      @{sponsor.login}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {INDIVIDUAL_SPONSORS.length > 0 && (
+              <div className="grid gap-3 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6">
+                <h3 className="text-center text-base font-medium whitespace-nowrap sm:text-left">
+                  Individual sponsors
+                </h3>
+                <ul className="flex min-w-0 flex-nowrap justify-start gap-2 overflow-x-auto">
+                  {INDIVIDUAL_SPONSORS.map((sponsor) => (
+                    <li key={sponsor.login} className="shrink-0">
+                      <a
+                        href={`https://github.com/${sponsor.login}`}
+                        target="_blank"
+                        rel="noopener"
+                        className="bg-card hover:border-foreground/20 flex items-center gap-2 rounded-full border py-1 pr-3 pl-1 text-sm whitespace-nowrap transition-colors"
+                      >
+                        <Image
+                          src={sponsor.avatar}
+                          alt=""
+                          width={24}
+                          height={24}
+                          className="size-6 rounded-full"
+                          unoptimized
+                        />
+                        @{sponsor.login}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </section>
 
@@ -384,7 +393,7 @@ export default async function SponsorPage() {
           aria-labelledby="plans-title"
           className="mt-16 scroll-mt-20"
         >
-          <h2 id="plans-title" className="heading-subtitle text-center">
+          <h2 id="plans-title" className="heading-title text-center">
             Plans
           </h2>
           <div className="mt-6 grid gap-x-4 gap-y-0 lg:grid-cols-3 lg:*:mb-0">
@@ -392,14 +401,14 @@ export default async function SponsorPage() {
               <PlanCard
                 key={tier.slug}
                 name={tier.name}
-                highlight={tier.slug === "gold"}
+                highlight={tier.slug === "diamond"}
                 badge="Most impact"
                 price={
                   <PlanPrice price={`$${tier.price}`} interval="/ month" />
                 }
                 features={
                   <FeatureList
-                    accent={tier.slug === "gold"}
+                    accent={tier.slug === "diamond"}
                     items={tier.perks.map((label) => ({
                       icon: CircleCheckIcon,
                       label,
@@ -407,48 +416,43 @@ export default async function SponsorPage() {
                   />
                 }
                 cta={
-                  <ExternalLinkButton
-                    href={`${LINK.SPONSOR}/sponsorships?tier_id=${tier.tierId}`}
-                    variant={tier.slug === "gold" ? "gradient" : "secondary"}
-                    className="w-full"
-                  >
-                    Choose {tier.name} <ArrowUpRightIcon aria-hidden />
-                  </ExternalLinkButton>
+                  <div className="flex flex-col items-center gap-2">
+                    <ExternalLinkButton
+                      href={`${LINK.SPONSOR}/sponsorships?tier_id=${tier.githubTierId}`}
+                      variant={
+                        tier.slug === "diamond" ? "gradient" : "secondary"
+                      }
+                      className="w-full"
+                    >
+                      Sponsor as {tier.name} <ArrowUpRightIcon aria-hidden />
+                    </ExternalLinkButton>
+                    <ExternalLinkButton
+                      href={`https://checkout.dodopayments.com/buy/${tier.dodoProductId}?${new URLSearchParams(
+                        {
+                          metadata_project: "framecn",
+                          quantity: "1",
+                          redirect_url: `${SITE.URL}${ROUTES.SPONSOR}`,
+                        }
+                      )}`}
+                      variant="link"
+                      size="xs"
+                      className="text-muted-foreground hover:text-foreground"
+                      aria-label={`Not on GitHub? Sponsor ${tier.name} through Dodo Payments`}
+                    >
+                      Not on GitHub? Sponsor here
+                    </ExternalLinkButton>
+                  </div>
                 }
               />
             ))}
           </div>
-
-          {/* One-time support sits with the plans: no placement, no heading. */}
-          <Frame className="mt-4">
-            <FrameContent className="flex flex-row flex-wrap items-center justify-between gap-3 px-5 py-4">
-              <p className="text-sm">
-                Prefer a one-time thank-you?{" "}
-                <span className="text-muted-foreground">
-                  No subscription, no placement.
-                </span>
-              </p>
-              <div className="flex gap-2">
-                {ONE_TIME_SPONSOR_TIERS.map((tier) => (
-                  <ExternalLinkButton
-                    key={tier.tierId}
-                    href={`${LINK.SPONSOR}/sponsorships?tier_id=${tier.tierId}`}
-                    variant="secondary"
-                    size="sm"
-                  >
-                    {tier.name} · ${tier.price}
-                  </ExternalLinkButton>
-                ))}
-              </div>
-            </FrameContent>
-          </Frame>
         </section>
 
         <section
           aria-labelledby="faq-title"
           className="mx-auto mt-16 max-w-3xl"
         >
-          <h2 id="faq-title" className="heading-subtitle text-center">
+          <h2 id="faq-title" className="heading-title text-center">
             FAQs
           </h2>
           <Accordion className="mt-6">

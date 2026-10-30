@@ -80,6 +80,7 @@ export const DocsShareMenu = ({
           render={
             <a
               href={`https://x.com/intent/tweet?url=${urlEncoded}`}
+              aria-label="Share on X"
               target="_blank"
               rel="noopener"
             />
@@ -93,6 +94,7 @@ export const DocsShareMenu = ({
           render={
             <a
               href={`https://www.linkedin.com/sharing/share-offsite?url=${urlEncoded}`}
+              aria-label="Share on LinkedIn"
               target="_blank"
               rel="noopener"
             />

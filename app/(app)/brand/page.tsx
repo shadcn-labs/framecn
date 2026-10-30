@@ -66,7 +66,13 @@ export default function BrandPage() {
             <Button
               nativeButton={false}
               render={
-                <a href={BRAND_ZIP} download target="_blank" rel="noopener" />
+                <a
+                  href={BRAND_ZIP}
+                  aria-label="Download all assets"
+                  download
+                  target="_blank"
+                  rel="noopener"
+                />
               }
             >
               <DownloadIcon />
@@ -76,7 +82,12 @@ export default function BrandPage() {
               nativeButton={false}
               variant="outline"
               render={
-                <a href={BRAND_GUIDELINES} target="_blank" rel="noopener" />
+                <a
+                  href={BRAND_GUIDELINES}
+                  aria-label="Brand guidelines"
+                  target="_blank"
+                  rel="noopener"
+                />
               }
             >
               Brand guidelines

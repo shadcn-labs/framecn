@@ -51,10 +51,7 @@ const FAQ = [
 ];
 
 export const Faq = () => (
-  <section
-    aria-labelledby="faq-title"
-    className="container-page section-y"
-  >
+  <section aria-labelledby="faq-title" className="container-page section-y">
     <FaqJsonLd items={FAQ} />
     <SectionHeading id="faq-title" title="FAQs" />
     <Accordion className="mx-auto mt-10 w-full max-w-3xl">

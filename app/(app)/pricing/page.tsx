@@ -94,7 +94,7 @@ export default async function PricingPage() {
   return (
     <div className="flex flex-col">
       <FaqJsonLd items={FAQ} />
-      <section className="container-page pt-16 md:pt-24">
+      <section className="container-page pt-8 md:pt-16">
         <h1 className="heading-display mx-auto max-w-3xl text-center">
           Don&rsquo;t let your next launch video look like{" "}
           <span className="chromatic whitespace-nowrap">
@@ -161,10 +161,7 @@ export default async function PricingPage() {
         ) : null}
       </section>
       <WhatYouGet proCount={PRO_COUNT} />
-      <section
-        aria-labelledby="faq-title"
-        className="container-page section-y"
-      >
+      <section aria-labelledby="faq-title" className="container-page section-y">
         <h2 id="faq-title" className="heading-title text-center">
           FAQs
         </h2>

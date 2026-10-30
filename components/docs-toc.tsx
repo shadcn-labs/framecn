@@ -102,7 +102,7 @@ export const DocsTableOfContents = ({
           {toc.map((item) => (
             <DropdownMenuItem
               key={item.url}
-              render={<a href={item.url} />}
+              render={<a href={item.url}>{item.title}</a>}
               onClick={handleClose}
               data-depth={item.depth}
               className="data-[depth=3]:pl-6 data-[depth=4]:pl-8"

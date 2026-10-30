@@ -21,6 +21,7 @@ const buttonVariants = cva(
         "icon-sm": "size-8",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        xs: "h-6 rounded-md gap-1 px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
       },
       variant: {
         // Highlight CTAs (Get Pro, unlock, featured plan); everyday actions stay on `default`.

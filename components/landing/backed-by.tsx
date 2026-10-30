@@ -4,14 +4,14 @@ import { sponsorsFor } from "@/lib/sponsors";
 import type { SponsorTierSlug } from "@/lib/sponsors";
 import { cn } from "@/lib/utils";
 
-/** Logo size follows the tier: Gold is the largest. */
+/** Logo size follows the tier: Diamond is the largest. */
 const LOGO_HEIGHT: Record<SponsorTierSlug, string> = {
-  bronze: "h-6",
-  gold: "h-10",
-  silver: "h-7",
+  diamond: "h-10",
+  gold: "h-7",
+  silver: "h-6",
 };
 
-/** Homepage sponsor placement (Gold and Silver); hidden until someone takes it. */
+/** Homepage sponsor placement (Diamond and Gold); hidden until someone takes it. */
 export const BackedBy = () => {
   const sponsors = sponsorsFor("home");
   if (sponsors.length === 0) {

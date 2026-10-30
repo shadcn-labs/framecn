@@ -14,7 +14,11 @@ export const ExternalLinkButton = ({
 }: ExternalLinkButtonProps) => (
   <Button
     nativeButton={false}
-    render={<a href={href} target="_blank" rel="noopener noreferrer" />}
+    render={
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    }
     {...props}
   >
     {children}

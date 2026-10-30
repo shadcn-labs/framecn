@@ -10,26 +10,31 @@ export const PLACEMENTS: {
   description: string;
 }[] = [
   {
-    description: "Your logo displayed at the bottom of the main site navigation.",
+    description:
+      "Your logo displayed at the bottom of the main site navigation.",
     slug: "sidebar",
     title: "In the sidebar",
   },
   {
-    description: "Your logo featured in the “Backed by” section on our homepage.",
+    description:
+      "Your logo featured in the “Backed by” section on our homepage.",
     slug: "home",
     title: "On the homepage",
   },
   {
-    description: "Your logo and name featured on this page and in the GitHub README.",
+    description:
+      "Your logo and name featured on this page and in the GitHub README.",
     slug: "listing",
     title: "Sponsor page and README",
   },
 ];
 
-/** Published GitHub Sponsors tiers, highest first. */
+/** framecn placement packages, highest first; shared Dodo products identify the project at checkout. */
 export const SPONSOR_TIERS = [
   {
-    name: "Gold",
+    dodoProductId: "pdt_0NqsoNh1AhNlpLHUl1iVC",
+    githubTierId: 675_848,
+    name: "Diamond",
     perks: [
       "Logo in the sidebar",
       "Largest logo on the homepage",
@@ -40,38 +45,34 @@ export const SPONSOR_TIERS = [
     ],
     placements: ["sidebar", "home", "listing"],
     price: 100,
-    slug: "gold",
-    tierId: 654_510,
+    slug: "diamond",
   },
   {
-    name: "Silver",
+    dodoProductId: "pdt_0NqsoNgFblP1mEKOoU9RU",
+    githubTierId: 675_847,
+    name: "Gold",
     perks: [
-      "Logo on the homepage",
-      "Logo on this page",
-      "Logo in the README",
+      "Larger logo on the homepage",
+      "Larger logo on this page",
+      "Larger logo in the README",
       "Shoutout from @shadcnlabs on X",
     ],
     placements: ["home", "listing"],
     price: 50,
-    slug: "silver",
-    tierId: 585_116,
+    slug: "gold",
   },
   {
-    name: "Bronze",
+    dodoProductId: "pdt_0NqsoNeoSItETZxEyHYjs",
+    githubTierId: 675_837,
+    name: "Silver",
     perks: ["Logo on this page", "Logo in the README"],
     placements: ["listing"],
     price: 20,
-    slug: "bronze",
-    tierId: 585_115,
+    slug: "silver",
   },
 ] as const;
 
 export type SponsorTierSlug = (typeof SPONSOR_TIERS)[number]["slug"];
-
-export const ONE_TIME_SPONSOR_TIERS = [
-  { name: "Coffee", price: 10, tierId: 622_211 },
-  { name: "Dinner", price: 100, tierId: 622_212 },
-] as const;
 
 export interface PlacedSponsor {
   name: string;
@@ -92,14 +93,5 @@ export const sponsorsFor = (placement: PlacementSlug) =>
     )
   );
 
-/** People sponsoring Aniket on GitHub (not a framecn tier); listed under "Individual sponsors". */
-export const INDIVIDUAL_SPONSORS = [
-  {
-    avatar: "https://avatars.githubusercontent.com/u/29006102?v=4",
-    login: "bokvi",
-  },
-  {
-    avatar: "https://avatars.githubusercontent.com/u/144938685?v=4",
-    login: "askadityapandey",
-  },
-] as const;
+/** Individual supporters of the organization, not the maintainer's personal profile. */
+export const INDIVIDUAL_SPONSORS: { avatar: string; login: string }[] = [];

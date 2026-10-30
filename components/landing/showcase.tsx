@@ -26,7 +26,7 @@ export const Showcase = () => {
   return (
     <section
       aria-labelledby="showcase-title"
-      className="container-page section-y"
+      className="container-page pt-16 md:pt-24"
     >
       <SectionHeading id="showcase-title" title="See it in motion" />
       <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

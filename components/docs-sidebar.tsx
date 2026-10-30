@@ -11,8 +11,7 @@ export const DocsSidebar = ({
   toc: ComponentProps<typeof DocsTableOfContents>["toc"];
   filePath: string;
 }) => (
-  <aside className="sticky top-14 z-30 ml-auto hidden h-[calc(100svh-4rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
-    <div className="h-8 shrink-0" />
+  <aside className="sticky top-12 z-30 ml-auto hidden h-[calc(100svh-4rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pt-16 pb-8 xl:flex">
     {toc.length > 0 && (
       <div className="no-scrollbar mx-8 overflow-y-auto border-b">
         <DocsTableOfContents toc={toc} />

@@ -53,6 +53,7 @@ export default function ChangelogPage() {
                     render={
                       <a
                         href={ROUTES.RSS}
+                        aria-label="RSS"
                         target="_blank"
                         rel="noopener noreferrer"
                       />

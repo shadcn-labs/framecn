@@ -58,6 +58,7 @@ export const BrandContextMenu = ({
           render={
             <a
               href="https://shadcn-labs.com/brand"
+              aria-label="Brand Guidelines"
               target="_blank"
               rel="noopener noreferrer"
             />
@@ -71,6 +72,7 @@ export const BrandContextMenu = ({
           render={
             <a
               href="https://shadcn-labs.com/shadcn-labs-brand.zip"
+              aria-label="Download Brand Assets"
               target="_blank"
               rel="noopener noreferrer"
             />

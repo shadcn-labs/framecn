@@ -5,8 +5,8 @@ import type { CSSProperties } from "react";
 import {
   getColorsCount,
   indicatorBackground,
-  type ChartConfig,
 } from "@/components/evilcharts/ui/echarts-chart";
+import type { ChartConfig } from "@/components/evilcharts/ui/echarts-chart";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Legend overlay (React) — replicates ChartLegendContent + its 7 indicators.
@@ -23,20 +23,22 @@ export type LegendVariant =
   | "vertical-bar"
   | "horizontal-bar";
 
-export function legendFillStyle(
+export const legendFillStyle = (
   key: string,
   colorsCount: number
-): CSSProperties {
-  if (colorsCount <= 1) return { backgroundColor: `var(--color-${key}-0)` };
+): CSSProperties => {
+  if (colorsCount <= 1) {
+    return { backgroundColor: `var(--color-${key}-0)` };
+  }
   return { background: indicatorBackground(key, colorsCount) };
-}
+};
 
 // Punches out the centre with a mask-composite so only the "border" shows —
 // works with gradients and border-radius, unlike plain border-color.
-export function legendOutlineStyle(
+export const legendOutlineStyle = (
   key: string,
   colorsCount: number
-): CSSProperties {
+): CSSProperties => {
   const mask: CSSProperties = {
     WebkitMask:
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
@@ -45,9 +47,9 @@ export function legendOutlineStyle(
     maskComposite: "exclude",
   };
   return { ...legendFillStyle(key, colorsCount), ...mask };
-}
+};
 
-export function LegendIndicator({
+export const LegendIndicator = ({
   variant,
   dataKey,
   colorsCount,
@@ -55,38 +57,52 @@ export function LegendIndicator({
   variant: LegendVariant;
   dataKey: string;
   colorsCount: number;
-}) {
+}) => {
   const fill = legendFillStyle(dataKey, colorsCount);
   const outline = legendOutlineStyle(dataKey, colorsCount);
 
   switch (variant) {
-    case "square":
-      return <div className="h-2 w-2 shrink-0" style={fill} />;
-    case "circle":
-      return <div className="h-2 w-2 shrink-0 rounded-full" style={fill} />;
-    case "circle-outline":
+    case "square": {
+      return <span className="block h-2 w-2 shrink-0" style={fill} />;
+    }
+    case "circle": {
       return (
-        <div
-          className="h-2.5 w-2.5 shrink-0 rounded-full p-[1.5px]"
+        <span className="block h-2 w-2 shrink-0 rounded-full" style={fill} />
+      );
+    }
+    case "circle-outline": {
+      return (
+        <span
+          className="block h-2.5 w-2.5 shrink-0 rounded-full p-[1.5px]"
           style={outline}
         />
       );
-    case "vertical-bar":
-      return <div className="h-3 w-1 shrink-0 rounded-[2px]" style={fill} />;
-    case "horizontal-bar":
-      return <div className="h-1 w-3 shrink-0 rounded-[2px]" style={fill} />;
-    case "rounded-square-outline":
+    }
+    case "vertical-bar": {
       return (
-        <div
-          className="h-2.5 w-2.5 shrink-0 rounded-[3px] p-[1.5px]"
+        <span className="block h-3 w-1 shrink-0 rounded-[2px]" style={fill} />
+      );
+    }
+    case "horizontal-bar": {
+      return (
+        <span className="block h-1 w-3 shrink-0 rounded-[2px]" style={fill} />
+      );
+    }
+    case "rounded-square-outline": {
+      return (
+        <span
+          className="block h-2.5 w-2.5 shrink-0 rounded-[3px] p-[1.5px]"
           style={outline}
         />
       );
-    case "rounded-square":
-    default:
-      return <div className="h-2 w-2 shrink-0 rounded-[2px]" style={fill} />;
+    }
+    default: {
+      return (
+        <span className="block h-2 w-2 shrink-0 rounded-[2px]" style={fill} />
+      );
+    }
   }
-}
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LegendOverlay — the positioned HTML legend row. The chart computes the
@@ -96,7 +112,7 @@ export function LegendIndicator({
 // the chart's LegendSlot even though positioning arrives fully via `style`.
 // ─────────────────────────────────────────────────────────────────────────────
 
-type LegendOverlayProps = {
+interface LegendOverlayProps {
   seriesKeys: string[];
   config: ChartConfig;
   variant: LegendVariant;
@@ -107,9 +123,9 @@ type LegendOverlayProps = {
   isClickable: boolean;
   onToggle: (key: string) => void;
   style: CSSProperties;
-};
+}
 
-export function LegendOverlay({
+export const LegendOverlay = ({
   seriesKeys,
   config,
   variant,
@@ -119,13 +135,13 @@ export function LegendOverlay({
   isClickable,
   onToggle,
   style,
-}: LegendOverlayProps) {
-  const legendJustify =
-    align === "left"
-      ? "justify-start"
-      : align === "center"
-        ? "justify-center"
-        : "justify-end";
+}: LegendOverlayProps) => {
+  let legendJustify = "justify-end";
+  if (align === "left") {
+    legendJustify = "justify-start";
+  } else if (align === "center") {
+    legendJustify = "justify-center";
+  }
 
   return (
     <div
@@ -138,27 +154,41 @@ export function LegendOverlay({
         const isSelected =
           (selectedKey === null || selectedKey === key) &&
           (hoveredKey === null || hoveredKey === key);
-        return (
-          // No entrance here — the Recharts legend appears instantly, and a
-          // fade-in reads as disconnected from the canvas draw-in.
-          <div
-            key={key}
-            className={`flex items-center gap-1.5 transition-opacity ${
-              !isSelected ? "opacity-30" : ""
-            } ${isClickable ? "cursor-pointer" : ""}`}
-            onClick={() => {
-              if (isClickable) onToggle(key);
-            }}
-          >
+        const className = `flex items-center gap-1.5 transition-opacity ${
+          isSelected ? "" : "opacity-30"
+        }`;
+        const content = (
+          <>
             <LegendIndicator
               variant={variant}
               dataKey={key}
               colorsCount={colorsCount}
             />
             {item?.label}
+          </>
+        );
+        // No entrance here — the Recharts legend appears instantly, and a
+        // fade-in reads as disconnected from the canvas draw-in.
+        if (isClickable) {
+          return (
+            <button
+              key={key}
+              type="button"
+              aria-label={item?.label ? undefined : key}
+              aria-pressed={selectedKey === null || selectedKey === key}
+              className={`${className} cursor-pointer border-0 bg-transparent p-0 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring`}
+              onClick={() => onToggle(key)}
+            >
+              {content}
+            </button>
+          );
+        }
+        return (
+          <div key={key} className={className}>
+            {content}
           </div>
         );
       })}
     </div>
   );
-}
+};

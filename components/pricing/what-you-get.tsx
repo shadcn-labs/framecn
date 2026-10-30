@@ -64,7 +64,10 @@ const Tile = ({
 const FRAMES = Array.from({ length: 8 }, (_, index) => index * 15);
 
 export const WhatYouGet = ({ proCount }: { proCount: number }) => (
-  <section aria-labelledby="get-title" className="container-page section-y">
+  <section
+    aria-labelledby="get-title"
+    className="container-page pt-16 md:pt-24"
+  >
     <h2 id="get-title" className="heading-title text-center">
       What you&apos;ll get
     </h2>

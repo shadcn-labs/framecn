@@ -1,7 +1,7 @@
 "use client";
 
 import { LockIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { VideoPreview } from "@/components/video-preview";
 import { getDefaults, resolveComposition } from "@/lib/customizer-config";
@@ -18,11 +18,15 @@ export const LockedPreview = () => (
 export const CatalogPreview = ({
   name,
   active = false,
+  overrides,
 }: {
   name: string;
   active?: boolean;
+  /** Preview-only control values; catalog and component defaults stay unchanged. */
+  overrides?: Record<string, unknown>;
 }) => {
   const container = useRef<HTMLDivElement>(null);
+  const instanceId = useId().replaceAll(":", "");
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,7 +40,10 @@ export const CatalogPreview = ({
   }, []);
   const entry = registry[name];
   const config = entry?.config;
-  const defaults = config ? getDefaults(config.controls) : {};
+  const defaults = {
+    ...(config ? getDefaults(config.controls) : {}),
+    ...overrides,
+  };
   const { durationInFrames, height, width } = config
     ? resolveComposition(config, defaults)
     : { durationInFrames: 90, height: 720, width: 1280 };
@@ -49,7 +56,7 @@ export const CatalogPreview = ({
       {entry ? (
         visible && (
           <VideoPreview
-            previewId={`gallery-${name}`}
+            previewId={`gallery-${name}-${instanceId}`}
             Component={entry.Component}
             componentProps={{
               ...defaults,

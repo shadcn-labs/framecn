@@ -5,15 +5,18 @@ export const PageHeader = ({
   description,
   title,
   centered = false,
+  display = false,
 }: {
   children?: React.ReactNode;
   description?: React.ReactNode;
   title: React.ReactNode;
   /** Center the title, description and actions (marketing-style pages). */
   centered?: boolean;
+  /** Use the flagship marketing H1 size instead of the standalone page title. */
+  display?: boolean;
 }) => (
   <header className={cn(centered && "text-center")}>
-    <h1 className="heading-title">{title}</h1>
+    <h1 className={display ? "heading-display" : "heading-title"}>{title}</h1>
     {description ? (
       <p
         className={cn(
