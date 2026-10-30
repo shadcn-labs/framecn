@@ -34,7 +34,7 @@ const ConfiguredPreview = ({
     values
   );
   return (
-    <div className={cn("not-prose flex flex-col gap-4", className)}>
+    <div className={cn("not-typeset flex flex-col gap-4", className)}>
       <VideoPreview
         previewId={previewId}
         Component={registry[name].Component}

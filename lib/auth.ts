@@ -10,16 +10,9 @@ import { hasProAccess } from "@/lib/billing";
 import { getDb } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
 
-export const getAuthProviders = (): ("google" | "github")[] => {
-  const providers: ("google" | "github")[] = [];
-  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-    providers.push("google");
-  }
-  if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
-    providers.push("github");
-  }
-  return providers;
-};
+/** Google is the only OAuth provider; it shows when its client is configured. */
+export const isGoogleSignInEnabled = () =>
+  Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
 export const isEmailSignInEnabled = () =>
   Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
@@ -34,8 +27,8 @@ export const getAuthConfigurationError = (): string | null => {
   if (!process.env.BETTER_AUTH_URL) {
     return "Authentication is not configured: set BETTER_AUTH_URL to this site's origin.";
   }
-  if (!process.env.RESEND_API_KEY && getAuthProviders().length === 0) {
-    return "Sign-in is not configured: add RESEND_API_KEY and EMAIL_FROM, or configure a Google or GitHub OAuth application.";
+  if (!process.env.RESEND_API_KEY && !isGoogleSignInEnabled()) {
+    return "Sign-in is not configured: add RESEND_API_KEY and EMAIL_FROM, or configure a Google OAuth client.";
   }
   if (process.env.RESEND_API_KEY && !process.env.EMAIL_FROM) {
     return "Email sign-in is not configured: set EMAIL_FROM to a verified Resend sender.";
@@ -99,24 +92,18 @@ const createAuth = () =>
       storage: "database",
     },
     secret: process.env.BETTER_AUTH_SECRET,
-    socialProviders: {
-      ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+    socialProviders:
+      process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
         ? {
             google: {
               clientId: process.env.GOOGLE_CLIENT_ID,
               clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             },
           }
-        : {}),
-      ...(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
-        ? {
-            github: {
-              clientId: process.env.GITHUB_CLIENT_ID,
-              clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            },
-          }
-        : {}),
-    },
+        : {},
+    // Purchases are keyed by email, so deleting the account keeps Pro for a
+    // later sign-in with the same address; the API key cascades away.
+    user: { deleteUser: { enabled: true } },
   });
 
 let auth: ReturnType<typeof createAuth> | undefined;

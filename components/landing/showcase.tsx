@@ -30,7 +30,7 @@ export const Showcase = () => {
   return (
     <section
       aria-labelledby="showcase-title"
-      className="container-page py-16 md:py-24"
+      className="container-page section-y"
     >
       <SectionHeading
         id="showcase-title"

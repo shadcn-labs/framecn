@@ -87,12 +87,12 @@ export default async function SponsorPage() {
 
   return (
     <PageTransition>
-      <article className="container-page py-12 md:py-16">
+      <article className="container-page page-y">
         <PageHeader
           title="Sponsor framecn"
           description="Support the work behind the components, documentation, and tools you use to make video with React."
         >
-          <ExternalLinkButton href={LINK.SPONSOR} sound="heart">
+          <ExternalLinkButton href={LINK.SPONSOR}>
             <HeartIcon aria-hidden />
             Sponsor on GitHub
             <ArrowUpRightIcon aria-hidden />
@@ -119,10 +119,7 @@ export default async function SponsorPage() {
           aria-labelledby="audience-title"
           className="mt-12 scroll-mt-20"
         >
-          <h2
-            id="audience-title"
-            className="text-2xl font-medium tracking-tight"
-          >
+          <h2 id="audience-title" className="heading-subtitle">
             Audience
           </h2>
           <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
@@ -158,10 +155,7 @@ export default async function SponsorPage() {
           aria-labelledby="placements-title"
           className="mt-14 scroll-mt-20 border-t pt-10"
         >
-          <h2
-            id="placements-title"
-            className="text-2xl font-medium tracking-tight"
-          >
+          <h2 id="placements-title" className="heading-subtitle">
             Placements
           </h2>
           <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
@@ -174,7 +168,7 @@ export default async function SponsorPage() {
               <p className="text-muted-foreground text-xs font-medium uppercase tracking-wide">
                 Sponsor-page listing
               </p>
-              <h3 className="mt-2 text-lg font-medium">
+              <h3 className="heading-subtitle mt-2">
                 Your name or logo, with a link of your choice
               </h3>
               <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-6">
@@ -192,10 +186,7 @@ export default async function SponsorPage() {
           aria-labelledby="sponsors-title"
           className="mt-14 scroll-mt-20 border-t pt-10"
         >
-          <h2
-            id="sponsors-title"
-            className="text-2xl font-medium tracking-tight"
-          >
+          <h2 id="sponsors-title" className="heading-subtitle">
             Sponsors
           </h2>
           <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
@@ -249,7 +240,7 @@ export default async function SponsorPage() {
           aria-labelledby="plans-title"
           className="mt-14 scroll-mt-20 border-t pt-10"
         >
-          <h2 id="plans-title" className="text-2xl font-medium tracking-tight">
+          <h2 id="plans-title" className="heading-subtitle">
             Plans
           </h2>
           <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
@@ -301,7 +292,7 @@ export default async function SponsorPage() {
               </Frame>
             ))}
           </div>
-          <h3 className="mt-8 text-lg font-medium">One-time support</h3>
+          <h3 className="heading-subtitle mt-8">One-time support</h3>
           <p className="text-muted-foreground mt-2 text-sm leading-6">
             A one-time thank-you, without a monthly subscription.
           </p>
@@ -333,10 +324,7 @@ export default async function SponsorPage() {
           aria-labelledby="questions-title"
           className="mt-14 scroll-mt-20 border-t pt-10"
         >
-          <h2
-            id="questions-title"
-            className="text-2xl font-medium tracking-tight"
-          >
+          <h2 id="questions-title" className="heading-subtitle">
             Questions
           </h2>
           <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-6">
@@ -358,7 +346,7 @@ export default async function SponsorPage() {
           aria-labelledby="faqs-title"
           className="mt-14 scroll-mt-20 border-t pt-10"
         >
-          <h2 id="faqs-title" className="text-2xl font-medium tracking-tight">
+          <h2 id="faqs-title" className="heading-subtitle">
             FAQs
           </h2>
           <Accordion className="mt-6">

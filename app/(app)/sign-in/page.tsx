@@ -2,11 +2,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { SignInForm } from "@/components/sign-in-form";
+import { SignInWall } from "@/components/sign-in-wall";
+import { ROUTES } from "@/constants/routes";
 import {
   getAuthConfigurationError,
-  getAuthProviders,
   getSession,
   isEmailSignInEnabled,
+  isGoogleSignInEnabled,
 } from "@/lib/auth";
 
 export const metadata = {
@@ -25,45 +27,53 @@ export default async function SignInPage({
     !requestedNext.startsWith("//") &&
     !requestedNext.includes("\\")
       ? requestedNext
-      : "/pricing";
+      : ROUTES.DASHBOARD;
   const session = await getSession();
   if (session) {
     redirect(next);
   }
   const error = getAuthConfigurationError();
   return (
-    <section className="flex flex-1 flex-col items-center justify-center px-5 py-16">
-      <div className="bg-card w-full max-w-sm rounded-xl border p-6">
-        <h1 className="text-xl font-semibold tracking-tight">
-          Sign in to framecn
-        </h1>
-        <p className="text-muted-foreground mt-1 mb-6 text-sm">
-          Unlock Pro source and manage your plan. New here? Your account is
-          created when you verify your email.
-        </p>
-        {error ? (
-          <div role="alert" className="rounded-lg border p-4 text-sm">
-            <p className="mb-1 font-medium">Sign-in needs a little setup.</p>
-            <p className="text-muted-foreground">{error}</p>
+    <section className="grid flex-1 lg:grid-cols-2">
+      <div className="flex flex-col items-center justify-center px-6 py-12">
+        <div className="w-full max-w-sm">
+          <div className="mb-8 text-center">
+            <h1 className="heading-title">Sign in to framecn</h1>
+            <p className="text-muted-foreground mt-2 text-sm text-balance">
+              Get your API key, manage your plan, and install Pro components
+              from the CLI.
+            </p>
           </div>
-        ) : (
-          <SignInForm
-            emailEnabled={isEmailSignInEnabled()}
-            providers={getAuthProviders()}
-            next={next}
-          />
-        )}
-        <p className="text-muted-foreground mt-6 text-xs">
-          Bought Pro? Sign in with the email you paid with and your purchase is
-          there.
-        </p>
+          {error ? (
+            <div role="alert" className="rounded-lg border p-4 text-sm">
+              <p className="mb-1 font-medium">Sign-in needs a little setup.</p>
+              <p className="text-muted-foreground">{error}</p>
+            </div>
+          ) : (
+            <SignInForm
+              emailEnabled={isEmailSignInEnabled()}
+              googleEnabled={isGoogleSignInEnabled()}
+              next={next}
+            />
+          )}
+          <p className="text-muted-foreground mt-8 text-center text-xs">
+            <Link
+              href={ROUTES.TERMS}
+              className="hover:text-foreground underline underline-offset-4"
+            >
+              Terms
+            </Link>
+            {" · "}
+            <Link
+              href={ROUTES.PRIVACY}
+              className="hover:text-foreground underline underline-offset-4"
+            >
+              Privacy
+            </Link>
+          </p>
+        </div>
       </div>
-      <Link
-        href="/components"
-        className="text-muted-foreground hover:text-foreground mt-6 text-sm"
-      >
-        Just browsing? Explore the free components →
-      </Link>
+      <SignInWall />
     </section>
   );
 }

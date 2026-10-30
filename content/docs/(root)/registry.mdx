@@ -3,7 +3,7 @@ title: Registry
 description: Install free framecn caption components and Pro components with the shadcn CLI.
 ---
 
-The framecn public registry contains the free caption components built with Editframe. Pro components, such as [Node Reveal](/components/compositions/node-reveal), are installed from the authenticated `@framecn-pro` registry (see [framecn Pro](#framecn-pro)).
+Every framecn component, free or Pro, installs from the `@framecn` registry. Free components need no setup. Pro components, such as [Node Reveal](/components/compositions/node-reveal), use the same namespace with your API key attached (see [framecn Pro](#framecn-pro)).
 
 ## Setup
 
@@ -37,21 +37,20 @@ Components install into `components/framecn/` and depend on `@editframe/react`. 
 
 Pro subscribers can install any Pro component, such as [Node Reveal](/components/compositions/node-reveal), with the shadcn CLI using a personal API key.
 
-1. Open any Pro component panel while signed in and generate an API key. It is shown once — copy it.
+1. Generate an API key on your [dashboard](/dashboard). It is shown once — copy it.
 2. Add the key to your project's `.env`:
 
 ```bash
 FRAMECN_API_KEY=fcn_...
 ```
 
-3. Add the `@framecn-pro` registry to `components.json`:
+3. Attach the key to the `@framecn` registry in `components.json`:
 
 ```json
 {
   "registries": {
-    "@framecn": "https://framecn.dev/r/{name}.json",
-    "@framecn-pro": {
-      "url": "https://framecn.dev/r/pro/{name}.json",
+    "@framecn": {
+      "url": "https://framecn.dev/r/{name}.json",
       "headers": {
         "Authorization": "Bearer ${FRAMECN_API_KEY}"
       }
@@ -60,10 +59,10 @@ FRAMECN_API_KEY=fcn_...
 }
 ```
 
-4. Install:
+4. Install Pro components exactly like free ones:
 
 ```bash
-npx shadcn@latest add @framecn-pro/node-reveal
+npx shadcn@latest add @framecn/node-reveal
 ```
 
-Regenerating a key immediately invalidates the previous one. Requests fail with 401 for a missing or invalid key and 403 without an active Pro plan.
+Free components ignore the key, so this one entry covers both. Regenerating a key immediately invalidates the previous one. Requests fail with 401 for a missing or invalid key and 403 without an active Pro plan.

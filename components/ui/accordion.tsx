@@ -3,8 +3,6 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { PlusIcon } from "lucide-react";
 
-import type { FeedbackType } from "@/hooks/use-feedback";
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
 /**
@@ -44,41 +42,25 @@ const AccordionItem = ({
 const AccordionTrigger = ({
   className,
   children,
-  onClick,
-  sound,
-  haptic,
   ...props
-}: AccordionPrimitive.Trigger.Props & {
-  sound?: FeedbackType;
-  haptic?: boolean;
-}) => {
-  const play = useFeedback({ haptic, sound });
-
-  const handleClick: AccordionPrimitive.Trigger.Props["onClick"] = (e) => {
-    play();
-    onClick?.(e);
-  };
-
-  return (
-    <AccordionPrimitive.Header className="flex">
-      <AccordionPrimitive.Trigger
-        data-slot="accordion-trigger"
-        className={cn(
-          "focus-visible:ring-ring/50 flex flex-1 items-center justify-between gap-4 rounded-[max(0px,calc(var(--accordion-item-radius)-1px))] px-4 py-3.5 text-left text-[15px] font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[data-panel-open]>svg]:rotate-45",
-          className
-        )}
-        onClick={handleClick}
-        {...props}
-      >
-        {children}
-        <PlusIcon
-          aria-hidden
-          className="text-muted-foreground pointer-events-none size-4 shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none"
-        />
-      </AccordionPrimitive.Trigger>
-    </AccordionPrimitive.Header>
-  );
-};
+}: AccordionPrimitive.Trigger.Props) => (
+  <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Trigger
+      data-slot="accordion-trigger"
+      className={cn(
+        "focus-visible:ring-ring/50 flex flex-1 items-center justify-between gap-4 rounded-[max(0px,calc(var(--accordion-item-radius)-1px))] px-4 py-3.5 text-left text-[15px] font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[data-panel-open]>svg]:rotate-45",
+        className
+      )}
+      {...props}
+    >
+      {children}
+      <PlusIcon
+        aria-hidden
+        className="text-muted-foreground pointer-events-none size-4 shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none"
+      />
+    </AccordionPrimitive.Trigger>
+  </AccordionPrimitive.Header>
+);
 
 const AccordionContent = ({
   className,

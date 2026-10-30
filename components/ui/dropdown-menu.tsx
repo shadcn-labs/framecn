@@ -2,79 +2,12 @@
 
 import { Menu as DropdownMenuPrimitive } from "@base-ui/react/menu";
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
 
-import { dropdownClose, dropdownOpen } from "@/audio/core";
-import type { FeedbackType } from "@/hooks/use-feedback";
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
-const DropdownMenu = ({
-  onOpenChange,
-  sounds = false,
-  ...props
-}: DropdownMenuPrimitive.Root.Props & {
-  sounds?: boolean;
-}) => {
-  const playOpen = useFeedback({ soundDef: dropdownOpen });
-  const playClose = useFeedback({ soundDef: dropdownClose });
-  const isControlled = props.open !== undefined;
-  const lastOpen = useRef(props.open ?? props.defaultOpen ?? false);
-
-  const playStateSound = useCallback(
-    (open: boolean) => {
-      if (!sounds || open === lastOpen.current) {
-        return;
-      }
-
-      if (open) {
-        playOpen();
-      } else {
-        playClose();
-      }
-
-      lastOpen.current = open;
-    },
-    [playClose, playOpen, sounds]
-  );
-
-  useEffect(() => {
-    if (!isControlled) {
-      return;
-    }
-
-    playStateSound(props.open ?? false);
-  }, [isControlled, playStateSound, props.open]);
-
-  const handleOpenChange = useCallback(
-    (
-      open: boolean,
-      eventDetails: DropdownMenuPrimitive.Root.ChangeEventDetails
-    ) => {
-      playStateSound(open);
-      onOpenChange?.(open, eventDetails);
-    },
-    [onOpenChange, playStateSound]
-  );
-
-  if (!sounds) {
-    return (
-      <DropdownMenuPrimitive.Root
-        data-slot="dropdown-menu"
-        onOpenChange={onOpenChange}
-        {...props}
-      />
-    );
-  }
-
-  return (
-    <DropdownMenuPrimitive.Root
-      data-slot="dropdown-menu"
-      onOpenChange={handleOpenChange}
-      {...props}
-    />
-  );
-};
+const DropdownMenu = ({ ...props }: DropdownMenuPrimitive.Root.Props) => (
+  <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />
+);
 
 const DropdownMenuPortal = ({
   ...props
@@ -137,37 +70,22 @@ const DropdownMenuItem = ({
   className,
   inset,
   variant = "default",
-  onClick,
-  sound,
-  haptic,
   ...props
 }: DropdownMenuPrimitive.Item.Props & {
   inset?: boolean;
   variant?: "default" | "destructive";
-  sound?: FeedbackType;
-  haptic?: boolean;
-}) => {
-  const play = useFeedback({ haptic, sound });
-
-  const handleClick: DropdownMenuPrimitive.Item.Props["onClick"] = (event) => {
-    play();
-    onClick?.(event);
-  };
-
-  return (
-    <DropdownMenuPrimitive.Item
-      data-slot="dropdown-menu-item"
-      data-inset={inset}
-      data-variant={variant}
-      onClick={handleClick}
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-[var(--menu-inner-radius)] px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      )}
-      {...props}
-    />
-  );
-};
+}) => (
+  <DropdownMenuPrimitive.Item
+    data-slot="dropdown-menu-item"
+    data-inset={inset}
+    data-variant={variant}
+    className={cn(
+      "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-[var(--menu-inner-radius)] px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+      className
+    )}
+    {...props}
+  />
+);
 
 const DropdownMenuCheckboxItem = ({
   className,

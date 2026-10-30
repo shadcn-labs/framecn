@@ -36,7 +36,7 @@ export const ProUnlockDialog = ({
 }) => {
   const { annual, lifetime, team } = offers;
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} sounds>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="gap-0 p-8 text-center sm:max-w-md">
         <DialogHeader className="items-center gap-0 text-center sm:text-center">
           <Badge variant="brand">Pro</Badge>

@@ -24,7 +24,6 @@ export const CodeCollapsibleWrapper = ({
 
   return (
     <Collapsible
-      sounds
       open={isOpened}
       onOpenChange={setIsOpened}
       className={cn(

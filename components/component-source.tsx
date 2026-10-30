@@ -21,7 +21,10 @@ const ComponentCode = ({
   language: string;
   title: string | undefined;
 }) => (
-  <figure data-rehype-pretty-code-figure="" className="mx-0! [&>pre]:max-h-96">
+  <figure
+    data-rehype-pretty-code-figure=""
+    className="not-typeset mx-0! [&>pre]:max-h-96"
+  >
     {title ? (
       <figcaption
         className="flex items-center gap-2 font-normal [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-muted-foreground"

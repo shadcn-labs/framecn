@@ -1,8 +1,7 @@
 "use client";
 
-import { LogOutIcon, ReceiptIcon } from "lucide-react";
+import { LogOutIcon, LayoutDashboardIcon } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -19,15 +18,14 @@ import { ROUTES } from "@/constants/routes";
 import { authClient } from "@/lib/auth-client";
 
 export const AccountButton = () => {
-  const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
 
   if (isPending || !session) {
-    const next = pathname.startsWith("/sign-in") ? ROUTES.PRICING : pathname;
+    // Sign-in defaults to the dashboard.
     return (
       <Button
         nativeButton={false}
-        render={<Link href={`/sign-in?next=${encodeURIComponent(next)}`} />}
+        render={<Link href={ROUTES.SIGN_IN} />}
         variant="outline"
         size="sm"
         className="h-8 rounded-full px-3.5"
@@ -65,8 +63,8 @@ export const AccountButton = () => {
           </DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem render={<Link href={ROUTES.PRICING} />}>
-          <ReceiptIcon /> Plan & billing
+        <DropdownMenuItem render={<Link href={ROUTES.DASHBOARD} />}>
+          <LayoutDashboardIcon /> Dashboard
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={async () => {

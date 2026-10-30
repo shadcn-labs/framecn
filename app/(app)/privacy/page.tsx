@@ -1,8 +1,4 @@
-import {
-  LegalPage,
-  LegalSection,
-  proseLinkClass,
-} from "@/components/legal-page";
+import { LegalPage, LegalSection } from "@/components/legal-page";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 import { createPageMetadata } from "@/seo/metadata";
@@ -37,7 +33,6 @@ export default function PrivacyPage() {
             href="https://vercel.com/docs/analytics/privacy-policy"
             target="_blank"
             rel="noopener"
-            className={proseLinkClass}
           >
             Vercel Web Analytics
           </a>{" "}
@@ -54,7 +49,6 @@ export default function PrivacyPage() {
             href="https://www.carbonads.net/"
             target="_blank"
             rel="noopener noreferrer"
-            className={proseLinkClass}
           >
             Carbon Ads
           </a>
@@ -80,7 +74,6 @@ export default function PrivacyPage() {
             href="https://formsubmit.co"
             target="_blank"
             rel="noopener noreferrer"
-            className={proseLinkClass}
           >
             FormSubmit
           </a>
@@ -92,26 +85,25 @@ export default function PrivacyPage() {
       <LegalSection title="Your account">
         <p>
           An account is only needed for framecn Pro. When you sign in we store
-          your email address, name, and profile image (if your Google or GitHub
-          account provides one), plus session records that include the IP
-          address and browser used to sign in. This lives in our database,
-          hosted by Cloudflare (D1).
+          your email address, name, and profile image (if your Google account
+          provides one), plus session records that include the IP address and
+          browser used to sign in. This lives in our database, hosted by
+          Cloudflare (D1).
         </p>
         <ul>
           <li>
-            <span className="text-foreground">Email codes</span> are sent
-            through Resend. We store only a hashed copy of the code, and it
-            expires after 10 minutes.
+            <strong>Email codes</strong> are sent through Resend. We store only
+            a hashed copy of the code, and it expires after 10 minutes.
           </li>
           <li>
-            <span className="text-foreground">Google or GitHub sign-in</span>{" "}
-            shares your basic profile with us under that provider&apos;s privacy
-            policy. We don&apos;t get access to your repositories or contacts.
+            <strong>Google sign-in</strong> shares your basic profile with us
+            under that provider&apos;s privacy policy. We don&apos;t get access
+            to your repositories or contacts.
           </li>
           <li>
-            <span className="text-foreground">Pro API keys</span> are stored
-            only as SHA-256 hashes with a short prefix for display. We
-            can&apos;t recover a lost key; you can create a new one instead.
+            <strong>Pro API keys</strong> are stored only as SHA-256 hashes with
+            a short prefix for display. We can&apos;t recover a lost key; you
+            can create a new one instead.
           </li>
           <li>
             Sign-in attempts are rate limited, which briefly stores request

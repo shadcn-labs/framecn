@@ -42,10 +42,7 @@ export const HowItWorks = async () => {
   );
 
   return (
-    <section
-      aria-labelledby="how-title"
-      className="container-page py-16 md:py-24"
-    >
+    <section aria-labelledby="how-title" className="container-page section-y">
       <SectionHeading
         id="how-title"
         title="How it works"
@@ -61,9 +58,7 @@ export const HowItWorks = async () => {
             <span className="text-muted-foreground font-mono text-xs tabular-nums">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <h3 className="mt-2 text-lg font-medium tracking-tight">
-              {step.title}
-            </h3>
+            <h3 className="heading-subtitle mt-2">{step.title}</h3>
             <p className="text-muted-foreground mt-2 text-sm leading-6">
               {step.description}
             </p>

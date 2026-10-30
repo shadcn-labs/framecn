@@ -28,7 +28,13 @@ import {
   billingPayment,
   billingWebhook,
 } from "@/lib/db/schema";
-import { EARLY_BIRD_LIMIT, findPlan, PLANS } from "@/lib/plans";
+import {
+  EARLY_BIRD_LIMIT,
+  findPlan,
+  isTeamSeatCount,
+  PLANS,
+  TEAM,
+} from "@/lib/plans";
 import type { Plan, PlanOffers, PlanSlug } from "@/lib/plans";
 
 /** Dodo product ids that sell these plans, regular and early bird. */
@@ -145,11 +151,29 @@ export interface Buyer {
   email: string;
 }
 
+/** Env vars a plan's checkout needs; Team also sells one seat line per member. */
+const planProductEnvs = (slug: PlanSlug) => {
+  const plan = findPlan(slug);
+  if (!plan) {
+    return [];
+  }
+  return slug === "team" ? [plan.env, TEAM.seatEnv] : [plan.env];
+};
+
+/** The first missing product env for this plan, or null when it can sell. */
+export const missingPlanProduct = (slug: PlanSlug) =>
+  planProductEnvs(slug).find((name) => !process.env[name]) ?? null;
+
 /**
  * Guests check out too: Dodo then collects the email, and whoever signs in
- * with it gets Pro. Signed-in buyers have their account email preset.
+ * with it gets Pro. Signed-in buyers have their account email preset. `seats`
+ * is required for Team and ignored otherwise.
  */
-export const createCheckout = async (buyer: Buyer | null, slug: PlanSlug) => {
+export const createCheckout = async (
+  buyer: Buyer | null,
+  slug: PlanSlug,
+  seats?: number
+) => {
   const error = getBillingConfigurationError();
   if (error) {
     throw new Error(error);
@@ -157,6 +181,13 @@ export const createCheckout = async (buyer: Buyer | null, slug: PlanSlug) => {
   const plan = findPlan(slug);
   if (!plan) {
     throw new Error(`Unknown plan: ${slug}`);
+  }
+  const missing = missingPlanProduct(slug);
+  if (missing) {
+    throw new Error(`Billing is not configured: ${missing} is missing.`);
+  }
+  if (slug === "team" && !isTeamSeatCount(seats)) {
+    throw new Error(`Team needs ${TEAM.minSeats} to ${TEAM.maxSeats} seats.`);
   }
   const seatsLeft = await earlyBirdSeatsLeft();
   const productId =
@@ -166,6 +197,14 @@ export const createCheckout = async (buyer: Buyer | null, slug: PlanSlug) => {
   if (!productId) {
     throw new Error(`Billing is not configured: ${plan.env} is missing.`);
   }
+  const seatProductId = process.env[TEAM.seatEnv];
+  const productCart =
+    slug === "team" && seatProductId && seats
+      ? [
+          { product_id: productId, quantity: 1 },
+          { product_id: seatProductId, quantity: seats },
+        ]
+      : [{ product_id: productId, quantity: 1 }];
   const session = await getDodo().checkoutSessions.create(
     {
       cancel_url: `${appOrigin()}/pricing`,
@@ -183,9 +222,10 @@ export const createCheckout = async (buyer: Buyer | null, slug: PlanSlug) => {
       },
       metadata: {
         framecn_plan: slug,
+        ...(slug === "team" && seats ? { framecn_seats: String(seats) } : {}),
         ...(buyer ? { user_id: buyer.id } : {}),
       },
-      product_cart: [{ product_id: productId, quantity: 1 }],
+      product_cart: productCart,
       // Dodo appends `payment_id`.
       return_url: `${appOrigin()}/checkout/return`,
     },
@@ -247,24 +287,67 @@ export const getCheckoutPayment = async (
   };
 };
 
+/** Rows that grant Pro right now: active, unrefunded, unexpired. */
+const grantsAccess = (email: string) =>
+  and(
+    eq(billingEntitlement.email, normalizeEmail(email)),
+    eq(billingEntitlement.status, "active"),
+    isNull(billingEntitlement.refundedAt),
+    or(
+      isNull(billingEntitlement.expiresAt),
+      gt(billingEntitlement.expiresAt, Date.now())
+    )
+  );
+
 /** Active, unrefunded, unexpired Pro for this email. */
 export const hasProAccess = async (email: string) => {
   const [row] = await getDb()
     .select({ sourceId: billingEntitlement.sourceId })
     .from(billingEntitlement)
-    .where(
-      and(
-        eq(billingEntitlement.email, normalizeEmail(email)),
-        eq(billingEntitlement.status, "active"),
-        isNull(billingEntitlement.refundedAt),
-        or(
-          isNull(billingEntitlement.expiresAt),
-          gt(billingEntitlement.expiresAt, Date.now())
-        )
-      )
-    )
+    .where(grantsAccess(email))
     .limit(1);
   return Boolean(row);
+};
+
+export interface ActivePlan {
+  /** Null for products no longer in the catalog (e.g. a retired Team price). */
+  slug: PlanSlug | null;
+  kind: "subscription" | "lifetime";
+  /** Renewal or expiry for subscriptions; null for one-time plans. */
+  expiresAt: number | null;
+  seats: number | null;
+  purchasedAt: number;
+}
+
+/** The plan behind this email's Pro access; lifetime beats a subscription. */
+export const getActivePlan = async (
+  email: string
+): Promise<ActivePlan | null> => {
+  const rows = await getDb()
+    .select({
+      eventAt: billingEntitlement.eventAt,
+      expiresAt: billingEntitlement.expiresAt,
+      kind: billingEntitlement.kind,
+      productId: billingEntitlement.productId,
+      seats: billingEntitlement.seats,
+    })
+    .from(billingEntitlement)
+    .where(grantsAccess(email))
+    .orderBy(desc(billingEntitlement.eventAt));
+  const row = rows.find((item) => item.kind === "lifetime") ?? rows[0];
+  if (!row) {
+    return null;
+  }
+  const plan = PLANS.find((item) =>
+    productIdsFor([item]).includes(row.productId)
+  );
+  return {
+    expiresAt: row.expiresAt,
+    kind: row.kind,
+    purchasedAt: row.eventAt,
+    seats: row.seats,
+    slug: plan?.slug ?? null,
+  };
 };
 
 /** The Dodo customer behind this email's latest purchase, for the billing portal. */
@@ -407,6 +490,15 @@ const writeSubscription = async (
     });
 };
 
+/** Seats bought with a Team payment, from its per-seat cart line. */
+const teamSeats = (payment: Payment) => {
+  const seatProductId = process.env[TEAM.seatEnv];
+  const line = seatProductId
+    ? payment.product_cart?.find((item) => item.product_id === seatProductId)
+    : undefined;
+  return line ? line.quantity : null;
+};
+
 const writePayment = async (db: Db, payment: Payment, eventAt: number) => {
   const email = normalizeEmail(payment.customer.email);
   const refunded = payment.refund_status === "full";
@@ -468,6 +560,7 @@ const writePayment = async (db: Db, payment: Payment, eventAt: number) => {
       expiresAt: null,
       kind: "lifetime",
       productId: lifetime,
+      seats: teamSeats(payment),
       sourceId: payment.payment_id,
     })
     .onConflictDoUpdate({

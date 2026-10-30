@@ -14,7 +14,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger as AccordionTriggerBase,
+  AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -28,9 +28,7 @@ export const mdxComponents = {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger: (
-    props: React.ComponentProps<typeof AccordionTriggerBase>
-  ) => <AccordionTriggerBase sound="click" {...props} />,
+  AccordionTrigger,
   Alert,
   AlertDescription,
   AlertTitle,
@@ -84,16 +82,11 @@ export const mdxComponents = {
       {...props}
     />
   ),
-  Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
-    <Link
-      className={cn("font-medium underline underline-offset-4", className)}
-      {...props}
-    />
-  ),
+  Link,
   LinkedCard: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
       className={cn(
-        "bg-surface text-surface-foreground hover:bg-surface/80 flex w-full flex-col items-center rounded-xl p-6 transition-colors sm:p-10",
+        "not-typeset bg-surface text-surface-foreground hover:bg-surface/80 flex w-full flex-col items-center rounded-xl p-6 transition-colors sm:p-10",
         className
       )}
       {...props}
@@ -137,25 +130,10 @@ export const mdxComponents = {
     ...props
   }: React.ComponentProps<typeof TabsTrigger>) => (
     <TabsTrigger
-      sound="tabSwitch"
       className={cn(
         "text-muted-foreground data-active:text-foreground data-active:border-primary dark:data-active:border-primary hover:text-primary rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base data-active:bg-transparent data-active:shadow-none dark:data-active:bg-transparent",
         className
       )}
-      {...props}
-    />
-  ),
-  a: ({ className, children, ...props }: React.ComponentProps<"a">) => (
-    <a
-      className={cn("font-medium underline underline-offset-4", className)}
-      {...props}
-    >
-      {children}
-    </a>
-  ),
-  blockquote: ({ className, ...props }: React.ComponentProps<"blockquote">) => (
-    <blockquote
-      className={cn("mt-6 border-l-2 pl-6 italic", className)}
       {...props}
     />
   ),
@@ -176,17 +154,9 @@ export const mdxComponents = {
     __pnpm__?: string;
     __bun__?: string;
   }) => {
-    // Inline Code.
+    // Inline code: Typeset styles it.
     if (typeof props.children === "string") {
-      return (
-        <code
-          className={cn(
-            "bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none",
-            className
-          )}
-          {...props}
-        />
-      );
+      return <code className={className} {...props} />;
     }
 
     // npm command.
@@ -241,21 +211,18 @@ export const mdxComponents = {
       </figcaption>
     );
   },
+  // Code blocks keep their own chrome; Typeset styles everything else in the flow.
   figure: ({ className, ...props }: React.ComponentProps<"figure">) => (
-    <figure className={cn(className)} {...props} />
-  ),
-  h1: ({ className, children, ...props }: React.ComponentProps<"h1">) => (
-    <h1
+    <figure
       className={cn(
-        "font-heading mt-2 scroll-m-28 text-3xl font-bold tracking-tight",
+        "data-rehype-pretty-code-figure" in props && "not-typeset",
         className
       )}
       {...props}
-    >
-      {children}
-    </h1>
+    />
   ),
-  h2: ({ className, children, ...props }: React.ComponentProps<"h2">) => (
+  // Typeset sizes headings; h2 only adds the anchor id the TOC links to.
+  h2: ({ children, ...props }: React.ComponentProps<"h2">) => (
     <h2
       id={children
         ?.toString()
@@ -263,77 +230,10 @@ export const mdxComponents = {
         .replaceAll("'", "")
         .replaceAll("?", "")
         .toLowerCase()}
-      className={cn(
-        "[&+]*:[code]:text-xl mt-10 scroll-m-28 font-heading text-xl font-medium tracking-tight first:mt-0 lg:mt-12 [&+.steps]:mt-0! [&+.steps>h3]:mt-4! [&+h3]:mt-6! [&+p]:mt-4!",
-        className
-      )}
       {...props}
     >
       {children}
     </h2>
-  ),
-  h3: ({ className, children, ...props }: React.ComponentProps<"h3">) => (
-    <h3
-      className={cn(
-        "mt-12 scroll-m-28 font-heading text-lg font-medium tracking-tight [&+p]:mt-4! *:[code]:text-xl",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </h3>
-  ),
-  h4: ({ className, children, ...props }: React.ComponentProps<"h4">) => (
-    <h4
-      className={cn(
-        "font-heading mt-8 scroll-m-28 text-base font-medium tracking-tight",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </h4>
-  ),
-  h5: ({ className, children, ...props }: React.ComponentProps<"h5">) => (
-    <h5
-      className={cn(
-        "mt-8 scroll-m-28 text-base font-medium tracking-tight",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </h5>
-  ),
-  h6: ({ className, children, ...props }: React.ComponentProps<"h6">) => (
-    <h6
-      className={cn(
-        "mt-8 scroll-m-28 text-base font-medium tracking-tight",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </h6>
-  ),
-  hr: ({ ...props }: React.ComponentProps<"hr">) => (
-    <hr className="my-4 md:my-8" {...props} />
-  ),
-  img: ({ className, alt, ...props }: React.ComponentProps<"img">) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img className={cn("rounded-md", className)} alt={alt} {...props} />
-  ),
-  li: ({ className, ...props }: React.ComponentProps<"li">) => (
-    <li className={cn("mt-2", className)} {...props} />
-  ),
-  ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
-    <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
-  ),
-  p: ({ className, ...props }: React.ComponentProps<"p">) => (
-    <p
-      className={cn("leading-relaxed [&:not(:first-child)]:mt-6", className)}
-      {...props}
-    />
   ),
   pre: ({ className, children, ...props }: React.ComponentProps<"pre">) => (
     <pre
@@ -346,10 +246,7 @@ export const mdxComponents = {
       {children}
     </pre>
   ),
-  strong: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <strong className={cn("font-medium", className)} {...props} />
-  ),
-  // Frame look: header row sits on the muted shell, body rows form one white card with row separators.
+  // Tables keep the Frame look; Frame carries data-slot, so Typeset leaves it alone.
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
     <Frame className="no-scrollbar my-6 w-full overflow-x-auto">
       <table
@@ -382,11 +279,5 @@ export const mdxComponents = {
       )}
       {...props}
     />
-  ),
-  tr: ({ className, ...props }: React.ComponentProps<"tr">) => (
-    <tr className={cn("m-0", className)} {...props} />
-  ),
-  ul: ({ className, ...props }: React.ComponentProps<"ul">) => (
-    <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
   ),
 };

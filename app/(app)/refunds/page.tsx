@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-import {
-  LegalPage,
-  LegalSection,
-  proseLinkClass,
-} from "@/components/legal-page";
+import { LegalPage, LegalSection } from "@/components/legal-page";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
@@ -47,13 +43,10 @@ export default function RefundsPage() {
       <LegalSection title="Pro Annual (subscription)">
         <ul>
           <li>
-            Cancel anytime from{" "}
-            <span className="text-foreground">Manage billing</span> on the{" "}
-            <Link href={ROUTES.PRICING} className={proseLinkClass}>
-              pricing page
-            </Link>
-            . Your subscription won&apos;t renew, and Pro stays active until the
-            end of the year you&apos;ve paid for.
+            Cancel anytime from <strong>Manage billing</strong> on the{" "}
+            <Link href={ROUTES.PRICING}>pricing page</Link>. Your subscription
+            won&apos;t renew, and Pro stays active until the end of the year
+            you&apos;ve paid for.
           </li>
           <li>
             Cancelling doesn&apos;t refund the current period. If you ask within
@@ -87,13 +80,10 @@ export default function RefundsPage() {
       </LegalSection>
 
       <LegalSection title="How to request a refund">
-        <ol className="list-decimal space-y-1 pl-5">
+        <ol>
           <li>
             Email{" "}
-            <a
-              href={`mailto:${LINK.EMAIL}?subject=${refundSubject}`}
-              className={proseLinkClass}
-            >
+            <a href={`mailto:${LINK.EMAIL}?subject=${refundSubject}`}>
               {LINK.EMAIL}
             </a>{" "}
             from your account&apos;s email address, with your order or invoice

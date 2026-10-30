@@ -4,30 +4,22 @@ import { useTheme } from "next-themes";
 import { useCallback, useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { useFeedback } from "@/hooks/use-feedback";
+import { useHaptic } from "@/hooks/use-haptic-toggle";
 import { useMetaColor } from "@/hooks/use-meta-color";
 
 export const useThemeToggle = () => {
   const { setTheme, resolvedTheme } = useTheme();
   const { setMetaColor, metaColor } = useMetaColor();
-  const feedbackOn = useFeedback({ sound: "toggleOn" });
-  const feedbackOff = useFeedback({ sound: "toggleOff" });
+  const haptic = useHaptic();
 
   useEffect(() => {
     setMetaColor(metaColor);
   }, [metaColor, setMetaColor]);
 
   const toggleTheme = useCallback(() => {
-    const nextResolved = resolvedTheme === "dark" ? "light" : "dark";
-    if (nextResolved === "dark") {
-      feedbackOff();
-    } else if (nextResolved === "light") {
-      feedbackOn();
-    } else {
-      feedbackOn();
-    }
-    setTheme(nextResolved);
-  }, [resolvedTheme, setTheme, feedbackOn, feedbackOff]);
+    haptic();
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  }, [resolvedTheme, setTheme, haptic]);
 
   useHotkeys(
     "d",

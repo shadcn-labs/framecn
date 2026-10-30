@@ -20,10 +20,7 @@ export const SectionHeading = ({
     )}
   >
     <div className="max-w-xl">
-      <h2
-        id={id}
-        className="text-3xl font-medium tracking-[-0.04em] text-balance md:text-4xl"
-      >
+      <h2 id={id} className="heading-title">
         {title}
       </h2>
       <p className="text-muted-foreground mt-3 text-[15px] leading-7 text-pretty">

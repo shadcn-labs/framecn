@@ -31,7 +31,7 @@ import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { SITE } from "@/constants/site";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { useFeedback } from "@/hooks/use-feedback";
+import { useHaptic } from "@/hooks/use-haptic-toggle";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { useMutationObserver } from "@/hooks/use-mutation-observer";
 import { usePackageManager } from "@/hooks/use-package-manager";
@@ -44,7 +44,6 @@ import {
 import { EXCLUDED_SECTIONS } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
 import { getPagesFromFolder } from "@/lib/page-tree";
-import { PRO_REGISTRY_NAMESPACE } from "@/lib/pro-install";
 import { cn } from "@/lib/utils";
 
 type DocUrlKind = { kind: "component"; slug: string } | { kind: "page" };
@@ -124,7 +123,7 @@ export const CommandMenu = ({
   const [open, setOpen] = useState(false);
   const [showGoToPage, setShowGoToPage] = useState(false);
   const [copyPayload, setCopyPayload] = useState("");
-  const copyFeedback = useFeedback({ sound: "copy" });
+  const haptic = useHaptic();
 
   const { copyToClipboard } = useCopyToClipboard({
     onCopy: () => {
@@ -178,9 +177,8 @@ export const CommandMenu = ({
       setShowGoToPage(true);
       const parsed = parseDocPageUrl(item.url);
       if (parsed.kind === "component") {
-        const pro = CATALOG.find((entry) => entry.id === parsed.slug)?.pro;
         setCopyPayload(
-          `${packageManager} dlx shadcn@latest add ${pro ? PRO_REGISTRY_NAMESPACE : SITE.REGISTRY}/${parsed.slug}`
+          `${packageManager} dlx shadcn@latest add ${SITE.REGISTRY}/${parsed.slug}`
         );
         return;
       }
@@ -265,7 +263,7 @@ export const CommandMenu = ({
         copyPayload.includes("shadcn@latest")
       ) {
         runCommand(() => {
-          copyFeedback();
+          haptic("selection");
           copyToClipboard(copyPayload);
         });
       }
@@ -273,10 +271,10 @@ export const CommandMenu = ({
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [copyPayload, runCommand, copyToClipboard, copyFeedback]);
+  }, [copyPayload, runCommand, copyToClipboard, haptic]);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen} sounds>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
           <Button

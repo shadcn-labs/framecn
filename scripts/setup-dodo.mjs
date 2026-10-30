@@ -34,7 +34,7 @@ const sameName = (a, b) =>
 const SITE_URL = "https://framecn.dev";
 const BRAND = {
   description:
-    "framecn by Shadcn Labs: beautifully designed video components and compositions built on Editframe. framecn Pro unlocks the Node Reveal composition.",
+    "framecn by Shadcn Labs: beautifully designed video components and compositions built on Editframe. framecn Pro unlocks every Pro component's source.",
   name: "framecn",
   statement_descriptor: "FRAMECN",
   // Shadcn Labs' existing support inbox (shadcn-labs.com/src/constants/links.ts).
@@ -42,7 +42,7 @@ const BRAND = {
   url: SITE_URL,
 };
 const SUMMARY =
-  "framecn Pro: access to the Node Reveal composition and its copy-ready source.";
+  "framecn Pro: every Pro video component, installed as copy-ready source with the shadcn CLI.";
 const recurringPrice = (price, interval) => ({
   currency: "USD",
   payment_frequency_count: 1,
@@ -86,11 +86,19 @@ const PRODUCTS = [
     name: "framecn Pro — Lifetime (Early bird)",
     price: oneTimePrice(19_900),
   },
+  // Team checkout = one base license + one seat line per member (2–25), so
+  // ten seats total $499. Keep in sync with TEAM in lib/plans.ts.
   {
-    description: `${SUMMARY} Lifetime license for up to 10 team members sharing one team API key. One-time payment; nothing renews.`,
+    description: `${SUMMARY} Team license base, sold with per-seat lines; members share one team API key. One-time payment; nothing renews.`,
     key: "DODO_PRODUCT_PRO_TEAM",
     name: "framecn Pro — Team",
-    price: oneTimePrice(49_900),
+    price: oneTimePrice(19_900),
+  },
+  {
+    description: `${SUMMARY} One Team seat, bought alongside the Team license. One-time payment; nothing renews.`,
+    key: "DODO_PRODUCT_PRO_TEAM_SEAT",
+    name: "framecn Pro — Team seat",
+    price: oneTimePrice(3000),
   },
 ];
 const samePrice = (product, spec) =>
@@ -229,6 +237,12 @@ const ensureBrand = async (dodo) => {
     );
   }
   const brand = matches[0] ?? (await dodo.brands.create(BRAND));
+  if (matches[0] && brand.description !== BRAND.description) {
+    await dodo.brands.update(brand.brand_id, {
+      description: BRAND.description,
+    });
+    log("framecn brand description updated.");
+  }
   log(
     `framecn brand ${matches.length ? "reused" : "created"}; enabled=${brand.enabled}; verification=${brand.verification_status}.`
   );
@@ -276,6 +290,12 @@ const syncProducts = async (dodo, brand, live, values) => {
         price: spec.price,
         tax_category: "digital_products",
       });
+    } else if (product.description !== spec.description) {
+      // Prices are immutable here, but copy can be refreshed in place.
+      await dodo.products.update(product.product_id, {
+        description: spec.description,
+      });
+      log(`${spec.name} description updated.`);
     }
     values[privateKey(spec.key, live)] = product.product_id;
     saveEnv(values);

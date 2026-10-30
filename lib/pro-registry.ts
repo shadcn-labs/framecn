@@ -1,7 +1,7 @@
 import "server-only";
 import { z } from "zod";
 
-import { PRO_REGISTRY_NAMESPACE } from "@/lib/pro-install";
+import { SITE } from "@/constants/site";
 
 const manifestSchema = z.object({
   items: z.array(
@@ -102,7 +102,7 @@ export const getProRegistryItem = async (
     // bare names would resolve against the shadcn/ui registry.
     const registryDependencies = item.registryDependencies?.map((dependency) =>
       manifest.items.some((entry) => entry.name === dependency)
-        ? `${PRO_REGISTRY_NAMESPACE}/${dependency}`
+        ? `${SITE.REGISTRY}/${dependency}`
         : dependency
     );
     return {

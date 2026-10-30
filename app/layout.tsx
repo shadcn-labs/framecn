@@ -1,10 +1,11 @@
-import { SoundProvider } from "@web-kits/audio/react";
 import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { Analytics } from "@/components/analytics";
+import { HapticEffects } from "@/components/haptic-effects";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { SoundEffects } from "@/components/ui/sound";
 import { META_THEME_COLORS } from "@/constants/site";
 import { fontVariables } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -43,13 +44,14 @@ const RootLayout = ({
       )}
     >
       <NuqsAdapter>
-        <SoundProvider>
+        <SoundEffects>
+          <HapticEffects />
           <ThemeProvider>
             {children}
             <Toaster position="top-center" />
             <Analytics />
           </ThemeProvider>
-        </SoundProvider>
+        </SoundEffects>
       </NuqsAdapter>
     </body>
   </html>

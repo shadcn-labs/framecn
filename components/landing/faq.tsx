@@ -30,7 +30,7 @@ const FAQ = [
     question: "How do I render a video?",
   },
   {
-    answer: `Pro unlocks the source of all ${PRO_COUNT} Pro components — animated text, carousels, 3D globes, collages, charts, scroll animations, and full compositions — plus future Pro components. It is $179 a year, $249 once for lifetime access, or $499 once for a team of up to 10 sharing one API key. The first 50 Annual and 50 Lifetime buyers pay the early-bird price of $149 a year or $199 once. Payments are handled by Dodo Payments.`,
+    answer: `Pro unlocks the source of all ${PRO_COUNT} Pro components — animated text, carousels, 3D globes, collages, charts, scroll animations, and full compositions — plus future Pro components. It is $179 a year, $249 once for lifetime access, or a one-time Team license for 2 to 25 seats sharing one API key ($499 for 10). The first 50 Annual and 50 Lifetime buyers pay the early-bird price of $149 a year or $199 once. Payments are handled by Dodo Payments.`,
     question: "What does Pro include, and what does it cost?",
   },
   {
@@ -53,7 +53,7 @@ const FAQ = [
 export const Faq = () => (
   <section
     aria-labelledby="faq-title"
-    className="container-page grid gap-10 py-16 md:py-24 lg:grid-cols-[1fr_1.6fr]"
+    className="container-page section-y grid gap-10 lg:grid-cols-[1fr_1.6fr]"
   >
     <FaqJsonLd items={FAQ} />
     <SectionHeading
@@ -65,7 +65,7 @@ export const Faq = () => (
     <Accordion className="self-start">
       {FAQ.map((item) => (
         <AccordionItem key={item.question} value={item.question}>
-          <AccordionTrigger sound="click">{item.question}</AccordionTrigger>
+          <AccordionTrigger>{item.question}</AccordionTrigger>
           <AccordionContent>{item.answer}</AccordionContent>
         </AccordionItem>
       ))}

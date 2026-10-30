@@ -44,7 +44,7 @@ export default function BrandPage() {
         ]}
       />
       <PageTransition>
-        <article className="mx-auto w-full max-w-3xl px-6 py-12 md:py-16">
+        <article className="page-y mx-auto w-full max-w-3xl px-6">
           <PageHeader
             title={`${SITE.NAME} brand assets.`}
             description={
@@ -84,15 +84,13 @@ export default function BrandPage() {
             </Button>
           </PageHeader>
 
-          <h2 className="mt-14 text-lg font-semibold tracking-tight">Logos</h2>
+          <h2 className="heading-subtitle mt-12">Logos</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <BrandAssetCard asset="logomark" />
             <BrandAssetCard asset="logotype" />
           </div>
 
-          <h2 className="mt-14 text-lg font-semibold tracking-tight">
-            Project lockup
-          </h2>
+          <h2 className="heading-subtitle mt-12">Project lockup</h2>
           <p className="text-muted-foreground mt-3 text-[15px] leading-7">
             The project logo format uses the mark at 1x height with a 1x (10px)
             gap, followed by the project name in Geist Medium at -3% letter
@@ -109,7 +107,7 @@ export default function BrandPage() {
             </Card>
           </Frame>
 
-          <h2 className="mt-14 text-lg font-semibold tracking-tight">Colors</h2>
+          <h2 className="heading-subtitle mt-12">Colors</h2>
           <p className="text-muted-foreground mt-3 text-[15px] leading-7">
             Each color has a light and a dark value. Primary pink is an accent:
             use it once, for the thing that matters most.
@@ -139,9 +137,7 @@ export default function BrandPage() {
             ))}
           </div>
 
-          <h2 className="mt-14 text-lg font-semibold tracking-tight">
-            Typography
-          </h2>
+          <h2 className="heading-subtitle mt-12">Typography</h2>
           <Frame className="mt-4">
             <Card className="gap-2 rounded-[var(--frame-inner-radius)] px-6 shadow-none">
               <p className="text-3xl font-medium tracking-[-0.03em]">

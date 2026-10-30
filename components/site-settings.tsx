@@ -86,7 +86,7 @@ export const SiteSettings = () => {
   return (
     <>
       {isMobile ? (
-        <Drawer open={isOpen} onOpenChange={setIsOpen} sounds>
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
           <DrawerTrigger asChild>{trigger}</DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
@@ -102,7 +102,7 @@ export const SiteSettings = () => {
           </DrawerContent>
         </Drawer>
       ) : (
-        <Popover open={isOpen} onOpenChange={setIsOpen} sounds>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger render={trigger} />
           <PopoverContent
             align="end"

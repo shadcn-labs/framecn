@@ -116,13 +116,11 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
         >
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="h-(--top-spacing) shrink-0" />
-            <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-6 py-8 md:px-10 lg:py-12">
+            <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-6 page-y md:px-10">
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-start justify-between gap-4">
-                    <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
-                      {doc.title}
-                    </h1>
+                    <h1 className="heading-title scroll-m-20">{doc.title}</h1>
                     <div className="docs-nav -mt-0.5 flex shrink-0 items-start gap-2">
                       <div className="hidden sm:block">
                         <DocsCopyPage
@@ -203,7 +201,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                   </div>
                 ) : null}
               </div>
-              <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
+              <div className="typeset typeset-site w-full flex-1">
                 <MdxContent components={mdxComponents} />
               </div>
             </div>

@@ -2,75 +2,12 @@
 
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
 import { XIcon } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
 
-import { drawerOpen, drawerClose } from "@/audio/core";
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
-const Sheet = ({
-  onOpenChange,
-  sounds = false,
-  ...props
-}: SheetPrimitive.Root.Props & {
-  sounds?: boolean;
-}) => {
-  const playOpen = useFeedback({ soundDef: drawerOpen });
-  const playClose = useFeedback({ soundDef: drawerClose });
-  const isControlled = props.open !== undefined;
-  const lastOpen = useRef(props.open ?? props.defaultOpen ?? false);
-
-  const playStateSound = useCallback(
-    (open: boolean) => {
-      if (!sounds || open === lastOpen.current) {
-        return;
-      }
-
-      if (open) {
-        playOpen();
-      } else {
-        playClose();
-      }
-
-      lastOpen.current = open;
-    },
-    [playClose, playOpen, sounds]
-  );
-
-  useEffect(() => {
-    if (!isControlled) {
-      return;
-    }
-
-    playStateSound(props.open ?? false);
-  }, [isControlled, playStateSound, props.open]);
-
-  const handleOpenChange = useCallback(
-    (open: boolean, eventDetails: SheetPrimitive.Root.ChangeEventDetails) => {
-      playStateSound(open);
-      onOpenChange?.(open, eventDetails);
-    },
-    [onOpenChange, playStateSound]
-  );
-
-  if (!sounds) {
-    return (
-      <SheetPrimitive.Root
-        data-slot="sheet"
-        onOpenChange={onOpenChange}
-        {...props}
-      />
-    );
-  }
-
-  return (
-    <SheetPrimitive.Root
-      data-slot="sheet"
-      onOpenChange={handleOpenChange}
-      {...props}
-    />
-  );
-};
+const Sheet = ({ ...props }: SheetPrimitive.Root.Props) => (
+  <SheetPrimitive.Root data-slot="sheet" {...props} />
+);
 
 const SheetTrigger = ({ ...props }: SheetPrimitive.Trigger.Props) => (
   <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />

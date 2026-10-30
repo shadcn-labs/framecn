@@ -3,7 +3,6 @@
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import { useFeedback } from "@/hooks/use-feedback";
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
 
@@ -16,8 +15,6 @@ const THEME_OPTIONS = [
 const ModeSwitcher = () => {
   const { theme, setTheme } = useTheme();
   const isMounted = useMounted();
-  const feedbackOn = useFeedback({ sound: "toggleOn" });
-  const feedbackOff = useFeedback({ sound: "toggleOff" });
 
   if (!isMounted) {
     return <div className="flex h-8 w-24" />;
@@ -44,14 +41,7 @@ const ModeSwitcher = () => {
             role="radio"
             aria-checked={isActive}
             aria-label={`Switch to ${option.value} theme`}
-            onClick={() => {
-              if (option.value === "dark") {
-                feedbackOff();
-              } else {
-                feedbackOn();
-              }
-              setTheme(option.value);
-            }}
+            onClick={() => setTheme(option.value)}
           >
             <Icon />
           </button>

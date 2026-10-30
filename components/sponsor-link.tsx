@@ -21,7 +21,6 @@ export const SponsorLink = () => {
       render={<Link href={ROUTES.SPONSOR} />}
       size="sm"
       variant="ghost"
-      sound="click"
       className="max-sm:size-8"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

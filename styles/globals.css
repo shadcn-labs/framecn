@@ -1,6 +1,35 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./typeset.css";
+
+/*
+ * Long-form text (docs, changelog, legal, about) uses shadcn/typeset with one
+ * preset. Headings follow the site scale: h2 = heading-subtitle.
+ */
+@layer components {
+  .typeset-site {
+    --typeset-font-heading: var(--font-sans);
+    --typeset-size: 15px;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+  }
+  .typeset-site :where(h1, h2, h3, h4) {
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .typeset-site :where(h2) {
+    font-size: var(--text-lg);
+
+    @media (width >= 48rem) {
+      font-size: var(--text-xl);
+    }
+  }
+  /* Clears the sticky docs header when jumping to an anchor. */
+  .typeset-site :where([id]) {
+    scroll-margin-block-start: 7rem;
+  }
+}
 
 /* tw-animate exits default to animation-fill-mode: none, so an element whose fade-out finishes
    before Base UI unmounts it snaps back to full opacity for a frame (dialog/sheet backdrops blink).
@@ -99,6 +128,8 @@
   --color-selection-foreground: var(--selection-foreground);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-shell-fg-muted: var(--shell-fg-muted);
+  --color-shell-fg-faint: var(--shell-fg-faint);
 }
 
 :root {
@@ -150,6 +181,8 @@
   --duration-exit: 150ms;
   --duration-enter: 210ms;
   --duration-move: 400ms;
+  --shell-fg-muted: #333333;
+  --shell-fg-faint: #6d6d6d;
 }
 
 .dark {
@@ -197,6 +230,8 @@
   --code-number: #8f8d85;
   --selection: #f5f4ef;
   --selection-foreground: #171612;
+  --shell-fg-muted: #d4d4d4;
+  --shell-fg-faint: #8e8e8e;
 }
 
 @layer base {
@@ -440,6 +475,67 @@
   padding-inline: calc(var(--spacing) * 6);
 }
 
+/*
+ * Site type scale: three heading sizes, used everywhere.
+ * - heading-display: the hero H1 on flagship pages (home, pricing).
+ * - heading-title: H1 on every other page (docs, legal, about, dashboard…)
+ *   and section H2s on flagship pages.
+ * - heading-subtitle: subsection headings (H2 on standalone pages, H3 in sections).
+ */
+@utility heading-display {
+  font-size: var(--text-4xl);
+  line-height: 1.05;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+
+  @media (width >= 48rem) {
+    font-size: var(--text-6xl);
+  }
+}
+
+@utility heading-title {
+  font-size: var(--text-3xl);
+  line-height: 1.15;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+
+  @media (width >= 48rem) {
+    font-size: var(--text-4xl);
+  }
+}
+
+@utility heading-subtitle {
+  font-size: var(--text-lg);
+  line-height: 1.4;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+
+  @media (width >= 48rem) {
+    font-size: var(--text-xl);
+  }
+}
+
+/* Vertical rhythm for standalone pages (everything that isn't a flagship section). */
+@utility page-y {
+  padding-block: calc(var(--spacing) * 12);
+
+  @media (width >= 48rem) {
+    padding-block: calc(var(--spacing) * 16);
+  }
+}
+
+/* Vertical rhythm for flagship page sections and heroes. */
+@utility section-y {
+  padding-block: calc(var(--spacing) * 16);
+
+  @media (width >= 48rem) {
+    padding-block: calc(var(--spacing) * 24);
+  }
+}
+
 @utility primary-gradient {
   background-image: linear-gradient(
     var(--brand-gradient-from),
@@ -508,6 +604,148 @@
 @keyframes via-blur {
   30% {
     filter: blur(3px);
+  }
+}
+
+/* Chromatic glitch (pricing hero): RGB-split layers jitter, then settle clean. */
+@keyframes chromatic-split {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 0;
+    translate: 0 0;
+  }
+  4% {
+    clip-path: inset(12% 0 58% 0);
+    opacity: 1;
+    translate: calc(var(--chroma-x) * 1) 0;
+  }
+  10% {
+    clip-path: inset(62% 0 8% 0);
+    translate: calc(var(--chroma-x) * -0.6) 1px;
+  }
+  18% {
+    clip-path: inset(0 0 0 0);
+    translate: calc(var(--chroma-x) * 0.8) 0;
+  }
+  26% {
+    clip-path: inset(38% 0 34% 0);
+    translate: calc(var(--chroma-x) * 1.4) -1px;
+  }
+  34% {
+    clip-path: inset(0 0 0 0);
+    translate: calc(var(--chroma-x) * 0.5) 0;
+  }
+  46% {
+    clip-path: inset(70% 0 2% 0);
+    translate: calc(var(--chroma-x) * -1) 0;
+  }
+  58% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    translate: calc(var(--chroma-x) * 0.35) 0;
+  }
+  76% {
+    opacity: 0.6;
+    translate: calc(var(--chroma-x) * 0.15) 0;
+  }
+}
+
+@keyframes chromatic-jolt {
+  0%,
+  100% {
+    skew: 0deg;
+    translate: 0 0;
+  }
+  8% {
+    skew: -8deg;
+    translate: 2px 0;
+  }
+  14% {
+    skew: 4deg;
+    translate: -2px 0;
+  }
+  28% {
+    skew: 0deg;
+    translate: 1px 0;
+  }
+  48% {
+    skew: -3deg;
+    translate: -1px 0;
+  }
+  56% {
+    skew: 0deg;
+    translate: 0 0;
+  }
+}
+
+/* Sign-in wall: a doubled track moved by half its height (plus half a gap-3) loops seamlessly. */
+@keyframes scroll-feed {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 calc(-50% - 0.375rem);
+  }
+}
+
+@utility scroll-feed {
+  animation: scroll-feed 40s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes playhead {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@utility playhead {
+  animation: playhead 4s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    left: 38%;
+  }
+}
+
+@utility chromatic {
+  position: relative;
+  display: inline-block;
+  animation: chromatic-jolt 1.4s steps(1, end) 0.8s 2 both;
+
+  & > [data-chroma] {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    animation: chromatic-split 1.4s steps(1, end) 0.8s 2 both;
+  }
+  & > [data-chroma="r"] {
+    --chroma-x: -0.07em;
+    color: #ff2d55;
+  }
+  & > [data-chroma="c"] {
+    --chroma-x: 0.07em;
+    color: #00d1ff;
+    animation-delay: 0.83s;
+  }
+  :where(.dark) & > [data-chroma] {
+    mix-blend-mode: screen;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    & > [data-chroma] {
+      animation: none;
+    }
   }
 }
 
@@ -614,4 +852,54 @@
     animation-duration: 0s !important;
     animation-delay: 0s !important;
   }
+  .sound-slash,
+  .sound-wave,
+  .sound-speaker {
+    transition: none;
+  }
+}
+.sound-slash {
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1.02;
+  --slash-ms: 200ms;
+  transition: stroke-dashoffset var(--slash-ms) var(--ease-out);
+}
+[data-muted="true"] .sound-slash {
+  stroke-dashoffset: 0;
+  --slash-ms: 260ms;
+}
+.sound-wave {
+  transform-box: view-box;
+  transform-origin: 11px 12px;
+  transition:
+    opacity 130ms var(--ease-out) var(--wave-delay),
+    transform 130ms var(--ease-out) var(--wave-delay),
+    filter 130ms var(--ease-out) var(--wave-delay);
+}
+[data-muted="true"] .sound-wave {
+  opacity: 0;
+  transform: scale(0.25);
+  filter: blur(1px);
+}
+.sound-wave-inner {
+  --wave-delay: 45ms;
+}
+.sound-wave-outer {
+  --wave-delay: 20ms;
+}
+[data-muted="true"] .sound-wave-inner {
+  --wave-delay: 50ms;
+}
+[data-muted="true"] .sound-wave-outer {
+  --wave-delay: 75ms;
+}
+.sound-speaker {
+  --speaker-ms: 220ms;
+  --speaker-delay: 0ms;
+  transition: transform var(--speaker-ms) var(--ease-out) var(--speaker-delay);
+}
+[data-muted="true"] .sound-speaker {
+  transform: translateX(5.5px);
+  --speaker-ms: 260ms;
+  --speaker-delay: 80ms;
 }

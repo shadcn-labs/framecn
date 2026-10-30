@@ -7,7 +7,7 @@ import { ROUTES } from "@/constants/routes";
 import { CATALOG } from "@/lib/catalog";
 import { componentMarkdownUrl } from "@/lib/docs";
 import { componentSourceMarkdown, processMdxForLLMs } from "@/lib/llm";
-import { PRO_API_KEY_ENV, proInstallCommand } from "@/lib/pro-install";
+import { installCommand, PRO_API_KEY_ENV } from "@/lib/pro-install";
 
 const componentSource = loader({
   baseUrl: ROUTES.COMPONENTS,
@@ -42,10 +42,10 @@ const installMarkdown = (id: string, pro: boolean) =>
     ? `## Installation
 
 \`\`\`bash
-${proInstallCommand(id)}
+${installCommand(id)}
 \`\`\`
 
-This component requires framecn Pro. Create an API key from your account, expose it as \`${PRO_API_KEY_ENV}\`, and register the \`@framecn-pro\` registry in \`components.json\` before installing.`
+This component requires framecn Pro. Create an API key from your account, expose it as \`${PRO_API_KEY_ENV}\`, and send it from the \`@framecn\` registry in \`components.json\` (see /docs/registry#framecn-pro) before installing.`
     : `## Installation
 
 \`\`\`bash

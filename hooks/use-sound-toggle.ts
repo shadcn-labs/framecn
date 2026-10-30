@@ -1,29 +1,23 @@
 "use client";
 
-import { defineSound } from "@web-kits/audio";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useCallback } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import * as audio from "@/audio/core";
-
-const soundEnabledAtom = atomWithStorage("sound-enabled", false);
+/** Same key and default as before the sound rewrite, so saved choices carry over. */
+export const soundEnabledAtom = atomWithStorage("sound-enabled", false);
 
 export const useSoundEnabled = () => useAtom(soundEnabledAtom);
 
+/** `s` toggles interface sounds; mount once, outside any popover. */
 export const useSoundToggle = () => {
   const [soundEnabled, setSoundEnabled] = useAtom(soundEnabledAtom);
 
-  const toggleSound = useCallback(() => {
-    if (soundEnabled) {
-      defineSound(audio._patch.sounds["toggle-off"])();
-      setSoundEnabled(false);
-    } else {
-      setSoundEnabled(true);
-      defineSound(audio._patch.sounds["toggle-on"])();
-    }
-  }, [soundEnabled, setSoundEnabled]);
+  const toggleSound = useCallback(
+    () => setSoundEnabled(!soundEnabled),
+    [soundEnabled, setSoundEnabled]
+  );
 
   useHotkeys(
     "s",

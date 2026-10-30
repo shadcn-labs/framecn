@@ -10,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
 const headingById = (id: string): Element | null =>
@@ -77,7 +76,6 @@ export const DocsTableOfContents = ({
     [toc]
   );
   const activeHeading = useActiveItem(itemIds);
-  const playTick = useFeedback({ sound: "tick" });
 
   if (!toc?.length) {
     return null;
@@ -85,7 +83,7 @@ export const DocsTableOfContents = ({
 
   if (variant === "dropdown") {
     return (
-      <DropdownMenu open={open} onOpenChange={setOpen} sounds>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger
           render={
             <Button
@@ -105,7 +103,6 @@ export const DocsTableOfContents = ({
             <DropdownMenuItem
               key={item.url}
               render={<a href={item.url} />}
-              sound="click"
               onClick={handleClose}
               data-depth={item.depth}
               className="data-[depth=3]:pl-6 data-[depth=4]:pl-8"
@@ -132,7 +129,7 @@ export const DocsTableOfContents = ({
           className="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] data-[active=true]:font-medium no-underline transition-colors pl-[18px] data-[depth=3]:pl-[34px] data-[depth=4]:pl-[50px]"
           data-active={item.url === `#${activeHeading}`}
           data-depth={item.depth}
-          onClick={playTick}
+          data-sound="tick"
         >
           {item.title}
         </a>

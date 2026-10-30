@@ -2,7 +2,6 @@
 
 import { Vibrate, VibrateOff } from "lucide-react";
 
-import { useFeedback } from "@/hooks/use-feedback";
 import { useHapticsEnabled } from "@/hooks/use-haptic-toggle";
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
@@ -15,8 +14,6 @@ const HAPTICS_OPTIONS = [
 export const HapticsSwitcher = () => {
   const [value, setValue] = useHapticsEnabled();
   const isMounted = useMounted();
-  const feedbackOn = useFeedback({ sound: "toggleOn" });
-  const feedbackOff = useFeedback({ sound: "toggleOff" });
 
   if (!isMounted) {
     return <div className="flex h-8 w-20" />;
@@ -43,17 +40,7 @@ export const HapticsSwitcher = () => {
             role="radio"
             aria-checked={isActive}
             aria-label={`Switch haptics ${option.label}`}
-            onClick={() => {
-              if (option.value === value) {
-                return;
-              }
-              if (option.value) {
-                feedbackOn();
-              } else {
-                feedbackOff();
-              }
-              setValue(option.value);
-            }}
+            onClick={() => setValue(option.value)}
           >
             <Icon />
           </button>

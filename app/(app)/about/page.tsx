@@ -25,9 +25,6 @@ const projectCount = LABS_NAV_SECTIONS.reduce(
   0
 );
 
-const linkClass =
-  "text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground";
-
 const TEAM = [
   { href: LINK.PORTFOLIO, name: "Aniket Pawar", role: "Founder" },
   {
@@ -53,9 +50,9 @@ export default function AboutPage() {
         ]}
       />
       <PageTransition>
-        <article className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
+        <article className="page-y mx-auto w-full max-w-2xl px-6">
           <PageHeader title={`${SITE.DESCRIPTION.SHORT}.`} />
-          <div className="text-muted-foreground mt-8 space-y-5 text-[15px] leading-7">
+          <div className="typeset typeset-site mt-8">
             <p>
               {SITE.NAME} is a collection of beautifully designed, customizable
               video components for React. Animated text, captions, carousels, 3D
@@ -69,50 +66,37 @@ export default function AboutPage() {
                 href={addQueryParams(LINK.EDITFRAME, UTM_PARAMS)}
                 target="_blank"
                 rel="noopener"
-                className={linkClass}
               >
                 Editframe
               </a>
               , so the same composition renders frame-accurately to MP4. Nothing
               is locked inside a black box — you own the source.
             </p>
-          </div>
 
-          <dl className="mt-10 grid grid-cols-3 divide-x rounded-xl border">
-            {[
-              [String(free), "Free components"],
-              [String(CATALOG.length - free), "Pro components"],
-              ["MIT", "License"],
-            ].map(([value, label]) => (
-              <div key={label} className="p-4">
-                <dt className="text-muted-foreground text-xs">{label}</dt>
-                <dd className="mt-1 text-xl font-semibold tabular-nums">
-                  {value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+            <dl className="not-typeset mt-10 grid grid-cols-3 divide-x rounded-xl border">
+              {[
+                [String(free), "Free components"],
+                [String(CATALOG.length - free), "Pro components"],
+                ["MIT", "License"],
+              ].map(([value, label]) => (
+                <div key={label} className="p-4">
+                  <dt className="text-muted-foreground text-xs">{label}</dt>
+                  <dd className="mt-1 text-xl font-semibold tabular-nums">
+                    {value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
 
-          <h2 className="mt-12 text-lg font-semibold tracking-tight">
-            Free and Pro
-          </h2>
-          <div className="text-muted-foreground mt-3 space-y-5 text-[15px] leading-7">
+            <h2>Free and Pro</h2>
             <p>
               The component library is open source and stays free. framecn Pro
               adds complete, production-ready compositions and installs them
               through an authenticated shadcn registry with your personal API
-              key.{" "}
-              <Link href={ROUTES.PRICING} className={linkClass}>
-                See pricing
-              </Link>
-              .
+              key. <Link href={ROUTES.PRICING}>See pricing</Link>.
             </p>
-          </div>
 
-          <h2 className="mt-12 text-lg font-semibold tracking-tight">
-            Shadcn Labs
-          </h2>
-          <div className="text-muted-foreground mt-3 space-y-5 text-[15px] leading-7">
+            <h2>Shadcn Labs</h2>
             <p>
               At Shadcn Labs, we create open-source tools that extend
               what&apos;s possible with the shadcn/ui ecosystem.
@@ -129,7 +113,6 @@ export default function AboutPage() {
                 href={addQueryParams("https://shadcn-labs.com", UTM_PARAMS)}
                 target="_blank"
                 rel="noopener"
-                className={linkClass}
               >
                 Shadcn Labs
               </a>
@@ -143,77 +126,57 @@ export default function AboutPage() {
                 href={addQueryParams(LINK.PORTFOLIO, UTM_PARAMS)}
                 target="_blank"
                 rel="noopener"
-                className={linkClass}
               >
                 {SITE.AUTHOR.NAME}
               </a>
               . Follow along on{" "}
-              <a
-                href={LINK.X}
-                target="_blank"
-                rel="noopener"
-                className={linkClass}
-              >
+              <a href={LINK.X} target="_blank" rel="noopener">
                 X
               </a>
               , join the{" "}
-              <a
-                href={LINK.DISCORD}
-                target="_blank"
-                rel="noopener"
-                className={linkClass}
-              >
+              <a href={LINK.DISCORD} target="_blank" rel="noopener">
                 Discord
               </a>
               , or read the code on{" "}
-              <a
-                href={LINK.GITHUB}
-                target="_blank"
-                rel="noopener"
-                className={linkClass}
-              >
+              <a href={LINK.GITHUB} target="_blank" rel="noopener">
                 GitHub
               </a>
               .
             </p>
-          </div>
 
-          <h2 className="mt-12 text-lg font-semibold tracking-tight">Team</h2>
-          <ul className="mt-3 divide-y rounded-xl border">
-            {TEAM.map((member) => (
-              <li
-                key={member.name}
-                className="flex items-baseline justify-between gap-4 px-4 py-3 text-[15px]"
-              >
-                <a
-                  href={addQueryParams(member.href, UTM_PARAMS)}
-                  target="_blank"
-                  rel="noopener"
-                  className={linkClass}
+            <h2>Team</h2>
+            <ul className="not-typeset mt-4 divide-y rounded-xl border">
+              {TEAM.map((member) => (
+                <li
+                  key={member.name}
+                  className="flex items-baseline justify-between gap-4 px-4 py-3 text-[15px]"
                 >
-                  {member.name}
-                </a>
-                <span className="text-muted-foreground text-right text-sm">
-                  {member.role}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-muted-foreground mt-4 text-sm">
-            Building from Mumbai, India for the world. Not endorsed by or
-            affiliated with shadcn.
-          </p>
+                  <a
+                    href={addQueryParams(member.href, UTM_PARAMS)}
+                    target="_blank"
+                    rel="noopener"
+                    className="font-medium underline decoration-border underline-offset-4 hover:decoration-foreground"
+                  >
+                    {member.name}
+                  </a>
+                  <span className="text-muted-foreground text-right text-sm">
+                    {member.role}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-muted-foreground text-sm">
+              Building from Mumbai, India for the world. Not endorsed by or
+              affiliated with shadcn.
+            </p>
 
-          <h2 className="mt-12 text-lg font-semibold tracking-tight">
-            Support the project
-          </h2>
-          <p className="text-muted-foreground mt-3 text-[15px] leading-7">
-            If {SITE.NAME} helps you ship, consider{" "}
-            <Link href={ROUTES.SPONSOR} className={linkClass}>
-              sponsoring
-            </Link>{" "}
-            or starring the repository. It keeps new components coming.
-          </p>
+            <h2>Support the project</h2>
+            <p>
+              If {SITE.NAME} helps you ship, consider{" "}
+              <Link href={ROUTES.SPONSOR}>sponsoring</Link> or starring the
+              repository. It keeps new components coming.
+            </p>
+          </div>
         </article>
       </PageTransition>
     </>

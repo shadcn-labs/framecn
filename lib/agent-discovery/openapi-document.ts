@@ -115,7 +115,7 @@ export const buildOpenApiDocument = (
           summary: "shadcn/ui component registry index",
         },
       },
-      "/r/pro/{name}.json": {
+      "/r/{name}.json": {
         get: {
           parameters: [
             {
@@ -128,11 +128,12 @@ export const buildOpenApiDocument = (
           responses: {
             "200": {
               content: { "application/json": { schema: { type: "object" } } },
-              description: "shadcn registry item for a Pro component",
+              description:
+                "shadcn registry item; Pro items need a Bearer API key",
             },
             "401": { description: "Missing or invalid API key" },
             "403": { description: "No active Pro plan" },
-            "404": { description: "Not a Pro component" },
+            "404": { description: "No such component" },
           },
           summary:
             "Authenticated framecn Pro registry item (Authorization: Bearer FRAMECN_API_KEY)",

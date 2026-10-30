@@ -111,7 +111,7 @@ export const RegistryAddButton = ({
   return (
     <>
       {isMobile ? (
-        <Drawer open={isOpen} onOpenChange={setIsOpen} sounds>
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
           <DrawerTrigger asChild>{trigger}</DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
@@ -137,7 +137,7 @@ export const RegistryAddButton = ({
           </DrawerContent>
         </Drawer>
       ) : (
-        <Dialog open={isOpen} onOpenChange={setIsOpen} sounds>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger render={trigger} />
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>

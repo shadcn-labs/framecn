@@ -1,3 +1,33 @@
+/**
+ * Team checkout is a base license plus one line per seat, so two seats never
+ * undercut a single Lifetime license and ten seats stay at $499.
+ */
+export const TEAM = {
+  basePrice: 199,
+  defaultSeats: 10,
+  maxSeats: 25,
+  minSeats: 2,
+  seatEnv: "DODO_PRODUCT_PRO_TEAM_SEAT",
+  seatPrice: 30,
+} as const;
+
+export const isTeamSeatCount = (value: unknown): value is number =>
+  Number.isInteger(value) &&
+  (value as number) >= TEAM.minSeats &&
+  (value as number) <= TEAM.maxSeats;
+
+/** Whole-dollar team total for a seat count. */
+export const teamPrice = (seats: number) =>
+  TEAM.basePrice + TEAM.seatPrice * seats;
+
+export const formatUsd = (dollars: number) =>
+  `$${dollars.toLocaleString("en-US", {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: Number.isInteger(dollars) ? 0 : 2,
+  })}`;
+/** Team list price shown before a seat count is chosen. */
+const TEAM_DEFAULT_PRICE = formatUsd(teamPrice(TEAM.defaultSeats));
+
 /** Pro plans; isomorphic so client UI (pricing, unlock dialog) can show prices. Product ids come from server env. */
 export const PLANS = [
   {
@@ -5,7 +35,7 @@ export const PLANS = [
     env: "DODO_PRODUCT_PRO_ANNUAL",
     interval: "/ year",
     kind: "subscription",
-    name: "Pro Annual",
+    name: "Pro",
     note: "Per year. Cancel anytime.",
     price: "$179",
     slug: "annual",
@@ -27,7 +57,7 @@ export const PLANS = [
     kind: "one_time",
     name: "Team",
     note: "One-time payment. No renewal.",
-    price: "$499",
+    price: TEAM_DEFAULT_PRICE,
     slug: "team",
   },
 ] as const;

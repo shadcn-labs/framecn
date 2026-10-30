@@ -128,6 +128,8 @@ export const billingEntitlement = sqliteTable(
     kind: text("kind", { enum: ["subscription", "lifetime"] }).notNull(),
     productId: text("product_id").notNull(),
     refundedAt: integer("refunded_at"),
+    /** Team seats bought; null for single-seat plans and pre-seat Team sales. */
+    seats: integer("seats"),
     sourceId: text("source_id").primaryKey(),
     status: text("status").notNull(),
   },

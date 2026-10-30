@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-import {
-  LegalPage,
-  LegalSection,
-  proseLinkClass,
-} from "@/components/legal-page";
+import { LegalPage, LegalSection } from "@/components/legal-page";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
@@ -36,16 +32,9 @@ export default function TermsPage() {
       <LegalSection title="Open-source components">
         <p>
           The free {SITE.NAME} components are open source under the{" "}
-          <Link href={ROUTES.LICENSE} className={proseLinkClass}>
-            MIT License
-          </Link>
-          . Your use of that code is governed by the license in the{" "}
-          <a
-            href={LINK.GITHUB}
-            target="_blank"
-            rel="noopener"
-            className={proseLinkClass}
-          >
+          <Link href={ROUTES.LICENSE}>MIT License</Link>. Your use of that code
+          is governed by the license in the{" "}
+          <a href={LINK.GITHUB} target="_blank" rel="noopener">
             repository
           </a>
           , not by these terms. The code is provided &ldquo;as is&rdquo;,
@@ -58,9 +47,9 @@ export default function TermsPage() {
           You can buy framecn Pro without an account; Pro belongs to the email
           you pay with, and you need an account with that email to install it.
           You can sign in with a one-time code sent to your email, or with
-          Google or GitHub. You&apos;re responsible for activity under your
-          account and for keeping your Pro API key secret. If a key leaks,
-          revoke it and create a new one from your account.
+          Google. You&apos;re responsible for activity under your account and
+          for keeping your Pro API key secret. If a key leaks, revoke it and
+          create a new one from your account.
         </p>
       </LegalSection>
 
@@ -69,14 +58,12 @@ export default function TermsPage() {
           framecn Pro is a paid license to premium compositions, installed
           through an authenticated shadcn registry with your personal API key.
           Plans are Pro Annual (a yearly subscription), Lifetime (a one-time
-          payment), and Team (a one-time payment covering up to 10 members who
-          share one API key). What you may do with Pro source is described in
-          the{" "}
-          <Link href={ROUTES.LICENSE} className={proseLinkClass}>
-            license
-          </Link>
-          . Access starts after a verified payment and ends if a subscription
-          lapses or a payment is refunded or charged back.
+          payment), and Team (a one-time payment covering the number of seats
+          bought, 2 to 25, whose members share one API key). What you may do
+          with Pro source is described in the{" "}
+          <Link href={ROUTES.LICENSE}>license</Link>. Access starts after a
+          verified payment and ends if a subscription lapses or a payment is
+          refunded or charged back.
         </p>
       </LegalSection>
 
@@ -85,16 +72,10 @@ export default function TermsPage() {
           Purchases are processed by Dodo Payments, which acts as our merchant
           of record. Dodo handles checkout, invoices, taxes, and payment
           methods, and its own terms apply to the transaction. Prices are shown
-          on the{" "}
-          <Link href={ROUTES.PRICING} className={proseLinkClass}>
-            pricing page
-          </Link>{" "}
-          and may change for future purchases; changes never affect a period
-          you&apos;ve already paid for. Refunds follow our{" "}
-          <Link href={ROUTES.REFUNDS} className={proseLinkClass}>
-            refund policy
-          </Link>
-          .
+          on the <Link href={ROUTES.PRICING}>pricing page</Link> and may change
+          for future purchases; changes never affect a period you&apos;ve
+          already paid for. Refunds follow our{" "}
+          <Link href={ROUTES.REFUNDS}>refund policy</Link>.
         </p>
       </LegalSection>
 

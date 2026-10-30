@@ -40,13 +40,11 @@ export default function ChangelogPage() {
       >
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="h-(--top-spacing) shrink-0" />
-          <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-6 py-8 text-neutral-800 md:px-10 lg:py-12 dark:text-neutral-300">
+          <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-6 page-y text-neutral-800 md:px-10 dark:text-neutral-300">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-4">
-                  <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
-                    Changelog
-                  </h1>
+                  <h1 className="heading-title scroll-m-20">Changelog</h1>
                   <Button
                     nativeButton={false}
                     variant="secondary"
@@ -76,10 +74,8 @@ export default function ChangelogPage() {
 
                 return (
                   <article key={page.url} className="mb-12 border-b pb-12">
-                    <h2 className="font-heading text-xl font-semibold tracking-tight">
-                      {data.title}
-                    </h2>
-                    <div className="prose-changelog mt-6 *:first:mt-0">
+                    <h2 className="heading-subtitle">{data.title}</h2>
+                    <div className="typeset typeset-site mt-6">
                       <MDX components={mdxComponents} />
                     </div>
                   </article>
@@ -87,9 +83,7 @@ export default function ChangelogPage() {
               })}
               {olderPages.length > 0 && (
                 <div id="more-updates" className="scroll-mt-24">
-                  <h2 className="mb-6 font-heading text-xl font-semibold tracking-tight">
-                    More Updates
-                  </h2>
+                  <h2 className="heading-subtitle mb-6">More Updates</h2>
                   <div className="grid auto-rows-fr gap-3 sm:grid-cols-2">
                     {olderPages.map((page) => {
                       const data = page.data as ChangelogPageData;

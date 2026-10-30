@@ -1,39 +1,39 @@
 "use client";
 
-import { defineSound } from "@web-kits/audio";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useCallback } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import type { HapticInput } from "web-haptics";
 import { useWebHaptics } from "web-haptics/react";
-
-import * as audio from "@/audio/core";
-import { useSoundEnabled } from "@/hooks/use-sound-toggle";
 
 const hapticsEnabledAtom = atomWithStorage("haptics-enabled", false);
 
 export const useHapticsEnabled = () => useAtom(hapticsEnabledAtom);
 
+/** Haptic trigger that no-ops while the user has haptics turned off. */
+export const useHaptic = () => {
+  const hapticsEnabled = useAtomValue(hapticsEnabledAtom);
+  const { trigger } = useWebHaptics();
+
+  return useCallback(
+    (input: HapticInput = "light") => {
+      if (hapticsEnabled) {
+        void trigger(input);
+      }
+    },
+    [hapticsEnabled, trigger]
+  );
+};
+
 export const useHapticsToggle = () => {
   const [hapticsEnabled, setHapticsEnabled] = useAtom(hapticsEnabledAtom);
-  const [soundEnabled] = useSoundEnabled();
   const { trigger: hapticTrigger } = useWebHaptics();
 
   const toggleHaptics = useCallback(() => {
-    if (hapticsEnabled) {
-      if (soundEnabled) {
-        defineSound(audio._patch.sounds["toggle-off"])();
-      }
-      void hapticTrigger("light");
-      setHapticsEnabled(false);
-    } else {
-      setHapticsEnabled(true);
-      if (soundEnabled) {
-        defineSound(audio._patch.sounds["toggle-on"])();
-      }
-      void hapticTrigger("light");
-    }
-  }, [hapticsEnabled, setHapticsEnabled, soundEnabled, hapticTrigger]);
+    setHapticsEnabled(!hapticsEnabled);
+    void hapticTrigger("light");
+  }, [hapticsEnabled, setHapticsEnabled, hapticTrigger]);
 
   useHotkeys(
     "h",

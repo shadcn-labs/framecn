@@ -76,11 +76,7 @@ import { componentPrompt } from "@/lib/component-prompt";
 import { resolveComposition } from "@/lib/customizer-config";
 import type { ComponentConfig, Composition } from "@/lib/customizer-config";
 import type { PlanOffers } from "@/lib/plans";
-import {
-  PRO_API_KEY_ENV,
-  PRO_REGISTRY_NAMESPACE,
-  proRegistryConfig,
-} from "@/lib/pro-install";
+import { PRO_API_KEY_ENV, proRegistryConfig } from "@/lib/pro-install";
 import type { RegistryEntry } from "@/lib/registry-types";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
@@ -258,7 +254,7 @@ const PromptButton = ({
       label: "Open in v0",
     },
   ];
-  const mcpPrompt = `Use the shadcn MCP server to add ${item.pro ? PRO_REGISTRY_NAMESPACE : SITE.REGISTRY}/${item.id} to this project, then follow its usage notes.`;
+  const mcpPrompt = `Use the shadcn MCP server to add ${SITE.REGISTRY}/${item.id} to this project, then follow its usage notes.`;
   return (
     <ButtonGroup aria-label="Copy prompt actions">
       <CopyButton
@@ -415,7 +411,7 @@ const Installation = ({
             <ApiKeyField />
             <p className="text-muted-foreground">
               Add <code className="font-mono">{PRO_API_KEY_ENV}</code> to your{" "}
-              <code className="font-mono">.env</code>, then register the Pro
+              <code className="font-mono">.env</code>, then add your key to the
               registry in <code className="font-mono">components.json</code>:
             </p>
             <Frame>
@@ -435,16 +431,7 @@ const Installation = ({
             </Frame>
           </>
         )}
-        <CodeBlockCommand
-          {...installCommands(
-            `${item.pro ? PRO_REGISTRY_NAMESPACE : SITE.REGISTRY}/${item.id}`
-          )}
-        />
-        {item.pro && !canAccess && (
-          <p className="text-muted-foreground">
-            Requires framecn Pro and a personal API key.
-          </p>
-        )}
+        <CodeBlockCommand {...installCommands(`${SITE.REGISTRY}/${item.id}`)} />
       </TabsContent>
       <TabsContent value="manual" className="[&_h3.font-heading]:text-base">
         <Steps compact className="mt-6">

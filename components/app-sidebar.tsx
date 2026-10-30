@@ -225,7 +225,7 @@ const MainView = ({
         </Button>
         <div className="ml-auto flex items-center">
           <SiteSettings />
-          <SidebarTrigger className="text-muted-foreground size-8" />
+          <SidebarTrigger className="text-foreground size-8" />
         </div>
       </SidebarHeader>
       <div className="px-2 py-2">{search}</div>

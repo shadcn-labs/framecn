@@ -178,7 +178,7 @@ export const DocsCopyPage = ({
   );
 
   return (
-    <Popover sounds>
+    <Popover>
       <Frame
         ref={groupRef}
         // Card UI: muted shell (with the chevron on it); only the Copy Page action is the white card.
@@ -187,20 +187,19 @@ export const DocsCopyPage = ({
         <CopyButton
           value={copyValue}
           showTooltip={false}
-          sound="copy"
           variant="ghost"
           className="bg-card hover:bg-card/80 h-7 rounded-[var(--frame-inner-radius)] border shadow-xs md:h-6 md:text-[0.8rem]"
         >
           Copy Page
         </CopyButton>
-        <DropdownMenu sounds>
+        <DropdownMenu>
           <DropdownMenuTrigger render={trigger} className="hidden sm:flex" />
           <DropdownMenuContent
             align="end"
             className="animate-none! [--menu-radius:var(--radius-lg)] shadow-none"
           >
             {MENU_ITEMS.map(([key, render]) => (
-              <DropdownMenuItem key={key} render={render(url)} sound="click" />
+              <DropdownMenuItem key={key} render={render(url)} />
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -217,7 +216,6 @@ export const DocsCopyPage = ({
               nativeButton={false}
               render={render(url)}
               key={key}
-              sound="click"
               className="w-full justify-start rounded-[max(0px,calc(var(--copy-menu-radius)-var(--copy-menu-inset)))] text-base font-normal *:[svg]:text-muted-foreground"
             />
           ))}

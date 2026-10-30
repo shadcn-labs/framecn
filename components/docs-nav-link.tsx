@@ -43,7 +43,6 @@ export const DocsNavLink = ({
       className={cn("shadow-none", className)}
       nativeButton={false}
       render={<Link href={href} transitionTypes={transitionTypes} />}
-      sound="click"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       {...props}

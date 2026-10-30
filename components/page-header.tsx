@@ -8,9 +8,7 @@ export const PageHeader = ({
   title: React.ReactNode;
 }) => (
   <header>
-    <h1 className="text-3xl font-semibold tracking-[-0.04em] text-balance md:text-4xl">
-      {title}
-    </h1>
+    <h1 className="heading-title">{title}</h1>
     {description ? (
       <p className="text-muted-foreground mt-3 max-w-2xl text-[15px] leading-7 text-pretty">
         {description}

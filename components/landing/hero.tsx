@@ -7,12 +7,9 @@ import { SITE } from "@/constants/site";
 export const Hero = () => (
   <section
     aria-labelledby="hero-title"
-    className="container-page flex flex-col items-center pt-16 pb-16 text-center md:pt-24 md:pb-24"
+    className="container-page section-y flex flex-col items-center text-center"
   >
-    <h1
-      id="hero-title"
-      className="max-w-3xl text-4xl leading-[1.05] font-medium tracking-[-0.045em] text-balance md:text-6xl"
-    >
+    <h1 id="hero-title" className="heading-display max-w-3xl">
       {SITE.DESCRIPTION.SHORT}.
     </h1>
     <p className="text-muted-foreground mt-5 max-w-xl text-base leading-7 text-pretty md:text-lg">

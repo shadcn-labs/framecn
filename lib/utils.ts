@@ -11,3 +11,11 @@ export const formatLabelFromSlug = (slug: string) =>
     .split("-")
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join(" ");
+
+/** "30 Oct 2026": short, unambiguous dates for account and billing copy. */
+export const formatDate = (time: number) =>
+  new Date(time).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });

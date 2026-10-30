@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-import {
-  LegalPage,
-  LegalSection,
-  proseLinkClass,
-} from "@/components/legal-page";
+import { LegalPage, LegalSection } from "@/components/legal-page";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { LINK } from "@/constants/links";
@@ -47,17 +43,12 @@ export default async function LicensePage() {
           Use, copy, modify, and ship them anywhere, including commercial and
           client work. Keep the copyright notice with substantial copies of the
           code. The canonical text lives in the{" "}
-          <a
-            href={LINK.LICENSE}
-            target="_blank"
-            rel="noopener"
-            className={proseLinkClass}
-          >
+          <a href={LINK.LICENSE} target="_blank" rel="noopener">
             LICENSE file on GitHub
           </a>
           .
         </p>
-        <Card className="py-0 shadow-none">
+        <Card className="mt-5 py-0 shadow-none">
           <pre className="text-muted-foreground overflow-x-auto p-5 font-mono text-xs leading-6 whitespace-pre-wrap">
             {mitLicense}
           </pre>
@@ -96,31 +87,24 @@ export default async function LicensePage() {
       <LegalSection title="Seats and access">
         <ul>
           <li>
-            <span className="text-foreground">Pro Annual</span> is for one
-            person. You can install Pro while your subscription is active;
-            anything installed before it ends remains licensed for the projects
-            you used it in.
+            <strong>Pro Annual</strong> is for one person. You can install Pro
+            while your subscription is active; anything installed before it ends
+            remains licensed for the projects you used it in.
           </li>
           <li>
-            <span className="text-foreground">Lifetime</span> is for one person,
-            with Pro access that never expires, including future Pro components.
+            <strong>Lifetime</strong> is for one person, with Pro access that
+            never expires, including future Pro components.
           </li>
           <li>
-            <span className="text-foreground">Team</span> is a Lifetime license
-            for up to 10 members, who share one team API key (for example in CI
-            or environment variables).
+            <strong>Team</strong> is a Lifetime license for the number of seats
+            bought (2 to 25), whose members share one team API key (for example
+            in CI or environment variables).
           </li>
         </ul>
         <p>
           Refunds, chargebacks, and cancellations are covered in the{" "}
-          <Link href={ROUTES.REFUNDS} className={proseLinkClass}>
-            refund policy
-          </Link>{" "}
-          and{" "}
-          <Link href={ROUTES.TERMS} className={proseLinkClass}>
-            terms
-          </Link>
-          .
+          <Link href={ROUTES.REFUNDS}>refund policy</Link> and{" "}
+          <Link href={ROUTES.TERMS}>terms</Link>.
         </p>
       </LegalSection>
     </LegalPage>

@@ -5,14 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Kbd } from "@/components/ui/kbd";
 import { Label } from "@/components/ui/label";
 import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/components/ui/native-select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { LINK } from "@/constants/links";
 import { SITE } from "@/constants/site";
 
 const INQUIRY_TYPES = [
   { label: "General", value: "general" },
+  { label: "Sales (25+ seats, invoices)", value: "sales" },
   { label: "Support", value: "support" },
   { label: "Feature request", value: "feature-request" },
   { label: "Bug report", value: "bug-report" },
@@ -53,19 +57,24 @@ export const ContactForm = ({ inquiry }: { inquiry?: string }) => {
           required
         />
       </div>
-      <div className="flex flex-col gap-2 [&_[data-slot=native-select-wrapper]]:w-full">
+      <div className="flex flex-col gap-2">
         <Label htmlFor="contact-inquiry">Inquiry type</Label>
-        <NativeSelect
-          id="contact-inquiry"
+        <Select
           name="inquiry_type"
+          items={INQUIRY_TYPES}
           defaultValue={selectedInquiry}
         >
-          {INQUIRY_TYPES.map(({ label, value }) => (
-            <NativeSelectOption key={value} value={value}>
-              {label}
-            </NativeSelectOption>
-          ))}
-        </NativeSelect>
+          <SelectTrigger id="contact-inquiry" className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {INQUIRY_TYPES.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="contact-subject">Subject</Label>

@@ -4,8 +4,6 @@ import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 
-import type { FeedbackType } from "@/hooks/use-feedback";
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -42,38 +40,17 @@ const buttonVariants = cva(
   }
 );
 
-export interface ButtonProps
-  extends ButtonPrimitive.Props, VariantProps<typeof buttonVariants> {
-  sound?: FeedbackType;
-  haptic?: boolean;
-}
+export type ButtonProps = ButtonPrimitive.Props &
+  VariantProps<typeof buttonVariants>;
 
-const Button = ({
-  className,
-  variant,
-  size,
-  sound,
-  haptic,
-  onClick,
-  ...props
-}: ButtonProps) => {
-  const play = useFeedback({ haptic, sound });
-
-  const handleClick: ButtonPrimitive.Props["onClick"] = (e) => {
-    play();
-    onClick?.(e);
-  };
-
-  return (
-    <ButtonPrimitive
-      data-slot="button"
-      data-size={size}
-      data-variant={variant}
-      className={cn(buttonVariants({ className, size, variant }))}
-      onClick={handleClick}
-      {...props}
-    />
-  );
-};
+const Button = ({ className, variant, size, ...props }: ButtonProps) => (
+  <ButtonPrimitive
+    data-slot="button"
+    data-size={size}
+    data-variant={variant}
+    className={cn(buttonVariants({ className, size, variant }))}
+    {...props}
+  />
+);
 
 export { Button, buttonVariants };

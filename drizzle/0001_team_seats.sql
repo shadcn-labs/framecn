@@ -1,0 +1,1 @@
+ALTER TABLE `billing_entitlement` ADD `seats` integer;

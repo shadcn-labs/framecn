@@ -4,10 +4,10 @@ import { SignInForm } from "@/components/sign-in-form";
 import { Button } from "@/components/ui/button";
 import {
   getAuthConfigurationError,
-  getAuthProviders,
   getProAccess,
   getSession,
   isEmailSignInEnabled,
+  isGoogleSignInEnabled,
 } from "@/lib/auth";
 import {
   getBillingConfigurationError,
@@ -31,9 +31,9 @@ const Card = ({
   body: React.ReactNode;
   children?: React.ReactNode;
 }) => (
-  <section className="flex flex-1 flex-col items-center justify-center px-5 py-16">
+  <section className="page-y flex flex-1 flex-col items-center justify-center px-6">
     <div className="bg-card w-full max-w-sm rounded-xl border p-6">
-      <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
+      <h1 className="heading-subtitle">{title}</h1>
       <p className="text-muted-foreground mt-2 mb-6 text-sm">{body}</p>
       {children}
     </div>
@@ -188,7 +188,7 @@ export default async function CheckoutReturnPage({
       ) : (
         <SignInForm
           emailEnabled={isEmailSignInEnabled()}
-          providers={getAuthProviders()}
+          googleEnabled={isGoogleSignInEnabled()}
           next={PRO_HOME}
           email={payment.email}
           autoSend
