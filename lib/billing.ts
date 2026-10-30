@@ -209,17 +209,6 @@ export const createCheckout = async (
     {
       cancel_url: `${appOrigin()}/pricing`,
       customer: buyer ? { email: buyer.email } : undefined,
-      customization: {
-        theme: "light",
-        theme_config: {
-          light: {
-            bg_primary: "#f5f4ef",
-            button_primary: "#111111",
-            text_primary: "#18181b",
-          },
-          radius: "10px",
-        },
-      },
       metadata: {
         framecn_plan: slug,
         ...(slug === "team" && seats ? { framecn_seats: String(seats) } : {}),
