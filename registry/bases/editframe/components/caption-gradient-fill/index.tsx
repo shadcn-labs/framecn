@@ -1,6 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 import type { CSSProperties } from "react";
 
 export interface CaptionWord {
@@ -61,18 +65,58 @@ export const CaptionGradientFill = ({
   height = 720,
   className,
 }: CaptionGradientFillProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-
-  const groups = [];
-  for (let i = 0; i < words.length; i += WORDS_PER_GROUP) {
-    const groupWords = words.slice(i, i + WORDS_PER_GROUP);
-    groups.push({
-      endMs: ((groupWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (groupWords[0].start * 1000) / safeSpeed,
-      words: groupWords,
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const padding = Math.min(80, width * 0.0625);
+  const groups = useMemo(() => {
+    const phrases: CaptionWord[][] = [];
+    let phrase: CaptionWord[] = [];
+    for (const [index, word] of words.entries()) {
+      phrase.push(word);
+      const next = words[index + 1];
+      if (
+        phrase.length >= WORDS_PER_GROUP ||
+        /[,.:;!?]["')\]]*$/.test(word.text) ||
+        !next ||
+        next.start - word.end >= 0.15
+      ) {
+        phrases.push(phrase);
+        phrase = [];
+      }
+    }
+    return phrases.map((phraseWords, index) => {
+      const end = Math.min(
+        (durationMs / 1000) * safeSpeed,
+        phrases[index + 1]?.[0].start ?? Infinity,
+        (phraseWords.at(-1)?.end ?? 0) + 0.18
+      );
+      const characters = phraseWords.reduce(
+        (total, word) => total + word.text.length + 1,
+        0
+      );
+      const longest = Math.max(...phraseWords.map((word) => word.text.length));
+      return {
+        end,
+        fontSize: Math.min(
+          fontSize,
+          height * 0.16,
+          (width - padding * 2) / Math.max(1, longest * 0.8),
+          ((width - padding * 2) * 1.65) / Math.max(1, characters * 0.8)
+        ),
+        start: phraseWords[0].start,
+        words: phraseWords.map((word, wordIndex) => ({
+          ...word,
+          end: Math.min(
+            word.end,
+            phraseWords[wordIndex + 1]?.start ?? end,
+            end
+          ),
+        })),
+      };
     });
-  }
+  }, [words, durationMs, safeSpeed, fontSize, width, height, padding]);
 
   const containerStyle: CSSProperties = {
     background,
@@ -81,88 +125,88 @@ export const CaptionGradientFill = ({
     position: "relative",
     width,
   };
-
-  const gradientImage = `linear-gradient(90deg, ${fromColor} 0%, ${midColor} 35%, ${toColor} 70%, #ffffff 70.5%, #ffffff 100%)`;
+  const gradientImage = `linear-gradient(90deg, ${fromColor}, ${midColor} 50%, ${toColor})`;
 
   return (
     <Timegroup
+      ref={ref}
       className={className}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
-      <>
-        <style>{`
-          @keyframes framecn-cgf-grp-in {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-          }
-          @keyframes framecn-cgf-grp-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-        `}</style>
-        <div
-          style={{
-            bottom: Math.round(height * 0.15),
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          {groups.map((group, gi) => (
+      <div
+        style={{
+          inset: 0,
+          overflow: "visible",
+          pointerEvents: "none",
+          position: "absolute",
+        }}
+      >
+        {groups.map((group, groupIndex) => {
+          const visible = time >= group.start && time < group.end;
+          return (
             <div
-              key={gi}
+              key={groupIndex}
+              data-caption-group={groupIndex}
               style={{
-                alignItems: "center",
-                animation: [
-                  `framecn-cgf-grp-in 120ms ease-out ${group.startMs}ms both`,
-                  `framecn-cgf-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                ].join(", "),
+                alignItems: "baseline",
+                bottom: height * 0.15,
+                boxSizing: "border-box",
                 display: "flex",
                 flexWrap: "wrap",
-                gap: "0.3em",
+                fontFamily: "'Montserrat', 'Arial Black', Arial, sans-serif",
+                fontSize: group.fontSize,
+                fontWeight,
+                gap: "0.16em 0.3em",
                 justifyContent: "center",
                 left: 0,
-                opacity: 0,
-                padding: "0 80px",
+                letterSpacing: "0.04em",
+                lineHeight: 1.15,
+                opacity: visible ? 1 : 0,
+                overflow: "visible",
+                padding: `0 ${padding}px`,
                 position: "absolute",
                 right: 0,
+                textAlign: "center",
+                textTransform: "uppercase",
               }}
             >
-              {group.words.map((word, wi) => {
-                const wordStartMs = (word.start * 1000) / safeSpeed;
-                const wordDurationMs = Math.max(
-                  120,
-                  ((word.end - word.start) * 1000) / safeSpeed
-                );
-                const sweepKeyframe = `framecn-cgf-sweep-${gi}-${wi}`;
-
+              {group.words.map((word, wordIndex) => {
+                const active = time >= word.start && time < word.end;
+                const progress = active
+                  ? Math.min(
+                      1,
+                      (time - word.start) /
+                        Math.max(0.001, word.end - word.start)
+                    )
+                  : 0;
                 return (
-                  <span key={wi} style={{ display: "inline-block" }}>
-                    <style>{`
-                      @keyframes ${sweepKeyframe} {
-                        from { background-position: 100% 0; }
-                        to   { background-position: 0% 0; }
-                      }
-                    `}</style>
+                  <span
+                    key={wordIndex}
+                    data-caption-word={word.text}
+                    style={{
+                      display: "inline-grid",
+                      maxWidth: "100%",
+                      minWidth: 0,
+                      overflowWrap: "anywhere",
+                      paddingBottom: "0.05em",
+                      transform: `scale(${active ? 1.04 : 1})`,
+                    }}
+                  >
+                    <span style={{ color: "#ffffff", gridArea: "1 / 1" }}>
+                      {word.text}
+                    </span>
                     <span
+                      aria-hidden="true"
                       style={{
                         WebkitBackgroundClip: "text",
-                        animation: `${sweepKeyframe} ${wordDurationMs}ms ease-out ${wordStartMs}ms both`,
                         backgroundClip: "text",
                         backgroundImage: gradientImage,
-                        backgroundPosition: "100% 0",
-                        backgroundSize: "280% 100%",
+                        clipPath: `inset(0 ${(1 - progress) * 100}% 0 0)`,
                         color: "transparent",
-                        display: "inline-block",
-                        fontFamily:
-                          "'Montserrat', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                        fontSize,
-                        fontWeight,
-                        letterSpacing: "0.02em",
-                        lineHeight: 1.1,
-                        textTransform: "uppercase",
+                        gridArea: "1 / 1",
+                        opacity: active ? 1 : 0,
                       }}
                     >
                       {word.text}
@@ -171,9 +215,9 @@ export const CaptionGradientFill = ({
                 );
               })}
             </div>
-          ))}
-        </div>
-      </>
+          );
+        })}
+      </div>
     </Timegroup>
   );
 };

@@ -91,7 +91,7 @@
       "name": "caption-kinetic-slam",
       "type": "registry:component",
       "title": "Caption Kinetic Slam",
-      "description": "Dynamic word-by-word captions: each word pops in with a springy scale/opacity entrance, then drops out in an overlapping ripple.",
+      "description": "One word at a time with alternating vertical slams, side slides, and scale pops, bounded by transcript timing.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
@@ -105,7 +105,7 @@
       "name": "caption-matrix-decode",
       "type": "registry:component",
       "title": "Caption Matrix Decode",
-      "description": "Matrix-style green text decodes from blur to sharp on each word.",
+      "description": "Matrix-style green captions resolve from deterministic scrambled characters into spoken words.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
@@ -161,7 +161,7 @@
       "name": "caption-particle-burst",
       "type": "registry:component",
       "title": "Caption Particle Burst",
-      "description": "Captions where each word explodes into particles as it exits.",
+      "description": "Spoken words emit seeded multicolored particles with outward motion, shrink, and fade.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
@@ -175,7 +175,7 @@
       "name": "caption-pill-karaoke",
       "type": "registry:component",
       "title": "Caption Pill Karaoke",
-      "description": "Karaoke-style captions where each word sits inside a pill-shaped background.",
+      "description": "Lowercase captions in a shared rounded pill, with cumulative highlighting as each word is spoken.",
       "dependencies": ["@editframe/react"],
       "files": [
         {
@@ -203,7 +203,7 @@
       "name": "caption-weight-shift",
       "type": "registry:component",
       "title": "Caption Weight Shift",
-      "description": "Font weight animates from 100 to 900 when each word is spoken, back to thin after.",
+      "description": "Balanced lowercase caption lines hand emphasis between light and bold weights without reflow.",
       "dependencies": ["@editframe/react"],
       "files": [
         {

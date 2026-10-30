@@ -17,7 +17,7 @@ export const captionEmojiPopConfig: ComponentConfig = {
       type: "number",
     },
     fontWeight: {
-      default: "700",
+      default: "900",
       label: "Font weight",
       options: FONT_WEIGHT_OPTIONS,
       type: "select",

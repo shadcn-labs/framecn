@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 
+import { DocsAds } from "@/components/docs-ads";
 import { DocsTableOfContents } from "@/components/docs-toc";
 import { DocsTocFooter } from "@/components/docs-toc-footer";
 
@@ -18,5 +19,6 @@ export const DocsSidebar = ({
       </div>
     )}
     <DocsTocFooter filePath={filePath} className="mx-8" />
+    <DocsAds slot="sidebar" format="responsive" className="mx-8 shrink-0" />
   </aside>
 );

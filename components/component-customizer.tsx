@@ -9,19 +9,22 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import type { ControlConfig } from "@/lib/customizer-config";
+import { cn } from "@/lib/utils";
 
 interface ComponentCustomizerProps {
   controls: ControlConfig;
   values: Record<string, unknown>;
   onChange: (key: string, value: unknown) => void;
+  className?: string;
 }
 
 export const ComponentCustomizer = ({
   controls,
   values,
   onChange,
+  className,
 }: ComponentCustomizerProps) => (
-  <div className="grid gap-4 sm:grid-cols-2">
+  <div className={cn("grid gap-4 sm:grid-cols-2", className)}>
     {Object.entries(controls).map(([key, ctrl]) => {
       const id = `ctrl-${key}`;
       return (

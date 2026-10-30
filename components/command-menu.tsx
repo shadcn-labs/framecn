@@ -27,7 +27,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Kbd } from "@/components/ui/kbd";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { SITE } from "@/constants/site";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
@@ -280,17 +280,22 @@ export const CommandMenu = ({
       <DialogTrigger
         render={
           <Button
-            variant="ghost"
-            size="icon"
+            variant="outline"
             aria-label="Search"
             title={`Search (${isMac ? "⌘" : "Ctrl"} K)`}
-            className="text-muted-foreground size-8"
+            aria-keyshortcuts={isMac ? "Meta+K" : "Control+K"}
+            className="bg-card text-muted-foreground h-8 w-full justify-start gap-2 rounded-lg px-3 font-normal shadow-xs"
             onClick={handleOpenClick}
             {...props}
           />
         }
       >
-        <SearchIcon />
+        <SearchIcon className="size-4 shrink-0" />
+        <span>Search...</span>
+        <KbdGroup className="ml-auto" aria-hidden>
+          <Kbd>{isMac ? "⌘" : "Ctrl"}</Kbd>
+          <Kbd>K</Kbd>
+        </KbdGroup>
       </DialogTrigger>
       <DialogContent
         showCloseButton={false}

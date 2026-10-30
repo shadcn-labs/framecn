@@ -1,6 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 import type { CSSProperties } from "react";
 
 export interface CaptionWord {
@@ -46,10 +50,11 @@ const DEFAULT_WORDS: CaptionWord[] = [
 ];
 
 const WORDS_PER_GROUP = 3;
+const DEFAULT_ACCENT_WORDS = ["frame.", "code."];
 
 export const CaptionNeonAccent = ({
   words = DEFAULT_WORDS,
-  accentWords = ["frame.", "code."],
+  accentWords = DEFAULT_ACCENT_WORDS,
   color = "#ffffff",
   accentColor = "#a855f7",
   fontSize = 64,
@@ -63,18 +68,78 @@ export const CaptionNeonAccent = ({
   height = 720,
   className,
 }: CaptionNeonAccentProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-
-  const groups = [];
-  for (let i = 0; i < words.length; i += WORDS_PER_GROUP) {
-    const groupWords = words.slice(i, i + WORDS_PER_GROUP);
-    groups.push({
-      endMs: ((groupWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (groupWords[0].start * 1000) / safeSpeed,
-      words: groupWords,
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const padding = Math.min(80, width * 0.0625);
+  const clampedScale = Math.max(1.2, Math.min(2.5, accentScale));
+  const groups = useMemo(() => {
+    const accents = new Set(accentWords);
+    const phrases: CaptionWord[][] = [];
+    let phrase: CaptionWord[] = [];
+    for (const [index, word] of words.entries()) {
+      phrase.push(word);
+      const next = words[index + 1];
+      if (
+        phrase.length >= WORDS_PER_GROUP ||
+        /[,.:;!?]["')\]]*$/.test(word.text) ||
+        !next ||
+        next.start - word.end >= 0.15
+      ) {
+        phrases.push(phrase);
+        phrase = [];
+      }
+    }
+    return phrases.map((phraseWords, index) => {
+      const end = Math.min(
+        (durationMs / 1000) * safeSpeed,
+        phrases[index + 1]?.[0].start ?? Infinity,
+        (phraseWords.at(-1)?.end ?? 0) + 0.18
+      );
+      const characters = phraseWords.reduce(
+        (total, word) =>
+          total +
+          (word.text.length + 1) * (accents.has(word.text) ? clampedScale : 1),
+        0
+      );
+      const longest = Math.max(
+        ...phraseWords.map(
+          (word) =>
+            word.text.length * (accents.has(word.text) ? clampedScale : 1)
+        )
+      );
+      return {
+        end,
+        fontSize: Math.min(
+          fontSize,
+          (height * 0.16) / clampedScale,
+          (width - padding * 2) / Math.max(1, longest * 0.8),
+          ((width - padding * 2) * 1.6) / Math.max(1, characters * 0.8)
+        ),
+        start: phraseWords[0].start,
+        words: phraseWords.map((word, wordIndex) => ({
+          ...word,
+          accent: accents.has(word.text),
+          end: Math.min(
+            word.end,
+            phraseWords[wordIndex + 1]?.start ?? end,
+            end
+          ),
+        })),
+      };
     });
-  }
+  }, [
+    words,
+    accentWords,
+    clampedScale,
+    durationMs,
+    safeSpeed,
+    fontSize,
+    width,
+    height,
+    padding,
+  ]);
 
   const containerStyle: CSSProperties = {
     background,
@@ -84,88 +149,101 @@ export const CaptionNeonAccent = ({
     width,
   };
 
-  const clampedScale = Math.max(1.2, Math.min(2.5, accentScale));
-
   return (
     <Timegroup
+      ref={ref}
       className={className}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
-      <>
-        <style>{`
-          @keyframes framecn-cna-grp-in {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-          }
-          @keyframes framecn-cna-grp-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-          @keyframes framecn-cna-word-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
-        <div
-          style={{
-            bottom: Math.round(height * 0.15),
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          {groups.map((group, gi) => (
+      <div
+        style={{
+          inset: 0,
+          overflow: "visible",
+          pointerEvents: "none",
+          position: "absolute",
+        }}
+      >
+        {groups.map((group, groupIndex) => {
+          const visible = time >= group.start && time < group.end;
+          const age = Math.max(0, time - group.start);
+          const entryDuration = Math.min(7 / 30, (group.end - group.start) / 2);
+          const entry = Math.min(1, age / Math.max(0.001, entryDuration));
+          const ease = 1 - (1 - entry) ** 3;
+          const drift =
+            (1 - Math.cos(age * Math.PI * 1.3)) * 7 * (groupIndex % 2 ? 1 : -1);
+          return (
             <div
-              key={gi}
+              key={groupIndex}
+              data-caption-group={groupIndex}
               style={{
-                alignItems: "center",
-                animation: [
-                  `framecn-cna-grp-in 120ms ease-out ${group.startMs}ms both`,
-                  `framecn-cna-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                ].join(", "),
+                alignItems: "baseline",
+                bottom: height * 0.15,
+                boxSizing: "border-box",
                 display: "flex",
                 flexWrap: "wrap",
-                gap: "0.3em",
+                fontFamily: "'Montserrat', 'Arial Black', Arial, sans-serif",
+                fontSize: group.fontSize,
+                fontWeight,
+                gap: "0.16em 0.25em",
                 justifyContent: "center",
                 left: 0,
-                opacity: 0,
-                padding: "0 80px",
+                lineHeight: 1.1,
+                opacity: visible ? ease : 0,
+                overflow: "visible",
+                padding: `0 ${padding}px`,
                 position: "absolute",
                 right: 0,
+                textAlign: "center",
+                textTransform: "uppercase",
+                transform: `translate(${drift}px, ${drift}px) scale(${0.65 + 0.35 * ease})`,
+                transformOrigin: "50% 100%",
               }}
             >
-              {group.words.map((word, wi) => {
-                const wordStartMs = (word.start * 1000) / safeSpeed;
-                const isAccent = accentWords.includes(word.text);
-
+              {group.words.map((word, wordIndex) => {
+                const active = time >= word.start && time < word.end;
+                const progress = active
+                  ? (time - word.start) / Math.max(0.001, word.end - word.start)
+                  : 0;
+                const pulse = active
+                  ? Math.min(1, progress / 0.12, (1 - progress) / 0.12)
+                  : 0;
                 return (
                   <span
-                    key={wi}
+                    key={wordIndex}
+                    data-caption-word={word.text}
                     style={{
-                      animation: `framecn-cna-word-in 180ms ease-out ${wordStartMs}ms both`,
-                      color: isAccent ? accentColor : color,
-                      display: "inline-block",
-                      fontFamily:
-                        "'Inter', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                      fontSize: isAccent ? fontSize * clampedScale : fontSize,
-                      fontWeight,
-                      letterSpacing: "0.01em",
-                      lineHeight: 1,
-                      textShadow: isAccent
-                        ? `0 0 20px ${accentColor}88, 0 0 40px ${accentColor}44`
-                        : undefined,
+                      display: "inline-grid",
+                      fontSize: word.accent ? `${clampedScale}em` : "1em",
+                      maxWidth: "100%",
+                      minWidth: 0,
+                      overflowWrap: "anywhere",
                     }}
                   >
-                    {word.text}
+                    <span style={{ color, gridArea: "1 / 1" }}>
+                      {word.text}
+                    </span>
+                    {word.accent && (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          color: accentColor,
+                          gridArea: "1 / 1",
+                          opacity: pulse,
+                          textShadow: `0 0 4px ${accentColor}, 0 0 10px ${accentColor}, 0 0 25px ${accentColor}, 0 0 45px ${accentColor}`,
+                        }}
+                      >
+                        {word.text}
+                      </span>
+                    )}
                   </span>
                 );
               })}
             </div>
-          ))}
-        </div>
-      </>
+          );
+        })}
+      </div>
     </Timegroup>
   );
 };

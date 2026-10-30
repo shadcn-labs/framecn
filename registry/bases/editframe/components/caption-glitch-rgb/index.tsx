@@ -1,7 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 
 export interface CaptionWord {
   text: string;
@@ -61,130 +64,248 @@ export const CaptionGlitchRgb = ({
   height = 720,
   className,
 }: CaptionGlitchRgbProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
-
-  const groups = [];
-  for (let i = 0; i < words.length; i += WORDS_PER_GROUP) {
-    const groupWords = words.slice(i, i + WORDS_PER_GROUP);
-    groups.push({
-      endMs: ((groupWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (groupWords[0].start * 1000) / safeSpeed,
-      words: groupWords,
-    });
-  }
-
-  const containerStyle: CSSProperties = {
-    background,
-    height,
-    overflow: "hidden",
-    position: "relative",
-    width,
-  };
+  const duration = durationInFrames / fps;
+  const transcriptEnd = duration * safeSpeed;
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const padding = Math.max(12, width * (100 / 1920));
+  const safeWidth = Math.max(1, width - padding * 2);
+  const groups = useMemo(() => {
+    const result: {
+      words: {
+        word: CaptionWord;
+        travel: number;
+        shadow: number;
+        glitchDuration: number;
+        aftershocks: { start: number; travel: number; shadow: number }[];
+      }[];
+      start: number;
+      end: number;
+      size: number;
+    }[] = [];
+    const maxWords = Math.max(1, Math.floor(WORDS_PER_GROUP));
+    let start = 0;
+    let chars = 0;
+    for (let i = 0; i < words.length; i += 1) {
+      chars += words[i].text.length + 1;
+      const pause = (words[i + 1]?.start ?? words[i].end) - words[i].end;
+      if (
+        i - start + 1 >= maxWords ||
+        chars >= 21 ||
+        /[,.;:!?]["')\]]?$/.test(words[i].text) ||
+        pause >= 0.15 ||
+        i === words.length - 1
+      ) {
+        const phrase = words.slice(start, i + 1);
+        const end = Math.min(
+          words[i].end + 0.18,
+          words[i + 1]?.start ?? transcriptEnd,
+          transcriptEnd
+        );
+        const firstIndex = start;
+        const styledWords = phrase.map((word, wi) => {
+          // Seeded samples are prepared once, independently of playback direction.
+          let seed = (firstIndex + wi) * 777 + 13;
+          const samples: number[] = [];
+          for (let sample = 0; sample < 2; sample += 1) {
+            seed = (seed * 48_271) % 2_147_483_647;
+            samples.push(seed / 2_147_483_647);
+          }
+          const nextStart = words[firstIndex + wi + 1]?.start ?? end;
+          const available = Math.max(
+            0.001,
+            Math.min(word.end, nextStart, end) - word.start
+          );
+          const glitchDuration = Math.min(
+            available * 0.9,
+            0.24,
+            Math.max(0.08, available - 0.02)
+          );
+          const aftershocks: {
+            start: number;
+            travel: number;
+            shadow: number;
+          }[] = [];
+          if (
+            /\d|\$|%/.test(word.text) ||
+            word.text.replaceAll(/[^\w]/g, "").length >= 7
+          ) {
+            const aftershockEnd = Math.min(end - 0.02, nextStart - 0.02);
+            // Fit the short aftershock into the available hold; never extend the caption window.
+            const pulseStart = word.end + 0.02;
+            if (pulseStart + 0.12 < aftershockEnd) {
+              aftershocks.push({
+                shadow: 3 + samples[1] * 5,
+                start: pulseStart,
+                travel: -(3 + samples[0] * 5),
+              });
+            }
+          }
+          return {
+            aftershocks,
+            glitchDuration,
+            shadow: 5 + samples[1] * 7,
+            travel: -(8 + samples[0] * 8),
+            word,
+          };
+        });
+        const longest = Math.max(
+          ...phrase.map((word) => [...word.text.toUpperCase()].length),
+          1
+        );
+        result.push({
+          end,
+          size: Math.min(
+            fontSize,
+            height * 0.16,
+            safeWidth / (longest * 1.08),
+            safeWidth / Math.max(1, chars * 0.7)
+          ),
+          start: phrase[0].start,
+          words: styledWords,
+        });
+        start = i + 1;
+        chars = 0;
+      }
+    }
+    return result;
+  }, [words, fontSize, height, safeWidth, transcriptEnd]);
 
   return (
     <Timegroup
+      ref={ref}
       className={className}
-      duration={`${durationMs}ms`}
+      duration={`${duration * 1000}ms`}
       mode="fixed"
-      style={containerStyle}
+      style={{
+        background,
+        height,
+        overflow: "hidden",
+        position: "relative",
+        width,
+      }}
     >
-      <>
-        <style>{`
-          @keyframes framecn-cgr-grp-in {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-          }
-          @keyframes framecn-cgr-grp-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-          @keyframes framecn-cgr-glitch-6 {
-            from { transform: translateX(-6px); text-shadow: 5px 0 ${glitchRedColor}, -5px 0 ${glitchCyanColor}, 0 5px 18px rgba(0,0,0,0.52); }
-            to   { transform: translateX(0); text-shadow: 0 5px 18px rgba(0,0,0,0.52); }
-          }
-          @keyframes framecn-cgr-glitch-8 {
-            from { transform: translateX(-8px); text-shadow: 5px 0 ${glitchRedColor}, -5px 0 ${glitchCyanColor}, 0 5px 18px rgba(0,0,0,0.52); }
-            to   { transform: translateX(0); text-shadow: 0 5px 18px rgba(0,0,0,0.52); }
-          }
-          @keyframes framecn-cgr-glitch-12 {
-            from { transform: translateX(-12px); text-shadow: 5px 0 ${glitchRedColor}, -5px 0 ${glitchCyanColor}, 0 5px 18px rgba(0,0,0,0.52); }
-            to   { transform: translateX(0); text-shadow: 0 5px 18px rgba(0,0,0,0.52); }
-          }
-        `}</style>
-        {/* Scanlines overlay */}
-        <div
-          aria-hidden
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px)",
-            inset: 0,
-            pointerEvents: "none",
-            position: "absolute",
-            zIndex: 10,
-          }}
-        />
-        <div
-          style={{
-            bottom: Math.round(height * 0.15),
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          {groups.map((group, gi) => (
-            <div
-              key={gi}
-              style={{
-                alignItems: "center",
-                animation: [
-                  `framecn-cgr-grp-in 80ms ease-out ${group.startMs}ms both`,
-                  `framecn-cgr-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                ].join(", "),
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.3em",
-                justifyContent: "center",
-                left: 0,
-                opacity: 0,
-                padding: "0 80px",
-                position: "absolute",
-                right: 0,
-              }}
-            >
-              {group.words.map((word, wi) => {
-                const wordStartMs = (word.start * 1000) / safeSpeed;
-                const travelVariants = [
-                  "framecn-cgr-glitch-8",
-                  "framecn-cgr-glitch-12",
-                  "framecn-cgr-glitch-6",
-                ];
-                const keyframeName = travelVariants[wi % 3];
-
+      <div
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(to bottom,rgba(0,0,0,.08) 0%,rgba(0,0,0,.16) 54%,rgba(0,0,0,.5) 100%)",
+          inset: 0,
+          pointerEvents: "none",
+          position: "absolute",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          background:
+            "repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,rgba(0,0,0,.16) 3px,rgba(0,0,0,.16) 4px)",
+          inset: 0,
+          opacity: 0.55,
+          pointerEvents: "none",
+          position: "absolute",
+        }}
+      />
+      {groups.map((group, gi) => {
+        const visible = time >= group.start && time < group.end;
+        const entryDuration = Math.min(0.12, (group.end - group.start) * 0.3);
+        const exitDuration = Math.min(0.1, (group.end - group.start) * 0.2);
+        const entry =
+          1 -
+          (1 -
+            Math.max(
+              0,
+              Math.min(1, (time - group.start) / Math.max(0.001, entryDuration))
+            )) **
+            3;
+        const exit =
+          Math.max(
+            0,
+            Math.min(
+              1,
+              (time - group.end + exitDuration) / Math.max(0.001, exitDuration)
+            )
+          ) ** 3;
+        return (
+          <div
+            key={gi}
+            data-caption-group={gi}
+            style={{
+              alignItems: "baseline",
+              bottom: height * (120 / 1080),
+              boxSizing: "border-box",
+              display: "flex",
+              flexWrap: "wrap",
+              fontSize: group.size,
+              gap: "0.16em",
+              justifyContent: "center",
+              left: 0,
+              opacity: visible ? entry * (1 - exit) : 0,
+              overflow: "visible",
+              padding: `0 ${padding}px`,
+              pointerEvents: "none",
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            {group.words.map(
+              ({ word, travel, shadow, glitchDuration, aftershocks }, wi) => {
+                const elapsed = time - word.start;
+                const firstPhase = glitchDuration * 0.35;
+                let pulse = 0;
+                if (elapsed >= 0 && elapsed < glitchDuration) {
+                  pulse =
+                    elapsed < firstPhase
+                      ? elapsed / firstPhase
+                      : (1 -
+                          (elapsed - firstPhase) /
+                            (glitchDuration - firstPhase)) **
+                        4;
+                }
+                let x = travel * pulse;
+                let separation = shadow * pulse;
+                for (const aftershock of aftershocks) {
+                  const local = time - aftershock.start;
+                  if (local >= 0 && local < 0.12) {
+                    pulse =
+                      local < 0.045
+                        ? local / 0.045
+                        : (1 - (local - 0.045) / 0.075) ** 4;
+                    x = aftershock.travel * pulse;
+                    separation = aftershock.shadow * pulse;
+                  }
+                }
                 return (
                   <span
                     key={wi}
+                    data-caption-word={word.text}
                     style={{
-                      animation: `${keyframeName} 200ms cubic-bezier(0.16,1,0.3,1) ${wordStartMs}ms both`,
                       color,
                       display: "inline-block",
-                      fontFamily:
-                        "'Space Grotesk', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                      fontSize,
+                      fontFamily: "'Space Grotesk', Arial, sans-serif",
+                      fontSize: "inherit",
                       fontWeight,
-                      letterSpacing: "0.02em",
-                      lineHeight: 1,
-                      textShadow: `0 5px 18px rgba(0,0,0,0.52)`,
+                      letterSpacing: "0.03em",
+                      lineHeight: 1.08,
+                      maxWidth: "100%",
+                      overflowWrap: "anywhere",
+                      textShadow:
+                        separation > 0
+                          ? `${separation}px 0 ${glitchRedColor}, ${-separation}px 0 ${glitchCyanColor}, 0 5px 18px rgba(0,0,0,.52)`
+                          : "0 5px 18px rgba(0,0,0,.52)",
+                      textTransform: "uppercase",
+                      transform: `translateX(${x}px)`,
                     }}
                   >
                     {word.text}
                   </span>
                 );
-              })}
-            </div>
-          ))}
-        </div>
-      </>
+              }
+            )}
+          </div>
+        );
+      })}
     </Timegroup>
   );
 };

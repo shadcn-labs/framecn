@@ -8,9 +8,7 @@
       "type": "registry:component",
       "title": "Caption Clip Wipe",
       "description": "Words reveal left-to-right via clip-path; keywords turn gold on speak; the group exits with a wipe.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-clip-wipe/index.tsx",
@@ -24,9 +22,7 @@
       "type": "registry:component",
       "title": "Caption Editorial Emphasis",
       "description": "Headline-style captions that emphasise specific words using accent colors and weight shifts.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-editorial-emphasis/index.tsx",
@@ -40,9 +36,7 @@
       "type": "registry:component",
       "title": "Caption Emoji Pop",
       "description": "Captions with emoji that pop in alongside words.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-emoji-pop/index.tsx",
@@ -56,9 +50,7 @@
       "type": "registry:component",
       "title": "Caption Glitch RGB",
       "description": "Captions with a glitchy RGB-split effect on each word.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-glitch-rgb/index.tsx",
@@ -72,9 +64,7 @@
       "type": "registry:component",
       "title": "Caption Gradient Fill",
       "description": "Captions where words fill with a horizontal gradient from left to right.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-gradient-fill/index.tsx",
@@ -88,9 +78,7 @@
       "type": "registry:component",
       "title": "Caption Highlight",
       "description": "Word-by-word captions with an accent-colored highlight background that sweeps in behind each spoken word.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-highlight/index.tsx",
@@ -103,10 +91,8 @@
       "name": "caption-kinetic-slam",
       "type": "registry:component",
       "title": "Caption Kinetic Slam",
-      "description": "Dynamic word-by-word captions: each word pops in with a springy scale/opacity entrance, then drops out in an overlapping ripple.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "description": "One word at a time with alternating vertical slams, side slides, and scale pops, bounded by transcript timing.",
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-kinetic-slam/index.tsx",
@@ -119,10 +105,8 @@
       "name": "caption-matrix-decode",
       "type": "registry:component",
       "title": "Caption Matrix Decode",
-      "description": "Matrix-style green text decodes from blur to sharp on each word.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "description": "Matrix-style green captions resolve from deterministic scrambled characters into spoken words.",
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-matrix-decode/index.tsx",
@@ -136,9 +120,7 @@
       "type": "registry:component",
       "title": "Caption Neon Accent",
       "description": "Captions where words glow with a bright neon accent border and subtle glow.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-neon-accent/index.tsx",
@@ -152,9 +134,7 @@
       "type": "registry:component",
       "title": "Caption Neon Glow",
       "description": "Captions with a neon glow effect on each word.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-neon-glow/index.tsx",
@@ -168,9 +148,7 @@
       "type": "registry:component",
       "title": "Caption Parallax Layers",
       "description": "Multi-layer captions where background and foreground words move at different depths, creating a parallax depth effect.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-parallax-layers/index.tsx",
@@ -183,10 +161,8 @@
       "name": "caption-particle-burst",
       "type": "registry:component",
       "title": "Caption Particle Burst",
-      "description": "Captions where each word explodes into particles as it exits.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "description": "Spoken words emit seeded multicolored particles with outward motion, shrink, and fade.",
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-particle-burst/index.tsx",
@@ -199,10 +175,8 @@
       "name": "caption-pill-karaoke",
       "type": "registry:component",
       "title": "Caption Pill Karaoke",
-      "description": "Karaoke-style captions where each word sits inside a pill-shaped background.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "description": "Lowercase captions in a shared rounded pill, with cumulative highlighting as each word is spoken.",
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-pill-karaoke/index.tsx",
@@ -216,9 +190,7 @@
       "type": "registry:component",
       "title": "Caption Texture",
       "description": "Captions filled with a rich gradient texture that animates across words.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-texture/index.tsx",
@@ -231,10 +203,8 @@
       "name": "caption-weight-shift",
       "type": "registry:component",
       "title": "Caption Weight Shift",
-      "description": "Font weight animates from 100 to 900 when each word is spoken, back to thin after.",
-      "dependencies": [
-        "@editframe/react"
-      ],
+      "description": "Balanced lowercase caption lines hand emphasis between light and bold weights without reflow.",
+      "dependencies": ["@editframe/react"],
       "files": [
         {
           "path": "registry/bases/editframe/components/caption-weight-shift/index.tsx",

@@ -1,7 +1,9 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
 
 export interface CaptionWord {
   text: string;
@@ -42,9 +44,6 @@ const DEFAULT_WORDS: CaptionWord[] = [
   { end: 6, start: 5.55, text: "code." },
 ];
 
-const IN_DURATION = 220;
-const OUT_DURATION = 140;
-
 export const CaptionKineticSlam = ({
   words = DEFAULT_WORDS,
   color = "#ffffff",
@@ -58,74 +57,93 @@ export const CaptionKineticSlam = ({
   height = 720,
   className,
 }: CaptionKineticSlamProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
-
-  const containerStyle: CSSProperties = {
-    alignItems: "center",
-    background,
-    height,
-    justifyContent: "center",
-    overflow: "hidden",
-    position: "relative",
-    width,
-  };
-
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const duration = durationInFrames / fps;
   return (
     <Timegroup
-      className={`flex ${className ?? ""}`}
-      duration={`${durationMs}ms`}
+      ref={ref}
+      className={className}
+      duration={`${duration * 1000}ms`}
       mode="fixed"
-      style={containerStyle}
+      style={{
+        background,
+        display: "block",
+        height,
+        overflow: "hidden",
+        position: "relative",
+        width,
+      }}
     >
-      <>
-        <style>{`
-        @keyframes framecn-ks-in {
-          0%   { opacity: 0; transform: translateY(-56px) scale(1.45); }
-          60%  { opacity: 1; }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes framecn-ks-out {
-          from { opacity: 1; transform: scale(1); }
-          to   { opacity: 0; transform: scale(0.82); }
-        }
-      `}</style>
-        {words.map((word, i) => {
-          const startMs = (word.start * 1000) / safeSpeed;
-          const endMs = (word.end * 1000) / safeSpeed;
-          const wordDurationMs = endMs - startMs;
-          const outStart = Math.max(
-            startMs + IN_DURATION,
-            endMs - OUT_DURATION
-          );
-          return (
+      {words.map((word, i) => {
+        const end = Math.min(
+          word.end,
+          words[i + 1]?.start ?? Infinity,
+          duration * safeSpeed
+        );
+        const span = end - word.start;
+        const visible = time >= word.start && time < end;
+        const entrance = Math.min(
+          1,
+          Math.max(0, (time - word.start) / Math.min(0.22, span * 0.6))
+        );
+        const exit = Math.min(
+          1,
+          Math.max(0, (end - time) / Math.min(0.1, span * 0.25))
+        );
+        const mode = i % 4;
+        const back = 1 + 2.7 * (entrance - 1) ** 3 + 1.7 * (entrance - 1) ** 2;
+        const slide = entrance === 1 ? 1 : 1 - 2 ** (-10 * entrance);
+        const direction = Number(mode === 2) - Number(mode === 1);
+        const x = direction * width * 0.16 * (1 - slide);
+        const y = mode === 0 ? -height * 0.12 * (1 - back) : 0;
+        const scale = mode === 3 ? 0.4 + back * 0.6 : 1;
+        return (
+          <div
+            key={i}
+            data-caption-group={i}
+            style={{
+              alignItems: "center",
+              boxSizing: "border-box",
+              display: "flex",
+              inset: 0,
+              justifyContent: "center",
+              opacity: visible ? Math.min(entrance * 3, 1) * exit ** 2 : 0,
+              padding: `0 ${width * 0.08}px`,
+              pointerEvents: "none",
+              position: "absolute",
+              visibility: visible ? "visible" : "hidden",
+            }}
+          >
             <span
-              key={i}
+              data-caption-word={i}
               style={{
-                animation: [
-                  `framecn-ks-in ${Math.min(IN_DURATION, wordDurationMs * 0.6)}ms cubic-bezier(0.16, 1, 0.3, 1) ${startMs}ms backwards`,
-                  `framecn-ks-out ${OUT_DURATION}ms ease-in ${outStart}ms forwards`,
-                ].join(", "),
                 color,
+                display: "block",
                 fontFamily:
-                  "'Anton', 'Impact', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                fontSize,
+                  "'Anton', Impact, var(--font-geist-sans, Arial), sans-serif",
+                fontSize: Math.min(
+                  fontSize,
+                  height * 0.3,
+                  (width * 0.72) / Math.max(1, word.text.length * 0.8)
+                ),
                 fontWeight,
-                left: 0,
                 letterSpacing: "0.04em",
-                lineHeight: 1,
-                position: "absolute",
-                right: 0,
+                lineHeight: 1.1,
+                maxWidth: "100%",
+                overflowWrap: "anywhere",
                 textAlign: "center",
-                textShadow: "0 6px 32px rgba(0,0,0,0.6)",
+                textShadow: "0 6px 32px rgb(0 0 0 / 0.6)",
                 textTransform: "uppercase",
+                transform: `translate(${x}px, ${y}px) scale(${scale})`,
               }}
             >
               {word.text}
             </span>
-          );
-        })}
-      </>
+          </div>
+        );
+      })}
     </Timegroup>
   );
 };

@@ -1,6 +1,6 @@
 ---
 title: "Weight Shift"
-description: "Font weight animates from 100 to 900 when each word is spoken, back to thin after."
+description: "Lowercase captions hand bold emphasis from the first line to the second without shifting the layout."
 ---
 
 ## Usage
@@ -24,15 +24,10 @@ import { CaptionWeightShift } from "@/components/framecn/caption-weight-shift";
 | `activeColor`      | `string`        | `"#ffffff"`                |
 | `dimColor`         | `string`        | `"rgba(255,255,255,0.35)"` |
 | `fontSize`         | `number`        | `72`                       |
+| `background`       | `string`        | `"#0a0a0a"`                |
 | `speed`            | `number`        | `1`                        |
 | `fps`              | `number`        | `30`                       |
 | `durationInFrames` | `number`        | `180`                      |
 | `width`            | `number`        | `1280`                     |
 | `height`           | `number`        | `720`                      |
 | `className`        | `string`        | `-`                        |
-
-## Notes
-
-<Callout title="Word timing is in seconds">
-  The `start` and `end` fields on each `CaptionWord` are in seconds.
-</Callout>

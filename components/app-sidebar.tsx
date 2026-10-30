@@ -3,14 +3,16 @@
 import {
   ArrowLeftIcon,
   ArrowUpRightIcon,
+  BlocksIcon,
+  BookOpenIcon,
   ChevronRightIcon,
+  WalletIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { BrandContextMenu } from "@/components/brand-context-menu";
-import { CarbonAds } from "@/components/carbon-ads";
 import { XIcon } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
 import { ProBadge } from "@/components/pro-badge";
@@ -65,6 +67,12 @@ const ROW_TONE =
   "text-muted-foreground hover:bg-sidebar-primary/[0.05] hover:text-sidebar-foreground active:bg-sidebar-primary/[0.08] data-[active=true]:bg-sidebar-primary/[0.08] data-[active=true]:text-sidebar-foreground";
 
 const EXPANDABLE = new Set<string>([ROUTES.COMPONENTS, ROUTES.DOCS]);
+
+const PRIMARY_NAV_ICONS: Record<string, typeof BlocksIcon> = {
+  [ROUTES.COMPONENTS]: BlocksIcon,
+  [ROUTES.DOCS]: BookOpenIcon,
+  [ROUTES.PRICING]: WalletIcon,
+};
 
 interface TreeItem {
   href: string;
@@ -216,17 +224,19 @@ const MainView = ({
           <ChevronRightIcon className="text-muted-foreground size-3.5 transition-transform group-hover/projects:translate-x-0.5" />
         </Button>
         <div className="ml-auto flex items-center">
-          {search}
+          <SiteSettings />
           <SidebarTrigger className="text-muted-foreground size-8" />
         </div>
       </SidebarHeader>
+      <div className="px-2 py-2">{search}</div>
       <SidebarContent>
-        <SidebarGroup>
+        <SidebarGroup className="pt-0">
           <SidebarMenu aria-label="Primary" className="gap-0.5">
             {APP_NAV.map((item) => {
               const active = isActive(item.href);
               const expandable = EXPANDABLE.has(item.href);
               const open = expandable && (expanded[item.href] ?? active);
+              const Icon = PRIMARY_NAV_ICONS[item.href];
               const button = (
                 <SidebarMenuButton
                   isActive={active}
@@ -248,6 +258,7 @@ const MainView = ({
                     />
                   }
                 >
+                  <Icon aria-hidden className="size-4 shrink-0" />
                   {item.name}
                   {expandable && (
                     <ChevronRightIcon
@@ -339,7 +350,7 @@ const ProjectsView = ({ onBack }: { onBack: () => void }) => (
         </SidebarMenu>
       </SidebarGroup>
       {LABS_NAV_SECTIONS.map((section) => (
-        <SidebarGroup key={section.id} className="py-0">
+        <SidebarGroup key={section.id} className="pt-0">
           <SidebarGroupLabel>{section.title}</SidebarGroupLabel>
           <SidebarMenu className="gap-0.5">
             {section.items.map((item) => (
@@ -381,9 +392,6 @@ export const AppSidebar = ({
       ) : (
         <ProjectsView onBack={() => setView("main")} />
       )}
-      <SidebarGroup aria-label="Advertisement" className="shrink-0 pt-0">
-        <CarbonAds serve="CWBI423W" placement="wwwframecndev" />
-      </SidebarGroup>
       <SidebarFooter className="h-12 shrink-0 flex-row items-center justify-between py-0 pr-0 pl-2.5">
         <span className="text-muted-foreground truncate text-xs">
           © {new Date().getFullYear()}
@@ -415,7 +423,6 @@ export const AppSidebar = ({
               <TooltipContent>Follow on X</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <SiteSettings />
         </div>
       </SidebarFooter>
     </Sidebar>

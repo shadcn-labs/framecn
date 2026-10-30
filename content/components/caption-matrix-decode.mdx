@@ -1,6 +1,6 @@
 ---
 title: "Matrix Decode"
-description: "Matrix-style green monospace text that decodes from blurry/bright to sharp using a stepped animation."
+description: "Green terminal captions decode through deterministic scrambled character states into readable words."
 ---
 
 ## Usage
@@ -13,6 +13,8 @@ import { CaptionMatrixDecode } from "@/components/framecn/caption-matrix-decode"
 <CaptionMatrixDecode />
 ```
 
+Render inside an Editframe `TimelineRoot`. The component reads its root `Timegroup`'s local playback time with `useTimingInfo`, so pause, restart, and backward seeking reproduce the same glyphs.
+
 ## API Reference
 
 ### CaptionMatrixDecode
@@ -23,15 +25,10 @@ import { CaptionMatrixDecode } from "@/components/framecn/caption-matrix-decode"
 | `color`            | `string`           | `"#00ff41"`  |
 | `fontSize`         | `number`           | `80`         |
 | `fontWeight`       | `number \| string` | `700`        |
+| `background`       | `string`           | `"#0a0a0a"`  |
 | `speed`            | `number`           | `1`          |
 | `fps`              | `number`           | `30`         |
 | `durationInFrames` | `number`           | `180`        |
 | `width`            | `number`           | `1280`       |
 | `height`           | `number`           | `720`        |
 | `className`        | `string`           | `-`          |
-
-## Notes
-
-<Callout title="Word timing is in seconds">
-  The `start` and `end` fields on each `CaptionWord` are in seconds.
-</Callout>

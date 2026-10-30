@@ -1,6 +1,6 @@
 ---
 title: "Pill Karaoke"
-description: "Karaoke-style captions in a rounded pill container — active word snaps to full contrast, others stay dimmed."
+description: "Lowercase captions in a rounded pill — spoken words darken cumulatively as the phrase is read."
 ---
 
 ## Usage
@@ -48,17 +48,3 @@ const words: CaptionWord[] = [
 | `text`  | `string` | The word text         |
 | `start` | `number` | Start time in seconds |
 | `end`   | `number` | End time in seconds   |
-
-## Notes
-
-<Callout title="Segment grouping controls pill content">
-  `wordsPerSegment` determines how many words share a pill at once. A new pill
-  slides in each time a new segment starts. Set it lower for shorter, punchier
-  pills or higher for longer lines.
-</Callout>
-
-<Callout title="Flip colors for dark pills">
-  The defaults use a light pill with dark text. For a dark pill on a light
-  background, swap: `pillColor="#1a1a1a"`, `activeColor="#ffffff"`,
-  `dimColor="#555555"`.
-</Callout>

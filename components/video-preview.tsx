@@ -7,6 +7,7 @@ import {
   Scrubber,
   TimeDisplay,
   Timegroup,
+  TimelineRoot,
   ToggleLoop,
   TogglePlay,
 } from "@editframe/react";
@@ -163,6 +164,32 @@ const VideoPreviewClient = ({
   );
   const rootRef = useRef<React.ComponentRef<typeof Timegroup>>(null);
   const [motionAllowed, setMotionAllowed] = useState(false);
+  const Timeline = useMemo(
+    () =>
+      function PreviewTimeline() {
+        return (
+          <Timegroup
+            ref={rootRef}
+            duration={`${(durationInFrames / fps) * 1000}ms`}
+            mode="fixed"
+            style={{
+              height,
+              overflow: "hidden",
+              position: "relative",
+              width,
+            }}
+          >
+            <FrameProvider
+              durationMs={(durationInFrames / fps) * 1000}
+              fps={fps}
+            >
+              <Scene {...componentProps} />
+            </FrameProvider>
+          </Timegroup>
+        );
+      },
+    [Scene, componentProps, durationInFrames, fps, height, width]
+  );
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => setMotionAllowed(!media.matches);
@@ -182,7 +209,7 @@ const VideoPreviewClient = ({
         return;
       }
       root.loop = autoPlay;
-      root.currentTimeMs = (durationInFrames / fps) * 500;
+      root.currentTimeMs = 0;
       if (autoPlay && motionAllowed) {
         root.play();
       } else {
@@ -196,25 +223,11 @@ const VideoPreviewClient = ({
         root.pause();
       }
     };
-  }, [autoPlay, durationInFrames, fps, motionAllowed]);
+  }, [autoPlay, durationInFrames, fps, motionAllowed, Timeline]);
 
   const stage = (
     <FitScale>
-      <Timegroup
-        ref={rootRef}
-        duration={`${(durationInFrames / fps) * 1000}ms`}
-        mode="fixed"
-        style={{
-          height,
-          overflow: "hidden",
-          position: "relative",
-          width,
-        }}
-      >
-        <FrameProvider durationMs={(durationInFrames / fps) * 1000} fps={fps}>
-          <Scene {...componentProps} />
-        </FrameProvider>
-      </Timegroup>
+      <TimelineRoot id={`${previewId}-timeline`} component={Timeline} />
     </FitScale>
   );
 

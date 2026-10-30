@@ -1,6 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 import type { CSSProperties } from "react";
 
 export interface CaptionWord {
@@ -59,18 +63,79 @@ export const CaptionWeightShift = ({
   height = 720,
   className,
 }: CaptionWeightShiftProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-
-  const groups = [];
-  for (let i = 0; i < words.length; i += WORDS_PER_GROUP) {
-    const groupWords = words.slice(i, i + WORDS_PER_GROUP);
-    groups.push({
-      endMs: ((groupWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (groupWords[0].start * 1000) / safeSpeed,
-      words: groupWords,
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const padding = Math.min(80, width * 0.0625);
+  const groups = useMemo(() => {
+    const phrases: CaptionWord[][] = [];
+    let phrase: CaptionWord[] = [];
+    for (const [index, word] of words.entries()) {
+      phrase.push(word);
+      const next = words[index + 1];
+      if (
+        phrase.length >= WORDS_PER_GROUP ||
+        /[,.:;!?]["')\]]*$/.test(word.text) ||
+        !next ||
+        next.start - word.end >= 0.15
+      ) {
+        phrases.push(phrase);
+        phrase = [];
+      }
+    }
+    return phrases.map((phraseWords, index) => {
+      const end = Math.min(
+        (durationMs / 1000) * safeSpeed,
+        phrases[index + 1]?.[0].start ?? Infinity,
+        (phraseWords.at(-1)?.end ?? 0) + 0.18
+      );
+      let split = phraseWords.length;
+      let difference = Infinity;
+      for (let candidate = 1; candidate < phraseWords.length; candidate += 1) {
+        const first = phraseWords
+          .slice(0, candidate)
+          .reduce((sum, word) => sum + word.text.length + 1, 0);
+        const second = phraseWords
+          .slice(candidate)
+          .reduce((sum, word) => sum + word.text.length + 1, 0);
+        if (Math.abs(first - second) < difference) {
+          difference = Math.abs(first - second);
+          split = candidate;
+        }
+      }
+      const timedWords = phraseWords.map((word, wordIndex) => ({
+        ...word,
+        end: Math.min(word.end, phraseWords[wordIndex + 1]?.start ?? end, end),
+      }));
+      const lines = [timedWords.slice(0, split)];
+      if (split < timedWords.length) {
+        lines.push(timedWords.slice(split));
+      }
+      const longestLine = Math.max(
+        ...lines.map((line) =>
+          line.reduce((sum, word) => sum + word.text.length + 1, 0)
+        )
+      );
+      return {
+        end,
+        fontSize: Math.min(
+          fontSize,
+          height * 0.16,
+          (width - padding * 2) / Math.max(1, longestLine * 0.75)
+        ),
+        lines,
+        start: phraseWords[0].start,
+        switchDuration: lines[1]
+          ? Math.min(
+              0.1,
+              Math.max(0.001, lines[1][0].end - lines[1][0].start) / 2
+            )
+          : 0.1,
+        switchTime: lines[1]?.[0].start ?? Infinity,
+      };
     });
-  }
+  }, [words, durationMs, safeSpeed, fontSize, width, height, padding]);
 
   const containerStyle: CSSProperties = {
     background,
@@ -82,89 +147,127 @@ export const CaptionWeightShift = ({
 
   return (
     <Timegroup
+      ref={ref}
       className={className}
       duration={`${durationMs}ms`}
       mode="fixed"
       style={containerStyle}
     >
-      <>
-        <style>{`
-          @keyframes framecn-cws-grp-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes framecn-cws-grp-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-        `}</style>
-        <div
-          style={{
-            bottom: Math.round(height * 0.15),
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          {groups.map((group, gi) => (
+      <div
+        style={{
+          inset: 0,
+          overflow: "visible",
+          pointerEvents: "none",
+          position: "absolute",
+        }}
+      >
+        {groups.map((group, groupIndex) => {
+          const visible = time >= group.start && time < group.end;
+          const entry = Math.min(
+            1,
+            Math.max(
+              0,
+              (time - group.start) /
+                Math.max(0.001, Math.min(0.1, (group.end - group.start) / 2))
+            )
+          );
+          const ease = 1 - (1 - entry) ** 3;
+          const shift = Math.max(
+            0,
+            Math.min(1, (time - group.switchTime) / group.switchDuration)
+          );
+          return (
             <div
-              key={gi}
+              key={groupIndex}
+              data-caption-group={groupIndex}
               style={{
                 alignItems: "center",
-                animation: [
-                  `framecn-cws-grp-in 180ms ease-out ${group.startMs}ms both`,
-                  `framecn-cws-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                ].join(", "),
+                bottom: height * 0.15,
+                boxSizing: "border-box",
                 display: "flex",
-                flexWrap: "wrap",
-                gap: "0.3em",
-                justifyContent: "center",
+                flexDirection: "column",
+                fontFamily: "'Montserrat', Arial, sans-serif",
+                fontSize: group.fontSize,
+                gap: "0.08em",
                 left: 0,
-                opacity: 0,
-                padding: "0 80px",
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+                opacity: visible ? ease : 0,
+                overflow: "visible",
+                padding: `0 ${padding}px`,
                 position: "absolute",
                 right: 0,
+                textAlign: "center",
+                textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                textTransform: "lowercase",
+                transform: `scale(${0.85 + 0.15 * ease})`,
+                transformOrigin: "50% 100%",
               }}
             >
-              {group.words.map((word, wi) => {
-                const wordStartMs = (word.start * 1000) / safeSpeed;
-                const wordDurationMs = Math.max(
-                  120,
-                  ((word.end - word.start) * 1000) / safeSpeed
-                );
-                const activateKeyframe = `framecn-cws-activate-${gi}-${wi}`;
-
+              {group.lines.map((line, lineIndex) => {
+                const bold = lineIndex === 0 ? 1 - shift : shift;
                 return (
-                  <span key={wi} style={{ display: "inline-block" }}>
-                    <style>{`
-                      @keyframes ${activateKeyframe} {
-                        0%, 100% { font-weight: 100; opacity: 0.35; color: ${dimColor}; }
-                        8%, 92%  { font-weight: 900; opacity: 1; letter-spacing: 0.01em; color: ${activeColor}; }
+                  <div
+                    key={lineIndex}
+                    style={{
+                      alignItems: "baseline",
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "0.12em 0.18em",
+                      justifyContent: "center",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {line.map((word, wordIndex) => {
+                      const active = time >= word.start && time < word.end;
+                      let wordColor = color;
+                      if (active) {
+                        wordColor = activeColor;
+                      } else if (time < word.start) {
+                        wordColor = dimColor;
                       }
-                    `}</style>
-                    <span
-                      style={{
-                        animation: `${activateKeyframe} ${wordDurationMs}ms ease-in-out ${wordStartMs}ms both`,
-                        color,
-                        display: "inline-block",
-                        fontFamily:
-                          "'Montserrat', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                        fontSize,
-                        fontWeight: 100,
-                        lineHeight: 1.1,
-                        opacity: 0.35,
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {word.text}
-                    </span>
-                  </span>
+                      return (
+                        <span
+                          key={wordIndex}
+                          data-caption-word={word.text}
+                          style={{
+                            color: wordColor,
+                            display: "inline-grid",
+                            maxWidth: "100%",
+                            minWidth: 0,
+                            overflowWrap: "anywhere",
+                          }}
+                        >
+                          {/* Both weights occupy one grid cell, so switching never reflows the line. */}
+                          <span
+                            style={{
+                              fontWeight: 300,
+                              gridArea: "1 / 1",
+                              opacity: 1 - bold,
+                            }}
+                          >
+                            {word.text}
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              fontWeight: 700,
+                              gridArea: "1 / 1",
+                              opacity: bold,
+                            }}
+                          >
+                            {word.text}
+                          </span>
+                        </span>
+                      );
+                    })}
+                  </div>
                 );
               })}
             </div>
-          ))}
-        </div>
-      </>
+          );
+        })}
+      </div>
     </Timegroup>
   );
 };

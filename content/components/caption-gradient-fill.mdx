@@ -1,6 +1,6 @@
 ---
 title: "Gradient Fill"
-description: "Siri-style gradient sweeps across text via background-clip on each word speaking window."
+description: "A word-timed orange-to-pink gradient reveals left to right over white caption text."
 ---
 
 ## Usage
@@ -25,15 +25,10 @@ import { CaptionGradientFill } from "@/components/framecn/caption-gradient-fill"
 | `toColor`          | `string`           | `"#ef7aff"`  |
 | `fontSize`         | `number`           | `80`         |
 | `fontWeight`       | `number \| string` | `900`        |
+| `background`       | `string`           | `"#0a0a0a"`  |
 | `speed`            | `number`           | `1`          |
 | `fps`              | `number`           | `30`         |
 | `durationInFrames` | `number`           | `180`        |
 | `width`            | `number`           | `1280`       |
 | `height`           | `number`           | `720`        |
 | `className`        | `string`           | `-`          |
-
-## Notes
-
-<Callout title="Word timing is in seconds">
-  The `start` and `end` fields on each `CaptionWord` are in seconds.
-</Callout>

@@ -1,7 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 
 export interface CaptionWord {
   text: string;
@@ -59,122 +62,212 @@ export const CaptionParallaxLayers = ({
   height = 720,
   className,
 }: CaptionParallaxLayersProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-
-  const groups = [];
-  for (let i = 0; i < words.length; i += WORDS_PER_GROUP) {
-    const groupWords = words.slice(i, i + WORDS_PER_GROUP);
-    groups.push({
-      endMs: ((groupWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (groupWords[0].start * 1000) / safeSpeed,
-      words: groupWords,
-    });
-  }
-
-  const containerStyle: CSSProperties = {
-    background,
-    height,
-    overflow: "hidden",
-    position: "relative",
-    width,
-  };
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const compositionEnd = (durationMs / 1000) * safeSpeed;
+  const padding = Math.min(80, Math.max(16, width * 0.06));
+  const groups = useMemo(() => {
+    const result: {
+      words: CaptionWord[];
+      start: number;
+      end: number;
+      emphasis: CaptionWord;
+      characters: number;
+    }[] = [];
+    let current: CaptionWord[] = [];
+    const finish = () => {
+      if (!current.length) {
+        return;
+      }
+      let [emphasis] = current;
+      for (const word of current) {
+        if (word.text.length > emphasis.text.length) {
+          emphasis = word;
+        }
+      }
+      result.push({
+        characters: current.reduce(
+          (count, word) => count + word.text.length + 1,
+          0
+        ),
+        emphasis,
+        end: (current.at(-1)?.end ?? 0) + 0.18,
+        start: current[0].start,
+        words: current,
+      });
+      current = [];
+    };
+    for (const [index, word] of words.entries()) {
+      current.push(word);
+      const next = words[index + 1];
+      if (
+        current.length >= WORDS_PER_GROUP ||
+        /[.!?,;:]["')\]]?$/u.test(word.text) ||
+        !next ||
+        next.start - word.end >= 0.15 - 1e-6
+      ) {
+        finish();
+      }
+    }
+    finish();
+    for (const [index, group] of result.entries()) {
+      group.end = Math.min(group.end, result[index + 1]?.start ?? Infinity);
+    }
+    return result;
+  }, [words]);
 
   return (
     <Timegroup
+      ref={ref}
       className={className}
       duration={`${durationMs}ms`}
       mode="fixed"
-      style={containerStyle}
+      style={{
+        background,
+        height,
+        overflow: "hidden",
+        position: "relative",
+        width,
+      }}
     >
-      <>
-        <style>{`
-          @keyframes framecn-cpl-grp-in {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-          }
-          @keyframes framecn-cpl-grp-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-          @keyframes framecn-cpl-word-in {
-            from { opacity: 0; transform: translateY(8px); }
-            to   { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
-        {groups.map((group, gi) => {
-          const text = group.words.map((w) => w.text).join(" ");
-          return (
-            <div key={gi}>
-              {/* Behind layer */}
-              <div
-                style={{
-                  animation: [
-                    `framecn-cpl-grp-in 120ms ease-out ${group.startMs}ms both`,
-                    `framecn-cpl-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                  ].join(", "),
-                  color: `${behindColor}26`,
-                  fontFamily: "'Instrument Serif', Georgia, serif",
-                  fontSize: fontSize * 3,
-                  fontStyle: "italic",
-                  fontWeight: "400",
-                  left: 0,
-                  lineHeight: 1,
-                  opacity: 0,
-                  overflow: "hidden",
-                  position: "absolute",
-                  right: 0,
-                  textAlign: "center",
-                  top: height * 0.08,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {text}
-              </div>
-              {/* Front layer */}
-              <div
-                style={{
-                  animation: [
-                    `framecn-cpl-grp-in 120ms ease-out ${group.startMs}ms both`,
-                    `framecn-cpl-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                  ].join(", "),
-                  bottom: height * 0.12,
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0.3em",
-                  justifyContent: "center",
-                  left: 0,
-                  opacity: 0,
-                  padding: "0 80px",
-                  position: "absolute",
-                  right: 0,
-                }}
-              >
-                {group.words.map((word, wi) => {
-                  const wordStartMs = (word.start * 1000) / safeSpeed;
-                  return (
-                    <span
-                      key={wi}
-                      style={{
-                        animation: `framecn-cpl-word-in 160ms ease-out ${wordStartMs}ms both`,
-                        color,
-                        display: "inline-block",
-                        fontFamily:
-                          "'Inter', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                        fontSize,
-                        fontWeight,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {word.text}
-                    </span>
-                  );
-                })}
-              </div>
+      {groups.map((group, gi) => {
+        const end = Math.min(group.end, compositionEnd);
+        const visible = time >= group.start && time < end;
+        const progress = Math.max(
+          0,
+          Math.min(1, (time - group.start) / Math.max(0.001, end - group.start))
+        );
+        const enter = Math.max(
+          0,
+          Math.min(
+            1,
+            (time - group.start) /
+              Math.min(0.2, Math.max(0.001, end - group.start) * 0.4)
+          )
+        );
+        const eased = 1 - (1 - enter) ** 3;
+        const direction = gi % 2 === 0 ? 1 : -1;
+        const frontSize = Math.min(
+          fontSize,
+          height * 0.14,
+          (width - padding * 2) / Math.max(1, group.characters * 0.68)
+        );
+        const behindSize = Math.min(
+          fontSize * 3,
+          height * 0.16,
+          (width - padding * 2 - 64) /
+            Math.max(1, group.emphasis.text.length * 0.75)
+        );
+        const emphasisEnter = Math.max(
+          0,
+          Math.min(
+            1,
+            (time - group.emphasis.start) /
+              Math.min(
+                0.1,
+                Math.max(0.001, group.emphasis.end - group.emphasis.start) * 0.4
+              )
+          )
+        );
+        return (
+          <div
+            key={gi}
+            data-caption-group={gi}
+            style={{
+              inset: 0,
+              opacity: visible ? 1 : 0,
+              perspective: width,
+              position: "absolute",
+            }}
+          >
+            <div
+              aria-hidden
+              data-caption-layer="behind"
+              style={{
+                WebkitTextStroke: `${Math.max(1, behindSize * 0.018)}px ${behindColor}`,
+                boxSizing: "border-box",
+                color: behindColor,
+                fontFamily:
+                  "'Instrument Serif', Georgia, 'Times New Roman', serif",
+                fontSize: behindSize,
+                fontWeight: 400,
+                left: padding,
+                lineHeight: 1.05,
+                opacity: emphasisEnter,
+                overflowWrap: "anywhere",
+                position: "absolute",
+                right: padding,
+                textAlign: "center",
+                textShadow: `2px 4px 0 ${behindColor}, 0 10px 18px rgba(0,0,0,0.45)`,
+                top: height * 0.08,
+                transform: `translate3d(${direction * ((1 - eased) * 48 + progress * 12)}px, ${(1 - eased) * -18}px, -60px) rotateY(${direction * (1 - eased) * 12}deg) scaleY(2.4)`,
+                transformOrigin: "50% 0%",
+              }}
+            >
+              {group.emphasis.text}
             </div>
-          );
-        })}
-      </>
+            <div
+              data-caption-layer="front"
+              style={{
+                alignItems: "baseline",
+                bottom: height * 0.12,
+                boxSizing: "border-box",
+                color,
+                display: "flex",
+                flexWrap: "wrap",
+                fontFamily:
+                  "'Instrument Serif', Georgia, 'Times New Roman', serif",
+                fontSize: frontSize,
+                fontWeight,
+                gap: "0.25em",
+                justifyContent: "center",
+                left: 0,
+                lineHeight: 1.15,
+                overflow: "visible",
+                padding: `0 ${padding}px`,
+                position: "absolute",
+                right: 0,
+                textShadow: "0 2px 12px rgba(0,0,0,0.6)",
+                transform: `translate3d(${direction * ((1 - eased) * -28 - progress * 6)}px, ${(1 - eased) * 12}px, 0)`,
+              }}
+            >
+              {group.words.map((word, wi) => {
+                const entry = Math.max(
+                  0,
+                  Math.min(
+                    1,
+                    (time - word.start) /
+                      Math.min(
+                        0.12,
+                        Math.max(0.001, word.end - word.start) * 0.4
+                      )
+                  )
+                );
+                return (
+                  <span
+                    key={wi}
+                    data-caption-word={word.text}
+                    style={{
+                      display: "inline-block",
+                      fontStyle: /[.!?]$/u.test(word.text)
+                        ? "italic"
+                        : "normal",
+                      maxWidth: "100%",
+                      opacity: time >= word.start ? 1 : 0,
+                      overflowWrap: "anywhere",
+                      transform: `translateY(${(1 - entry) * frontSize * 0.18}px)`,
+                    }}
+                  >
+                    {word.text}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </Timegroup>
   );
 };

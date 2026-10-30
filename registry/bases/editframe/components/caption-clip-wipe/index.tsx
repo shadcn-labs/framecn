@@ -1,7 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 
 export interface CaptionWord {
   text: string;
@@ -45,10 +48,12 @@ const DEFAULT_WORDS: CaptionWord[] = [
 ];
 
 const WORDS_PER_GROUP = 3;
+const DEFAULT_KEYWORDS = ["single", "code."];
+const clamp = (value: number) => Math.max(0, Math.min(1, value));
 
 export const CaptionClipWipe = ({
   words = DEFAULT_WORDS,
-  keywords = ["single", "code."],
+  keywords = DEFAULT_KEYWORDS,
   color = "#ffffff",
   keywordColor = "#FFD700",
   fontSize = 72,
@@ -61,115 +66,167 @@ export const CaptionClipWipe = ({
   height = 720,
   className,
 }: CaptionClipWipeProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
-
-  const groups = [];
-  for (let i = 0; i < words.length; i += WORDS_PER_GROUP) {
-    const groupWords = words.slice(i, i + WORDS_PER_GROUP);
-    groups.push({
-      endMs: ((groupWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (groupWords[0].start * 1000) / safeSpeed,
-      words: groupWords,
-    });
-  }
-
-  const containerStyle: CSSProperties = {
-    background,
-    height,
-    overflow: "hidden",
-    position: "relative",
-    width,
-  };
+  const duration = durationInFrames / fps;
+  const transcriptEnd = duration * safeSpeed;
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const padding = Math.max(12, width * (100 / 1920));
+  const safeWidth = Math.max(1, width - padding * 2);
+  const groups = useMemo(() => {
+    const result: {
+      words: CaptionWord[];
+      start: number;
+      end: number;
+      size: number;
+    }[] = [];
+    const maxWords = Math.max(1, Math.floor(WORDS_PER_GROUP));
+    let start = 0;
+    for (let i = 0; i < words.length; i += 1) {
+      const pause = (words[i + 1]?.start ?? words[i].end) - words[i].end;
+      if (
+        i - start + 1 >= maxWords ||
+        /[,.;:!?]["')\]]?$/.test(words[i].text) ||
+        pause >= 0.15 ||
+        i === words.length - 1
+      ) {
+        const phrase = words.slice(start, i + 1);
+        const longest = Math.max(
+          ...phrase.map((word) => [...word.text.toUpperCase()].length),
+          1
+        );
+        const chars = phrase.reduce(
+          (total, word) => total + [...word.text].length,
+          0
+        );
+        result.push({
+          end: Math.min(
+            words[i].end + 0.18,
+            words[i + 1]?.start ?? transcriptEnd,
+            transcriptEnd
+          ),
+          size: Math.min(
+            fontSize,
+            height * 0.16,
+            safeWidth / (longest * 1.08),
+            safeWidth / Math.max(1, chars * 0.7 + (phrase.length - 1) * 0.3)
+          ),
+          start: phrase[0].start,
+          words: phrase,
+        });
+        start = i + 1;
+      }
+    }
+    return result;
+  }, [words, transcriptEnd, fontSize, height, safeWidth]);
+  const keywordSet = useMemo(
+    () =>
+      new Set(
+        keywords.map((word) =>
+          word.toLowerCase().replaceAll(/[^\p{L}\p{N}]/gu, "")
+        )
+      ),
+    [keywords]
+  );
 
   return (
     <Timegroup
+      ref={ref}
       className={className}
-      duration={`${durationMs}ms`}
+      duration={`${duration * 1000}ms`}
       mode="fixed"
-      style={containerStyle}
+      style={{
+        background,
+        height,
+        overflow: "hidden",
+        position: "relative",
+        width,
+      }}
     >
-      <>
-        <style>{`
-          @keyframes framecn-ccw-grp-in {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-          }
-          @keyframes framecn-ccw-grp-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-          @keyframes framecn-ccw-wipe-in {
-            from { clip-path: inset(0 100% 0 0); }
-            to   { clip-path: inset(0 0% 0 0); }
-          }
-          @keyframes framecn-ccw-wipe-out {
-            from { clip-path: inset(0 0% 0 0); }
-            to   { clip-path: inset(0 0% 0 100%); }
-          }
-        `}</style>
-        <div
-          style={{
-            bottom: Math.round(height * 0.15),
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          {groups.map((group, gi) => (
-            <div
-              key={gi}
-              style={{
-                alignItems: "center",
-                animation: [
-                  `framecn-ccw-grp-in 80ms ease-out ${group.startMs}ms both`,
-                  `framecn-ccw-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                ].join(", "),
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.3em",
-                justifyContent: "center",
-                left: 0,
-                opacity: 0,
-                padding: "0 80px",
-                position: "absolute",
-                right: 0,
-              }}
-            >
-              {group.words.map((word, wi) => {
-                const wordStartMs = (word.start * 1000) / safeSpeed;
-                const wordEndMs = (word.end * 1000) / safeSpeed;
-                const isKeyword = keywords.includes(word.text);
-                const wipeInDuration = 300;
-                const wipeOutStart = wordEndMs + 100;
-                const wipeOutDuration = 200;
-
-                return (
-                  <span
-                    key={wi}
-                    style={{
-                      animation: [
-                        `framecn-ccw-wipe-in ${wipeInDuration}ms ease-out ${wordStartMs}ms both`,
-                        `framecn-ccw-wipe-out ${wipeOutDuration}ms ease-in ${wipeOutStart}ms forwards`,
-                      ].join(", "),
-                      color: isKeyword ? keywordColor : color,
-                      display: "inline-block",
-                      fontFamily:
-                        "'Montserrat', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                      fontSize,
-                      fontWeight,
-                      letterSpacing: "0.02em",
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    {word.text}
-                  </span>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </>
+      {groups.map((group, gi) => {
+        const visible = time >= group.start && time < group.end;
+        const exitDuration = Math.min(0.2, (group.end - group.start) * 0.25);
+        return (
+          <div
+            key={gi}
+            data-caption-group={gi}
+            style={{
+              alignItems: "baseline",
+              bottom: height * (120 / 1080),
+              boxSizing: "border-box",
+              display: "flex",
+              flexWrap: "wrap",
+              fontSize: group.size,
+              gap: "0.28em",
+              justifyContent: "center",
+              left: 0,
+              opacity: visible ? 1 : 0,
+              overflow: "visible",
+              padding: `0 ${padding}px`,
+              pointerEvents: "none",
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            {group.words.map((word, wi) => {
+              const wordWindow = Math.max(
+                0.001,
+                Math.min(
+                  word.end,
+                  group.words[wi + 1]?.start ?? group.end,
+                  group.end
+                ) - word.start
+              );
+              const entryDuration = Math.min(0.3, wordWindow * 0.7);
+              const entry =
+                1 - (1 - clamp((time - word.start) / entryDuration)) ** 3;
+              const exitStart = Math.max(
+                word.start + entryDuration,
+                group.end - exitDuration + wi * exitDuration * 0.12
+              );
+              const exit =
+                clamp(
+                  (time - exitStart) / Math.max(0.001, group.end - exitStart)
+                ) ** 3;
+              const isKeyword = keywordSet.has(
+                word.text.toLowerCase().replaceAll(/[^\p{L}\p{N}]/gu, "")
+              );
+              const spoken = time >= word.end;
+              let opacity = 0;
+              if (time >= word.start) {
+                opacity = spoken ? 1 - clamp((time - word.end) / 0.2) * 0.6 : 1;
+              }
+              return (
+                <span
+                  key={wi}
+                  data-caption-word={word.text}
+                  style={{
+                    clipPath: `inset(-12% ${(1 - entry) * 100}% -12% ${exit * 100}%)`,
+                    color:
+                      !spoken &&
+                      isKeyword &&
+                      time >= word.start + Math.min(0.1, wordWindow * 0.3)
+                        ? keywordColor
+                        : color,
+                    display: "inline-block",
+                    fontFamily: "'Poppins', 'Montserrat', Arial, sans-serif",
+                    fontSize: "inherit",
+                    fontWeight,
+                    letterSpacing: "0.04em",
+                    lineHeight: 1.1,
+                    maxWidth: "100%",
+                    opacity,
+                    overflowWrap: "anywhere",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {word.text}
+                </span>
+              );
+            })}
+          </div>
+        );
+      })}
     </Timegroup>
   );
 };

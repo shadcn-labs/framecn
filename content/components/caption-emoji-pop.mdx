@@ -1,6 +1,6 @@
 ---
 title: "Emoji Pop"
-description: "Word groups with a contextual emoji above, spring scale-in/out animation."
+description: "Outlined uppercase word groups with contextual emoji, seeded accent colors, and horizontal squeeze entrances and exits."
 ---
 
 ## Usage
@@ -24,15 +24,10 @@ import { CaptionEmojiPop } from "@/components/framecn/caption-emoji-pop";
 | `accentColor`      | `string`           | `"#FF76FF"`  |
 | `fontSize`         | `number`           | `72`         |
 | `fontWeight`       | `number \| string` | `900`        |
+| `background`       | `string`           | `"#0a0a0a"`  |
 | `speed`            | `number`           | `1`          |
 | `fps`              | `number`           | `30`         |
 | `durationInFrames` | `number`           | `180`        |
 | `width`            | `number`           | `1280`       |
 | `height`           | `number`           | `720`        |
 | `className`        | `string`           | `-`          |
-
-## Notes
-
-<Callout title="Word timing is in seconds">
-  The `start` and `end` fields on each `CaptionWord` are in seconds.
-</Callout>

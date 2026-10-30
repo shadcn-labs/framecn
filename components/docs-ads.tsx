@@ -4,8 +4,6 @@ import type { CarbonAdsProps } from "@/components/carbon-ads";
 import { CarbonAds } from "@/components/carbon-ads";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
-const AD_SERVE = "CWBI423W";
-const AD_PLACEMENT = "wwwframecndev";
 const SIDEBAR_QUERY = "(min-width: 1280px)";
 
 interface DocsAdsProps extends Omit<CarbonAdsProps, "placement" | "serve"> {
@@ -19,5 +17,5 @@ export const DocsAds = ({ slot, ...props }: DocsAdsProps) => {
     return null;
   }
 
-  return <CarbonAds serve={AD_SERVE} placement={AD_PLACEMENT} {...props} />;
+  return <CarbonAds {...props} />;
 };

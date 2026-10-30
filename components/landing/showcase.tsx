@@ -72,7 +72,7 @@ export const Showcase = () => {
                 <CatalogPreview name={item.id} active={active === item.id} />
                 <Badge
                   variant="outline"
-                  className="bg-background/90 absolute top-2.5 left-2.5 h-4 rounded px-1.5 py-0 text-[10px] backdrop-blur"
+                  className="bg-background/90 absolute top-2.5 left-2.5 h-4 px-1.5 py-0 text-[10px] backdrop-blur"
                 >
                   {CATEGORY_LABELS[item.category]}
                 </Badge>

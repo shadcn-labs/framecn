@@ -1,11 +1,8 @@
 import Link from "next/link";
 
-import { CodeBlockCommand } from "@/components/code-block-command";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-
-const INSTALL = `npx shadcn@latest add ${SITE.REGISTRY}/caption-highlight`;
 
 export const Hero = () => (
   <section
@@ -42,12 +39,5 @@ export const Hero = () => (
         Get Pro
       </Button>
     </div>
-    <CodeBlockCommand
-      className="mt-10 w-full max-w-md text-left"
-      __npm__={INSTALL}
-      __pnpm__={INSTALL.replace("npx", "pnpm dlx")}
-      __yarn__={INSTALL.replace("npx", "yarn dlx")}
-      __bun__={INSTALL.replace("npx", "bunx --bun")}
-    />
   </section>
 );

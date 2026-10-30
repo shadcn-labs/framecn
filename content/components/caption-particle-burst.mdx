@@ -1,6 +1,6 @@
 ---
 title: "Particle Burst"
-description: "Words dim at 40% opacity; a colored burst ring expands outward when each word is spoken."
+description: "Uppercase captions brighten on speech and emit seeded, multicolored burst particles."
 ---
 
 ## Usage
@@ -13,6 +13,8 @@ import { CaptionParticleBurst } from "@/components/framecn/caption-particle-burs
 <CaptionParticleBurst />
 ```
 
+Render inside an Editframe `TimelineRoot`. The root `Timegroup` is connected to `useTimingInfo`, and every dot position and text pulse is computed from local playback time. Backward seeking and restarting replay the same burst without timers or CSS keyframes.
+
 ## API Reference
 
 ### CaptionParticleBurst
@@ -24,15 +26,10 @@ import { CaptionParticleBurst } from "@/components/framecn/caption-particle-burs
 | `burstColor`       | `string`           | `"#fbbf24"`  |
 | `fontSize`         | `number`           | `80`         |
 | `fontWeight`       | `number \| string` | `900`        |
+| `background`       | `string`           | `"#0a0a0a"`  |
 | `speed`            | `number`           | `1`          |
 | `fps`              | `number`           | `30`         |
 | `durationInFrames` | `number`           | `180`        |
 | `width`            | `number`           | `1280`       |
 | `height`           | `number`           | `720`        |
 | `className`        | `string`           | `-`          |
-
-## Notes
-
-<Callout title="Word timing is in seconds">
-  The `start` and `end` fields on each `CaptionWord` are in seconds.
-</Callout>

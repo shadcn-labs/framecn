@@ -1,7 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 
 export interface CaptionWord {
   text: string;
@@ -44,8 +47,10 @@ const DEFAULT_WORDS: CaptionWord[] = [
   { end: 6, start: 5.55, text: "code." },
 ];
 
-const IN_DURATION = 220;
-const OUT_DURATION = 140;
+// Embedded luminance texture keeps registry installs standalone and works offline.
+const TEXTURE_MASK = `url("data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="256"><filter id="rock"><feTurbulence type="fractalNoise" baseFrequency=".026 .055" numOctaves="4" seed="17" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" amplitude="2.1" exponent="2.8" offset=".08"/><feFuncG type="gamma" amplitude="2.1" exponent="2.8" offset=".08"/><feFuncB type="gamma" amplitude="2.1" exponent="2.8" offset=".08"/></feComponentTransfer></filter><rect width="100%" height="100%" filter="url(#rock)"/></svg>'
+)}")`;
 
 export const CaptionTexture = ({
   words = DEFAULT_WORDS,
@@ -62,79 +67,110 @@ export const CaptionTexture = ({
   height = 720,
   className,
 }: CaptionTextureProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
   const durationMs = (durationInFrames / fps) * 1000;
-
-  const containerStyle: CSSProperties = {
-    alignItems: "center",
-    background,
-    height,
-    justifyContent: "center",
-    overflow: "hidden",
-    position: "relative",
-    width,
-  };
-
-  const textureBackground = `radial-gradient(ellipse at 20% 30%, ${textureFrom} 0%, transparent 50%), radial-gradient(ellipse at 75% 65%, ${textureMid} 0%, transparent 45%), radial-gradient(ellipse at 50% 50%, ${textureTo} 0%, transparent 60%), ${textureMid}`;
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const compositionEnd = (durationMs / 1000) * safeSpeed;
+  const padding = Math.min(80, Math.max(16, width * 0.06));
+  const timedWords = useMemo(
+    () =>
+      words.map((word, index) => ({
+        ...word,
+        end: Math.min(word.end, words[index + 1]?.start ?? Infinity),
+        text: word.text.toUpperCase(),
+      })),
+    [words]
+  );
+  const textureBackground = `radial-gradient(ellipse at 20% 30%, ${textureFrom}, transparent 55%), radial-gradient(ellipse at 75% 65%, ${textureTo}, transparent 60%), linear-gradient(135deg, ${textureFrom}, ${textureMid} 45%, ${textureTo})`;
 
   return (
     <Timegroup
-      className={`flex ${className ?? ""}`}
+      ref={ref}
+      className={className}
       duration={`${durationMs}ms`}
       mode="fixed"
-      style={containerStyle}
+      style={{
+        background,
+        height,
+        overflow: "hidden",
+        position: "relative",
+        width,
+      }}
     >
-      <>
-        <style>{`
-        @keyframes framecn-ctx-in {
-          0%   { opacity: 0; transform: translateY(-40px) scale(1.3); }
-          60%  { opacity: 1; }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes framecn-ctx-out {
-          from { opacity: 1; transform: scale(1); }
-          to   { opacity: 0; transform: scale(0.82); }
-        }
-      `}</style>
-        {words.map((word, i) => {
-          const startMs = (word.start * 1000) / safeSpeed;
-          const endMs = (word.end * 1000) / safeSpeed;
-          const wordDurationMs = endMs - startMs;
-          const outStart = Math.max(
-            startMs + IN_DURATION,
-            endMs - OUT_DURATION
-          );
-          return (
+      {timedWords.map((word, index) => {
+        const end = Math.min(word.end, compositionEnd);
+        const visible = time >= word.start && time < end;
+        const duration = Math.max(0.001, end - word.start);
+        const progress = Math.max(
+          0,
+          Math.min(1, (time - word.start) / duration)
+        );
+        const enter = Math.min(
+          1,
+          (time - word.start) / Math.min(0.18, duration * 0.4)
+        );
+        const exit = Math.max(0, (progress - 0.8) / 0.2);
+        const eased = 1 - (1 - Math.max(0, enter)) ** 3;
+        const fittedSize = Math.min(
+          fontSize,
+          height * 0.24,
+          (width - padding * 2) / Math.max(1, word.text.length * 0.88)
+        );
+        const maskPosition = `${(0.5 - Math.cos(progress * Math.PI) * 0.5) * 100}% 50%`;
+        return (
+          <div
+            key={index}
+            data-caption-group={index}
+            style={{
+              bottom: height * 0.15,
+              boxSizing: "border-box",
+              filter: `drop-shadow(0 4px ${fittedSize * 0.16}px ${textureFrom})`,
+              left: 0,
+              opacity: visible
+                ? Math.min(1, Math.max(0, enter) * 3) * (1 - exit)
+                : 0,
+              padding: `0 ${padding}px`,
+              position: "absolute",
+              right: 0,
+              textAlign: "center",
+              transform: `scale(${0.88 + eased * 0.12 + exit * 0.08})`,
+              transformOrigin: "50% 100%",
+            }}
+          >
             <span
-              key={i}
+              data-caption-word={word.text}
               style={{
                 WebkitBackgroundClip: "text",
-                animation: [
-                  `framecn-ctx-in ${Math.min(IN_DURATION, wordDurationMs * 0.6)}ms cubic-bezier(0.16,1,0.3,1) ${startMs}ms backwards`,
-                  `framecn-ctx-out ${OUT_DURATION}ms ease-in ${outStart}ms forwards`,
-                ].join(", "),
+                WebkitMaskImage: TEXTURE_MASK,
+                WebkitMaskPosition: maskPosition,
+                WebkitMaskRepeat: "repeat",
+                WebkitMaskSize: "200% 200%",
                 backgroundClip: "text",
                 backgroundImage: textureBackground,
+                backgroundPosition: maskPosition,
+                backgroundSize: "200% 200%",
                 color: "transparent",
                 display: "inline-block",
-                fontFamily:
-                  "'Anton', 'Impact', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                fontSize,
+                fontFamily: "'Anton', Impact, 'Arial Black', sans-serif",
+                fontSize: fittedSize,
                 fontWeight,
-                left: 0,
                 letterSpacing: "0.04em",
-                lineHeight: 1,
-                position: "absolute",
-                right: 0,
-                textAlign: "center",
-                textTransform: "uppercase",
+                lineHeight: 1.15,
+                maskImage: TEXTURE_MASK,
+                maskMode: "luminance",
+                maskPosition,
+                maskRepeat: "repeat",
+                maskSize: "200% 200%",
+                maxWidth: "100%",
+                overflowWrap: "anywhere",
               }}
             >
               {word.text}
             </span>
-          );
-        })}
-      </>
+          </div>
+        );
+      })}
     </Timegroup>
   );
 };

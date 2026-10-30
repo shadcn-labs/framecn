@@ -1,7 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 
 export interface CaptionWord {
   text: string;
@@ -59,125 +62,159 @@ export const CaptionHighlight = ({
   height = 720,
   className,
 }: CaptionHighlightProps) => {
-  const safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
-
-  const groups = [];
-  for (let i = 0; i < words.length; i += wordsPerGroup) {
-    const groupWords = words.slice(i, i + wordsPerGroup);
-    groups.push({
-      endMs: ((groupWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (groupWords[0].start * 1000) / safeSpeed,
-      words: groupWords,
-    });
-  }
-
-  const containerStyle: CSSProperties = {
-    background,
-    height,
-    overflow: "hidden",
-    position: "relative",
-    width,
-  };
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
+  const time = (ownCurrentTimeMs / 1000) * Math.max(0.01, speed);
+  const duration = durationInFrames / fps;
+  const padding = width * 0.065;
+  const groups = useMemo(() => {
+    const result: {
+      words: CaptionWord[];
+      start: number;
+      end: number;
+      size: number;
+    }[] = [];
+    const limit = Math.max(1, Math.floor(wordsPerGroup) || 1);
+    let first = 0;
+    for (let i = 0; i < words.length; i += 1) {
+      const word = words[i];
+      const next = words[i + 1];
+      if (
+        i - first + 1 >= limit ||
+        !next ||
+        /[,.!?;:]$/.test(word.text) ||
+        next.start - word.end >= 0.15
+      ) {
+        const phrase = words.slice(first, i + 1);
+        const characters = phrase.reduce(
+          (sum, item) => sum + item.text.length + 1,
+          0
+        );
+        const longest = Math.max(...phrase.map((item) => item.text.length + 1));
+        result.push({
+          end: Math.min(word.end + 0.18, next?.start ?? Infinity),
+          size: Math.min(
+            fontSize,
+            height * 0.12,
+            (width * 0.82) / (longest * 0.8),
+            (width * 1.55) / (characters * 0.8)
+          ),
+          start: words[first].start,
+          words: phrase,
+        });
+        first = i + 1;
+      }
+    }
+    return result;
+  }, [words, wordsPerGroup, fontSize, width, height]);
 
   return (
     <Timegroup
+      ref={ref}
       className={className}
-      duration={`${durationMs}ms`}
+      duration={`${duration * 1000}ms`}
       mode="fixed"
-      style={containerStyle}
+      style={{
+        background,
+        display: "block",
+        height,
+        overflow: "hidden",
+        position: "relative",
+        width,
+      }}
     >
-      <>
-        <style>{`
-          @keyframes framecn-ch-grp-in {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes framecn-ch-grp-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-          @keyframes framecn-ch-hl {
-            0%   { opacity: 0; transform: scaleX(0); }
-            15%  { opacity: 1; transform: scaleX(1); }
-            80%  { opacity: 1; transform: scaleX(1); }
-            100% { opacity: 0; transform: scaleX(0); }
-          }
-        `}</style>
-        <div
-          style={{
-            bottom: Math.round(height * 0.15),
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          {groups.map((group, gi) => (
-            <div
-              key={gi}
-              style={{
-                alignItems: "center",
-                animation: [
-                  `framecn-ch-grp-in 120ms ease-out ${group.startMs}ms both`,
-                  `framecn-ch-grp-out 80ms ease-in ${group.endMs}ms forwards`,
-                ].join(", "),
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.3em",
-                justifyContent: "center",
-                left: 0,
-                opacity: 0,
-                padding: "0 80px",
-                position: "absolute",
-                right: 0,
-              }}
-            >
-              {group.words.map((word, wi) => {
-                const wordStartMs = (word.start * 1000) / safeSpeed;
-                const wordDurationMs = Math.max(
-                  120,
-                  ((word.end - word.start) * 1000) / safeSpeed
-                );
-                return (
+      {groups.map((group, gi) => {
+        const end = Math.min(group.end, duration * Math.max(0.01, speed));
+        const visible = time >= group.start && time < end;
+        const entrance = Math.min(
+          1,
+          Math.max(
+            0,
+            (time - group.start) / Math.min(0.12, (end - group.start) / 3)
+          )
+        );
+        const exit = Math.min(
+          1,
+          Math.max(0, (end - time) / Math.min(0.1, (end - group.start) / 3))
+        );
+        return (
+          <div
+            key={gi}
+            data-caption-group={gi}
+            style={{
+              alignItems: "flex-end",
+              bottom: height * 0.13,
+              boxSizing: "border-box",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.12em",
+              justifyContent: "center",
+              left: 0,
+              opacity: visible
+                ? Math.min(1 - (1 - entrance) ** 3, exit ** 2)
+                : 0,
+              paddingInline: padding,
+              pointerEvents: "none",
+              position: "absolute",
+              right: 0,
+              visibility: visible ? "visible" : "hidden",
+            }}
+          >
+            {group.words.map((word, wi) => {
+              const reveal = Math.min(
+                1,
+                Math.max(
+                  0,
+                  (time - word.start) /
+                    Math.min(0.15, (word.end - word.start) / 2)
+                )
+              );
+              const fade = Math.min(
+                1,
+                Math.max(0, (word.end + 0.1 - time) / 0.1)
+              );
+              return (
+                <span
+                  key={wi}
+                  data-caption-word={wi}
+                  style={{
+                    color,
+                    display: "inline-block",
+                    fontFamily:
+                      "'Montserrat', var(--font-geist-sans, Arial), sans-serif",
+                    fontSize: group.size,
+                    fontWeight,
+                    isolation: "isolate",
+                    letterSpacing: "0.02em",
+                    lineHeight: 1.15,
+                    maxWidth: "100%",
+                    overflowWrap: "anywhere",
+                    padding: "0.075em 0.15em",
+                    position: "relative",
+                    textShadow: "0 4px 16px rgb(0 0 0 / 0.45)",
+                    textTransform: "uppercase",
+                  }}
+                >
                   <span
-                    key={wi}
+                    aria-hidden
                     style={{
-                      display: "inline-block",
-                      fontFamily:
-                        "'Montserrat', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                      fontSize,
-                      fontWeight,
-                      letterSpacing: "0.02em",
-                      lineHeight: 1,
-                      padding: "0.06em 0.1em",
-                      position: "relative",
-                      textShadow: "0 4px 16px rgba(0,0,0,0.5)",
-                      textTransform: "uppercase",
+                      background: `linear-gradient(135deg, ${highlightColor}, color-mix(in srgb, ${highlightColor} 85%, black))`,
+                      borderRadius: "0.12em",
+                      boxShadow: `0 0.12em 0.35em color-mix(in srgb, ${highlightColor} 32%, transparent)`,
+                      inset: 0,
+                      opacity: reveal > 0 ? fade : 0,
+                      position: "absolute",
+                      transform: `scaleX(${1 - (1 - reveal) ** 3})`,
+                      transformOrigin: "left center",
+                      zIndex: -1,
                     }}
-                  >
-                    <span
-                      aria-hidden
-                      style={{
-                        animation: `framecn-ch-hl ${wordDurationMs}ms ease-in-out ${wordStartMs}ms both`,
-                        background: highlightColor,
-                        borderRadius: 8,
-                        boxShadow: `0 8px 24px ${highlightColor}55`,
-                        inset: 0,
-                        position: "absolute",
-                        transformOrigin: "left center",
-                        zIndex: 0,
-                      }}
-                    />
-                    <span style={{ color, position: "relative", zIndex: 1 }}>
-                      {word.text}
-                    </span>
-                  </span>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </>
+                  />
+                  {word.text}
+                </span>
+              );
+            })}
+          </div>
+        );
+      })}
     </Timegroup>
   );
 };

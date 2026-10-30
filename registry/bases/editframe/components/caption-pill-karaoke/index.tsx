@@ -1,7 +1,10 @@
+// Adapted from HyperFrames captions (https://github.com/heygen-com/hyperframes).
+// Copyright 2026 HeyGen, Inc., licensed under the Apache License, Version 2.0.
+// Modifications for framecn are licensed under the MIT License.
 "use client";
 
-import { Timegroup } from "@editframe/react";
-import type { CSSProperties } from "react";
+import { Timegroup, useTimingInfo } from "@editframe/react";
+import { useMemo } from "react";
 
 export interface CaptionWord {
   text: string;
@@ -61,113 +64,134 @@ export const CaptionPillKaraoke = ({
   height = 720,
   className,
 }: CaptionPillKaraokeProps) => {
+  const { ref, ownCurrentTimeMs } = useTimingInfo();
   const safeSpeed = Math.max(0.01, speed);
-  const durationMs = (durationInFrames / fps) * 1000;
-
-  const segments = [];
-  for (let i = 0; i < words.length; i += wordsPerSegment) {
-    const segWords = words.slice(i, i + wordsPerSegment);
-    segments.push({
-      endMs: ((segWords.at(-1)?.end ?? 0) * 1000) / safeSpeed + 180,
-      startMs: (segWords[0].start * 1000) / safeSpeed,
-      words: segWords,
-    });
-  }
-
-  const containerStyle: CSSProperties = {
-    background,
-    height,
-    overflow: "hidden",
-    position: "relative",
-    width,
-  };
+  const time = (ownCurrentTimeMs / 1000) * safeSpeed;
+  const duration = durationInFrames / fps;
+  const segments = useMemo(() => {
+    const result: {
+      words: CaptionWord[];
+      start: number;
+      end: number;
+      size: number;
+    }[] = [];
+    const limit = Math.max(1, Math.floor(wordsPerSegment) || 1);
+    let first = 0;
+    for (let i = 0; i < words.length; i += 1) {
+      const word = words[i];
+      const next = words[i + 1];
+      if (
+        i - first + 1 >= limit ||
+        !next ||
+        /[,.!?;:]$/.test(word.text) ||
+        next.start - word.end >= 0.15
+      ) {
+        const phrase = words.slice(first, i + 1);
+        const characters = phrase.reduce(
+          (sum, item) => sum + item.text.length + 1,
+          0
+        );
+        const longest = Math.max(...phrase.map((item) => item.text.length + 1));
+        result.push({
+          end: Math.min(word.end + 0.3, next?.start ?? Infinity),
+          size: Math.min(
+            fontSize,
+            height * 0.1,
+            (width * 0.72) / (longest * 0.75),
+            (width * 1.35) / (characters * 0.75)
+          ),
+          start: words[first].start,
+          words: phrase,
+        });
+        first = i + 1;
+      }
+    }
+    return result;
+  }, [words, wordsPerSegment, fontSize, width, height]);
 
   return (
     <Timegroup
+      ref={ref}
       className={className}
-      duration={`${durationMs}ms`}
+      duration={`${duration * 1000}ms`}
       mode="fixed"
-      style={containerStyle}
+      style={{
+        background,
+        display: "block",
+        height,
+        overflow: "hidden",
+        position: "relative",
+        width,
+      }}
     >
-      <>
-        <style>{`
-          @keyframes framecn-pk-seg-in {
-            from { opacity: 0; transform: translateY(10px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-          }
-          @keyframes framecn-pk-seg-out {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-          }
-          @keyframes framecn-pk-word-active {
-            0%, 100% { color: ${dimColor}; }
-            8%, 92%  { color: ${activeColor}; }
-          }
-        `}</style>
-        <div
-          style={{
-            bottom: Math.round(height * 0.12),
-            display: "flex",
-            justifyContent: "center",
-            left: 0,
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          {segments.map((seg, si) => (
+      {segments.map((segment, si) => {
+        const visible =
+          time >= segment.start &&
+          time < Math.min(segment.end, duration * safeSpeed);
+        return (
+          <div
+            key={si}
+            data-caption-group={si}
+            style={{
+              bottom: height * 0.12,
+              display: "flex",
+              justifyContent: "center",
+              left: width * 0.075,
+              opacity: visible ? 1 : 0,
+              pointerEvents: "none",
+              position: "absolute",
+              right: width * 0.075,
+              visibility: visible ? "visible" : "hidden",
+            }}
+          >
             <div
-              key={si}
               style={{
-                animation: [
-                  `framecn-pk-seg-in 150ms cubic-bezier(0.16, 1, 0.3, 1) ${seg.startMs}ms both`,
-                  `framecn-pk-seg-out 100ms ease-in ${seg.endMs}ms forwards`,
-                ].join(", "),
-                opacity: 0,
-                position: "absolute",
+                background: pillColor,
+                borderRadius: "0.36em",
+                boxShadow: "0 2px 8px rgb(0 0 0 / 0.12)",
+                boxSizing: "border-box",
+                display: "flex",
+                flexWrap: "wrap",
+                fontSize: segment.size,
+                gap: "0.08em 0.25em",
+                justifyContent: "center",
+                maxWidth: "100%",
+                padding: "0.25em 0.7em 0.28em",
               }}
             >
-              <div
-                style={{
-                  background: pillColor,
-                  borderRadius: 22,
-                  boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0.3em",
-                  justifyContent: "center",
-                  maxWidth: width - 160,
-                  padding: "18px 56px 20px",
-                }}
-              >
-                {seg.words.map((word, wi) => {
-                  const wordStartMs = (word.start * 1000) / safeSpeed;
-                  const wordDurationMs = Math.max(
-                    150,
-                    ((word.end - word.start) * 1000) / safeSpeed
-                  );
-                  return (
-                    <span
-                      key={wi}
-                      style={{
-                        animation: `framecn-pk-word-active ${wordDurationMs}ms ease-in-out ${wordStartMs}ms both`,
-                        color: dimColor,
-                        fontFamily:
-                          "'Poppins', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
-                        fontSize,
-                        fontWeight,
-                        letterSpacing: 0,
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {word.text}
-                    </span>
-                  );
-                })}
-              </div>
+              {segment.words.map((word, wi) => {
+                // Spoken words stay active, matching the reference's cumulative karaoke.
+                const progress =
+                  wi === 0
+                    ? 1
+                    : Math.min(
+                        1,
+                        Math.max(0, (time - word.start + 0.05) / 0.1)
+                      );
+                return (
+                  <span
+                    key={wi}
+                    data-caption-word={wi}
+                    style={{
+                      color: `color-mix(in srgb, ${activeColor} ${progress * 100}%, ${dimColor})`,
+                      display: "inline-block",
+                      fontFamily:
+                        "'Poppins', var(--font-geist-sans, Arial), sans-serif",
+                      fontWeight,
+                      lineHeight: 1.16,
+                      maxWidth: "100%",
+                      overflowWrap: "anywhere",
+                      textAlign: "center",
+                    }}
+                  >
+                    {word.text.toLowerCase()}
+                  </span>
+                );
+              })}
             </div>
-          ))}
-        </div>
-      </>
+          </div>
+        );
+      })}
     </Timegroup>
   );
 };

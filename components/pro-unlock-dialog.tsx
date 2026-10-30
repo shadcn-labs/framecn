@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon } from "lucide-react";
+import { CircleCheckIcon } from "lucide-react";
 import Link from "next/link";
 
 import { BillingButton } from "@/components/billing-button";
@@ -56,21 +56,24 @@ export const ProUnlockDialog = ({
         <ul className="mx-auto mt-8 grid w-fit gap-2.5 text-left text-sm">
           {FEATURES.map((feature) => (
             <li key={feature} className="flex items-center gap-2.5">
-              <CheckIcon className="text-brand size-4 shrink-0" />
+              <CircleCheckIcon
+                className="text-brand size-4 shrink-0"
+                aria-hidden
+              />
               {feature}
             </li>
           ))}
         </ul>
         <div className="mt-8">
-          <BillingButton plan="lifetime" highlight>
-            Get lifetime access – {lifetime.price}
-          </BillingButton>
           {lifetime.earlyBirdLeft === null ? null : (
-            <p className="text-muted-foreground mt-2 text-xs">
+            <p className="text-muted-foreground mb-2 text-xs">
               Early-bird price, regularly <s>{lifetime.regularPrice}</s> ·{" "}
               {lifetime.earlyBirdLeft} left
             </p>
           )}
+          <BillingButton plan="lifetime" highlight>
+            Get lifetime access – {lifetime.price}
+          </BillingButton>
         </div>
         <p className="text-muted-foreground mt-4 text-sm">
           <Link

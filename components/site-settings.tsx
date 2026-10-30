@@ -1,7 +1,7 @@
 "use client";
 
 import { EllipsisVerticalIcon } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { HapticsSwitcher } from "@/components/haptics-switcher";
 import { ModeSwitcher } from "@/components/mode-switcher";
@@ -31,6 +31,14 @@ import { useThemeToggle } from "@/hooks/use-theme-toggle";
 export const SiteSettings = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
+  const [sidebarBoundary, setSidebarBoundary] = useState<HTMLElement | null>(
+    null
+  );
+  const setTriggerRef = useCallback((node: HTMLButtonElement | null) => {
+    setSidebarBoundary(
+      node?.closest<HTMLElement>('[data-sidebar="sidebar"]') ?? null
+    );
+  }, []);
 
   // Hotkeys must stay mounted outside the popover content.
   useThemeToggle();
@@ -39,6 +47,7 @@ export const SiteSettings = () => {
 
   const trigger = (
     <Button
+      ref={setTriggerRef}
       variant="ghost"
       size="icon"
       className="group/settings extend-touch-target size-8"
@@ -97,6 +106,8 @@ export const SiteSettings = () => {
           <PopoverTrigger render={trigger} />
           <PopoverContent
             align="end"
+            collisionBoundary={sidebarBoundary ?? undefined}
+            collisionPadding={8}
             className="w-56 p-2 data-closed:fade-out-0 data-closed:zoom-out-100 data-open:fade-in-0 data-open:zoom-in-100 dark:bg-black"
             initialFocus={false}
           >

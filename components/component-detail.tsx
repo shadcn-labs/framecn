@@ -21,6 +21,7 @@ import {
 } from "react";
 
 import { ApiKeyField } from "@/components/api-key-field";
+import { CarbonAds } from "@/components/carbon-ads";
 import { LockedPreview } from "@/components/catalog-preview";
 import { CodeBlockCommand } from "@/components/code-block-command";
 import { ComponentCustomizer } from "@/components/component-customizer";
@@ -37,6 +38,10 @@ import { ProBadge } from "@/components/pro-badge";
 import { ProUnlockDialog } from "@/components/pro-unlock-dialog";
 import { Step, Steps } from "@/components/steps";
 import { Button } from "@/components/ui/button";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group";
 import {
   Drawer,
   DrawerContent,
@@ -255,25 +260,19 @@ const PromptButton = ({
   ];
   const mcpPrompt = `Use the shadcn MCP server to add ${item.pro ? PRO_REGISTRY_NAMESPACE : SITE.REGISTRY}/${item.id} to this project, then follow its usage notes.`;
   return (
-    <div className="flex">
+    <ButtonGroup aria-label="Copy prompt actions">
       <CopyButton
         value={prompt}
         variant="default"
         size="sm"
         showTooltip={false}
-        className="h-8 rounded-r-none"
       >
         Copy prompt
       </CopyButton>
+      <ButtonGroupSeparator />
       <DropdownMenu>
         <DropdownMenuTrigger
-          render={
-            <Button
-              size="sm"
-              aria-label="More prompt options"
-              className="border-primary-foreground/20 h-8 rounded-l-none border-l px-2"
-            />
-          }
+          render={<Button size="icon-sm" aria-label="More prompt options" />}
         >
           <ChevronDownIcon />
         </DropdownMenuTrigger>
@@ -300,7 +299,7 @@ const PromptButton = ({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </div>
+    </ButtonGroup>
   );
 };
 
@@ -316,7 +315,7 @@ const LockedCode = ({
   description?: string;
   lines?: number[];
 }) => (
-  <Frame>
+  <Frame className="mt-6">
     {/* min-h keeps the unlock overlay from clipping when there are only a few placeholder lines. */}
     <FrameContent className="relative min-h-48 overflow-hidden">
       <div aria-hidden className="space-y-2.5 p-4 blur-[3px]">
@@ -375,7 +374,7 @@ const LockedDocs = ({ onUnlock }: { onUnlock: () => void }) => (
   <>
     {LOCKED_DOCS.map((section) => (
       <section key={section.title} className="mt-10">
-        <h2 className="font-heading mb-4 text-lg font-medium tracking-tight">
+        <h2 className="font-heading text-lg font-medium tracking-tight">
           {section.title}
         </h2>
         <LockedCode
@@ -716,13 +715,12 @@ export const ComponentDetail = ({
   );
 
   const controls = (
-    <div className="detail-controls">
-      <ComponentCustomizer
-        controls={config.controls}
-        values={values}
-        onChange={(key, value) => setValues({ [key]: value })}
-      />
-    </div>
+    <ComponentCustomizer
+      controls={config.controls}
+      values={values}
+      onChange={(key, value) => setValues({ [key]: value })}
+      className="sm:grid-cols-1 gap-6"
+    />
   );
 
   return (
@@ -824,6 +822,8 @@ export const ComponentDetail = ({
               </Button>
             )}
           </div>
+
+          <CarbonAds format="responsive" className="mt-6 w-full" />
 
           <Frame className="mt-6">
             <FrameContent render={<dl />} className="divide-y text-sm">

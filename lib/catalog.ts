@@ -61,7 +61,7 @@ const FREE_CATALOG: CatalogItem[] = [
   {
     category: "captions",
     description:
-      "Word groups with a contextual emoji above, spring scale-in/out animation.",
+      "Outlined uppercase phrases with contextual emoji, deterministic accent colors, and horizontal squeeze entrances.",
     id: "caption-emoji-pop",
     name: "Emoji Pop",
     pro: false,
@@ -93,7 +93,7 @@ const FREE_CATALOG: CatalogItem[] = [
   {
     category: "captions",
     description:
-      "One word at a time, uppercase centered, slams in from above and scales down to rest.",
+      "One word at a time, uppercase and centered, alternating vertical slams, side slides, and scale pops.",
     id: "caption-kinetic-slam",
     name: "Kinetic Slam",
     pro: false,
@@ -101,7 +101,7 @@ const FREE_CATALOG: CatalogItem[] = [
   {
     category: "captions",
     description:
-      "Matrix-style green monospace text that decodes from blurry/bright to sharp using a stepped animation.",
+      "Matrix-style green captions resolve from seeded scrambled characters into spoken words.",
     id: "caption-matrix-decode",
     name: "Matrix Decode",
     pro: false,
@@ -133,7 +133,7 @@ const FREE_CATALOG: CatalogItem[] = [
   {
     category: "captions",
     description:
-      "Words dim at 40% opacity; a colored burst ring expands outward when each word is spoken.",
+      "Spoken words emit seeded multicolored particles with outward motion, shrink, and fade.",
     id: "caption-particle-burst",
     name: "Particle Burst",
     pro: false,
@@ -141,7 +141,7 @@ const FREE_CATALOG: CatalogItem[] = [
   {
     category: "captions",
     description:
-      "Karaoke-style captions in a rounded pill container — active word snaps to full contrast, others stay dimmed.",
+      "Lowercase captions in a rounded pill — spoken words darken cumulatively as the phrase is read.",
     id: "caption-pill-karaoke",
     name: "Pill Karaoke",
     pro: false,
@@ -149,7 +149,7 @@ const FREE_CATALOG: CatalogItem[] = [
   {
     category: "captions",
     description:
-      "Lava-texture fill via layered radial-gradients and background-clip: text, kinetic-slam style.",
+      "Moving textured fills with self-contained grain, warm glow, and word-timed slam entrances.",
     id: "caption-texture",
     name: "Texture",
     pro: false,
@@ -157,7 +157,7 @@ const FREE_CATALOG: CatalogItem[] = [
   {
     category: "captions",
     description:
-      "Font weight animates from 100 to 900 when each word is spoken, back to thin after.",
+      "Balanced lowercase lines hand emphasis between light and bold weights without reflow.",
     id: "caption-weight-shift",
     name: "Weight Shift",
     pro: false,

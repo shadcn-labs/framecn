@@ -1,14 +1,17 @@
 "use client";
 
+import { XIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
+import { CarbonAds } from "@/components/carbon-ads";
 import { CatalogPreview } from "@/components/catalog-preview";
 import { useGalleryPath } from "@/components/component-panel-shell";
 import { CopyButton } from "@/components/copy-button";
 import { ProBadge } from "@/components/pro-badge";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Frame, FrameContent } from "@/components/ui/frame";
 import { ROUTES } from "@/constants/routes";
 import {
@@ -60,7 +63,7 @@ const CatalogCard = ({
         {showCategory && (
           <Badge
             variant="outline"
-            className="bg-background/90 absolute top-2.5 left-2.5 h-4 rounded px-1.5 py-0 text-[10px] backdrop-blur"
+            className="bg-background/90 absolute top-2.5 left-2.5 h-4 px-1.5 py-0 text-[10px] backdrop-blur"
           >
             {CATEGORY_LABELS[item.category]}
           </Badge>
@@ -84,7 +87,10 @@ const CatalogCard = ({
 );
 
 export const CatalogGallery = () => {
+  const pathname = usePathname();
+  const [adDismissed, setAdDismissed] = useState(false);
   const galleryPath = useGalleryPath();
+  const isGallery = pathname === galleryPath;
   const [activePreview, setActivePreview] = useState<string | null>(null);
   const category = findCategoryByPath(galleryPath);
   const items = CATALOG.filter(
@@ -104,7 +110,7 @@ export const CatalogGallery = () => {
       <h1 className="sr-only">Components</h1>
       <nav
         aria-label="Categories"
-        className="flex gap-1.5 overflow-x-auto px-4 pt-2 pb-1"
+        className="no-scrollbar scroll-fade-x scroll-fade-6 flex gap-1.5 overflow-x-auto px-4 py-2"
       >
         {filters.map((filter) => {
           const selected = filter.value === category;
@@ -141,6 +147,23 @@ export const CatalogGallery = () => {
           />
         ))}
       </ul>
+      {isGallery && !adDismissed && (
+        <aside
+          aria-label="Advertisement"
+          className="catalog-ad bg-card invisible fixed right-4 bottom-4 z-40 w-96 max-w-[calc(100vw-2rem)] rounded-xl border p-3 shadow-lg has-[#carbonads]:visible"
+        >
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="absolute top-2 right-2 z-10 size-6"
+            aria-label="Dismiss advertisement"
+            onClick={() => setAdDismissed(true)}
+          >
+            <XIcon className="size-4" />
+          </Button>
+          <CarbonAds format="responsive" className="w-full" />
+        </aside>
+      )}
     </div>
   );
 };

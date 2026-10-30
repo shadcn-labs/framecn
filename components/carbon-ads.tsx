@@ -39,8 +39,8 @@ export interface CarbonAdsProps {
 }
 
 export const CarbonAds = ({
-  serve = "CWBIT5QM",
-  placement = "pdfcndev",
+  serve = "CWBI423W",
+  placement = "wwwframecndev",
   format = "responsive",
   className,
 }: CarbonAdsProps) => {

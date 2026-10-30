@@ -7,9 +7,9 @@ export interface LabsNavLink {
 }
 
 export const LABS_LATEST = {
-  description: "Beautiful markdown UIs, made simple",
-  href: "https://mdxcn.dev",
-  name: "mdxcn",
+  description: "The latest from Shadcn Labs",
+  href: "https://snapcn.dev",
+  name: "snapcn",
 } as const satisfies LabsNavLink;
 
 export const LABS_REGISTRIES = [
@@ -21,6 +21,7 @@ export const LABS_REGISTRIES = [
   { href: "https://pdfcn.dev", name: "pdfcn" },
   { href: "https://editorcn.vercel.app", name: "editorcn" },
   { href: "https://shadercn.run", name: "shadercn" },
+  { href: "https://mdxcn.dev", name: "mdxcn" },
 ] as const satisfies readonly LabsNavLink[];
 
 export const LABS_TEMPLATES = [

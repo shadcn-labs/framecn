@@ -1,6 +1,6 @@
 ---
 title: "Kinetic Slam"
-description: "One word at a time, uppercase centered, slams in from above and scales down to rest."
+description: "One word at a time, uppercase and centered, alternating vertical slams, side slides, and scale pops."
 ---
 
 ## Usage
@@ -45,17 +45,3 @@ const words: CaptionWord[] = [
 | `text`  | `string` | The word text         |
 | `start` | `number` | Start time in seconds |
 | `end`   | `number` | End time in seconds   |
-
-## Notes
-
-<Callout title="Best suited for punchy, single-word moments">
-  Kinetic Slam works best for high-energy clips where each word carries weight.
-  Words are displayed one at a time, full-width centered. For denser narration,
-  use Caption Highlight or Caption Pill Karaoke instead.
-</Callout>
-
-<Callout title="Font falls back gracefully">
-  The component prefers Anton (a condensed display face) with Impact and
-  system-ui as fallbacks. For best results, load Anton from Google Fonts in your
-  project.
-</Callout>

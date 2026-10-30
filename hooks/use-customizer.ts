@@ -46,12 +46,9 @@ export const useCustomizer = (
   const componentProps = useMemo(() => {
     const mode: Mode = resolvedTheme === "dark" ? "dark" : "light";
 
-    // If the user hasn't changed background from its config default, use the theme
-    const bgDefault = config.controls.background?.default;
-    const bgFromUrl =
-      values.background === bgDefault ? undefined : values.background;
+    // Explicit composition colors belong to the video, not the surrounding UI theme.
     const background =
-      bgFromUrl ??
+      values.background ??
       resolved(mode, THEME.background.light, THEME.background.dark);
 
     const color =

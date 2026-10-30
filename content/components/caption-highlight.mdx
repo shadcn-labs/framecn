@@ -48,17 +48,3 @@ const words: CaptionWord[] = [
 | `text`  | `string` | The word text         |
 | `start` | `number` | Start time in seconds |
 | `end`   | `number` | End time in seconds   |
-
-## Notes
-
-<Callout title="Words are grouped automatically">
-  The `wordsPerGroup` prop controls how many words appear on screen at once.
-  Groups fade in together and out together, with each word's highlight timed to
-  its `start`/`end` window.
-</Callout>
-
-<Callout title="Word timing is in seconds" variant="destructive">
-  The `start` and `end` fields on each `CaptionWord` are in seconds, not
-  milliseconds or frames. Pass the raw transcript timing from your
-  speech-to-text provider directly.
-</Callout>

@@ -1,6 +1,6 @@
 ---
 title: "Parallax Layers"
-description: "Two depth layers — large translucent italic text behind, clean text in front."
+description: "Oversized stretched serif emphasis behind readable captions, with opposing depth-layer motion."
 ---
 
 ## Usage
@@ -13,6 +13,8 @@ import { CaptionParallaxLayers } from "@/components/framecn/caption-parallax-lay
 <CaptionParallaxLayers />
 ```
 
+Render inside an Editframe `TimelineRoot`. Animation is calculated from the root `Timegroup`'s local `useTimingInfo` playback time, not CSS animation clocks, so seeking and restarting are deterministic.
+
 ## API Reference
 
 ### CaptionParallaxLayers
@@ -24,15 +26,10 @@ import { CaptionParallaxLayers } from "@/components/framecn/caption-parallax-lay
 | `behindColor`      | `string`           | `"#a78bfa"`  |
 | `fontSize`         | `number`           | `56`         |
 | `fontWeight`       | `number \| string` | `700`        |
+| `background`       | `string`           | `"#0a0a0a"`  |
 | `speed`            | `number`           | `1`          |
 | `fps`              | `number`           | `30`         |
 | `durationInFrames` | `number`           | `180`        |
 | `width`            | `number`           | `1280`       |
 | `height`           | `number`           | `720`        |
 | `className`        | `string`           | `-`          |
-
-## Notes
-
-<Callout title="Word timing is in seconds">
-  The `start` and `end` fields on each `CaptionWord` are in seconds.
-</Callout>

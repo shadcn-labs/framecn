@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export const ProBadge = ({ className }: { className?: string }) => (
   <Badge
     variant="brand"
-    className={cn("h-4 rounded px-1.5 py-0 text-[10px] font-medium", className)}
+    className={cn("h-4 px-1.5 py-0 text-[10px] font-medium", className)}
   >
     Pro
   </Badge>
