@@ -12,7 +12,6 @@ import {
   TogglePlay,
 } from "@editframe/react";
 import { PauseIcon, PlayIcon, Repeat1Icon, RepeatIcon } from "lucide-react";
-import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -251,14 +250,28 @@ const VideoPreviewClient = ({
   );
 };
 
-// Editframe GUI elements upgrade their DOM before React hydration; mount the
-// player client-side so shared query-state icons and browser-only timing agree.
-export const VideoPreview = dynamic(() => Promise.resolve(VideoPreviewClient), {
-  loading: () => (
+/** Placeholder that matches the shell VideoPreview paints once mounted. */
+const VideoPreviewSkeleton = ({ compact = false }: { compact?: boolean }) =>
+  compact ? (
+    // Cards already draw the frame; only fill the video area so borders never nest.
+    <div aria-hidden="true" className="bg-muted aspect-video w-full" />
+  ) : (
     <Frame aria-label="Loading video preview">
       <FrameContent className="bg-muted aspect-video" />
       <div className="h-11" />
     </Frame>
-  ),
-  ssr: false,
-});
+  );
+
+export const VideoPreview = (
+  props: React.ComponentProps<typeof VideoPreviewClient>
+) => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  return mounted ? (
+    <VideoPreviewClient {...props} />
+  ) : (
+    <VideoPreviewSkeleton compact={props.compact} />
+  );
+};
