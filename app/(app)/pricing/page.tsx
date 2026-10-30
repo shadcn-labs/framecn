@@ -14,9 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { Frame } from "@/components/ui/frame";
-import { ROUTES } from "@/constants/routes";
 import { getProAccess, getSession } from "@/lib/auth";
 import {
   billingCustomerId,
@@ -165,12 +163,12 @@ export default async function PricingPage() {
       <WhatYouGet proCount={PRO_COUNT} />
       <section
         aria-labelledby="faq-title"
-        className="container-page section-y grid gap-10 lg:grid-cols-[1fr_1.6fr]"
+        className="container-page section-y"
       >
-        <h2 id="faq-title" className="heading-title">
+        <h2 id="faq-title" className="heading-title text-center">
           FAQs
         </h2>
-        <Accordion>
+        <Accordion className="mx-auto mt-10 w-full max-w-3xl">
           {FAQ.map((item) => (
             <AccordionItem key={item.question} value={item.question}>
               <AccordionTrigger>{item.question}</AccordionTrigger>
@@ -178,35 +176,6 @@ export default async function PricingPage() {
             </AccordionItem>
           ))}
         </Accordion>
-      </section>
-      <section className="container-page pb-16 md:pb-24">
-        <Frame>
-          <div className="bg-card flex flex-col items-center rounded-[var(--frame-inner-radius)] border px-6 py-14 text-center">
-            <h2 className="heading-title">Ship the edit. Skip the slop.</h2>
-            <p className="text-muted-foreground mt-3 max-w-md text-[15px] leading-7 text-pretty">
-              Install a component, tweak it live, render the MP4. Your launch
-              video, minus the stock-template look.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-2">
-              <Button
-                nativeButton={false}
-                render={<Link href="#plans" />}
-                variant="gradient"
-                className="rounded-full"
-              >
-                Get Pro
-              </Button>
-              <Button
-                nativeButton={false}
-                render={<Link href={ROUTES.COMPONENTS} />}
-                variant="outline"
-                className="rounded-full"
-              >
-                Browse components
-              </Button>
-            </div>
-          </div>
-        </Frame>
       </section>
     </div>
   );

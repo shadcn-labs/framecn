@@ -53,16 +53,11 @@ const FAQ = [
 export const Faq = () => (
   <section
     aria-labelledby="faq-title"
-    className="container-page section-y grid gap-10 lg:grid-cols-[1fr_1.6fr]"
+    className="container-page section-y"
   >
     <FaqJsonLd items={FAQ} />
-    <SectionHeading
-      id="faq-title"
-      title="FAQs"
-      description="Licensing, rendering, Pro, and working with AI agents."
-      className="self-start"
-    />
-    <Accordion className="self-start">
+    <SectionHeading id="faq-title" title="FAQs" />
+    <Accordion className="mx-auto mt-10 w-full max-w-3xl">
       {FAQ.map((item) => (
         <AccordionItem key={item.question} value={item.question}>
           <AccordionTrigger>{item.question}</AccordionTrigger>
