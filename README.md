@@ -5,8 +5,8 @@
 <h1 align="center">framecn</h1>
 
 <p align="center">
-  Ready-to-use, customizable video components for React, with free open-source components and framecn Pro compositions.<br/>
-  Built on <a href="https://editframe.com">Editframe</a>, with free components installable through <a href="https://ui.shadcn.com/">shadcn/ui</a>.
+  Free, open-source video components for React. Customize them, make them yours, and install with <a href="https://ui.shadcn.com/">shadcn/ui</a>.<br/>
+  Built on <a href="https://editframe.com">Editframe</a>. Want more? Explore additional components with <a href="https://framecn.dev/pricing">framecn Pro</a>, available separately.
 </p>
 
 <p align="center">
