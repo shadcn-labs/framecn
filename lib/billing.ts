@@ -24,10 +24,13 @@ import { getDb } from "@/lib/db";
 import type { Db } from "@/lib/db";
 import {
   billingDispute,
+  billingEmailDelivery,
   billingEntitlement,
   billingPayment,
   billingWebhook,
 } from "@/lib/db/schema";
+import { sendEmail } from "@/lib/email";
+import { renderPurchaseEmail } from "@/lib/email-templates";
 import {
   EARLY_BIRD_LIMIT,
   findPlan,
@@ -604,6 +607,135 @@ const writeAdversePayment = async (
     );
 };
 
+/**
+ * Welcome only a purchase that still grants access. A pending delivery may
+ * retry after a newer benign lifecycle event, but a stale event must not
+ * initiate a new welcome. This never creates or changes an entitlement.
+ */
+const sendPurchaseWelcome = async (
+  db: Db,
+  sourceId: string,
+  eventAt: number,
+  customerName: string | undefined
+) => {
+  const [purchase] = await db
+    .select({
+      deliveredAt: billingEmailDelivery.deliveredAt,
+      deliverySourceId: billingEmailDelivery.sourceId,
+      email: billingEntitlement.email,
+      eventAt: billingEntitlement.eventAt,
+      kind: billingEntitlement.kind,
+      productId: billingEntitlement.productId,
+      seats: billingEntitlement.seats,
+    })
+    .from(billingEntitlement)
+    .leftJoin(
+      billingEmailDelivery,
+      eq(billingEmailDelivery.sourceId, billingEntitlement.sourceId)
+    )
+    .where(
+      and(
+        eq(billingEntitlement.sourceId, sourceId),
+        eq(billingEntitlement.status, "active"),
+        isNull(billingEntitlement.refundedAt),
+        or(
+          isNull(billingEntitlement.expiresAt),
+          gt(billingEntitlement.expiresAt, Date.now())
+        ),
+        notExists(
+          db
+            .select({ paymentId: billingPayment.paymentId })
+            .from(billingPayment)
+            .where(
+              and(
+                eq(billingPayment.paymentId, sourceId),
+                eq(billingPayment.refunded, true)
+              )
+            )
+        ),
+        notExists(
+          db
+            .select({ paymentId: billingDispute.paymentId })
+            .from(billingDispute)
+            .where(eq(billingDispute.paymentId, sourceId))
+        )
+      )
+    )
+    .limit(1);
+  if (
+    !purchase ||
+    purchase.deliveredAt !== null ||
+    (purchase.eventAt !== eventAt && !purchase.deliverySourceId)
+  ) {
+    return;
+  }
+  const plan = PLANS.find((item) =>
+    productIdsFor([item]).includes(purchase.productId)
+  );
+  if (
+    !plan ||
+    (plan.kind === "subscription") !== (purchase.kind === "subscription")
+  ) {
+    return;
+  }
+  if (!purchase.deliverySourceId) {
+    const content = renderPurchaseEmail({
+      customerName,
+      origin: appOrigin(),
+      plan: plan.slug,
+      recipientEmail: purchase.email,
+      seats: purchase.seats,
+    });
+    await db
+      .insert(billingEmailDelivery)
+      .values({ ...content, email: purchase.email, sourceId })
+      .onConflictDoNothing();
+  }
+  // Recheck access after persisting the snapshot, then send the winning
+  // immutable payload: concurrent webhook ids share one provider key.
+  const [delivery] = await db
+    .select({
+      deliveredAt: billingEmailDelivery.deliveredAt,
+      email: billingEmailDelivery.email,
+      html: billingEmailDelivery.html,
+      subject: billingEmailDelivery.subject,
+      text: billingEmailDelivery.text,
+    })
+    .from(billingEmailDelivery)
+    .innerJoin(
+      billingEntitlement,
+      eq(billingEntitlement.sourceId, billingEmailDelivery.sourceId)
+    )
+    .where(
+      and(
+        eq(billingEmailDelivery.sourceId, sourceId),
+        grantsAccess(purchase.email)
+      )
+    )
+    .limit(1);
+  if (!delivery || delivery.deliveredAt !== null) {
+    return;
+  }
+  await sendEmail({
+    content: {
+      html: delivery.html,
+      subject: delivery.subject,
+      text: delivery.text,
+    },
+    idempotencyKey: `framecn-purchase-welcome/${sourceId}`,
+    to: delivery.email,
+  });
+  await db
+    .update(billingEmailDelivery)
+    .set({ deliveredAt: Date.now() })
+    .where(
+      and(
+        eq(billingEmailDelivery.sourceId, sourceId),
+        isNull(billingEmailDelivery.deliveredAt)
+      )
+    );
+};
+
 export interface BillingEvent {
   type: string;
   timestamp: string;
@@ -613,8 +745,8 @@ export interface BillingEvent {
 /**
  * Applies a signature-verified Dodo webhook. D1 over HTTP has no interactive
  * transactions, so every write is an idempotent upsert and the webhook id is
- * recorded last: a delivery that fails midway is retried by Dodo and
- * re-applied in full, and a recorded delivery is skipped.
+ * recorded after purchase email delivery: a failure midway is retried by
+ * Dodo and re-applied in full, and a recorded delivery is skipped.
  */
 export const applyBillingEvent = async (
   webhookId: string,
@@ -641,8 +773,33 @@ export const applyBillingEvent = async (
       event.type,
       eventAt
     );
+    const subscription = event.data as Subscription;
+    if (
+      event.type === "subscription.active" &&
+      subscription.status === "active"
+    ) {
+      await sendPurchaseWelcome(
+        db,
+        subscription.subscription_id,
+        eventAt,
+        subscription.customer.name
+      );
+    }
   } else if (event.type === "payment.succeeded") {
-    await writePayment(db, event.data as Payment, eventAt);
+    const payment = event.data as Payment;
+    await writePayment(db, payment, eventAt);
+    if (
+      payment.status === "succeeded" &&
+      !payment.subscription_id &&
+      payment.refund_status !== "full"
+    ) {
+      await sendPurchaseWelcome(
+        db,
+        payment.payment_id,
+        eventAt,
+        payment.customer.name
+      );
+    }
   } else if (event.type === "refund.succeeded" || dispute) {
     // Refund/dispute events lack product ownership; use the authoritative
     // payment, including cumulative refund status, before changing access.
