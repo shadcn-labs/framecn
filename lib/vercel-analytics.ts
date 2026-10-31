@@ -25,6 +25,13 @@ export interface TrafficDay {
   pageviews: number;
 }
 
+/** A ranked dimension row: an ISO 3166-1 alpha-2 code, or a referrer hostname. */
+export interface TrafficRow {
+  name: string;
+  visitors: number;
+  pageviews: number;
+}
+
 export interface Traffic {
   visitors: number;
   pageviews: number;
@@ -33,6 +40,10 @@ export interface Traffic {
   pageviewsChange: number | null;
   /** One entry per day of the period, zero-filled. */
   days: TrafficDay[];
+  /** Highest-traffic countries first; `name` is the alpha-2 code. */
+  countries: TrafficRow[];
+  /** Highest-traffic referrer hostnames first. */
+  referrers: TrafficRow[];
 }
 
 const isoDay = (time: number) => new Date(time).toISOString().slice(0, 10);
@@ -81,6 +92,32 @@ const query = async (
 const sum = (rows: Row[], key: "visitors" | "pageviews") =>
   rows.reduce((total, row) => total + row[key], 0);
 
+/** Vercel folds everything past `limit` into this bucket; it is not a value. */
+const OTHERS = "Others";
+/** Enough to fill each panel without carrying noise. */
+const TOP_ROWS = 10;
+
+/** Top rows for one dimension, highest-traffic first, without the catch-all bucket. */
+const ranked = (
+  rows: Row[],
+  dimension: string,
+  label: (value: string) => string = (value) => value
+): TrafficRow[] =>
+  rows
+    .filter(
+      (row) =>
+        typeof row[dimension] === "string" &&
+        row[dimension] !== "" &&
+        row[dimension] !== OTHERS
+    )
+    .map((row) => ({
+      name: label(String(row[dimension])),
+      pageviews: row.pageviews,
+      visitors: row.visitors,
+    }))
+    .toSorted((a, b) => b.visitors - a.visitors)
+    .slice(0, TOP_ROWS);
+
 const change = (current: number, previous: number) =>
   previous > 0 ? Math.round(((current - previous) / previous) * 100) : null;
 
@@ -116,17 +153,21 @@ export const getTraffic = async (): Promise<Traffic | null> => {
     until: isoDay(now - (PERIOD_DAYS + 1) * DAY_MS),
   };
   try {
-    const [totals, before, days] = await Promise.all([
+    const [totals, before, days, countries, referrers] = await Promise.all([
       query("environment", current),
       query("environment", previous),
       query("day", current),
+      query("country", current),
+      query("referrerHostname", current),
     ]);
     const visitors = sum(totals, "visitors");
     const pageviews = sum(totals, "pageviews");
     return {
+      countries: ranked(countries, "country", (code) => code.toUpperCase()),
       days: daily(days, now - PERIOD_DAYS * DAY_MS),
       pageviews,
       pageviewsChange: change(pageviews, sum(before, "pageviews")),
+      referrers: ranked(referrers, "referrerHostname"),
       visitors,
       visitorsChange: change(visitors, sum(before, "visitors")),
     };

@@ -258,7 +258,8 @@ const MainView = ({
         </div>
       </SidebarHeader>
       <div className="px-2 py-2">{search}</div>
-      <SidebarContent>
+      {/* scroll-padding keeps scroll-into-view clear of the fade masks at both ends. */}
+      <SidebarContent className="scroll-py-12">
         <SidebarGroup className="pt-0">
           <SidebarMenu aria-label="Primary" className="gap-0.5">
             {APP_NAV.map((item) => {

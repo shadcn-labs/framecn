@@ -75,7 +75,7 @@ export const WhatYouGet = ({ proCount }: { proCount: number }) => (
       <Tile
         className="lg:col-span-3"
         title={`All ${proCount} Pro components,`}
-        description="playing live right here. Text, carousels, globes, charts and full compositions, not a folder of stock templates."
+        description="previewed right here. Text, carousels, globes, charts and full compositions, not a folder of stock templates."
       >
         <div className="grid min-w-0 flex-1 grid-cols-2 gap-1.5 p-1.5 pt-0">
           {MOSAIC.map((item) => (

@@ -12,6 +12,7 @@ import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { RankPanel, StatPanel } from "@/components/audience-panels";
 import { ExternalLinkButton } from "@/components/external-link-button";
 import { PageHeader } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
@@ -30,8 +31,6 @@ import { Frame, FrameContent } from "@/components/ui/frame";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-import { CATALOG } from "@/lib/catalog";
-import { getStargazerCount } from "@/lib/github";
 import {
   PLACEMENTS,
   SPONSOR_TIERS,
@@ -53,10 +52,16 @@ export const metadata = createPageMetadata({
 // Traffic is cached by the analytics fetch; re-render at most hourly.
 export const revalidate = 3600;
 
-const compact = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 1,
-  notation: "compact",
-});
+const countryNames = new Intl.DisplayNames(["en"], { type: "region" });
+
+/** Vercel reports ISO 3166-1 alpha-2 codes; show the readable name. */
+const countryName = (code: string) => {
+  try {
+    return countryNames.of(code) ?? code;
+  } catch {
+    return code;
+  }
+};
 
 const PLACEMENT_ICON: Record<PlacementSlug, LucideIcon> = {
   home: HouseIcon,
@@ -153,28 +158,14 @@ const PlacementPreview = ({ slug }: { slug: PlacementSlug }) => {
 };
 
 const SponsorPage = async () => {
-  const [traffic, stars] = await Promise.all([
-    getTraffic(),
-    getStargazerCount(),
-  ]);
+  const traffic = await getTraffic();
   const analyticsConfigured = Boolean(
     process.env.VERCEL_ANALYTICS_TOKEN &&
     process.env.VERCEL_PROJECT_ID &&
     process.env.VERCEL_ANALYTICS_TEAM_ID
   );
-  const stats = [
-    {
-      label: "Page views last month",
-      value: traffic ? compact.format(traffic.pageviews) : null,
-    },
-    { label: "GitHub stars", value: stars > 0 ? compact.format(stars) : null },
-    {
-      label: "Components",
-      value: `${Math.floor(CATALOG.length / 10) * 10}+`,
-    },
-  ];
   let trafficHelper =
-    "Page views and the traffic chart will appear once Vercel Web Analytics, our analytics platform, is configured.";
+    "Traffic and audience data will appear once Vercel Web Analytics, our analytics platform, is configured.";
   if (traffic) {
     trafficHelper =
       "Traffic over the last 30 days from Vercel Web Analytics, our analytics platform. Updated hourly.";
@@ -214,32 +205,43 @@ const SponsorPage = async () => {
           <h2 id="audience-title" className="heading-title text-center">
             Audience
           </h2>
-          <dl className="mt-6 grid gap-4 sm:grid-cols-3">
-            {stats.map((stat) => (
-              <Frame key={stat.label}>
-                <FrameContent className="p-5">
-                  <dt className="text-muted-foreground text-sm">
-                    {stat.label}
-                  </dt>
-                  <dd className="mt-2 font-mono text-3xl font-medium tracking-tight tabular-nums">
-                    {stat.value ?? "Unavailable"}
-                  </dd>
-                </FrameContent>
-              </Frame>
-            ))}
-          </dl>
-          <Frame className="mt-4">
-            {traffic ? (
-              <TrafficChart traffic={traffic} />
-            ) : (
-              <FrameContent className="min-w-0 p-5">
+          <Frame className="mt-6">
+            <dl className="grid grid-cols-2 gap-0.5">
+              <StatPanel
+                label="Visitors"
+                value={traffic?.visitors ?? null}
+                change={traffic?.visitorsChange ?? null}
+              />
+              <StatPanel
+                label="Pageviews"
+                value={traffic?.pageviews ?? null}
+                change={traffic?.pageviewsChange ?? null}
+              />
+            </dl>
+            <FrameContent className="mt-0.5 min-w-0 p-5">
+              {traffic ? (
+                <TrafficChart traffic={traffic} />
+              ) : (
                 <p className="text-muted-foreground py-12 text-center text-sm">
                   {analyticsConfigured
                     ? "Traffic data is temporarily unavailable."
                     : "Traffic analytics are not configured yet."}
                 </p>
-              </FrameContent>
-            )}
+              )}
+            </FrameContent>
+            <div className="mt-0.5 grid gap-0.5 md:grid-cols-2">
+              <RankPanel
+                title="Top countries"
+                rows={traffic?.countries ?? []}
+                empty="Country data is not available yet."
+                label={(row) => countryName(row.name)}
+              />
+              <RankPanel
+                title="Top referrers"
+                rows={traffic?.referrers ?? []}
+                empty="Referrer data is not available yet."
+              />
+            </div>
           </Frame>
           <p className="text-muted-foreground mt-3 text-center text-xs">
             {trafficHelper}
