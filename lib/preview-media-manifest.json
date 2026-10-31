@@ -1,0 +1,26 @@
+{
+  "baseUrl": "https://framecn-previews.pawaraniket508.workers.dev",
+  "components": {
+    "caption-highlight": {
+      "light": {
+        "poster": "previews/caption-highlight/light/a8938cbd63820db499e42987aee639f522a4a1ad941e0c11d152f29279b1f4a1.jpg",
+        "video": "previews/caption-highlight/light/1f30048188f8a1c1bd811d8270cb16484190ebb4c4dbfac6049e40f58ecfdc1c.mp4"
+      },
+      "dark": {
+        "poster": "previews/caption-highlight/dark/a8938cbd63820db499e42987aee639f522a4a1ad941e0c11d152f29279b1f4a1.jpg",
+        "video": "previews/caption-highlight/dark/1f30048188f8a1c1bd811d8270cb16484190ebb4c4dbfac6049e40f58ecfdc1c.mp4"
+      }
+    },
+    "ring-carousel": {
+      "light": {
+        "poster": "previews/ring-carousel/light/a4d277e3c338533121d11f4b7ed06271781b864180da0b7038dac2c09995bb3b.jpg",
+        "video": "previews/ring-carousel/light/e228715d3a8907575af38b4c0cc8d05228a07c83d7520949aa3707984fc5d96f.mp4"
+      },
+      "dark": {
+        "poster": "previews/ring-carousel/dark/0eeddcbca48bb75e2db0976abdae7c6778f803537c3650b24efaea938d12d0a6.jpg",
+        "video": "previews/ring-carousel/dark/519edbfb9fa9ec129a0084fbaf534fc1a6e6ab95a68e62e946eadd0ec0fe9a5b.mp4"
+      }
+    }
+  },
+  "version": 1
+}

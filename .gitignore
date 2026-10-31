@@ -50,3 +50,6 @@ next-env.d.ts
 .source
 # framecn Pro sources, synced by scripts/sync-pro.mjs (never commit)
 /registry/pro/
+
+# Local rendered preview media, browser profiles, and resumable render metadata
+/.preview-media/
