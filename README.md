@@ -35,23 +35,51 @@
 
 ## Sponsors
 
-framecn is backed by its sponsors. Gold sponsors get the largest logo here, then Silver and Bronze. [Become a sponsor](https://framecn.dev/sponsor#plans).
+<!-- sponsors:start -->
+<!-- Keep tier order and placed logos in sync with lib/sponsors.ts. -->
+<table>
+  <tbody>
+    <tr>
+      <td colspan="3"><strong>Diamond Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://framecn.dev/sponsor#plans">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>Gold Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://framecn.dev/sponsor#plans">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>Silver Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://framecn.dev/sponsor#plans">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!-- sponsors:end -->
 
-<!-- Gold: largest logos. Silver: medium. Bronze: small. Keep in sync with PLACED_SPONSORS in lib/sponsors.ts. -->
+> Found framecn useful? [Become a sponsor](https://framecn.dev/sponsor#plans) to support maintenance and get your logo here and on the site, with placement based on your tier.
 
-<p align="center">
-  <a href="https://framecn.dev/sponsor#plans">Your logo here</a>
-</p>
+## Community
+
+The framecn community lives on [GitHub](https://github.com/shadcn-labs/framecn), where you can ask questions, share ideas, and show what you've built.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) to get the repo running locally and land a change, and use [issues](https://github.com/shadcn-labs/framecn/issues) and [discussions](https://github.com/shadcn-labs/framecn/discussions) to collaborate. By participating, you agree to the [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## Security
+
+Please do not open public issues for security vulnerabilities. Follow [SECURITY.md](./SECURITY.md) and report them privately through GitHub Security Advisories.
 
 ## License
 
