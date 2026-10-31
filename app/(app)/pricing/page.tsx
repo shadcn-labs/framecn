@@ -22,7 +22,7 @@ import {
   getPlanOffers,
   missingPlanProduct,
 } from "@/lib/billing";
-import { PRO_COUNT } from "@/lib/catalog";
+import { CATALOG, PRO_COUNT } from "@/lib/catalog";
 import { formatUsd, TEAM, teamPrice } from "@/lib/plans";
 import type { PlanSlug } from "@/lib/plans";
 import { FaqJsonLd } from "@/seo/json-ld";
@@ -108,8 +108,9 @@ const PricingPage = async () => {
           </span>
         </h1>
         <p className="text-muted-foreground mx-auto mt-5 max-w-xl text-center text-base leading-7 text-pretty md:text-lg">
-          Captions are free forever. Pro is every other shot in the edit: paid
-          once or yearly, and the source is yours.
+          Start with {CATALOG.length - PRO_COUNT} free components, yours
+          forever. Pro is every other shot in the edit: paid once or yearly, and
+          the source is yours.
         </p>
         {pro ? (
           <Frame className="mx-auto mt-10 max-w-xl">

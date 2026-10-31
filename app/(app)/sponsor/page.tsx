@@ -229,17 +229,17 @@ const SponsorPage = async () => {
             ))}
           </dl>
           <Frame className="mt-4">
-            <FrameContent className="min-w-0 p-5">
-              {traffic ? (
-                <TrafficChart traffic={traffic} />
-              ) : (
+            {traffic ? (
+              <TrafficChart traffic={traffic} />
+            ) : (
+              <FrameContent className="min-w-0 p-5">
                 <p className="text-muted-foreground py-12 text-center text-sm">
                   {analyticsConfigured
                     ? "Traffic data is temporarily unavailable."
                     : "Traffic analytics are not configured yet."}
                 </p>
-              )}
-            </FrameContent>
+              </FrameContent>
+            )}
           </Frame>
           <p className="text-muted-foreground mt-3 text-center text-xs">
             {trafficHelper}

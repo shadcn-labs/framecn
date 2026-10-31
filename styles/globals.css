@@ -3,42 +3,6 @@
 @import "shadcn/tailwind.css";
 @import "./typeset.css";
 
-/*
- * Long-form text (docs, changelog, legal, about) uses shadcn/typeset with one
- * preset. Headings follow the site scale: h2 = heading-subtitle.
- */
-@layer components {
-  .typeset-site {
-    --typeset-font-heading: var(--font-sans);
-    --typeset-size: 15px;
-    --typeset-leading: 1.75;
-    --typeset-flow: 1.25em;
-  }
-  .typeset-site :where(h1, h2, h3, h4) {
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-  .typeset-site :where(h2) {
-    font-size: var(--text-lg);
-
-    @media (width >= 48rem) {
-      font-size: var(--text-xl);
-    }
-  }
-  /* Clears the sticky docs header when jumping to an anchor. */
-  .typeset-site :where([id]) {
-    scroll-margin-block-start: 7rem;
-  }
-}
-
-/* tw-animate exits default to animation-fill-mode: none, so an element whose fade-out finishes
-   before Base UI unmounts it snaps back to full opacity for a frame (dialog/sheet backdrops blink).
-   Closing elements (Base UI `data-closed`, vaul `data-state=closed`) hold their final keyframe. */
-[data-closed],
-[data-state="closed"] {
-  --tw-animation-fill-mode: forwards;
-}
-
 @custom-variant dark (&:is(.dark *));
 
 @custom-variant fixed (&:is(.layout-fixed *));
@@ -265,7 +229,33 @@
   }
 }
 
+/*
+ * Long-form text (docs, changelog, legal, about) uses shadcn/typeset with one
+ * preset. Headings follow the site scale: h2 = heading-subtitle.
+ */
 @layer components {
+  .typeset-site {
+    --typeset-font-heading: var(--font-sans);
+    --typeset-size: 15px;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+  }
+  .typeset-site :where(h1, h2, h3, h4) {
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .typeset-site :where(h2) {
+    font-size: var(--text-lg);
+
+    @media (width >= 48rem) {
+      font-size: var(--text-xl);
+    }
+  }
+  /* Clears the sticky docs header when jumping to an anchor. */
+  .typeset-site :where([id]) {
+    scroll-margin-block-start: 7rem;
+  }
+
   .steps {
     &:first-child {
       @apply !mt-0;
@@ -475,13 +465,6 @@
   padding-inline: calc(var(--spacing) * 6);
 }
 
-/*
- * Site type scale: three heading sizes, used everywhere.
- * - heading-display: the hero H1 on flagship pages (home, pricing).
- * - heading-title: H1 on every other page (docs, legal, about, dashboard…)
- *   and section H2s on flagship pages.
- * - heading-subtitle: subsection headings (H2 on standalone pages, H3 in sections).
- */
 @utility heading-display {
   font-size: var(--text-4xl);
   line-height: 1.05;
@@ -898,8 +881,17 @@
   --speaker-delay: 0ms;
   transition: transform var(--speaker-ms) var(--ease-out) var(--speaker-delay);
 }
+
 [data-muted="true"] .sound-speaker {
   transform: translateX(5.5px);
   --speaker-ms: 260ms;
   --speaker-delay: 80ms;
+}
+
+/* tw-animate exits default to animation-fill-mode: none, so an element whose fade-out finishes
+   before Base UI unmounts it snaps back to full opacity for a frame (dialog/sheet backdrops blink).
+   Closing elements (Base UI `data-closed`, vaul `data-state=closed`) hold their final keyframe. */
+[data-closed],
+[data-state="closed"] {
+  --tw-animation-fill-mode: forwards;
 }

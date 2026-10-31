@@ -18,7 +18,7 @@ export const SITE_AGENT_SKILL_MD = `# ${SITE.NAME}
 
 ## Summary
 
-Help users discover, preview, and install framecn video components. The free public registry has ${CATALOG.length - PRO_COUNT} caption components. ${PRO_COUNT} Pro components (${proCategories}) have public previews; their source requires Pro.
+Help users discover, preview, and install framecn video components. The free public registry has ${CATALOG.length - PRO_COUNT} free components. ${PRO_COUNT} Pro components (${proCategories}) have public previews; their source requires Pro.
 
 ## Registry
 

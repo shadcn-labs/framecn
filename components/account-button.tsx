@@ -4,6 +4,7 @@ import { LogOutIcon, LayoutDashboardIcon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -42,16 +43,18 @@ export const AccountButton = () => {
       <DropdownMenuTrigger
         render={
           <Button
-            variant="secondary"
-            size="sm"
-            className="h-8 max-w-40 gap-2 rounded-full pr-3 pl-1"
+            variant="ghost"
+            size="icon-sm"
+            className="rounded-full"
+            aria-label={`Open account menu for ${name}`}
           />
         }
       >
-        <span className="bg-primary text-primary-foreground flex size-6 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold uppercase">
-          {name.slice(0, 1)}
-        </span>
-        <span className="truncate">{name}</span>
+        <Avatar>
+          <AvatarFallback className="bg-primary text-primary-foreground font-semibold uppercase">
+            {name.slice(0, 1)}
+          </AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuGroup>

@@ -21,9 +21,6 @@ ${AGENT_DOCS_DIRECTIVE_MARKDOWN}
 
 - [Get started](${base}${ROUTES.DOCS_INSTALLATION}.md)
 - [Browse components](${base}/components)
-- [Browse free captions](${base}/components/captions)
-- [Browse compositions](${base}/components/compositions)
-- [Node Reveal Pro preview](${base}/components/compositions/node-reveal)
 - [Documentation](${base}${ROUTES.DOCS}.md)
 - [LLM index (llms.txt)](${base}${ROUTES.LLMS})
 - [API catalog](${base}${ROUTES.API_CATALOG})

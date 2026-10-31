@@ -135,7 +135,9 @@ export const PreviewControls = ({ previewId }: { previewId: string }) => {
   return (
     <Controls
       target={previewId}
-      className="flex items-center gap-2 px-2 py-1.5 text-muted-foreground"
+      // Editframe otherwise writes inline display: block on mount, overriding the row layout.
+      style={{ display: "flex" }}
+      className="items-center gap-2 px-2 py-1.5 text-muted-foreground"
     >
       <TogglePlay className="inline-flex">
         <Button

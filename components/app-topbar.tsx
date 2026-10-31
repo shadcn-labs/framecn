@@ -82,11 +82,12 @@ export const AppTopbar = () => {
         </div>
       ) : null}
       <div className="ml-auto flex shrink-0 items-center gap-2">
-        {/* Pro users never see it; home and pricing have their own; sign-in stays focused. */}
+        {/* Account upgrades live in its plan card; home/pricing have their own CTA; sign-in stays focused. */}
         {!pro &&
           pathname !== ROUTES.HOME &&
           pathname !== ROUTES.PRICING &&
-          pathname !== ROUTES.SIGN_IN && (
+          pathname !== ROUTES.SIGN_IN &&
+          pathname !== ROUTES.DASHBOARD && (
             <Button
               size="sm"
               variant="gradient"

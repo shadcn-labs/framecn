@@ -6,13 +6,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SITE } from "@/constants/site";
-import { PRO_COUNT } from "@/lib/catalog";
+import { CATALOG, PRO_COUNT } from "@/lib/catalog";
 import { FaqJsonLd } from "@/seo/json-ld";
 
 const FAQ = [
   {
-    answer:
-      "The caption components are free and open source under the MIT license. No account is needed to browse, customize, or install them. Every other component is part of framecn Pro, with a free live preview.",
+    answer: `${CATALOG.length - PRO_COUNT} components are free and open source under the MIT license. No account is needed to browse, customize, or install them. Pro components have free live previews; upgrade when you want their source.`,
     question: "Is framecn free?",
   },
   {

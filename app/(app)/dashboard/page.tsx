@@ -8,32 +8,27 @@ import {
   DeleteAccount,
   SignOutEverywhere,
 } from "@/components/dashboard/account-rows";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { getApiKeyInfo } from "@/lib/api-keys";
 import { getSession } from "@/lib/auth";
 import { billingCustomerId, getActivePlan } from "@/lib/billing";
 import type { ActivePlan } from "@/lib/billing";
-import { PRO_COUNT } from "@/lib/catalog";
+import { CATALOG, PRO_COUNT } from "@/lib/catalog";
 import { findPlan } from "@/lib/plans";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 export const metadata = {
   robots: { follow: false, index: false },
   title: "Dashboard — framecn",
 };
 
-const NAV = [
-  { active: true, href: ROUTES.DASHBOARD, label: "Account" },
-  { href: `${ROUTES.DOCS_REGISTRY}#framecn-pro`, label: "Registry setup" },
-  { href: ROUTES.COMPONENTS, label: "Components" },
-];
-
 /** Headline and fine print for the plan card. */
 const describePlan = (plan: ActivePlan | null) => {
   if (!plan) {
     return {
-      detail: `Captions are yours. ${PRO_COUNT} Pro components are one upgrade away.`,
+      detail: `${CATALOG.length - PRO_COUNT} free components are yours. ${PRO_COUNT} Pro components are one upgrade away.`,
       title: "Free plan",
     };
   }
@@ -73,30 +68,13 @@ const DashboardPage = async () => {
   const upgradable = !plan || plan.kind === "subscription";
 
   return (
-    <section className="container-page page-y grid flex-1 gap-10 md:grid-cols-[180px_1fr]">
-      <nav aria-label="Dashboard" className="md:pt-14">
-        <p className="text-muted-foreground px-3 pb-2 text-sm">Profile</p>
-        <ul className="flex gap-1 md:flex-col">
-          {NAV.map((item) => (
-            <li key={item.label}>
-              <Link
-                href={item.href}
-                aria-current={item.active ? "page" : undefined}
-                className={cn(
-                  "block rounded-lg px-3 py-1.5 text-sm transition-colors",
-                  item.active
-                    ? "bg-muted font-medium"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <div className="max-w-3xl min-w-0">
-        <h1 className="heading-title">Account</h1>
+    <section className="container-page page-y flex-1">
+      <div className="mx-auto w-full max-w-3xl min-w-0">
+        <PageHeader
+          title="Account"
+          description="Manage your plan, registry API key, and account settings."
+          centered
+        />
         <div className="bg-muted/50 mt-8 flex flex-wrap items-center justify-between gap-6 rounded-2xl border p-6 md:p-8">
           <div className="min-w-0">
             <p className="text-2xl font-semibold tracking-[-0.03em]">{title}</p>
