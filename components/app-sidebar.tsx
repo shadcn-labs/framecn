@@ -421,10 +421,6 @@ export const AppSidebar = ({
     getServerYear
   );
   const [view, setView] = useState<"main" | "projects">("main");
-  const pathname = usePathname();
-  const hasCarbonAds = [ROUTES.DOCS, ROUTES.COMPONENTS].some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
-  );
   return (
     <Sidebar variant="inset" collapsible="offcanvas">
       {view === "main" ? (
@@ -432,10 +428,8 @@ export const AppSidebar = ({
       ) : (
         <ProjectsView onBack={() => setView("main")} />
       )}
-      {/* Carbon placements cannot share a page with another sponsor ad. */}
-      {!hasCarbonAds && (
-        <SponsorSlot placement="sidebar" className="shrink-0 px-2 pb-1" />
-      )}
+      {/* Carbon allows in-house logos and text links, so the slot stays on every page. */}
+      <SponsorSlot placement="sidebar" className="shrink-0 px-2 pb-1" />
       <SidebarFooter className="h-12 shrink-0 flex-row items-center justify-between py-0 pr-0 pl-2.5">
         <span className="text-muted-foreground truncate text-xs">© {year}</span>
         <div className="flex items-center">

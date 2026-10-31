@@ -1,6 +1,6 @@
 /**
- * Where a sponsor's logo shows up. Docs and component pages are left alone:
- * Carbon is the only ad allowed there.
+ * Where a sponsor's logo shows up. The sidebar slot renders on every page,
+ * including docs and components, alongside Carbon.
  */
 export type PlacementSlug = "sidebar" | "home" | "listing";
 
@@ -11,7 +11,7 @@ export const PLACEMENTS: {
 }[] = [
   {
     description:
-      "Your logo displayed at the bottom of the main site navigation.",
+      "Your logo at the bottom of the sidebar, on every page of the site.",
     slug: "sidebar",
     title: "In the sidebar",
   },

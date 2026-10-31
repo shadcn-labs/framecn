@@ -84,7 +84,7 @@ const tiersWith = (placement: PlacementSlug) =>
 const FAQ = [
   {
     answer:
-      "Diamond: the sidebar outside Carbon ad pages, plus the largest logo on the homepage, this page and the GitHub README. Gold: a larger logo on the homepage, this page and the README. Silver: a logo on this page and the README. Docs and component pages stay ad-free apart from Carbon.",
+      "Diamond: the sidebar on every page, plus the largest logo on the homepage, this page and the GitHub README. Gold: a larger logo on the homepage, this page and the README. Silver: a logo on this page and the README.",
     question: "Where will my logo appear?",
   },
   {
