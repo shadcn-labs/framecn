@@ -69,7 +69,9 @@ export const AccountButton = () => {
         <DropdownMenuItem render={<Link href={ROUTES.DASHBOARD} />}>
           <LayoutDashboardIcon /> Dashboard
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
+          variant="destructive"
           onClick={async () => {
             const result = await authClient.signOut();
             if (result.error) {
@@ -79,7 +81,7 @@ export const AccountButton = () => {
             window.location.assign(ROUTES.HOME);
           }}
         >
-          <LogOutIcon /> Sign out
+          <LogOutIcon /> Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
