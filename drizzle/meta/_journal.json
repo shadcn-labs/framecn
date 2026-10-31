@@ -15,6 +15,13 @@
       "when": 1793359174596,
       "tag": "0001_team_seats",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793435218451,
+      "tag": "0002_billing_email_delivery",
+      "breakpoints": true
     }
   ]
 }

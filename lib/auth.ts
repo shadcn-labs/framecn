@@ -6,9 +6,15 @@ import { emailOTP } from "better-auth/plugins";
 import { headers } from "next/headers";
 import { cache } from "react";
 
+import { SITE } from "@/constants/site";
 import { hasProAccess } from "@/lib/billing";
 import { getDb } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
+import { sendEmail } from "@/lib/email";
+import {
+  renderSignInEmail,
+  SIGN_IN_CODE_EXPIRY_MINUTES,
+} from "@/lib/email-templates";
 
 /** Google is the only OAuth provider; it shows when its client is configured. */
 export const isGoogleSignInEnabled = () =>
@@ -36,31 +42,6 @@ export const getAuthConfigurationError = (): string | null => {
   return null;
 };
 
-const sendSignInCode = async (email: string, otp: string) => {
-  if (!isEmailSignInEnabled()) {
-    throw new Error("Email sign-in is not configured");
-  }
-  const response = await fetch("https://api.resend.com/emails", {
-    body: JSON.stringify({
-      from: process.env.EMAIL_FROM,
-      html: `<div style="background:#f5f4ef;padding:32px;font-family:Arial,sans-serif;color:#18181b"><div style="border:1px solid #18181b;padding:32px;max-width:460px;margin:auto"><p>SHADCN LABS / FRAMECN</p><h1>Your sign-in code</h1><p style="background:#f06292;padding:20px;font-size:36px;letter-spacing:8px">${otp}</p><p>This code expires in 10 minutes. If you did not request it, you can safely ignore this email.</p></div></div>`,
-      subject: `${otp} is your framecn sign-in code`,
-      text: `Your framecn sign-in code is ${otp}. It expires in 10 minutes. If you did not request this code, ignore this email.\n\nframecn by Shadcn Labs`,
-      to: [email],
-    }),
-    headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  });
-  if (!response.ok) {
-    throw new Error(
-      "The email provider could not deliver your code. Check the configured sender and try again."
-    );
-  }
-};
-
 const createAuth = () =>
   betterAuth({
     advanced: {
@@ -75,9 +56,16 @@ const createAuth = () =>
     plugins: [
       emailOTP({
         allowedAttempts: 5,
-        expiresIn: 60 * 10,
+        expiresIn: 60 * SIGN_IN_CODE_EXPIRY_MINUTES,
         otpLength: 6,
-        sendVerificationOTP: ({ email, otp }) => sendSignInCode(email, otp),
+        sendVerificationOTP: ({ email, otp }) =>
+          sendEmail({
+            content: renderSignInEmail({
+              code: otp,
+              origin: new URL(process.env.BETTER_AUTH_URL ?? SITE.URL).origin,
+            }),
+            to: email,
+          }),
         storeOTP: "hashed",
       }),
       // Must stay last: lets server actions set auth cookies.

@@ -163,6 +163,20 @@ export const billingWebhook = sqliteTable("billing_webhook", {
   webhookId: text("webhook_id").primaryKey(),
 });
 
+/**
+ * Purchase welcomes keyed by entitlement source, independently of webhook ids.
+ * Keep the first payload so provider idempotency also survives concurrent
+ * delivery and a successful send followed by a failed delivered-at write.
+ */
+export const billingEmailDelivery = sqliteTable("billing_email_delivery", {
+  deliveredAt: integer("delivered_at"),
+  email: text("email").notNull(),
+  html: text("html").notNull(),
+  sourceId: text("source_id").primaryKey(),
+  subject: text("subject").notNull(),
+  text: text("text").notNull(),
+});
+
 /** One Pro registry API key per user; only its SHA-256 hash is stored. */
 export const apiKey = sqliteTable("api_key", {
   createdAt: integer("created_at").notNull(),
