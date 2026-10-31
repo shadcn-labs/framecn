@@ -76,7 +76,7 @@ export const HowItWorks = async () => {
                   className="text-muted-foreground static size-7 bg-transparent opacity-70 hover:bg-muted hover:opacity-100 focus-visible:bg-muted focus-visible:opacity-100"
                 />
               </figcaption>
-              <div dangerouslySetInnerHTML={{ __html: highlighted[index] }} />
+              <div>{highlighted[index]}</div>
             </figure>
           </li>
         ))}

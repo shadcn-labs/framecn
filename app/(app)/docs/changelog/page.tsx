@@ -22,7 +22,7 @@ export const metadata = createPageMetadata({
   title: "Changelog",
 });
 
-export default function ChangelogPage() {
+const ChangelogPage = () => {
   const pages = getChangelogPages();
   const latestPages = pages.slice(0, NUMBER_OF_LATEST_PAGES);
   const olderPages = pages.slice(NUMBER_OF_LATEST_PAGES);
@@ -71,13 +71,13 @@ export default function ChangelogPage() {
             <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
               {latestPages.map((page) => {
                 const data = page.data as ChangelogPageData;
-                const MDX = page.data.body;
+                const Mdx = page.data.body;
 
                 return (
                   <article key={page.url} className="mb-12 border-b pb-12">
                     <h2 className="heading-subtitle">{data.title}</h2>
                     <div className="typeset typeset-site mt-6">
-                      <MDX components={mdxComponents} />
+                      <Mdx components={mdxComponents} />
                     </div>
                   </article>
                 );
@@ -113,4 +113,5 @@ export default function ChangelogPage() {
       </div>
     </PageTransition>
   );
-}
+};
+export default ChangelogPage;

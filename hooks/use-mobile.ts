@@ -1,17 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
-export const useIsMobile = (mobileBreakpoint = 768) => {
-  const [isMobile, setIsMobile] = useState<boolean | undefined>();
-
-  useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${mobileBreakpoint - 1}px)`);
-    const onChange = () => {
-      setIsMobile(window.innerWidth < mobileBreakpoint);
-    };
-    mql.addEventListener("change", onChange);
-    setIsMobile(window.innerWidth < mobileBreakpoint);
-    return () => mql.removeEventListener("change", onChange);
-  }, [mobileBreakpoint]);
-
-  return !!isMobile;
-};
+export const useIsMobile = (mobileBreakpoint = 768) =>
+  useMediaQuery(`(max-width: ${mobileBreakpoint - 1}px)`);

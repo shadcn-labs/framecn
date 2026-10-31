@@ -6,7 +6,7 @@ import { componentContentRoute, homeContentRoute } from "@/lib/docs";
 export const buildOpenApiDocument = (
   origin: string
 ): Record<string, unknown> => {
-  const base = origin.replace(/\/$/, "");
+  const base = origin.replace(/\/$/u, "");
 
   return {
     externalDocs: {

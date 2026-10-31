@@ -63,7 +63,7 @@ export const BrandAssetCard = ({ asset }: { asset: keyof typeof ASSETS }) => {
                 aria-label={`Download ${label}`}
                 download
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               />
             }
             size="sm"

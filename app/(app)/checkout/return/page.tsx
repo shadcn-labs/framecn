@@ -73,11 +73,11 @@ const lookUpPayment = async (
  * only to greet the buyer and preset their email; Pro itself comes from the
  * webhook-written entitlement for that email, never from this URL.
  */
-export default async function CheckoutReturnPage({
+const CheckoutReturnPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ payment_id?: string | string[] }>;
-}) {
+}) => {
   const { payment_id: rawPaymentId } = await searchParams;
   const paymentId = typeof rawPaymentId === "string" ? rawPaymentId : null;
   const session = await getSession();
@@ -196,4 +196,6 @@ export default async function CheckoutReturnPage({
       )}
     </Card>
   );
-}
+};
+
+export default CheckoutReturnPage;

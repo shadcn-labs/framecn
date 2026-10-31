@@ -78,7 +78,7 @@ export const CaptionNeonGlow = ({
       const next = words[index + 1];
       if (
         phrase.length >= groupLimit ||
-        /[,.:;!?]["')\]]*$/.test(word.text) ||
+        /[,.:;!?]["')\]]*$/u.test(word.text) ||
         !next ||
         next.start - word.end >= 0.15
       ) {

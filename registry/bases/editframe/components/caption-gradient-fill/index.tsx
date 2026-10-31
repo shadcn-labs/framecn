@@ -78,7 +78,7 @@ export const CaptionGradientFill = ({
       const next = words[index + 1];
       if (
         phrase.length >= WORDS_PER_GROUP ||
-        /[,.:;!?]["')\]]*$/.test(word.text) ||
+        /[,.:;!?]["')\]]*$/u.test(word.text) ||
         !next ||
         next.start - word.end >= 0.15
       ) {

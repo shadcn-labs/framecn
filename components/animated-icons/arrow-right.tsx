@@ -2,7 +2,7 @@
 
 import type { Variants } from "motion/react";
 import { motion, useAnimation } from "motion/react";
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import { useCallback, useImperativeHandle, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -32,10 +32,14 @@ const headVariants: Variants = {
   normal: { d: "m12 5 7 7-7 7", translateX: 0 },
 };
 
-export const ArrowRightIcon = forwardRef<
-  ArrowRightIconHandle,
-  ArrowRightIconProps
->(({ className, onMouseEnter, onMouseLeave, size = 18, ...props }, ref) => {
+export const ArrowRightIcon = ({
+  ref,
+  className,
+  onMouseEnter,
+  onMouseLeave,
+  size = 18,
+  ...props
+}: ArrowRightIconProps & { ref?: React.Ref<ArrowRightIconHandle> }) => {
   const controls = useAnimation();
   const controlledRef = useRef(false);
 
@@ -97,6 +101,6 @@ export const ArrowRightIcon = forwardRef<
       </svg>
     </div>
   );
-});
+};
 
 ArrowRightIcon.displayName = "ArrowRightIcon";

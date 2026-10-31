@@ -2,6 +2,7 @@
 
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useId } from "react";
 
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,7 @@ const THEME_OPTIONS = [
 ] as const;
 
 const ModeSwitcher = () => {
+  const groupName = useId();
   const { theme, setTheme } = useTheme();
   const isMounted = useMounted();
 
@@ -31,20 +33,24 @@ const ModeSwitcher = () => {
         const isActive = theme === option.value;
 
         return (
-          <button
+          <label
             key={option.value}
-            type="button"
             data-active={isActive}
             className={cn(
               "relative flex size-8 items-center justify-center rounded-full text-muted-foreground transition-[color,box-shadow] hover:text-foreground data-[active=true]:text-foreground data-[active=true]:inset-ring-1 data-[active=true]:inset-ring-border [&_svg]:size-4"
             )}
-            role="radio"
-            aria-checked={isActive}
-            aria-label={`Switch to ${option.value} theme`}
-            onClick={() => setTheme(option.value)}
           >
-            <Icon />
-          </button>
+            <input
+              type="radio"
+              name={groupName}
+              value={option.value}
+              checked={isActive}
+              aria-label={`Switch to ${option.value} theme`}
+              onChange={() => setTheme(option.value)}
+              className="absolute inset-0 size-full cursor-pointer appearance-none rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            />
+            <Icon aria-hidden="true" />
+          </label>
         );
       })}
     </div>

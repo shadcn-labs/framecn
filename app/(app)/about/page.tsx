@@ -39,7 +39,7 @@ const TEAM = [
   },
 ];
 
-export default function AboutPage() {
+const AboutPage = () => {
   const free = CATALOG.filter((item) => !item.pro).length;
   return (
     <>
@@ -181,4 +181,5 @@ export default function AboutPage() {
       </PageTransition>
     </>
   );
-}
+};
+export default AboutPage;

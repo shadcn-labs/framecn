@@ -1,19 +1,22 @@
-/* eslint-disable no-inline-comments -- turbopackIgnore must annotate dynamic imports inline. */
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+
 import { ROUTES } from "@/constants/routes";
 import { CATALOG } from "@/lib/catalog";
 import { absoluteUrl } from "@/lib/utils";
 
-const CODE_FENCE_REGEX = /```[\s\S]*?```/g;
+const CODE_FENCE_REGEX = /```[\s\S]*?```/gu;
 const COMPONENT_PREVIEW_REGEX =
-  /<ComponentPreview([^>]*)>[\s\S]*?<\/ComponentPreview>/g;
-const DOCS_MARKDOWN_LINK_REGEX = /\]\((\/docs(?:\/[^)#\s]+)?)(#[^)]+)?\)/g;
-const IMPORT_REGEX = /^import\s.+$/gm;
-const JSX_WRAPPER_REGEX = /^<\/?[A-Z][^>]*>\s*$/gm;
-const MANY_BLANK_LINES_REGEX = /\n{3,}/g;
-const PROTECTED_CODE_FENCE_REGEX = /%%STARTERCN_CODE_FENCE_(\d+)%%/g;
+  /<ComponentPreview(?<attrs>[^>]*)>[\s\S]*?<\/ComponentPreview>/gu;
+const DOCS_MARKDOWN_LINK_REGEX =
+  /\]\((?<pathname>\/docs(?:\/[^)#\s]+)?)(?<hash>#[^)]+)?\)/gu;
+const IMPORT_REGEX = /^import\s.+$/gmu;
+const JSX_WRAPPER_REGEX = /^<\/?[A-Z][^>]*>\s*$/gmu;
+const MANY_BLANK_LINES_REGEX = /\n{3,}/gu;
+const PROTECTED_CODE_FENCE_REGEX = /%%STARTERCN_CODE_FENCE_(?<index>\d+)%%/gu;
 
 const removeFrontmatter = (content: string) =>
-  content.replace(/^---\n[\s\S]*?\n---\n?/, "");
+  content.replace(/^---\n[\s\S]*?\n---\n?/u, "");
 
 const protectCodeFences = (content: string) => {
   const fences: string[] = [];
@@ -62,11 +65,6 @@ export const componentSourceMarkdown = async (
 
   const sourcePath = `registry/bases/editframe/components/${item.id}/index.tsx`;
 
-  const [{ readFile }, path] = await Promise.all([
-    import(/* turbopackIgnore: true */ "node:fs/promises"),
-    import(/* turbopackIgnore: true */ "node:path"),
-  ]);
-
   try {
     const code = await readFile(path.join(process.cwd(), sourcePath), "utf-8");
     const lang = title?.split(".").pop() ?? "tsx";
@@ -77,9 +75,9 @@ export const componentSourceMarkdown = async (
 };
 
 const previewAttrs = (attrs: string) => ({
-  name: attrs.match(/\sname="([^"]+)"/)?.[1] ?? "",
-  src: attrs.match(/\ssrc="([^"]+)"/)?.[1],
-  title: attrs.match(/\stitle="([^"]+)"/)?.[1],
+  name: attrs.match(/\sname="(?<name>[^"]+)"/u)?.groups?.name ?? "",
+  src: attrs.match(/\ssrc="(?<src>[^"]+)"/u)?.groups?.src,
+  title: attrs.match(/\stitle="(?<title>[^"]+)"/u)?.groups?.title,
 });
 
 export const processMdxForLLMs = async (raw: string) => {

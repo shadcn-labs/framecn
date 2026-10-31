@@ -43,9 +43,9 @@ export const getDateFromFile = (slugs: string[]) => {
 
   try {
     const content = fs.readFileSync(filePath, "utf-8");
-    const match = content.match(/^date:\s*(.+)$/m);
-    if (match?.[1]) {
-      return new Date(match[1].trim());
+    const date = content.match(/^date:\s*(?<date>.+)$/mu)?.groups?.date;
+    if (date) {
+      return new Date(date.trim());
     }
   } catch {
     // File missing or invalid frontmatter.

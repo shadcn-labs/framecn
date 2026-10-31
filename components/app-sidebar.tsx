@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { BrandContextMenu } from "@/components/brand-context-menu";
 import { XIcon } from "@/components/icons";
@@ -60,6 +60,38 @@ import {
   findCatalogItemByPath,
 } from "@/lib/catalog";
 import { addQueryParams } from "@/lib/url";
+
+const getCurrentYear = () => new Date().getFullYear();
+const getServerYear = () => null;
+
+const subscribeToYear = (onChange: () => void) => {
+  let timeout: number;
+  const schedule = () => {
+    const now = new Date();
+    const nextYear = new Date(now.getFullYear() + 1, 0, 1);
+    // Browsers cap timeout delays at a signed 32-bit integer.
+    timeout = window.setTimeout(
+      () => {
+        onChange();
+        schedule();
+      },
+      Math.min(nextYear.getTime() - now.getTime(), 2_147_483_647)
+    );
+  };
+  const onVisibilityChange = () => {
+    if (document.visibilityState === "visible") {
+      window.clearTimeout(timeout);
+      onChange();
+      schedule();
+    }
+  };
+  schedule();
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  return () => {
+    window.clearTimeout(timeout);
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+  };
+};
 
 /** Muted rows; hover and active are tints of primary, active a step stronger than hover. */
 const ROW_TONE =
@@ -122,8 +154,11 @@ const CatalogList = ({ onNavigate }: { onNavigate: () => void }) => {
   const pathname = usePathname();
   const container = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    if (!pathname) {
+      return;
+    }
     container.current
-      ?.querySelector("[data-active=true]")
+      ?.querySelector(`[data-active=true][href="${CSS.escape(pathname)}"]`)
       ?.scrollIntoView({ block: "nearest" });
   }, [pathname]);
   return (
@@ -380,6 +415,11 @@ export const AppSidebar = ({
   search: React.ReactNode;
   github: React.ReactNode;
 }) => {
+  const year = useSyncExternalStore(
+    subscribeToYear,
+    getCurrentYear,
+    getServerYear
+  );
   const [view, setView] = useState<"main" | "projects">("main");
   const pathname = usePathname();
   const hasCarbonAds = [ROUTES.DOCS, ROUTES.COMPONENTS].some(
@@ -397,9 +437,7 @@ export const AppSidebar = ({
         <SponsorSlot placement="sidebar" className="shrink-0 px-2 pb-1" />
       )}
       <SidebarFooter className="h-12 shrink-0 flex-row items-center justify-between py-0 pr-0 pl-2.5">
-        <span className="text-muted-foreground truncate text-xs">
-          © {new Date().getFullYear()}
-        </span>
+        <span className="text-muted-foreground truncate text-xs">© {year}</span>
         <div className="flex items-center">
           <TooltipProvider>
             {github}

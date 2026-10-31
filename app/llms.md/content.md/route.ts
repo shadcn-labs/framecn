@@ -9,7 +9,7 @@ import { componentMarkdownUrl } from "@/lib/docs";
 export const revalidate = false;
 
 const homepageMarkdown = (origin: string): string => {
-  const base = origin.replace(/\/$/, "");
+  const base = origin.replace(/\/$/u, "");
 
   return `# ${SITE.NAME}
 

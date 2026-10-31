@@ -99,7 +99,7 @@ export const CaptionEditorialEmphasis = ({
       if (
         isEmphasis ||
         i - start + 1 >= maxWords ||
-        /[,.;:!?]["')\]]?$/.test(words[i].text) ||
+        /[,.;:!?]["')\]]?$/u.test(words[i].text) ||
         pause >= 0.15 ||
         i === words.length - 1
       ) {

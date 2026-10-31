@@ -16,7 +16,7 @@ import type { ComposeOption } from "echarts/core";
 import * as echarts from "echarts/core";
 import { motion, useReducedMotion } from "motion/react";
 import {
-  Children,
+  Fragment,
   isValidElement,
   useCallback,
   useEffect,
@@ -25,7 +25,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { CSSProperties, FC, ReactNode } from "react";
+import type { CSSProperties, FC, ReactElement, ReactNode } from "react";
 
 import {
   Brush,
@@ -80,13 +80,15 @@ import type {
 // existing consumers/examples keep importing them from the chart module.
 export type {
   ChartConfig,
-  DotVariant,
   EChartsRenderer,
-  LegendVariant,
+} from "@/components/evilcharts/ui/echarts-chart";
+export type { DotVariant } from "@/components/evilcharts/ui/echarts-dot";
+export type { LegendVariant } from "@/components/evilcharts/ui/echarts-legend";
+export type {
   TooltipPosition,
   TooltipRoundness,
   TooltipVariant,
-};
+} from "@/components/evilcharts/ui/echarts-tooltip";
 
 // Modular registration keeps the bundle lean — only the pieces this chart needs.
 // `DataZoomComponent` bundles both the slider (brush footer) and inside (wheel/drag)
@@ -427,13 +429,46 @@ interface CollectedConfig {
   brush: BrushSlot;
 }
 
+// Walk slot collections in authored order without rendering their components.
+// Fragments are transparent; other elements keep their own children scoped to
+// that slot (in particular, Dot and ActiveDot belong to their enclosing Line).
+const forEachChartElement = (
+  children: ReactNode,
+  visit: (child: ReactElement) => void
+): void => {
+  if (isValidElement<{ children?: ReactNode }>(children)) {
+    if (children.type === Fragment) {
+      forEachChartElement(children.props.children, visit);
+    } else {
+      visit(children);
+    }
+    return;
+  }
+  if (typeof children !== "object" || children === null) {
+    return;
+  }
+  if (Symbol.iterator in children) {
+    for (const child of children as Iterable<ReactNode>) {
+      forEachChartElement(child, visit);
+    }
+    return;
+  }
+  // Portals are valid React children, but do not declare chart slots.
+  if (
+    "$$typeof" in children &&
+    children.$$typeof === Symbol.for("react.portal")
+  ) {
+    return;
+  }
+  throw new Error(
+    `Objects are not valid as a React child (found: object with keys {${Object.keys(children).join(", ")}}). If you meant to render a collection of children, use an array instead.`
+  );
+};
+
 const collectLineConfig = (props: LineProps): LineSeriesConfig => {
   let dotVariant: DotVariant = "none";
   let activeDotVariant: DotVariant = "none";
-  Children.forEach(props.children, (dotChild) => {
-    if (!isValidElement(dotChild)) {
-      return;
-    }
+  forEachChartElement(props.children, (dotChild) => {
     if (dotChild.type === Dot) {
       dotVariant = (dotChild.props as DotProps).variant ?? "default";
     } else if (dotChild.type === ActiveDot) {
@@ -478,10 +513,7 @@ const collectConfig = (children: ReactNode): CollectedConfig => {
   };
   let brush: BrushSlot = { present: false };
 
-  Children.forEach(children, (child) => {
-    if (!isValidElement(child)) {
-      return;
-    }
+  forEachChartElement(children, (child) => {
     const { type } = child;
 
     if (type === Line) {
@@ -1573,6 +1605,7 @@ const buildLineSeries = (ctx: OptionBuildContext): LineSeriesOption[] => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface LiveState {
+  renderer: EChartsRenderer | null;
   // colors read off the live DOM — feeds builds and rAF loops
   resolved: ResolvedColors | null;
   // tooltip's view of hover — the legend's twin lives in React state
@@ -1739,19 +1772,23 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     hasRevealed: false,
     hoveredKey: null,
     loadingRows: null,
+    renderer: null,
     resolved: null,
     revealEndsAt: 0,
     revealIndex: null,
     revealValues: {},
     seriesKeyByIndex: [],
-  }).current;
+  });
 
   // Skeleton rows roll lazily on first use — an impure useRef initializer would
   // re-roll Math.random() on every render.
-  const loadingData = useCallback(
-    () => (live.loadingRows ??= getLoadingData(loadingPoints)),
-    [live, loadingPoints]
-  );
+  const loadingData = useCallback(() => {
+    const state = live.current;
+    if (state.loadingRows === null) {
+      state.loadingRows = getLoadingData(loadingPoints);
+    }
+    return state.loadingRows;
+  }, [loadingPoints]);
   const shouldReduceMotion = useReducedMotion();
 
   const [selectedDataKey, setSelectedDataKey] = useState<string | null>(
@@ -1816,18 +1853,30 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     [lines]
   );
 
-  // Refresh the handlers' snapshot of the latest callbacks/flags every render.
-  live.handlers = {
-    brushFormatLabel: brushSlot.formatLabel,
+  // Event callbacks read only the latest committed props, never an abandoned render.
+  useEffect(() => {
+    live.current.handlers = {
+      brushFormatLabel: brushSlot.formatLabel,
+      clickableKeys,
+      enableHoverHighlight,
+      enableHoverReveal,
+      onBrushChange: brushSlot.onChange,
+      onSelectionChange,
+      selectedDataKey,
+      seriesKeys,
+    };
+    live.current.dataLength = data.length;
+  }, [
+    brushSlot.formatLabel,
+    brushSlot.onChange,
     clickableKeys,
+    data.length,
     enableHoverHighlight,
     enableHoverReveal,
-    onBrushChange: brushSlot.onChange,
     onSelectionChange,
     selectedDataKey,
     seriesKeys,
-  };
-  live.dataLength = data.length;
+  ]);
 
   const toggleSelection = useCallback(
     (key: string) => {
@@ -1836,26 +1885,25 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       // from re-arming while the selection stands. Hover is only ever active
       // while NO selection exists (see that guard), so a hovered key here always
       // means this click is establishing a selection.
-      if (live.hoveredKey !== null) {
+      if (live.current.hoveredKey !== null) {
         const chart = echartsRef.current;
         const companions = chart
-          ? live.companionIdsByKey.get(live.hoveredKey)
+          ? live.current.companionIdsByKey.get(live.current.hoveredKey)
           : undefined;
         if (chart && companions) {
           for (const seriesId of companions) {
             chart.dispatchAction({ seriesId, type: "downplay" });
           }
         }
-        live.hoveredKey = null;
+        live.current.hoveredKey = null;
         setHoveredDataKey(null);
       }
-      setSelectedDataKey((prev) => {
-        const next = prev === key ? null : key;
-        onSelectionChange?.(next);
-        return next;
-      });
+      const next = live.current.handlers.selectedDataKey === key ? null : key;
+      live.current.handlers.selectedDataKey = next;
+      setSelectedDataKey(next);
+      live.current.handlers.onSelectionChange?.(next);
     },
-    [live, onSelectionChange]
+    [live]
   );
 
   // Reposition the brush overlays from the live refs — safe to call from drag
@@ -1866,16 +1914,16 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       return;
     }
 
-    const geom = live.brushGeom;
-    const tokens = live.resolved?.tokens;
+    const geom = live.current.brushGeom;
+    const tokens = live.current.resolved?.tokens;
     if (!geom || !tokens) {
-      syncBrushOverlay(chart, live, null);
+      syncBrushOverlay(chart, live.current, null);
       return;
     }
 
-    const range = live.brushRange;
-    const { categories } = live;
-    const format = live.handlers.brushFormatLabel;
+    const range = live.current.brushRange;
+    const { categories } = live.current;
+    const format = live.current.handlers.brushFormatLabel;
     const lastIndex = Math.max(categories.length - 1, 0);
     const startIndex = Math.round((range.start / 100) * lastIndex);
     const endIndex = Math.round((range.end / 100) * lastIndex);
@@ -1887,12 +1935,12 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
           }
         : null;
 
-    syncBrushOverlay(chart, live, {
+    syncBrushOverlay(chart, live.current, {
       geom,
-      hover: live.brushHover,
+      hover: live.current.brushHover,
       labels,
       range,
-      showLabels: live.brushHover.inside,
+      showLabels: live.current.brushHover.inside,
       size: { height: chart.getHeight(), width: chart.getWidth() },
       tokens,
     });
@@ -1902,13 +1950,13 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
   // Thin orchestrator over the pure builders above: snapshot the imperative
   // surface (refs, renderer size) into an OptionBuildContext, then assemble.
   const buildOption = useCallback((): EChartsOption => {
-    const { resolved } = live;
+    const { resolved } = live.current;
     if (!resolved) {
       return {};
     }
 
     const categories = data.map((row) => String(row[xCategoryKey]));
-    live.categories = categories;
+    live.current.categories = categories;
 
     // buildLineSeries fills this with each line's full per-datum points (with the
     // multi-color dot itemStyle) so the reveal hover handler slices real data.
@@ -1916,14 +1964,14 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
 
     const ctx: OptionBuildContext = {
       brushHeight,
-      brushRange: live.brushRange,
+      brushRange: live.current.brushRange,
       categories,
       config,
       curveType,
       data,
       enableHoverHighlight,
       enableHoverReveal,
-      getHoveredKey: () => live.hoveredKey,
+      getHoveredKey: () => live.current.hoveredKey,
       hasSelection,
       isLoading,
       legendSlot,
@@ -1931,7 +1979,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       loadingData,
       rendererSize: rendererDimensions(echartsRef.current, mountRef.current),
       resolved,
-      revealIndex: live.revealIndex,
+      revealIndex: live.current.revealIndex,
       revealSink,
       selectedDataKey,
       showBrush,
@@ -1942,7 +1990,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     };
 
     const { grid, brushBottom } = buildChartLayout(ctx);
-    live.brushGeom = showBrush
+    live.current.brushGeom = showBrush
       ? { bottom: brushBottom, height: brushHeight }
       : null;
 
@@ -1958,12 +2006,12 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     // buildLineSeries has now filled revealSink with each line's full per-datum
     // points — hand them to the hover handler for slicing.
     if (enableHoverReveal) {
-      live.revealValues = revealSink;
+      live.current.revealValues = revealSink;
     }
     // Record the exact series order so a line-body click (which reports only a
     // seriesIndex) can recover its key — buffer/reveal/mini/loading series break
     // the "index === key position" shortcut, so map each index to its id here.
-    live.seriesKeyByIndex = series.map((s) => {
+    live.current.seriesKeyByIndex = series.map((s) => {
       const id = String(s.id ?? "");
       return id && !id.startsWith("__") ? id : undefined;
     });
@@ -1971,7 +2019,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     // hover-reveal base), mirroring exactly what buildLineSeries emits — the hover
     // handlers highlight/downplay these together with the parent so focus:"series"
     // never strands a line's own glow or forecast tail apart from it.
-    live.companionIdsByKey = buildCompanionIds(
+    live.current.companionIdsByKey = buildCompanionIds(
       lines,
       data.length,
       enableHoverReveal
@@ -2010,6 +2058,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
 
   // ── Init + resize + theme observer (per renderer instance) ──────────────────
   useEffect(() => {
+    const state = live.current;
     const mount = mountRef.current;
     const container = containerRef.current;
     if (!mount || !container) {
@@ -2020,13 +2069,14 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     // that surface without emitting mouseout/globalout, so do not carry a hover,
     // reveal slice, or brush-hover treatment into the replacement instance.
     // Keep brushRange: the selected zoom window should survive the switch.
-    live.hoveredKey = null;
-    live.revealIndex = null;
-    live.brushHover = { inside: false, left: false, right: false };
+    live.current.hoveredKey = null;
+    live.current.revealIndex = null;
+    live.current.brushHover = { inside: false, left: false, right: false };
     setHoveredDataKey(null);
 
     const chart = echarts.init(mount, null, { renderer });
     echartsRef.current = chart;
+    live.current.renderer = renderer;
 
     const resizeObserver = new ResizeObserver(() => {
       // Observers always fire once right after observe(). Repushing on that
@@ -2039,13 +2089,13 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
         return;
       }
       chart.resize();
-      live.repush?.();
+      live.current.repush?.();
     });
     resizeObserver.observe(mount);
 
     // Light/dark flips change no React state — re-resolve and push directly.
     const themeObserver = new MutationObserver(() => {
-      live.repush?.();
+      live.current.repush?.();
     });
     themeObserver.observe(document.documentElement, {
       attributeFilter: ["class"],
@@ -2053,7 +2103,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     });
 
     chart.on("click", (params) => {
-      const { clickableKeys: clickable } = live.handlers;
+      const { clickableKeys: clickable } = live.current.handlers;
       const p = params as { seriesId?: string; seriesIndex?: number };
       // Symbol clicks carry seriesId; line clicks (triggerEvent) only carry
       // seriesIndex — recover the key from the last build's index map, which
@@ -2062,7 +2112,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       const id =
         p.seriesId ??
         (typeof p.seriesIndex === "number"
-          ? live.seriesKeyByIndex[p.seriesIndex]
+          ? live.current.seriesKeyByIndex[p.seriesIndex]
           : undefined);
       if (typeof id === "string" && clickable.has(id)) {
         toggleSelection(id);
@@ -2076,7 +2126,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     // would otherwise blur a line's own glow or forecast tail).
     chart.on("mouseover", (params) => {
       const { enableHoverHighlight: hoverOn, enableHoverReveal: revealOn } =
-        live.handlers;
+        live.current.handlers;
       // Reveal owns the hover visual, so native highlight stands down while it is on.
       if (!hoverOn || revealOn) {
         return;
@@ -2084,7 +2134,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       // While a series is click-selected, hover highlighting is disabled — the
       // selection dim owns the canvas, so never arm hover emphasis/blur (or the
       // legend/tooltip hover dimming) until the selection clears.
-      if (live.handlers.selectedDataKey !== null) {
+      if (live.current.handlers.selectedDataKey !== null) {
         return;
       }
       const p = params as {
@@ -2098,14 +2148,14 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       const id =
         p.seriesId ??
         (typeof p.seriesIndex === "number"
-          ? live.seriesKeyByIndex[p.seriesIndex]
+          ? live.current.seriesKeyByIndex[p.seriesIndex]
           : undefined);
       if (typeof id !== "string" || id.startsWith("__")) {
         return;
       }
-      live.hoveredKey = id;
+      live.current.hoveredKey = id;
       setHoveredDataKey(id);
-      const companions = live.companionIdsByKey.get(id);
+      const companions = live.current.companionIdsByKey.get(id);
       if (companions) {
         for (const seriesId of companions) {
           chart.dispatchAction({ seriesId, type: "highlight" });
@@ -2113,13 +2163,13 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       }
     });
     chart.on("mouseout", () => {
-      const prev = live.hoveredKey;
+      const prev = live.current.hoveredKey;
       if (prev === null) {
         return;
       }
-      live.hoveredKey = null;
+      live.current.hoveredKey = null;
       setHoveredDataKey(null);
-      const companions = live.companionIdsByKey.get(prev);
+      const companions = live.current.companionIdsByKey.get(prev);
       if (companions) {
         for (const seriesId of companions) {
           chart.dispatchAction({ seriesId, type: "downplay" });
@@ -2133,22 +2183,22 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     // and fight the tooltip's axis pointer.
     const zrReveal = chart.getZr();
     const pushReveal = (idx: number | null) => {
-      const keys = live.handlers.seriesKeys;
+      const keys = live.current.handlers.seriesKeys;
       const on = idx !== null;
       chart.setOption(
         {
           series: keys.flatMap((key) => [
             {
               data: on
-                ? sliceToNull(live.revealValues[key] ?? [], idx)
-                : (live.revealValues[key] ?? []),
+                ? sliceToNull(live.current.revealValues[key] ?? [], idx)
+                : (live.current.revealValues[key] ?? []),
               id: key,
             },
             {
               // Gray tail keeps only the region from the cursor onward.
               data: on
-                ? sliceFrom(live.revealValues[key] ?? [], idx)
-                : (live.revealValues[key] ?? []),
+                ? sliceFrom(live.current.revealValues[key] ?? [], idx)
+                : (live.current.revealValues[key] ?? []),
               id: `${REVEAL_PREFIX}${key}`,
               lineStyle: { opacity: on ? 0.3 : 0 },
             },
@@ -2172,14 +2222,14 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       }
     };
     const clearReveal = () => {
-      if (live.revealIndex === null) {
+      if (live.current.revealIndex === null) {
         return;
       }
-      live.revealIndex = null;
+      live.current.revealIndex = null;
       pushReveal(null);
     };
     const applyReveal = (event: { offsetX?: number; offsetY?: number }) => {
-      const len = live.dataLength;
+      const len = live.current.dataLength;
       if (len < 1) {
         return;
       }
@@ -2191,20 +2241,20 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       }
       const [raw] = chart.convertFromPixel({ gridIndex: 0 }, [x, y]);
       const idx = Math.max(0, Math.min(len - 1, Math.round(raw)));
-      if (idx === live.revealIndex) {
+      if (idx === live.current.revealIndex) {
         return;
       }
-      live.revealIndex = idx;
+      live.current.revealIndex = idx;
       pushReveal(idx);
     };
     const onZrRevealMove = (event: { offsetX?: number; offsetY?: number }) => {
-      if (!live.handlers.enableHoverReveal) {
+      if (!live.current.handlers.enableHoverReveal) {
         return;
       }
       applyReveal(event);
     };
     const onZrRevealOut = () => {
-      if (live.handlers.enableHoverReveal) {
+      if (live.current.handlers.enableHoverReveal) {
         clearReveal();
       }
     };
@@ -2221,14 +2271,17 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       }
 
       // Ride the selection — pure zrender updates, so the drag stays 1:1.
-      live.brushRange = { end: zoom.end ?? 100, start: zoom.start ?? 0 };
+      live.current.brushRange = {
+        end: zoom.end ?? 100,
+        start: zoom.start ?? 0,
+      };
       syncBrushOverlayNow();
 
-      const { onBrushChange: onChange } = live.handlers;
+      const { onBrushChange: onChange } = live.current.handlers;
       if (!onChange) {
         return;
       }
-      const len = live.dataLength;
+      const len = live.current.dataLength;
       const startIndex = Math.round(((zoom.start ?? 0) / 100) * (len - 1));
       const endIndex = Math.round(((zoom.end ?? 100) / 100) * (len - 1));
       onChange({ endIndex, startIndex });
@@ -2242,7 +2295,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       left: boolean;
       right: boolean;
     }) => {
-      const prev = live.brushHover;
+      const prev = live.current.brushHover;
       if (
         prev.inside === next.inside &&
         prev.left === next.left &&
@@ -2250,11 +2303,11 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       ) {
         return;
       }
-      live.brushHover = next;
+      live.current.brushHover = next;
       syncBrushOverlayNow();
     };
     const onZrMove = (event: { offsetX?: number; offsetY?: number }) => {
-      const geom = live.brushGeom;
+      const geom = live.current.brushGeom;
       if (!geom) {
         return;
       }
@@ -2264,7 +2317,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       const inside = y >= top - 4 && y <= top + geom.height + 4;
       const trackLeft = 8;
       const trackWidth = Math.max(chart.getWidth() - 16, 1);
-      const { start, end } = live.brushRange;
+      const { start, end } = live.current.brushRange;
       const selectionLeft = trackLeft + (trackWidth * start) / 100;
       const selectionRight = trackLeft + (trackWidth * end) / 100;
       applyHover({
@@ -2287,27 +2340,27 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       themeObserver.disconnect();
       chart.dispose();
       echartsRef.current = null;
+      state.renderer = null;
       // The overlay elements died with the zrender instance.
-      live.brushOverlay = null;
+      state.brushOverlay = null;
       // The reveal guard belongs to the chart instance it guarded. Without this
       // reset, StrictMode's dev-only mount→unmount→remount plays the entrance on
       // the throwaway instance and the surviving one renders without it.
-      live.hasRevealed = false;
+      state.hasRevealed = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [renderer]);
+  }, [live, renderer, syncBrushOverlayNow, toggleSelection]);
 
   // ── Sync ECharts with props/theme/selection — resolve, build, push ────────────
   useEffect(() => {
     const chart = echartsRef.current;
     const container = containerRef.current;
-    if (!chart || !container) {
+    if (!chart || !container || live.current.renderer !== renderer) {
       return;
     }
 
     // Colors come from the <style> committed just before this effect ran — read
     // them here, right before the push, rather than round-tripping through state.
-    live.resolved = resolveColors(container, config, seriesKeys);
+    live.current.resolved = resolveColors(container, config, seriesKeys);
 
     const push = (withEntrance: boolean) => {
       const option = buildOption();
@@ -2331,11 +2384,11 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     // the Recharts twin unmounts its <Line>s while loading and replays the intro
     // on remount, so data → loading → data draws in again here too.
     if (isLoading) {
-      live.hasRevealed = false;
+      live.current.hasRevealed = false;
     }
-    const shouldReveal = !live.hasRevealed && !isLoading;
+    const shouldReveal = !live.current.hasRevealed && !isLoading;
     if (shouldReveal) {
-      live.hasRevealed = true;
+      live.current.hasRevealed = true;
     }
     const revealEnabled =
       animation &&
@@ -2343,15 +2396,15 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       effectiveAnimation !== "none" &&
       !shouldReduceMotion;
     if (revealEnabled) {
-      live.revealEndsAt = performance.now() + REVEAL_DURATION;
+      live.current.revealEndsAt = performance.now() + REVEAL_DURATION;
     }
     push(revealEnabled);
 
     // Theme flips and resizes re-enter here without touching React: re-read the
     // tokens (the .dark class changed, or the renderer resized) and push an
     // update-style option.
-    live.repush = () => {
-      live.resolved = resolveColors(container, config, seriesKeys);
+    live.current.repush = () => {
+      live.current.resolved = resolveColors(container, config, seriesKeys);
       push(false);
     };
   }, [
@@ -2371,7 +2424,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
   // ── Animated dashed stroke — rAF sweeps the dash offset while unselected ─────
   useEffect(() => {
     const chart = echartsRef.current;
-    if (!chart || isLoading) {
+    if (!chart || isLoading || live.current.renderer !== renderer) {
       return;
     }
     const animatedKeys = lines
@@ -2409,7 +2462,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
     // Per-frame setOption churn fights the intro draw-in (each update pass
     // recomputes the reveal clip, crawling it to a standstill) — hold the dash
     // sweep until the entrance has finished.
-    const delay = Math.max(0, live.revealEndsAt - performance.now());
+    const delay = Math.max(0, live.current.revealEndsAt - performance.now());
     if (delay > 0) {
       delayTimer = setTimeout(begin, delay + 50);
     } else {
@@ -2427,7 +2480,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
   // ── Loading shimmer — rAF sweeps a bright band, regenerating data off-screen ─
   useEffect(() => {
     const chart = echartsRef.current;
-    if (!chart || !isLoading) {
+    if (!chart || !isLoading || live.current.renderer !== renderer) {
       return;
     }
 
@@ -2439,13 +2492,13 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
         ((((now - start) / LOADING_ANIMATION_DURATION) % 1) + 1) % 1;
       // Wrapped past 1 → the band is off-screen; swap in fresh random data.
       if (phase < lastPhase) {
-        live.loadingRows = getLoadingData(loadingPoints);
+        live.current.loadingRows = getLoadingData(loadingPoints);
       }
       lastPhase = phase;
 
       // Read tokens per frame, so a theme flip mid-loading retints the shimmer.
       const foreground =
-        live.resolved?.tokens.foreground ?? "rgba(120, 120, 120, 1)";
+        live.current.resolved?.tokens.foreground ?? "rgba(120, 120, 120, 1)";
       // Sweep the clip window from fully off-screen left to fully off-screen
       // right, leaned 45°. The gradient uses ABSOLUTE pixel coordinates so the
       // window lands at the same place along the stroke regardless of the wave's
@@ -2504,7 +2557,7 @@ export const EChartsLineChart = <TData extends Record<string, unknown>>({
       data-chart={chartId}
       className={`relative flex flex-col text-xs ${className ?? ""}`}
     >
-      <style dangerouslySetInnerHTML={{ __html: css }} />
+      <style>{css}</style>
 
       <div className="relative min-h-0 w-full flex-1">
         <div ref={mountRef} className="h-full min-h-0 w-full" />

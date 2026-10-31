@@ -70,35 +70,35 @@ export const ApiKeyRow = ({
     setBusy(true);
     try {
       const response = await fetch("/api/api-key", { method: "POST" });
-      if (!response.ok) {
-        throw new Error("generate failed");
+      if (response.ok) {
+        const data = (await response.json()) as KeyInfo & { key: string };
+        setInfo({ createdAt: data.createdAt, prefix: data.prefix });
+        setSecret(data.key);
+        setCopied(false);
+      } else {
+        toast.error("Could not generate a key. Try again.");
       }
-      const data = (await response.json()) as KeyInfo & { key: string };
-      setInfo({ createdAt: data.createdAt, prefix: data.prefix });
-      setSecret(data.key);
-      setCopied(false);
     } catch {
       toast.error("Could not generate a key. Try again.");
-    } finally {
-      setBusy(false);
     }
+    setBusy(false);
   };
 
   const revoke = async () => {
     setBusy(true);
     try {
       const response = await fetch("/api/api-key", { method: "DELETE" });
-      if (!response.ok) {
-        throw new Error("revoke failed");
+      if (response.ok) {
+        setInfo(null);
+        setSecret(null);
+        toast.success("API key revoked. Installs using it stop working now.");
+      } else {
+        toast.error("Could not revoke the key. Try again.");
       }
-      setInfo(null);
-      setSecret(null);
-      toast.success("API key revoked. Installs using it stop working now.");
     } catch {
       toast.error("Could not revoke the key. Try again.");
-    } finally {
-      setBusy(false);
     }
+    setBusy(false);
   };
 
   const copy = async () => {

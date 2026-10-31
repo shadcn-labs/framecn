@@ -85,6 +85,7 @@ const ENTER_EASING = "cubic-bezier(0.32, 0.72, 0, 1)";
 const EXIT_EASING = "cubic-bezier(0.4, 0, 0.8, 0.2)";
 const ENTER_MS = 360;
 const EXIT_MS = PANEL_EXIT_MS - 20;
+const LOCKED_CODE_LINES = [72, 88, 56, 94, 40, 80, 64, 90, 48];
 
 const installCommands = (target: string) => ({
   __bun__: `bunx --bun shadcn@latest add ${target}`,
@@ -187,7 +188,9 @@ const Description = ({ text }: { text: string }) => {
   useLayoutEffect(() => {
     const element = ref.current;
     if (element && !expanded) {
-      setOverflowing(element.scrollHeight > element.clientHeight + 1);
+      setOverflowing(
+        text.length > 0 && element.scrollHeight > element.clientHeight + 1
+      );
     }
   }, [text, expanded]);
   return (
@@ -277,8 +280,8 @@ const PromptButton = ({
             <DropdownMenuItem
               key={destination.label}
               render={
-                // oxlint-disable-next-line jsx-a11y/anchor-has-content -- render template; content comes from the item.
                 <a
+                  aria-label={destination.label}
                   href={destination.href}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -304,7 +307,7 @@ const LockedCode = ({
   onUnlock,
   title = "Source code is part of Pro",
   description = "Get Pro to copy the code, install it with the CLI and use it in your projects.",
-  lines = [72, 88, 56, 94, 40, 80, 64, 90, 48],
+  lines = LOCKED_CODE_LINES,
 }: {
   onUnlock: () => void;
   title?: string;
@@ -512,7 +515,7 @@ export const ComponentDetail = ({
   const { close, phase, claimEnter } = usePanel();
   const isMobile = useIsMobile();
   const titleId = useId();
-  const asideRef = useRef<HTMLElement>(null);
+  const asideRef = useRef<HTMLDialogElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const [customizing, setCustomizing] = useState(false);
   const [unlockOpen, setUnlockOpen] = useState(false);
@@ -582,8 +585,7 @@ export const ComponentDetail = ({
         timing
       );
     }
-    // oxlint-disable-next-line react-hooks/exhaustive-deps -- runs once per mount; claimEnter guards repeats.
-  }, []);
+  }, [claimEnter, item.id]);
 
   // Exit: reverse the motion back into the sidebar edge and the card, before the shell navigates away.
   useEffect(() => {
@@ -712,11 +714,11 @@ export const ComponentDetail = ({
 
   return (
     <>
-      <section
+      <dialog
         ref={asideRef}
-        role="dialog"
+        open
         aria-labelledby={titleId}
-        className="bg-card relative z-10 flex h-full w-full shrink-0 flex-col border-r shadow-[8px_0_32px_-12px_rgb(0_0_0/0.18)] md:w-[26rem]"
+        className="bg-card text-foreground relative z-10 m-0 flex h-full max-h-none w-full max-w-none shrink-0 flex-col border-r p-0 shadow-[8px_0_32px_-12px_rgb(0_0_0/0.18)] md:w-[26rem]"
       >
         <div className="flex h-12 shrink-0 items-center justify-between gap-2 px-2">
           <Button
@@ -753,8 +755,8 @@ export const ComponentDetail = ({
                 aria-keyshortcuts="M"
                 nativeButton={false}
                 render={
-                  // oxlint-disable-next-line jsx-a11y/anchor-has-content -- render template; content comes from the trigger.
                   <a
+                    aria-label="View as Markdown"
                     href={`${catalogItemHref(item)}.md`}
                     target="_blank"
                     rel="noopener"
@@ -843,7 +845,7 @@ export const ComponentDetail = ({
             )
           )}
         </div>
-      </section>
+      </dialog>
 
       {!isMobile && (
         <div className="relative z-10 flex min-w-0 flex-1 flex-col">

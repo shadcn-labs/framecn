@@ -2,7 +2,7 @@
 
 import { motion, useAnimation } from "motion/react";
 import type { HTMLAttributes } from "react";
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import { useCallback, useImperativeHandle, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -15,10 +15,14 @@ interface HeartHandshakeIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const HeartHandshakeIcon = forwardRef<
-  HeartHandshakeIconHandle,
-  HeartHandshakeIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+const HeartHandshakeIcon = ({
+  ref,
+  onMouseEnter,
+  onMouseLeave,
+  className,
+  size = 28,
+  ...props
+}: HeartHandshakeIconProps & { ref?: React.Ref<HeartHandshakeIconHandle> }) => {
   const controls = useAnimation();
   const isControlledRef = useRef(false);
 
@@ -90,7 +94,7 @@ const HeartHandshakeIcon = forwardRef<
       </motion.svg>
     </div>
   );
-});
+};
 
 HeartHandshakeIcon.displayName = "HeartHandshakeIcon";
 

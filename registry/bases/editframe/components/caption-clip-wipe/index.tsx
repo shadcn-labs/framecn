@@ -86,7 +86,7 @@ export const CaptionClipWipe = ({
       const pause = (words[i + 1]?.start ?? words[i].end) - words[i].end;
       if (
         i - start + 1 >= maxWords ||
-        /[,.;:!?]["')\]]?$/.test(words[i].text) ||
+        /[,.;:!?]["')\]]?$/u.test(words[i].text) ||
         pause >= 0.15 ||
         i === words.length - 1
       ) {

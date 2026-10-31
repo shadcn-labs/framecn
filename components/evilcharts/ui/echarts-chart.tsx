@@ -139,16 +139,25 @@ export const normalizeColor = (value: string): string => {
   return `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
 };
 
+// Preserve CSS channel numeric-prefix parsing (including percentage suffixes)
+// while using Number for the extracted numeric text.
+export const parseColorNumber = (value: string): number => {
+  const match = value
+    .trimStart()
+    .match(/^[+-]?(?:Infinity|(?:\d+\.?\d*|\.\d+)(?:[Ee][+-]?\d+)?)/u);
+  return match ? Number(match[0]) : Number.NaN;
+};
+
 // Scales the alpha of a normalized `rgba(r, g, b, a)` string. Multiplying (not
 // replacing) keeps translucent theme tokens honest: a border that is 10%-white
 // at `withAlpha(border, 0.5)` lands at 5%, matching Tailwind's `border/50`.
 export const withAlpha = (color: string, alpha: number): string => {
-  const match = color.match(/rgba?\(([^)]+)\)/);
+  const match = color.match(/rgba?\((?<channels>[^)]+)\)/u);
   if (!match) {
     return color;
   }
   const [r, g, b, a] = match[1].split(",").map((p) => p.trim());
-  const base = a === undefined ? 1 : Number.parseFloat(a) || 0;
+  const base = a === undefined ? 1 : parseColorNumber(a) || 0;
   return `rgba(${r}, ${g}, ${b}, ${(base * alpha).toFixed(3)})`;
 };
 
@@ -237,9 +246,9 @@ export const indicatorBackground = (
 
 const parseColorChannels = (value: string) =>
   value
-    .match(/rgba?\(([^)]+)\)/)?.[1]
+    .match(/rgba?\((?<channels>[^)]+)\)/u)?.[1]
     .split(",")
-    .map((part) => Number.parseFloat(part)) ?? [0, 0, 0, 1];
+    .map(parseColorNumber) ?? [0, 0, 0, 1];
 
 // Composites a translucent color over an opaque base into a FLAT color. The
 // tick dots need this: a translucent stroke double-paints where its round caps

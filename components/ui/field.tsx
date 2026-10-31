@@ -67,6 +67,7 @@ const fieldVariants = cva(
   }
 );
 
+/* eslint-disable jsx-a11y/prefer-tag-over-role -- Preserve shadcn's field wrapper; FieldSet separately provides native fieldset semantics. */
 const Field = ({
   className,
   orientation = "vertical",
@@ -80,6 +81,7 @@ const Field = ({
     {...props}
   />
 );
+/* eslint-enable jsx-a11y/prefer-tag-over-role */
 
 const FieldContent = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
@@ -96,6 +98,7 @@ const FieldLabel = ({
   className,
   ...props
 }: React.ComponentProps<typeof Label>) => (
+  // eslint-disable-next-line jsx-a11y/label-has-associated-control -- Label receives its children and association through the forwarded props.
   <Label
     data-slot="field-label"
     className={cn(

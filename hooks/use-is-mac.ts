@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 
 export const useIsMac = () => {
-  const [isMac, setIsMac] = useState(true);
-
-  useEffect(() => {
-    setIsMac(navigator.platform.toUpperCase().includes("MAC"));
-  }, []);
-
-  return isMac;
+  const mounted = useMounted();
+  return !mounted || navigator.platform.toUpperCase().includes("MAC");
 };

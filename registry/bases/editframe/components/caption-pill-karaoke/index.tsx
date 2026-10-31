@@ -83,7 +83,7 @@ export const CaptionPillKaraoke = ({
       if (
         i - first + 1 >= limit ||
         !next ||
-        /[,.!?;:]$/.test(word.text) ||
+        /[,.!?;:]$/u.test(word.text) ||
         next.start - word.end >= 0.15
       ) {
         const phrase = words.slice(first, i + 1);

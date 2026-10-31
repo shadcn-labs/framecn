@@ -73,6 +73,7 @@ const InputOTPSeparator = ({ ...props }: React.ComponentProps<"div">) => (
   <div
     data-slot="input-otp-separator"
     className="flex items-center [&_svg:not([class*='size-'])]:size-4"
+    // eslint-disable jsx-a11y/prefer-tag-over-role
     role="separator"
     {...props}
   >

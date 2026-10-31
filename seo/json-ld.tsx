@@ -3,10 +3,9 @@ import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 
 const JsonLdScript = ({ data }: { data: Record<string, unknown> }) => (
-  <script
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    type="application/ld+json"
-  />
+  <script type="application/ld+json">
+    {JSON.stringify(data).replaceAll("<", "\\u003c")}
+  </script>
 );
 
 export const WebsiteJsonLd = () => (

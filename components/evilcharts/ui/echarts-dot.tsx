@@ -1,5 +1,7 @@
 import type * as echarts from "echarts/core";
 
+import { parseColorNumber } from "@/components/evilcharts/ui/echarts-chart";
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Dots — map the resting/active variants onto ECharts symbols. Shared by every
 // ECharts chart that draws point markers.
@@ -38,9 +40,9 @@ const withAlpha = (color: string, alpha: number): string => {
     const n = Number.parseInt(hex, 16);
     return `rgba(${Math.floor(n / 65_536) % 256}, ${Math.floor(n / 256) % 256}, ${n % 256}, ${alpha})`;
   }
-  const m = color.match(/rgba?\(([^)]+)\)/);
+  const m = color.match(/rgba?\((?<channels>[^)]+)\)/u);
   if (m) {
-    const [r, g, b] = m[1].split(",").map((s) => Number.parseFloat(s));
+    const [r, g, b] = m[1].split(",").map(parseColorNumber);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
   return color;
@@ -100,7 +102,7 @@ export const dotStyle = (
 
 const parseGradientColor = (color: string) =>
   color
-    .match(/rgba?\(([^)]+)\)/)?.[1]
+    .match(/rgba?\((?<channels>[^)]+)\)/u)?.[1]
     .split(",")
     .map(Number) ?? [120, 120, 120, 1];
 

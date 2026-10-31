@@ -16,11 +16,11 @@ export const metadata = {
   title: "Sign in — framecn",
 };
 
-export default async function SignInPage({
+const SignInPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ next?: string }>;
-}) {
+}) => {
   const { next: requestedNext } = await searchParams;
   const next =
     requestedNext?.startsWith("/") &&
@@ -76,4 +76,5 @@ export default async function SignInPage({
       <SignInWall />
     </section>
   );
-}
+};
+export default SignInPage;

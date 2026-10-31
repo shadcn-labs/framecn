@@ -256,51 +256,62 @@ const syncProducts = async (dodo, brand, live, values) => {
   }
   // Retire earlier catalogs (other names, prices, or brands) before provisioning.
   // List items carry a flat price, so compare against the full product.
-  const reusable = new Map();
+  // Reuse decisions depend on earlier matches; finish each retirement first.
+  let retirement = Promise.resolve(new Map());
   for (const item of existing) {
     if (!/^framecn pro\b/iu.test(item.name ?? "")) {
       continue;
     }
-    const spec = PRODUCTS.find((entry) => sameName(item.name, entry.name));
-    const product = await dodo.products.retrieve(item.product_id);
-    const keep =
-      spec &&
-      !reusable.has(spec.key) &&
-      product.brand_id === brand.brand_id &&
-      product.tax_category === "digital_products" &&
-      samePrice(product, spec);
-    if (keep) {
-      reusable.set(spec.key, product);
-    } else {
-      await dodo.products.archive(product.product_id);
-      log(`${product.name} archived.`);
-    }
+    retirement = retirement.then(async (catalog) => {
+      const spec = PRODUCTS.find((entry) => sameName(item.name, entry.name));
+      const product = await dodo.products.retrieve(item.product_id);
+      const keep =
+        spec &&
+        !catalog.has(spec.key) &&
+        product.brand_id === brand.brand_id &&
+        product.tax_category === "digital_products" &&
+        samePrice(product, spec);
+      if (keep) {
+        catalog.set(spec.key, product);
+      } else {
+        await dodo.products.archive(product.product_id);
+        log(`${product.name} archived.`);
+      }
+      return catalog;
+    });
   }
+  const reusable = await retirement;
+  // Persist each resolved product ID before the next remote mutation starts.
+  let provisioning = Promise.resolve(values);
   for (const spec of PRODUCTS) {
-    let product = reusable.get(spec.key);
-    if (!product) {
-      product = await dodo.products.create({
-        brand_id: brand.brand_id,
-        description: spec.description,
-        metadata: {
-          application: "framecn",
-          plan: spec.key.replace("DODO_PRODUCT_PRO_", "").toLowerCase(),
-        },
-        name: spec.name,
-        price: spec.price,
-        tax_category: "digital_products",
-      });
-    } else if (product.description !== spec.description) {
-      // Prices are immutable here, but copy can be refreshed in place.
-      await dodo.products.update(product.product_id, {
-        description: spec.description,
-      });
-      log(`${spec.name} description updated.`);
-    }
-    values[privateKey(spec.key, live)] = product.product_id;
-    saveEnv(values);
-    log(`${spec.name} ${reusable.has(spec.key) ? "reused" : "created"}.`);
+    provisioning = provisioning.then(async (catalogValues) => {
+      let product = reusable.get(spec.key);
+      if (!product) {
+        product = await dodo.products.create({
+          brand_id: brand.brand_id,
+          description: spec.description,
+          metadata: {
+            application: "framecn",
+            plan: spec.key.replace("DODO_PRODUCT_PRO_", "").toLowerCase(),
+          },
+          name: spec.name,
+          price: spec.price,
+          tax_category: "digital_products",
+        });
+      } else if (product.description !== spec.description) {
+        // Prices are immutable here, but copy can be refreshed in place.
+        await dodo.products.update(product.product_id, {
+          description: spec.description,
+        });
+        log(`${spec.name} description updated.`);
+      }
+      catalogValues[privateKey(spec.key, live)] = product.product_id;
+      saveEnv(catalogValues);
+      log(`${spec.name} ${reusable.has(spec.key) ? "reused" : "created"}.`);
+      return catalogValues;
+    });
   }
+  await provisioning;
 };
 
 const parseWebhookUrl = (webhookUrl) => {

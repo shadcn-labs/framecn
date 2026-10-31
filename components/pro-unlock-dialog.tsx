@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { BillingButton } from "@/components/billing-button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -75,21 +76,27 @@ export const ProUnlockDialog = ({
             Get lifetime access – {lifetime.price}
           </BillingButton>
         </div>
-        <p className="text-muted-foreground mt-4 text-sm">
-          <Link
-            href={ROUTES.PRICING}
-            className="underline-offset-4 hover:underline"
+        <div className="text-muted-foreground mt-4 flex flex-wrap items-center justify-center gap-1 text-xs">
+          <Button
+            nativeButton={false}
+            render={<Link href={ROUTES.PRICING} />}
+            variant="link"
+            size="xs"
+            className="text-muted-foreground hover:text-foreground"
           >
             Team · 10 seats {team.price}
-          </Link>
-          {" · "}
-          <Link
-            href={ROUTES.PRICING}
-            className="underline-offset-4 hover:underline"
+          </Button>
+          <span aria-hidden>·</span>
+          <Button
+            nativeButton={false}
+            render={<Link href={ROUTES.PRICING} />}
+            variant="link"
+            size="xs"
+            className="text-muted-foreground hover:text-foreground"
           >
-            or {annual.price}/year
-          </Link>
-        </p>
+            Pro · {annual.price}/year
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -75,6 +75,9 @@ export interface BrushOverlayElements {
   labelEnd: ZrText;
 }
 
+const rect = (z: number) =>
+  new echarts.graphic.Rect({ shape: {}, silent: true, z });
+
 export const syncBrushOverlay = (
   chart: EChartsInstance,
   store: { brushOverlay: BrushOverlayElements | null },
@@ -97,8 +100,6 @@ export const syncBrushOverlay = (
   }
 
   if (!store.brushOverlay) {
-    const rect = (z: number) =>
-      new echarts.graphic.Rect({ shape: {}, silent: true, z });
     const els: BrushOverlayElements = {
       dimLeft: rect(100),
       dimRight: rect(100),

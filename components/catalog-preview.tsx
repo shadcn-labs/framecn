@@ -18,12 +18,9 @@ export const LockedPreview = () => (
 export const CatalogPreview = ({
   name,
   active = false,
-  overrides,
 }: {
   name: string;
   active?: boolean;
-  /** Preview-only control values; catalog and component defaults stay unchanged. */
-  overrides?: Record<string, unknown>;
 }) => {
   const container = useRef<HTMLDivElement>(null);
   const instanceId = useId().replaceAll(":", "");
@@ -40,10 +37,7 @@ export const CatalogPreview = ({
   }, []);
   const entry = registry[name];
   const config = entry?.config;
-  const defaults = {
-    ...(config ? getDefaults(config.controls) : {}),
-    ...overrides,
-  };
+  const defaults = config ? getDefaults(config.controls) : {};
   const { durationInFrames, height, width } = config
     ? resolveComposition(config, defaults)
     : { durationInFrames: 90, height: 720, width: 1280 };

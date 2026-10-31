@@ -58,7 +58,7 @@ const describePlan = (plan: ActivePlan | null) => {
   };
 };
 
-export default async function DashboardPage() {
+const DashboardPage = async () => {
   const session = await getSession();
   if (!session) {
     redirect(`${ROUTES.SIGN_IN}?next=${encodeURIComponent(ROUTES.DASHBOARD)}`);
@@ -148,4 +148,5 @@ export default async function DashboardPage() {
       </div>
     </section>
   );
-}
+};
+export default DashboardPage;

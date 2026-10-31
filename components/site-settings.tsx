@@ -83,38 +83,34 @@ export const SiteSettings = () => {
     </div>
   );
 
-  return (
-    <>
-      {isMobile ? (
-        <Drawer open={isOpen} onOpenChange={setIsOpen}>
-          <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Settings</DrawerTitle>
-              <DrawerDescription>Manage site preferences</DrawerDescription>
-            </DrawerHeader>
-            <div className="px-4">{content}</div>
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button size="sm">Done</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger render={trigger} />
-          <PopoverContent
-            align="end"
-            collisionBoundary={sidebarBoundary ?? undefined}
-            collisionPadding={8}
-            className="w-56 p-2 data-closed:fade-out-0 data-closed:zoom-out-100 data-open:fade-in-0 data-open:zoom-in-100 dark:bg-black"
-            initialFocus={false}
-          >
-            {content}
-          </PopoverContent>
-        </Popover>
-      )}
-    </>
+  return isMobile ? (
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Settings</DrawerTitle>
+          <DrawerDescription>Manage site preferences</DrawerDescription>
+        </DrawerHeader>
+        <div className="px-4">{content}</div>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button size="sm">Done</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger render={trigger} />
+      <PopoverContent
+        align="end"
+        collisionBoundary={sidebarBoundary ?? undefined}
+        collisionPadding={8}
+        className="w-56 p-2 data-closed:fade-out-0 data-closed:zoom-out-100 data-open:fade-in-0 data-open:zoom-in-100 dark:bg-black"
+        initialFocus={false}
+      >
+        {content}
+      </PopoverContent>
+    </Popover>
   );
 };

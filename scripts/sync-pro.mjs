@@ -14,7 +14,7 @@
  */
 import { existsSync } from "node:fs";
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
-import { dirname, join, posix, relative } from "node:path";
+import nodePath from "node:path";
 import { gunzipSync } from "node:zlib";
 
 const REPO = "shadcn-labs/framecn-pro";
@@ -23,11 +23,17 @@ const SOURCE_PREFIX = "registry/bases/editframe/";
 const PUBLIC_ALIAS = "@/registry/bases/editframe/";
 const PRO_ALIAS = "@/registry/pro/";
 
-const root = join(import.meta.dirname, "..");
-const proDir = join(root, "registry", "pro");
-const indexFile = join(proDir, "__index__.tsx");
-const publicLibDir = join(root, "registry", "bases", "editframe", "lib");
-const catalogFile = join(root, "lib", "pro-catalog.ts");
+const root = nodePath.join(import.meta.dirname, "..");
+const proDir = nodePath.join(root, "registry", "pro");
+const indexFile = nodePath.join(proDir, "__index__.tsx");
+const publicLibDir = nodePath.join(
+  root,
+  "registry",
+  "bases",
+  "editframe",
+  "lib"
+);
+const catalogFile = nodePath.join(root, "lib", "pro-catalog.ts");
 
 const args = new Set(process.argv.slice(2));
 const writeCatalog = args.has("--catalog");
@@ -86,8 +92,8 @@ const readTar = (buffer) => {
     offset += 512 + Math.ceil(size / 512) * 512;
 
     if (type === "x") {
-      const match = body.toString("utf-8").match(/^\d+ path=(.*)$/m);
-      paxPath = match?.[1];
+      const match = body.toString("utf-8").match(/^\d+ path=(?<path>.*)$/mu);
+      paxPath = match?.groups?.path;
       continue;
     }
     if (type === "g") {
@@ -141,47 +147,52 @@ const toProSource = (content) => content.replaceAll(PUBLIC_ALIAS, PRO_ALIAS);
 const extract = async (files) => {
   const shared = await publicLibModules();
   await rm(proDir, { force: true, recursive: true });
-  let count = 0;
+  // Each completed write advances the count before the next entry can start.
+  let extraction = Promise.resolve(0);
   for (const [path, body] of files) {
     if (!path.startsWith(SOURCE_PREFIX)) {
       continue;
     }
-    const relativePath = path.slice(SOURCE_PREFIX.length);
-    const target = join(proDir, ...relativePath.split("/"));
-    await mkdir(dirname(target), { recursive: true });
-    const moduleName = relativePath.replace(/^lib\//, "");
-    let content = body;
-    if (relativePath.startsWith("lib/") && shared.has(moduleName)) {
-      // Re-export this repo's copy so Pro components read the same
-      // FrameContext the preview's FrameProvider sets.
-      const publicContent = await readFile(join(publicLibDir, moduleName));
-      if (!publicContent.equals(body)) {
-        log(
-          `warning: framecn-pro lib/${moduleName} differs from this repo's copy; using this repo's.`
+    extraction = extraction.then(async (count) => {
+      const relativePath = path.slice(SOURCE_PREFIX.length);
+      const target = nodePath.join(proDir, ...relativePath.split("/"));
+      await mkdir(nodePath.dirname(target), { recursive: true });
+      const moduleName = relativePath.replace(/^lib\//u, "");
+      let content = body;
+      if (relativePath.startsWith("lib/") && shared.has(moduleName)) {
+        // Re-export this repo's copy so Pro components read the same
+        // FrameContext the preview's FrameProvider sets.
+        const publicContent = await readFile(
+          nodePath.join(publicLibDir, moduleName)
         );
+        if (!publicContent.equals(body)) {
+          log(
+            `warning: framecn-pro lib/${moduleName} differs from this repo's copy; using this repo's.`
+          );
+        }
+        const specifier = `${PUBLIC_ALIAS}lib/${moduleName.replace(/\.tsx?$/u, "")}`;
+        content = Buffer.from(`export * from "${specifier}";\n`);
+      } else if (/\.(?:[cm]?[jt]sx?)$/u.test(path)) {
+        content = Buffer.from(toProSource(body.toString("utf-8")));
       }
-      const specifier = `${PUBLIC_ALIAS}lib/${moduleName.replace(/\.tsx?$/, "")}`;
-      content = Buffer.from(`export * from "${specifier}";\n`);
-    } else if (/\.(?:[cm]?[jt]sx?)$/.test(path)) {
-      content = Buffer.from(toProSource(body.toString("utf-8")));
-    }
-    await writeFile(target, content);
-    count += 1;
+      await writeFile(target, content);
+      return count + 1;
+    });
   }
-  return count;
+  return await extraction;
 };
 
 /** Export names per item, read from framecn-pro's own registry/__index__.tsx. */
 const parseProIndex = (source) => {
   const configs = new Map();
   for (const [, configName, path] of source.matchAll(
-    /import \{ (\w+) \} from "@\/registry\/bases\/editframe\/([^"]+)\/config";/g
+    /import \{ (?<configName>\w+) \} from "@\/registry\/bases\/editframe\/(?<path>[^"]+)\/config";/gu
   )) {
     configs.set(path, configName);
   }
   const entries = new Map();
   for (const [, name, componentName, path, configName] of source.matchAll(
-    /"?([\w-]+)"?:\s*\{\s*Component:\s*lazy\(async \(\) => \{\s*const \{ (\w+) \}\s*=\s*await import\("@\/registry\/bases\/editframe\/([^"]+)"\);[\s\S]*?\}\),\s*config:\s*(\w+),/g
+    /"?(?<name>[\w-]+)"?:\s*\{\s*Component:\s*lazy\(async \(\) => \{\s*const \{ (?<componentName>\w+) \}\s*=\s*await import\("@\/registry\/bases\/editframe\/(?<path>[^"]+)"\);[\s\S]*?\}\),\s*config:\s*(?<configName>\w+),/gu
   )) {
     if (configs.get(path) === configName) {
       entries.set(name, { componentName, configName, path });
@@ -205,7 +216,7 @@ const loadCatalog = async (proCatalog) => {
   const { createJiti } = await import("jiti");
   const jiti = createJiti(import.meta.url, { alias: { "@": root } });
   const { CATALOG, COMPONENT_CATEGORIES } = await jiti.import(
-    join(root, "lib", "catalog.ts")
+    nodePath.join(root, "lib", "catalog.ts")
   );
   const synced = new Set(proCatalog.map((item) => item.id));
   return {
@@ -294,8 +305,13 @@ const generateIndex = async (manifest, proIndexSource, proCatalog, sha) => {
       log(`warning: ${id} is missing from framecn-pro; its card stays locked.`);
       continue;
     }
-    const dir = posix.dirname(item.files[0].path).slice(SOURCE_PREFIX.length);
-    if (dir !== names.path || !existsSync(join(proDir, dir, "config.ts"))) {
+    const dir = nodePath.posix
+      .dirname(item.files[0].path)
+      .slice(SOURCE_PREFIX.length);
+    if (
+      dir !== names.path ||
+      !existsSync(nodePath.join(proDir, dir, "config.ts"))
+    ) {
       log(`warning: ${id} has no config at registry/pro/${dir}; skipped.`);
       continue;
     }
@@ -338,9 +354,9 @@ const main = async () => {
   }
   if (
     !(args.has("--no-env-file") || process.env.FRAMECN_PRO_SKIP_ENV_FILE) &&
-    existsSync(join(root, ".env.local"))
+    existsSync(nodePath.join(root, ".env.local"))
   ) {
-    process.loadEnvFile(join(root, ".env.local"));
+    process.loadEnvFile(nodePath.join(root, ".env.local"));
   }
   const token = process.env.FRAMECN_PRO_GITHUB_TOKEN;
   if (!token || args.has("--if-missing")) {
@@ -387,7 +403,7 @@ const main = async () => {
     sha
   );
   log(
-    `synced ${count} files from ${REPO}@${sha} into ${relative(root, proDir)}/ (${entries} preview entries).`
+    `synced ${count} files from ${REPO}@${sha} into ${nodePath.relative(root, proDir)}/ (${entries} preview entries).`
   );
 };
 

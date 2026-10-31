@@ -108,57 +108,53 @@ export const RegistryAddButton = ({
     </Button>
   );
 
-  return (
-    <>
-      {isMobile ? (
-        <Drawer open={isOpen} onOpenChange={setIsOpen}>
-          <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>{title}</DrawerTitle>
-              <DrawerDescription>
-                <Description registryName={registryName} />
-              </DrawerDescription>
-            </DrawerHeader>
-            <div className="px-4">
-              <CodeBlockCommand
-                __bun__={commands.bun}
-                __npm__={commands.npm}
-                __pnpm__={commands.pnpm}
-                __yarn__={commands.yarn}
-                copyEvent="copy_registry_command"
-              />
-            </div>
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button size="sm">Done</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogTrigger render={trigger} />
-          <DialogContent className="sm:max-w-lg">
-            <DialogHeader>
-              <DialogTitle>{title}</DialogTitle>
-              <DialogDescription className="text-balance">
-                <Description registryName={registryName} />
-              </DialogDescription>
-            </DialogHeader>
-            <CodeBlockCommand
-              __bun__={commands.bun}
-              __npm__={commands.npm}
-              __pnpm__={commands.pnpm}
-              __yarn__={commands.yarn}
-              copyEvent="copy_registry_command"
-            />
-            <DialogFooter>
-              <DialogClose render={<Button size="sm" />}>Done</DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      )}
-    </>
+  return isMobile ? (
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerDescription>
+            <Description registryName={registryName} />
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="px-4">
+          <CodeBlockCommand
+            __bun__={commands.bun}
+            __npm__={commands.npm}
+            __pnpm__={commands.pnpm}
+            __yarn__={commands.yarn}
+            copyEvent="copy_registry_command"
+          />
+        </div>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button size="sm">Done</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger render={trigger} />
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription className="text-balance">
+            <Description registryName={registryName} />
+          </DialogDescription>
+        </DialogHeader>
+        <CodeBlockCommand
+          __bun__={commands.bun}
+          __npm__={commands.npm}
+          __pnpm__={commands.pnpm}
+          __yarn__={commands.yarn}
+          copyEvent="copy_registry_command"
+        />
+        <DialogFooter>
+          <DialogClose render={<Button size="sm" />}>Done</DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

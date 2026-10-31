@@ -7,6 +7,5 @@ export const metadata = createPageMetadata({
   title: "Components",
 });
 
-export default function ComponentsPage() {
-  return null;
-}
+const ComponentsPage = () => null;
+export default ComponentsPage;

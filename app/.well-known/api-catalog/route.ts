@@ -6,7 +6,7 @@ import { homeContentRoute } from "@/lib/docs";
 const PROFILE = "https://www.rfc-editor.org/info/rfc9727";
 
 const catalogLinkset = (origin: string) => {
-  const base = origin.replace(/\/$/, "");
+  const base = origin.replace(/\/$/u, "");
 
   return {
     linkset: [

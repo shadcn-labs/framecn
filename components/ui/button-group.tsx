@@ -31,6 +31,7 @@ const ButtonGroup = ({
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof buttonGroupVariants>) => (
   <div
+    // eslint-disable jsx-a11y/prefer-tag-over-role
     role="group"
     data-slot="button-group"
     data-orientation={orientation}

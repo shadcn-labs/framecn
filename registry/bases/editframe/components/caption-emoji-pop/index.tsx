@@ -160,7 +160,7 @@ export const CaptionEmojiPop = ({
       const pause = (words[i + 1]?.start ?? words[i].end) - words[i].end;
       if (
         i - start + 1 >= maxWords ||
-        /[,.;:!?]["')\]]?$/.test(words[i].text) ||
+        /[,.;:!?]["')\]]?$/u.test(words[i].text) ||
         pause >= 0.15 ||
         i === words.length - 1
       ) {
@@ -168,7 +168,7 @@ export const CaptionEmojiPop = ({
         const groupIndex = result.length;
         let emoji: string | null = null;
         const styledWords = phrase.map((word, wi) => {
-          const clean = word.text.toLowerCase().replaceAll(/[^a-z]/g, "");
+          const clean = word.text.toLowerCase().replaceAll(/[^a-z]/gu, "");
           if (!emoji && Object.hasOwn(EMOJI_MAP, clean)) {
             emoji = EMOJI_MAP[clean];
           }

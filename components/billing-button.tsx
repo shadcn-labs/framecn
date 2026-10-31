@@ -6,6 +6,27 @@ import { Button } from "@/components/ui/button";
 import type { PlanSlug } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
+const openBillingDestination = async (plan?: PlanSlug, seats?: number) => {
+  const response = await fetch(plan ? "/api/checkout" : "/api/portal", {
+    body: JSON.stringify(plan ? { plan, seats } : {}),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  });
+  const data = (await response.json()) as {
+    checkoutUrl?: string;
+    url?: string;
+    error?: string;
+  };
+  if (!response.ok) {
+    throw new Error(data.error || "Billing is unavailable.");
+  }
+  const url = data.checkoutUrl || data.url;
+  if (!url) {
+    throw new Error("The payment provider returned no destination.");
+  }
+  window.location.assign(url);
+};
+
 /** Plan buttons open checkout for anyone; without `plan` it opens the billing portal. */
 export const BillingButton = ({
   plan,
@@ -38,27 +59,7 @@ export const BillingButton = ({
           setBusy(true);
           setErrorMessage(null);
           try {
-            const response = await fetch(
-              plan ? "/api/checkout" : "/api/portal",
-              {
-                body: JSON.stringify(plan ? { plan, seats } : {}),
-                headers: { "Content-Type": "application/json" },
-                method: "POST",
-              }
-            );
-            const data = (await response.json()) as {
-              checkoutUrl?: string;
-              url?: string;
-              error?: string;
-            };
-            if (!response.ok) {
-              throw new Error(data.error || "Billing is unavailable.");
-            }
-            const url = data.checkoutUrl || data.url;
-            if (!url) {
-              throw new Error("The payment provider returned no destination.");
-            }
-            window.location.assign(url);
+            await openBillingDestination(plan, seats);
           } catch (error) {
             setErrorMessage(
               error instanceof Error ? error.message : "Billing is unavailable."

@@ -80,6 +80,7 @@ const SidebarProvider = ({
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
+  // eslint-disable-next-line react/hook-use-state
   const [_open, _setOpen] = useState(defaultOpen);
   const open = openProp ?? _open;
   const setOpen = useCallback(
@@ -622,6 +623,7 @@ const SidebarMenuSkeleton = ({
   showIcon?: boolean;
 }) => {
   // Random width between 50 to 90%.
+  // eslint-disable-next-line react/purity -- Preserve shadcn's memoized, per-instance skeleton width.
   const width = useMemo(() => `${Math.floor(Math.random() * 40) + 50}%`, []);
 
   return (

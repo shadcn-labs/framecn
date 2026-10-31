@@ -4,7 +4,7 @@ import { siteAgentSkillDigest } from "@/lib/agent-discovery/site-agent-skill";
 
 export const GET = (request: Request) => {
   const origin = requestOrigin(request);
-  const base = origin.replace(/\/$/, "");
+  const base = origin.replace(/\/$/u, "");
 
   return Response.json(
     {

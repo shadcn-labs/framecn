@@ -16,14 +16,17 @@ const COMPONENTS_PAGE = {
   title: "Components",
 };
 
-/** Whether the signed-in user has Pro; checked once per user, false until known. */
+/** Whether the signed-in session has Pro; false until its status is known. */
 const useHasPro = () => {
   const { data: session } = authClient.useSession();
   const userId = session?.user.id;
-  const [pro, setPro] = useState(false);
+  const sessionId = session?.session.id;
+  const [status, setStatus] = useState<{
+    sessionId: string;
+    pro: boolean;
+  } | null>(null);
   useEffect(() => {
-    if (!userId) {
-      setPro(false);
+    if (!(userId && sessionId)) {
       return;
     }
     let active = true;
@@ -34,7 +37,7 @@ const useHasPro = () => {
           ? await response.json()
           : null;
         if (active) {
-          setPro(Boolean(data?.pro));
+          setStatus({ pro: Boolean(data?.pro), sessionId });
         }
       } catch {
         // Unknown status keeps the Get Pro button; it just links to pricing.
@@ -44,8 +47,8 @@ const useHasPro = () => {
     return () => {
       active = false;
     };
-  }, [userId]);
-  return pro;
+  }, [userId, sessionId]);
+  return Boolean(sessionId && status?.sessionId === sessionId && status.pro);
 };
 
 export const AppTopbar = () => {

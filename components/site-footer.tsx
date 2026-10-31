@@ -18,15 +18,10 @@ export const SiteFooter = () => (
       <div className="max-w-xs">
         <Link
           href="/"
-          className="inline-flex items-center gap-0.5 text-base font-medium tracking-tight"
+          className="inline-flex items-center gap-2.5 text-base font-medium tracking-tight"
         >
-          <span className="flex size-8 items-center justify-center">
-            <LogoMark className="size-5" />
-          </span>
-          <span aria-hidden className="text-muted-foreground/50 text-sm">
-            /
-          </span>
-          <span className="flex h-8 items-center pr-1 pl-1.5">{SITE.NAME}</span>
+          <LogoMark className="size-5" />
+          {SITE.NAME}
         </Link>
         <p className="text-muted-foreground mt-3 text-sm leading-6">
           {SITE.DESCRIPTION.LONG}

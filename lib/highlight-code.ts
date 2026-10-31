@@ -1,10 +1,13 @@
 import { createHash } from "node:crypto";
 
+import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { LRUCache } from "lru-cache";
+import type { ReactElement } from "react";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import type { ShikiTransformer } from "shiki";
-import { codeToHtml } from "shiki";
+import { codeToHast } from "shiki";
 
-const highlightCache = new LRUCache<string, string>({
+const highlightCache = new LRUCache<string, ReactElement>({
   max: 500,
   ttl: 1000 * 60 * 60,
 });
@@ -61,7 +64,7 @@ export const highlightCode = async (
     return cached;
   }
 
-  const html = await codeToHtml(code, {
+  const tree = await codeToHast(code, {
     lang: language,
     themes: {
       dark: "github-dark",
@@ -86,7 +89,8 @@ export const highlightCode = async (
     ],
   });
 
-  highlightCache.set(cacheKey, html);
+  const highlighted = toJsxRuntime(tree, { Fragment, jsx, jsxs });
+  highlightCache.set(cacheKey, highlighted);
 
-  return html;
+  return highlighted;
 };

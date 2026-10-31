@@ -152,7 +152,7 @@ const PlacementPreview = ({ slug }: { slug: PlacementSlug }) => {
   );
 };
 
-export default async function SponsorPage() {
+const SponsorPage = async () => {
   const [traffic, stars] = await Promise.all([
     getTraffic(),
     getStargazerCount(),
@@ -467,4 +467,5 @@ export default async function SponsorPage() {
       </article>
     </PageTransition>
   );
-}
+};
+export default SponsorPage;

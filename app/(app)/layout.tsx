@@ -9,31 +9,30 @@ import { APP_NAV } from "@/constants/nav";
 import { AGENT_DOCS_DIRECTIVE_TEXT } from "@/lib/agent-discovery/directive";
 import { source } from "@/lib/source";
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <SidebarProvider>
-      <blockquote className="sr-only">{AGENT_DOCS_DIRECTIVE_TEXT}</blockquote>
-      <WebMcpTools />
-      <AppSidebar
-        search={
-          <CommandMenu
-            navItems={APP_NAV.map((item) => ({
-              href: item.href,
-              label: item.name,
-            }))}
-            tree={source.pageTree}
-          />
-        }
-        github={<NavItemGithub />}
-      />
-      {/* The inset column is transparent: the page sits in a rounded card and the footer below it on the sidebar surface. */}
-      <SidebarInset className="min-w-0 bg-transparent md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">
-        <div className="bg-card flex min-h-svh min-w-0 flex-col md:min-h-[calc(100svh-1rem)] md:rounded-xl md:border md:border-border">
-          <AppTopbar />
-          <div className="flex min-w-0 flex-1 flex-col">{children}</div>
-        </div>
-        <SiteFooter />
-      </SidebarInset>
-    </SidebarProvider>
-  );
-}
+const AppLayout = ({ children }: { children: React.ReactNode }) => (
+  <SidebarProvider>
+    <blockquote className="sr-only">{AGENT_DOCS_DIRECTIVE_TEXT}</blockquote>
+    <WebMcpTools />
+    <AppSidebar
+      search={
+        <CommandMenu
+          navItems={APP_NAV.map((item) => ({
+            href: item.href,
+            label: item.name,
+          }))}
+          tree={source.pageTree}
+        />
+      }
+      github={<NavItemGithub />}
+    />
+    {/* The inset column is transparent: the page sits in a rounded card and the footer below it on the sidebar surface. */}
+    <SidebarInset className="min-w-0 bg-transparent md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">
+      <div className="bg-card flex min-h-svh min-w-0 flex-col md:min-h-[calc(100svh-1rem)] md:rounded-xl md:border md:border-border">
+        <AppTopbar />
+        <div className="flex min-w-0 flex-1 flex-col">{children}</div>
+      </div>
+      <SiteFooter />
+    </SidebarInset>
+  </SidebarProvider>
+);
+export default AppLayout;

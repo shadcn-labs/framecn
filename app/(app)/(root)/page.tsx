@@ -10,19 +10,18 @@ import { BreadcrumbJsonLd } from "@/seo/json-ld";
 export const dynamic = "force-static";
 export const revalidate = false;
 
-export default function IndexPage() {
-  return (
-    <>
-      <BreadcrumbJsonLd items={[{ name: "Home", path: ROUTES.HOME }]} />
-      <PageTransition>
-        <div className="flex flex-col">
-          <Hero />
-          <BackedBy />
-          <Showcase />
-          <HowItWorks />
-          <Faq />
-        </div>
-      </PageTransition>
-    </>
-  );
-}
+const IndexPage = () => (
+  <>
+    <BreadcrumbJsonLd items={[{ name: "Home", path: ROUTES.HOME }]} />
+    <PageTransition>
+      <div className="flex flex-col">
+        <Hero />
+        <BackedBy />
+        <Showcase />
+        <HowItWorks />
+        <Faq />
+      </div>
+    </PageTransition>
+  </>
+);
+export default IndexPage;

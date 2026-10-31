@@ -17,7 +17,7 @@ export const metadata = createPageMetadata({
   title: "License",
 });
 
-export default async function LicensePage() {
+const LicensePage = async () => {
   const licenseFile = await readFileFromRoot("LICENSE");
   const mitLicense = licenseFile.trim();
 
@@ -109,4 +109,5 @@ export default async function LicensePage() {
       </LegalSection>
     </LegalPage>
   );
-}
+};
+export default LicensePage;

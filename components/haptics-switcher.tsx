@@ -1,6 +1,7 @@
 "use client";
 
 import { Vibrate, VibrateOff } from "lucide-react";
+import { useId } from "react";
 
 import { useHapticsEnabled } from "@/hooks/use-haptic-toggle";
 import { useMounted } from "@/hooks/use-mounted";
@@ -12,6 +13,7 @@ const HAPTICS_OPTIONS = [
 ] as const;
 
 export const HapticsSwitcher = () => {
+  const groupName = useId();
   const [value, setValue] = useHapticsEnabled();
   const isMounted = useMounted();
 
@@ -30,20 +32,24 @@ export const HapticsSwitcher = () => {
         const isActive = value === option.value;
 
         return (
-          <button
+          <label
             key={option.label}
-            type="button"
             data-active={isActive}
             className={cn(
               "relative flex size-8 items-center justify-center rounded-full text-muted-foreground transition-[color,box-shadow] hover:text-foreground data-[active=true]:text-foreground data-[active=true]:inset-ring-1 data-[active=true]:inset-ring-border [&_svg]:size-4"
             )}
-            role="radio"
-            aria-checked={isActive}
-            aria-label={`Switch haptics ${option.label}`}
-            onClick={() => setValue(option.value)}
           >
-            <Icon />
-          </button>
+            <input
+              type="radio"
+              name={groupName}
+              value={option.label}
+              checked={isActive}
+              aria-label={`Switch haptics ${option.label}`}
+              onChange={() => setValue(option.value)}
+              className="absolute inset-0 size-full cursor-pointer appearance-none rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            />
+            <Icon aria-hidden="true" />
+          </label>
         );
       })}
     </div>

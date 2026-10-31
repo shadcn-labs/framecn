@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
-export const useMounted = () => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return mounted;
+// Hydration changes the snapshot; there are no later store updates to subscribe to.
+const subscribe = () => () => {
+  // The client snapshot is constant, so no subscription needs cleaning up.
 };
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+export const useMounted = () =>
+  useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

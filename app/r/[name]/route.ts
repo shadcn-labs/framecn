@@ -22,7 +22,7 @@ export const GET = async (
 ) => {
   const token = request.headers
     .get("authorization")
-    ?.match(/^Bearer\s+(\S+)$/i)?.[1];
+    ?.match(/^Bearer\s+(?<token>\S+)$/iu)?.groups?.token;
   const owner = token ? await verifyApiKey(token) : null;
   if (!owner) {
     return Response.json(

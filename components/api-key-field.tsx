@@ -33,7 +33,9 @@ export const ApiKeyField = () => {
           return;
         }
         if (!response.ok) {
-          throw new Error("Failed to load API key.");
+          setError("Could not load your API key.");
+          setStatus("ready");
+          return;
         }
         const data = (await response.json()) as { key: KeyInfo | null };
         setInfo(data.key);
@@ -57,18 +59,18 @@ export const ApiKeyField = () => {
     setError(null);
     try {
       const response = await fetch("/api/api-key", { method: "POST" });
-      if (!response.ok) {
-        throw new Error("Failed to generate API key.");
+      if (response.ok) {
+        const data = (await response.json()) as KeyInfo & { key: string };
+        setInfo({ createdAt: data.createdAt, prefix: data.prefix });
+        setNewKey(data.key);
+        setCopied(false);
+      } else {
+        setError("Could not generate a key. Try again.");
       }
-      const data = (await response.json()) as KeyInfo & { key: string };
-      setInfo({ createdAt: data.createdAt, prefix: data.prefix });
-      setNewKey(data.key);
-      setCopied(false);
     } catch {
       setError("Could not generate a key. Try again.");
-    } finally {
-      setStatus("ready");
     }
+    setStatus("ready");
   };
 
   const copy = async () => {
@@ -141,13 +143,12 @@ export const ApiKeyField = () => {
             </p>
           </div>
         ) : null}
-        <p
+        <output
           aria-live="polite"
-          className="text-destructive empty:hidden"
-          role="status"
+          className="text-destructive block empty:hidden"
         >
           {error}
-        </p>
+        </output>
       </FrameContent>
     </Frame>
   );

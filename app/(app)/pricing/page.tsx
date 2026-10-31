@@ -73,7 +73,7 @@ const FAQ = [
   },
 ];
 
-export default async function PricingPage() {
+const PricingPage = async () => {
   const session = await getSession();
   const pro = await getProAccess();
   const customer = session?.user.emailVerified
@@ -176,4 +176,5 @@ export default async function PricingPage() {
       </section>
     </div>
   );
-}
+};
+export default PricingPage;

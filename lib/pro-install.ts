@@ -12,7 +12,7 @@ export const proRegistryConfig = (origin: string) =>
       registries: {
         [SITE.REGISTRY]: {
           headers: { Authorization: `Bearer \${${PRO_API_KEY_ENV}}` },
-          url: `${origin.replace(/\/$/, "")}/r/{name}.json`,
+          url: `${origin.replace(/\/$/u, "")}/r/{name}.json`,
         },
       },
     },

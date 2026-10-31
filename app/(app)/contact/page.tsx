@@ -13,11 +13,11 @@ export const metadata = createPageMetadata({
   title: "Contact",
 });
 
-export default async function ContactPage({
+const ContactPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ inquiry?: string | string[] }>;
-}) {
+}) => {
   const { inquiry } = await searchParams;
 
   return (
@@ -63,4 +63,5 @@ export default async function ContactPage({
       </PageTransition>
     </>
   );
-}
+};
+export default ContactPage;

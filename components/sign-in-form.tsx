@@ -104,9 +104,7 @@ const FormMessages = ({
     );
   }
   return notice ? (
-    <p role="status" className="text-muted-foreground text-sm">
-      {notice}
-    </p>
+    <output className="text-muted-foreground block text-sm">{notice}</output>
   ) : null;
 };
 
@@ -144,6 +142,7 @@ export const SignInForm = ({
     setBusy(true);
     setError(null);
     setNotice(null);
+    let sent = false;
     try {
       const result = await authClient.emailOtp.sendVerificationOtp({
         email: address,
@@ -157,15 +156,14 @@ export const SignInForm = ({
             "Your sign-in code could not be sent."
           )
         );
-        return false;
+      } else {
+        sent = true;
       }
-      return true;
     } catch {
       setError("Sign-in is unavailable right now. Please try again.");
-      return false;
-    } finally {
-      setBusy(false);
     }
+    setBusy(false);
+    return sent;
   };
 
   // After checkout the buyer's email is known: send the code right away.
@@ -236,9 +234,8 @@ export const SignInForm = ({
       }
     } catch {
       setError("Sign-in is unavailable right now.");
-    } finally {
-      setBusy(false);
     }
+    setBusy(false);
   };
 
   const busyLabel = step === "email" ? "Sending…" : "Verifying…";

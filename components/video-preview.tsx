@@ -12,10 +12,18 @@ import {
   TogglePlay,
 } from "@editframe/react";
 import { PauseIcon, PlayIcon, Repeat1Icon, RepeatIcon } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 import { Button } from "@/components/ui/button";
 import { Frame, FrameContent } from "@/components/ui/frame";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMounted } from "@/hooks/use-mounted";
 import { FPS, H, W } from "@/lib/customizer-config";
 import type { BackdropFill } from "@/lib/customizer-config";
 import { FrameProvider } from "@/registry/bases/editframe/lib/frame";
@@ -33,58 +41,99 @@ const backdropStyle = (fill: BackdropFill): React.CSSProperties => {
   return { background: fill.value };
 };
 
-const withBackdrop = (
-  Component: RegistryComponent,
-  fill: BackdropFill
-): RegistryComponent => {
-  const Wrapped = (props: Record<string, unknown>) => (
-    <div
-      style={{
-        ...backdropStyle(fill),
-        inset: 0,
-        position: "absolute",
-      }}
-    >
-      <Component {...props} />
-    </div>
-  );
-  return Wrapped;
-};
+interface PreviewTimelineProps {
+  id: string;
+  Component: RegistryComponent;
+  componentProps: Record<string, unknown>;
+  durationInFrames: number;
+  fps: number;
+  height: number;
+  width: number;
+  previewBackdrop?: BackdropFill;
+  onRoot: React.RefCallback<React.ComponentRef<typeof Timegroup>>;
+}
+
+const PreviewTimeline = ({
+  id,
+  Component,
+  componentProps,
+  durationInFrames,
+  fps,
+  height,
+  width,
+  previewBackdrop,
+  onRoot,
+}: PreviewTimelineProps) => (
+  <Timegroup
+    id={id}
+    ref={onRoot}
+    duration={`${durationInFrames / fps}s`}
+    fps={fps}
+    mode="fixed"
+    style={{
+      height,
+      overflow: "hidden",
+      position: "relative",
+      width,
+    }}
+  >
+    <FrameProvider durationMs={(durationInFrames / fps) * 1000} fps={fps}>
+      {previewBackdrop ? (
+        <div
+          style={{
+            ...backdropStyle(previewBackdrop),
+            inset: 0,
+            position: "absolute",
+          }}
+        >
+          <Component {...componentProps} />
+        </div>
+      ) : (
+        <Component {...componentProps} />
+      )}
+    </FrameProvider>
+  </Timegroup>
+);
+
+// TimelineRoot only forwards an id, including when it mounts render clones.
+const createPreviewTimeline = (props: Omit<PreviewTimelineProps, "id">) =>
+  function BoundPreviewTimeline({ id }: { id: string }) {
+    return <PreviewTimeline {...props} id={id} />;
+  };
+
+const getServerLoopSnapshot = () => false;
 
 export const PreviewControls = ({ previewId }: { previewId: string }) => {
-  const controlsRef = useRef<React.ComponentRef<typeof Controls>>(null);
-  const [isLooping, setIsLooping] = useState(false);
-
-  const readLoopFromControls = useCallback(() => {
-    const el = controlsRef.current;
-    setIsLooping(Boolean(el?.loop));
-  }, []);
-
-  /** Runs after EFControls / Lit propagate `loop` (slot click ordering vs React). */
-  const reconcileLoopFromControls = useCallback(() => {
-    window.setTimeout(() => {
-      readLoopFromControls();
-    }, 0);
-  }, [readLoopFromControls]);
-
-  useEffect(() => {
-    let cancelled = false;
-    const id = window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        if (!cancelled) {
-          readLoopFromControls();
-        }
+  const subscribe = useCallback(
+    (onChange: () => void) => {
+      const preview = document.querySelector(`#${previewId}`) ?? document.body;
+      const observer = new MutationObserver(onChange);
+      observer.observe(preview, {
+        attributeFilter: ["loop"],
+        attributes: true,
+        childList: true,
+        subtree: true,
       });
-    });
-    return () => {
-      cancelled = true;
-      window.cancelAnimationFrame(id);
-    };
-  }, [previewId, readLoopFromControls]);
+      return () => observer.disconnect();
+    },
+    [previewId]
+  );
+  const getLoopSnapshot = useCallback(
+    () =>
+      document
+        .querySelector(`#${previewId}`)
+        ?.querySelector("ef-timegroup")
+        ?.hasAttribute("loop") ?? false,
+    [previewId]
+  );
+  const isLooping = useSyncExternalStore(
+    subscribe,
+    getLoopSnapshot,
+    getServerLoopSnapshot
+  );
 
   return (
     <Controls
-      ref={controlsRef}
       target={previewId}
       className="flex items-center gap-2 px-2 py-1.5 text-muted-foreground"
     >
@@ -123,7 +172,6 @@ export const PreviewControls = ({ previewId }: { previewId: string }) => {
           aria-label={isLooping ? "Disable loop" : "Enable loop"}
           aria-pressed={isLooping}
           title={isLooping ? "Loop is on" : "Loop is off"}
-          onClick={reconcileLoopFromControls}
         >
           {isLooping ? <Repeat1Icon /> : <RepeatIcon />}
         </Button>
@@ -156,61 +204,47 @@ const VideoPreviewClient = ({
   compact?: boolean;
   autoPlay?: boolean;
 }) => {
-  const Scene = useMemo(
-    () =>
-      previewBackdrop ? withBackdrop(Component, previewBackdrop) : Component,
-    [Component, previewBackdrop]
+  const [root, setRoot] = useState<React.ComponentRef<typeof Timegroup> | null>(
+    null
   );
-  const rootRef = useRef<React.ComponentRef<typeof Timegroup>>(null);
-  const [motionAllowed, setMotionAllowed] = useState(false);
+  const motionAllowed = useMediaQuery(
+    "(prefers-reduced-motion: no-preference)"
+  );
   const Timeline = useMemo(
     () =>
-      function PreviewTimeline() {
-        return (
-          <Timegroup
-            ref={rootRef}
-            duration={`${(durationInFrames / fps) * 1000}ms`}
-            mode="fixed"
-            style={{
-              height,
-              overflow: "hidden",
-              position: "relative",
-              width,
-            }}
-          >
-            <FrameProvider
-              durationMs={(durationInFrames / fps) * 1000}
-              fps={fps}
-            >
-              <Scene {...componentProps} />
-            </FrameProvider>
-          </Timegroup>
-        );
-      },
-    [Scene, componentProps, durationInFrames, fps, height, width]
+      createPreviewTimeline({
+        Component,
+        componentProps,
+        durationInFrames,
+        fps,
+        height,
+        onRoot: setRoot,
+        previewBackdrop,
+        width,
+      }),
+    [
+      Component,
+      componentProps,
+      durationInFrames,
+      fps,
+      height,
+      previewBackdrop,
+      width,
+    ]
   );
   useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setMotionAllowed(!media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-  useEffect(() => {
-    const root = rootRef.current;
     if (!root) {
       return;
     }
     let cancelled = false;
     const sync = async () => {
-      await root.updateComplete;
+      root.toggleAttribute("loop", autoPlay);
+      await root.seek(0);
       if (cancelled || !root.isConnected) {
         return;
       }
-      root.loop = autoPlay;
-      root.currentTimeMs = 0;
       if (autoPlay && motionAllowed) {
-        root.play();
+        await root.play();
       } else {
         root.pause();
       }
@@ -222,7 +256,7 @@ const VideoPreviewClient = ({
         root.pause();
       }
     };
-  }, [autoPlay, durationInFrames, fps, motionAllowed, Timeline]);
+  }, [autoPlay, motionAllowed, root]);
 
   const stage = (
     <FitScale>
@@ -265,10 +299,7 @@ const VideoPreviewSkeleton = ({ compact = false }: { compact?: boolean }) =>
 export const VideoPreview = (
   props: React.ComponentProps<typeof VideoPreviewClient>
 ) => {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useMounted();
   return mounted ? (
     <VideoPreviewClient {...props} />
   ) : (

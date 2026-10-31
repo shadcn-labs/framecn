@@ -17,7 +17,7 @@ const ComponentCode = ({
   title,
 }: {
   code: string;
-  highlightedCode: string;
+  highlightedCode: React.ReactNode;
   language: string;
   title: string | undefined;
 }) => (
@@ -44,7 +44,7 @@ const ComponentCode = ({
       tooltip="Copy code"
       value={code}
     />
-    <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+    <div>{highlightedCode}</div>
   </figure>
 );
 

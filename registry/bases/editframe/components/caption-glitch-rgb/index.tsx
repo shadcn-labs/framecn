@@ -93,7 +93,7 @@ export const CaptionGlitchRgb = ({
       if (
         i - start + 1 >= maxWords ||
         chars >= 21 ||
-        /[,.;:!?]["')\]]?$/.test(words[i].text) ||
+        /[,.;:!?]["')\]]?$/u.test(words[i].text) ||
         pause >= 0.15 ||
         i === words.length - 1
       ) {
@@ -128,8 +128,8 @@ export const CaptionGlitchRgb = ({
             shadow: number;
           }[] = [];
           if (
-            /\d|\$|%/.test(word.text) ||
-            word.text.replaceAll(/[^\w]/g, "").length >= 7
+            /\d|\$|%/u.test(word.text) ||
+            word.text.replaceAll(/[^\w]/gu, "").length >= 7
           ) {
             const aftershockEnd = Math.min(end - 0.02, nextStart - 0.02);
             // Fit the short aftershock into the available hold; never extend the caption window.
